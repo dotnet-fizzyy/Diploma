@@ -1,0 +1,10 @@
+
+.DS_Store
+web/.idea
+web/node_modules
+WebAPI/.idea
+WebAPI/WebAPI/bin
+WebAPI/WebAPI/obj
+WebAPI/WebAPI.Models/obj
+WebAPI/WebAPI.Models/bin
+WebAPI/WebAPI.UnitTests/obj
