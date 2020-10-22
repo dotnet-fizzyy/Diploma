@@ -8,7 +8,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import classnames from "classnames";
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { IStory } from "../../types";
+import { IStory } from "../../types/storyTypes";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -194,4 +194,4 @@ const Story = (props: IStoryProps) => {
   );
 };
 
-export default Story;
+export default React.memo(Story);

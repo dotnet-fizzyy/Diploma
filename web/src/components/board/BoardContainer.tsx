@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getColumnKeyValuePair } from "../../helpers/columnHelper";
 import * as storyActions from "../../redux/actions/storiesActions";
 import * as storySelectors from "../../redux/selectors/storiesSelectors";
+import { IStoryDragAndDrop } from "../../types/storyTypes";
 import Board, { IBoardProps } from "./Board";
 
 const BoardContainer = () => {
   const dispatch = useDispatch();
 
-  const stories = useSelector(storySelectors.getStories);
+  const stories = useSelector(storySelectors.getColumns);
   const columns = getColumnKeyValuePair();
 
   useEffect(() => {
@@ -28,12 +29,22 @@ const BoardContainer = () => {
   };
 
   const onDragEnd = (result: any) => {
-    console.warn(result);
+    if (result.destination) {
+      dispatch(
+        storyActions.storyDragAndDropHandle({
+          storyId: result.draggableId,
+          columnTypeOrigin: result.source.droppableId,
+          columnTypeDestination: result.destination.droppableId,
+        } as IStoryDragAndDrop)
+      );
+    }
   };
 
   const props: IBoardProps = {
     columns,
-    stories,
+    stories: stories
+      .map((column) => column.value)
+      .reduce((accumulator, story) => accumulator.concat(story), []),
     onSelectStory,
     onMakeStoryBlocked,
     onMakeStoryReady,

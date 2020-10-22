@@ -1,4 +1,5 @@
-import { IStory } from "../../types";
+import { IStory, IStoryColumns } from "../../types/storyTypes";
+import { IUser } from "../../types/userTypes";
 
 export interface IState {
   currentUser: ICurrentUserState;
@@ -7,9 +8,11 @@ export interface IState {
 
 export interface ICurrentUserState {
   access_token: string;
+  team: IUser[];
+  user: IUser | null;
 }
 
 export interface IStoryState {
-  stories: IStory[];
+  columns: IStoryColumns[];
   selectedStory: IStory | null | undefined;
 }

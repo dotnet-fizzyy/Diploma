@@ -18,3 +18,14 @@ export interface ISelectedItem {
   key: string;
   value: string;
 }
+
+export interface IStoryDragAndDrop {
+  columnTypeOrigin: string;
+  columnTypeDestination: string;
+  storyId: string;
+}
+
+export interface IStoryColumns {
+  key: string;
+  value: IStory[];
+}

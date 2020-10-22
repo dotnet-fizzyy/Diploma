@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
-import { ISelectedItem, IStory } from "../../types";
+import { ISelectedItem, IStory } from "../../types/storyTypes";
 import Story from "../story/Story";
 
 const useStyles = makeStyles(() =>
@@ -80,4 +80,4 @@ const Column = (props: IColumnProps) => {
   );
 };
 
-export default Column;
+export default React.memo(Column);

@@ -1,10 +1,10 @@
 export const ColumnIds = {
-  ToDo: "ToDo",
-  InProgress: "InProgress",
-  InReview: "InReview",
-  Testing: "Testing",
-  Confirmed: "Confirmed",
-  OnProd: "OnProd",
+  ToDo: "todo",
+  InProgress: "progress",
+  InReview: "review",
+  Testing: "testing",
+  Confirmed: "confirmed",
+  OnProd: "prod",
 };
 
 export const ColumnNames = {

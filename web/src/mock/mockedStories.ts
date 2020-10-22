@@ -1,8 +1,8 @@
-import { IStory } from "../types";
+import { IStory } from "../types/storyTypes";
 
 const mockedStory_1: IStory = {
   blockReason: "",
-  columnType: "ToDo",
+  columnType: "todo",
   creationDate: "13.10.2020",
   description: "Some kind of description there",
   estimate: 5,
@@ -18,7 +18,7 @@ const mockedStory_1: IStory = {
 
 const mockedStory_2: IStory = {
   blockReason: "",
-  columnType: "InProgress",
+  columnType: "progress",
   creationDate: "11.09.2020",
   description: "",
   estimate: 3,
@@ -34,7 +34,7 @@ const mockedStory_2: IStory = {
 
 const mockedStory_3: IStory = {
   blockReason: "Just block for test",
-  columnType: "InProgress",
+  columnType: "progress",
   creationDate: "10.10.2020",
   description: "",
   estimate: 1,
@@ -50,7 +50,7 @@ const mockedStory_3: IStory = {
 
 const mockedStory_4: IStory = {
   blockReason: "",
-  columnType: "InReview",
+  columnType: "review",
   creationDate: "19.09.2020",
   description: "Original description too",
   estimate: 3,
