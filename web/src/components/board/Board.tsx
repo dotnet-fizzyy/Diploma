@@ -1,8 +1,33 @@
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { DragDropContext } from "react-beautiful-dnd";
+import BackgroundImage from "../../static/abstraction.jpg";
 import { ISelectedItem, IStory } from "../../types";
 import Column from "../column/Column";
-import "./board.css";
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      minWidth: "100vh",
+      minHeight: "100vh",
+      backgroundImage: `url(${BackgroundImage})`,
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+    },
+    body: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      minHeight: "100%",
+    },
+    headerRoot: {
+      height: "60px",
+      minWidth: "100%",
+      backgroundColor: "black",
+    },
+  })
+);
 
 export interface IBoardProps {
   columns: ISelectedItem[];
@@ -14,6 +39,7 @@ export interface IBoardProps {
 }
 
 const Board = (props: IBoardProps) => {
+  const classes = useStyles();
   const {
     columns,
     stories,
@@ -24,9 +50,9 @@ const Board = (props: IBoardProps) => {
   } = props;
 
   return (
-    <div className="board-root">
-      <div className="header-root" />
-      <div className="board-body">
+    <div className={classes.root}>
+      <div className={classes.headerRoot} />
+      <div className={classes.body}>
         <DragDropContext onDragEnd={onDragEnd}>
           {columns.map((column) => (
             <React.Fragment key={column.key}>
