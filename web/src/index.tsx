@@ -7,12 +7,10 @@ import "./index.css";
 import { getStore } from "./redux/store/store";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Provider store={getStore()}>
-        <App />
-      </Provider>
-    </BrowserRouter>
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Provider store={getStore()}>
+      <App />
+    </Provider>
+  </BrowserRouter>,
   document.getElementById("root")
 );

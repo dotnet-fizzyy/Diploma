@@ -1,14 +1,10 @@
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import AssignmentIcon from "@material-ui/icons/Assignment";
-import BlockOutlinedIcon from "@material-ui/icons/BlockOutlined";
-import BugReportIcon from "@material-ui/icons/BugReport";
-import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import classnames from "classnames";
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { IStory } from "../../types/storyTypes";
+import StoryFooter from "./StoryFooter";
+import StoryHeader from "./StoryHeader";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -139,55 +135,74 @@ const Story = (props: IStoryProps) => {
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
-          <div className={classes.header}>
-            {story.isDefect ? (
-              <BugReportIcon
-                className={classnames(classes.iconMain, classes.isDefect)}
-              />
-            ) : (
-              <AssignmentIcon
-                className={classnames(classes.iconMain, classes.isStory)}
-              />
-            )}
-            <span
-              onClick={() => onSelectStory(story.storyId)}
-              className={classes.storyId}
-            >
-              {story.storyId}
-            </span>
-            <CheckCircleOutlinedIcon
-              className={classnames(classes.iconReady, {
-                [classes.isReady]: story.isReady,
-              })}
-              onClick={() => onMakeStoryReady(story.storyId)}
-            />
-            <BlockOutlinedIcon
-              className={classnames(classes.iconBlock, {
-                [classes.isBlocked]: story.isBlocked,
-              })}
-              onClick={() => onMakeStoryBlocked(story.storyId)}
-            />
+          {/*<div className={classes.header}>*/}
+          {/*  {story.isDefect ? (*/}
+          {/*    <BugReportIcon*/}
+          {/*      className={classnames(classes.iconMain, classes.isDefect)}*/}
+          {/*    />*/}
+          {/*  ) : (*/}
+          {/*    <AssignmentIcon*/}
+          {/*      className={classnames(classes.iconMain, classes.isStory)}*/}
+          {/*    />*/}
+          {/*  )}*/}
+          {/*  <span*/}
+          {/*    onClick={() => onSelectStory(story.storyId)}*/}
+          {/*    className={classes.storyId}*/}
+          {/*  >*/}
+          {/*    {story.storyId}*/}
+          {/*  </span>*/}
+          {/*  <CheckCircleOutlinedIcon*/}
+          {/*    className={classnames(classes.iconReady, {*/}
+          {/*      [classes.isReady]: story.isReady,*/}
+          {/*    })}*/}
+          {/*    onClick={() => onMakeStoryReady(story.storyId)}*/}
+          {/*  />*/}
+          {/*  <BlockOutlinedIcon*/}
+          {/*    className={classnames(classes.iconBlock, {*/}
+          {/*      [classes.isBlocked]: story.isBlocked,*/}
+          {/*    })}*/}
+          {/*    onClick={() => onMakeStoryBlocked(story.storyId)}*/}
+          {/*  />*/}
+          {/*  <div {...provided.dragHandleProps}>*/}
+          {/*    <MoreVertIcon className={classes.iconVert} />*/}
+          {/*  </div>*/}
+          {/*</div>*/}
+          <StoryHeader
+            storyId={story.storyId}
+            isDefect={story.isDefect}
+            isReady={story.isReady}
+            isBlocked={story.isBlocked}
+            onSelectStory={onSelectStory}
+            onMakeStoryReady={onMakeStoryReady}
+            onMakeStoryBlocked={onMakeStoryBlocked}
+          >
             <div {...provided.dragHandleProps}>
               <MoreVertIcon className={classes.iconVert} />
             </div>
-          </div>
+          </StoryHeader>
           <div className={classes.body}>
             <span>{story.title}</span>
           </div>
-          <div className={classes.footer}>
-            <AccountCircleIcon className={classes.iconUser} />
-            <span>{story.userId ? story.userId : "No owner"}</span>
-          </div>
-          {(story.isReady || story.isBlocked) && (
-            <div
-              className={classnames(classes.currentStoryStatus, {
-                [classes.currentReady]: story.isReady,
-                [classes.currentBlocked]: story.isBlocked,
-              })}
-            >
-              <span>{story.isReady ? "Ready" : "Blocked"}</span>
-            </div>
-          )}
+          {/*<div className={classes.footer}>*/}
+          {/*  <AccountCircleIcon className={classes.iconUser} />*/}
+          {/*  <span>{story.userId ? story.userId : "No owner"}</span>*/}
+          {/*</div>*/}
+          {/*{(story.isReady || story.isBlocked) && (*/}
+          {/*  <div*/}
+          {/*    className={classnames(classes.currentStoryStatus, {*/}
+          {/*      [classes.currentReady]: story.isReady,*/}
+          {/*      [classes.currentBlocked]: story.isBlocked,*/}
+          {/*    })}*/}
+          {/*  >*/}
+          {/*    <span>{story.isReady ? "Ready" : "Blocked"}</span>*/}
+          {/*  </div>*/}
+          {/*)}*/}
+          <StoryFooter
+            avatarLink={""}
+            userId={story.userId}
+            isReady={story.isReady}
+            isBlocked={story.isBlocked}
+          />
         </div>
       )}
     </Draggable>

@@ -7,7 +7,7 @@ import Story from "../story/Story";
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      minWidth: "250px",
+      width: "270px",
       backgroundColor: "rgba(221, 217, 217, 0.6)",
       margin: "0 25px",
     },

@@ -1,31 +1,24 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getColumnKeyValuePair } from "../../helpers/columnHelper";
+import * as sidebarActions from "../../redux/actions/sidebarActions";
 import * as storyActions from "../../redux/actions/storiesActions";
-import * as storySelectors from "../../redux/selectors/storiesSelectors";
+import * as sidebarSelectors from "../../redux/selectors/sidebarSelectors";
 import { IStoryDragAndDrop } from "../../types/storyTypes";
 import Board, { IBoardProps } from "./Board";
 
 const BoardContainer = () => {
   const dispatch = useDispatch();
 
-  const stories = useSelector(storySelectors.getColumns);
+  const isSidebarVisible = useSelector(sidebarSelectors.getSidebarVisibility);
   const columns = getColumnKeyValuePair();
 
   useEffect(() => {
     dispatch(storyActions.getGeneralInfoRequest("user_id"));
   }, [dispatch]);
 
-  const onSelectStory = (storyId: string) => {
-    dispatch(storyActions.storyActionSelectStory(storyId));
-  };
-
-  const onMakeStoryBlocked = (storyId: string) => {
-    dispatch(storyActions.storyActionMakeStoryBlocked(storyId));
-  };
-
-  const onMakeStoryReady = (storyId: string) => {
-    dispatch(storyActions.storyActionMakeStoryReady(storyId));
+  const onCloseSidebar = () => {
+    dispatch(sidebarActions.sidebarHandleVisibility(false));
   };
 
   const onDragEnd = (result: any) => {
@@ -42,13 +35,9 @@ const BoardContainer = () => {
 
   const props: IBoardProps = {
     columns,
-    stories: stories
-      .map((column) => column.value)
-      .reduce((accumulator, story) => accumulator.concat(story), []),
-    onSelectStory,
-    onMakeStoryBlocked,
-    onMakeStoryReady,
+    isSidebarVisible,
     onDragEnd,
+    onCloseSidebar,
   };
 
   return <Board {...props} />;

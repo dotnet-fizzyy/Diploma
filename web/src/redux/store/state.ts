@@ -4,6 +4,7 @@ import { IUser } from "../../types/userTypes";
 export interface IState {
   currentUser: ICurrentUserState;
   stories: IStoryState;
+  sidebar: ISidebarState;
 }
 
 export interface ICurrentUserState {
@@ -15,4 +16,8 @@ export interface ICurrentUserState {
 export interface IStoryState {
   columns: IStoryColumns[];
   selectedStory: IStory | null | undefined;
+}
+
+export interface ISidebarState {
+  isVisible: boolean;
 }
