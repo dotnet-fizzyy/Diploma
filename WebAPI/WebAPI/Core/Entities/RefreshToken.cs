@@ -9,5 +9,7 @@ namespace WebAPI.Core.Entities
         public string Value { get; set; }
         
         public bool IsActive { get; set; }
+        
+        public User User { get; set; }
     }
 }

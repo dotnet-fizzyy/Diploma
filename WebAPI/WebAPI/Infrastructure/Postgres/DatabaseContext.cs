@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Core.Entities;
+using WebAPI.Infrastructure.Postgres.Configuration;
 
 namespace WebAPI.Infrastructure.Postgres
 {
@@ -13,9 +14,26 @@ namespace WebAPI.Infrastructure.Postgres
         public DbSet<Team> Teams { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+        {
+            
+        }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("");
+            
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new RefreshTokenConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new TeamConfiguration());
+            modelBuilder.ApplyConfiguration(new EpicConfiguration());
+            modelBuilder.ApplyConfiguration(new SprintConfiguration());
+            modelBuilder.ApplyConfiguration(new StoryConfiguration());
+            modelBuilder.ApplyConfiguration(new StoryHistoryConfiguration());
+            modelBuilder.ApplyConfiguration(new ProjectConfiguration());
         }
     }
 }

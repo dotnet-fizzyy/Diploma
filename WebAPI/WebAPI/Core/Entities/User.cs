@@ -1,10 +1,17 @@
 using System;
+using System.Collections.Generic;
 using WebAPI.Core.Enums;
 
 namespace WebAPI.Core.Entities
 {
     public class User
     {
+        public User()
+        {
+            RefreshTokens = new List<RefreshToken>();
+            Stories = new List<Story>();
+        }
+        
         public Guid UserId { get; set; }
         
         public string UserName { get; set; }
@@ -20,5 +27,14 @@ namespace WebAPI.Core.Entities
         public string AvatarLink { get; set; }
         
         public uint RecordVersion { get; set; }
+        
+        public Team Team { get; set; }
+        
+        public StoryHistory StoryHistory { get; set; }
+        
+        public IList<RefreshToken> RefreshTokens { get; set; }
+        
+        public IList<Story> Stories { get; set; }
+        
     }
 }

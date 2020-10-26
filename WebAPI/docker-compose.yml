@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  db:
+    image: postgres:10.11
+    restart: always
+    environment:
+      POSTGRES_DB: diplomadatabase
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432

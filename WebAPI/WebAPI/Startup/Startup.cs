@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using WebAPI.Core.Configuration;
 using WebAPI.Startup.Configuration;
 
 namespace WebAPI.Startup
@@ -26,9 +27,17 @@ namespace WebAPI.Startup
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var (databaseSettings, tokenSettings) = RegisterSettings(Configuration);
+            var appSettings = new AppSettings
+            {
+                Database = databaseSettings,
+                Token = tokenSettings,
+            };
+            
             services.AddControllers();
             
-            services.RegisterServices();
+            services.RegisterServices(appSettings);
+            services.RegisterDatabase(databaseSettings);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +63,17 @@ namespace WebAPI.Startup
             app.UseRouting();
             
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+        }
+
+        private (
+            DatabaseSettings databaseSettings, 
+            TokenSettings tokenSettings
+            ) RegisterSettings(IConfiguration configuration)
+        {
+            var databaseSettings = configuration.GetSection(nameof(AppSettings.Database)).Get<DatabaseSettings>();
+            var tokenSettings = configuration.GetSection(nameof(AppSettings.Database)).Get<TokenSettings>();
+
+            return (databaseSettings, tokenSettings);
         }
     }
 }

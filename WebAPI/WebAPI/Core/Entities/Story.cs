@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using WebAPI.Core.Enums;
 
 namespace WebAPI.Core.Entities
@@ -15,6 +16,8 @@ namespace WebAPI.Core.Entities
         
         public ColumnType ColumnType { get; set; }
         
+        public StoryPriority StoryPriority { get; set; }
+        
         public int Estimate { get; set; }
         
         public bool IsReady { get; set; }
@@ -28,5 +31,11 @@ namespace WebAPI.Core.Entities
         public uint RecordVersion { get; set; } 
         
         public bool IsDeleted { get; set; }
+        
+        public Sprint Sprint { get; set; }
+        
+        public User User { get; set; }
+        
+        public StoryHistory StoryHistory { get; set; }
     }
 }

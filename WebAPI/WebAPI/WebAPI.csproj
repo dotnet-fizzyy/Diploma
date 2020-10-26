@@ -11,8 +11,7 @@
     <ItemGroup>
       <Folder Include="ApplicationLogic" />
       <Folder Include="Core\Constants" />
-      <Folder Include="Core\Interfaces" />
-      <Folder Include="Infrastructure\Postgres\Configuration" />
+      <Folder Include="Infrastructure\Postgres\Repository" />
       <Folder Include="Presentation\Aggregators" />
       <Folder Include="Presentation\Filters" />
       <Folder Include="Presentation\Mappers" />
