@@ -38,6 +38,7 @@ namespace WebAPI.Startup
             
             services.RegisterServices(appSettings);
             services.RegisterDatabase(databaseSettings);
+            services.RegisterSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +64,8 @@ namespace WebAPI.Startup
             app.UseRouting();
             
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            
+            app.RegisterSwaggerUi();
         }
 
         private (

@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using WebAPI.Core.Enums;
 
-namespace WebAPI.Core.Interfaces
+namespace WebAPI.Core.Interfaces.Database
 {
     public interface IBaseCrudRepository<T> where T : class
     {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Interfaces;
+using WebAPI.Core.Interfaces.Database;
 
 namespace WebAPI.Infrastructure.Postgres.Repository
 {

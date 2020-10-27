@@ -9,17 +9,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ApplicationLogic" />
       <Folder Include="Core\Constants" />
-      <Folder Include="Infrastructure\Postgres\Repository" />
       <Folder Include="Presentation\Aggregators" />
       <Folder Include="Presentation\Filters" />
-      <Folder Include="Presentation\Mappers" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     </ItemGroup>
 
 
