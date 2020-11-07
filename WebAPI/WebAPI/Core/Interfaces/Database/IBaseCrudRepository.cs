@@ -14,6 +14,8 @@ namespace WebAPI.Core.Interfaces.Database
 
         Task<bool> ExistsAsync(Expression<Func<T, bool>> expression);
 
+        Task<List<T>> SearchForMultipleItemsAsync();
+         
         Task<List<T>> SearchForMultipleItemsAsync(Expression<Func<T, bool>> expression);
 
         Task<int> CountAsync(Expression<Func<T, bool>> expression);

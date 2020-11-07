@@ -40,6 +40,10 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<IStoryService, StoryService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ITeamService, TeamService>();
+            services.AddTransient<IProjectService, ProjectService>();
+            services.AddTransient<ISprintService, SprintService>();
+            services.AddTransient<IRefreshTokenService, RefreshTokenService>();
+            services.AddTransient<IEpicService, EpicService>();
         }
     }
 }

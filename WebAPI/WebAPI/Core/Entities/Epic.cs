@@ -8,10 +8,12 @@ namespace WebAPI.Core.Entities
         public Epic()
         {
             Sprints = new List<Sprint>();    
-            Teams = new List<Team>();
+            TeamEpics = new List<TeamEpic>();
         }
         
         public Guid EpicId { get; set; }
+        
+        public Guid ProjectId { get; set; }
         
         public string EpicName { get; set; }
         
@@ -23,7 +25,8 @@ namespace WebAPI.Core.Entities
         
         public double Progress { get; set; }
         
-        public IList<Team> Teams { get; set; }
+        public IList<TeamEpic> TeamEpics { get; set; }
+        
         public IList<Sprint> Sprints { get; set; }
     }
 }

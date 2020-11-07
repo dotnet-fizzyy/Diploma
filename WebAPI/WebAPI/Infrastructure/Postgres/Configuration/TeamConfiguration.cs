@@ -10,14 +10,11 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
         {
             builder.HasKey(x => x.TeamId);
             builder
-                .HasMany(x => x.Users)
-                .WithOne(e => e.Team);
-            builder
-                .HasOne(x => x.Project)
-                .WithMany(e => e.Teams);
-            builder
-                .HasOne(x => x.Epic)
-                .WithMany(e => e.Teams);
+                .HasOne<Project>()
+                .WithMany(e => e.Teams)
+                .HasForeignKey(x => x.ProjectId)
+                .OnDelete(DeleteBehavior.SetNull);
+            builder.HasIndex(x => x.ProjectId);
         }
     }
 }

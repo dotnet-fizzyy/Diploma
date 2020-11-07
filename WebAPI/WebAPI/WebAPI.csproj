@@ -12,6 +12,7 @@
       <Folder Include="Core\Constants" />
       <Folder Include="initdb" />
       <Folder Include="Presentation\Aggregators" />
+      <Folder Include="Presentation\Constants" />
       <Folder Include="Presentation\Filters" />
     </ItemGroup>
 

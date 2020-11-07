@@ -68,6 +68,13 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             return exists;
         }
 
+        public async Task<List<T>> SearchForMultipleItemsAsync()
+        {
+            var items = await _dbSet.AsNoTracking().ToListAsync();
+
+            return items;
+        }
+
         public async Task<List<T>> SearchForMultipleItemsAsync(Expression<Func<T, bool>> expression)
         {
             var items = await _dbSet.Where(expression).AsNoTracking().ToListAsync();

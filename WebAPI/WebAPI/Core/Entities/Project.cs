@@ -7,6 +7,7 @@ namespace WebAPI.Core.Entities
     {
         public Project()
         {
+            Epics = new List<Epic>();
             Teams = new List<Team>();
         }
         
@@ -21,6 +22,8 @@ namespace WebAPI.Core.Entities
         public DateTime EndDate { get; set; }
         
         public string Customer { get; set; }
+        
+        public IList<Epic> Epics { get; set; }
         
         public IList<Team> Teams { get; set; }
     }

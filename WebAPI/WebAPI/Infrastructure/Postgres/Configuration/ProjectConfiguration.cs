@@ -9,9 +9,6 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
         public void Configure(EntityTypeBuilder<Project> builder)
         {
             builder.HasKey(x => x.ProjectId);
-            builder
-                .HasMany(x => x.Teams)
-                .WithOne(e => e.Project);
         }
     }
 }

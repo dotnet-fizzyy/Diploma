@@ -10,14 +10,21 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
         {
             builder.HasKey(x => x.StoryId);
             builder
-                .HasOne(x => x.User)
-                .WithMany(x => x.Stories);
+                .HasOne<Sprint>()
+                .WithMany(x => x.Stories)
+                .HasForeignKey(x => x.SprintId)
+                .OnDelete(DeleteBehavior.SetNull);
             builder
-                .HasOne(x => x.Sprint)
-                .WithMany(e => e.Stories);
-            builder
-                .HasOne(x => x.StoryHistory)
-                .WithMany(e => e.Stories);
+                .HasOne<User>()
+                .WithMany(e => e.Stories)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
+            builder.Property(x => x.RecordVersion)
+                .HasColumnType("xid")
+                .ValueGeneratedOnAddOrUpdate()
+                .IsConcurrencyToken();
+            builder.HasIndex(x => x.SprintId);
+            builder.HasIndex(x => x.UserId);
         }
     }
 }

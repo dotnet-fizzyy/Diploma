@@ -8,19 +8,21 @@ namespace WebAPI.Core.Entities
         public Team()
         {
             Users = new List<User>();
+            TeamEpics = new List<TeamEpic>();
         }
         
         public Guid TeamId { get; set; }
         
+        public Guid ProjectId { get; set; }
+
         public string TeamName { get; set; }
         
         public string Location { get; set; }
 
         public int MembersCount => Users.Count;
-        
-        public Project Project { get; set; }
-            
-        public Epic Epic { get; set; }
+
         public IList<User> Users { get; set; }
+        
+        public IList<TeamEpic> TeamEpics { get; set; }
     }
 }

@@ -6,7 +6,16 @@ namespace WebAPI.Core.Entities
 {
     public class Story
     {
+        public Story()
+        {
+            StoryHistories = new List<StoryHistory>();
+        }
+        
         public Guid StoryId { get; set; }
+        
+        public Guid SprintId { get; set; }
+        
+        public Guid UserId { get; set; }
         
         public string Title { get; set; }
         
@@ -32,10 +41,6 @@ namespace WebAPI.Core.Entities
         
         public bool IsDeleted { get; set; }
         
-        public Sprint Sprint { get; set; }
-        
-        public User User { get; set; }
-        
-        public StoryHistory StoryHistory { get; set; }
+        public IList<StoryHistory> StoryHistories { get; set; }
     }
 }

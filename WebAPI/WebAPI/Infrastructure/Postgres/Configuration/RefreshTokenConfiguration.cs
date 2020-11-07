@@ -10,8 +10,11 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
         {
             builder.HasKey(x => x.RefreshTokenId);
             builder
-                .HasOne(x => x.User)
-                .WithMany(x => x.RefreshTokens);
+                .HasOne<User>()
+                .WithMany(x => x.RefreshTokens)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
+            builder.HasIndex(x => x.UserId);
         }
     }
 }
