@@ -1,15 +1,22 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS base
 WORKDIR /app
+EXPOSE 80
+EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
-WORKDIR /build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+WORKDIR /src
+#COPY ["WebAPI/WebAPI.csproj", "WebAPI/"]
+#COPY ["WebAPI.Models/WebAPI.Models.csproj", "WebAPI.Models/"]
+COPY /*/*.csproj ./
+RUN dotnet restore "WebAPI.csproj"
+COPY . .
+WORKDIR "/src/WebAPI"
+RUN dotnet build "WebAPI.csproj" -c Release -o /app/build
 
-#Copy solution file
-COPY *.sln .
+FROM build AS publish
+RUN dotnet publish "WebAPI.csproj" -c Release -o /app/publish
 
-#Copy csproj and restore as distinct layers
-COPY *.csproj ./
-#Run dotnet restore to cache nuget packages
-RUN dotnet restore
-
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "WebAPI.dll"]
