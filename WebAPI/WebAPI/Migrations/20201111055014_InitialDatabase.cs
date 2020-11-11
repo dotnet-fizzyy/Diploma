@@ -51,7 +51,7 @@ namespace WebAPI.Migrations
                 columns: table => new
                 {
                     TeamId = table.Column<Guid>(nullable: false),
-                    ProjectId = table.Column<Guid>(nullable: false),
+                    ProjectId = table.Column<Guid>(nullable: true),
                     TeamName = table.Column<string>(nullable: true),
                     Location = table.Column<string>(nullable: true)
                 },
@@ -118,7 +118,7 @@ namespace WebAPI.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(nullable: false),
-                    TeamId = table.Column<Guid>(nullable: false),
+                    TeamId = table.Column<Guid>(nullable: true),
                     UserName = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     UserRole = table.Column<string>(nullable: false),
@@ -126,7 +126,7 @@ namespace WebAPI.Migrations
                     IsActive = table.Column<bool>(nullable: false),
                     Email = table.Column<string>(nullable: true),
                     AvatarLink = table.Column<string>(nullable: true),
-                    RecordVersion = table.Column<uint>(type: "xid", nullable: false)
+                    xmin = table.Column<uint>(type: "xid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -164,8 +164,8 @@ namespace WebAPI.Migrations
                 columns: table => new
                 {
                     StoryId = table.Column<Guid>(nullable: false),
-                    SprintId = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false),
+                    SprintId = table.Column<Guid>(nullable: true),
+                    UserId = table.Column<Guid>(nullable: true),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Notes = table.Column<string>(nullable: true),
@@ -176,7 +176,7 @@ namespace WebAPI.Migrations
                     IsBlocked = table.Column<bool>(nullable: false),
                     BlockReason = table.Column<string>(nullable: true),
                     CreationDate = table.Column<DateTime>(nullable: false),
-                    RecordVersion = table.Column<uint>(type: "xid", nullable: false),
+                    xmin = table.Column<uint>(type: "xid", nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -193,7 +193,7 @@ namespace WebAPI.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -205,7 +205,7 @@ namespace WebAPI.Migrations
                     FieldName = table.Column<string>(nullable: true),
                     PreviousValue = table.Column<string>(nullable: true),
                     CurrentValue = table.Column<string>(nullable: true),
-                    RecordVersion = table.Column<uint>(type: "xid", nullable: false),
+                    xmin = table.Column<uint>(type: "xid", nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
                     StoryId = table.Column<Guid>(nullable: false)
                 },

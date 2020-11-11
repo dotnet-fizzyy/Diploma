@@ -4,4 +4,9 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\WebAPI.Models\WebAPI.Models.csproj" />
+      <ProjectReference Include="..\WebAPI\WebAPI.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -1,28 +1,24 @@
 using System;
 using System.Collections.Generic;
+using WebAPI.Models.Models;
 
-namespace WebAPI.Core.Entities
+namespace WebAPI.Models.Result
 {
-    public class Team
+    public class FullTeam
     {
-        public Team()
+        public FullTeam()
         {
             Users = new List<User>();
-            TeamEpics = new List<TeamEpic>();
         }
         
         public Guid TeamId { get; set; }
         
-        public Guid? ProjectId { get; set; }
-
         public string TeamName { get; set; }
         
         public string Location { get; set; }
 
         public int MembersCount => Users.Count;
-
-        public IList<User> Users { get; set; }
         
-        public IList<TeamEpic> TeamEpics { get; set; }
+        public IList<User> Users { get; set; }
     }
 }

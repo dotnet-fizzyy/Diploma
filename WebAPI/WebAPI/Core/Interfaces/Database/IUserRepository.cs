@@ -5,6 +5,6 @@ namespace WebAPI.Core.Interfaces.Database
 {
     public interface IUserRepository : IBaseCrudRepository<User>
     {
-        Task<bool> AuthenticateUser(User user);
+        Task<User> AuthenticateUser(User user);
     }
 }

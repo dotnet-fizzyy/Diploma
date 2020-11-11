@@ -162,9 +162,10 @@ namespace WebAPI.Migrations
                     b.Property<uint>("RecordVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnName("xmin")
                         .HasColumnType("xid");
 
-                    b.Property<Guid>("SprintId")
+                    b.Property<Guid?>("SprintId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("StoryPriority")
@@ -173,7 +174,7 @@ namespace WebAPI.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("StoryId");
@@ -203,6 +204,7 @@ namespace WebAPI.Migrations
                     b.Property<uint>("RecordVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnName("xmin")
                         .HasColumnType("xid");
 
                     b.Property<string>("StoryHistoryAction")
@@ -231,7 +233,7 @@ namespace WebAPI.Migrations
                     b.Property<string>("Location")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("ProjectId")
+                    b.Property<Guid?>("ProjectId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("TeamName")
@@ -286,9 +288,10 @@ namespace WebAPI.Migrations
                     b.Property<uint>("RecordVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnName("xmin")
                         .HasColumnType("xid");
 
-                    b.Property<Guid>("TeamId")
+                    b.Property<Guid?>("TeamId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("UserName")
@@ -341,14 +344,11 @@ namespace WebAPI.Migrations
                     b.HasOne("WebAPI.Core.Entities.Sprint", null)
                         .WithMany("Stories")
                         .HasForeignKey("SprintId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("WebAPI.Core.Entities.User", null)
                         .WithMany("Stories")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("WebAPI.Core.Entities.StoryHistory", b =>
@@ -365,8 +365,7 @@ namespace WebAPI.Migrations
                     b.HasOne("WebAPI.Core.Entities.Project", null)
                         .WithMany("Teams")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("WebAPI.Core.Entities.TeamEpic", b =>
@@ -389,8 +388,7 @@ namespace WebAPI.Migrations
                     b.HasOne("WebAPI.Core.Entities.Team", null)
                         .WithMany("Users")
                         .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 #pragma warning restore 612, 618
         }

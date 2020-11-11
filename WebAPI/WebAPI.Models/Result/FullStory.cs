@@ -1,21 +1,18 @@
 using System;
 using System.Collections.Generic;
-using WebAPI.Core.Enums;
+using WebAPI.Models.Enums;
+using WebAPI.Models.Models;
 
-namespace WebAPI.Core.Entities
+namespace WebAPI.Models.Result
 {
-    public class Story
+    public class FullStory
     {
-        public Story()
+        public FullStory()
         {
-            StoryHistories = new List<StoryHistory>();
+            StoryHistories = new List<StoryHistory>();    
         }
         
         public Guid StoryId { get; set; }
-        
-        public Guid? SprintId { get; set; }
-        
-        public Guid? UserId { get; set; }
         
         public string Title { get; set; }
         
@@ -41,6 +38,6 @@ namespace WebAPI.Core.Entities
         
         public bool IsDeleted { get; set; }
         
-        public IList<StoryHistory> StoryHistories { get; set; }
+        public ICollection<StoryHistory> StoryHistories { get; set; }
     }
 }
