@@ -13,7 +13,8 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
                 .HasOne<Project>()
                 .WithMany(e => e.Teams)
                 .HasForeignKey(x => x.ProjectId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
             builder.HasIndex(x => x.ProjectId);
         }
     }

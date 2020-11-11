@@ -1,8 +1,11 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models;
+using WebAPI.Models.Result;
 
 namespace WebAPI.Presentation.Controllers
 {
@@ -18,22 +21,67 @@ namespace WebAPI.Presentation.Controllers
         }
 
         [HttpGet]
-        [Route("{teamId}")]
-        public async Task<IActionResult> GetTeam(Guid teamId)
+        [Route("all")]
+        public async Task<ActionResult<CollectionResponse<Team>>> GetAllTeams() => await _teamService.GetAllTeams();
+
+        [HttpGet]
+        [Route("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Team>> GetTeam(Guid id)
         {
-            return Ok();
+           var team = await _teamService.GetTeam(id);
+
+           if (team == null)
+           {
+               return NotFound();
+           }
+           
+           return team;
         }
-        
-        [HttpPost]
-        public async Task<IActionResult> CreateTeam([FromBody]Team team)
+
+        [HttpGet]
+        [Route("full/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<FullTeam>> GetFullTeamDescription(Guid id)
         {
-            return Ok();
+            var fullTeam = await _teamService.GetFullTeamDescription(id);
+
+            if (fullTeam == null)
+            {
+                return NotFound();
+            }
+            
+            return fullTeam;
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<ActionResult<Team>> CreateTeam([FromBody, BindRequired]Team team)
+        {
+            var createdTeam = await _teamService.CreateTeam(team);
+            
+            return CreatedAtAction(nameof(CreateTeam), createdTeam);
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateTeam([FromBody] Team team)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateTeam([FromBody, BindRequired] Team team)
         {
-            return Ok();
+            var updatedTeam = await _teamService.UpdateTeam(team);
+            
+            return Ok(updatedTeam);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> RemoveTeam(Guid id)
+        {
+            await _teamService.RemoveTeam(id);
+            
+            return NoContent();
         }
     }
 }

@@ -21,6 +21,7 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
                 .HasForeignKey(x => x.StoryId)
                 .OnDelete(DeleteBehavior.SetNull);
             builder.Property(x => x.RecordVersion)
+                .HasColumnName("xmin")
                 .HasColumnType("xid")
                 .ValueGeneratedOnAddOrUpdate()
                 .IsConcurrencyToken();

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Core.Configuration;
 namespace WebAPI.Presentation.Controllers
@@ -12,6 +13,7 @@ namespace WebAPI.Presentation.Controllers
         }
         
         [HttpGet]
+        [Authorize]
         [Route("test")]
         public ActionResult Test()
         {

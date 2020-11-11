@@ -1,10 +1,22 @@
+using System;
 using System.Threading.Tasks;
-using WebAPI.Core.Entities;
+using WebAPI.Models.Models;
+using WebAPI.Models.Result;
 
 namespace WebAPI.Core.Interfaces.Services
 {
     public interface IStoryService
     {
-        Task<Story> AddStory(WebAPI.Models.Models.Story story);
+        Task<CollectionResponse<Story>> GetStories();
+        
+        Task<Story> GetStory(Guid storyId);
+        
+        Task<FullStory> GetFullStoryDescription(Guid storyId);
+        
+        Task<Story> AddStory(Story story);
+
+        Task<Story> UpdateStory(Story story);
+        
+        Task RemoveStory(Guid id);
     }
 }

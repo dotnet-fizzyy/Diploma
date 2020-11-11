@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Core.Enums;
-using WebAPI.Core.Interfaces;
 using WebAPI.Core.Interfaces.Database;
 
 namespace WebAPI.Infrastructure.Postgres.Repository
@@ -201,8 +200,6 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 Console.WriteLine(e);
                 throw new Exception($"Unable to find item in database. Error: {e.Message}");
             }
-
-            return null;
         }
 
         public async Task<T> UpdateItemAsync(T item)

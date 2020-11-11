@@ -13,13 +13,15 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
                 .HasOne<Sprint>()
                 .WithMany(x => x.Stories)
                 .HasForeignKey(x => x.SprintId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
             builder
                 .HasOne<User>()
                 .WithMany(e => e.Stories)
                 .HasForeignKey(x => x.UserId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .IsRequired(false);
             builder.Property(x => x.RecordVersion)
+                .HasColumnName("xmin")
                 .HasColumnType("xid")
                 .ValueGeneratedOnAddOrUpdate()
                 .IsConcurrencyToken();

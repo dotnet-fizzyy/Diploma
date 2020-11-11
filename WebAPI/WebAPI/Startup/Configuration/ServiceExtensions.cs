@@ -25,6 +25,7 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<IProjectRepository, ProjectRepository>();
             services.AddTransient<IStoryHistoryRepository, StoryHistoryRepository>();
             services.AddTransient<IStoryRepository, StoryRepository>();
+            services.AddTransient<ITeamEpicRepository, TeamEpicRepository>();
             
             //Mappers
             services.AddTransient<IStoryMapper, StoryMapper>();
@@ -44,6 +45,7 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<ISprintService, SprintService>();
             services.AddTransient<IRefreshTokenService, RefreshTokenService>();
             services.AddTransient<IEpicService, EpicService>();
+            services.AddTransient<ITokenService, TokenService>();
         }
     }
 }

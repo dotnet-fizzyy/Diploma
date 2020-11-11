@@ -23,8 +23,10 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
                 .HasOne<Team>()
                 .WithMany(e => e.Users)
                 .HasForeignKey(x => x.TeamId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
             builder.Property(x => x.RecordVersion)
+                .HasColumnName("xmin")
                 .HasColumnType("xid")
                 .ValueGeneratedOnAddOrUpdate()
                 .IsConcurrencyToken();

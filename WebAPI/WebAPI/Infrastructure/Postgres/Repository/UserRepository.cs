@@ -13,12 +13,10 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         {
             _databaseContext = databaseContext;
         }
-        public async Task<bool> AuthenticateUser(User user)
+        public async Task<User> AuthenticateUser(User user)
         {
-            var existingUser = await _databaseContext.Users
+            return await _databaseContext.Users
                 .FirstOrDefaultAsync(x => x.UserName == user.UserName && x.Password == user.Password);
-
-            return existingUser != null;
         }
     }
 }

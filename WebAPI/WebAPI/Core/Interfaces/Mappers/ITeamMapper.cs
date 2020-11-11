@@ -5,5 +5,7 @@ namespace WebAPI.Core.Interfaces.Mappers
         WebAPI.Core.Entities.Team MapToEntity(WebAPI.Models.Models.Team team);
         
         WebAPI.Models.Models.Team MapToModel(WebAPI.Core.Entities.Team team);
+        
+        WebAPI.Models.Result.FullTeam MapToFullModel(WebAPI.Core.Entities.Team team);
     }
 }

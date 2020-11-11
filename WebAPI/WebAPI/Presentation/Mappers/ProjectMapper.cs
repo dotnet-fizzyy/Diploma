@@ -1,10 +1,19 @@
+using System.Linq;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Mappers;
+using WebAPI.Models.Result;
 
 namespace WebAPI.Presentation.Mappers
 {
     public class ProjectMapper : IProjectMapper
     {
+        private readonly ITeamMapper _teamMapper;
+        
+        public ProjectMapper(ITeamMapper teamMapper)
+        {
+            _teamMapper = teamMapper;
+        }
+        
         public Project MapToEntity(Models.Models.Project project)
         {
             var projectEntity = new Project
@@ -14,6 +23,7 @@ namespace WebAPI.Presentation.Mappers
                 ProjectName = project.ProjectName,
                 StartDate = project.StartDate,
                 EndDate = project.EndDate,
+                Customer = project.Customer,
             };
 
             return projectEntity;
@@ -28,9 +38,26 @@ namespace WebAPI.Presentation.Mappers
                 ProjectName = project.ProjectName,
                 StartDate = project.StartDate,
                 EndDate = project.EndDate,
+                Customer = project.Customer,
             };
 
             return projectModel;
+        }
+
+        public FullProject MapToFullModel(Project project)
+        {
+            var projectFullModel = new FullProject
+            {
+                ProjectId = project.ProjectId,
+                ProjectDescription = project.ProjectDescription,
+                ProjectName = project.ProjectName,
+                StartDate = project.StartDate,
+                EndDate = project.EndDate,
+                Customer = project.Customer,
+                Teams = project.Teams.Select(_teamMapper.MapToModel).ToList(),
+            };
+
+            return projectFullModel;
         }
     }
 }

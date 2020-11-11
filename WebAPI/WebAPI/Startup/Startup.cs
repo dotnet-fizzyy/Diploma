@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebAPI.Core.Configuration;
+using WebAPI.Presentation.Filters;
 using WebAPI.Startup.Configuration;
 
 namespace WebAPI.Startup
@@ -28,7 +29,13 @@ namespace WebAPI.Startup
             };
             
             services.AddControllers();
+
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(UserAuthorizationFilter));
+            });
             
+            services.RegisterAuthSettings(tokenSettings);
             services.RegisterServices(appSettings);
             services.RegisterDatabase(databaseSettings);
             services.RegisterSwagger();
@@ -67,7 +74,7 @@ namespace WebAPI.Startup
             ) RegisterSettings(IConfiguration configuration)
         {
             var databaseSettings = configuration.GetSection(nameof(AppSettings.Database)).Get<DatabaseSettings>();
-            var tokenSettings = configuration.GetSection(nameof(AppSettings.Database)).Get<TokenSettings>();
+            var tokenSettings = configuration.GetSection(nameof(AppSettings.Token)).Get<TokenSettings>();
 
             return (databaseSettings, tokenSettings);
         }

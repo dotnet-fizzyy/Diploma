@@ -1,6 +1,7 @@
-using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Interfaces.Mappers;
+using WebAPI.Models.Models;
+using User = WebAPI.Core.Entities.User;
 
 namespace WebAPI.Presentation.Mappers
 {
@@ -38,6 +39,17 @@ namespace WebAPI.Presentation.Mappers
             };
 
             return userModel;
+        }
+
+        public User MapToEntity(AuthenticationUser user)
+        {
+            var userEntity = new User
+            {
+                UserName = user.UserName,
+                Password = user.Password,
+            };
+
+            return userEntity;
         }
     }
 }
