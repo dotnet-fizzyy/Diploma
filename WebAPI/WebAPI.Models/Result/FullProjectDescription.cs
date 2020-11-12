@@ -5,12 +5,12 @@ namespace WebAPI.Models.Result
 {
     public class FullProjectDescription
     {
+        public Project Project { get; set; }
+        
         public Epic Epic { get; set; }
         
-        public FullSprint Sprint { get; set; }
+        public CollectionResponse<FullSprint> Sprints { get; set; }
         
-        public FullTeam Team { get; set; }
-        
-        public ICollection<FullStory> Stories { get; set; }
+        public CollectionResponse<FullTeam> Teams { get; set; }
     }
 }

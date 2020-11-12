@@ -1,8 +1,11 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using WebAPI.Core.Configuration;
 using WebAPI.Presentation.Filters;
 using WebAPI.Startup.Configuration;
@@ -28,12 +31,12 @@ namespace WebAPI.Startup
                 Token = tokenSettings,
             };
             
-            services.AddControllers();
-
-            services.AddControllers(options =>
+            services.AddControllers().AddNewtonsoftJson(options =>
             {
-                options.Filters.Add(typeof(UserAuthorizationFilter));
+                options.SerializerSettings.Converters.Add(new EnumConverter());
             });
+
+            services.AddTransient<UserAuthorizationFilter>();
             
             services.RegisterAuthSettings(tokenSettings);
             services.RegisterServices(appSettings);
@@ -52,7 +55,7 @@ namespace WebAPI.Startup
             );
             
             app.UseRouting();
-            
+
             app.UseAuthentication();
             app.UseAuthorization();
             
@@ -77,6 +80,22 @@ namespace WebAPI.Startup
             var tokenSettings = configuration.GetSection(nameof(AppSettings.Token)).Get<TokenSettings>();
 
             return (databaseSettings, tokenSettings);
+        }
+    }
+    
+    public class EnumConverter : StringEnumConverter
+    {
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+            JsonSerializer serializer)
+        {
+            try
+            {
+                return base.ReadJson(reader, objectType, existingValue, serializer);
+            }
+            catch (JsonSerializationException)
+            {
+                return null;
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ namespace WebAPI.Presentation.Filters
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            
+
         }
     }
 }

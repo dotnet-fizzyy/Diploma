@@ -21,11 +21,13 @@ namespace WebAPI.Presentation.Controllers
 
         [HttpGet]
         [Route("all")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<CollectionResponse<User>>> GetAllUsers() => await _userService.GetAllUsers();
 
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<User>> GetUser(Guid id)
         {
@@ -40,6 +42,8 @@ namespace WebAPI.Presentation.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CreateUser([FromBody]User user)
         {
             var createdUser = await _userService.CreateUser(user);
@@ -48,6 +52,8 @@ namespace WebAPI.Presentation.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> UpdateUser([FromBody] User user)
         {
             var updatedUser = await _userService.UpdateUser(user);
@@ -57,6 +63,8 @@ namespace WebAPI.Presentation.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveUser(Guid id)
         {
             await _userService.RemoveUser(id);

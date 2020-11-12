@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using WebAPI.Core.Enums;
+using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
@@ -15,19 +17,25 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly IProjectRepository _projectRepository;
         private readonly IEpicRepository _epicRepository;
         private readonly ITeamRepository _teamRepository;
+        private readonly ISprintRepository _sprintRepository;
         private readonly IProjectMapper _projectMapper;
+        private readonly IFullProjectDescriptionAggregator _fullProjectDescriptionAggregator;
 
         public ProjectService(
             IProjectMapper projectMapper, 
             ITeamRepository teamRepository, 
             IEpicRepository epicRepository, 
-            IProjectRepository projectRepository
+            ISprintRepository sprintRepository,
+            IProjectRepository projectRepository,
+            IFullProjectDescriptionAggregator fullProjectDescriptionAggregator
             )
         {
             _projectRepository = projectRepository;
             _teamRepository = teamRepository;
             _epicRepository = epicRepository;
+            _sprintRepository = sprintRepository;
             _projectMapper = projectMapper;
+            _fullProjectDescriptionAggregator = fullProjectDescriptionAggregator;
         }
         
         public async Task<CollectionResponse<Project>> GetAllProjects()
@@ -60,11 +68,43 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<FullProjectDescription> GetFullProjectDescription(Guid projectId)
         {
+            //Receive project description
             var projectEntity = await _projectRepository.SearchForSingleItemAsync(
                 x => x.ProjectId == projectId
             );
 
-            return null;
+            if (projectEntity == null)
+            {
+                return null;
+            }
+
+            //Receive latest and actual epic for project
+            var projectEpicEntity =
+                (await _epicRepository.SearchForMultipleItemsAsync(
+                    x => x.ProjectId == projectId,
+                    x => x.StartDate, OrderType.Descending)
+                ).FirstOrDefault();
+
+            //Receive sprints for teams
+            var epicSprints =
+                await _sprintRepository.SearchForMultipleItemsAsync(
+                    x => x.EpicId == projectEpicEntity.EpicId,
+                    x => x.StartDate,
+                    OrderType.Descending
+                    );
+            
+            //Receive teams working on it
+            var projectTeams = 
+                await _teamRepository.SearchForMultipleItemsAsync(x => x.ProjectId == projectId);
+
+            var fullProjectDescription = _fullProjectDescriptionAggregator.AggregateFullProjectDescription(
+                projectEntity,
+                projectEpicEntity,
+                epicSprints,
+                projectTeams
+                );
+            
+            return fullProjectDescription;
         }
 
         public async Task<FullProject> GetFullProject(Guid projectId)

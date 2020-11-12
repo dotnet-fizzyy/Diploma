@@ -1,10 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using WebAPI.ApplicationLogic.Services;
 using WebAPI.Core.Configuration;
+using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Infrastructure.Postgres.Repository;
+using WebAPI.Presentation.Aggregators;
 using WebAPI.Presentation.Mappers;
 
 namespace WebAPI.Startup.Configuration
@@ -46,6 +48,9 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<IRefreshTokenService, RefreshTokenService>();
             services.AddTransient<IEpicService, EpicService>();
             services.AddTransient<ITokenService, TokenService>();
+            
+            //Aggregators
+            services.AddTransient<IFullProjectDescriptionAggregator, FullProjectDescriptionAggregator>();
         }
     }
 }

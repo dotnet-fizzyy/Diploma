@@ -6,7 +6,7 @@ using WebAPI.Core.Configuration;
 
 namespace WebAPI.Startup.Configuration
 {
-    public static class JwtExtensions
+    public static class AuthenticationExtensions
     {
         public static void RegisterAuthSettings(this IServiceCollection services, TokenSettings tokenSettings)
         {

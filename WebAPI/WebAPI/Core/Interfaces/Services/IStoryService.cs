@@ -9,8 +9,10 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<CollectionResponse<Story>> GetStories();
         
-        Task<Story> GetStory(Guid storyId);
+        Task<CollectionResponse<Story>> GetStoriesByRange(Guid sprintId, int limit, int offset);
         
+        Task<Story> GetStory(Guid storyId);
+
         Task<FullStory> GetFullStoryDescription(Guid storyId);
         
         Task<Story> AddStory(Story story);

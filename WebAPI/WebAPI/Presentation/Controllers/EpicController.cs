@@ -1,15 +1,18 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models;
 using WebAPI.Models.Result;
+using WebAPI.Presentation.Filters;
 
 namespace WebAPI.Presentation.Controllers
 {
     [ApiController]
     [Route("epic")]
+    [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class EpicController : ControllerBase
     {
         private readonly IEpicService _epicService;
@@ -21,18 +24,47 @@ namespace WebAPI.Presentation.Controllers
 
         [HttpGet]
         [Route("all")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<CollectionResponse<Epic>>> GetEpics() => await _epicService.GetEpics();
-        
+
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<Epic>> GetEpic(Guid id) => await _epicService.GetEpic(id);
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Epic>> GetEpic(Guid id)
+        {
+            var epic = await _epicService.GetEpic(id);
+
+            if (epic == null)
+            {
+                return NotFound();
+            }
+            
+            return epic;
+        }
 
         [HttpGet]
         [Route("full/{id}")]
-        public async Task<ActionResult<FullEpic>> GetFullEpicDescription(Guid id) =>
-            await _epicService.GetFullEpicDescription(id);
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<FullEpic>> GetFullEpicDescription(Guid id)
+        {
+            var fullEpic = await _epicService.GetFullEpicDescription(id);
+
+            if (fullEpic == null)
+            {
+                return NotFound();
+            }
+
+            return fullEpic;
+        }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Epic>> CreateEpic([FromBody, BindRequired] Epic epic)
         {
             var createdEpic = await _epicService.CreateEpic(epic);
@@ -41,6 +73,8 @@ namespace WebAPI.Presentation.Controllers
         }
         
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> UpdateEpic([FromBody, BindRequired] Epic epic)
         {
             var updatedEpic = await _epicService.UpdateEpic(epic);
@@ -50,6 +84,8 @@ namespace WebAPI.Presentation.Controllers
         
         [HttpDelete]
         [Route("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveEpic(Guid id)
         { 
             await _epicService.RemoveEpic(id);

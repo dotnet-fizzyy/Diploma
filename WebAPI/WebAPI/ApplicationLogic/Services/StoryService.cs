@@ -40,6 +40,25 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
+        public async Task<CollectionResponse<Story>> GetStoriesByRange(Guid sprintId, int limit, int offset)
+        {
+            var storyEntities =
+                await _storyRepository.SearchForMultipleItemsAsync(
+                    x => x.SprintId == sprintId,
+                    limit,
+                    offset,
+                    x => x.StoryId,
+                    OrderType.Ascending
+                    );
+
+            var collectionResponse = new CollectionResponse<Story>
+            {
+                Items = storyEntities.Select(_storyMapper.MapToModel).ToList()
+            };
+
+            return collectionResponse;
+        }
+
         public async Task<Story> GetStory(Guid storyId)
         {
             var storyEntity =
@@ -68,12 +87,10 @@ namespace WebAPI.ApplicationLogic.Services
             var storyEntity = _storyMapper.MapToEntity(story);
 
             var createdStory = await _storyRepository.CreateAsync(storyEntity);
-
-            if (createdStory.UserId != null)
-                await _storyHistoryRepository.CreateAsync(
-                    GetStoryHistoryForCreation((Guid) createdStory.UserId, createdStory.StoryId)
+            await _storyHistoryRepository.CreateAsync(
+                StoryHistoryGenerator.GetStoryHistoryForCreation(Guid.Empty, createdStory.StoryId)
                 );
-
+            
             var storyModel = _storyMapper.MapToModel(createdStory);
             
             return storyModel;
@@ -88,7 +105,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             using (var scope = new TransactionScope
                 (
-                    TransactionScopeOption.Required, 
+                    TransactionScopeOption.Required,
                     new TransactionOptions
                     {
                         IsolationLevel = IsolationLevel.Serializable,
@@ -99,24 +116,9 @@ namespace WebAPI.ApplicationLogic.Services
             {
                 await _storyHistoryRepository.DeleteAsync(x => x.StoryId == id);
                 await _storyRepository.DeleteAsync(x => x.StoryId == id);
-                
+
                 scope.Complete();
             }
-        }
-
-        
-        private static Core.Entities.StoryHistory GetStoryHistoryForCreation(Guid userId, Guid storyId)
-        {
-            return new Core.Entities.StoryHistory
-            {
-                StoryHistoryId = new Guid(),
-                StoryHistoryAction = StoryHistoryAction.Add,
-                UserId = userId,
-                CurrentValue = string.Empty,
-                PreviousValue = string.Empty,
-                FieldName = string.Empty,
-                StoryId = storyId,
-            };
         }
     }
 }

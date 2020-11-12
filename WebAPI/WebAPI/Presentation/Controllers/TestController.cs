@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Core.Configuration;
+
 namespace WebAPI.Presentation.Controllers
 {
     public class TestController : ControllerBase

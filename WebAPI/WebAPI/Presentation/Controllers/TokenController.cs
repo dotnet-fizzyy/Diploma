@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
@@ -19,6 +20,7 @@ namespace WebAPI.Presentation.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<TokenPair>> AuthenticateUser([FromBody, BindRequired] AuthenticationUser user) =>
             await _tokenService.AuthenticateUser(user);
     }
