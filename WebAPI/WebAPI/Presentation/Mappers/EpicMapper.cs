@@ -16,6 +16,11 @@ namespace WebAPI.Presentation.Mappers
         
         public Epic MapToEntity(Models.Models.Epic epic)
         {
+            if (epic == null)
+            {
+                return new Epic();
+            }
+        
             var entityEpic = new Epic
             {
                 EpicId = epic.EpicId,
@@ -31,6 +36,11 @@ namespace WebAPI.Presentation.Mappers
 
         public Models.Models.Epic MapToModel(Epic epic)
         {
+            if (epic == null)
+            {
+                return new Models.Models.Epic();
+            }
+            
             var epicModel = new Models.Models.Epic
             {
                 EpicId = epic.EpicId,
@@ -46,6 +56,11 @@ namespace WebAPI.Presentation.Mappers
 
         public FullEpic MapToFullModel(Epic epic)
         {
+            if (epic == null)
+            {
+                return new FullEpic();
+            }
+            
             var epicModel = new FullEpic
             {
                 EpicId = epic.EpicId,

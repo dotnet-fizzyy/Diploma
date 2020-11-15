@@ -16,6 +16,11 @@ namespace WebAPI.Presentation.Mappers
         
         public Team MapToEntity(Models.Models.Team team)
         {
+            if (team == null)
+            {
+                return new Team();
+            }
+            
             var teamEntity = new Team
             {
                 TeamId = team.TeamId,
@@ -28,11 +33,17 @@ namespace WebAPI.Presentation.Mappers
 
         public Models.Models.Team MapToModel(Team team)
         {
+            if (team == null)
+            {
+                return new Models.Models.Team();
+            }
+            
             var teamModel = new Models.Models.Team
             {
                 TeamId = team.TeamId,
                 TeamName = team.TeamName,
                 Location = team.Location,
+                MembersCount = team.MembersCount,
             };
 
             return teamModel;
@@ -40,6 +51,11 @@ namespace WebAPI.Presentation.Mappers
 
         public FullTeam MapToFullModel(Team team)
         {
+            if (team == null)
+            {
+                return new FullTeam();
+            }
+            
             var fullTeamModel = new FullTeam
             {
                 TeamId = team.TeamId,

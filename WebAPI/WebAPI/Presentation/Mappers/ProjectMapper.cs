@@ -16,6 +16,11 @@ namespace WebAPI.Presentation.Mappers
         
         public Project MapToEntity(Models.Models.Project project)
         {
+            if (project == null)
+            {
+                return new Project();
+            }
+            
             var projectEntity = new Project
             {
                 ProjectId = project.ProjectId,
@@ -31,6 +36,11 @@ namespace WebAPI.Presentation.Mappers
 
         public Models.Models.Project MapToModel(Project project)
         {
+            if (project == null)
+            {
+                return new Models.Models.Project();
+            }
+            
             var projectModel = new Models.Models.Project
             {
                 ProjectId = project.ProjectId,
@@ -46,6 +56,11 @@ namespace WebAPI.Presentation.Mappers
 
         public FullProject MapToFullModel(Project project)
         {
+            if (project == null)
+            {
+                return new FullProject();
+            }
+            
             var projectFullModel = new FullProject
             {
                 ProjectId = project.ProjectId,

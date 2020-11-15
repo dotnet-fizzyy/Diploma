@@ -32,6 +32,11 @@ namespace WebAPI.Presentation.Aggregators
         {
             var fullProjectDescription = new FullProjectDescription();
 
+            if (project == null || epic == null)
+            {
+                return fullProjectDescription;
+            }
+            
             fullProjectDescription.Project = _projectMapper.MapToModel(project);
             fullProjectDescription.Epic = _epicMapper.MapToModel(epic);
             

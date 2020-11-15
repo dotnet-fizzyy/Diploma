@@ -85,6 +85,11 @@ namespace WebAPI.ApplicationLogic.Services
                     x => x.StartDate, OrderType.Descending)
                 ).FirstOrDefault();
 
+            if (projectEpicEntity == null)
+            {
+                return null;
+            }
+            
             //Receive sprints for teams
             var epicSprints =
                 await _sprintRepository.SearchForMultipleItemsAsync(

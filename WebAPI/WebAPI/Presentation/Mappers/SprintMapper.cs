@@ -16,9 +16,15 @@ namespace WebAPI.Presentation.Mappers
         
         public Sprint MapToEntity(Models.Models.Sprint sprint)
         {
+            if (sprint == null)
+            {
+                return new Sprint();
+            }
+
             var sprintEntity = new Sprint
             {
                 SprintId = sprint.SprintId,
+                EpicId = sprint.EpicId,
                 SprintName = sprint.SprintName,
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,
@@ -30,6 +36,11 @@ namespace WebAPI.Presentation.Mappers
 
         public Models.Models.Sprint MapToModel(Sprint sprint)
         {
+            if (sprint == null)
+            {
+                return new Models.Models.Sprint();
+            }
+            
             var sprintEntity = new Models.Models.Sprint
             {
                 SprintId = sprint.SprintId,
@@ -37,6 +48,7 @@ namespace WebAPI.Presentation.Mappers
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,
                 Progress = sprint.Progress,
+                EpicId = sprint.EpicId,
             };
 
             return sprintEntity;
@@ -44,9 +56,15 @@ namespace WebAPI.Presentation.Mappers
 
         public FullSprint MapToFullModel(Sprint sprint)
         {
+            if (sprint == null)
+            {
+                return new FullSprint();
+            }
+            
             var sprintFullModel = new FullSprint
             {
                 SprintId = sprint.SprintId,
+                EpicId = sprint.EpicId,
                 SprintName = sprint.SprintName,
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,

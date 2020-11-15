@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Mappers;
@@ -17,9 +18,16 @@ namespace WebAPI.Presentation.Mappers
         
         public Story MapToEntity(Models.Models.Story story)
         {
+            if (story == null)
+            {
+                return new Story();
+            }
+            
             var storyEntity = new Story
             {
                 StoryId = story.StoryId,
+                UserId = story.UserId,
+                SprintId = story.SprintId,
                 Description = story.Description,
                 Estimate = story.Estimate,
                 Notes = story.Notes,
@@ -28,8 +36,8 @@ namespace WebAPI.Presentation.Mappers
                 IsBlocked = story.IsBlocked,
                 BlockReason = story.BlockReason,
                 CreationDate = story.CreationDate,
-                StoryPriority = (StoryPriority)story.StoryPriority,
-                ColumnType = (ColumnType)story.ColumnType,
+                StoryPriority = Enum.Parse<StoryPriority>(story.StoryPriority.ToString()),
+                ColumnType = Enum.Parse<ColumnType>(story.ColumnType.ToString()),
                 IsDeleted = story.IsDeleted,
                 RecordVersion = story.RecordVersion,
             };
@@ -39,9 +47,16 @@ namespace WebAPI.Presentation.Mappers
 
         public Models.Models.Story MapToModel(Story story)
         {
+            if (story == null)
+            {
+                return new Models.Models.Story();
+            }
+            
             var storyModel = new Models.Models.Story
             {
                 StoryId = story.StoryId,
+                UserId = story.UserId,
+                SprintId = story.SprintId,
                 Description = story.Description,
                 Estimate = story.Estimate,
                 Notes = story.Notes,
@@ -50,8 +65,8 @@ namespace WebAPI.Presentation.Mappers
                 IsBlocked = story.IsBlocked,
                 BlockReason = story.BlockReason,
                 CreationDate = story.CreationDate,
-                StoryPriority = (Models.Enums.StoryPriority)story.StoryPriority,
-                ColumnType = (Models.Enums.ColumnType)story.ColumnType,
+                StoryPriority = Enum.Parse<Models.Enums.StoryPriority>(story.StoryPriority.ToString()),
+                ColumnType = Enum.Parse<Models.Enums.ColumnType>(story.ColumnType.ToString()),
                 IsDeleted = story.IsDeleted,
                 RecordVersion = story.RecordVersion,
             };
@@ -61,9 +76,16 @@ namespace WebAPI.Presentation.Mappers
 
         public FullStory MapToFullModel(Story story)
         {
+            if (story == null)
+            {
+                return new FullStory();
+            }
+            
             var fullStoryModel = new FullStory
             {
                 StoryId = story.StoryId,
+                UserId = story.UserId,
+                SprintId = story.SprintId,
                 Description = story.Description,
                 Estimate = story.Estimate,
                 Notes = story.Notes,
@@ -72,8 +94,8 @@ namespace WebAPI.Presentation.Mappers
                 IsBlocked = story.IsBlocked,
                 BlockReason = story.BlockReason,
                 CreationDate = story.CreationDate,
-                StoryPriority = (Models.Enums.StoryPriority)story.StoryPriority,
-                ColumnType = (Models.Enums.ColumnType)story.ColumnType,
+                StoryPriority = Enum.Parse<Models.Enums.StoryPriority>(story.StoryPriority.ToString()),
+                ColumnType = Enum.Parse<Models.Enums.ColumnType>(story.ColumnType.ToString()),
                 IsDeleted = story.IsDeleted,
                 RecordVersion = story.RecordVersion,
                 StoryHistories = story.StoryHistories.Select(_storyHistoryMapper.MapToModel).ToList(),

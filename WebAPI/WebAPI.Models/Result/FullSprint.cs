@@ -13,6 +13,8 @@ namespace WebAPI.Models.Result
         
         public Guid SprintId { get; set; }
 
+        public Guid EpicId { get; set; }
+        
         public string SprintName { get; set; }
         
         public DateTime StartDate { get; set; }
