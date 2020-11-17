@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using WebAPI.Core.Configuration;
@@ -30,7 +31,7 @@ namespace WebAPI.Startup
                 Database = databaseSettings,
                 Token = tokenSettings,
             };
-            
+
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.Converters.Add(new EnumConverter());
@@ -45,7 +46,7 @@ namespace WebAPI.Startup
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory logger)
         {   
             if (env.IsDevelopment())
             {
@@ -56,7 +57,7 @@ namespace WebAPI.Startup
             
             app.RegisterSwaggerUi();
             
-            app.RegisterExceptionHandler();
+            app.RegisterExceptionHandler(logger.CreateLogger("Exceptions"));
             
             app.UseCors(options => options
                 .SetIsOriginAllowed(_ => true)

@@ -2,12 +2,13 @@ using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace WebAPI.Startup.Configuration
 {
     public static class ExceptionHandlerExtensions
     {
-        public static void RegisterExceptionHandler(this IApplicationBuilder app)
+        public static void RegisterExceptionHandler(this IApplicationBuilder app, ILogger logger)
         {
             app.UseExceptionHandler(appError =>
             {
@@ -20,6 +21,8 @@ namespace WebAPI.Startup.Configuration
 
                     if (contextFeature != null)
                     {
+                        logger.LogError($"Error caught in global handler: ${contextFeature.Error.Message}");
+                        
                         await context.Response.WriteAsync($@"
                             {{
                                 ""errors"": [
