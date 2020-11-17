@@ -56,7 +56,8 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<User> CreateUser(User user)
         {
             var entityUser = _userMapper.MapToEntity(user);
-
+            entityUser.Password = PasswordHashing.CreateHashPassword(entityUser.Password);
+            
             var createdUserEntity = await _userRepository.CreateAsync(entityUser);
 
             var userModel = _userMapper.MapToModel(createdUserEntity);

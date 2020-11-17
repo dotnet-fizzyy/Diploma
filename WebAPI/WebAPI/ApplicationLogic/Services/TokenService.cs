@@ -30,6 +30,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<TokenPair> AuthenticateUser(AuthenticationUser user)
         {
             var userEntity = _userMapper.MapToEntity(user);
+            userEntity.Password = PasswordHashing.CreateHashPassword(userEntity.Password);
 
             var authUser = await _userRepository.AuthenticateUser(userEntity);
 

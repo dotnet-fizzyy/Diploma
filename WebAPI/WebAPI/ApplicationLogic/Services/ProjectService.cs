@@ -87,7 +87,10 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (projectEpicEntity == null)
             {
-                return null;
+                return new FullProjectDescription
+                {
+                    Project = _projectMapper.MapToModel(projectEntity)
+                };
             }
             
             //Receive sprints for teams

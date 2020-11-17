@@ -7,7 +7,11 @@ namespace WebAPI.Models.Models
     {
         public Guid UserId { get; set; }
         
+        public Guid? TeamId { get; set; }
+        
         public string UserName { get; set; }
+        
+        public string Password { get; set; }
         
         public UserRole UserRole { get; set; }
         

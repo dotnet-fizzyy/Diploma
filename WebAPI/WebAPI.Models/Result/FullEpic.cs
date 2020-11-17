@@ -13,6 +13,8 @@ namespace WebAPI.Models.Result
         
         public Guid EpicId { get; set; }
         
+        public Guid ProjectId { get; set; }
+        
         public string EpicName { get; set; }
         
         public DateTime StartDate { get; set; }
