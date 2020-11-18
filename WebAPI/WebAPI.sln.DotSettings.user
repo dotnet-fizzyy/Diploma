@@ -11,5 +11,7 @@
     &lt;TestId&gt;xUnit::F06E4DC4-02E5-4DF7-873E-21476F783688::.NETCoreApp,Version=v3.1::WebAPI.UnitTests.Mappers.RefreshTokenMapperTests&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::F06E4DC4-02E5-4DF7-873E-21476F783688::.NETCoreApp,Version=v3.1::WebAPI.UnitTests.Mappers.StoryHistoryMapperTests&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::F06E4DC4-02E5-4DF7-873E-21476F783688::.NETCoreApp,Version=v3.1::WebAPI.UnitTests.Aggregators.FullProjectDescriptionAggregatorTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::F06E4DC4-02E5-4DF7-873E-21476F783688::.NETCoreApp,Version=v3.1::WebAPI.UnitTests.Services.UserServiceTests.ShouldGetAllUsers&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::F06E4DC4-02E5-4DF7-873E-21476F783688::.NETCoreApp,Version=v3.1::WebAPI.UnitTests.Services.UserServiceTests.ShouldGetExactUser&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
