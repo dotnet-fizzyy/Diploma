@@ -5,6 +5,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import BackgroundImage from "../../static/abstraction.jpg";
 import { ISelectedItem } from "../../types/storyTypes";
 import ColumnContainer from "../column/ColumnContainer";
+import SidebarContainer from "../sidebar/SidebarContainer";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -58,9 +59,9 @@ const Board = (props: IBoardProps) => {
           open={isSidebarVisible}
           anchor="right"
           variant="temporary"
-          onClose={() => onCloseSidebar()}
+          onClose={onCloseSidebar}
         >
-          <div style={{ width: "100px" }}>hello</div>
+          <SidebarContainer />
         </Drawer>
       </div>
     </div>

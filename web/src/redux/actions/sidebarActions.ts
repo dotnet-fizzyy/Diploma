@@ -17,3 +17,5 @@ export function sidebarHandleVisibility(
     payload: value,
   };
 }
+
+export type SidebarActionsType = ISidebarHandleVisibility;

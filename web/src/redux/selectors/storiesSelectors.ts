@@ -19,6 +19,6 @@ export const getStoriesForColumn = (columnId: string) => (
   return [];
 };
 
-export function getSelectedStory(state: IState): IStory | null | undefined {
+export function getSelectedStory(state: IState): IStory {
   return state.stories.selectedStory;
 }

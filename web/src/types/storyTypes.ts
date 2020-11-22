@@ -12,6 +12,7 @@ export interface IStory {
   creationDate: string;
   userId: string;
   sprintId: string;
+  priority: Priority;
 }
 
 export interface ISelectedItem {
@@ -28,4 +29,10 @@ export interface IStoryDragAndDrop {
 export interface IStoryColumns {
   key: string;
   value: IStory[];
+}
+
+export enum Priority {
+  LOW = "LOW",
+  MEDIUM = "MEDIUM",
+  HIGH = "HIGH",
 }

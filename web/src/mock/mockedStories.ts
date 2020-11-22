@@ -1,4 +1,4 @@
-import { IStory } from "../types/storyTypes";
+import {IStory, Priority} from "../types/storyTypes";
 
 const mockedStory_1: IStory = {
   blockReason: "",
@@ -14,6 +14,7 @@ const mockedStory_1: IStory = {
   storyId: "story_id_1",
   title: "This is title of first story",
   userId: "",
+  priority: Priority.LOW,
 };
 
 const mockedStory_2: IStory = {
@@ -30,6 +31,7 @@ const mockedStory_2: IStory = {
   storyId: "story_id_2",
   title: "This title belongs to second mock",
   userId: "",
+  priority: Priority.HIGH,
 };
 
 const mockedStory_3: IStory = {
@@ -46,6 +48,7 @@ const mockedStory_3: IStory = {
   storyId: "story_id_3",
   title: "Some title in 3 mock",
   userId: "",
+  priority: Priority.MEDIUM,
 };
 
 const mockedStory_4: IStory = {
@@ -62,6 +65,7 @@ const mockedStory_4: IStory = {
   storyId: "story_id_4",
   title: "Very original title",
   userId: "",
+  priority: Priority.LOW,
 };
 
 const mockedStories = [

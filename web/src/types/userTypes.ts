@@ -8,6 +8,11 @@ export interface IUser {
   email: string;
 }
 
+export interface IAuthenticationUser {
+  userName: string;
+  password: string;
+}
+
 export enum UserRole {
   ProductOwner = "ProductOwner",
   TeamMaster = "TeamMaster",

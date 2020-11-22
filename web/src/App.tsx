@@ -1,23 +1,9 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
 import "./App.css";
-import BoardApplication from "./components";
-import * as routeConstants from "./constants/routeConstants";
+import CustomRouter from "./components/custom-router/CustomRouterContainer";
 
 function App() {
-  return (
-    <Switch>
-      <Route
-        exact={true}
-        path={routeConstants.defaultRoute}
-        component={BoardApplication}
-      />
-      <Route
-        path={routeConstants.createHistoryRoute}
-        component={() => <span>Hello</span>}
-      />
-    </Switch>
-  );
+  return <CustomRouter />;
 }
 
 export default App;

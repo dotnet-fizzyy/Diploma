@@ -30,22 +30,9 @@ const useStyles = makeStyles(() =>
       display: "flex",
       alignItems: "center",
     },
-    footer: {
-      height: "40px",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      "& span": {
-        marginLeft: "7px",
-      },
-    },
     storyId: {
       marginLeft: "10px",
       fontSize: "16px",
-    },
-    iconUser: {
-      fontSize: "16px",
-      color: "black",
     },
     iconVert: {
       fontSize: "24px",
@@ -53,21 +40,11 @@ const useStyles = makeStyles(() =>
       marginLeft: "5px",
       marginTop: "5px",
     },
-    iconBlock: {
-      fontSize: "22px",
-      color: "red",
-      marginLeft: "5px",
-    },
     isBlocked: {
       backgroundColor: "red",
       color: "white",
       borderRadius: "3px",
       padding: "2px",
-    },
-    iconReady: {
-      fontSize: "22px",
-      color: "green",
-      marginLeft: "15px",
     },
     isReady: {
       backgroundColor: "green",
@@ -75,36 +52,8 @@ const useStyles = makeStyles(() =>
       borderRadius: "3px",
       padding: "2px",
     },
-    iconMain: {
-      color: "white",
-      borderRadius: "3px",
-      padding: "2px",
-      marginLeft: "10px",
-    },
     isDefect: {
       backgroundColor: "darkorange",
-    },
-    isStory: {
-      backgroundColor: "#3272d9",
-    },
-    currentStoryStatus: {
-      borderBottomLeftRadius: "4px",
-      borderBottomRightRadius: "4px",
-      "& span": {
-        display: "block",
-        fontSize: "18px",
-        fontWeight: "bold",
-        margin: "4px 0",
-        textAlign: "center",
-      },
-    },
-    currentBlocked: {
-      backgroundColor: "red",
-      color: "darkred",
-    },
-    currentReady: {
-      backgroundColor: "green",
-      color: "darkgreen",
     },
   })
 );
@@ -135,38 +84,6 @@ const Story = (props: IStoryProps) => {
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
-          {/*<div className={classes.header}>*/}
-          {/*  {story.isDefect ? (*/}
-          {/*    <BugReportIcon*/}
-          {/*      className={classnames(classes.iconMain, classes.isDefect)}*/}
-          {/*    />*/}
-          {/*  ) : (*/}
-          {/*    <AssignmentIcon*/}
-          {/*      className={classnames(classes.iconMain, classes.isStory)}*/}
-          {/*    />*/}
-          {/*  )}*/}
-          {/*  <span*/}
-          {/*    onClick={() => onSelectStory(story.storyId)}*/}
-          {/*    className={classes.storyId}*/}
-          {/*  >*/}
-          {/*    {story.storyId}*/}
-          {/*  </span>*/}
-          {/*  <CheckCircleOutlinedIcon*/}
-          {/*    className={classnames(classes.iconReady, {*/}
-          {/*      [classes.isReady]: story.isReady,*/}
-          {/*    })}*/}
-          {/*    onClick={() => onMakeStoryReady(story.storyId)}*/}
-          {/*  />*/}
-          {/*  <BlockOutlinedIcon*/}
-          {/*    className={classnames(classes.iconBlock, {*/}
-          {/*      [classes.isBlocked]: story.isBlocked,*/}
-          {/*    })}*/}
-          {/*    onClick={() => onMakeStoryBlocked(story.storyId)}*/}
-          {/*  />*/}
-          {/*  <div {...provided.dragHandleProps}>*/}
-          {/*    <MoreVertIcon className={classes.iconVert} />*/}
-          {/*  </div>*/}
-          {/*</div>*/}
           <StoryHeader
             storyId={story.storyId}
             isDefect={story.isDefect}
@@ -183,20 +100,6 @@ const Story = (props: IStoryProps) => {
           <div className={classes.body}>
             <span>{story.title}</span>
           </div>
-          {/*<div className={classes.footer}>*/}
-          {/*  <AccountCircleIcon className={classes.iconUser} />*/}
-          {/*  <span>{story.userId ? story.userId : "No owner"}</span>*/}
-          {/*</div>*/}
-          {/*{(story.isReady || story.isBlocked) && (*/}
-          {/*  <div*/}
-          {/*    className={classnames(classes.currentStoryStatus, {*/}
-          {/*      [classes.currentReady]: story.isReady,*/}
-          {/*      [classes.currentBlocked]: story.isBlocked,*/}
-          {/*    })}*/}
-          {/*  >*/}
-          {/*    <span>{story.isReady ? "Ready" : "Blocked"}</span>*/}
-          {/*  </div>*/}
-          {/*)}*/}
           <StoryFooter
             avatarLink={""}
             userId={story.userId}

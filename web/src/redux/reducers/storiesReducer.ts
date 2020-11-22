@@ -77,6 +77,7 @@ function handleMakeStoryBlocked(
           return story.storyId === action.payload
             ? {
                 ...story,
+                isReady: false,
                 isBlocked: !story.isBlocked,
               }
             : story;
@@ -99,6 +100,7 @@ function handleMakeStoryReady(
           return story.storyId === action.payload
             ? {
                 ...story,
+                isBlocked: false,
                 isReady: !story.isReady,
               }
             : story;
