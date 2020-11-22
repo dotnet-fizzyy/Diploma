@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using WebAPI.Models.Models;
 
 namespace WebAPI.Models.Result

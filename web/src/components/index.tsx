@@ -1,12 +1,13 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
-import BoardContainer from "./board/BoardContainer";
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import BoardContainer from './board/BoardContainer';
 
 const BoardApplication = () => {
-  const params = useLocation();
-  console.log(params);
+    const params = useLocation();
 
-  return <BoardContainer />;
+    console.log(params);
+
+    return <BoardContainer />;
 };
 
 export default BoardApplication;

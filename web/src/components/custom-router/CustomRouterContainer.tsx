@@ -1,8 +1,8 @@
-import React from "react";
-import CustomRouter from "./CustomRouter";
+import React from 'react';
+import CustomRouter from './CustomRouter';
 
 const CustomRouterContainer = () => {
-  return <CustomRouter />;
+    return <CustomRouter />;
 };
 
 export default CustomRouterContainer;

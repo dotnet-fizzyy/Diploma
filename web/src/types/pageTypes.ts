@@ -1,4 +1,4 @@
 export enum StartPageTypes {
-    LOGIN = "LOGIN",
-    REGISTRATION = "REGISTRATION",
+    LOGIN = 'LOGIN',
+    REGISTRATION = 'REGISTRATION',
 }

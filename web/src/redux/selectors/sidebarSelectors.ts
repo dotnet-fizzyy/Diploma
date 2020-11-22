@@ -1,5 +1,5 @@
-import { IState } from "../store/state";
+import { IState } from '../store/state';
 
 export function getSidebarVisibility(state: IState): boolean {
-  return state.sidebar.isVisible;
+    return state.sidebar.isVisible;
 }
