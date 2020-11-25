@@ -5,6 +5,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import { IStory } from '../../types/storyTypes';
 import StoryFooter from './StoryFooter';
 import StoryHeader from './StoryHeader';
+import StoryPriorityCard from './StoryPriorityCard';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -24,6 +25,9 @@ const useStyles = makeStyles(() =>
             padding: '5px 5px',
             fontSize: '18px',
             fontWeight: 'bold',
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexDirection: 'column',
         },
         header: {
             height: '40px',
@@ -54,6 +58,11 @@ const useStyles = makeStyles(() =>
         },
         isDefect: {
             backgroundColor: 'darkorange',
+        },
+        card: {
+            width: '100px',
+            height: '30px',
+            marginTop: '10px',
         },
     })
 );
@@ -89,6 +98,9 @@ const Story = (props: IStoryProps) => {
                     </StoryHeader>
                     <div className={classes.body}>
                         <span>{story.title}</span>
+                        <div className={classes.card}>
+                            <StoryPriorityCard priority={story.priority} />
+                        </div>
                     </div>
                     <StoryFooter
                         avatarLink={''}

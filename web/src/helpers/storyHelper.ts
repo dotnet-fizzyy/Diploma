@@ -1,4 +1,4 @@
-import { ISelectedItem, IStory, Priority } from '../types/storyTypes';
+import { ISelectedItem, IStory, Priority, SortFields } from '../types/storyTypes';
 
 export function areStoriesEqual(story: IStory, updatedStory: IStory): boolean {
     return (
@@ -17,10 +17,19 @@ export function areStoriesEqual(story: IStory, updatedStory: IStory): boolean {
 }
 
 export function createStoryPriorityDropdownItems(): ISelectedItem[] {
-    return Object.keys(Priority).map((pr) => {
+    return Object.entries(Priority).map((pr) => {
         return {
-            key: pr,
-            value: pr.toLowerCase(),
+            key: pr[0],
+            value: pr[1],
+        } as ISelectedItem;
+    });
+}
+
+export function createSortFields(): ISelectedItem[] {
+    return Object.entries(SortFields).map((pr) => {
+        return {
+            key: pr[0],
+            value: pr[1],
         } as ISelectedItem;
     });
 }

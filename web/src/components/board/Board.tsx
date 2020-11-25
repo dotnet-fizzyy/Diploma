@@ -5,6 +5,8 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import BackgroundImage from '../../static/abstraction.jpg';
 import { ISelectedItem } from '../../types/storyTypes';
 import ColumnContainer from '../column/ColumnContainer';
+import InfoTabContainer from '../header/board-info-tab/InfoTabContainer';
+import GeneralTabContainer from '../header/general-tab/GeneralTabContainer';
 import SidebarContainer from '../sidebar/SidebarContainer';
 
 const useStyles = makeStyles(() =>
@@ -23,11 +25,6 @@ const useStyles = makeStyles(() =>
             justifyContent: 'center',
             minHeight: '100%',
         },
-        headerRoot: {
-            height: '60px',
-            minWidth: '100%',
-            backgroundColor: 'black',
-        },
     })
 );
 
@@ -44,7 +41,8 @@ const Board = (props: IBoardProps) => {
 
     return (
         <div className={classes.root}>
-            <div className={classes.headerRoot} />
+            <GeneralTabContainer />
+            <InfoTabContainer />
             <div className={classes.body}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     {columns.map((column) => (

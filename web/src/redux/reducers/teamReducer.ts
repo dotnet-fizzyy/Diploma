@@ -27,7 +27,6 @@ function handleAddTeams(state: ITeamState, action: TeamActions.IAddTeams): ITeam
 function handleSetSelectedTeam(state: ITeamState, action: TeamActions.ISetSelectedTeam): ITeamState {
     return {
         ...state,
-        teams: [],
-        currentTeam: state.teams.find((x) => x.teamId === action.payload),
+        currentTeam: action.payload,
     };
 }

@@ -1,7 +1,13 @@
 import { delay, put, select, takeLatest } from 'redux-saga/effects';
+import mockedProject from '../../mock/mockedProject';
 import mockedStories from '../../mock/mockedStories';
+import { mockedTeam } from '../../mock/mockedTeam';
+import { mockedUser } from '../../mock/mockedUser';
 import { IStoryColumns } from '../../types/storyTypes';
+import * as userActions from '../actions/currentUserActions';
+import * as projectActions from '../actions/projectActions';
 import * as storyActions from '../actions/storiesActions';
+import * as teamActions from '../actions/teamActions';
 import * as storySelectors from '../selectors/storiesSelectors';
 
 function* refreshData() {
@@ -11,8 +17,11 @@ function* refreshData() {
 }
 
 function* getGeneralInfo() {
+    yield put(userActions.addUser(mockedUser));
+    yield put(projectActions.setCurrentProject(mockedProject));
     yield put(storyActions.getGeneralInfoSuccess());
     yield put(storyActions.storyActionAddStories(mockedStories));
+    yield put(teamActions.setSelectedTeam(mockedTeam));
 }
 
 function* dragAndDropHandler(action: storyActions.IStoryHandleDragAndDrop) {

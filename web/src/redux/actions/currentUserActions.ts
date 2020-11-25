@@ -8,6 +8,7 @@ export const CurrentUserActions = {
     REGISTRATION_FAILURE: 'REGISTRATION_REQUEST',
     ADD_USER: 'ADD_USER',
     SET_USER_TOKENS: 'SET_USER_TOKENS',
+    LOGOUT_USER: 'LOGOUT_USER',
 };
 
 //interfaces
@@ -39,6 +40,10 @@ export interface IAddUser {
 export interface ISetUserTokens {
     type: typeof CurrentUserActions.SET_USER_TOKENS;
     payload: ITokenPair;
+}
+
+export interface ILogOutUser {
+    type: typeof CurrentUserActions.LOGOUT_USER;
 }
 
 //actions
@@ -87,6 +92,12 @@ export function setUserTokens(tokenPair: ITokenPair): ISetUserTokens {
     return {
         type: CurrentUserActions.SET_USER_TOKENS,
         payload: tokenPair,
+    };
+}
+
+export function logOutUser(): ILogOutUser {
+    return {
+        type: CurrentUserActions.LOGOUT_USER,
     };
 }
 

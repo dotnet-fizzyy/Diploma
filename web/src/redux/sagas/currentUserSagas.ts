@@ -19,7 +19,12 @@ function* usersRegistration(action: currentUserActions.IRegistrationRequest) {
     }
 }
 
+function* logOutUser(action: currentUserActions.ILogOutUser) {
+    yield console.log('log out');
+}
+
 export default function* rootCurrentUserSaga() {
     yield takeLatest(currentUserActions.CurrentUserActions.AUTHENTICATION_REQUEST, authenticateUser);
     yield takeLatest(currentUserActions.CurrentUserActions.REGISTRATION_REQUEST, usersRegistration);
+    yield takeLatest(currentUserActions.CurrentUserActions.LOGOUT_USER, logOutUser);
 }

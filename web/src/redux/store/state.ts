@@ -37,7 +37,7 @@ export interface ITeamState {
 
 export interface IProjectState {
     projects: IProject[];
-    selectedProject: IProject;
+    currentProject: IProject;
 }
 
 export interface ISprintsState {

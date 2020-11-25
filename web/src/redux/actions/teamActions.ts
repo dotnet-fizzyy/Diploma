@@ -13,7 +13,7 @@ export interface IAddTeams {
 
 export interface ISetSelectedTeam {
     type: typeof TeamActions.SET_SELECTED_TEAM;
-    payload: string;
+    payload: ITeam;
 }
 
 //actions
@@ -24,10 +24,10 @@ export function addTeams(teams: ITeam[]): IAddTeams {
     };
 }
 
-export function setSelectedTeam(teamId: string): ISetSelectedTeam {
+export function setSelectedTeam(team: ITeam): ISetSelectedTeam {
     return {
         type: TeamActions.SET_SELECTED_TEAM,
-        payload: teamId,
+        payload: team,
     };
 }
 

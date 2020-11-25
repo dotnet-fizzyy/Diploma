@@ -32,7 +32,14 @@ export interface IStoryColumns {
 }
 
 export enum Priority {
-    LOW = 'LOW',
-    MEDIUM = 'MEDIUM',
-    HIGH = 'HIGH',
+    LOW = 'Low',
+    MEDIUM = 'Medium',
+    HIGH = 'High',
 }
+
+export const SortFields = {
+    PRIORITY: 'Priority',
+    NAME: 'Name',
+    ESTIMATE: 'Estimate',
+    CREATION_DATE: 'Creation Date',
+};
