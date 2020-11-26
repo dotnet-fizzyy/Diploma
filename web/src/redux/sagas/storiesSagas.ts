@@ -1,11 +1,13 @@
-import { delay, put, select, takeLatest } from 'redux-saga/effects';
+import { debounce, delay, put, select, takeLatest } from 'redux-saga/effects';
+import { debouncePeriod } from '../../constants/storyConstants';
 import mockedProject from '../../mock/mockedProject';
 import mockedStories from '../../mock/mockedStories';
-import { mockedTeam } from '../../mock/mockedTeam';
-import { mockedUser } from '../../mock/mockedUser';
-import { IStoryColumns } from '../../types/storyTypes';
+import mockedTeam from '../../mock/mockedTeam';
+import mockedUser from '../../mock/mockedUser';
+import { IStory, IStoryColumns } from '../../types/storyTypes';
 import * as userActions from '../actions/currentUserActions';
 import * as projectActions from '../actions/projectActions';
+import * as sidebarActions from '../actions/sidebarActions';
 import * as storyActions from '../actions/storiesActions';
 import * as teamActions from '../actions/teamActions';
 import * as storySelectors from '../selectors/storiesSelectors';
@@ -49,8 +51,31 @@ function* dragAndDropHandler(action: storyActions.IStoryHandleDragAndDrop) {
     }
 }
 
+function* blockStory(action: storyActions.IMakeStoryBlocked) {
+    yield put(sidebarActions.sidebarHandleVisibility(true));
+    yield put(storyActions.attemptToBlockStory());
+    yield put(storyActions.storyActionSelectStory(action.payload));
+}
+
+function* declineStoryBlock(action: sidebarActions.ISidebarHandleVisibility) {
+    const wasStorySelected: boolean = yield select(storySelectors.getWasStoryBlocked);
+    const selectedStory: IStory = yield select(storySelectors.getSelectedStory);
+
+    if (!action.payload && wasStorySelected) {
+        debugger;
+        yield put(storyActions.declineStoryBlock(selectedStory.storyId));
+    }
+}
+
+function* searchForStoriesByTitleTerm(action: storyActions.ISetStoryTitleTerm) {
+    yield console.warn(action.payload);
+}
+
 export default function* rootStoriesSaga() {
     yield takeLatest(storyActions.StoryActions.REFRESH_STORIES, refreshData);
     yield takeLatest(storyActions.StoryActions.GET_GENERAL_INFO_REQUEST, getGeneralInfo);
     yield takeLatest(storyActions.StoryActions.STORY_HANDLE_DRAG_AND_DROP, dragAndDropHandler);
+    yield takeLatest(storyActions.StoryActions.MAKE_STORY_BLOCKED, blockStory);
+    yield takeLatest(sidebarActions.SidebarActions.SIDEBAR_HANDLE_VISIBILITY, declineStoryBlock);
+    yield debounce(debouncePeriod, storyActions.StoryActions.SET_STORY_TITLE_TERM, searchForStoriesByTitleTerm);
 }

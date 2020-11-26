@@ -18,3 +18,11 @@ export const getStoriesForColumn = (columnId: string) => (state: IState): IStory
 export function getSelectedStory(state: IState): IStory {
     return state.stories.selectedStory;
 }
+
+export function getStoryTitleTerm(state: IState): string {
+    return state.stories.storyTitleTerm;
+}
+
+export function getWasStoryBlocked(state: IState): boolean {
+    return state.stories.wasStoryBlocked;
+}

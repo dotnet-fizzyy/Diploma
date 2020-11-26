@@ -1,4 +1,5 @@
 import { SpinnerComponent } from '../../types';
+import { ModalTypes } from '../../types/modalTypes';
 import { IProject } from '../../types/projectTypes';
 import { ISprint } from '../../types/sprintTypes';
 import { IStory, IStoryColumns } from '../../types/storyTypes';
@@ -13,6 +14,7 @@ export interface IState {
     sprints: ISprintsState;
     teams: ITeamState;
     requestProcessor: IRequestProcessorState;
+    modal: IModalState;
 }
 
 export interface ICurrentUserState {
@@ -24,6 +26,9 @@ export interface ICurrentUserState {
 export interface IStoryState {
     columns: IStoryColumns[];
     selectedStory: IStory | null | undefined;
+    wasStoryBlocked: boolean;
+    storyTitleTerm: string;
+    searchResult: IStory[];
 }
 
 export interface ISidebarState {
@@ -48,4 +53,9 @@ export interface ISprintsState {
 export interface IRequestProcessorState {
     component: SpinnerComponent | null;
     isVisible: boolean;
+}
+
+export interface IModalState {
+    isOpen: boolean;
+    type?: ModalTypes;
 }

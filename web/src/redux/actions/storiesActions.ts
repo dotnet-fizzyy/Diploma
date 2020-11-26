@@ -10,6 +10,11 @@ export const StoryActions = {
     MAKE_STORY_READY: 'MAKE_STORY_READY',
     STORY_HANDLE_DRAG_AND_DROP: 'STORY_HANDLE_DRAG_AND_DROP',
     UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION: 'UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION',
+    SET_STORY_TITLE_TERM: 'SET_STORY_TITLE_TERM',
+    SET_STORIES_FOUND_BY_TERM: 'SET_STORIES_FOUND_BY_TERM',
+    BLUR_STORY_TITLE_TERM: 'BLUR_STORY_TITLE_TERM',
+    ATTEMPT_TO_BLOCK_STORY: 'ATTEMPT_TO_BLOCK_STORY',
+    DECLINE_STORY_BLOCK: 'DECLINE_STORY_BLOCK',
 };
 
 //interfaces
@@ -54,6 +59,29 @@ export interface IStoryHandleDragAndDrop {
 export interface IUpdateStoriesAfterDragAndDropAction {
     type: typeof StoryActions.UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION;
     payload: IStoryColumns[];
+}
+
+export interface ISetStoryTitleTerm {
+    type: typeof StoryActions.SET_STORY_TITLE_TERM;
+    payload: string;
+}
+
+export interface ISetStoriesFoundByTerm {
+    type: typeof StoryActions.SET_STORIES_FOUND_BY_TERM;
+    payload: IStory[];
+}
+
+export interface IBlurStoryTitleTerm {
+    type: typeof StoryActions.BLUR_STORY_TITLE_TERM;
+}
+
+export interface IAttemptToBlockStory {
+    type: typeof StoryActions.ATTEMPT_TO_BLOCK_STORY;
+}
+
+export interface IDeclineStoryBlock {
+    type: typeof StoryActions.DECLINE_STORY_BLOCK;
+    payload: string;
 }
 
 //actions
@@ -115,5 +143,38 @@ export function updateStoriesAfterDragAndDropAction(columns: IStoryColumns[]): I
     return {
         type: StoryActions.UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION,
         payload: columns,
+    };
+}
+
+export function setStoryTitleTerm(term: string): ISetStoryTitleTerm {
+    return {
+        type: StoryActions.SET_STORY_TITLE_TERM,
+        payload: term,
+    };
+}
+
+export function setStoriesFoundByTerm(stories: IStory[]): ISetStoriesFoundByTerm {
+    return {
+        type: StoryActions.SET_STORY_TITLE_TERM,
+        payload: stories,
+    };
+}
+
+export function blurStoryTitleTerm(): IBlurStoryTitleTerm {
+    return {
+        type: StoryActions.BLUR_STORY_TITLE_TERM,
+    };
+}
+
+export function attemptToBlockStory(): IAttemptToBlockStory {
+    return {
+        type: StoryActions.ATTEMPT_TO_BLOCK_STORY,
+    };
+}
+
+export function declineStoryBlock(storyId: string): IDeclineStoryBlock {
+    return {
+        type: StoryActions.DECLINE_STORY_BLOCK,
+        payload: storyId,
     };
 }

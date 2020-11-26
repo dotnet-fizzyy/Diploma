@@ -3,6 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import currentUserReducer from '../reducers/currentUserReducer';
+import modalReducer from '../reducers/modalReducer';
 import projectsReducer from '../reducers/projectReducer';
 import requestProcessorReducer from '../reducers/requestProcessorReducer';
 import sidebarReducer from '../reducers/sidebarReducer';
@@ -19,6 +20,7 @@ const reducers = {
     teams: teamsReducer,
     sprints: sprintsReducer,
     requestProcessor: requestProcessorReducer,
+    modal: modalReducer,
 };
 
 const rootReducer = combineReducers({

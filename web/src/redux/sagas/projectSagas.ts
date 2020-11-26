@@ -1,5 +1,5 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { mockedTeam } from '../../mock/mockedTeam';
+import mockedTeam from '../../mock/mockedTeam';
 import * as teamActions from '../actions/teamActions';
 
 function* getFullProjectInfo() {

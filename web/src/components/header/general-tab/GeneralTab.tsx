@@ -35,22 +35,40 @@ const useStyles = makeStyles(() =>
 
 export interface IGeneralTabProps {
     user: IUser;
+    searchTerm: string;
     anchor: HTMLElement;
     onClickDisplayMenu: (event: React.MouseEvent<HTMLElement>) => void;
+    onChangeSearchTerm: (value: string) => void;
     onClickCloseMenu: () => void;
     onClickLogOut: () => void;
+    onBlur: () => void;
 }
 
 const GeneralTab = (props: IGeneralTabProps) => {
     const classes = useStyles();
-    const { anchor, user, onClickDisplayMenu, onClickCloseMenu, onClickLogOut } = props;
+    const {
+        anchor,
+        user,
+        searchTerm,
+        onClickDisplayMenu,
+        onClickCloseMenu,
+        onClickLogOut,
+        onChangeSearchTerm,
+        onBlur,
+    } = props;
 
     return (
         <div className={classes.root}>
             {user && (
                 <>
                     <p>Icon</p>
-                    <TextField placeholder="Search" InputProps={{ startAdornment: <SearchIcon /> }} />
+                    <TextField
+                        placeholder="Search"
+                        value={searchTerm}
+                        onChange={(event: { target: { value: string } }) => onChangeSearchTerm(event.target.value)}
+                        onBlur={() => onBlur()}
+                        InputProps={{ startAdornment: <SearchIcon /> }}
+                    />
                     <div>
                         <span>Board</span>
                         <span>Current_project</span>

@@ -1,6 +1,6 @@
 import { IUser, UserPosition, UserRole } from '../types/userTypes';
 
-export const mockedUser: IUser = {
+const mockedUser: IUser = {
     userId: 'Dima',
     isActive: true,
     email: 'test3@mail.com',
@@ -9,3 +9,5 @@ export const mockedUser: IUser = {
     userPosition: UserPosition.Developer,
     userRole: UserRole.Lead,
 };
+
+export default mockedUser;

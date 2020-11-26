@@ -120,7 +120,7 @@ const Sidebar = (props: ISidebarProps) => {
                 />
 
                 <StoryDropdownMenu
-                    id={priority}
+                    id={priority.toUpperCase()}
                     disabled={false}
                     title={'Priority'}
                     items={storyPriorities}

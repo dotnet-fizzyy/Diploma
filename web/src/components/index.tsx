@@ -1,13 +1,16 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useRef } from 'react';
 import BoardContainer from './board/BoardContainer';
+import ModalWindowContainer from './modal/ModalWindowContainer';
 
 const BoardApplication = () => {
-    const params = useLocation();
+    const ref = useRef(null);
 
-    console.log(params);
-
-    return <BoardContainer />;
+    return (
+        <div ref={ref}>
+            <BoardContainer />
+            <ModalWindowContainer modalRef={ref} />
+        </div>
+    );
 };
 
 export default BoardApplication;

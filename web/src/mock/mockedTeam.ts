@@ -1,7 +1,7 @@
 import { ITeam } from '../types/teamTypes';
 import { IUser, UserPosition, UserRole } from '../types/userTypes';
 
-export const mockedTeam: ITeam = {
+const mockedTeam: ITeam = {
     location: 'Minsk',
     membersCount: 5,
     teamId: 'testId',
@@ -45,3 +45,5 @@ export const mockedTeam: ITeam = {
         } as IUser,
     ],
 };
+
+export default mockedTeam;

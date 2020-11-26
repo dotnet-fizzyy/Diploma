@@ -15,6 +15,9 @@ const initialColumnState: IStoryColumns[] = [
 const initialState: IStoryState = {
     columns: initialColumnState,
     selectedStory: null,
+    wasStoryBlocked: false,
+    storyTitleTerm: '',
+    searchResult: [],
 };
 
 export default function storiesReducer(state = initialState, action: any) {
@@ -29,6 +32,16 @@ export default function storiesReducer(state = initialState, action: any) {
             return handleMakeStoryReady(state, action);
         case storyActions.StoryActions.UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION:
             return handleStoryDragAndDrop(state, action);
+        case storyActions.StoryActions.SET_STORY_TITLE_TERM:
+            return handleSetStoryTitleTerm(state, action);
+        case storyActions.StoryActions.SET_STORIES_FOUND_BY_TERM:
+            return handleSetStoriesFoundByTerm(state, action);
+        case storyActions.StoryActions.BLUR_STORY_TITLE_TERM:
+            return handleBlurStoryTitleTerm(state, action);
+        case storyActions.StoryActions.ATTEMPT_TO_BLOCK_STORY:
+            return handleAttemptToBlockStory(state, action);
+        case storyActions.StoryActions.DECLINE_STORY_BLOCK:
+            return handleDeclineStoryBlock(state, action);
         default:
             return state;
     }
@@ -103,5 +116,54 @@ function handleStoryDragAndDrop(
     return {
         ...state,
         columns: action.payload,
+    };
+}
+
+function handleSetStoryTitleTerm(state: IStoryState, action: storyActions.ISetStoryTitleTerm): IStoryState {
+    return {
+        ...state,
+        storyTitleTerm: action.payload,
+    };
+}
+
+function handleSetStoriesFoundByTerm(state: IStoryState, action: storyActions.ISetStoriesFoundByTerm): IStoryState {
+    return {
+        ...state,
+        searchResult: action.payload,
+    };
+}
+
+function handleBlurStoryTitleTerm(state: IStoryState, action: storyActions.IBlurStoryTitleTerm): IStoryState {
+    return {
+        ...state,
+        storyTitleTerm: '',
+        searchResult: [],
+    };
+}
+
+function handleAttemptToBlockStory(state: IStoryState, action: storyActions.IAttemptToBlockStory): IStoryState {
+    return {
+        ...state,
+        wasStoryBlocked: true,
+    };
+}
+
+function handleDeclineStoryBlock(state: IStoryState, action: storyActions.IDeclineStoryBlock): IStoryState {
+    return {
+        ...state,
+        wasStoryBlocked: false,
+        columns: state.columns.map((column) => {
+            return {
+                ...column,
+                value: column.value.map((story) => {
+                    return story.storyId === action.payload
+                        ? {
+                              ...story,
+                              isBlocked: false,
+                          }
+                        : story;
+                }),
+            };
+        }),
     };
 }
