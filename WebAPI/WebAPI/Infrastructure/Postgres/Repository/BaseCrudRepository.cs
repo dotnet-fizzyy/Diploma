@@ -13,7 +13,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         where T : class 
         where TContext : DbContext
     {
-        private readonly TContext _dbContext;
+        protected readonly TContext _dbContext;
         private readonly DbSet<T> _dbSet;
 
         protected BaseCrudRepository(TContext dbContext)
@@ -84,12 +84,12 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         public async Task<List<T>> SearchForMultipleItemsAsync<K>(
             Expression<Func<T, bool>> expression,
             Expression<Func<T, K>> sort,
-            OrderType orderType = OrderType.Ascending
+            OrderType orderType = OrderType.Asc
         )
         {
             List<T> items;
 
-            if (orderType == OrderType.Ascending)
+            if (orderType == OrderType.Asc)
             {
                 items = await _dbSet.Where(expression).OrderBy(sort).AsNoTracking().ToListAsync();
             }
@@ -111,7 +111,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         {
             List<T> items;
 
-            if (orderType == OrderType.Ascending)
+            if (orderType == OrderType.Asc)
             {
                 if (expression != null)
                 {

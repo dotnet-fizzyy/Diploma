@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using WebAPI.Core.Enums;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
@@ -53,6 +54,17 @@ namespace WebAPI.ApplicationLogic.Services
             return userModel;
         }
 
+        public async Task<User> CreateCustomer(AuthenticationUser user)
+        {
+            var mappedCustomer = CreateCustomerEntity(user);
+
+            var createdCustomerEntity = await _userRepository.CreateAsync(mappedCustomer);
+
+            var customerModel = _userMapper.MapToModel(createdCustomerEntity);
+
+            return customerModel;
+        }
+        
         public async Task<User> CreateUser(User user)
         {
             var entityUser = _userMapper.MapToEntity(user);
@@ -94,6 +106,18 @@ namespace WebAPI.ApplicationLogic.Services
                 
                 scope.Complete();
             }
+        }
+
+        private static Core.Entities.User CreateCustomerEntity(AuthenticationUser user)
+        {
+            return new Core.Entities.User
+            {
+                UserName = user.UserName,
+                Password = user.Password,
+                UserPosition = UserPosition.Customer,
+                UserRole = UserRole.ProductOwner,
+                IsActive = true,
+            };
         }
     }
 }

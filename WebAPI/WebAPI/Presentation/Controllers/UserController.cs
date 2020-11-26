@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Core.Interfaces.Services;
@@ -41,6 +42,17 @@ namespace WebAPI.Presentation.Controllers
             return user;
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("customer")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> CreateCustomer([FromBody]AuthenticationUser user)
+        {
+            var createdCustomer = await _userService.CreateCustomer(user);
+            
+            return CreatedAtAction(nameof(CreateCustomer), createdCustomer);
+        }
+        
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

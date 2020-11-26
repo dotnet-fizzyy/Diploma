@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using WebAPI.Core.Enums;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models;
 using WebAPI.Models.Result;
@@ -18,10 +19,12 @@ namespace WebAPI.Presentation.Controllers
     public class StoryController : ControllerBase
     {
         private readonly IStoryService _storyService;
+        private readonly IStorySortingAndFiltering _storySortingAndFiltering;
 
-        public StoryController(IStoryService storyService)
+        public StoryController(IStoryService storyService, IStorySortingAndFiltering storySortingAndFiltering)
         {
             _storyService = storyService;
+            _storySortingAndFiltering = storySortingAndFiltering;
         }
 
         [HttpGet]
@@ -40,6 +43,39 @@ namespace WebAPI.Presentation.Controllers
             [FromQuery, BindRequired] int limit,
             [FromQuery, BindRequired] int offset
         ) => await _storyService.GetStoriesByRange(sprintId, limit, offset);
+
+        [HttpGet]
+        [Route("sort")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<CollectionResponse<Story>>> SortStories(
+            [FromQuery, BindRequired] Guid epicId,
+            [FromQuery, BindRequired] string sortType,
+            [FromQuery, BindRequired] OrderType orderType
+            )
+        {
+            var sortedStories = await _storySortingAndFiltering.SortStoriesByCriteria(
+                epicId,
+                sortType,
+                orderType
+            );
+
+            if (sortedStories == null)
+            {
+                return BadRequest("One of parameters was invalid");
+            }
+            
+            return sortedStories;
+        }
+
+        [HttpGet]
+        [Route("term")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<CollectionResponse<FullStory>>> GetFullStoriesByTerm(
+            [FromQuery, BindRequired] string term,
+            [FromQuery, BindRequired] int limit
+        ) => await _storyService.GetFullStoriesByTitleTerm(term, limit);
         
         [HttpGet]
         [Route("{id}")]
@@ -94,6 +130,17 @@ namespace WebAPI.Presentation.Controllers
         public async Task<IActionResult> UpdateStory([FromBody, BindRequired] Story story)
         {
             var updatedStory = await _storyService.UpdateStory(story);
+
+            return Ok(updatedStory);
+        }
+        
+        [HttpPut]
+        [Route("part-update")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> UpdatePartsOfStory([FromBody, BindRequired] StoryUpdate storyUpdate)
+        {
+            var updatedStory = await _storyService.UpdatePartsOfStory(storyUpdate);
 
             return Ok(updatedStory);
         }

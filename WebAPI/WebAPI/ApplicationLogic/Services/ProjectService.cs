@@ -82,7 +82,7 @@ namespace WebAPI.ApplicationLogic.Services
             var projectEpicEntity =
                 (await _epicRepository.SearchForMultipleItemsAsync(
                     x => x.ProjectId == projectId,
-                    x => x.StartDate, OrderType.Descending)
+                    x => x.StartDate, OrderType.Desc)
                 ).FirstOrDefault();
 
             if (projectEpicEntity == null)
@@ -98,7 +98,7 @@ namespace WebAPI.ApplicationLogic.Services
                 await _sprintRepository.SearchForMultipleItemsAsync(
                     x => x.EpicId == projectEpicEntity.EpicId,
                     x => x.StartDate,
-                    OrderType.Descending
+                    OrderType.Desc
                     );
             
             //Receive teams working on it

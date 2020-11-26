@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using WebAPI.ApplicationLogic;
 using WebAPI.ApplicationLogic.Services;
 using WebAPI.Core.Configuration;
 using WebAPI.Core.Interfaces.Aggregators;
@@ -48,6 +49,7 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<IRefreshTokenService, RefreshTokenService>();
             services.AddTransient<IEpicService, EpicService>();
             services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IStorySortingAndFiltering, StorySortingAndFiltering>();
             
             //Aggregators
             services.AddTransient<IFullProjectDescriptionAggregator, FullProjectDescriptionAggregator>();

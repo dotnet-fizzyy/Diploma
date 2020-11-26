@@ -16,16 +16,19 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly IStoryRepository _storyRepository;
         private readonly IStoryMapper _storyMapper;
         private readonly IStoryHistoryRepository _storyHistoryRepository;
+        private readonly IStoryHistoryMapper _storyHistoryMapper;
 
         public StoryService(
             IStoryRepository storyRepository, 
             IStoryMapper storyMapper, 
-            IStoryHistoryRepository storyHistoryRepository
-            )
+            IStoryHistoryRepository storyHistoryRepository,
+            IStoryHistoryMapper storyHistoryMapper
+        )
         {
             _storyRepository = storyRepository;
             _storyMapper = storyMapper;
             _storyHistoryRepository = storyHistoryRepository;
+            _storyHistoryMapper = storyHistoryMapper;
         }
 
         public async Task<CollectionResponse<Story>> GetStories()
@@ -48,7 +51,7 @@ namespace WebAPI.ApplicationLogic.Services
                     limit,
                     offset,
                     x => x.StoryId,
-                    OrderType.Ascending
+                    OrderType.Asc
                     );
 
             var collectionResponse = new CollectionResponse<Story>
@@ -57,6 +60,18 @@ namespace WebAPI.ApplicationLogic.Services
             };
 
             return collectionResponse;
+        }
+
+        public async Task<CollectionResponse<FullStory>> GetFullStoriesByTitleTerm(string term, int limit)
+        {
+            var storyEntities = await _storyRepository.GetStoriesByTitleTerm(term, limit);
+
+            var storyModels = new CollectionResponse<FullStory>
+            {
+                Items = storyEntities.Select(_storyMapper.MapToFullModel).ToList()
+            };
+
+            return storyModels;
         }
 
         public async Task<Story> GetStory(Guid storyId)
@@ -86,19 +101,35 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var storyEntity = _storyMapper.MapToEntity(story);
 
-            var createdStory = await _storyRepository.CreateAsync(storyEntity);
+            var createdStoryEntity = await _storyRepository.CreateAsync(storyEntity);
             await _storyHistoryRepository.CreateAsync(
-                StoryHistoryGenerator.GetStoryHistoryForCreation(Guid.Empty, createdStory.StoryId)
+                StoryHistoryGenerator.GetStoryHistoryForCreation(Guid.Empty, createdStoryEntity.StoryId)
                 );
             
-            var storyModel = _storyMapper.MapToModel(createdStory);
+            var storyModel = _storyMapper.MapToModel(createdStoryEntity);
             
             return storyModel;
         }
 
-        public Task<Story> UpdateStory(Story story)
+        public async Task<Story> UpdateStory(Story story)
         {
-            throw new NotImplementedException();
+            var storyEntity = _storyMapper.MapToEntity(story);
+
+            var updatedStoryEntity = await _storyRepository.UpdateItemAsync(storyEntity);
+            await _storyHistoryRepository.CreateAsync(
+                StoryHistoryGenerator.GetStoryHistoryForCreation(Guid.Empty, updatedStoryEntity.StoryId)
+            );
+            
+            var storyModel = _storyMapper.MapToModel(updatedStoryEntity);
+            
+            return storyModel;
+        }
+
+        public async Task<FullStory> UpdatePartsOfStory(StoryUpdate storyUpdate)
+        {
+            var storyHistoryItems = _storyHistoryMapper.MapToStoryEntityParts(storyUpdate);
+            
+            return new FullStory();
         }
 
         public async Task RemoveStory(Guid id)
