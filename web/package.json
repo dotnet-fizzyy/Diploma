@@ -13,6 +13,7 @@
     "axios": "^0.21.0",
     "classnames": "^2.2.6",
     "dotenv": "^8.2.0",
+    "husky": "^4.3.0",
     "moment": "^2.29.1",
     "prettier": "^2.1.2",
     "react": "^16.13.1",
@@ -36,18 +37,14 @@
     "start": "react-scripts start",
     "build": "\"./node_modules/.bin/tsc\"",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint-staged": "react-scripts lint-staged"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "*.{js,ts,tsx}": [
       "tslint -c tslint.yaml --fix --project .",
       "git add"
     ]
