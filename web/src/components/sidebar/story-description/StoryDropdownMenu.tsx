@@ -17,23 +17,25 @@ const useStyles = makeStyles(() =>
 export interface IStoryDropdownMenuProps {
     id: string;
     title: string;
+    name: string;
     items: ISelectedItem[];
     disabled: boolean;
-    onChangeItem: (value: string) => void;
+    onChangeItem: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const StoryDropdownMenu = (props: IStoryDropdownMenuProps) => {
     const classes = useStyles();
-    const { id, title, disabled, items, onChangeItem } = props;
+    const { id, title, name, disabled, items, onChangeItem } = props;
 
     return (
         <div className={classes.sectionContainer}>
             <p>{title}</p>
             <Select
                 value={id ? id : ''}
+                name={name}
                 className={classes.rootSelectStyle}
                 disabled={disabled}
-                onChange={(event: any) => onChangeItem(event.target.value)}
+                onChange={(e: any) => onChangeItem(e)}
                 variant="outlined"
             >
                 {items.map((item) => (

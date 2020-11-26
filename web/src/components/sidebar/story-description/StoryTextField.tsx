@@ -17,24 +17,20 @@ const useStyles = makeStyles(() =>
 
 export interface IStoryTextFieldProps {
     value: string;
+    name: string;
     title: string;
-    onChangeValue: (value: string) => void;
     isTextArea?: boolean;
+    onChangeValue: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const StoryTextField = (props: IStoryTextFieldProps) => {
     const classes = useStyles();
-    const { value, title, onChangeValue, isTextArea } = props;
+    const { value, title, name, onChangeValue, isTextArea } = props;
 
     return (
         <div className={classes.nameContainer}>
             <p>{title}</p>
-            <TextField
-                value={value}
-                multiline={isTextArea}
-                variant="outlined"
-                onChange={(event: { target: { value: string } }) => onChangeValue(event.target.value)}
-            />
+            <TextField value={value} name={name} multiline={isTextArea} variant="outlined" onChange={onChangeValue} />
         </div>
     );
 };

@@ -1,6 +1,7 @@
 import { Button, TextField } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
+import { storyFields } from '../../../constants/storyConstants';
 import { IStory } from '../../../types/storyTypes';
 
 const useStyles = makeStyles(() =>
@@ -61,7 +62,7 @@ const StoryCreation = (props: IStoryCreationProps) => {
                 <TextField
                     variant="outlined"
                     className={classes.textField}
-                    name="title"
+                    name={storyFields.title}
                     onChange={onChangeTextField}
                     value={story.title}
                     placeholder="Add a title of your task"
@@ -74,13 +75,13 @@ const StoryCreation = (props: IStoryCreationProps) => {
                     className={classes.textField}
                     multiline={true}
                     onChange={onChangeTextField}
-                    name="description"
+                    name={storyFields.description}
                     value={story.description}
                 />
             </div>
             <div className={classes.fieldContainer}>
                 <span>Notes:</span>
-                <TextField variant="outlined" className={classes.textField} multiline={true} />
+                <TextField variant="outlined" className={classes.textField} multiline={true} name={storyFields.notes} />
             </div>
             <div className={classes.footer}>
                 <div className={classes.footerItem} />

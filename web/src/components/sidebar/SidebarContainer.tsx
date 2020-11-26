@@ -22,7 +22,9 @@ const SidebarContainer = () => {
         dispatch(sidebarActions.sidebarHandleVisibility(false));
     };
 
-    const onClickConfirmChanges = () => {};
+    const onClickConfirmChanges = () => {
+        console.log(updatedStory);
+    };
 
     const onClickCancelChanges = () => {
         setUpdatedStory(story);
@@ -51,84 +53,19 @@ const SidebarContainer = () => {
         );
     };
 
-    const onChangeStoryOwner = (value: string) => {
-        setUpdatedStory(
-            (prevState) =>
-                ({
-                    ...prevState,
-                    userId: value,
-                } as IStory)
-        );
-    };
+    const onChangeTextField = (
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    ) => {
+        const {
+            target: { value, name },
+        } = event;
 
-    const onChangeStoryTitle = (value: string) => {
-        setUpdatedStory(
-            (prevState) =>
-                ({
-                    ...prevState,
-                    title: value,
-                } as IStory)
-        );
-    };
-
-    const onChangeStoryDescription = (value: string) => {
-        setUpdatedStory(
-            (prevState) =>
-                ({
-                    ...prevState,
-                    description: value,
-                } as IStory)
-        );
-    };
-
-    const onChangeStoryNotes = (notes: string) => {
-        setUpdatedStory(
-            (prevState) =>
-                ({
-                    ...prevState,
-                    notes,
-                } as IStory)
-        );
-    };
-
-    const onChangeStorySprint = (value: string) => {
-        setUpdatedStory(
-            (prevState) =>
-                ({
-                    ...prevState,
-                    sprintId: value,
-                } as IStory)
-        );
-    };
-
-    const onChangeStoryEstimation = (value: number) => {
-        setUpdatedStory(
-            (prevState) =>
-                ({
-                    ...prevState,
-                    estimate: value,
-                } as IStory)
-        );
-    };
-
-    const onChangeStoryBlockedReason = (value: string) => {
-        setUpdatedStory(
-            (prevState) =>
-                ({
-                    ...prevState,
-                    blockReason: value,
-                } as IStory)
-        );
-    };
-
-    const onChangeStoryPriority = (value: string) => {
-        setUpdatedStory(
-            (prevState) =>
-                ({
-                    ...prevState,
-                    priority: value,
-                } as IStory)
-        );
+        setUpdatedStory((prevState) => {
+            return {
+                ...prevState,
+                [name]: value,
+            };
+        });
     };
 
     useEffect(() => {
@@ -146,18 +83,11 @@ const SidebarContainer = () => {
         sprints,
         storyPriorities,
         onCloseTab,
-        onChangeStoryOwner,
-        onChangeStoryTitle,
-        onChangeStoryDescription,
-        onChangeStoryNotes,
         onSetStoryBlocked,
         onSetStoryReady,
-        onChangeStorySprint,
-        onChangeStoryBlockedReason,
         onClickCancelChanges,
         onClickConfirmChanges,
-        onChangeStoryEstimation,
-        onChangeStoryPriority,
+        onChangeTextField,
     };
 
     return <Sidebar {...sidebarProps} />;

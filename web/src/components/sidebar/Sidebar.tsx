@@ -3,6 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import classnames from 'classnames';
 import React from 'react';
+import { storyFields } from '../../constants/storyConstants';
 import { ISelectedItem, IStory } from '../../types/storyTypes';
 import StoryConfirmChanges from './story-description/StoryConfirmChanges';
 import StoryDropdownMenu from './story-description/StoryDropdownMenu';
@@ -60,14 +61,7 @@ export interface ISidebarProps {
     onSetStoryReady: () => void;
     onClickCancelChanges: () => void;
     onClickConfirmChanges: () => void;
-    onChangeStorySprint: (value: string) => void;
-    onChangeStoryTitle: (value: string) => void;
-    onChangeStoryOwner: (value: string) => void;
-    onChangeStoryDescription: (value: string) => void;
-    onChangeStoryNotes: (value: string) => void;
-    onChangeStoryBlockedReason: (value: string) => void;
-    onChangeStoryPriority: (value: string) => void;
-    onChangeStoryEstimation: (value: number) => void;
+    onChangeTextField: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
 }
 
 const Sidebar = (props: ISidebarProps) => {
@@ -81,16 +75,9 @@ const Sidebar = (props: ISidebarProps) => {
         onCloseTab,
         onSetStoryReady,
         onSetStoryBlocked,
-        onChangeStorySprint,
-        onChangeStoryTitle,
-        onChangeStoryOwner,
-        onChangeStoryNotes,
-        onChangeStoryDescription,
-        onChangeStoryBlockedReason,
         onClickConfirmChanges,
         onClickCancelChanges,
-        onChangeStoryEstimation,
-        onChangeStoryPriority,
+        onChangeTextField,
     } = props;
 
     return (
@@ -101,38 +88,47 @@ const Sidebar = (props: ISidebarProps) => {
                     [classes.isModalVisible]: hasStoryChanged,
                 })}
             >
-                <StoryTextField value={title} title={'Story name'} onChangeValue={onChangeStoryTitle} />
+                <StoryTextField
+                    name={storyFields.title}
+                    value={title}
+                    title={'Story name'}
+                    onChangeValue={onChangeTextField}
+                />
 
                 <StoryStatus
                     isBlocked={isBlocked}
                     blockReason={blockReason}
+                    name={storyFields.blockReason}
                     onSetStoryReady={onSetStoryReady}
                     onSetStoryBlocked={onSetStoryBlocked}
-                    onChangeStoryBlockedReason={onChangeStoryBlockedReason}
+                    onChangeValue={onChangeTextField}
                 />
 
                 <StoryDropdownMenu
                     id={userId}
+                    name={storyFields.userId}
                     disabled={false}
                     title={'Owner'}
                     items={team}
-                    onChangeItem={onChangeStoryOwner}
+                    onChangeItem={onChangeTextField}
                 />
 
                 <StoryDropdownMenu
                     id={priority.toUpperCase()}
+                    name={storyFields.priority}
                     disabled={false}
                     title={'Priority'}
                     items={storyPriorities}
-                    onChangeItem={onChangeStoryPriority}
+                    onChangeItem={onChangeTextField}
                 />
 
                 <StoryDropdownMenu
                     id={sprintId}
+                    name={storyFields.sprintId}
                     disabled={true}
                     title={'Sprint'}
                     items={sprints}
-                    onChangeItem={onChangeStorySprint}
+                    onChangeItem={onChangeTextField}
                 />
 
                 <div className={classes.sectionContainer}>
@@ -141,23 +137,29 @@ const Sidebar = (props: ISidebarProps) => {
                         Points:{' '}
                         <TextField
                             value={estimate}
+                            name={storyFields.estimate}
                             type="number"
                             variant="outlined"
-                            onChange={(event: { target: { value: string } }) =>
-                                onChangeStoryEstimation(Number(event.target.value))
-                            }
+                            onChange={onChangeTextField}
                         />
                     </label>
                 </div>
 
                 <StoryTextField
                     value={description}
+                    name={storyFields.description}
                     title={'Description'}
-                    onChangeValue={onChangeStoryDescription}
+                    onChangeValue={onChangeTextField}
                     isTextArea={true}
                 />
 
-                <StoryTextField value={notes} title={'Notes'} onChangeValue={onChangeStoryNotes} isTextArea={true} />
+                <StoryTextField
+                    name={storyFields.notes}
+                    value={notes}
+                    title={'Notes'}
+                    onChangeValue={onChangeTextField}
+                    isTextArea={true}
+                />
             </div>
             {hasStoryChanged && (
                 <StoryConfirmChanges

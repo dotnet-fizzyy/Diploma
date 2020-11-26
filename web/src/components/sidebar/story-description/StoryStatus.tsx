@@ -15,14 +15,15 @@ const useStyles = makeStyles(() =>
 export interface IStoryStatusProps {
     isBlocked: boolean;
     blockReason: string;
+    name: string;
     onSetStoryReady: () => void;
     onSetStoryBlocked: () => void;
-    onChangeStoryBlockedReason: (value: string) => void;
+    onChangeValue: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const StoryStatus = (props: IStoryStatusProps) => {
     const classes = useStyles();
-    const { isBlocked, blockReason, onSetStoryReady, onSetStoryBlocked, onChangeStoryBlockedReason } = props;
+    const { isBlocked, blockReason, name, onSetStoryReady, onSetStoryBlocked, onChangeValue } = props;
 
     return (
         <div className={classes.sectionContainer}>
@@ -35,13 +36,7 @@ const StoryStatus = (props: IStoryStatusProps) => {
                     Block
                 </Button>
             </div>
-            {isBlocked && (
-                <TextField
-                    value={blockReason}
-                    onChange={(event: { target: { value: string } }) => onChangeStoryBlockedReason(event.target.value)}
-                    variant="outlined"
-                />
-            )}
+            {isBlocked && <TextField name={name} value={blockReason} onChange={onChangeValue} variant="outlined" />}
         </div>
     );
 };
