@@ -22,16 +22,16 @@ namespace WebAPI.Presentation.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<TokenPair>> AuthenticateUser([FromBody, BindRequired] AuthenticationUser user)
+        public async Task<ActionResult<AuthenticationResponse>> AuthenticateUser([FromBody, BindRequired] AuthenticationUser user)
         {
-            var tokenResult = await _tokenService.AuthenticateUser(user);
+            var authResult = await _tokenService.AuthenticateUser(user);
 
-            if (tokenResult == null)
+            if (authResult == null)
             {
                 return BadRequest();
             }
 
-            return tokenResult;
+            return authResult;
         }
     }
 }

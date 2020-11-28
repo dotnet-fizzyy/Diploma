@@ -37,7 +37,7 @@ namespace WebAPI.ApplicationLogic.Services
         }
         
 
-        public async Task<TokenPair> AuthenticateUser(AuthenticationUser user)
+        public async Task<AuthenticationResponse> AuthenticateUser(AuthenticationUser user)
         {
             //Authenticate user (find in db)
             var userEntity = _userMapper.MapToEntity(user);
@@ -59,10 +59,11 @@ namespace WebAPI.ApplicationLogic.Services
             
             await _refreshTokenRepository.CreateAsync(refreshTokenEntity);
             
-            var tokenPair = new TokenPair
+            var tokenPair = new AuthenticationResponse
             {
                 AccessToken = new Token(TokenTypes.Access, accessToken),
                 RefreshToken = new Token(TokenTypes.Refresh, refreshToken),
+                User = _userMapper.MapToModel(authUser),
             };
 
             return tokenPair;

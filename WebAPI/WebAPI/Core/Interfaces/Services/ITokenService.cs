@@ -7,6 +7,6 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface ITokenService
     {
-        Task<TokenPair> AuthenticateUser(AuthenticationUser user);
+        Task<AuthenticationResponse> AuthenticateUser(AuthenticationUser user);
     }
 }

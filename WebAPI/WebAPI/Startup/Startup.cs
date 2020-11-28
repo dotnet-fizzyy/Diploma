@@ -42,6 +42,7 @@ namespace WebAPI.Startup
             services.RegisterAuthSettings(tokenSettings);
             services.RegisterServices(appSettings);
             services.RegisterDatabase(databaseSettings);
+            services.RegisterHealthChecks();
             services.RegisterSwagger();
         }
 
@@ -65,6 +66,8 @@ namespace WebAPI.Startup
                 .AllowAnyHeader()
                 .AllowCredentials()
             );
+
+            app.RegisterHealthChecks();
 
             app.UseAuthentication();
             
