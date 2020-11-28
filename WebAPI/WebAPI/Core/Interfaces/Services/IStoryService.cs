@@ -12,6 +12,8 @@ namespace WebAPI.Core.Interfaces.Services
         Task<CollectionResponse<Story>> GetStoriesByRange(Guid sprintId, int limit, int offset);
 
         Task<CollectionResponse<FullStory>> GetFullStoriesByTitleTerm(string term, int limit);
+
+        Task<CollectionResponse<StoryHistory>> GetStoryHistory(Guid storyId);
         
         Task<Story> GetStory(Guid storyId);
 
@@ -21,7 +23,7 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<Story> UpdateStory(Story story);
 
-        Task<FullStory> UpdatePartsOfStory(StoryUpdate storyUpdate);
+        Task<Story> UpdatePartsOfStory(StoryUpdate storyUpdate);
         
         Task RemoveStory(Guid id);
     }

@@ -12,6 +12,8 @@ namespace WebAPI.Models.Models
         
         public Guid StoryId { get; set; }
         
+        public uint RecordVersion { get; set; }
+        
         public IList<StoryUpdatePart> Parts { get; set; }
     }
     

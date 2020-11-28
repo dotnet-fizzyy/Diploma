@@ -53,6 +53,7 @@ namespace WebAPI.Startup.Configuration
             
             //Aggregators
             services.AddTransient<IFullProjectDescriptionAggregator, FullProjectDescriptionAggregator>();
+            services.AddTransient<IStoryAggregator, StoryAggregator>();
         }
     }
 }

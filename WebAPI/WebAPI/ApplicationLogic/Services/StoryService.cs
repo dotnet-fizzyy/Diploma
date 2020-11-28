@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 using WebAPI.Core.Enums;
+using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
@@ -17,18 +18,21 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly IStoryMapper _storyMapper;
         private readonly IStoryHistoryRepository _storyHistoryRepository;
         private readonly IStoryHistoryMapper _storyHistoryMapper;
+        private readonly IStoryAggregator _storyAggregator;
 
         public StoryService(
             IStoryRepository storyRepository, 
             IStoryMapper storyMapper, 
             IStoryHistoryRepository storyHistoryRepository,
-            IStoryHistoryMapper storyHistoryMapper
+            IStoryHistoryMapper storyHistoryMapper,
+            IStoryAggregator storyAggregator
         )
         {
             _storyRepository = storyRepository;
             _storyMapper = storyMapper;
             _storyHistoryRepository = storyHistoryRepository;
             _storyHistoryMapper = storyHistoryMapper;
+            _storyAggregator = storyAggregator;
         }
 
         public async Task<CollectionResponse<Story>> GetStories()
@@ -72,6 +76,24 @@ namespace WebAPI.ApplicationLogic.Services
             };
 
             return storyModels;
+        }
+
+        public async Task<CollectionResponse<StoryHistory>> GetStoryHistory(Guid storyId)
+        {
+            var storyHistoryEntities =
+                await _storyHistoryRepository.SearchForMultipleItemsAsync(x => x.StoryId == storyId);
+
+            if (storyHistoryEntities.Count == 0)
+            {
+                return new CollectionResponse<StoryHistory>();
+            }
+            
+            var collectionResponse = new CollectionResponse<StoryHistory>
+            {
+                Items = storyHistoryEntities.Select(_storyHistoryMapper.MapToModel).ToList(),
+            };
+
+            return collectionResponse;
         }
 
         public async Task<Story> GetStory(Guid storyId)
@@ -125,11 +147,19 @@ namespace WebAPI.ApplicationLogic.Services
             return storyModel;
         }
 
-        public async Task<FullStory> UpdatePartsOfStory(StoryUpdate storyUpdate)
+        public async Task<Story> UpdatePartsOfStory(StoryUpdate storyUpdate)
         {
             var storyHistoryItems = _storyHistoryMapper.MapToStoryEntityParts(storyUpdate);
+
+            await _storyHistoryRepository.CreateAsync(storyHistoryItems);
+
+            var storyEntity = _storyAggregator.CreateStoryFromUpdateParts(storyUpdate);
+
+            var updatedStory = await _storyRepository.CreateAsync(storyEntity);
+
+            var storyModel = _storyMapper.MapToModel(updatedStory);
             
-            return new FullStory();
+            return storyModel;
         }
 
         public async Task RemoveStory(Guid id)

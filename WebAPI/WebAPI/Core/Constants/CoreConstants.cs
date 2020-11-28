@@ -10,6 +10,7 @@ namespace WebAPI.Core.Constants
 
     public class StoryFields
     {
+        public const string User = "User";
         public const string Sprint = "Sprint";
         public const string Description = "Description";
         public const string Notes = "Notes";
