@@ -1,8 +1,8 @@
-import { TextField } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import classnames from 'classnames';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { storyFields } from '../../constants/storyConstants';
 import { ISelectedItem, IStory } from '../../types/storyTypes';
 import StoryConfirmChanges from './story-description/StoryConfirmChanges';
@@ -56,6 +56,7 @@ export interface ISidebarProps {
     team: ISelectedItem[];
     sprints: ISelectedItem[];
     storyPriorities: ISelectedItem[];
+    storyEstimates: ISelectedItem[];
     onCloseTab: () => void;
     onSetStoryBlocked: () => void;
     onSetStoryReady: () => void;
@@ -68,8 +69,9 @@ const Sidebar = (props: ISidebarProps) => {
     const classes = useStyles();
     const {
         hasStoryChanged,
-        story: { title, userId, estimate, description, notes, sprintId, isBlocked, blockReason, priority },
+        story: { storyId, title, userId, estimate, description, notes, sprintId, isBlocked, blockReason, priority },
         team,
+        storyEstimates,
         sprints,
         storyPriorities,
         onCloseTab,
@@ -83,6 +85,12 @@ const Sidebar = (props: ISidebarProps) => {
     return (
         <div className={classes.root}>
             <CloseIcon className={classes.closeSidebarIcon} onClick={onCloseTab} />
+            <Link to={`/history/${storyId}`} target="_blank" rel="noopener noreferrer">
+                history
+            </Link>
+            <Link to={`/full-view/${storyId}`} target="_blank" rel="noopener noreferrer">
+                full-view
+            </Link>
             <div
                 className={classnames(classes.body, {
                     [classes.isModalVisible]: hasStoryChanged,
@@ -132,17 +140,14 @@ const Sidebar = (props: ISidebarProps) => {
                 />
 
                 <div className={classes.sectionContainer}>
-                    <p>Estimate</p>
-                    <label>
-                        Points:{' '}
-                        <TextField
-                            value={estimate}
-                            name={storyFields.estimate}
-                            type="number"
-                            variant="outlined"
-                            onChange={onChangeTextField}
-                        />
-                    </label>
+                    <StoryDropdownMenu
+                        id={estimate.toString()}
+                        name={storyFields.estimate}
+                        disabled={true}
+                        title={'Estimate'}
+                        items={storyEstimates}
+                        onChangeItem={onChangeTextField}
+                    />
                 </div>
 
                 <StoryTextField

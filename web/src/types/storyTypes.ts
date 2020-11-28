@@ -31,6 +31,16 @@ export interface IStoryColumns {
     value: IStory[];
 }
 
+export interface IStoryHistory {
+    storyHistoryId: string;
+    storyHistoryAction: string;
+    fieldName: string;
+    previousValue: string;
+    currentValue: string;
+    recordVersion: number;
+    userId: string;
+}
+
 export enum Priority {
     LOW = 'Low',
     MEDIUM = 'Medium',

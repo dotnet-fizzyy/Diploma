@@ -62,13 +62,24 @@ function* declineStoryBlock(action: sidebarActions.ISidebarHandleVisibility) {
     const selectedStory: IStory = yield select(storySelectors.getSelectedStory);
 
     if (!action.payload && wasStorySelected) {
-        debugger;
         yield put(storyActions.declineStoryBlock(selectedStory.storyId));
     }
 }
 
-function* searchForStoriesByTitleTerm(action: storyActions.ISetStoryTitleTerm) {
-    yield console.warn(action.payload);
+function* searchForStoriesByTitleTerm(action: storyActions.ISetStoryTitleTermRequest) {
+    try {
+        yield console.warn(action.payload);
+    } catch (error) {
+        yield put(storyActions.setStoryTitleTermFailure(error));
+    }
+}
+
+function* getStoryHistory(action: storyActions.IGetStoryHistoryRequest) {
+    try {
+        yield console.warn(action.payload);
+    } catch (error) {
+        yield put(storyActions.getStoryHistoryFailure(error));
+    }
 }
 
 export default function* rootStoriesSaga() {
@@ -77,5 +88,6 @@ export default function* rootStoriesSaga() {
     yield takeLatest(storyActions.StoryActions.STORY_HANDLE_DRAG_AND_DROP, dragAndDropHandler);
     yield takeLatest(storyActions.StoryActions.MAKE_STORY_BLOCKED, blockStory);
     yield takeLatest(sidebarActions.SidebarActions.SIDEBAR_HANDLE_VISIBILITY, declineStoryBlock);
-    yield debounce(debouncePeriod, storyActions.StoryActions.SET_STORY_TITLE_TERM, searchForStoriesByTitleTerm);
+    yield takeLatest(storyActions.StoryActions.GET_STORY_HISTORY_REQUEST, getStoryHistory);
+    yield debounce(debouncePeriod, storyActions.StoryActions.SET_STORY_TITLE_TERM_REQUEST, searchForStoriesByTitleTerm);
 }

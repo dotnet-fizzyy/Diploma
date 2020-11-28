@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { areStoriesEqual, createStoryPriorityDropdownItems } from '../../helpers/storyHelper';
+import {
+    areStoriesEqual,
+    createStoryEstimationDropdownItems,
+    createStoryPriorityDropdownItems,
+} from '../../helpers/storyHelper';
 import * as sidebarActions from '../../redux/actions/sidebarActions';
 import * as sprintSelectors from '../../redux/selectors/sprintsSelectors';
 import * as storySelectors from '../../redux/selectors/storiesSelectors';
@@ -14,6 +18,7 @@ const SidebarContainer = () => {
     const team = useSelector(teamSelectors.getUserNames);
     const sprints = useSelector(sprintSelectors.getSprintsNames);
     const storyPriorities = createStoryPriorityDropdownItems();
+    const storyEstimates = createStoryEstimationDropdownItems();
 
     const [updatedStory, setUpdatedStory] = useState(story);
     const [hasStoryChanged, setHasStoryChanged] = useState(false);
@@ -82,6 +87,7 @@ const SidebarContainer = () => {
         team,
         sprints,
         storyPriorities,
+        storyEstimates,
         onCloseTab,
         onSetStoryBlocked,
         onSetStoryReady,

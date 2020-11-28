@@ -2,7 +2,7 @@ import { SpinnerComponent } from '../../types';
 import { ModalTypes } from '../../types/modalTypes';
 import { IProject } from '../../types/projectTypes';
 import { ISprint } from '../../types/sprintTypes';
-import { IStory, IStoryColumns } from '../../types/storyTypes';
+import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
 import { ITeam } from '../../types/teamTypes';
 import { IUser } from '../../types/userTypes';
 
@@ -29,6 +29,7 @@ export interface IStoryState {
     wasStoryBlocked: boolean;
     storyTitleTerm: string;
     searchResult: IStory[];
+    storyHistory: IStoryHistory[];
 }
 
 export interface ISidebarState {

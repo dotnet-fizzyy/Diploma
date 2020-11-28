@@ -14,7 +14,7 @@ const GeneralTabContainer = () => {
     const [anchor, setAnchor] = useState<null | HTMLElement>(null);
 
     const onChangeSearchTerm = (value: string) => {
-        dispatch(storyActions.setStoryTitleTerm(value));
+        dispatch(storyActions.setStoryTitleTermRequest(value));
     };
 
     const onBlur = () => {

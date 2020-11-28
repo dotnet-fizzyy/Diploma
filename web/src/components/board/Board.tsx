@@ -6,7 +6,7 @@ import BackgroundImage from '../../static/abstraction.jpg';
 import { ISelectedItem } from '../../types/storyTypes';
 import ColumnContainer from '../column/ColumnContainer';
 import InfoTabContainer from '../header/board-info-tab/InfoTabContainer';
-import GeneralTabContainer from '../header/general-tab/GeneralTabContainer';
+//import GeneralTabContainer from '../header/general-tab/GeneralTabContainer';
 import SidebarContainer from '../sidebar/SidebarContainer';
 
 const useStyles = makeStyles(() =>
@@ -41,7 +41,7 @@ const Board = (props: IBoardProps) => {
 
     return (
         <div className={classes.root}>
-            <GeneralTabContainer />
+            {/*<GeneralTabContainer />*/}
             <InfoTabContainer />
             <div className={classes.body}>
                 <DragDropContext onDragEnd={onDragEnd}>

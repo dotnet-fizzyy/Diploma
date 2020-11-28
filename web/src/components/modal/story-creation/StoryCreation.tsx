@@ -2,7 +2,8 @@ import { Button, TextField } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { storyFields } from '../../../constants/storyConstants';
-import { IStory } from '../../../types/storyTypes';
+import { ISelectedItem, IStory } from '../../../types/storyTypes';
+import StoryCreationDropdown from './StoryCreationDropdown';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -32,27 +33,34 @@ const useStyles = makeStyles(() =>
         },
         footer: {
             display: 'inherit',
+            width: '100%',
             flexWrap: 'wrap',
             marginTop: '30px',
-            height: '50px',
         },
         footerItem: {
             flexGrow: 1,
             flexBasis: 0,
             flexShrink: 0,
         },
+        button: {
+            width: '150px',
+        },
     })
 );
 
 export interface IStoryCreationProps {
     story: IStory;
-    onChangeTextField: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    priorities: ISelectedItem[];
+    teamMembers: ISelectedItem[];
+    storyEstimation: ISelectedItem[];
+    sprints: ISelectedItem[];
+    onChangeField: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
     onClickCreateStory: () => void;
 }
 
 const StoryCreation = (props: IStoryCreationProps) => {
     const classes = useStyles();
-    const { story, onChangeTextField, onClickCreateStory } = props;
+    const { story, priorities, sprints, storyEstimation, teamMembers, onChangeField, onClickCreateStory } = props;
 
     return (
         <div className={classes.root}>
@@ -63,7 +71,7 @@ const StoryCreation = (props: IStoryCreationProps) => {
                     variant="outlined"
                     className={classes.textField}
                     name={storyFields.title}
-                    onChange={onChangeTextField}
+                    onChange={onChangeField}
                     value={story.title}
                     placeholder="Add a title of your task"
                 />
@@ -74,7 +82,7 @@ const StoryCreation = (props: IStoryCreationProps) => {
                     variant="outlined"
                     className={classes.textField}
                     multiline={true}
-                    onChange={onChangeTextField}
+                    onChange={onChangeField}
                     name={storyFields.description}
                     value={story.description}
                 />
@@ -84,12 +92,44 @@ const StoryCreation = (props: IStoryCreationProps) => {
                 <TextField variant="outlined" className={classes.textField} multiline={true} name={storyFields.notes} />
             </div>
             <div className={classes.footer}>
-                <div className={classes.footerItem} />
-                <div className={classes.footerItem} />
-                <div className={classes.footerItem} />
-                <div className={classes.footerItem} />
+                <div className={classes.footerItem}>
+                    <StoryCreationDropdown
+                        id={story.userId}
+                        title="Assignee"
+                        name={storyFields.userId}
+                        items={teamMembers}
+                        onChangeItem={onChangeField}
+                    />
+                </div>
+                <div className={classes.footerItem}>
+                    <StoryCreationDropdown
+                        id={story.priority}
+                        title="Priority"
+                        name={storyFields.priority}
+                        items={priorities}
+                        onChangeItem={onChangeField}
+                    />
+                </div>
+                <div className={classes.footerItem}>
+                    <StoryCreationDropdown
+                        id={story.estimate.toString()}
+                        title="Estimate"
+                        name={storyFields.estimate}
+                        items={storyEstimation}
+                        onChangeItem={onChangeField}
+                    />
+                </div>
+                <div className={classes.footerItem}>
+                    <StoryCreationDropdown
+                        id={story.sprintId}
+                        title="Sprint"
+                        name={storyFields.sprintId}
+                        items={sprints}
+                        onChangeItem={onChangeField}
+                    />
+                </div>
             </div>
-            <Button variant="outlined" onClick={onClickCreateStory}>
+            <Button className={classes.button} variant="outlined" onClick={onClickCreateStory}>
                 Create task
             </Button>
         </div>

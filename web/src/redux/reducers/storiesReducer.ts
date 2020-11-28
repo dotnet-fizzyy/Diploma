@@ -18,6 +18,7 @@ const initialState: IStoryState = {
     wasStoryBlocked: false,
     storyTitleTerm: '',
     searchResult: [],
+    storyHistory: [],
 };
 
 export default function storiesReducer(state = initialState, action: any) {
@@ -32,9 +33,9 @@ export default function storiesReducer(state = initialState, action: any) {
             return handleMakeStoryReady(state, action);
         case storyActions.StoryActions.UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION:
             return handleStoryDragAndDrop(state, action);
-        case storyActions.StoryActions.SET_STORY_TITLE_TERM:
+        case storyActions.StoryActions.SET_STORY_TITLE_TERM_REQUEST:
             return handleSetStoryTitleTerm(state, action);
-        case storyActions.StoryActions.SET_STORIES_FOUND_BY_TERM:
+        case storyActions.StoryActions.SET_STORY_TITLE_TERM_SUCCESS:
             return handleSetStoriesFoundByTerm(state, action);
         case storyActions.StoryActions.BLUR_STORY_TITLE_TERM:
             return handleBlurStoryTitleTerm(state, action);
@@ -42,6 +43,8 @@ export default function storiesReducer(state = initialState, action: any) {
             return handleAttemptToBlockStory(state, action);
         case storyActions.StoryActions.DECLINE_STORY_BLOCK:
             return handleDeclineStoryBlock(state, action);
+        case storyActions.StoryActions.GET_STORY_HISTORY_SUCCESS:
+            return handleGetStoryHistorySuccess(state, action);
         default:
             return state;
     }
@@ -119,14 +122,14 @@ function handleStoryDragAndDrop(
     };
 }
 
-function handleSetStoryTitleTerm(state: IStoryState, action: storyActions.ISetStoryTitleTerm): IStoryState {
+function handleSetStoryTitleTerm(state: IStoryState, action: storyActions.ISetStoryTitleTermRequest): IStoryState {
     return {
         ...state,
         storyTitleTerm: action.payload,
     };
 }
 
-function handleSetStoriesFoundByTerm(state: IStoryState, action: storyActions.ISetStoriesFoundByTerm): IStoryState {
+function handleSetStoriesFoundByTerm(state: IStoryState, action: storyActions.ISetStoryTitleTermSuccess): IStoryState {
     return {
         ...state,
         searchResult: action.payload,
@@ -165,5 +168,12 @@ function handleDeclineStoryBlock(state: IStoryState, action: storyActions.IDecli
                 }),
             };
         }),
+    };
+}
+
+function handleGetStoryHistorySuccess(state: IStoryState, action: storyActions.IGetStoryHistorySuccess): IStoryState {
+    return {
+        ...state,
+        storyHistory: action.payload,
     };
 }

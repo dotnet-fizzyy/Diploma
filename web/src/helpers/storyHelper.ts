@@ -1,3 +1,4 @@
+import { StoryEstimation } from '../constants/storyConstants';
 import { ISelectedItem, IStory, Priority, SortFields } from '../types/storyTypes';
 
 export function areStoriesEqual(story: IStory, updatedStory: IStory): boolean {
@@ -14,6 +15,15 @@ export function areStoriesEqual(story: IStory, updatedStory: IStory): boolean {
         story.isDefect === updatedStory.isDefect &&
         story.priority === updatedStory.priority
     );
+}
+
+export function createStoryEstimationDropdownItems(): ISelectedItem[] {
+    return Object.values(StoryEstimation).map((pr) => {
+        return {
+            key: pr.toString(),
+            value: pr.toString(),
+        } as ISelectedItem;
+    });
 }
 
 export function createStoryPriorityDropdownItems(): ISelectedItem[] {

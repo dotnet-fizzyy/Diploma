@@ -1,8 +1,16 @@
 import React from 'react';
-import CustomRouter from './CustomRouter';
+import { useSelector } from 'react-redux';
+import * as currentUserSelectors from '../../redux/selectors/userSelectors';
+import CustomRouter, { ICustomRouterProps } from './CustomRouter';
 
 const CustomRouterContainer = () => {
-    return <CustomRouter />;
+    const user = useSelector(currentUserSelectors.getUser);
+
+    const customRouterProps: ICustomRouterProps = {
+        isLogged: !!(user && user.userId),
+    };
+
+    return user && <CustomRouter {...customRouterProps} />;
 };
 
 export default CustomRouterContainer;

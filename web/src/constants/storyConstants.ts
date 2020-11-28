@@ -8,6 +8,16 @@ export enum StoryActions {
     REMOVE = 'REMOVE',
 }
 
+export const StoryEstimation = {
+    ZERO_POINTS: 0,
+    ONE_POINT: 1,
+    TWO_POINTS: 2,
+    THREE_POINTS: 3,
+    FIVE_POINTS: 5,
+    EIGHT_POINTS: 8,
+    SIXTEEN_POINTS: 16,
+};
+
 export enum storyFields {
     blockReason = 'blockReason',
     columnType = 'columnType',

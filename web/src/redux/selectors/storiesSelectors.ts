@@ -1,4 +1,4 @@
-import { IStory, IStoryColumns } from '../../types/storyTypes';
+import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
 import { IState } from '../store/state';
 
 export function getColumns(state: IState): IStoryColumns[] {
@@ -25,4 +25,8 @@ export function getStoryTitleTerm(state: IState): string {
 
 export function getWasStoryBlocked(state: IState): boolean {
     return state.stories.wasStoryBlocked;
+}
+
+export function getStoryHistory(state: IState): IStoryHistory[] {
+    return state.stories.storyHistory;
 }

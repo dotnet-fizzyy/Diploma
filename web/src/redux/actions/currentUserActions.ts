@@ -9,6 +9,7 @@ export const CurrentUserActions = {
     ADD_USER: 'ADD_USER',
     SET_USER_TOKENS: 'SET_USER_TOKENS',
     LOGOUT_USER: 'LOGOUT_USER',
+    VERIFY_USER: 'VERIFY_USER',
 };
 
 //interfaces
@@ -44,6 +45,10 @@ export interface ISetUserTokens {
 
 export interface ILogOutUser {
     type: typeof CurrentUserActions.LOGOUT_USER;
+}
+
+export interface IVerifyUser {
+    type: typeof CurrentUserActions.VERIFY_USER;
 }
 
 //actions
@@ -98,6 +103,12 @@ export function setUserTokens(tokenPair: ITokenPair): ISetUserTokens {
 export function logOutUser(): ILogOutUser {
     return {
         type: CurrentUserActions.LOGOUT_USER,
+    };
+}
+
+export function verifyUser(): IVerifyUser {
+    return {
+        type: CurrentUserActions.VERIFY_USER,
     };
 }
 

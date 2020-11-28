@@ -1,4 +1,4 @@
-import { IStory, IStoryColumns, IStoryDragAndDrop } from '../../types/storyTypes';
+import { IStory, IStoryColumns, IStoryDragAndDrop, IStoryHistory } from '../../types/storyTypes';
 
 export const StoryActions = {
     GET_GENERAL_INFO_REQUEST: 'GET_GENERAL_INFO_REQUEST',
@@ -10,11 +10,15 @@ export const StoryActions = {
     MAKE_STORY_READY: 'MAKE_STORY_READY',
     STORY_HANDLE_DRAG_AND_DROP: 'STORY_HANDLE_DRAG_AND_DROP',
     UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION: 'UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION',
-    SET_STORY_TITLE_TERM: 'SET_STORY_TITLE_TERM',
-    SET_STORIES_FOUND_BY_TERM: 'SET_STORIES_FOUND_BY_TERM',
+    SET_STORY_TITLE_TERM_REQUEST: 'SET_STORY_TITLE_TERM_REQUEST',
+    SET_STORY_TITLE_TERM_SUCCESS: 'SET_STORY_TITLE_TERM_SUCCESS',
+    SET_STORY_TITLE_TERM_FAILURE: 'SET_STORY_TITLE_TERM_FAILURE',
     BLUR_STORY_TITLE_TERM: 'BLUR_STORY_TITLE_TERM',
     ATTEMPT_TO_BLOCK_STORY: 'ATTEMPT_TO_BLOCK_STORY',
     DECLINE_STORY_BLOCK: 'DECLINE_STORY_BLOCK',
+    GET_STORY_HISTORY_REQUEST: 'GET_STORY_HISTORY_REQUEST',
+    GET_STORY_HISTORY_FAILURE: 'GET_STORY_HISTORY_FAILURE',
+    GET_STORY_HISTORY_SUCCESS: 'GET_STORY_HISTORY_SUCCESS',
 };
 
 //interfaces
@@ -61,14 +65,19 @@ export interface IUpdateStoriesAfterDragAndDropAction {
     payload: IStoryColumns[];
 }
 
-export interface ISetStoryTitleTerm {
-    type: typeof StoryActions.SET_STORY_TITLE_TERM;
+export interface ISetStoryTitleTermRequest {
+    type: typeof StoryActions.SET_STORY_TITLE_TERM_REQUEST;
     payload: string;
 }
 
-export interface ISetStoriesFoundByTerm {
-    type: typeof StoryActions.SET_STORIES_FOUND_BY_TERM;
+export interface ISetStoryTitleTermSuccess {
+    type: typeof StoryActions.SET_STORY_TITLE_TERM_SUCCESS;
     payload: IStory[];
+}
+
+export interface ISetStoryTitleTermFailure {
+    type: typeof StoryActions.SET_STORY_TITLE_TERM_FAILURE;
+    payload: Error;
 }
 
 export interface IBlurStoryTitleTerm {
@@ -82,6 +91,21 @@ export interface IAttemptToBlockStory {
 export interface IDeclineStoryBlock {
     type: typeof StoryActions.DECLINE_STORY_BLOCK;
     payload: string;
+}
+
+export interface IGetStoryHistoryRequest {
+    type: typeof StoryActions.GET_STORY_HISTORY_REQUEST;
+    payload: string;
+}
+
+export interface IGetStoryHistorySuccess {
+    type: typeof StoryActions.GET_GENERAL_INFO_SUCCESS;
+    payload: IStoryHistory[];
+}
+
+export interface IGetStoryHistoryFailure {
+    type: typeof StoryActions.GET_STORY_HISTORY_FAILURE;
+    payload: Error;
 }
 
 //actions
@@ -146,17 +170,24 @@ export function updateStoriesAfterDragAndDropAction(columns: IStoryColumns[]): I
     };
 }
 
-export function setStoryTitleTerm(term: string): ISetStoryTitleTerm {
+export function setStoryTitleTermRequest(term: string): ISetStoryTitleTermRequest {
     return {
-        type: StoryActions.SET_STORY_TITLE_TERM,
+        type: StoryActions.SET_STORY_TITLE_TERM_REQUEST,
         payload: term,
     };
 }
 
-export function setStoriesFoundByTerm(stories: IStory[]): ISetStoriesFoundByTerm {
+export function setStoryTitleTermSuccess(stories: IStory[]): ISetStoryTitleTermSuccess {
     return {
-        type: StoryActions.SET_STORY_TITLE_TERM,
+        type: StoryActions.SET_STORY_TITLE_TERM_REQUEST,
         payload: stories,
+    };
+}
+
+export function setStoryTitleTermFailure(error: Error): ISetStoryTitleTermFailure {
+    return {
+        type: StoryActions.SET_STORY_TITLE_TERM_FAILURE,
+        payload: error,
     };
 }
 
@@ -176,5 +207,26 @@ export function declineStoryBlock(storyId: string): IDeclineStoryBlock {
     return {
         type: StoryActions.DECLINE_STORY_BLOCK,
         payload: storyId,
+    };
+}
+
+export function getStoryHistoryRequest(storyId: string): IGetStoryHistoryRequest {
+    return {
+        type: StoryActions.GET_STORY_HISTORY_REQUEST,
+        payload: storyId,
+    };
+}
+
+export function getStoryHistorySuccess(storyHistories: IStoryHistory[]): IGetStoryHistorySuccess {
+    return {
+        type: StoryActions.GET_GENERAL_INFO_SUCCESS,
+        payload: storyHistories,
+    };
+}
+
+export function getStoryHistoryFailure(error: Error): IGetStoryHistoryFailure {
+    return {
+        type: StoryActions.GET_GENERAL_INFO_SUCCESS,
+        payload: error,
     };
 }

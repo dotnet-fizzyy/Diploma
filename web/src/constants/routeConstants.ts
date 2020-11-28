@@ -1,8 +1,9 @@
 //UI routes
 export const DefaultRoute = '/';
-export const CreateOrViewStoryRoute = '/:storyId/:action/story';
+export const FullViewStoryRoute = '/full-view/:storyId';
 export const LoginScreenRoute = '/start/login';
 export const RegistrationScreenRoute = '/start/registration';
+export const ViewStoryHistoryRoute = '/history/:storyId';
 export const NoMatchRoute = '*';
 
 //WebAPI routes
