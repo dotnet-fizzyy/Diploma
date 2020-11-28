@@ -40,5 +40,23 @@ namespace WebAPI.Presentation.Mappers
 
             return modelRefreshToken;
         }
+        
+        public RefreshToken MapToEntityOnSave(Models.Models.RefreshToken refreshToken)
+        {
+            if (refreshToken == null)
+            {
+                return new RefreshToken();
+            }
+            
+            var entityRefreshToken = new RefreshToken
+            {
+                RefreshTokenId = refreshToken.RefreshTokenId,
+                UserId = refreshToken.UserId,
+                Value = refreshToken.Value,
+                IsActive = true,
+            };
+
+            return entityRefreshToken;
+        }
     }
 }

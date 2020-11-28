@@ -50,10 +50,12 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<IEpicService, EpicService>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IStorySortingAndFiltering, StorySortingAndFiltering>();
+            services.AddTransient<ITokenGenerator, TokenGenerator>();
             
             //Aggregators
             services.AddTransient<IFullProjectDescriptionAggregator, FullProjectDescriptionAggregator>();
             services.AddTransient<IStoryAggregator, StoryAggregator>();
+            services.AddTransient<IRefreshTokenAggregator, RefreshTokenAggregator>();
         }
     }
 }
