@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using WebAPI.Core.Configuration;
 using WebAPI.Core.Interfaces.Aggregators;
@@ -67,6 +68,22 @@ namespace WebAPI.ApplicationLogic.Services
             };
 
             return tokenPair;
+        }
+
+        public async Task<Core.Entities.User> GetRefreshTokenByUserId(string refreshToken, Guid userId)
+        {
+            var refreshTokenEntity = await _refreshTokenRepository.SearchForSingleItemAsync(
+                x => x.UserId == userId && x.Value == refreshToken && x.IsActive
+                );
+
+            if (refreshTokenEntity == null)
+            {
+                return null;
+            }
+
+            var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.UserId == userId);
+
+            return userEntity;
         }
     }
 }

@@ -42,7 +42,15 @@ namespace WebAPI.ApplicationLogic
                 return Convert.ToBase64String(randomNumber);
             }
         }
-        
+
+        public bool ValidateExpirationTime(string token)
+        {
+            var tokenSecurityHandler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = tokenSecurityHandler.ReadJwtToken(token);
+
+            return DateTime.Now > jwtSecurityToken.ValidTo;
+        }
+
         private static ClaimsIdentity GetClaims(User user)
         {
             var claims = new List<Claim>
