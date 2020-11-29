@@ -24,6 +24,7 @@ namespace WebAPI.Presentation.Mappers
             var teamEntity = new Team
             {
                 TeamId = team.TeamId,
+                ProjectId = team.ProjectId,
                 TeamName = team.TeamName,
                 Location = team.Location,
             };
@@ -41,6 +42,7 @@ namespace WebAPI.Presentation.Mappers
             var teamModel = new Models.Models.Team
             {
                 TeamId = team.TeamId,
+                ProjectId = team.ProjectId,
                 TeamName = team.TeamName,
                 Location = team.Location,
                 MembersCount = team.MembersCount,

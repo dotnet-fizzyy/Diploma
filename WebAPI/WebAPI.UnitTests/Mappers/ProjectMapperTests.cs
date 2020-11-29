@@ -16,11 +16,12 @@ namespace WebAPI.UnitTests.Mappers
         {
             //Arrange
             var teamMapper = A.Fake<ITeamMapper>();
+            var epicMapper = A.Fake<IEpicMapper>();
 
             Project projectEntity = null;
             
             //Act
-            var projectMapper = new ProjectMapper(teamMapper);
+            var projectMapper = new ProjectMapper(teamMapper, epicMapper);
             var mappedResult = projectMapper.MapToModel(projectEntity);
 
             //Assert
@@ -32,11 +33,12 @@ namespace WebAPI.UnitTests.Mappers
         {
             //Arrange
             var teamMapper = A.Fake<ITeamMapper>();
+            var epicMapper = A.Fake<IEpicMapper>();
 
             Models.Models.Project projectModel = null;
             
             //Act
-            var projectMapper = new ProjectMapper(teamMapper);
+            var projectMapper = new ProjectMapper(teamMapper, epicMapper);
             var mappedResult = projectMapper.MapToEntity(projectModel);
 
             //Assert
@@ -48,11 +50,12 @@ namespace WebAPI.UnitTests.Mappers
         {
             //Arrange
             var teamMapper = A.Fake<ITeamMapper>();
+            var epicMapper = A.Fake<IEpicMapper>();
 
             Project projectEntity = null;
             
             //Act
-            var projectMapper = new ProjectMapper(teamMapper);
+            var projectMapper = new ProjectMapper(teamMapper, epicMapper);
             var mappedResult = projectMapper.MapToFullModel(projectEntity);
 
             //Assert
@@ -64,7 +67,8 @@ namespace WebAPI.UnitTests.Mappers
         {
             //Arrange
             var teamMapper = A.Fake<ITeamMapper>();
-
+            var epicMapper = A.Fake<IEpicMapper>();
+            
             var projectId = new Guid();
             
             var projectEntity = new Project
@@ -88,7 +92,7 @@ namespace WebAPI.UnitTests.Mappers
             };
             
             //Act
-            var projectMapper = new ProjectMapper(teamMapper);
+            var projectMapper = new ProjectMapper(teamMapper, epicMapper);
             var mappedResult = projectMapper.MapToModel(projectEntity);
 
             //Assert
@@ -105,6 +109,7 @@ namespace WebAPI.UnitTests.Mappers
         {
             //Arrange
             var teamMapper = A.Fake<ITeamMapper>();
+            var epicMapper = A.Fake<IEpicMapper>();
 
             var projectId = new Guid();
             
@@ -129,7 +134,7 @@ namespace WebAPI.UnitTests.Mappers
             };
             
             //Act
-            var projectMapper = new ProjectMapper(teamMapper);
+            var projectMapper = new ProjectMapper(teamMapper, epicMapper);
             var mappedResult = projectMapper.MapToEntity(projectModel);
 
             //Assert
@@ -146,6 +151,7 @@ namespace WebAPI.UnitTests.Mappers
         {
             //Arrange
             var teamMapper = A.Fake<ITeamMapper>();
+            var epicMapper = A.Fake<IEpicMapper>();
 
             var projectId = new Guid();
             var teamId = new Guid();
@@ -193,7 +199,7 @@ namespace WebAPI.UnitTests.Mappers
             A.CallTo(() => teamMapper.MapToModel(projectEntity.Teams.First()))
                 .Returns(projectModel.Teams.First());
             
-            var projectMapper = new ProjectMapper(teamMapper);
+            var projectMapper = new ProjectMapper(teamMapper, epicMapper);
             var mappedResult = projectMapper.MapToFullModel(projectEntity);
 
             //Assert

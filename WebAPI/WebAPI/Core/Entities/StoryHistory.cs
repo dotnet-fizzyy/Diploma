@@ -17,6 +17,8 @@ namespace WebAPI.Core.Entities
         
         public uint RecordVersion { get; set; }
         
+        public DateTime CreationDate { get; set; }
+        
         public Guid UserId { get; set; }
         
         public Guid StoryId { get; set; }

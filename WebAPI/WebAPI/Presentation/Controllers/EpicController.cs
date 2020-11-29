@@ -12,7 +12,7 @@ namespace WebAPI.Presentation.Controllers
 {
     [ApiController]
     [Route("epic")]
-    [ServiceFilter(typeof(UserAuthorizationFilter))]
+    //[ServiceFilter(typeof(UserAuthorizationFilter))]
     public class EpicController : ControllerBase
     {
         private readonly IEpicService _epicService;

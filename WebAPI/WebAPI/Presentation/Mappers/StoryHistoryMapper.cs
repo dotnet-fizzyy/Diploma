@@ -25,7 +25,8 @@ namespace WebAPI.Presentation.Mappers
                 CurrentValue = storyHistory.CurrentValue,
                 FieldName = storyHistory.FieldName,
                 UserId = storyHistory.UserId,
-                RecordVersion = storyHistory.RecordVersion
+                RecordVersion = storyHistory.RecordVersion,
+                CreationDate = DateTime.Now,
             };
 
             return storyHistoryEntity;
@@ -46,7 +47,8 @@ namespace WebAPI.Presentation.Mappers
                 CurrentValue = storyHistory.CurrentValue,
                 FieldName = storyHistory.FieldName,
                 RecordVersion = storyHistory.RecordVersion,
-                UserId = storyHistory.UserId
+                UserId = storyHistory.UserId,
+                CreationDate = storyHistory.CreationDate,
             };
 
             return storyHistoryModel;
@@ -69,6 +71,7 @@ namespace WebAPI.Presentation.Mappers
                 FieldName = part.Field,
                 PreviousValue = part.PreviousValue,
                 CurrentValue = part.NewValue,
+                CreationDate = DateTime.Now,
             }));
 
             return storyHistories;

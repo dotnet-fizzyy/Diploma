@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -47,6 +48,18 @@ namespace WebAPI.ApplicationLogic.Services
                 Items = projectEntities.Select(_projectMapper.MapToModel).ToList()
             };
             
+            return collectionResponse;
+        }
+
+        public async Task<CollectionResponse<FullProject>> GetProjectsByUserId(Guid userId)
+        {
+            var projectEntities = await _projectRepository.GetFullProjectByUserId(userId);
+            
+            var collectionResponse = new CollectionResponse<FullProject>
+            {
+                Items = projectEntities.Select(_projectMapper.MapToFullModel).ToList(),
+            };
+
             return collectionResponse;
         }
 

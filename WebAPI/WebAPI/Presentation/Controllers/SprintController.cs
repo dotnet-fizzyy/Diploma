@@ -1,5 +1,8 @@
 using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -9,6 +12,7 @@ using WebAPI.Models.Result;
 
 namespace WebAPI.Presentation.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("sprint")]
     public class SprintController : ControllerBase
@@ -26,6 +30,20 @@ namespace WebAPI.Presentation.Controllers
         public async Task<ActionResult<CollectionResponse<Sprint>>> GetAllSprints() => await _sprintService.GetALlSprints();
 
         [HttpGet]
+        [Route("epic/{epicId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<BoardResponse>> GetAllSprintsFromEpic(Guid epicId)
+        {
+            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+
+            var boardResponse = await _sprintService.GetAllSprintsFromEpic(epicId, new Guid(userId));
+
+            return boardResponse;
+        }
+
+        [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -41,7 +59,7 @@ namespace WebAPI.Presentation.Controllers
             
             return sprint;
         }
-
+        
         [HttpGet]
         [Route("full/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

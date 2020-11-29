@@ -14,17 +14,23 @@ namespace WebAPI.ApplicationLogic.Services
     {
         private readonly ISprintRepository _sprintRepository;
         private readonly IStoryRepository _storyRepository;
+        private readonly ITeamRepository _teamRepository;
         private readonly ISprintMapper _sprintMapper;
+        private readonly ITeamMapper _teamMapper;
 
         public SprintService(
             ISprintRepository sprintRepository, 
             IStoryRepository storyRepository, 
-            ISprintMapper sprintMapper
+            ITeamRepository teamRepository,
+            ISprintMapper sprintMapper,
+            ITeamMapper teamMapper
             )
         {
             _sprintRepository = sprintRepository;
             _storyRepository = storyRepository;
+            _teamRepository = teamRepository;
             _sprintMapper = sprintMapper;
+            _teamMapper = teamMapper;
         }
         
         public async Task<CollectionResponse<Sprint>> GetALlSprints()
@@ -37,6 +43,25 @@ namespace WebAPI.ApplicationLogic.Services
             };
 
             return collectionResponse;
+        }
+
+        public async Task<BoardResponse> GetAllSprintsFromEpic(Guid epicId, Guid userId)
+        {
+            var sprintEntities = await _sprintRepository.GetFullSprintsByEpicId(epicId);
+            var team = await _teamRepository.SearchForSingleItemAsync(x => x.Users.Any(e => e.UserId == userId), x => x.Users);
+
+            var sprintsCollectionResponse = new CollectionResponse<FullSprint>
+            {
+                Items = sprintEntities.Select(_sprintMapper.MapToFullModel).ToList()
+            };
+
+            var boardResponse = new BoardResponse
+            {
+                SprintsCollection = sprintsCollectionResponse,
+                Team = _teamMapper.MapToFullModel(team),
+            };
+            
+            return boardResponse;
         }
 
         public async Task<Sprint> GetSprint(Guid sprintId)

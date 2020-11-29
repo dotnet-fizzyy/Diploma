@@ -8,10 +8,12 @@ namespace WebAPI.Presentation.Mappers
     public class ProjectMapper : IProjectMapper
     {
         private readonly ITeamMapper _teamMapper;
+        private readonly IEpicMapper _epicMapper;
         
-        public ProjectMapper(ITeamMapper teamMapper)
+        public ProjectMapper(ITeamMapper teamMapper, IEpicMapper epicMapper)
         {
             _teamMapper = teamMapper;
+            _epicMapper = epicMapper;
         }
         
         public Project MapToEntity(Models.Models.Project project)
@@ -70,6 +72,7 @@ namespace WebAPI.Presentation.Mappers
                 EndDate = project.EndDate,
                 Customer = project.Customer,
                 Teams = project.Teams.Select(_teamMapper.MapToModel).ToList(),
+                Epics = project.Epics.Select(_epicMapper.MapToModel).ToList(),
             };
 
             return projectFullModel;

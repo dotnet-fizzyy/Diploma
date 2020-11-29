@@ -28,6 +28,13 @@ namespace WebAPI.Presentation.Controllers
             => await _projectService.GetAllProjects();
 
         [HttpGet]
+        [Route("user/{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<CollectionResponse<FullProject>>> GetAllProjectByUserId(Guid userId) =>
+            await _projectService.GetProjectsByUserId(userId);
+
+        [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -45,7 +52,7 @@ namespace WebAPI.Presentation.Controllers
         }
 
         [HttpGet]
-        [Route("full/{id}")]
+        [Route("full-desc/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

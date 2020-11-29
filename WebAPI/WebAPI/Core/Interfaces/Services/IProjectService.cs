@@ -9,6 +9,8 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<CollectionResponse<Project>> GetAllProjects();
 
+        Task<CollectionResponse<FullProject>> GetProjectsByUserId(Guid userId);
+        
         Task<Project> GetProject(Guid projectId);
 
         Task<FullProjectDescription> GetFullProjectDescription(Guid projectId);

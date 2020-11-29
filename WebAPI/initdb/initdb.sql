@@ -233,3 +233,67 @@ BEGIN
     VALUES ('20201111055014_InitialDatabase', '3.1.9');
     END IF;
 END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
+    ALTER TABLE "Epics" DROP CONSTRAINT "FK_Epics_Project_ProjectId";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
+    ALTER TABLE "Teams" DROP CONSTRAINT "FK_Teams_Project_ProjectId";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
+    ALTER TABLE "Project" DROP CONSTRAINT "PK_Project";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
+    ALTER TABLE "Project" RENAME TO "Projects";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
+    ALTER TABLE "StoryHistories" ADD "CreationDate" timestamp without time zone NOT NULL DEFAULT TIMESTAMP '0001-01-01 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
+    ALTER TABLE "Projects" ADD CONSTRAINT "PK_Projects" PRIMARY KEY ("ProjectId");
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
+    ALTER TABLE "Epics" ADD CONSTRAINT "FK_Epics_Projects_ProjectId" FOREIGN KEY ("ProjectId") REFERENCES "Projects" ("ProjectId") ON DELETE SET NULL;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
+    ALTER TABLE "Teams" ADD CONSTRAINT "FK_Teams_Projects_ProjectId" FOREIGN KEY ("ProjectId") REFERENCES "Projects" ("ProjectId") ON DELETE SET NULL;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20201129161740_AddTimeForStoryHist', '3.1.9');
+    END IF;
+END $$;

@@ -8,6 +8,7 @@ namespace WebAPI.Models.Result
     {
         public FullProject()
         {
+            Epics = new List<Epic>();
             Teams = new List<Team>();
         }
         
@@ -22,6 +23,8 @@ namespace WebAPI.Models.Result
         public DateTime EndDate { get; set; }
         
         public string Customer { get; set; }
+        
+        public ICollection<Epic> Epics { get; set; } 
         
         public ICollection<Team> Teams { get; set; }
     }
