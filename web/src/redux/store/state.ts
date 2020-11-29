@@ -1,4 +1,5 @@
 import { SpinnerComponent } from '../../types';
+import { IEpic } from '../../types/epicTypes';
 import { ModalTypes } from '../../types/modalTypes';
 import { IProject } from '../../types/projectTypes';
 import { ISprint } from '../../types/sprintTypes';
@@ -15,9 +16,11 @@ export interface IState {
     teams: ITeamState;
     requestProcessor: IRequestProcessorState;
     modal: IModalState;
+    epics: IEpicsState;
 }
 
 export interface ICurrentUserState {
+    isAuthenticationSuccessful: boolean;
     accessToken: string;
     refreshToken: string;
     user: IUser | null;
@@ -59,4 +62,9 @@ export interface IRequestProcessorState {
 export interface IModalState {
     isOpen: boolean;
     type?: ModalTypes;
+}
+
+export interface IEpicsState {
+    epics: IEpic[];
+    currentEpic: IEpic;
 }

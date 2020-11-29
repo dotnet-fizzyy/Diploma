@@ -59,7 +59,7 @@ const GeneralTab = (props: IGeneralTabProps) => {
 
     return (
         <div className={classes.root}>
-            {user && (
+            {user && user.userId && (
                 <>
                     <p>Icon</p>
                     <TextField

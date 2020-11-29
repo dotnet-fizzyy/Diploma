@@ -3,6 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import currentUserReducer from '../reducers/currentUserReducer';
+import epicReducer from '../reducers/epicsReducer';
 import modalReducer from '../reducers/modalReducer';
 import projectsReducer from '../reducers/projectReducer';
 import requestProcessorReducer from '../reducers/requestProcessorReducer';
@@ -15,12 +16,13 @@ import rootSaga from '../sagas';
 const reducers = {
     currentUser: currentUserReducer,
     project: projectsReducer,
+    teams: teamsReducer,
+    epics: epicReducer,
+    sprints: sprintsReducer,
     stories: storiesReducer,
     sidebar: sidebarReducer,
-    teams: teamsReducer,
-    sprints: sprintsReducer,
-    requestProcessor: requestProcessorReducer,
     modal: modalReducer,
+    requestProcessor: requestProcessorReducer,
 };
 
 const rootReducer = combineReducers({

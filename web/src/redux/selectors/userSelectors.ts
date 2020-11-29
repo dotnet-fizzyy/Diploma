@@ -12,3 +12,7 @@ export function getRefreshToken(state: IState): string {
 export function getUser(state: IState): IUser {
     return state.currentUser.user;
 }
+
+export function getIsAuthenticationSuccessful(state: IState): boolean {
+    return state.currentUser.isAuthenticationSuccessful;
+}

@@ -18,10 +18,14 @@ const CustomRouter = (props: ICustomRouterProps) => {
 
     return (
         <div>
-            <GeneralTabContainer />
+            {isLogged && <GeneralTabContainer />}
             <Switch>
-                <Route path={routeConstants.LoginScreenRoute} component={StartScreenContainer} />
-                <Route path={routeConstants.RegistrationScreenRoute} component={StartScreenContainer} />
+                {!isLogged && (
+                    <>
+                        <Route path={routeConstants.LoginScreenRoute} component={StartScreenContainer} />
+                        <Route path={routeConstants.RegistrationScreenRoute} component={StartScreenContainer} />
+                    </>
+                )}
 
                 <RouteGuard
                     exact={true}

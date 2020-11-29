@@ -7,6 +7,7 @@ export const ViewStoryHistoryRoute = '/history/:storyId';
 export const NoMatchRoute = '*';
 
 //WebAPI routes
-const BaseUrl = 'http://localhost:5001/';
+const BaseUrl = process.env.BACK_URL;
 export const UsersUrl = BaseUrl + 'users';
 export const StoriesUrl = BaseUrl + 'stories';
+export const TokenUrl = BaseUrl + 'token';

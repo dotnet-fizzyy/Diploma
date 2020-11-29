@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 import * as currentUserActions from '../../redux/actions/currentUserActions';
+import * as currentUserSelectors from '../../redux/selectors/userSelectors';
 import { StartPageTypes } from '../../types/pageTypes';
 import { ILoginPageProps } from './Login';
 import { IRegistrationPageProps } from './Registrations';
@@ -15,9 +16,12 @@ const StartScreenContainer = () => {
     const startPageType =
         startPage.toUpperCase() === StartPageTypes.REGISTRATION ? StartPageTypes.REGISTRATION : StartPageTypes.LOGIN;
 
-    const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
-    const [repeatedPassword, setRepeatedPassword] = useState('');
+    const isAuthenticationSuccessful = useSelector(currentUserSelectors.getIsAuthenticationSuccessful);
+
+    const [name, setName] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [repeatedPassword, setRepeatedPassword] = useState<string>('');
+    const [wasAttemptToLogIn, setWasAttemptToLogIn] = useState<boolean>(false);
 
     const onChangePassword = (value: string) => {
         setPassword(value);
@@ -30,9 +34,11 @@ const StartScreenContainer = () => {
     const loginProps: ILoginPageProps = {
         name,
         password,
+        wasAttemptToLogIn: wasAttemptToLogIn && !isAuthenticationSuccessful,
         onChangeName,
         onChangePassword,
         onSubmitLogIn: () => {
+            setWasAttemptToLogIn(true);
             dispatch(currentUserActions.authenticationRequest(name, password));
         },
     };
@@ -43,13 +49,8 @@ const StartScreenContainer = () => {
         repeatedPassword,
         onChangeName,
         onChangePassword,
-        onChangeRepeatedPassword: (value: string) => {
-            setRepeatedPassword(value);
-        },
-        onSubmitRegistration: () => {
-            dispatch(currentUserActions.registrationRequest(name, password));
-            dispatch(currentUserActions.registrationRequest(name, password));
-        },
+        onChangeRepeatedPassword: (value: string) => setRepeatedPassword(value),
+        onSubmitRegistration: () => dispatch(currentUserActions.registrationRequest(name, password)),
     };
 
     const startScreenProps: IStartScreenProps = {

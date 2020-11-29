@@ -1,12 +1,13 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import * as usersApi from '../../ajax/currentUserApi';
 import mockedUser from '../../mock/mockedUser';
+import { AuthenticationResponse } from '../../types';
 import * as currentUserActions from '../actions/currentUserActions';
 
 function* authenticateUser(action: currentUserActions.IAuthenticationRequest) {
     try {
-        const posts = yield call(usersApi.test);
-        console.warn(posts);
+        const authResponse: AuthenticationResponse = yield call(usersApi.authenticate, action.payload);
+        yield put(currentUserActions.authenticationSuccess(authResponse));
     } catch (error) {
         yield put(currentUserActions.authenticationFailure(error));
     }

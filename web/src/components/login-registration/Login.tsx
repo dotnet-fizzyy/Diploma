@@ -42,6 +42,7 @@ const useStyles = makeStyles(() =>
 export interface ILoginPageProps {
     name: string;
     password: string;
+    wasAttemptToLogIn: boolean;
     onChangeName: (value: string) => void;
     onChangePassword: (value: string) => void;
     onSubmitLogIn: () => void;

@@ -1,8 +1,9 @@
-import { ITokenPair } from '../../types';
+import { AuthenticationResponse } from '../../types';
 import { IAuthenticationUser, IUser } from '../../types/userTypes';
 
 export const CurrentUserActions = {
     AUTHENTICATION_REQUEST: 'AUTHENTICATION_REQUEST',
+    AUTHENTICATION_SUCCESS: 'AUTHENTICATION_SUCCESS',
     AUTHENTICATION_FAILURE: 'AUTHENTICATION_FAILURE',
     REGISTRATION_REQUEST: 'REGISTRATION_REQUEST',
     REGISTRATION_FAILURE: 'REGISTRATION_REQUEST',
@@ -16,6 +17,11 @@ export const CurrentUserActions = {
 export interface IAuthenticationRequest {
     type: typeof CurrentUserActions.AUTHENTICATION_REQUEST;
     payload: IAuthenticationUser;
+}
+
+export interface IAuthenticationSuccess {
+    type: typeof CurrentUserActions.AUTHENTICATION_SUCCESS;
+    payload: AuthenticationResponse;
 }
 
 export interface IAuthenticationFailure {
@@ -40,7 +46,7 @@ export interface IAddUser {
 
 export interface ISetUserTokens {
     type: typeof CurrentUserActions.SET_USER_TOKENS;
-    payload: ITokenPair;
+    payload: AuthenticationResponse;
 }
 
 export interface ILogOutUser {
@@ -79,6 +85,13 @@ export function authenticationRequest(userName: string, password: string): IAuth
     };
 }
 
+export function authenticationSuccess(authResponse: AuthenticationResponse): IAuthenticationSuccess {
+    return {
+        type: CurrentUserActions.AUTHENTICATION_SUCCESS,
+        payload: authResponse,
+    };
+}
+
 export function authenticationFailure(error: Error): IAuthenticationFailure {
     return {
         type: CurrentUserActions.AUTHENTICATION_FAILURE,
@@ -93,7 +106,7 @@ export function addUser(user: IUser): IAddUser {
     };
 }
 
-export function setUserTokens(tokenPair: ITokenPair): ISetUserTokens {
+export function setUserTokens(tokenPair: AuthenticationResponse): ISetUserTokens {
     return {
         type: CurrentUserActions.SET_USER_TOKENS,
         payload: tokenPair,
@@ -112,4 +125,4 @@ export function verifyUser(): IVerifyUser {
     };
 }
 
-export type CurrentUserActionTypes = IAddUser & ISetUserTokens;
+export type CurrentUserActionTypes = IAddUser & ISetUserTokens & IAuthenticationSuccess & IAuthenticationFailure;

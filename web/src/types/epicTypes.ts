@@ -1,4 +1,4 @@
-export interface IEpicTypes {
+export interface IEpic {
     epicId: string;
     projectId: string;
     epicName: string;
