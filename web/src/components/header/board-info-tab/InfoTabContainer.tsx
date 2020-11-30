@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSortFields } from '../../../helpers/storyHelper';
 import * as modalActions from '../../../redux/actions/modalActions';
+import * as storiesActions from '../../../redux/actions/storiesActions';
 import * as epicsSelectors from '../../../redux/selectors/epicsSelectors';
 import * as teamSelectors from '../../../redux/selectors/teamSelectors';
 import * as userSelectors from '../../../redux/selectors/userSelectors';
@@ -20,7 +21,7 @@ const InfoTabContainer = () => {
     const [sortType, setSortType] = useState(SortFields.PRIORITY);
 
     const onChangeEpic = (value: string) => {
-        console.log(value);
+        dispatch(storiesActions.changeEpicRequest(value));
     };
 
     const onChangeSortType = (value: string) => {

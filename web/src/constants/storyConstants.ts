@@ -33,6 +33,7 @@ export enum storyFields {
     storyId = 'storyId',
     title = 'title',
     userId = 'userId',
+    recordVersion = 'recordVersion',
 }
 
 export const initialStory: IStory = {
@@ -50,4 +51,5 @@ export const initialStory: IStory = {
     [storyFields.storyId]: '',
     [storyFields.title]: '',
     [storyFields.userId]: '',
+    [storyFields.recordVersion]: 0,
 };

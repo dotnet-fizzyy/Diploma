@@ -1,6 +1,8 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import logger from 'redux-logger';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from 'redux-persist/lib/storage/session';
 import createSagaMiddleware from 'redux-saga';
 import currentUserReducer from '../reducers/currentUserReducer';
 import epicReducer from '../reducers/epicsReducer';
@@ -29,16 +31,26 @@ const rootReducer = combineReducers({
     ...reducers,
 });
 
+const persistConfig = {
+    key: 'state',
+    storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 let store = null;
 
-export const getStore = () => {
+export const getPersistStore = () => {
     const sagaMiddleware = createSagaMiddleware();
 
     const middlewares = [sagaMiddleware, logger];
     const enhancers = [applyMiddleware(...middlewares)];
-    store = createStore(rootReducer, composeWithDevTools(...enhancers));
+
+    store = createStore(persistedReducer, composeWithDevTools(...enhancers));
 
     sagaMiddleware.run(rootSaga);
 
-    return store;
+    const persist = persistStore(store);
+
+    return { store, persist };
 };

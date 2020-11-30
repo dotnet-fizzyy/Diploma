@@ -15,6 +15,7 @@ const mockedStory_1: IStory = {
     title: 'This is title of first story',
     userId: '',
     priority: Priority.LOW,
+    recordVersion: 515,
 };
 
 const mockedStory_2: IStory = {
@@ -32,6 +33,7 @@ const mockedStory_2: IStory = {
     title: 'This title belongs to second mock',
     userId: '',
     priority: Priority.HIGH,
+    recordVersion: 521,
 };
 
 const mockedStory_3: IStory = {
@@ -49,6 +51,7 @@ const mockedStory_3: IStory = {
     title: 'Some title in 3 mock',
     userId: '',
     priority: Priority.MEDIUM,
+    recordVersion: 124,
 };
 
 const mockedStory_4: IStory = {
@@ -66,6 +69,7 @@ const mockedStory_4: IStory = {
     title: 'Very original title',
     userId: '',
     priority: Priority.LOW,
+    recordVersion: 915,
 };
 
 const mockedStories = [mockedStory_1, mockedStory_2, mockedStory_3, mockedStory_4];

@@ -56,11 +56,12 @@ const InfoTab = (props: IInfoTabProps) => {
             <>
                 <span>{title}: </span>
                 <Select variant="outlined" value={value} onChange={(event: any) => onChangeEvent(event.target.value)}>
-                    {items.map((x) => (
-                        <MenuItem key={x.key} value={x.value}>
-                            {x.value}
-                        </MenuItem>
-                    ))}
+                    {items &&
+                        items.map((x) => (
+                            <MenuItem key={x.key} value={x.value}>
+                                {x.value}
+                            </MenuItem>
+                        ))}
                 </Select>
             </>
         );

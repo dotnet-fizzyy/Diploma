@@ -1,3 +1,4 @@
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import classnames from 'classnames';
@@ -47,11 +48,21 @@ const useStyles = makeStyles(() =>
         multiLineTextField: {
             width: '100%',
         },
+        spinnerContainer: {
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.4)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
     })
 );
 
 export interface ISidebarProps {
     hasStoryChanged: boolean;
+    isSpinnerVisible: boolean;
     story: IStory;
     team: ISelectedItem[];
     sprints: ISelectedItem[];
@@ -68,6 +79,7 @@ export interface ISidebarProps {
 const Sidebar = (props: ISidebarProps) => {
     const classes = useStyles();
     const {
+        isSpinnerVisible,
         hasStoryChanged,
         story: { storyId, title, userId, estimate, description, notes, sprintId, isBlocked, blockReason, priority },
         team,
@@ -84,6 +96,11 @@ const Sidebar = (props: ISidebarProps) => {
 
     return (
         <div className={classes.root}>
+            {isSpinnerVisible && (
+                <div className={classes.spinnerContainer}>
+                    <CircularProgress color="primary" />
+                </div>
+            )}
             <CloseIcon className={classes.closeSidebarIcon} onClick={onCloseTab} />
             <Link to={`/history/${storyId}`} target="_blank" rel="noopener noreferrer">
                 history

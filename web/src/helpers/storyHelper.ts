@@ -1,5 +1,5 @@
 import { StoryEstimation } from '../constants/storyConstants';
-import { ISelectedItem, IStory, Priority, SortFields } from '../types/storyTypes';
+import { ISelectedItem, IStory, IStoryUpdate, IStoryUpdatePart, Priority, SortFields } from '../types/storyTypes';
 
 export function areStoriesEqual(story: IStory, updatedStory: IStory): boolean {
     return (
@@ -15,6 +15,34 @@ export function areStoriesEqual(story: IStory, updatedStory: IStory): boolean {
         story.isDefect === updatedStory.isDefect &&
         story.priority === updatedStory.priority
     );
+}
+
+export function createStoryUpdatePartsFromStory(
+    defaultStory: IStory,
+    updatedStory: IStory,
+    userId: string
+): IStoryUpdate {
+    let parts = [];
+
+    const defaultStoryArray = Object.entries(defaultStory);
+    const updatedStoryArray = Object.entries(updatedStory);
+
+    defaultStoryArray.forEach((def) => {
+        const fieldFromUpdated = updatedStoryArray.find((up) => up[0] === def[0]);
+
+        parts.push({
+            field: def[0],
+            newValue: def[1],
+            previousValue: fieldFromUpdated[1],
+            userId,
+        } as IStoryUpdatePart);
+    });
+
+    return {
+        storyId: updatedStory.storyId,
+        recordVersion: updatedStory.recordVersion,
+        parts,
+    };
 }
 
 export function createStoryEstimationDropdownItems(): ISelectedItem[] {

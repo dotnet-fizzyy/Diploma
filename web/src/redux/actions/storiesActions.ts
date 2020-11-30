@@ -19,6 +19,12 @@ export const StoryActions = {
     GET_STORY_HISTORY_REQUEST: 'GET_STORY_HISTORY_REQUEST',
     GET_STORY_HISTORY_FAILURE: 'GET_STORY_HISTORY_FAILURE',
     GET_STORY_HISTORY_SUCCESS: 'GET_STORY_HISTORY_SUCCESS',
+    STORY_UPDATE_CHANGES_REQUEST: 'STORY_UPDATE_CHANGES_REQUEST',
+    STORY_UPDATE_CHANGES_SUCCESS: 'STORY_UPDATE_CHANGES_SUCCESS',
+    STORY_UPDATE_CHANGES_FAILURE: 'STORY_UPDATE_CHANGES_FAILURE',
+    CHANGE_EPIC_REQUEST: 'CHANGE_EPIC_REQUEST',
+    CHANGE_EPIC_SUCCESS: 'CHANGE_EPIC_SUCCESS',
+    CHANGE_EPIC_FAILURE: 'CHANGE_EPIC_FAILURE',
 };
 
 //interfaces
@@ -105,6 +111,35 @@ export interface IGetStoryHistorySuccess {
 
 export interface IGetStoryHistoryFailure {
     type: typeof StoryActions.GET_STORY_HISTORY_FAILURE;
+    payload: Error;
+}
+
+export interface IUpdateStoryChangesRequest {
+    type: typeof StoryActions.STORY_UPDATE_CHANGES_REQUEST;
+    payload: IStory;
+}
+
+export interface IUpdateStoryChangesSuccess {
+    type: typeof StoryActions.STORY_UPDATE_CHANGES_SUCCESS;
+    payload: IStory;
+}
+
+export interface IUpdateStoryChangesFailure {
+    type: typeof StoryActions.STORY_UPDATE_CHANGES_FAILURE;
+    payload: Error;
+}
+
+export interface IChangeEpicRequest {
+    type: typeof StoryActions.CHANGE_EPIC_REQUEST;
+    payload: string;
+}
+
+export interface IChangeEpicSuccess {
+    type: typeof StoryActions.CHANGE_EPIC_SUCCESS;
+}
+
+export interface IChangeEpicFailure {
+    type: typeof StoryActions.CHANGE_EPIC_FAILURE;
     payload: Error;
 }
 
@@ -230,3 +265,46 @@ export function getStoryHistoryFailure(error: Error): IGetStoryHistoryFailure {
         payload: error,
     };
 }
+
+export function storyUpdateChangesRequest(story: IStory): IUpdateStoryChangesRequest {
+    return {
+        type: StoryActions.STORY_UPDATE_CHANGES_REQUEST,
+        payload: story,
+    };
+}
+
+export function storyUpdateChangesSuccess(story: IStory): IUpdateStoryChangesSuccess {
+    return {
+        type: StoryActions.STORY_UPDATE_CHANGES_SUCCESS,
+        payload: story,
+    };
+}
+
+export function storyUpdateChangesFailure(error: Error): IUpdateStoryChangesFailure {
+    return {
+        type: StoryActions.STORY_UPDATE_CHANGES_FAILURE,
+        payload: error,
+    };
+}
+
+export function changeEpicRequest(epicId: string): IChangeEpicRequest {
+    return {
+        type: StoryActions.CHANGE_EPIC_REQUEST,
+        payload: epicId,
+    };
+}
+
+export function changeEpicSuccess(): IChangeEpicSuccess {
+    return {
+        type: StoryActions.CHANGE_EPIC_SUCCESS,
+    };
+}
+
+export function changeEpicFailure(error: Error): IChangeEpicFailure {
+    return {
+        type: StoryActions.CHANGE_EPIC_FAILURE,
+        payload: error,
+    };
+}
+
+export type StoriesActionTypes = ISetStoryTitleTermSuccess & IUpdateStoryChangesSuccess;

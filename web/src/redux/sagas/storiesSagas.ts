@@ -1,16 +1,19 @@
 import { debounce, delay, put, select, takeLatest } from 'redux-saga/effects';
 import { debouncePeriod } from '../../constants/storyConstants';
+import { createStoryUpdatePartsFromStory } from '../../helpers/storyHelper';
 import mockedProject from '../../mock/mockedProject';
 import mockedStories from '../../mock/mockedStories';
 import mockedTeam from '../../mock/mockedTeam';
 import mockedUser from '../../mock/mockedUser';
 import { IStory, IStoryColumns } from '../../types/storyTypes';
+import { IUser } from '../../types/userTypes';
 import * as userActions from '../actions/currentUserActions';
 import * as projectActions from '../actions/projectActions';
 import * as sidebarActions from '../actions/sidebarActions';
 import * as storyActions from '../actions/storiesActions';
 import * as teamActions from '../actions/teamActions';
 import * as storySelectors from '../selectors/storiesSelectors';
+import * as currentUserSelectors from '../selectors/userSelectors';
 
 function* refreshData() {
     yield delay(100000);
@@ -82,6 +85,26 @@ function* getStoryHistory(action: storyActions.IGetStoryHistoryRequest) {
     }
 }
 
+function* updateStoryChanges(action: storyActions.IUpdateStoryChangesRequest) {
+    try {
+        const selectedStory: IStory = yield select(storySelectors.getSelectedStory);
+        const currentUser: IUser = yield select(currentUserSelectors.getUser);
+
+        const storyParts = createStoryUpdatePartsFromStory(selectedStory, action.payload, currentUser.userId);
+        console.log(storyParts);
+    } catch (error) {
+        yield put(storyActions.storyUpdateChangesFailure(error));
+    }
+}
+
+function* changeEpic(action: storyActions.IChangeEpicRequest) {
+    try {
+        console.log(action.payload);
+    } catch (error) {
+        yield put(storyActions.changeEpicFailure(error));
+    }
+}
+
 export default function* rootStoriesSaga() {
     yield takeLatest(storyActions.StoryActions.REFRESH_STORIES, refreshData);
     yield takeLatest(storyActions.StoryActions.GET_GENERAL_INFO_REQUEST, getGeneralInfo);
@@ -89,5 +112,7 @@ export default function* rootStoriesSaga() {
     yield takeLatest(storyActions.StoryActions.MAKE_STORY_BLOCKED, blockStory);
     yield takeLatest(sidebarActions.SidebarActions.SIDEBAR_HANDLE_VISIBILITY, declineStoryBlock);
     yield takeLatest(storyActions.StoryActions.GET_STORY_HISTORY_REQUEST, getStoryHistory);
+    yield takeLatest(storyActions.StoryActions.STORY_UPDATE_CHANGES_REQUEST, updateStoryChanges);
+    yield takeLatest(storyActions.StoryActions.CHANGE_EPIC_REQUEST, changeEpic);
     yield debounce(debouncePeriod, storyActions.StoryActions.SET_STORY_TITLE_TERM_REQUEST, searchForStoriesByTitleTerm);
 }

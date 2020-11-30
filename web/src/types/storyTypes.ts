@@ -13,6 +13,7 @@ export interface IStory {
     userId: string;
     sprintId: string;
     priority: Priority;
+    recordVersion: number;
 }
 
 export interface ISelectedItem {
@@ -53,3 +54,16 @@ export const SortFields = {
     ESTIMATE: 'Estimate',
     CREATION_DATE: 'Creation Date',
 };
+
+export interface IStoryUpdate {
+    storyId: string;
+    recordVersion: number;
+    parts: IStoryUpdatePart[];
+}
+
+export interface IStoryUpdatePart {
+    field: string;
+    newValue: string;
+    previousValue: string;
+    userId: string;
+}

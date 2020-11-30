@@ -5,10 +5,14 @@ import {
     createStoryEstimationDropdownItems,
     createStoryPriorityDropdownItems,
 } from '../../helpers/storyHelper';
+import * as requestProcessorActions from '../../redux/actions/requestProcessorActions';
 import * as sidebarActions from '../../redux/actions/sidebarActions';
+import * as storiesActions from '../../redux/actions/storiesActions';
+import * as requestProcessorSelectors from '../../redux/selectors/requestProcessorSelectors';
 import * as sprintSelectors from '../../redux/selectors/sprintsSelectors';
 import * as storySelectors from '../../redux/selectors/storiesSelectors';
 import * as teamSelectors from '../../redux/selectors/teamSelectors';
+import { SpinnerComponent } from '../../types';
 import { IStory } from '../../types/storyTypes';
 import Sidebar, { ISidebarProps } from './Sidebar';
 
@@ -17,6 +21,7 @@ const SidebarContainer = () => {
     const story = useSelector(storySelectors.getSelectedStory);
     const team = useSelector(teamSelectors.getUserNames);
     const sprints = useSelector(sprintSelectors.getSprintsNames);
+    const isSpinnerVisible = useSelector(requestProcessorSelectors.getIsSpinnerVisible);
     const storyPriorities = createStoryPriorityDropdownItems();
     const storyEstimates = createStoryEstimationDropdownItems();
 
@@ -28,7 +33,8 @@ const SidebarContainer = () => {
     };
 
     const onClickConfirmChanges = () => {
-        console.log(updatedStory);
+        dispatch(requestProcessorActions.launchSpinner(SpinnerComponent.SIDEBAR));
+        dispatch(storiesActions.storyUpdateChangesRequest(updatedStory));
     };
 
     const onClickCancelChanges = () => {
@@ -88,6 +94,7 @@ const SidebarContainer = () => {
         sprints,
         storyPriorities,
         storyEstimates,
+        isSpinnerVisible,
         onCloseTab,
         onSetStoryBlocked,
         onSetStoryReady,
