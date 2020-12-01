@@ -297,3 +297,20 @@ BEGIN
     VALUES ('20201129161740_AddTimeForStoryHist', '3.1.9');
     END IF;
 END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201201185157_UpdateColumnType') THEN
+    ALTER TABLE "Stories" ALTER COLUMN "ColumnType" TYPE text;
+    ALTER TABLE "Stories" ALTER COLUMN "ColumnType" SET NOT NULL;
+    ALTER TABLE "Stories" ALTER COLUMN "ColumnType" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201201185157_UpdateColumnType') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20201201185157_UpdateColumnType', '3.1.9');
+    END IF;
+END $$;

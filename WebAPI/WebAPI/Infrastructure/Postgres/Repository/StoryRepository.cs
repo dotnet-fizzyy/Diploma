@@ -31,10 +31,20 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 )
                 .AsNoTracking()
                 .Take(limit)
-                .Include(x => x.StoryHistories)
                 .ToListAsync();
 
             return stories;
+        }
+
+        public async Task<Story> UpdateStoryColumn(Story story)
+        {
+            _dbContext.Stories.Attach(story);
+
+            _dbContext.Entry(story).Property(x => x.ColumnType).IsModified = true;
+            
+            await _dbContext.SaveChangesAsync();
+
+            return story;
         }
     }
 }

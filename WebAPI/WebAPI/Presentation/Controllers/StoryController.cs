@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Enums;
@@ -160,6 +161,21 @@ namespace WebAPI.Presentation.Controllers
         {
             var updatedStory = await _storyService.UpdatePartsOfStory(storyUpdate);
 
+            return Ok(updatedStory);
+        }
+
+        [HttpPatch]
+        [Route("board-move")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> UpdateStoryColumn([FromBody, BindRequired] JsonPatchDocument<Story> storyPatch)
+        {
+            var storyModel = new Story();
+            storyPatch.ApplyTo(storyModel, ModelState);
+
+            var updatedStory = await _storyService.UpdateStoryColumn(storyModel);
+            
             return Ok(updatedStory);
         }
         

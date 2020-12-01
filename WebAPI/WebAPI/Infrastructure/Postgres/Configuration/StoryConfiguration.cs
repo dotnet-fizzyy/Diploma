@@ -1,6 +1,8 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WebAPI.Core.Entities;
+using WebAPI.Core.Enums;
 
 namespace WebAPI.Infrastructure.Postgres.Configuration
 {
@@ -20,6 +22,10 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
                 .WithMany(e => e.Stories)
                 .HasForeignKey(x => x.UserId)
                 .IsRequired(false);
+            builder.Property(x => x.ColumnType).HasConversion(
+                x => x.ToString(),
+                x => (ColumnType)Enum.Parse(typeof(ColumnType), x)
+            );
             builder.Property(x => x.RecordVersion)
                 .HasColumnName("xmin")
                 .HasColumnType("xid")

@@ -147,6 +147,17 @@ namespace WebAPI.ApplicationLogic.Services
             return storyModel;
         }
 
+        public async Task<Story> UpdateStoryColumn(Story story)
+        {
+            var storyEntity = _storyMapper.MapToEntity(story);
+
+            var updatedEntity = await _storyRepository.UpdateStoryColumn(storyEntity);
+            
+            var storyModel = _storyMapper.MapToModel(updatedEntity);
+            
+            return storyModel;
+        }
+
         public async Task<Story> UpdatePartsOfStory(StoryUpdate storyUpdate)
         {
             var storyHistoryItems = _storyHistoryMapper.MapToStoryEntityParts(storyUpdate);

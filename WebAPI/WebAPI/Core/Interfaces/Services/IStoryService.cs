@@ -23,6 +23,8 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<Story> UpdateStory(Story story);
 
+        Task<Story> UpdateStoryColumn(Story story);
+
         Task<Story> UpdatePartsOfStory(StoryUpdate storyUpdate);
         
         Task RemoveStory(Guid id);
