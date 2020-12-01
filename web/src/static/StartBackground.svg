@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800.001" height="600.001" viewBox="0 0 800.001 600.001">
+  <g id="Group_253" data-name="Group 253" transform="translate(-560 -271)">
+    <rect id="Rectangle_141" data-name="Rectangle 141" width="800" height="600" rx="20" transform="translate(560 271)" fill="#75baf7"/>
+    <g id="Group_155" data-name="Group 155" transform="translate(-773 644.986)">
+      <g id="Group_4" data-name="Group 4" transform="translate(1861 36)">
+        <path id="Intersection_3" data-name="Intersection 3" d="M1.092,190A168.494,168.494,0,0,1,0,170.819C0,76.478,78.417,0,175.149,0A177.514,177.514,0,0,1,272,28.47V170a20,20,0,0,1-20,20Z" transform="translate(0 0.014)" fill="#ebfffe"/>
+      </g>
+    </g>
+    <g id="Group_160" data-name="Group 160" transform="translate(-659.5 724.275)">
+      <g id="Group_4-2" data-name="Group 4" transform="translate(1861 36)">
+        <path id="Intersection_3-2" data-name="Intersection 3" d="M5.558,111a20.043,20.043,0,0,1-4.994-.629A99.036,99.036,0,0,1,0,99.795C0,44.68,45.551,0,101.741,0A102.691,102.691,0,0,1,158,16.633V91a20,20,0,0,1-20,20Z" transform="translate(0.5 -0.275)" fill="#e8f4ff"/>
+      </g>
+    </g>
+    <g id="Group_161" data-name="Group 161" transform="translate(560 271)">
+      <g id="Group_4-3" data-name="Group 4" transform="translate(0 0)">
+        <path id="Intersection_3-3" data-name="Intersection 3" d="M5.558,111a20.043,20.043,0,0,1-4.994-.629A99.035,99.035,0,0,1,0,99.795C0,44.68,45.551,0,101.741,0A102.688,102.688,0,0,1,158,16.632V91a20,20,0,0,1-20,20Z" transform="translate(158.001 111.001) rotate(180)" fill="#e8f4ff"/>
+      </g>
+    </g>
+    <g id="Group_162" data-name="Group 162" transform="translate(560 271)">
+      <g id="Group_4-4" data-name="Group 4" transform="translate(0 0)">
+        <path id="Intersection_3-4" data-name="Intersection 3" d="M12.687,56A19.915,19.915,0,0,1,.013,51.471C0,51.1,0,50.722,0,50.347,0,22.541,23.063,0,51.514,0A52.135,52.135,0,0,1,79.63,8.153,20.093,20.093,0,0,1,80,12V36A20,20,0,0,1,60,56Z" transform="translate(80 56) rotate(180)" fill="#ebfffe"/>
+      </g>
+    </g>
+  </g>
+</svg>
