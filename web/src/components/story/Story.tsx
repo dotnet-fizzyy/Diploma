@@ -1,5 +1,6 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import classnames from 'classnames';
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { IStory } from '../../types/storyTypes';
@@ -11,23 +12,29 @@ const useStyles = makeStyles(() =>
     createStyles({
         root: {
             margin: '0 10px',
-            backgroundColor: 'floralwhite',
-            borderRadius: '5px',
+            borderRadius: '10px',
             display: 'flex',
             justifyContent: 'center',
             flexDirection: 'column',
-            boxShadow: '0 0 10px rgba(0,0,0,0.5)',
+            backgroundColor: 'white',
+            border: '1px solid #AFC1C4',
+            borderColor: 'rgba(175, 193, 196, 0.5)',
         },
         body: {
             minHeight: '120px',
-            borderTop: '2px solid #3272d9',
-            borderBottom: '2px solid #3272d9',
-            padding: '5px 5px',
-            fontSize: '18px',
-            fontWeight: 'bold',
+            borderTop: '2px solid #EDEFF3',
+            borderBottom: '2px solid #EDEFF3',
+            margin: '0 15px',
+            padding: '5px 0',
             display: 'flex',
             justifyContent: 'space-between',
             flexDirection: 'column',
+        },
+        bodyTitle: {
+            fontSize: '18px',
+            fontFamily: 'Poppins',
+            fontWeight: 700,
+            color: '#242624',
         },
         header: {
             height: '40px',
@@ -41,7 +48,7 @@ const useStyles = makeStyles(() =>
         iconVert: {
             fontSize: '24px',
             color: 'black',
-            marginLeft: '5px',
+            marginRight: '15px',
             marginTop: '5px',
         },
         isBlocked: {
@@ -60,9 +67,11 @@ const useStyles = makeStyles(() =>
             backgroundColor: 'darkorange',
         },
         card: {
-            width: '100px',
-            height: '30px',
-            marginTop: '10px',
+            height: '25px',
+            margin: '20px 0 10px 0',
+        },
+        dragging: {
+            transition: `none`,
         },
     })
 );
@@ -81,8 +90,12 @@ const Story = (props: IStoryProps) => {
 
     return (
         <Draggable draggableId={story.storyId} index={index}>
-            {(provided) => (
-                <div className={classes.root} {...provided.draggableProps} ref={provided.innerRef}>
+            {(provided, snapshot) => (
+                <div
+                    className={classnames(classes.root, { [classes.dragging]: snapshot.isDragging })}
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                >
                     <StoryHeader
                         storyId={story.storyId}
                         isDefect={story.isDefect}
@@ -97,7 +110,7 @@ const Story = (props: IStoryProps) => {
                         </div>
                     </StoryHeader>
                     <div className={classes.body}>
-                        <span>{story.title}</span>
+                        <span className={classes.bodyTitle}>{story.title}</span>
                         <div className={classes.card}>
                             <StoryPriorityCard priority={story.priority} />
                         </div>

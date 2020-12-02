@@ -1,8 +1,10 @@
 import { Button, MenuItem, Select } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import React from 'react';
 import { IEpic } from '../../../types/epicTypes';
+import { IProject } from '../../../types/projectTypes';
 import { ISelectedItem } from '../../../types/storyTypes';
 import { ITeam } from '../../../types/teamTypes';
 import { IUser } from '../../../types/userTypes';
@@ -11,21 +13,47 @@ import TeamMembers from './TeamMembers';
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
-            minWidth: '100vh',
-            height: '50px',
-            backgroundColor: 'green',
+            minWidth: '100%',
+            height: '70px',
+        },
+        tabContainer: {
+            padding: '0 30px',
+            height: 'inherit',
             display: 'flex',
             flexDirection: 'row',
         },
         projectsSelector: {
             display: 'inherit',
             justifyContent: 'center',
-            margin: '0 auto 0 10px',
+            alignItems: 'center',
+            margin: '0 auto 0 0',
+        },
+        arrowRight: {
+            margin: '0 10px',
         },
         buttonsContainer: {
             display: 'inherit',
             justifyContent: 'center',
-            margin: '0 10px 0 auto',
+            alignItems: 'center',
+            margin: '0 0 0 auto',
+        },
+        selectContainer: {
+            marginLeft: '30px',
+        },
+        selectStyle: {
+            height: '45px',
+            width: '140px',
+        },
+        tasksButton: {
+            backgroundColor: '#75BAF7',
+            color: '#FFF',
+            border: 'none',
+            borderRadius: '5px',
+            width: '140px',
+            height: '45px',
+            fontSize: '16px',
+            fontFamily: 'Poppins Semibold',
+            marginLeft: '20px',
         },
     })
 );
@@ -33,6 +61,7 @@ const useStyles = makeStyles(() =>
 export interface IInfoTabProps {
     user: IUser;
     team: ITeam;
+    project: IProject;
     sortFields: ISelectedItem[];
     epic: IEpic;
     epics: ISelectedItem[];
@@ -44,7 +73,18 @@ export interface IInfoTabProps {
 
 const InfoTab = (props: IInfoTabProps) => {
     const classes = useStyles();
-    const { team, user, epic, epics, sortFields, sortType, onChangeSortType, onClickAddStory, onChangeEpic } = props;
+    const {
+        project,
+        team,
+        user,
+        epic,
+        epics,
+        sortFields,
+        sortType,
+        onChangeSortType,
+        onClickAddStory,
+        onChangeEpic,
+    } = props;
 
     const getDropdown = (
         title: string,
@@ -55,7 +95,12 @@ const InfoTab = (props: IInfoTabProps) => {
         return (
             <>
                 <span>{title}: </span>
-                <Select variant="outlined" value={value} onChange={(event: any) => onChangeEvent(event.target.value)}>
+                <Select
+                    className={classes.selectStyle}
+                    variant="outlined"
+                    value={value}
+                    onChange={(event: any) => onChangeEvent(event.target.value)}
+                >
                     {items &&
                         items.map((x) => (
                             <MenuItem key={x.key} value={x.value}>
@@ -69,16 +114,27 @@ const InfoTab = (props: IInfoTabProps) => {
 
     return (
         <div className={classes.root}>
-            <div className={classes.projectsSelector}>
-                <p>Projects</p>
-            </div>
-            <div className={classes.buttonsContainer}>
-                {epic && <div>{getDropdown('Epic', epic.epicId, epics, onChangeEpic)}</div>}
-                <TeamMembers team={team} user={user} />
-                <div>{getDropdown('Sort by', sortType, sortFields, onChangeSortType)}</div>
-                <Button variant="outlined" startIcon={<AddIcon />} onClick={onClickAddStory}>
-                    Add task
-                </Button>
+            <div className={classes.tabContainer}>
+                <div className={classes.projectsSelector}>
+                    <p>Projects</p>
+                    <NavigateNextIcon className={classes.arrowRight} />
+                    {project && <p>{project.projectName}</p>}
+                </div>
+                <div className={classes.buttonsContainer}>
+                    {epic && <div>{getDropdown('Epic', epic.epicId, epics, onChangeEpic)}</div>}
+                    <TeamMembers team={team} user={user} />
+                    <div className={classes.selectContainer}>
+                        {getDropdown('Sort by', sortType, sortFields, onChangeSortType)}
+                    </div>
+                    <Button
+                        className={classes.tasksButton}
+                        variant="outlined"
+                        startIcon={<AddIcon />}
+                        onClick={onClickAddStory}
+                    >
+                        Add task
+                    </Button>
+                </div>
             </div>
         </div>
     );

@@ -9,6 +9,9 @@ const useStyles = makeStyles(() =>
         sectionContainer: {
             marginTop: '20px',
         },
+        blockTextField: {
+            width: '100%',
+        },
     })
 );
 
@@ -36,7 +39,18 @@ const StoryStatus = (props: IStoryStatusProps) => {
                     Block
                 </Button>
             </div>
-            {isBlocked && <TextField name={name} value={blockReason} onChange={onChangeValue} variant="outlined" />}
+            {isBlocked && (
+                <div>
+                    <p>Block Reason:</p>
+                    <TextField
+                        className={classes.blockTextField}
+                        name={name}
+                        value={blockReason}
+                        onChange={onChangeValue}
+                        variant="outlined"
+                    />
+                </div>
+            )}
         </div>
     );
 };

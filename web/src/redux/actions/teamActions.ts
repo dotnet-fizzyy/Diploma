@@ -3,6 +3,7 @@ import { ITeam } from '../../types/teamTypes';
 export const TeamActions = {
     ADD_TEAMS: 'ADD_TEAMS',
     SET_SELECTED_TEAM: 'SET_SELECTED_TEAM',
+    SET_SELECTED_TEAM_BY_ID: 'SET_SELECTED_TEAM_BY_ID',
 };
 
 //interfaces
@@ -14,6 +15,11 @@ export interface IAddTeams {
 export interface ISetSelectedTeam {
     type: typeof TeamActions.SET_SELECTED_TEAM;
     payload: ITeam;
+}
+
+export interface ISetSelectedTeamById {
+    type: typeof TeamActions.SET_SELECTED_TEAM_BY_ID;
+    payload: string;
 }
 
 //actions
@@ -31,4 +37,11 @@ export function setSelectedTeam(team: ITeam): ISetSelectedTeam {
     };
 }
 
-export type TeamActionsType = IAddTeams & ISetSelectedTeam;
+export function setSelectedTeamById(teamId: string): ISetSelectedTeamById {
+    return {
+        type: TeamActions.SET_SELECTED_TEAM,
+        payload: teamId,
+    };
+}
+
+export type TeamActionsType = IAddTeams & ISetSelectedTeam & ISetSelectedTeamById;

@@ -4,9 +4,11 @@ import * as routeConstants from '../../constants/routeConstants';
 import GeneralTabContainer from '../header/general-tab/GeneralTabContainer';
 import BoardApplication from '../index';
 import StartScreenContainer from '../login-registration/StartScreenContainer';
+import MainPageContainer from '../main/MainPageContainer';
 import UndefinedPage from '../no-match/UndefinedPage';
 import StoryFullViewContainer from '../story-full-view/StoryFullViewContainer';
 import StoryHistoryContainer from '../story-history/StoryHistoryContainer';
+import TeamsViewerContainer from '../team-management/TeamsViewerContainer';
 import RouteGuard from './RouteGuard';
 
 export interface ICustomRouterProps {
@@ -17,7 +19,7 @@ const CustomRouter = (props: ICustomRouterProps) => {
     const { isLogged } = props;
 
     return (
-        <div>
+        <>
             {isLogged && <GeneralTabContainer />}
             <Switch>
                 {!isLogged && (
@@ -26,13 +28,13 @@ const CustomRouter = (props: ICustomRouterProps) => {
                         <Route path={routeConstants.RegistrationScreenRoute} component={StartScreenContainer} />
                     </>
                 )}
-
                 <RouteGuard
                     exact={true}
                     path={routeConstants.DefaultRoute}
                     component={BoardApplication}
                     isLogged={isLogged}
                 />
+                <RouteGuard path={routeConstants.TestDefaultRoute} component={MainPageContainer} isLogged={isLogged} />
                 <RouteGuard
                     path={routeConstants.FullViewStoryRoute}
                     component={StoryFullViewContainer}
@@ -43,9 +45,14 @@ const CustomRouter = (props: ICustomRouterProps) => {
                     component={StoryHistoryContainer}
                     isLogged={isLogged}
                 />
+                <RouteGuard
+                    path={routeConstants.TeamsViewerRoute}
+                    component={TeamsViewerContainer}
+                    isLogged={isLogged}
+                />
                 <RouteGuard path={routeConstants.NoMatchRoute} component={UndefinedPage} isLogged={isLogged} />
             </Switch>
-        </div>
+        </>
     );
 };
 

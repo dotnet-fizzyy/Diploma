@@ -8,16 +8,16 @@ const useStyles = makeStyles(() =>
     createStyles({
         root: {
             width: '270px',
-            backgroundColor: 'rgba(221, 217, 217, 0.6)',
-            margin: '0 25px',
+            margin: '0 15px',
         },
         header: {
-            height: '50px',
-            borderBottom: '1px solid white',
+            height: '60px',
             display: 'flex',
             alignItems: 'center',
             '& span': {
-                fontSize: '18px',
+                fontFamily: 'Poppins',
+                fontSize: '22px',
+                color: '#242126',
                 fontWeight: 'bolder',
                 marginLeft: '15px',
             },
@@ -50,7 +50,7 @@ const Column = (props: IColumnProps) => {
                     <div className={classes.header}>
                         <span>{column.value}</span>
                     </div>
-                    <div {...provided.droppableProps} ref={provided.innerRef} className={classes.body}>
+                    <div className={classes.body} ref={provided.innerRef} {...provided.droppableProps}>
                         {provided.placeholder}
                         {stories.map((story, index) => (
                             <div key={story.storyId} className={classes.storiesContainer}>

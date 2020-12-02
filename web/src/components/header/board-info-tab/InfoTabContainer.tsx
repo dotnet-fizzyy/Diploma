@@ -4,6 +4,7 @@ import { createSortFields } from '../../../helpers/storyHelper';
 import * as modalActions from '../../../redux/actions/modalActions';
 import * as storiesActions from '../../../redux/actions/storiesActions';
 import * as epicsSelectors from '../../../redux/selectors/epicsSelectors';
+import * as projectSelectors from '../../../redux/selectors/projectSelectors';
 import * as teamSelectors from '../../../redux/selectors/teamSelectors';
 import * as userSelectors from '../../../redux/selectors/userSelectors';
 import { ModalTypes } from '../../../types/modalTypes';
@@ -16,6 +17,7 @@ const InfoTabContainer = () => {
     const user = useSelector(userSelectors.getUser);
     const epic = useSelector(epicsSelectors.getCurrentEpic);
     const epics = useSelector(epicsSelectors.getEpicsNames);
+    const project = useSelector(projectSelectors.getProject);
     const sortFields = createSortFields();
 
     const [sortType, setSortType] = useState(SortFields.PRIORITY);
@@ -34,6 +36,7 @@ const InfoTabContainer = () => {
 
     const infoTabProps: IInfoTabProps = {
         team,
+        project,
         user,
         epic,
         epics,

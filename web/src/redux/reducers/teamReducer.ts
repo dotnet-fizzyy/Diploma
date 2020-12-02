@@ -12,6 +12,8 @@ export default function teamsReducer(state = initialState, action: TeamActions.T
             return handleAddTeams(state, action);
         case TeamActions.TeamActions.SET_SELECTED_TEAM:
             return handleSetSelectedTeam(state, action);
+        case TeamActions.TeamActions.SET_SELECTED_TEAM_BY_ID:
+            return handleSetSelectedTeamById(state, action);
         default:
             return state;
     }
@@ -28,5 +30,12 @@ function handleSetSelectedTeam(state: ITeamState, action: TeamActions.ISetSelect
     return {
         ...state,
         currentTeam: action.payload,
+    };
+}
+
+function handleSetSelectedTeamById(state: ITeamState, action: TeamActions.ISetSelectedTeamById): ITeamState {
+    return {
+        ...state,
+        currentTeam: state.teams.find((x) => x.teamId === action.payload),
     };
 }

@@ -27,6 +27,7 @@ function* getGeneralInfo() {
     yield put(storyActions.getGeneralInfoSuccess());
     yield put(storyActions.storyActionAddStories(mockedStories));
     yield put(teamActions.setSelectedTeam(mockedTeam));
+    yield put(teamActions.addTeams([mockedTeam]));
 }
 
 function* dragAndDropHandler(action: storyActions.IStoryHandleDragAndDrop) {

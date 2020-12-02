@@ -2,7 +2,6 @@ import { Drawer } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
-import BackgroundImage from '../../static/abstraction.jpg';
 import { ISelectedItem } from '../../types/storyTypes';
 import ColumnContainer from '../column/ColumnContainer';
 import InfoTabContainer from '../header/board-info-tab/InfoTabContainer';
@@ -13,12 +12,9 @@ const useStyles = makeStyles(() =>
         root: {
             minWidth: '100vh',
             minHeight: '100vh',
-            backgroundImage: `url(${BackgroundImage})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
         },
         body: {
+            backgroundColor: '#FAFAFA',
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'center',

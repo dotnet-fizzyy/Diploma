@@ -30,12 +30,12 @@ const useStyles = makeStyles(() =>
             },
         },
         currentBlocked: {
-            backgroundColor: 'red',
-            color: 'darkred',
+            backgroundColor: '#ffbdb9',
+            color: 'red',
         },
         currentReady: {
-            backgroundColor: 'green',
-            color: 'darkgreen',
+            backgroundColor: '#a2ffa0',
+            color: 'green',
         },
     })
 );

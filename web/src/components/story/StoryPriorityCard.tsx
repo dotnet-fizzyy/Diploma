@@ -6,23 +6,25 @@ import { Priority } from '../../types/storyTypes';
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
+            maxWidth: '80px',
             borderRadius: '5px',
             height: '100%',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            fontSize: '12px',
         },
         low: {
-            backgroundColor: 'lightblue',
-            color: 'blue',
+            backgroundColor: '#EAFCFF',
+            color: '#38C3FF',
         },
         medium: {
-            backgroundColor: 'yellow',
-            color: 'orange',
+            backgroundColor: '#FFF7EA',
+            color: '#FF9A38',
         },
         high: {
-            backgroundColor: 'pink',
-            color: 'red',
+            backgroundColor: '#FFEAEA',
+            color: '#FF3838',
         },
     })
 );
