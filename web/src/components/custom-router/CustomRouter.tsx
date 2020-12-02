@@ -50,7 +50,7 @@ const CustomRouter = (props: ICustomRouterProps) => {
                     component={TeamsViewerContainer}
                     isLogged={isLogged}
                 />
-                <RouteGuard path={routeConstants.NoMatchRoute} component={UndefinedPage} isLogged={isLogged} />
+                <Route path={routeConstants.NoMatchRoute} component={UndefinedPage} />
             </Switch>
         </>
     );
