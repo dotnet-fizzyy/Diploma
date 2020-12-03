@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import * as routeConstants from '../../constants/routeConstants';
+import Footer from '../footer/Footer';
 import GeneralTabContainer from '../header/general-tab/GeneralTabContainer';
 import BoardApplication from '../index';
 import StartScreenContainer from '../login-registration/StartScreenContainer';
@@ -52,6 +53,7 @@ const CustomRouter = (props: ICustomRouterProps) => {
                 />
                 <Route path={routeConstants.NoMatchRoute} component={UndefinedPage} />
             </Switch>
+            {isLogged && <Footer />}
         </>
     );
 };
