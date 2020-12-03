@@ -1,3 +1,4 @@
+import { Avatar } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { IProject } from '../../types/projectTypes';
@@ -30,7 +31,7 @@ const useStyles = makeStyles(() =>
             fontFamily: 'Poppins',
         },
         topicLabel: {
-            fontSize: '20px',
+            fontSize: '24px',
             fontFamily: 'Poppins',
         },
         topicContainer: {
@@ -49,6 +50,36 @@ const useStyles = makeStyles(() =>
             flexGrow: 1,
             flexBasis: 0,
         },
+        teamContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            fontFamily: 'Poppins',
+        },
+        teamName: {
+            fontSize: '24px',
+        },
+        teamMembersLabel: {
+            fontSize: '20px',
+            marginTop: '20px',
+        },
+        teamMembersContainer: {
+            marginTop: '10px',
+        },
+        teamAvatar: {
+            width: '24px',
+            height: '24px',
+            fontSize: '0.9rem',
+            marginRight: '5px',
+        },
+        user: {
+            display: 'flex',
+            flexDirection: 'row',
+            fontSize: '20px',
+            marginBottom: '10px',
+            '&:hover': {
+                cursor: 'pointer',
+            },
+        },
     })
 );
 
@@ -65,6 +96,29 @@ export interface IMainPageProps {
 const MainPage = (props: IMainPageProps) => {
     const classes = useStyles();
     const { projects, teams, user } = props;
+
+    const renderTeamMembersForOneTeam = (team: ITeam): React.ReactNode => {
+        return (
+            <div className={classes.teamContainer}>
+                <span className={classes.teamName}>{team.teamName}</span>
+                {teams.length === 1 && (
+                    <>
+                        <span className={classes.teamMembersLabel}>Team members:</span>
+                        <div className={classes.teamMembersContainer}>
+                            {team.users.map((x) => (
+                                <div className={classes.user} key={x.userId}>
+                                    <Avatar className={classes.teamAvatar} src={x.avatarLink}>
+                                        {x.userName.slice(0, 1)}
+                                    </Avatar>
+                                    <span>{x.userName}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </>
+                )}
+            </div>
+        );
+    };
 
     return (
         <div className={classes.root}>
@@ -92,9 +146,9 @@ const MainPage = (props: IMainPageProps) => {
                                 {teams && teams
                                     ? teams.map((x) => {
                                           return (
-                                              <div key={x.teamId}>
-                                                  <span>{x.teamName}</span>
-                                              </div>
+                                              <React.Fragment key={x.teamId}>
+                                                  {renderTeamMembersForOneTeam(x)}
+                                              </React.Fragment>
                                           );
                                       })
                                     : null}

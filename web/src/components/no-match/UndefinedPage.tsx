@@ -10,6 +10,7 @@ const useStyles = makeStyles(() =>
             alignItems: 'center',
             justifyContent: 'center',
             flexDirection: 'column',
+            backgroundColor: '#FAFAFA',
         },
         header: {
             fontSize: '40px',
