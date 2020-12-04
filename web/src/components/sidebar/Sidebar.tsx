@@ -29,7 +29,7 @@ const useStyles = makeStyles(() =>
             },
         },
         body: {
-            padding: '0 20px',
+            padding: '0 20px 20px 20px',
         },
         isModalVisible: {
             paddingBottom: '120px',
@@ -38,9 +38,10 @@ const useStyles = makeStyles(() =>
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
+            marginTop: '30px',
         },
         sectionContainer: {
-            marginTop: '20px',
+            marginTop: '30px',
         },
         rootSelectStyle: {
             width: '100%',

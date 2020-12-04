@@ -1,38 +1,52 @@
 import { Button, TextField } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
+import { Link } from 'react-router-dom';
+import * as routeConstants from '../../constants/routeConstants';
 
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
-            width: '400px',
-            height: '500px',
             borderRadius: '5px',
-            backgroundColor: 'rgba(221, 217, 217, 0.6)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
         },
         textField: {
-            width: '250px',
+            width: '350px',
             marginTop: '30px',
         },
         title: {
-            fontSize: '26px',
-            fontFamily: 'Roboto',
-            marginTop: '20px',
+            fontSize: '34px',
+            fontFamily: 'Poppins',
+            marginBottom: '20px',
         },
         linkContainer: {
             display: 'inherit',
             flexDirection: 'column',
             alignItems: 'center',
-            margin: '20px 0',
+            margin: '40px 0',
+            fontFamily: 'Poppins',
+            fontSize: '22px',
+            '& a': {
+                marginTop: '10px',
+                textDecoration: 'none',
+            },
         },
         keyWord: {
             marginTop: '10px',
+            fontFamily: 'Poppins',
+            fontSize: '20px',
         },
         button: {
-            marginTop: '30px',
+            height: '45px',
+            fontFamily: 'Poppins',
+            fontSize: '18px',
+            textTransform: 'capitalize',
+        },
+        textInput: {
+            fontFamily: 'Poppins',
+            fontSize: '20px',
         },
     })
 );
@@ -41,9 +55,9 @@ export interface IRegistrationPageProps {
     name: string;
     password: string;
     repeatedPassword: string;
-    onChangeName: (value: string) => void;
-    onChangePassword: (value: string) => void;
-    onChangeRepeatedPassword: (value: string) => void;
+    onChangeName: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onChangePassword: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onChangeRepeatedPassword: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onSubmitRegistration: () => void;
 }
 
@@ -64,26 +78,26 @@ const RegistrationPage = (props: IRegistrationPageProps) => {
             <span className={classes.title}>Registration</span>
             <TextField
                 className={classes.textField}
+                InputProps={{ classes: { input: classes.textInput } }}
                 value={name}
-                onChange={(event: { target: { value: string } }) => onChangeName(event.target.value)}
+                onChange={onChangeName}
             />
             <span className={classes.keyWord}>Name</span>
-            <TextField
-                className={classes.textField}
-                type="password"
-                value={password}
-                onChange={(event: { target: { value: string } }) => onChangePassword(event.target.value)}
-            />
+            <TextField className={classes.textField} type="password" value={password} onChange={onChangePassword} />
             <span className={classes.keyWord}>Password</span>
             <TextField
                 className={classes.textField}
                 type="password"
                 value={repeatedPassword}
-                onChange={(event: { target: { value: string } }) => onChangeRepeatedPassword(event.target.value)}
+                onChange={onChangeRepeatedPassword}
             />
             <span className={classes.keyWord}>Confirm your password</span>
-            <Button color="primary" variant="contained" onClick={onSubmitRegistration}>
-                Create your project
+            <div className={classes.linkContainer}>
+                <span>Do you have account?</span>
+                <Link to={routeConstants.LoginScreenRoute}>Sign in</Link>
+            </div>
+            <Button className={classes.button} color="primary" variant="contained" onClick={onSubmitRegistration}>
+                Create your account
             </Button>
         </div>
     );

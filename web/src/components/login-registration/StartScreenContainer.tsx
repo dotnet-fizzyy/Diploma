@@ -5,7 +5,7 @@ import * as currentUserActions from '../../redux/actions/currentUserActions';
 import * as currentUserSelectors from '../../redux/selectors/userSelectors';
 import { StartPageTypes } from '../../types/pageTypes';
 import { ILoginPageProps } from './Login';
-import { IRegistrationPageProps } from './Registrations';
+import { IRegistrationPageProps } from './Registration';
 import StartScreen, { IStartScreenProps } from './StartScreen';
 
 const StartScreenContainer = () => {
@@ -23,12 +23,12 @@ const StartScreenContainer = () => {
     const [repeatedPassword, setRepeatedPassword] = useState<string>('');
     const [wasAttemptToLogIn, setWasAttemptToLogIn] = useState<boolean>(false);
 
-    const onChangePassword = (value: string) => {
-        setPassword(value);
+    const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value);
     };
 
-    const onChangeName = (value: string) => {
-        setName(value);
+    const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setName(event.target.value);
     };
 
     const loginProps: ILoginPageProps = {
@@ -49,7 +49,8 @@ const StartScreenContainer = () => {
         repeatedPassword,
         onChangeName,
         onChangePassword,
-        onChangeRepeatedPassword: (value: string) => setRepeatedPassword(value),
+        onChangeRepeatedPassword: (event: React.ChangeEvent<HTMLInputElement>) =>
+            setRepeatedPassword(event.target.value),
         onSubmitRegistration: () => dispatch(currentUserActions.registrationRequest(name, password)),
     };
 

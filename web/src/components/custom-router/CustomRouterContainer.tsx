@@ -10,7 +10,7 @@ const CustomRouterContainer = () => {
         isLogged: !!(user && user.userId),
     };
 
-    return user && <CustomRouter {...customRouterProps} />;
+    return <CustomRouter {...customRouterProps} />;
 };
 
 export default CustomRouterContainer;

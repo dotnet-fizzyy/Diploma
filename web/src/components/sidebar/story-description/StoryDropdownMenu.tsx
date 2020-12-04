@@ -1,4 +1,4 @@
-import { MenuItem, Select } from '@material-ui/core';
+import { MenuItem, Select, Tooltip } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { ISelectedItem } from '../../../types/storyTypes';
@@ -10,6 +10,15 @@ const useStyles = makeStyles(() =>
         },
         rootSelectStyle: {
             width: '100%',
+        },
+        title: {
+            fontFamily: 'Poppins',
+            fontSize: '20px',
+            marginBottom: '7px',
+        },
+        textField: {
+            fontFamily: 'Poppins',
+            fontSize: '18px',
         },
     })
 );
@@ -29,21 +38,24 @@ const StoryDropdownMenu = (props: IStoryDropdownMenuProps) => {
 
     return (
         <div className={classes.sectionContainer}>
-            <p>{title}</p>
-            <Select
-                value={id ? id : ''}
-                name={name}
-                className={classes.rootSelectStyle}
-                disabled={disabled}
-                onChange={(e: any) => onChangeItem(e)}
-                variant="outlined"
-            >
-                {items.map((item) => (
-                    <MenuItem key={item.key} value={item.key}>
-                        {item.value}
-                    </MenuItem>
-                ))}
-            </Select>
+            <p className={classes.title}>{title}</p>
+            <Tooltip title={disabled ? 'Only customer or team master can change this field' : ''}>
+                <Select
+                    classes={{ root: classes.textField }}
+                    value={id ? id : ''}
+                    name={name}
+                    className={classes.rootSelectStyle}
+                    disabled={disabled}
+                    onChange={(e: any) => onChangeItem(e)}
+                    variant="outlined"
+                >
+                    {items.map((item) => (
+                        <MenuItem key={item.key} value={item.key}>
+                            {item.value}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </Tooltip>
         </div>
     );
 };

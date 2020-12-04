@@ -4,13 +4,19 @@ import React from 'react';
 
 const useStyles = makeStyles(() =>
     createStyles({
-        sectionContainer: {
-            marginTop: '20px',
-        },
         nameContainer: {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
+        },
+        title: {
+            fontFamily: 'Poppins',
+            fontSize: '20px',
+            marginBottom: '7px',
+        },
+        textField: {
+            fontFamily: 'Poppins',
+            fontSize: '18px',
         },
     })
 );
@@ -29,8 +35,15 @@ const StoryTextField = (props: IStoryTextFieldProps) => {
 
     return (
         <div className={classes.nameContainer}>
-            <p>{title}</p>
-            <TextField value={value} name={name} multiline={isTextArea} variant="outlined" onChange={onChangeValue} />
+            <p className={classes.title}>{title}</p>
+            <TextField
+                InputProps={{ classes: { input: classes.textField } }}
+                value={value}
+                name={name}
+                multiline={isTextArea}
+                variant="outlined"
+                onChange={onChangeValue}
+            />
         </div>
     );
 };

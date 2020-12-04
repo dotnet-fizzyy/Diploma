@@ -28,10 +28,10 @@ const TeamMembers = (props: ITeamMembersProps) => {
             <AvatarGroup max={3}>
                 {team &&
                     team.users &&
-                    team.users.map((x) => {
+                    team.users.map((x, index) => {
                         return x.userId !== user.userId ? (
-                            <Tooltip title={x.userName}>
-                                <Avatar className={classes.avatar} key={x.userId} src={x.avatarLink}>
+                            <Tooltip title={x.userName} key={x.userId}>
+                                <Avatar className={classes.avatar} src={x.avatarLink}>
                                     {x.userName.slice(0, 1)}
                                 </Avatar>
                             </Tooltip>

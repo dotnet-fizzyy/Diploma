@@ -2,6 +2,7 @@ import { Button, TextField } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import BlockOutlinedIcon from '@material-ui/icons/BlockOutlined';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
+import classnames from 'classnames';
 import React from 'react';
 
 const useStyles = makeStyles(() =>
@@ -11,6 +12,56 @@ const useStyles = makeStyles(() =>
         },
         blockTextField: {
             width: '100%',
+        },
+        button: {
+            flexGrow: 1,
+            flexBasis: 0,
+            height: '45px',
+            fontSize: '18px',
+            fontFamily: 'Roboto',
+        },
+        readyButton: {
+            borderBottomLeftRadius: '5px',
+            borderTopLeftRadius: '5px',
+            borderBottomRightRadius: 0,
+            borderTopRightRadius: 0,
+            '&:hover': {
+                cursor: 'pointer',
+                backgroundColor: '#a2ffa0',
+                color: 'green',
+                borderColor: '#a2ffa0',
+            },
+        },
+        acceptedButton: {
+            backgroundColor: '#a2ffa0',
+            color: 'green',
+            borderColor: '#a2ffa0',
+        },
+        buttonContainer: {
+            display: 'flex',
+            flexDirection: 'row',
+        },
+        blockButton: {
+            borderBottomLeftRadius: 0,
+            borderTopLeftRadius: 0,
+            borderBottomRightRadius: '5px',
+            borderTopRightRadius: '5px',
+            '&:hover': {
+                cursor: 'pointer',
+                backgroundColor: '#ffbdb9',
+                color: 'red',
+                borderColor: '#ffbdb9',
+            },
+        },
+        blockedButton: {
+            backgroundColor: '#ffbdb9',
+            color: 'red',
+            borderColor: '#ffbdb9',
+        },
+        title: {
+            fontFamily: 'Poppins',
+            fontSize: '20px',
+            marginBottom: '7px',
         },
     })
 );
@@ -30,18 +81,28 @@ const StoryStatus = (props: IStoryStatusProps) => {
 
     return (
         <div className={classes.sectionContainer}>
-            <p>Status</p>
-            <div>
-                <Button startIcon={<CheckCircleOutlinedIcon />} onClick={onSetStoryReady} variant="outlined">
+            <p className={classes.title}>Status</p>
+            <div className={classes.buttonContainer}>
+                <Button
+                    className={classnames(classes.button, classes.readyButton)}
+                    startIcon={<CheckCircleOutlinedIcon />}
+                    onClick={onSetStoryReady}
+                    variant="outlined"
+                >
                     Ready
                 </Button>
-                <Button startIcon={<BlockOutlinedIcon />} onClick={onSetStoryBlocked} variant="outlined">
+                <Button
+                    className={classnames(classes.button, classes.blockButton, { [classes.blockedButton]: isBlocked })}
+                    startIcon={<BlockOutlinedIcon />}
+                    onClick={onSetStoryBlocked}
+                    variant="outlined"
+                >
                     Block
                 </Button>
             </div>
             {isBlocked && (
                 <div>
-                    <p>Block Reason:</p>
+                    <p className={classes.title}>Block Reason:</p>
                     <TextField
                         className={classes.blockTextField}
                         name={name}

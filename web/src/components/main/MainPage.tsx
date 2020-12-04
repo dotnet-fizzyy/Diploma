@@ -4,6 +4,7 @@ import React from 'react';
 import { IProject } from '../../types/projectTypes';
 import { ITeam } from '../../types/teamTypes';
 import { IUser } from '../../types/userTypes';
+import LaunchBackground from './LaunchBackground';
 //import LaunchBackground from './LaunchBackground';
 
 const useStyles = makeStyles(() =>
@@ -95,7 +96,7 @@ export interface IMainPageProps {
 
 const MainPage = (props: IMainPageProps) => {
     const classes = useStyles();
-    const { projects, teams, user } = props;
+    const { projects, teams, user, onClickCreateProject, onClickCreateTeam } = props;
 
     const renderTeamMembersForOneTeam = (team: ITeam): React.ReactNode => {
         return (
@@ -122,8 +123,7 @@ const MainPage = (props: IMainPageProps) => {
 
     return (
         <div className={classes.root}>
-            {
-                //projects && teams && projects.length && teams.length ? (
+            {projects && teams && projects.length && teams.length ? (
                 <div className={classes.mainPageContainer}>
                     <span className={classes.header}>Welcome back, {user.userName}!</span>
                     <div className={classes.body}>
@@ -156,17 +156,16 @@ const MainPage = (props: IMainPageProps) => {
                         </div>
                     </div>
                 </div>
-                // ) : (
-                //     <div className={classes.launchScreenContainer}>
-                //         <LaunchBackground
-                //             teamExists={!teams.length}
-                //             projectExists={!projects.length}
-                //             onClickCreateProject={onClickCreateProject}
-                //             onClickCreateTeam={onClickCreateTeam}
-                //         />
-                //     </div>
-                // )
-            }
+            ) : (
+                <div className={classes.launchScreenContainer}>
+                    <LaunchBackground
+                        teamExists={!teams.length}
+                        projectExists={!projects.length}
+                        onClickCreateProject={onClickCreateProject}
+                        onClickCreateTeam={onClickCreateTeam}
+                    />
+                </div>
+            )}
         </div>
     );
 };
