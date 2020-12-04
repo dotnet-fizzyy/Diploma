@@ -1,9 +1,22 @@
 version: '3.4'
 
 services:
+  ui:
+    stdin_open: true
+    restart: always
+    build:
+      context: web
+      dockerfile: Dockerfile
+    volumes:
+      - "app/node_modules"
+    depends_on: 
+        - web-api
+    ports:
+      - 5000:3000
+  
   web-api:
     build:
-      context: .
+      context: WebAPI
       dockerfile: Dockerfile
     restart: always
     depends_on:
@@ -21,4 +34,4 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./initdb:/docker-entrypoint-initdb.d
+      - "./WebAPI/initdb:/docker-entrypoint-initdb.d"
