@@ -17,6 +17,7 @@ const useStyles = makeStyles(() =>
             flexDirection: 'column',
             borderRadius: '10px',
             padding: '30px',
+            overflowY: 'scroll',
         },
         header: {
             fontFamily: 'Poppins, sans-serif',
@@ -25,25 +26,42 @@ const useStyles = makeStyles(() =>
             fontWeight: 'bold',
         },
         fieldContainer: {
-            marginTop: '30px',
+            margin: '20px 0',
         },
         textField: {
-            height: '40px',
             width: '100%',
+            marginTop: '10px',
         },
         footer: {
             display: 'inherit',
             width: '100%',
+            height: '200px',
             flexWrap: 'wrap',
             marginTop: '30px',
+            justifyContent: 'space-between',
         },
         footerItem: {
-            flexGrow: 1,
-            flexBasis: 0,
+            flexBasis: '230px',
             flexShrink: 0,
         },
         button: {
             width: '150px',
+            height: '40px',
+            marginTop: '30px',
+            backgroundColor: '#75BAF7',
+            border: 'none',
+            color: '#FFF',
+            boxShadow: 'none',
+            transition: 'unset',
+            '&:hover': {
+                backgroundColor: '#E8F4FF',
+                boxShadow: 'none',
+            },
+        },
+        title: {
+            fontFamily: 'Poppins, sans-serif',
+            color: '#75BAF7',
+            fontSize: '18px',
         },
     })
 );
@@ -66,7 +84,7 @@ const StoryCreation = (props: IStoryCreationProps) => {
         <div className={classes.root}>
             <span className={classes.header}>Create a new task</span>
             <div className={classes.fieldContainer}>
-                <span>Title:</span>
+                <span className={classes.title}>Title:</span>
                 <TextField
                     variant="outlined"
                     className={classes.textField}
@@ -77,9 +95,10 @@ const StoryCreation = (props: IStoryCreationProps) => {
                 />
             </div>
             <div className={classes.fieldContainer}>
-                <span>Description:</span>
+                <span className={classes.title}>Description:</span>
                 <TextField
                     variant="outlined"
+                    placeholder="Add full and clear description of your task"
                     className={classes.textField}
                     multiline={true}
                     onChange={onChangeField}
@@ -88,8 +107,14 @@ const StoryCreation = (props: IStoryCreationProps) => {
                 />
             </div>
             <div className={classes.fieldContainer}>
-                <span>Notes:</span>
-                <TextField variant="outlined" className={classes.textField} multiline={true} name={storyFields.notes} />
+                <span className={classes.title}>Notes:</span>
+                <TextField
+                    variant="outlined"
+                    className={classes.textField}
+                    multiline={true}
+                    name={storyFields.notes}
+                    placeholder="Add notes for description your task if it is neccessary"
+                />
             </div>
             <div className={classes.footer}>
                 <div className={classes.footerItem}>
@@ -98,6 +123,7 @@ const StoryCreation = (props: IStoryCreationProps) => {
                         title="Assignee"
                         name={storyFields.userId}
                         items={teamMembers}
+                        disabled={!teamMembers.length}
                         onChangeItem={onChangeField}
                     />
                 </div>
@@ -125,6 +151,7 @@ const StoryCreation = (props: IStoryCreationProps) => {
                         title="Sprint"
                         name={storyFields.sprintId}
                         items={sprints}
+                        disabled={!sprints.length}
                         onChangeItem={onChangeField}
                     />
                 </div>

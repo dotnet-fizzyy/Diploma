@@ -1,4 +1,5 @@
 import { StoryEstimation } from '../constants/storyConstants';
+import { IJsonPatchBody } from '../types';
 import { ISelectedItem, IStory, IStoryUpdate, IStoryUpdatePart, Priority, SortFields } from '../types/storyTypes';
 
 export function areStoriesEqual(story: IStory, updatedStory: IStory): boolean {
@@ -70,4 +71,24 @@ export function createSortFields(): ISelectedItem[] {
             value: pr[1],
         } as ISelectedItem;
     });
+}
+
+export function createRequestBodyForColumnMovement(story: IStory): IJsonPatchBody[] {
+    return [
+        {
+            op: 'add',
+            path: '/storyId',
+            value: story.storyId,
+        },
+        {
+            op: 'add',
+            path: '/columnType',
+            value: story.columnType,
+        },
+        {
+            op: 'add',
+            path: '/recordVersion',
+            value: story.recordVersion.toString(),
+        },
+    ];
 }

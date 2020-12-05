@@ -31,3 +31,9 @@ export interface IToken {
     type: TokenType;
     value: string;
 }
+
+export interface IJsonPatchBody {
+    op: string;
+    path: string;
+    value: string;
+}

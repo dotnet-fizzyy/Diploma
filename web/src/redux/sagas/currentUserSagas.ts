@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import * as usersApi from '../../ajax/currentUserApi';
-//import mockedUser from '../../mock/mockedUser';
+import mockedUser from '../../mock/mockedUser';
 import { AuthenticationResponse } from '../../types';
 import * as currentUserActions from '../actions/currentUserActions';
 import * as requestProcessorActions from '../actions/requestProcessorActions';
@@ -16,6 +16,7 @@ function* authenticateUser(action: currentUserActions.IAuthenticationRequest) {
         localStorage.setItem('refresh_token', authResponse.refreshToken.value);
     } catch (error) {
         yield put(currentUserActions.authenticationFailure(error));
+        yield put(requestProcessorActions.hideSpinner());
     }
 }
 
@@ -26,15 +27,18 @@ function* usersRegistration(action: currentUserActions.IRegistrationRequest) {
         yield put(requestProcessorActions.hideSpinner());
     } catch (error) {
         yield put(currentUserActions.registrationFailure(error));
+        yield put(requestProcessorActions.hideSpinner());
     }
 }
 
 function* logOutUser(action: currentUserActions.ILogOutUser) {
-    yield console.log('log out');
+    localStorage.clear();
+    sessionStorage.clear();
+    yield put(currentUserActions.addUser(null));
 }
 
 function* verifyUser(action: currentUserActions.IVerifyUser) {
-    //yield put(currentUserActions.addUser(mockedUser));
+    yield put(currentUserActions.addUser(mockedUser));
 }
 
 export default function* rootCurrentUserSaga() {
