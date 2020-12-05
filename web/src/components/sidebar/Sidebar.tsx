@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
@@ -10,6 +11,7 @@ import StoryConfirmChanges from './story-description/StoryConfirmChanges';
 import StoryDropdownMenu from './story-description/StoryDropdownMenu';
 import StoryStatus from './story-description/StoryStatus';
 import StoryTextField from './story-description/StoryTextField';
+import HistoryIcon from '@material-ui/icons/History';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -58,6 +60,28 @@ const useStyles = makeStyles(() =>
             justifyContent: 'center',
             alignItems: 'center',
         },
+        link: {
+            textDecoration: 'none',
+        },
+        historyButton: {
+            margin: '20px 0 0 20px',
+            backgroundColor: '#75BAF7',
+            color: '#FFF',
+            boxShadow: 'none',
+            transition: 'unset',
+            fontFamily: 'Roboto, sans-serif',
+            textTransform: 'capitalize',
+            border: 'none',
+            '&:hover': {
+                backgroundColor: '#E8F4FF',
+                color: '#75BAF7',
+                boxShadow: 'none',
+            },
+        },
+        icon: {
+            fontSize: '18px',
+            marginRight: '3px',
+        },
     })
 );
 
@@ -103,11 +127,10 @@ const Sidebar = (props: ISidebarProps) => {
                 </div>
             )}
             <CloseIcon className={classes.closeSidebarIcon} onClick={onCloseTab} />
-            <Link to={`/history/${storyId}`} target="_blank" rel="noopener noreferrer">
-                history
-            </Link>
-            <Link to={`/full-view/${storyId}`} target="_blank" rel="noopener noreferrer">
-                full-view
+            <Link className={classes.link} to={`/history/${storyId}`} target="_blank" rel="noopener noreferrer">
+                <Button className={classes.historyButton} variant="outlined">
+                    <HistoryIcon className={classes.icon} /> View History
+                </Button>
             </Link>
             <div
                 className={classnames(classes.body, {
