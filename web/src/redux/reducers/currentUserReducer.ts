@@ -3,6 +3,7 @@ import { ICurrentUserState } from '../store/state';
 
 const initialState: ICurrentUserState = {
     isAuthenticationSuccessful: false,
+    wasCustomerCreated: false,
     accessToken: '',
     refreshToken: '',
     user: null,
@@ -16,19 +17,13 @@ export default function currentUserReducer(state = initialState, action: UserAct
             return handleAuthenticationSuccess(state, action);
         case UserActions.CurrentUserActions.AUTHENTICATION_FAILURE:
             return handleAuthenticationFailure(state, action);
-        case UserActions.CurrentUserActions.SET_USER_TOKENS:
-            return handleSetTokenPair(state, action);
+        case UserActions.CurrentUserActions.REGISTRATION_SUCCESS:
+            return handleRegistrationSuccess(state, action);
+        case UserActions.CurrentUserActions.HIDE_CUSTOMER_SUCCESSFUL_REGISTRATION:
+            return handleHideCustomerSuccessfulRegistration(state, action);
         default:
             return state;
     }
-}
-
-function handleSetTokenPair(state: ICurrentUserState, action: UserActions.ISetUserTokens): ICurrentUserState {
-    return {
-        ...state,
-        //accessToken: action.payload.accessToken,
-        //refreshToken: action.payload.refreshToken,
-    };
 }
 
 function handleAuthenticationSuccess(
@@ -41,6 +36,16 @@ function handleAuthenticationSuccess(
         accessToken: action.payload.accessToken.value,
         refreshToken: action.payload.refreshToken.value,
         user: action.payload.user,
+    };
+}
+
+function handleRegistrationSuccess(
+    state: ICurrentUserState,
+    action: UserActions.IRegistrationSuccess
+): ICurrentUserState {
+    return {
+        ...state,
+        wasCustomerCreated: true,
     };
 }
 
@@ -58,5 +63,15 @@ function handleAddUser(state: ICurrentUserState, action: UserActions.IAddUser): 
     return {
         ...state,
         user: action.payload,
+    };
+}
+
+function handleHideCustomerSuccessfulRegistration(
+    state: ICurrentUserState,
+    action: UserActions.IHideCustomerSuccessfulRegistration
+): ICurrentUserState {
+    return {
+        ...state,
+        wasCustomerCreated: false,
     };
 }

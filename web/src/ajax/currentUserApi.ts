@@ -8,12 +8,10 @@ export async function getUsers(params?: any) {
     return response.data;
 }
 
-export async function test(params?: any) {
-    const response = await axiosGet('https://jsonplaceholder.typicode.com/posts', params);
+export async function createUser(body: IAuthenticationUser) {
+    const response = await axiosPost(routeConstants.CreateCustomerUrl, body);
 
-    const testData = response.data;
-
-    return testData;
+    return response.data;
 }
 
 export async function authenticate(body: IAuthenticationUser) {

@@ -5,6 +5,7 @@ import { IUser } from './userTypes';
 
 export enum SpinnerComponent {
     LOGIN = 'LOGIN',
+    REGISTRATION = 'REGISTRATION',
     SIDEBAR = 'SIDEBAR',
     STORY_HISTORY = 'STORY_HISTORY',
 }

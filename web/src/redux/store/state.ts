@@ -21,6 +21,7 @@ export interface IState {
 
 export interface ICurrentUserState {
     isAuthenticationSuccessful: boolean;
+    wasCustomerCreated: boolean;
     accessToken: string;
     refreshToken: string;
     user: IUser | null;

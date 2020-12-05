@@ -6,11 +6,12 @@ export const CurrentUserActions = {
     AUTHENTICATION_SUCCESS: 'AUTHENTICATION_SUCCESS',
     AUTHENTICATION_FAILURE: 'AUTHENTICATION_FAILURE',
     REGISTRATION_REQUEST: 'REGISTRATION_REQUEST',
-    REGISTRATION_FAILURE: 'REGISTRATION_REQUEST',
+    REGISTRATION_SUCCESS: 'REGISTRATION_SUCCESS',
+    REGISTRATION_FAILURE: 'REGISTRATION_FAILURE',
     ADD_USER: 'ADD_USER',
-    SET_USER_TOKENS: 'SET_USER_TOKENS',
     LOGOUT_USER: 'LOGOUT_USER',
     VERIFY_USER: 'VERIFY_USER',
+    HIDE_CUSTOMER_SUCCESSFUL_REGISTRATION: 'HIDE_CUSTOMER_SUCCESSFUL_REGISTRATION',
 };
 
 //interfaces
@@ -34,6 +35,10 @@ export interface IRegistrationRequest {
     payload: IAuthenticationUser;
 }
 
+export interface IRegistrationSuccess {
+    type: typeof CurrentUserActions.REGISTRATION_SUCCESS;
+}
+
 export interface IRegistrationFailure {
     type: typeof CurrentUserActions.REGISTRATION_FAILURE;
     payload: Error;
@@ -44,17 +49,16 @@ export interface IAddUser {
     payload: IUser;
 }
 
-export interface ISetUserTokens {
-    type: typeof CurrentUserActions.SET_USER_TOKENS;
-    payload: AuthenticationResponse;
-}
-
 export interface ILogOutUser {
     type: typeof CurrentUserActions.LOGOUT_USER;
 }
 
 export interface IVerifyUser {
     type: typeof CurrentUserActions.VERIFY_USER;
+}
+
+export interface IHideCustomerSuccessfulRegistration {
+    type: typeof CurrentUserActions.HIDE_CUSTOMER_SUCCESSFUL_REGISTRATION;
 }
 
 //actions
@@ -65,6 +69,12 @@ export function registrationRequest(userName: string, password: string): IRegist
             userName,
             password,
         },
+    };
+}
+
+export function registrationSuccess(): IRegistrationSuccess {
+    return {
+        type: CurrentUserActions.REGISTRATION_SUCCESS,
     };
 }
 
@@ -106,13 +116,6 @@ export function addUser(user: IUser): IAddUser {
     };
 }
 
-export function setUserTokens(tokenPair: AuthenticationResponse): ISetUserTokens {
-    return {
-        type: CurrentUserActions.SET_USER_TOKENS,
-        payload: tokenPair,
-    };
-}
-
 export function logOutUser(): ILogOutUser {
     return {
         type: CurrentUserActions.LOGOUT_USER,
@@ -125,4 +128,14 @@ export function verifyUser(): IVerifyUser {
     };
 }
 
-export type CurrentUserActionTypes = IAddUser & ISetUserTokens & IAuthenticationSuccess & IAuthenticationFailure;
+export function hideCustomerSuccessfulRegistration(): IHideCustomerSuccessfulRegistration {
+    return {
+        type: CurrentUserActions.HIDE_CUSTOMER_SUCCESSFUL_REGISTRATION,
+    };
+}
+
+export type CurrentUserActionTypes = IAddUser &
+    IAuthenticationSuccess &
+    IAuthenticationFailure &
+    IRegistrationSuccess &
+    IHideCustomerSuccessfulRegistration;

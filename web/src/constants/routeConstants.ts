@@ -13,7 +13,8 @@ export const ProjectManagementRoute = '/project/:projectId';
 export const NoMatchRoute = '*';
 
 //WebAPI routes
-const BaseUrl = process.env.BACK_URL;
-export const UsersUrl = BaseUrl + 'users';
+const BaseUrl = process.env.REACT_APP_BACK_URL;
+export const UsersUrl = BaseUrl + 'user';
 export const StoriesUrl = BaseUrl + 'stories';
 export const TokenUrl = BaseUrl + 'token';
+export const CreateCustomerUrl = BaseUrl + 'customer';

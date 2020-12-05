@@ -16,3 +16,7 @@ export function getUser(state: IState): IUser {
 export function getIsAuthenticationSuccessful(state: IState): boolean {
     return state.currentUser.isAuthenticationSuccessful;
 }
+
+export function getWasCustomerCreated(state: IState): boolean {
+    return state.currentUser.wasCustomerCreated;
+}
