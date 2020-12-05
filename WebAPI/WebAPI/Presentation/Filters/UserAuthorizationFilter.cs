@@ -29,8 +29,14 @@ namespace WebAPI.Presentation.Filters
         
         public async void OnAuthorization(AuthorizationFilterContext context)
         {
-            var httpContext = context.HttpContext;
+            if (!_appSettings.Token.EnableRefreshTokenVerification)
+            {
+                return;
+            }
             
+            
+            var httpContext = context.HttpContext;
+
             //Check for token existing
             var tokenValue = httpContext.Request.Headers["Authorization"].ToString();
             var accessToken = tokenValue.Split(' ').Last();
@@ -51,11 +57,11 @@ namespace WebAPI.Presentation.Filters
             }
 
             var userId = httpContext.User.Claims.First(x => x.Type == ClaimTypes.Name).Value;
-            
+
             //Update response with new access token
             var userEntity = await _tokenService.GetRefreshTokenByUserId(accessToken, new Guid(userId));
             var newAccessToken = _tokenGenerator.GenerateAccessToken(_appSettings, userEntity);
-                
+
             httpContext.Response.Headers.Add(
                 new KeyValuePair<string, StringValues>("Authorization", $"Bearer {newAccessToken}")
             );

@@ -6,11 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models;
 using WebAPI.Models.Result;
+using WebAPI.Presentation.Filters;
 
 namespace WebAPI.Presentation.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("user")]
+    [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -42,17 +45,6 @@ namespace WebAPI.Presentation.Controllers
             return user;
         }
 
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("customer")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateCustomer([FromBody]AuthenticationUser user)
-        {
-            var createdCustomer = await _userService.CreateCustomer(user);
-            
-            return CreatedAtAction(nameof(CreateCustomer), createdCustomer);
-        }
-        
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

@@ -16,7 +16,7 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly IUserRepository _userRepository;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IUserMapper _userMapper;
-        
+
         public UserService(
             IUserRepository userRepository, 
             IRefreshTokenRepository refreshTokenRepository, 
@@ -57,6 +57,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<User> CreateCustomer(AuthenticationUser user)
         {
             var mappedCustomer = CreateCustomerEntity(user);
+            mappedCustomer.Password = PasswordHashing.CreateHashPassword(mappedCustomer.Password);
 
             var createdCustomerEntity = await _userRepository.CreateAsync(mappedCustomer);
 

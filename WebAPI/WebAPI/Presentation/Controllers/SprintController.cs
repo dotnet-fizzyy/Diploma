@@ -9,12 +9,14 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models;
 using WebAPI.Models.Result;
+using WebAPI.Presentation.Filters;
 
 namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("sprint")]
+    [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class SprintController : ControllerBase
     {
         private readonly ISprintService _sprintService;

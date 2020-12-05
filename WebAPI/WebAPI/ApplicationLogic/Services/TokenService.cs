@@ -53,13 +53,18 @@ namespace WebAPI.ApplicationLogic.Services
 
             //Generate tokens if record is valid
             var accessToken = _tokenGenerator.GenerateAccessToken(_appSettings, authUser);
-            var refreshToken = _tokenGenerator.GenerateRefreshToken();
 
-            var refreshTokenEntity =
-                _refreshTokenAggregator.GenerateRefreshTokenEntityOnSave(authUser.UserId, refreshToken);
+            string refreshToken = null;
+            if (_appSettings.Token.EnableRefreshTokenVerification)
+            {
+                refreshToken = _tokenGenerator.GenerateRefreshToken();
+
+                var refreshTokenEntity =
+                    _refreshTokenAggregator.GenerateRefreshTokenEntityOnSave(authUser.UserId, refreshToken);
             
-            await _refreshTokenRepository.CreateAsync(refreshTokenEntity);
-            
+                await _refreshTokenRepository.CreateAsync(refreshTokenEntity);
+            }
+
             var tokenPair = new AuthenticationResponse
             {
                 AccessToken = new Token(TokenTypes.Access, accessToken),

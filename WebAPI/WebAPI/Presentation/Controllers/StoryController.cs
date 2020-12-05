@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +15,10 @@ using WebAPI.Presentation.Filters;
 
 namespace WebAPI.Presentation.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("story")]
-    //[ServiceFilter(typeof(UserAuthorizationFilter))]
+    [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class StoryController : ControllerBase
     {
         private readonly IStoryService _storyService;

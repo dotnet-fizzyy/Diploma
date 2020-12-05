@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -10,9 +11,10 @@ using WebAPI.Presentation.Filters;
 
 namespace WebAPI.Presentation.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("epic")]
-    //[ServiceFilter(typeof(UserAuthorizationFilter))]
+    [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class EpicController : ControllerBase
     {
         private readonly IEpicService _epicService;

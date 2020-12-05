@@ -15,12 +15,14 @@ namespace WebAPI.Startup
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             Configuration = configuration;
+            LoggerFactory = loggerFactory;
         }
 
         public IConfiguration Configuration { get; }
+        private ILoggerFactory LoggerFactory { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -41,7 +43,7 @@ namespace WebAPI.Startup
             
             services.RegisterAuthSettings(tokenSettings);
             services.RegisterServices(appSettings);
-            services.RegisterDatabase(databaseSettings);
+            services.RegisterDatabase(databaseSettings, LoggerFactory);
             services.RegisterHealthChecks();
             services.RegisterSwagger();
         }

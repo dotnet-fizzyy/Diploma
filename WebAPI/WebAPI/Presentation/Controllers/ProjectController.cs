@@ -1,16 +1,20 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models;
 using WebAPI.Models.Result;
+using WebAPI.Presentation.Filters;
 
 namespace WebAPI.Presentation.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("project")]
+    [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class ProjectController : ControllerBase
     {
         private readonly IProjectService _projectService;
