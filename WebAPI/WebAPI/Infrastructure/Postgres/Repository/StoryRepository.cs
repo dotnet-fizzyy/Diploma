@@ -24,16 +24,21 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             return storiesFromEpic;
         }
 
-        public async Task<List<Story>> GetStoriesByTitleTerm(string term, int limit)
+        public async Task<List<Story>> GetStoriesByTitleTerm(string term, int limit, Guid projectId)
         {
-            var stories = await _dbContext.Stories.Where(
-                x => EF.Functions.Like(x.Title, $"%{term}%")
-                )
-                .AsNoTracking()
-                .Take(limit)
-                .ToListAsync();
+            var query = from stories in
+                _dbContext.Stories.Where(
+                    x => EF.Functions.Like(x.Title, $"%{term}%")
+                ).AsNoTracking().Take(limit) 
+                join sprints in _dbContext.Sprints on stories.SprintId equals sprints.SprintId
+                join epic in _dbContext.Epics on sprints.EpicId equals epic.EpicId
+                join project in _dbContext.Projects on epic.ProjectId equals project.ProjectId
+                select stories;
 
-            return stories;
+
+            var foundStories = await query.ToListAsync();
+
+            return foundStories;
         }
 
         public async Task<Story> UpdateStoryColumn(Story story)

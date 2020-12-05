@@ -66,13 +66,13 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<CollectionResponse<FullStory>> GetFullStoriesByTitleTerm(string term, int limit)
+        public async Task<CollectionResponse<Story>> GetFullStoriesByTitleTerm(string term, int limit, Guid userId)
         {
-            var storyEntities = await _storyRepository.GetStoriesByTitleTerm(term, limit);
+            var storyEntities = await _storyRepository.GetStoriesByTitleTerm(term, limit, userId);
 
-            var storyModels = new CollectionResponse<FullStory>
+            var storyModels = new CollectionResponse<Story>
             {
-                Items = storyEntities.Select(_storyMapper.MapToFullModel).ToList()
+                Items = storyEntities.Select(_storyMapper.MapToModel).ToList()
             };
 
             return storyModels;

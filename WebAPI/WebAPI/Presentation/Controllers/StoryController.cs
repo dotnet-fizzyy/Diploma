@@ -75,10 +75,12 @@ namespace WebAPI.Presentation.Controllers
         [Route("term")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CollectionResponse<FullStory>>> GetFullStoriesByTerm(
+        public async Task<ActionResult<CollectionResponse<Story>>> GetFullStoriesByTerm(
             [FromQuery, BindRequired] string term,
-            [FromQuery, BindRequired] int limit
-        ) => await _storyService.GetFullStoriesByTitleTerm(term, limit);
+            [FromQuery, BindRequired] int limit,
+            [FromQuery, BindRequired] Guid projectId
+        ) => await _storyService.GetFullStoriesByTitleTerm(term, limit, projectId);
+        
         
         [HttpGet]
         [Route("{id}")]

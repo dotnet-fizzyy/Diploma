@@ -9,7 +9,7 @@ namespace WebAPI.Core.Interfaces.Database
     {
         Task<List<Story>> GetStoriesByEpicId(Guid epicId);
 
-        Task<List<Story>> GetStoriesByTitleTerm(string term, int limit);
+        Task<List<Story>> GetStoriesByTitleTerm(string term, int limit, Guid projectId);
 
         Task<Story> UpdateStoryColumn(Story story);
     }
