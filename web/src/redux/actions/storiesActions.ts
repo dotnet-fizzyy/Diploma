@@ -214,7 +214,7 @@ export function setStoryTitleTermRequest(term: string): ISetStoryTitleTermReques
 
 export function setStoryTitleTermSuccess(stories: IStory[]): ISetStoryTitleTermSuccess {
     return {
-        type: StoryActions.SET_STORY_TITLE_TERM_REQUEST,
+        type: StoryActions.SET_STORY_TITLE_TERM_SUCCESS,
         payload: stories,
     };
 }

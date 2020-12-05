@@ -2,6 +2,7 @@ import { debounce, delay, put, select, takeLatest } from 'redux-saga/effects';
 import { debouncePeriod } from '../../constants/storyConstants';
 import { createStoryUpdatePartsFromStory } from '../../helpers/storyHelper';
 import mockedProject from '../../mock/mockedProject';
+//import mockedSearchResults from '../../mock/mockedSearchResults';
 import mockedStories from '../../mock/mockedStories';
 import mockedTeam from '../../mock/mockedTeam';
 import mockedUser from '../../mock/mockedUser';
@@ -28,6 +29,7 @@ function* getGeneralInfo() {
     yield put(storyActions.storyActionAddStories(mockedStories));
     yield put(teamActions.setSelectedTeam(mockedTeam));
     yield put(teamActions.addTeams([mockedTeam]));
+    yield put(storyActions.setStoryTitleTermSuccess([]));
 }
 
 function* dragAndDropHandler(action: storyActions.IStoryHandleDragAndDrop) {

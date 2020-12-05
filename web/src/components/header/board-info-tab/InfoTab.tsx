@@ -27,6 +27,8 @@ const useStyles = makeStyles(() =>
             justifyContent: 'center',
             alignItems: 'center',
             margin: '0 auto 0 0',
+            fontFamily: 'Poppins, sans-serif',
+            fontSize: '18px',
         },
         arrowRight: {
             margin: '0 10px',
@@ -44,6 +46,10 @@ const useStyles = makeStyles(() =>
             height: '45px',
             width: '140px',
         },
+        selectTitle: {
+            fontSize: '16px',
+            fontFamily: 'Poppins, sans-serif',
+        },
         tasksButton: {
             backgroundColor: '#75BAF7',
             color: '#FFF',
@@ -52,7 +58,7 @@ const useStyles = makeStyles(() =>
             width: '140px',
             height: '45px',
             fontSize: '16px',
-            fontFamily: 'Poppins Semibold',
+            fontFamily: 'Poppins, sans-serif',
             marginLeft: '20px',
         },
     })
@@ -94,7 +100,7 @@ const InfoTab = (props: IInfoTabProps) => {
     ): React.ReactNode => {
         return (
             <>
-                <span>{title}: </span>
+                <span className={classes.selectTitle}>{title}: </span>
                 <Select
                     className={classes.selectStyle}
                     variant="outlined"

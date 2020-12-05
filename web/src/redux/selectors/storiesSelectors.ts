@@ -30,3 +30,7 @@ export function getWasStoryBlocked(state: IState): boolean {
 export function getStoryHistory(state: IState): IStoryHistory[] {
     return state.stories.storyHistory;
 }
+
+export function getSearchResults(state: IState): IStory[] {
+    return state.stories.searchResult;
+}

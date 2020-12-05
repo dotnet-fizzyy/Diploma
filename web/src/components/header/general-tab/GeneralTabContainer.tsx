@@ -10,6 +10,7 @@ const GeneralTabContainer = () => {
     const dispatch = useDispatch();
     const user = useSelector(userSelectors.getUser);
     const searchTerm = useSelector(storiesSelectors.getStoryTitleTerm);
+    const searchResults = useSelector(storiesSelectors.getSearchResults);
 
     const [anchor, setAnchor] = useState<null | HTMLElement>(null);
 
@@ -37,6 +38,7 @@ const GeneralTabContainer = () => {
         user,
         anchor,
         searchTerm,
+        searchResults,
         onClickDisplayMenu,
         onClickCloseMenu,
         onClickLogOut,

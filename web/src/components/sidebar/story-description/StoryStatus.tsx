@@ -68,6 +68,7 @@ const useStyles = makeStyles(() =>
 
 export interface IStoryStatusProps {
     isBlocked: boolean;
+    isReady: boolean;
     blockReason: string;
     name: string;
     onSetStoryReady: () => void;
@@ -77,14 +78,14 @@ export interface IStoryStatusProps {
 
 const StoryStatus = (props: IStoryStatusProps) => {
     const classes = useStyles();
-    const { isBlocked, blockReason, name, onSetStoryReady, onSetStoryBlocked, onChangeValue } = props;
+    const { isBlocked, isReady, blockReason, name, onSetStoryReady, onSetStoryBlocked, onChangeValue } = props;
 
     return (
         <div className={classes.sectionContainer}>
             <p className={classes.title}>Status</p>
             <div className={classes.buttonContainer}>
                 <Button
-                    className={classnames(classes.button, classes.readyButton)}
+                    className={classnames(classes.button, { [classes.acceptedButton]: isReady })}
                     startIcon={<CheckCircleOutlinedIcon />}
                     onClick={onSetStoryReady}
                     variant="outlined"

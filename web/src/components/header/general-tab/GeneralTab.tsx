@@ -6,6 +6,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import * as routeConstants from '../../../constants/routeConstants';
+import LogoIcon from '../../../static/Icon.svg';
+import { IStory } from '../../../types/storyTypes';
 import { IUser } from '../../../types/userTypes';
 
 const useStyles = makeStyles(() =>
@@ -32,17 +34,23 @@ const useStyles = makeStyles(() =>
             display: 'inherit',
             flexDirection: 'column',
             marginRight: '10px',
-            fontFamily: 'Roboto',
+            fontFamily: 'Poppins, sans-serif',
             '& span': {
                 '&:last-child': {
                     marginTop: '3px',
                 },
             },
         },
-        mainTabsContainer: {},
         tab: {
             marginLeft: '50px',
             textDecoration: 'none',
+            fontFamily: 'Poppins, sans-serif',
+            color: '#212624',
+            fontSize: '18px',
+            fontWeight: 'bold',
+        },
+        searchResultsContainer: {
+            position: 'relative',
         },
         searchField: {
             width: '300px',
@@ -63,6 +71,45 @@ const useStyles = makeStyles(() =>
         userName: {
             fontSize: '16px',
         },
+        mainTabsContainer: {},
+        logo: {
+            width: '68px',
+            height: '45px',
+            backgroundImage: `url(${LogoIcon})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            marginBottom: '5px',
+            '&:hover': {
+                cursor: 'pointer',
+            },
+        },
+        searchResults: {
+            position: 'absolute',
+            top: '100%',
+            width: '100%',
+            zIndex: 10,
+            backgroundColor: '#FFF',
+            borderBottomLeftRadius: '5px',
+            borderBottomRightRadius: '5px',
+            borderLeft: '1px solid lightgrey',
+            borderRight: '1px solid lightgrey',
+            borderBottom: '1px solid lightgrey',
+        },
+        resultStory: {
+            fontFamily: 'Poppins',
+            height: '50px',
+            fontSize: '18px',
+            display: 'flex',
+            flexDirection: 'column',
+            '&:hover': {
+                cursor: 'pointer',
+                backgroundColor: 'lightgrey',
+            },
+        },
+        sprintName: {
+            marginTop: '3px',
+            fontSize: '16px',
+        },
     })
 );
 
@@ -70,6 +117,7 @@ export interface IGeneralTabProps {
     user: IUser;
     searchTerm: string;
     anchor: HTMLElement;
+    searchResults: IStory[];
     onClickDisplayMenu: (event: React.MouseEvent<HTMLElement>) => void;
     onChangeSearchTerm: (value: string) => void;
     onClickCloseMenu: () => void;
@@ -83,6 +131,7 @@ const GeneralTab = (props: IGeneralTabProps) => {
         anchor,
         user,
         searchTerm,
+        searchResults,
         onClickDisplayMenu,
         onClickCloseMenu,
         onClickLogOut,
@@ -95,15 +144,31 @@ const GeneralTab = (props: IGeneralTabProps) => {
             <div className={classes.generalTabContainer}>
                 {user && user.userId && (
                     <>
-                        <p>Icon</p>
-                        <TextField
-                            className={classes.searchField}
-                            placeholder="Search"
-                            value={searchTerm}
-                            onChange={(event: { target: { value: string } }) => onChangeSearchTerm(event.target.value)}
-                            onBlur={() => onBlur()}
-                            InputProps={{ startAdornment: <SearchIcon /> }}
-                        />
+                        <Link to={routeConstants.DefaultRoute}>
+                            <div className={classes.logo} />
+                        </Link>
+                        <div className={classes.searchResultsContainer}>
+                            <TextField
+                                className={classes.searchField}
+                                placeholder="Search"
+                                value={searchTerm}
+                                onChange={(event: { target: { value: string } }) =>
+                                    onChangeSearchTerm(event.target.value)
+                                }
+                                onBlur={() => onBlur()}
+                                InputProps={{ startAdornment: <SearchIcon /> }}
+                            />
+                            {!!searchResults && (
+                                <div className={classes.searchResults}>
+                                    {searchResults.map((x) => (
+                                        <div className={classes.resultStory} key={x.storyId}>
+                                            <span>{x.title}</span>
+                                            <span className={classes.sprintName}>{x.sprintId}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                         <div className={classes.mainTabsContainer}>
                             <Link to={routeConstants.ProjectBoardRoute} className={classes.tab}>
                                 Board

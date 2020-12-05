@@ -2,6 +2,7 @@ import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
+import HistoryIcon from '@material-ui/icons/History';
 import classnames from 'classnames';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -11,7 +12,6 @@ import StoryConfirmChanges from './story-description/StoryConfirmChanges';
 import StoryDropdownMenu from './story-description/StoryDropdownMenu';
 import StoryStatus from './story-description/StoryStatus';
 import StoryTextField from './story-description/StoryTextField';
-import HistoryIcon from '@material-ui/icons/History';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -106,7 +106,19 @@ const Sidebar = (props: ISidebarProps) => {
     const {
         isSpinnerVisible,
         hasStoryChanged,
-        story: { storyId, title, userId, estimate, description, notes, sprintId, isBlocked, blockReason, priority },
+        story: {
+            storyId,
+            title,
+            userId,
+            estimate,
+            description,
+            notes,
+            sprintId,
+            isReady,
+            isBlocked,
+            blockReason,
+            priority,
+        },
         team,
         storyEstimates,
         sprints,
@@ -146,6 +158,7 @@ const Sidebar = (props: ISidebarProps) => {
 
                 <StoryStatus
                     isBlocked={isBlocked}
+                    isReady={isReady}
                     blockReason={blockReason}
                     name={storyFields.blockReason}
                     onSetStoryReady={onSetStoryReady}
