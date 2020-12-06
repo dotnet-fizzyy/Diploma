@@ -8,6 +8,8 @@ const initialState: IEpicsState = {
 
 export default function epicReducer(state = initialState, action: epicActions.EpicActionTypes) {
     switch (action.type) {
+        case epicActions.EpicActions.CREATE_EPIC_SUCCESS:
+            return handleCreateEpicSuccess(state, action);
         case epicActions.EpicActions.GET_EPICS_SUCCESS:
             return handleGetEpicsSuccess(state, action);
         case epicActions.EpicActions.SET_CURRENT_EPIC:
@@ -15,6 +17,13 @@ export default function epicReducer(state = initialState, action: epicActions.Ep
         default:
             return state;
     }
+}
+
+function handleCreateEpicSuccess(state: IEpicsState, action: epicActions.ICreateEpicSuccess): IEpicsState {
+    return {
+        ...state,
+        epics: [...state.epics, action.payload],
+    };
 }
 
 function handleGetEpicsSuccess(state: IEpicsState, action: epicActions.IGetEpicsSuccess): IEpicsState {

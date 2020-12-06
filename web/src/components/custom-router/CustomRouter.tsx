@@ -6,7 +6,9 @@ import GeneralTabContainer from '../header/general-tab/GeneralTabContainer';
 import BoardApplication from '../index';
 import StartScreenContainer from '../login-registration/StartScreenContainer';
 import MainPageContainer from '../main/MainPageContainer';
+import ProjectManagementContainer from '../management/project/ProjectManagementContainer';
 import ProjectViewerContainer from '../management/project/ProjectViewerContainer';
+import TeamManagementContainer from '../management/team/TeamManagementContainer';
 import TeamsViewerContainer from '../management/team/TeamsViewerContainer';
 import UndefinedPage from '../no-match/UndefinedPage';
 import StoryFullViewContainer from '../story-full-view/StoryFullViewContainer';
@@ -26,7 +28,6 @@ const CustomRouter = (props: ICustomRouterProps) => {
             <Switch>
                 <Route path={routeConstants.LoginScreenRoute} component={StartScreenContainer} />
                 <Route path={routeConstants.RegistrationScreenRoute} component={StartScreenContainer} />
-
                 <RouteGuard
                     exact={true}
                     path={routeConstants.DefaultRoute}
@@ -52,6 +53,16 @@ const CustomRouter = (props: ICustomRouterProps) => {
                 <RouteGuard
                     path={routeConstants.ProjectsViewerRoute}
                     component={ProjectViewerContainer}
+                    isLogged={isLogged}
+                />
+                <RouteGuard
+                    path={routeConstants.TeamManagementRoute}
+                    component={TeamManagementContainer}
+                    isLogged={isLogged}
+                />
+                <RouteGuard
+                    path={routeConstants.ProjectManagementRoute}
+                    component={ProjectManagementContainer}
                     isLogged={isLogged}
                 />
                 <Route path={routeConstants.NoMatchRoute} component={UndefinedPage} />

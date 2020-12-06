@@ -2,8 +2,8 @@ import { Button } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import React from 'react';
-import { projectFields } from '../../../constants/projectConstants';
-import { IProject } from '../../../types/projectTypes';
+import { epicFields } from '../../../constants/epicConstants';
+import { IEpic } from '../../../types/epicTypes';
 import GenericFormDates from '../generic-form/GenericFormDates';
 
 const useStyles = makeStyles(() =>
@@ -27,19 +27,20 @@ const useStyles = makeStyles(() =>
             fontWeight: 'bold',
         },
         button: {
-            width: '170px',
+            width: '150px',
             height: '40px',
             marginTop: '30px',
             backgroundColor: '#75BAF7',
+            fontFamily: 'Poppins, sans-serif',
+            fontSize: '18px',
             border: 'none',
+            textTransform: 'capitalize',
             color: '#FFF',
             boxShadow: 'none',
             transition: 'unset',
             '&:hover': {
                 backgroundColor: '#E8F4FF',
                 boxShadow: 'none',
-                color: '#75BAF7',
-                border: '1px solid lightgrey',
             },
         },
         title: {
@@ -50,38 +51,33 @@ const useStyles = makeStyles(() =>
     })
 );
 
-export interface IProjectCreationProps {
-    project: IProject;
-    onChangeProjectField: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onClickProjectCreate: () => void;
+export interface IEpicCreationProps {
+    epic: IEpic;
+    onChangeEpicField: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onClickCreateEpic: () => void;
 }
 
-const ProjectCreation = (props: IProjectCreationProps) => {
+const EpicCreation = (props: IEpicCreationProps) => {
     const classes = useStyles();
-    const { project, onChangeProjectField, onClickProjectCreate } = props;
+    const { epic, onChangeEpicField, onClickCreateEpic } = props;
 
-    const names = [
-        projectFields.projectName,
-        projectFields.projectDescription,
-        projectFields.startDate,
-        projectFields.endDate,
-    ];
+    const names = [epicFields.epicName, epicFields.epicDescription, epicFields.startDate, epicFields.endDate];
     const values = [
-        project.projectName,
-        project.projectDescription,
-        moment(project.startDate).format('yyyy-MM-DD'),
-        moment(project.endDate).format('yyyy-MM-DD'),
+        epic.epicName,
+        epic.epicDescription,
+        moment(epic.startDate).format('yyyy-MM-DD'),
+        moment(epic.endDate).format('yyyy-MM-DD'),
     ];
 
     return (
         <div className={classes.root}>
-            <span className={classes.header}>Create a project</span>
-            <GenericFormDates names={names} values={values} onChangeField={onChangeProjectField} />
-            <Button onClick={onClickProjectCreate} className={classes.button} variant="outlined">
-                Create project
+            <span className={classes.header}>Create a new epic</span>
+            <GenericFormDates names={names} values={values} onChangeField={onChangeEpicField} />
+            <Button onClick={onClickCreateEpic} className={classes.button}>
+                Create epic
             </Button>
         </div>
     );
 };
 
-export default ProjectCreation;
+export default EpicCreation;

@@ -1,6 +1,9 @@
 import { IEpic } from '../../types/epicTypes';
 
 export const EpicActions = {
+    CREATE_EPIC_REQUEST: 'CREATE_EPIC_REQUEST',
+    CREATE_EPIC_SUCCESS: 'CREATE_EPIC_SUCCESS',
+    CREATE_EPIC_FAILURE: 'CREATE_EPIC_FAILURE',
     GET_EPICS_REQUEST: 'GET_EPICS_REQUEST',
     GET_EPICS_SUCCESS: 'GET_EPICS_SUCCESS',
     GET_EPICS_FAILURE: 'GET_EPICS_FAILURE',
@@ -8,6 +11,21 @@ export const EpicActions = {
 };
 
 //interfaces
+export interface ICreateEpicRequest {
+    type: typeof EpicActions.CREATE_EPIC_REQUEST;
+    payload: IEpic;
+}
+
+export interface ICreateEpicSuccess {
+    type: typeof EpicActions.CREATE_EPIC_SUCCESS;
+    payload: IEpic;
+}
+
+export interface ICreateEpicFailure {
+    type: typeof EpicActions.CREATE_EPIC_FAILURE;
+    payload: Error;
+}
+
 export interface IGetEpicsRequest {
     type: typeof EpicActions.GET_EPICS_REQUEST;
     payload: string;
@@ -29,6 +47,27 @@ export interface ISetCurrentEpic {
 }
 
 //actions
+export function createEpicRequest(epic: IEpic): ICreateEpicRequest {
+    return {
+        type: EpicActions.CREATE_EPIC_REQUEST,
+        payload: epic,
+    };
+}
+
+export function createEpicSuccess(epic: IEpic): ICreateEpicSuccess {
+    return {
+        type: EpicActions.CREATE_EPIC_SUCCESS,
+        payload: epic,
+    };
+}
+
+export function createEpicFailure(error: Error): ICreateEpicFailure {
+    return {
+        type: EpicActions.CREATE_EPIC_FAILURE,
+        payload: error,
+    };
+}
+
 export function getEpicsRequest(projectId: string): IGetEpicsRequest {
     return {
         type: EpicActions.GET_EPICS_REQUEST,
@@ -57,4 +96,4 @@ export function setCurrentEpic(epic: IEpic): ISetCurrentEpic {
     };
 }
 
-export type EpicActionTypes = IGetEpicsRequest & IGetEpicsSuccess & ISetCurrentEpic;
+export type EpicActionTypes = ICreateEpicSuccess & IGetEpicsRequest & IGetEpicsSuccess & ISetCurrentEpic;

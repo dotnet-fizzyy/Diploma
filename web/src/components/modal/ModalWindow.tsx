@@ -2,7 +2,9 @@ import { Modal } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { ModalTypes } from '../../types/modalTypes';
+import EpicCreationContainer from './epic-creation/EpicCreationContainer';
 import ProjectCreationContainer from './project-creation/ProjectCreationContainer';
+import SprintCreationContainer from './sprint-creation/SprintCreationContainer';
 import StoryCreationContainer from './story-creation/StoryCreationContainer';
 import TeamCreationContainer from './team-creation/TeamCreationContainer';
 
@@ -34,8 +36,12 @@ const ModalWindow = (props: IModalWindowProps) => {
                 return <TeamCreationContainer />;
             case ModalTypes.PROJECT_CREATION:
                 return <ProjectCreationContainer />;
+            case ModalTypes.SPRINT_CREATION:
+                return <SprintCreationContainer />;
+            case ModalTypes.EPIC_CREATION:
+                return <EpicCreationContainer />;
             default:
-                return <div />;
+                return <React.Fragment />;
         }
     };
 
