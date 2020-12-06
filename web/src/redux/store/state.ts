@@ -34,6 +34,7 @@ export interface IStoryState {
     storyTitleTerm: string;
     searchResult: IStory[];
     storyHistory: IStoryHistory[];
+    isDragging: boolean;
 }
 
 export interface ISidebarState {

@@ -55,6 +55,8 @@ function* dragAndDropHandler(action: storyActions.IStoryHandleDragAndDrop) {
 
         yield put(storyActions.updateStoriesAfterDragAndDropAction(updatedColumns));
     }
+
+    yield put(storyActions.storyActionDragFinish());
 }
 
 function* blockStory(action: storyActions.IMakeStoryBlocked) {

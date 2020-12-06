@@ -8,7 +8,9 @@ export const StoryActions = {
     REFRESH_STORIES: 'REFRESH_STORIES',
     MAKE_STORY_BLOCKED: 'MAKE_STORY_BLOCKED',
     MAKE_STORY_READY: 'MAKE_STORY_READY',
+    STORY_DRAG_START: 'STORY_DRAG_START',
     STORY_HANDLE_DRAG_AND_DROP: 'STORY_HANDLE_DRAG_AND_DROP',
+    STORY_DRAG_FINISH: 'STORY_DRAG_FINISH',
     UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION: 'UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION',
     SET_STORY_TITLE_TERM_REQUEST: 'SET_STORY_TITLE_TERM_REQUEST',
     SET_STORY_TITLE_TERM_SUCCESS: 'SET_STORY_TITLE_TERM_SUCCESS',
@@ -61,9 +63,17 @@ export interface IMakeStoryReady {
     payload: string;
 }
 
+export interface IStoryDragStart {
+    type: typeof StoryActions.STORY_DRAG_START;
+}
+
 export interface IStoryHandleDragAndDrop {
     type: typeof StoryActions.STORY_HANDLE_DRAG_AND_DROP;
     payload: IStoryDragAndDrop;
+}
+
+export interface IStoryDragFinish {
+    type: typeof StoryActions.STORY_DRAG_FINISH;
 }
 
 export interface IUpdateStoriesAfterDragAndDropAction {
@@ -191,10 +201,22 @@ export function storyActionMakeStoryReady(storyId: string): IMakeStoryReady {
     };
 }
 
+export function storyActionDragStart(): IStoryDragStart {
+    return {
+        type: StoryActions.STORY_DRAG_START,
+    };
+}
+
 export function storyDragAndDropHandle(value: IStoryDragAndDrop): IStoryHandleDragAndDrop {
     return {
         type: StoryActions.STORY_HANDLE_DRAG_AND_DROP,
         payload: value,
+    };
+}
+
+export function storyActionDragFinish(): IStoryDragFinish {
+    return {
+        type: StoryActions.STORY_DRAG_FINISH,
     };
 }
 
@@ -307,4 +329,4 @@ export function changeEpicFailure(error: Error): IChangeEpicFailure {
     };
 }
 
-export type StoriesActionTypes = ISetStoryTitleTermSuccess & IUpdateStoryChangesSuccess;
+export type StoriesActionTypes = ISetStoryTitleTermSuccess & IUpdateStoryChangesSuccess & IStoryDragStart;

@@ -19,6 +19,7 @@ const initialState: IStoryState = {
     storyTitleTerm: '',
     searchResult: [],
     storyHistory: [],
+    isDragging: false,
 };
 
 export default function storiesReducer(state = initialState, action: any) {
@@ -31,8 +32,12 @@ export default function storiesReducer(state = initialState, action: any) {
             return handleMakeStoryBlocked(state, action);
         case storyActions.StoryActions.MAKE_STORY_READY:
             return handleMakeStoryReady(state, action);
+        case storyActions.StoryActions.STORY_DRAG_START:
+            return handleStoryDragStart(state, action);
         case storyActions.StoryActions.UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION:
             return handleStoryDragAndDrop(state, action);
+        case storyActions.StoryActions.STORY_DRAG_FINISH:
+            return handleStoryDragFinish(state, action);
         case storyActions.StoryActions.SET_STORY_TITLE_TERM_REQUEST:
             return handleSetStoryTitleTerm(state, action);
         case storyActions.StoryActions.SET_STORY_TITLE_TERM_SUCCESS:
@@ -112,6 +117,13 @@ function handleMakeStoryReady(state: IStoryState, action: storyActions.IMakeStor
     };
 }
 
+function handleStoryDragStart(state: IStoryState, action: storyActions.IStoryDragStart): IStoryState {
+    return {
+        ...state,
+        isDragging: true,
+    };
+}
+
 function handleStoryDragAndDrop(
     state: IStoryState,
     action: storyActions.IUpdateStoriesAfterDragAndDropAction
@@ -119,6 +131,13 @@ function handleStoryDragAndDrop(
     return {
         ...state,
         columns: action.payload,
+    };
+}
+
+function handleStoryDragFinish(state: IStoryState, action: storyActions.IStoryDragFinish): IStoryState {
+    return {
+        ...state,
+        isDragging: false,
     };
 }
 

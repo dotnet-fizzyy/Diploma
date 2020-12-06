@@ -1,4 +1,5 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import classnames from 'classnames';
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import { ISelectedItem, IStory } from '../../types/storyTypes';
@@ -9,6 +10,9 @@ const useStyles = makeStyles(() =>
         root: {
             width: '270px',
             margin: '0 15px',
+        },
+        highlightedColumn: {
+            border: '1px solid rgba(175, 193, 196, 0.5)',
         },
         header: {
             height: '60px',
@@ -34,6 +38,7 @@ const useStyles = makeStyles(() =>
 export interface IColumnProps {
     column: ISelectedItem;
     stories: IStory[];
+    isDragging: boolean;
     onSelectStory: (storyId: string) => void;
     onMakeStoryBlocked: (storyId: string) => void;
     onMakeStoryReady: (storyId: string) => void;
@@ -41,7 +46,7 @@ export interface IColumnProps {
 
 const Column = (props: IColumnProps) => {
     const classes = useStyles();
-    const { column, stories, onSelectStory, onMakeStoryBlocked, onMakeStoryReady } = props;
+    const { column, stories, isDragging, onSelectStory, onMakeStoryBlocked, onMakeStoryReady } = props;
 
     return (
         <Droppable droppableId={column.key}>
@@ -50,8 +55,11 @@ const Column = (props: IColumnProps) => {
                     <div className={classes.header}>
                         <span>{column.value}</span>
                     </div>
-                    <div className={classes.body} ref={provided.innerRef} {...provided.droppableProps}>
-                        {provided.placeholder}
+                    <div
+                        className={classnames(classes.body, { [classes.highlightedColumn]: isDragging })}
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                    >
                         {stories.map((story, index) => (
                             <div key={story.storyId} className={classes.storiesContainer}>
                                 <Story
@@ -63,6 +71,7 @@ const Column = (props: IColumnProps) => {
                                 />
                             </div>
                         ))}
+                        {provided.placeholder}
                     </div>
                 </div>
             )}

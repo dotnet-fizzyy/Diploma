@@ -21,6 +21,10 @@ const BoardContainer = () => {
         dispatch(sidebarActions.sidebarHandleVisibility(false));
     };
 
+    const onDragStart = () => {
+        dispatch(storyActions.storyActionDragStart());
+    };
+
     const onDragEnd = (result: any) => {
         if (result.destination) {
             dispatch(
@@ -36,6 +40,7 @@ const BoardContainer = () => {
     const props: IBoardProps = {
         columns,
         isSidebarVisible,
+        onDragStart,
         onDragEnd,
         onCloseSidebar,
     };

@@ -34,3 +34,7 @@ export function getStoryHistory(state: IState): IStoryHistory[] {
 export function getSearchResults(state: IState): IStory[] {
     return state.stories.searchResult;
 }
+
+export function getIsDragging(state: IState): boolean {
+    return state.stories.isDragging;
+}

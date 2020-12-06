@@ -28,17 +28,18 @@ export interface IBoardProps {
     isSidebarVisible: boolean;
     onDragEnd: (result: any) => void;
     onCloseSidebar: () => void;
+    onDragStart: () => void;
 }
 
 const Board = (props: IBoardProps) => {
     const classes = useStyles();
-    const { columns, isSidebarVisible, onDragEnd, onCloseSidebar } = props;
+    const { columns, isSidebarVisible, onDragStart, onDragEnd, onCloseSidebar } = props;
 
     return (
         <div className={classes.root}>
             <InfoTabContainer />
             <div className={classes.body}>
-                <DragDropContext onDragEnd={onDragEnd}>
+                <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
                     {columns.map((column) => (
                         <React.Fragment key={column.key}>
                             <ColumnContainer column={column} />

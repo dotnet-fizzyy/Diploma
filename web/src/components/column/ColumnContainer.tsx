@@ -15,6 +15,7 @@ const ColumnContainer = (props: IColumnContainerProps) => {
     const { column } = props;
 
     const stories: IStory[] = useSelector(storiesSelectors.getStoriesForColumn(column.key));
+    const isDragging: boolean = useSelector(storiesSelectors.getIsDragging);
 
     const onSelectStory = (storyId: string) => {
         dispatch(storyActions.storyActionSelectStory(storyId));
@@ -32,6 +33,7 @@ const ColumnContainer = (props: IColumnContainerProps) => {
     const columnProps: IColumnProps = {
         column,
         stories,
+        isDragging,
         onMakeStoryBlocked,
         onMakeStoryReady,
         onSelectStory,
