@@ -4,5 +4,5 @@ export interface IProject {
     projectDescription: string;
     startDate: Date;
     endDate: Date;
-    customer: string;
+    customer?: string;
 }

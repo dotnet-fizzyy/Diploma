@@ -6,6 +6,7 @@ import GeneralTabContainer from '../header/general-tab/GeneralTabContainer';
 import BoardApplication from '../index';
 import StartScreenContainer from '../login-registration/StartScreenContainer';
 import MainPageContainer from '../main/MainPageContainer';
+import ProjectViewerContainer from '../management/project/ProjectViewerContainer';
 import TeamsViewerContainer from '../management/team/TeamsViewerContainer';
 import UndefinedPage from '../no-match/UndefinedPage';
 import StoryFullViewContainer from '../story-full-view/StoryFullViewContainer';
@@ -46,6 +47,11 @@ const CustomRouter = (props: ICustomRouterProps) => {
                 <RouteGuard
                     path={routeConstants.TeamsViewerRoute}
                     component={TeamsViewerContainer}
+                    isLogged={isLogged}
+                />
+                <RouteGuard
+                    path={routeConstants.ProjectsViewerRoute}
+                    component={ProjectViewerContainer}
                     isLogged={isLogged}
                 />
                 <Route path={routeConstants.NoMatchRoute} component={UndefinedPage} />

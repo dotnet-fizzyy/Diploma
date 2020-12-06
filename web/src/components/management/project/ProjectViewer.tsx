@@ -3,7 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import classnames from 'classnames';
 import React from 'react';
-import { ITeam } from '../../../types/teamTypes';
+import { ISelectedItem } from '../../../types/storyTypes';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -26,7 +26,7 @@ const useStyles = makeStyles(() =>
             flexDirection: 'column',
             marginTop: '20px',
         },
-        teamLink: {
+        projectLink: {
             fontSize: '18px',
             fontFamily: 'Poppins, sans-serif',
             '&:hover': {
@@ -36,7 +36,7 @@ const useStyles = makeStyles(() =>
             display: 'flex',
             alignItems: 'center',
         },
-        teamName: {
+        projectName: {
             width: '200px',
         },
         button: {
@@ -59,41 +59,44 @@ const useStyles = makeStyles(() =>
         manageButton: {
             height: 'auto',
             marginRight: '20px',
+            width: '170px',
         },
     })
 );
 
-export interface ITeamsViewerProps {
-    teams: ITeam[];
-    onTeamSelect: (value: string) => void;
-    onClickAddTeam: () => void;
+export interface IProjectViewerProps {
+    projects: ISelectedItem[];
+    onProjectSelect: (value: string) => void;
+    onClickAddProject: () => void;
 }
 
-const TeamsViewer = (props: ITeamsViewerProps) => {
+const ProjectViewer = (props: IProjectViewerProps) => {
     const classes = useStyles();
-    const { teams, onTeamSelect, onClickAddTeam } = props;
+    const { projects, onClickAddProject, onProjectSelect } = props;
 
     return (
         <div className={classes.root}>
             <div className={classes.mainContainer}>
-                <Button onClick={onClickAddTeam} className={classes.button} variant="outlined" startIcon={<AddIcon />}>
-                    Add team
+                <Button
+                    onClick={onClickAddProject}
+                    className={classes.button}
+                    variant="outlined"
+                    startIcon={<AddIcon />}
+                >
+                    Add Project
                 </Button>
-                <span className={classes.header}>Your teams</span>
+                <span className={classes.header}>Your projects</span>
                 <div className={classes.body}>
-                    {teams && teams.length
-                        ? teams.map((team) => (
-                              <div key={team.teamId} className={classes.teamLink}>
-                                  <span className={classes.teamName}>{team.teamName}</span>
+                    {projects && projects.length
+                        ? projects.map((project) => (
+                              <div key={project.key} className={classes.projectLink}>
+                                  <span className={classes.projectName}>{project.value}</span>
                                   <Button
                                       className={classnames(classes.button, classes.manageButton)}
                                       variant="outlined"
-                                      onClick={() => onTeamSelect(team.teamId)}
+                                      onClick={() => onProjectSelect(project.key)}
                                   >
-                                      Manage team
-                                  </Button>
-                                  <Button variant="outlined" disabled={true}>
-                                      Disable team
+                                      Manage project
                                   </Button>
                               </div>
                           ))
@@ -104,4 +107,4 @@ const TeamsViewer = (props: ITeamsViewerProps) => {
     );
 };
 
-export default TeamsViewer;
+export default ProjectViewer;

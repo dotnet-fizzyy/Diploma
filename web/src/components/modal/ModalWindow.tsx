@@ -2,6 +2,7 @@ import { Modal } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { ModalTypes } from '../../types/modalTypes';
+import ProjectCreationContainer from './project-creation/ProjectCreationContainer';
 import StoryCreationContainer from './story-creation/StoryCreationContainer';
 import TeamCreationContainer from './team-creation/TeamCreationContainer';
 
@@ -31,6 +32,8 @@ const ModalWindow = (props: IModalWindowProps) => {
                 return <StoryCreationContainer />;
             case ModalTypes.TEAM_CREATION:
                 return <TeamCreationContainer />;
+            case ModalTypes.PROJECT_CREATION:
+                return <ProjectCreationContainer />;
             default:
                 return <div />;
         }

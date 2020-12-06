@@ -8,6 +8,8 @@ const initialState: IProjectState = {
 
 export default function projectsReducer(state = initialState, action: projectActions.ProjectActionTypes) {
     switch (action.type) {
+        case projectActions.ProjectActions.CREATE_PROJECT_SUCCESS:
+            return handleCreateProjectSuccess(state, action);
         case projectActions.ProjectActions.SET_PROJECTS:
             return handleSetProjects(state, action);
         case projectActions.ProjectActions.SET_CURRENT_PROJECT:
@@ -15,6 +17,13 @@ export default function projectsReducer(state = initialState, action: projectAct
         default:
             return state;
     }
+}
+
+function handleCreateProjectSuccess(state: IProjectState, action: projectActions.ICreateProjectSuccess): IProjectState {
+    return {
+        ...state,
+        projects: [...state.projects, action.payload],
+    };
 }
 
 function handleSetProjects(state: IProjectState, action: projectActions.ISetProjects): IProjectState {
