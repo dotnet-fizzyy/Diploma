@@ -19,6 +19,8 @@ services:
       context: WebAPI
       dockerfile: Dockerfile
     restart: always
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=docker
     depends_on:
       - db
     ports:
