@@ -6,10 +6,10 @@ import GeneralTabContainer from '../header/general-tab/GeneralTabContainer';
 import BoardApplication from '../index';
 import StartScreenContainer from '../login-registration/StartScreenContainer';
 import MainPageContainer from '../main/MainPageContainer';
+import TeamsViewerContainer from '../management/team/TeamsViewerContainer';
 import UndefinedPage from '../no-match/UndefinedPage';
 import StoryFullViewContainer from '../story-full-view/StoryFullViewContainer';
 import StoryHistoryContainer from '../story-history/StoryHistoryContainer';
-import TeamsViewerContainer from '../team-management/TeamsViewerContainer';
 import RouteGuard from './RouteGuard';
 
 export interface ICustomRouterProps {

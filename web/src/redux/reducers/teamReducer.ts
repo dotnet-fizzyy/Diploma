@@ -8,6 +8,8 @@ const initialState: ITeamState = {
 
 export default function teamsReducer(state = initialState, action: TeamActions.TeamActionsType) {
     switch (action.type) {
+        case TeamActions.TeamActions.CREATE_TEAM_SUCCESS:
+            return handleCreateTeamSuccess(state, action);
         case TeamActions.TeamActions.ADD_TEAMS:
             return handleAddTeams(state, action);
         case TeamActions.TeamActions.SET_SELECTED_TEAM:
@@ -17,6 +19,13 @@ export default function teamsReducer(state = initialState, action: TeamActions.T
         default:
             return state;
     }
+}
+
+function handleCreateTeamSuccess(state: ITeamState, action: TeamActions.ICreateTeamSuccess): ITeamState {
+    return {
+        ...state,
+        teams: [...state.teams, action.payload],
+    };
 }
 
 function handleAddTeams(state: ITeamState, action: TeamActions.IAddTeams): ITeamState {

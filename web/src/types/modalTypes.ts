@@ -1,4 +1,5 @@
 export enum ModalTypes {
-    LOGIN,
     STORY_CREATION,
+    TEAM_CREATION,
+    PROJECT_CREATION,
 }

@@ -3,6 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { ModalTypes } from '../../types/modalTypes';
 import StoryCreationContainer from './story-creation/StoryCreationContainer';
+import TeamCreationContainer from './team-creation/TeamCreationContainer';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -18,24 +19,25 @@ export interface IModalWindowProps {
     isOpen: boolean;
     modalType: ModalTypes;
     handleOnClose: () => void;
-    modalRef: React.MutableRefObject<HTMLDivElement>;
 }
 
 const ModalWindow = (props: IModalWindowProps) => {
     const classes = useStyles();
-    const { isOpen, modalType, modalRef, handleOnClose } = props;
+    const { isOpen, modalType, handleOnClose } = props;
 
     const getModalType = () => {
         switch (modalType) {
             case ModalTypes.STORY_CREATION:
                 return <StoryCreationContainer />;
+            case ModalTypes.TEAM_CREATION:
+                return <TeamCreationContainer />;
             default:
                 return <div />;
         }
     };
 
     return (
-        <Modal open={isOpen} onClose={handleOnClose} container={() => modalRef.current} className={classes.root}>
+        <Modal open={isOpen} onClose={handleOnClose} className={classes.root}>
             <>{getModalType()}</>
         </Modal>
     );
