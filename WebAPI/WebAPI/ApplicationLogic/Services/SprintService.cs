@@ -45,23 +45,16 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<BoardResponse> GetAllSprintsFromEpic(Guid epicId, Guid userId)
+        public async Task<CollectionResponse<FullSprint>> GetAllSprintsFromEpic(Guid epicId, Guid userId)
         {
             var sprintEntities = await _sprintRepository.GetFullSprintsByEpicId(epicId);
-            var team = await _teamRepository.SearchForSingleItemAsync(x => x.Users.Any(e => e.UserId == userId), x => x.Users);
-
+           
             var sprintsCollectionResponse = new CollectionResponse<FullSprint>
             {
                 Items = sprintEntities.Select(_sprintMapper.MapToFullModel).ToList()
             };
 
-            var boardResponse = new BoardResponse
-            {
-                SprintsCollection = sprintsCollectionResponse,
-                Team = _teamMapper.MapToFullModel(team),
-            };
-            
-            return boardResponse;
+            return sprintsCollectionResponse;
         }
 
         public async Task<Sprint> GetSprint(Guid sprintId)

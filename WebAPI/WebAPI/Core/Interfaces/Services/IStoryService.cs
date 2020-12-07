@@ -23,7 +23,9 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<Story> UpdateStory(Story story);
 
-        Task<Story> UpdateStoryColumn(Story story);
+        Task UpdateStoryColumn(Story story);
+
+        Task ChangeStoryStatus(Story story);
 
         Task<Story> UpdatePartsOfStory(StoryUpdate storyUpdate);
         

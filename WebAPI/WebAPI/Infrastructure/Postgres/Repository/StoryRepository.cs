@@ -41,15 +41,31 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             return foundStories;
         }
 
-        public async Task<Story> UpdateStoryColumn(Story story)
+        public async Task UpdateStoryColumn(Story story)
         {
             _dbContext.Stories.Attach(story);
 
             _dbContext.Entry(story).Property(x => x.ColumnType).IsModified = true;
             
             await _dbContext.SaveChangesAsync();
+        }
 
-            return story;
+        public async Task ChangeStoryStatus(Story story)
+        {
+            _dbContext.Stories.Attach(story);
+
+            //Need update with more effective way
+            if (string.Equals(story.BlockReason, string.Empty, StringComparison.OrdinalIgnoreCase))
+            {
+                _dbContext.Entry(story).Property(x => x.BlockReason).IsModified = true;
+                _dbContext.Entry(story).Property(x => x.IsBlocked).IsModified = true;
+            }
+            else
+            {
+                _dbContext.Entry(story).Property(x => x.IsReady).IsModified = true;
+            }
+            
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

@@ -34,12 +34,18 @@ namespace WebAPI.Presentation.Controllers
         [HttpGet]
         [Route("epic/{epicId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<BoardResponse>> GetAllSprintsFromEpic(Guid epicId)
+        public async Task<ActionResult<CollectionResponse<FullSprint>>> GetAllSprintsFromEpic(Guid epicId)
         {
             var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
 
+            if (userId == null)
+            {
+                return BadRequest();
+            }
+            
             var boardResponse = await _sprintService.GetAllSprintsFromEpic(epicId, new Guid(userId));
 
             return boardResponse;

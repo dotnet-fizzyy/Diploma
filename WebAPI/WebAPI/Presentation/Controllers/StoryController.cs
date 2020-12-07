@@ -178,9 +178,24 @@ namespace WebAPI.Presentation.Controllers
             var storyModel = new Story();
             storyPatch.ApplyTo(storyModel, ModelState);
 
-            var updatedStory = await _storyService.UpdateStoryColumn(storyModel);
+            await _storyService.UpdateStoryColumn(storyModel);
             
-            return Ok(updatedStory);
+            return NoContent();
+        }
+        
+        [HttpPatch]
+        [Route("change-status")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> ChangeStoryStatus([FromBody, BindRequired] JsonPatchDocument<Story> storyPatch)
+        {
+            var storyModel = new Story();
+            storyPatch.ApplyTo(storyModel, ModelState);
+
+            await _storyService.ChangeStoryStatus(storyModel);
+            
+            return NoContent();
         }
         
         [HttpDelete]
