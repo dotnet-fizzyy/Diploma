@@ -114,6 +114,7 @@ const StoryCreation = (props: IStoryCreationProps) => {
                     multiline={true}
                     name={storyFields.notes}
                     placeholder="Add notes for description your task if it is neccessary"
+                    onChange={onChangeField}
                 />
             </div>
             <div className={classes.footer}>

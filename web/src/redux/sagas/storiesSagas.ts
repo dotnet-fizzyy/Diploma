@@ -1,4 +1,4 @@
-import { debounce, delay, put, select, takeLatest } from 'redux-saga/effects';
+import { debounce, delay, put, select, take, takeLatest } from 'redux-saga/effects';
 import { debouncePeriod } from '../../constants/storyConstants';
 import { createStoryUpdatePartsFromStory } from '../../helpers/storyHelper';
 import mockedProject from '../../mock/mockedProject';
@@ -17,9 +17,21 @@ import * as storySelectors from '../selectors/storiesSelectors';
 import * as currentUserSelectors from '../selectors/userSelectors';
 
 function* refreshData() {
-    yield delay(100000);
+    try {
+        yield delay(100000);
 
-    yield put(storyActions.storyRefreshStories());
+        yield put(storyActions.refreshStoriesRequest());
+    } catch (error) {
+        yield put(storyActions.refreshStoriesFailure(error));
+    }
+}
+
+function* createStory(action: storyActions.ICreateStoryRequest) {
+    try {
+        yield put(storyActions.createStorySuccess(action.payload));
+    } catch (error) {
+        yield put(storyActions.createStoryFailure(error));
+    }
 }
 
 function* getGeneralInfo() {
@@ -46,17 +58,27 @@ function* dragAndDropHandler(action: storyActions.IStoryHandleDragAndDrop) {
             }
 
             if (column.key === action.payload.columnTypeDestination) {
-                (movableStory as any).columnType = action.payload.columnTypeDestination;
-                column.value = column.value.concat(movableStory as any);
+                movableStory.columnType = action.payload.columnTypeDestination;
+                column.value = column.value.concat(movableStory);
             }
 
             return column;
         });
 
+        yield put(storyActions.updateStoryColumnRequest(movableStory));
+        yield take(storyActions.StoryActions.STORY_UPDATE_COLUMN_SUCCESS);
         yield put(storyActions.updateStoriesAfterDragAndDropAction(updatedColumns));
     }
 
-    yield put(storyActions.storyActionDragFinish());
+    yield put(storyActions.storyDragFinish());
+}
+
+function* updateStoryColumn(action: storyActions.IUpdateStoryColumnRequest) {
+    try {
+        yield put(storyActions.updateStoryColumnSuccess());
+    } catch (error) {
+        yield put(storyActions.updateStoryColumnFailure());
+    }
 }
 
 function* blockStory(action: storyActions.IMakeStoryBlocked) {
@@ -111,9 +133,11 @@ function* changeEpic(action: storyActions.IChangeEpicRequest) {
 }
 
 export default function* rootStoriesSaga() {
-    yield takeLatest(storyActions.StoryActions.REFRESH_STORIES, refreshData);
+    yield takeLatest(storyActions.StoryActions.REFRESH_STORIES_REQUEST, refreshData);
     yield takeLatest(storyActions.StoryActions.GET_GENERAL_INFO_REQUEST, getGeneralInfo);
+    yield takeLatest(storyActions.StoryActions.CREATE_STORY_REQUEST, createStory);
     yield takeLatest(storyActions.StoryActions.STORY_HANDLE_DRAG_AND_DROP, dragAndDropHandler);
+    yield takeLatest(storyActions.StoryActions.STORY_UPDATE_COLUMN_REQUEST, updateStoryColumn);
     yield takeLatest(storyActions.StoryActions.MAKE_STORY_BLOCKED, blockStory);
     yield takeLatest(sidebarActions.SidebarActions.SIDEBAR_HANDLE_VISIBILITY, declineStoryBlock);
     yield takeLatest(storyActions.StoryActions.GET_STORY_HISTORY_REQUEST, getStoryHistory);

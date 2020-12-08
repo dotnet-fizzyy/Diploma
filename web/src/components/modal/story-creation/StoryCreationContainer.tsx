@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { initialStory } from '../../../constants/storyConstants';
 import { createStoryEstimationDropdownItems, createStoryPriorityDropdownItems } from '../../../helpers/storyHelper';
+import * as storyActions from '../../../redux/actions/storiesActions';
 import * as sprintSelectors from '../../../redux/selectors/sprintsSelectors';
 import * as teamSelectors from '../../../redux/selectors/teamSelectors';
 import { IStory } from '../../../types/storyTypes';
 import StoryCreation, { IStoryCreationProps } from './StoryCreation';
 
 const StoryCreationContainer = () => {
-    const [story, setStory] = useState<IStory>(initialStory);
+    const dispatch = useDispatch();
 
     const teamMembers = useSelector(teamSelectors.getUserNames);
     const sprints = useSelector(sprintSelectors.getSprintsNames);
     const priorities = createStoryPriorityDropdownItems();
     const storyEstimation = createStoryEstimationDropdownItems();
+
+    const [story, setStory] = useState<IStory>(initialStory);
 
     const onChangeField = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const {
@@ -29,7 +32,7 @@ const StoryCreationContainer = () => {
     };
 
     const onClickCreateStory = () => {
-        console.log(story);
+        dispatch(storyActions.createStoryRequest(story));
     };
 
     const storyCreationProps: IStoryCreationProps = {

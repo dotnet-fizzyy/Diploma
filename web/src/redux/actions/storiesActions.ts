@@ -5,11 +5,19 @@ export const StoryActions = {
     GET_GENERAL_INFO_SUCCESS: 'GET_GENERAL_INFO_SUCCESS',
     ADD_STORIES: 'ADD_STORIES',
     SELECT_STORY: 'SELECT_STORY',
-    REFRESH_STORIES: 'REFRESH_STORIES',
+    REFRESH_STORIES_REQUEST: 'REFRESH_STORIES_REQUEST',
+    REFRESH_STORIES_SUCCESS: 'REFRESH_STORIES_SUCCESS',
+    REFRESH_STORIES_FAILURE: 'REFRESH_STORIES_FAILURE',
+    CREATE_STORY_REQUEST: 'CREATE_STORY_REQUEST',
+    CREATE_STORY_SUCCESS: 'CREATE_STORY_SUCCESS',
+    CREATE_STORY_FAILURE: 'CREATE_STORY_FAILURE',
     MAKE_STORY_BLOCKED: 'MAKE_STORY_BLOCKED',
     MAKE_STORY_READY: 'MAKE_STORY_READY',
     STORY_DRAG_START: 'STORY_DRAG_START',
     STORY_HANDLE_DRAG_AND_DROP: 'STORY_HANDLE_DRAG_AND_DROP',
+    STORY_UPDATE_COLUMN_REQUEST: 'STORY_UPDATE_COLUMN_REQUEST',
+    STORY_UPDATE_COLUMN_SUCCESS: 'STORY_UPDATE_COLUMN_SUCCESS',
+    STORY_UPDATE_COLUMN_FAILURE: 'STORY_UPDATE_COLUMN_FAILURE',
     STORY_DRAG_FINISH: 'STORY_DRAG_FINISH',
     UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION: 'UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION',
     SET_STORY_TITLE_TERM_REQUEST: 'SET_STORY_TITLE_TERM_REQUEST',
@@ -40,8 +48,33 @@ export interface ISelectStory {
     payload: string;
 }
 
-export interface IRefreshStories {
-    type: typeof StoryActions.REFRESH_STORIES;
+export interface IRefreshStoriesRequest {
+    type: typeof StoryActions.REFRESH_STORIES_REQUEST;
+}
+
+export interface IRefreshStoriesSuccess {
+    type: typeof StoryActions.REFRESH_STORIES_SUCCESS;
+    payload: IStory[];
+}
+
+export interface IRefreshStoriesFailure {
+    type: typeof StoryActions.REFRESH_STORIES_FAILURE;
+    payload: Error;
+}
+
+export interface ICreateStoryRequest {
+    type: typeof StoryActions.CREATE_STORY_REQUEST;
+    payload: IStory;
+}
+
+export interface ICreateStorySuccess {
+    type: typeof StoryActions.CREATE_STORY_SUCCESS;
+    payload: IStory;
+}
+
+export interface ICreateStoryFailure {
+    type: typeof StoryActions.CREATE_STORY_FAILURE;
+    payload: Error;
 }
 
 export interface IGetGeneralInfoRequest {
@@ -70,6 +103,19 @@ export interface IStoryDragStart {
 export interface IStoryHandleDragAndDrop {
     type: typeof StoryActions.STORY_HANDLE_DRAG_AND_DROP;
     payload: IStoryDragAndDrop;
+}
+
+export interface IUpdateStoryColumnRequest {
+    type: typeof StoryActions.STORY_UPDATE_COLUMN_REQUEST;
+    payload: IStory;
+}
+
+export interface IUpdateStoryColumnSuccess {
+    type: typeof StoryActions.STORY_UPDATE_COLUMN_SUCCESS;
+}
+
+export interface IUpdateStoryColumnFailure {
+    type: typeof StoryActions.STORY_UPDATE_COLUMN_FAILURE;
 }
 
 export interface IStoryDragFinish {
@@ -168,9 +214,44 @@ export function storyActionSelectStory(value: string): ISelectStory {
     };
 }
 
-export function storyRefreshStories(): IRefreshStories {
+export function refreshStoriesRequest(): IRefreshStoriesRequest {
     return {
-        type: StoryActions.REFRESH_STORIES,
+        type: StoryActions.REFRESH_STORIES_REQUEST,
+    };
+}
+
+export function refreshStoriesSuccess(stories: IStory[]): IRefreshStoriesSuccess {
+    return {
+        type: StoryActions.REFRESH_STORIES_SUCCESS,
+        payload: stories,
+    };
+}
+
+export function refreshStoriesFailure(error: Error): IRefreshStoriesFailure {
+    return {
+        type: StoryActions.REFRESH_STORIES_REQUEST,
+        payload: error,
+    };
+}
+
+export function createStoryRequest(story: IStory): ICreateStoryRequest {
+    return {
+        type: StoryActions.CREATE_STORY_REQUEST,
+        payload: story,
+    };
+}
+
+export function createStorySuccess(story: IStory): ICreateStorySuccess {
+    return {
+        type: StoryActions.CREATE_STORY_SUCCESS,
+        payload: story,
+    };
+}
+
+export function createStoryFailure(error: Error): ICreateStoryFailure {
+    return {
+        type: StoryActions.CREATE_STORY_FAILURE,
+        payload: error,
     };
 }
 
@@ -214,7 +295,26 @@ export function storyDragAndDropHandle(value: IStoryDragAndDrop): IStoryHandleDr
     };
 }
 
-export function storyActionDragFinish(): IStoryDragFinish {
+export function updateStoryColumnRequest(value: IStory): IUpdateStoryColumnRequest {
+    return {
+        type: StoryActions.STORY_UPDATE_COLUMN_REQUEST,
+        payload: value,
+    };
+}
+
+export function updateStoryColumnSuccess(): IUpdateStoryColumnSuccess {
+    return {
+        type: StoryActions.STORY_UPDATE_COLUMN_SUCCESS,
+    };
+}
+
+export function updateStoryColumnFailure(): IUpdateStoryColumnFailure {
+    return {
+        type: StoryActions.STORY_UPDATE_COLUMN_FAILURE,
+    };
+}
+
+export function storyDragFinish(): IStoryDragFinish {
     return {
         type: StoryActions.STORY_DRAG_FINISH,
     };
@@ -329,4 +429,8 @@ export function changeEpicFailure(error: Error): IChangeEpicFailure {
     };
 }
 
-export type StoriesActionTypes = ISetStoryTitleTermSuccess & IUpdateStoryChangesSuccess & IStoryDragStart;
+export type StoriesActionTypes = ISetStoryTitleTermSuccess &
+    IUpdateStoryChangesSuccess &
+    IStoryDragStart &
+    ICreateStorySuccess &
+    IRefreshStoriesSuccess;

@@ -1,4 +1,5 @@
 import { IStory } from '../types/storyTypes';
+import { ColumnIds } from './boardConstants';
 
 export const debouncePeriod: number = 1000;
 
@@ -9,7 +10,6 @@ export enum StoryActions {
 }
 
 export const StoryEstimation = {
-    ZERO_POINTS: 0,
     ONE_POINT: 1,
     TWO_POINTS: 2,
     THREE_POINTS: 3,
@@ -38,10 +38,10 @@ export enum storyFields {
 
 export const initialStory: IStory = {
     [storyFields.blockReason]: '',
-    [storyFields.columnType]: '',
-    [storyFields.creationDate]: '',
+    [storyFields.columnType]: ColumnIds.ToDo,
+    [storyFields.creationDate]: new Date().toLocaleDateString(),
     [storyFields.description]: '',
-    [storyFields.estimate]: 0,
+    [storyFields.estimate]: 1,
     [storyFields.isBlocked]: false,
     [storyFields.isDefect]: false,
     [storyFields.isReady]: false,

@@ -28,6 +28,8 @@ export default function storiesReducer(state = initialState, action: any) {
             return handleAddStories(state, action);
         case storyActions.StoryActions.SELECT_STORY:
             return handleSelectStory(state, action);
+        case storyActions.StoryActions.CREATE_STORY_SUCCESS:
+            return handleCreateStory(state, action);
         case storyActions.StoryActions.MAKE_STORY_BLOCKED:
             return handleMakeStoryBlocked(state, action);
         case storyActions.StoryActions.MAKE_STORY_READY:
@@ -62,6 +64,18 @@ function handleAddStories(state: IStoryState, action: storyActions.IAddStories):
             return {
                 key: column.key,
                 value: action.payload.filter((story) => story.columnType === column.key),
+            } as IStoryColumns;
+        }),
+    };
+}
+
+function handleCreateStory(state: IStoryState, action: storyActions.ICreateStorySuccess): IStoryState {
+    return {
+        ...state,
+        columns: state.columns.map((column) => {
+            return {
+                key: column.key,
+                value: [...column.value, action.payload],
             } as IStoryColumns;
         }),
     };
