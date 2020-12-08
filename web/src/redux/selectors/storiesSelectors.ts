@@ -38,3 +38,7 @@ export function getSearchResults(state: IState): IStory[] {
 export function getIsDragging(state: IState): boolean {
     return state.stories.isDragging;
 }
+
+export function getSortType(state: IState): string {
+    return state.stories.sortType;
+}

@@ -35,6 +35,10 @@ export const StoryActions = {
     CHANGE_EPIC_REQUEST: 'CHANGE_EPIC_REQUEST',
     CHANGE_EPIC_SUCCESS: 'CHANGE_EPIC_SUCCESS',
     CHANGE_EPIC_FAILURE: 'CHANGE_EPIC_FAILURE',
+    SORT_STORIES_REQUEST: 'SORT_STORIES_REQUEST',
+    SORT_STORIES_SUCCESS: 'SORT_STORIES_SUCCESS',
+    SORT_STORIES_FAILURE: 'SORT_STORIES_FAILURE',
+    CHANGE_SORT_TYPE: 'CHANGE_SORT_TYPE',
 };
 
 //interfaces
@@ -197,6 +201,26 @@ export interface IChangeEpicSuccess {
 export interface IChangeEpicFailure {
     type: typeof StoryActions.CHANGE_EPIC_FAILURE;
     payload: Error;
+}
+
+export interface ISortStoriesRequest {
+    type: typeof StoryActions.SORT_STORIES_REQUEST;
+    payload: string;
+}
+
+export interface ISortStoriesSuccess {
+    type: typeof StoryActions.SORT_STORIES_SUCCESS;
+    payload: IStory[];
+}
+
+export interface ISortStoriesFailure {
+    type: typeof StoryActions.SORT_STORIES_FAILURE;
+    payload: Error;
+}
+
+export interface IChangeSortType {
+    type: typeof StoryActions.CHANGE_SORT_TYPE;
+    payload: string;
 }
 
 //actions
@@ -426,6 +450,34 @@ export function changeEpicFailure(error: Error): IChangeEpicFailure {
     return {
         type: StoryActions.CHANGE_EPIC_FAILURE,
         payload: error,
+    };
+}
+
+export function sortStoriesRequest(value: string): ISortStoriesRequest {
+    return {
+        type: StoryActions.SORT_STORIES_REQUEST,
+        payload: value,
+    };
+}
+
+export function sortStoriesSuccess(stories: IStory[]): ISortStoriesSuccess {
+    return {
+        type: StoryActions.SORT_STORIES_SUCCESS,
+        payload: stories,
+    };
+}
+
+export function sortStoriesFailure(error: Error): ISortStoriesFailure {
+    return {
+        type: StoryActions.SORT_STORIES_FAILURE,
+        payload: error,
+    };
+}
+
+export function changeSortType(value: string): IChangeSortType {
+    return {
+        type: StoryActions.CHANGE_SORT_TYPE,
+        payload: value,
     };
 }
 

@@ -132,6 +132,16 @@ function* changeEpic(action: storyActions.IChangeEpicRequest) {
     }
 }
 
+function* sortStories(action: storyActions.ISortStoriesRequest) {
+    try {
+        yield put(storyActions.changeSortType(action.payload));
+        const sort = action.payload.split(' ').join('');
+        console.log(sort);
+    } catch (error) {
+        yield put(storyActions.sortStoriesFailure(error));
+    }
+}
+
 export default function* rootStoriesSaga() {
     yield takeLatest(storyActions.StoryActions.REFRESH_STORIES_REQUEST, refreshData);
     yield takeLatest(storyActions.StoryActions.GET_GENERAL_INFO_REQUEST, getGeneralInfo);
@@ -143,5 +153,6 @@ export default function* rootStoriesSaga() {
     yield takeLatest(storyActions.StoryActions.GET_STORY_HISTORY_REQUEST, getStoryHistory);
     yield takeLatest(storyActions.StoryActions.STORY_UPDATE_CHANGES_REQUEST, updateStoryChanges);
     yield takeLatest(storyActions.StoryActions.CHANGE_EPIC_REQUEST, changeEpic);
+    yield takeLatest(storyActions.StoryActions.SORT_STORIES_REQUEST, sortStories);
     yield debounce(debouncePeriod, storyActions.StoryActions.SET_STORY_TITLE_TERM_REQUEST, searchForStoriesByTitleTerm);
 }

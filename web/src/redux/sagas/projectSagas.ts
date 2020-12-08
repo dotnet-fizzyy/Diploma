@@ -6,6 +6,7 @@ import * as teamActions from '../actions/teamActions';
 
 function* createProject(action: projectActions.ICreateProjectRequest) {
     try {
+        action.payload.projectId = '123';
         yield put(projectActions.createProjectSuccess(action.payload));
         yield put(modalActions.closeModal());
     } catch (error) {

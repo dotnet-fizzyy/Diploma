@@ -1,5 +1,5 @@
 import { ColumnIds } from '../../constants/boardConstants';
-import { IStoryColumns } from '../../types/storyTypes';
+import { IStoryColumns, SortFields } from '../../types/storyTypes';
 import * as storyActions from '../actions/storiesActions';
 import { IStoryState } from '../store/state';
 
@@ -20,6 +20,7 @@ const initialState: IStoryState = {
     searchResult: [],
     storyHistory: [],
     isDragging: false,
+    sortType: SortFields.PRIORITY.toUpperCase(),
 };
 
 export default function storiesReducer(state = initialState, action: any) {
@@ -52,6 +53,8 @@ export default function storiesReducer(state = initialState, action: any) {
             return handleDeclineStoryBlock(state, action);
         case storyActions.StoryActions.GET_STORY_HISTORY_SUCCESS:
             return handleGetStoryHistorySuccess(state, action);
+        case storyActions.StoryActions.CHANGE_SORT_TYPE:
+            return handleChangeSortType(state, action);
         default:
             return state;
     }
@@ -208,5 +211,12 @@ function handleGetStoryHistorySuccess(state: IStoryState, action: storyActions.I
     return {
         ...state,
         storyHistory: action.payload,
+    };
+}
+
+function handleChangeSortType(state: IStoryState, action: storyActions.IChangeSortType): IStoryState {
+    return {
+        ...state,
+        sortType: action.payload,
     };
 }
