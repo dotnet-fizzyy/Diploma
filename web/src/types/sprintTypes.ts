@@ -5,4 +5,5 @@ export interface ISprint {
     startDate: Date;
     endDate: Date;
     progress: number;
+    projectId?: string;
 }

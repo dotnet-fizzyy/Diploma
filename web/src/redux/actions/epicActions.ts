@@ -8,6 +8,7 @@ export const EpicActions = {
     GET_EPICS_SUCCESS: 'GET_EPICS_SUCCESS',
     GET_EPICS_FAILURE: 'GET_EPICS_FAILURE',
     SET_CURRENT_EPIC: 'SET_CURRENT_EPIC',
+    SET_CURRENT_EPIC_BY_ID: 'SET_CURRENT_EPIC_BY_ID',
 };
 
 //interfaces
@@ -44,6 +45,11 @@ export interface IGetEpicsFailure {
 export interface ISetCurrentEpic {
     type: typeof EpicActions.SET_CURRENT_EPIC;
     payload: IEpic;
+}
+
+export interface ISetCurrentEpicById {
+    type: typeof EpicActions.SET_CURRENT_EPIC_BY_ID;
+    payload: string;
 }
 
 //actions
@@ -93,6 +99,13 @@ export function setCurrentEpic(epic: IEpic): ISetCurrentEpic {
     return {
         type: EpicActions.SET_CURRENT_EPIC,
         payload: epic,
+    };
+}
+
+export function setCurrentEpicById(epicId: string): ISetCurrentEpicById {
+    return {
+        type: EpicActions.SET_CURRENT_EPIC_BY_ID,
+        payload: epicId,
     };
 }
 

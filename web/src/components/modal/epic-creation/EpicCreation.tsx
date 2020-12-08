@@ -61,18 +61,18 @@ const EpicCreation = (props: IEpicCreationProps) => {
     const classes = useStyles();
     const { epic, onChangeEpicField, onClickCreateEpic } = props;
 
-    const names = [epicFields.epicName, epicFields.epicDescription, epicFields.startDate, epicFields.endDate];
+    const names = [epicFields.epicName, epicFields.startDate, epicFields.endDate, epicFields.epicDescription];
     const values = [
         epic.epicName,
-        epic.epicDescription,
         moment(epic.startDate).format('yyyy-MM-DD'),
         moment(epic.endDate).format('yyyy-MM-DD'),
+        epic.epicDescription,
     ];
 
     return (
         <div className={classes.root}>
             <span className={classes.header}>Create a new epic</span>
-            <GenericFormDates names={names} values={values} onChangeField={onChangeEpicField} />
+            <GenericFormDates names={names} values={values} onChangeField={onChangeEpicField} hideDescription={false} />
             <Button onClick={onClickCreateEpic} className={classes.button}>
                 Create epic
             </Button>

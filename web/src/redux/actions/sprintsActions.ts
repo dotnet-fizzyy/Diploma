@@ -4,6 +4,9 @@ export const SprintActions = {
     GET_SPRINTS_REQUEST: 'GET_SPRINTS_REQUEST',
     GET_SPRINTS_SUCCESS: 'GET_SPRINTS_SUCCESS',
     GET_SPRINTS_FAILURE: 'GET_SPRINTS_FAILURE',
+    CREATE_SPRINT_REQUEST: 'CREATE_SPRINT_REQUEST',
+    CREATE_SPRINT_SUCCESS: 'CREATE_SPRINT_SUCCESS',
+    CREATE_SPRINT_FAILURE: 'CREATE_SPRINT_FAILURE',
     ADD_SPRINTS: 'ADD_SPRINTS',
     SET_SELECTED_SPRINT: 'SET_SELECTED_SPRINT',
 };
@@ -32,6 +35,21 @@ export interface IAddSprints {
 export interface ISetSelectedSprint {
     type: typeof SprintActions.SET_SELECTED_SPRINT;
     payload: string;
+}
+
+export interface ICreateSprintRequest {
+    type: typeof SprintActions.CREATE_SPRINT_REQUEST;
+    payload: ISprint;
+}
+
+export interface ICreateSprintSuccess {
+    type: typeof SprintActions.CREATE_SPRINT_SUCCESS;
+    payload: ISprint;
+}
+
+export interface ICreateSprintFailure {
+    type: typeof SprintActions.CREATE_SPRINT_FAILURE;
+    payload: Error;
 }
 
 //actions
@@ -70,4 +88,25 @@ export function setSelectedSprint(sprintId: string): ISetSelectedSprint {
     };
 }
 
-export type SprintsActionTypes = IGetSprintsSuccess & IAddSprints & ISetSelectedSprint;
+export function createSprintRequest(sprint: ISprint): ICreateSprintRequest {
+    return {
+        type: SprintActions.CREATE_SPRINT_REQUEST,
+        payload: sprint,
+    };
+}
+
+export function createSprintSuccess(sprint: ISprint): ICreateSprintSuccess {
+    return {
+        type: SprintActions.CREATE_SPRINT_SUCCESS,
+        payload: sprint,
+    };
+}
+
+export function createSprintFailure(error: Error): ICreateSprintFailure {
+    return {
+        type: SprintActions.CREATE_SPRINT_FAILURE,
+        payload: error,
+    };
+}
+
+export type SprintsActionTypes = IGetSprintsSuccess & IAddSprints & ISetSelectedSprint & ICreateSprintSuccess;

@@ -62,21 +62,26 @@ const ProjectCreation = (props: IProjectCreationProps) => {
 
     const names = [
         projectFields.projectName,
-        projectFields.projectDescription,
         projectFields.startDate,
         projectFields.endDate,
+        projectFields.projectDescription,
     ];
     const values = [
         project.projectName,
-        project.projectDescription,
         moment(project.startDate).format('yyyy-MM-DD'),
         moment(project.endDate).format('yyyy-MM-DD'),
+        project.projectDescription,
     ];
 
     return (
         <div className={classes.root}>
             <span className={classes.header}>Create a project</span>
-            <GenericFormDates names={names} values={values} onChangeField={onChangeProjectField} />
+            <GenericFormDates
+                names={names}
+                values={values}
+                onChangeField={onChangeProjectField}
+                hideDescription={false}
+            />
             <Button onClick={onClickProjectCreate} className={classes.button} variant="outlined">
                 Create project
             </Button>

@@ -14,6 +14,8 @@ export default function epicReducer(state = initialState, action: epicActions.Ep
             return handleGetEpicsSuccess(state, action);
         case epicActions.EpicActions.SET_CURRENT_EPIC:
             return handleSetCurrentEpic(state, action);
+        case epicActions.EpicActions.SET_CURRENT_EPIC_BY_ID:
+            return handleSetCurrentEpicById(state, action);
         default:
             return state;
     }
@@ -37,5 +39,12 @@ function handleSetCurrentEpic(state: IEpicsState, action: epicActions.ISetCurren
     return {
         ...state,
         currentEpic: action.payload,
+    };
+}
+
+function handleSetCurrentEpicById(state: IEpicsState, action: epicActions.ISetCurrentEpicById): IEpicsState {
+    return {
+        ...state,
+        currentEpic: state.epics.find((x) => x.epicId === action.payload),
     };
 }

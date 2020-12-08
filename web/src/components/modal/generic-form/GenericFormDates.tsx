@@ -31,11 +31,12 @@ export interface IGenericFormDatesProps {
     names: string[];
     values: string[];
     onChangeField: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    hideDescription: boolean;
 }
 
 const GenericFormDates = (props: IGenericFormDatesProps) => {
     const classes = useStyles();
-    const { names, values, onChangeField } = props;
+    const { names, hideDescription, values, onChangeField } = props;
 
     return (
         <>
@@ -49,25 +50,27 @@ const GenericFormDates = (props: IGenericFormDatesProps) => {
                     onChange={onChangeField}
                 />
             </div>
-            <div className={classes.fieldContainer}>
-                <span className={classes.title}>Description: </span>
-                <TextField
-                    variant="outlined"
-                    multiline={true}
-                    className={classes.textField}
-                    name={names[1]}
-                    value={values[1]}
-                    onChange={onChangeField}
-                />
-            </div>
+            {!hideDescription && (
+                <div className={classes.fieldContainer}>
+                    <span className={classes.title}>Description: </span>
+                    <TextField
+                        variant="outlined"
+                        multiline={true}
+                        className={classes.textField}
+                        name={names[3]}
+                        value={values[3]}
+                        onChange={onChangeField}
+                    />
+                </div>
+            )}
             <div className={classes.fieldContainer}>
                 <span className={classes.title}>Start date: </span>
                 <TextField
                     variant="outlined"
                     type="date"
                     className={classes.textField}
-                    name={names[2]}
-                    value={values[2]}
+                    name={names[1]}
+                    value={values[1]}
                     onChange={onChangeField}
                     InputLabelProps={{
                         shrink: true,
@@ -80,8 +83,8 @@ const GenericFormDates = (props: IGenericFormDatesProps) => {
                     variant="outlined"
                     type="date"
                     className={classes.textField}
-                    name={names[3]}
-                    value={values[3]}
+                    name={names[2]}
+                    value={values[2]}
                     onChange={onChangeField}
                     InputLabelProps={{
                         shrink: true,

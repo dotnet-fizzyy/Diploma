@@ -111,25 +111,34 @@ const ProjectManagement = (props: IProjectManagementProps) => {
     const classes = useStyles();
     const { epics, sprints, selectedEpic, onClickCreateEpic, onClickCreateSprint, onSelectViewEpicSprints } = props;
 
-    const renderEpics = (epic: IEpic): React.ReactNode => {
-        return (
-            <div className={classes.collectionItem} key={epic.epicId}>
-                <span className={classes.epicName}>
-                    {epic.epicName} |&nbsp;
-                    <span className={classes.dates}>
-                        &nbsp;{moment(epic.startDate).format('yyyy-MM-DD')} -{' '}
-                        {moment(epic.endDate).format('yyyy-MM-DD')}
-                    </span>
+    const renderEpics = (epic: IEpic): React.ReactNode => (
+        <div className={classes.collectionItem}>
+            <span className={classes.epicName}>
+                {epic.epicName} |&nbsp;
+                <span className={classes.dates}>
+                    &nbsp;{moment(epic.startDate).format('yyyy-MM-DD')} - {moment(epic.endDate).format('yyyy-MM-DD')}
                 </span>
-                <Button
-                    onClick={() => onSelectViewEpicSprints(epic.epicId)}
-                    className={classnames(classes.button, classes.itemButton)}
-                >
-                    View sprints
-                </Button>
-            </div>
-        );
-    };
+            </span>
+            <Button
+                onClick={() => onSelectViewEpicSprints(epic.epicId)}
+                className={classnames(classes.button, classes.itemButton)}
+            >
+                View sprints
+            </Button>
+        </div>
+    );
+
+    const renderSprints = (sprint: ISprint): React.ReactNode => (
+        <div className={classes.collectionItem} style={{ height: '40px' }}>
+            <span className={classes.epicName}>
+                {sprint.sprintName} |&nbsp;
+                <span className={classes.dates}>
+                    &nbsp;{moment(sprint.startDate).format('yyyy-MM-DD')} -{' '}
+                    {moment(sprint.endDate).format('yyyy-MM-DD')}
+                </span>
+            </span>
+        </div>
+    );
 
     return (
         <div className={classes.root}>
@@ -148,7 +157,7 @@ const ProjectManagement = (props: IProjectManagementProps) => {
                         {epics.length ? (
                             epics.map((epic) => <React.Fragment key={epic.epicId}>{renderEpics(epic)}</React.Fragment>)
                         ) : (
-                            <span>No items</span>
+                            <div className={classes.emptyResults}>No epics created... yet</div>
                         )}
                     </div>
                 </div>
@@ -166,7 +175,9 @@ const ProjectManagement = (props: IProjectManagementProps) => {
                                     Add Sprint
                                 </Button>
                                 {sprints.length ? (
-                                    sprints.map((x) => <div key={x.sprintId}></div>)
+                                    sprints.map((x) => (
+                                        <React.Fragment key={x.sprintId}>{renderSprints(x)}</React.Fragment>
+                                    ))
                                 ) : (
                                     <div className={classes.emptyResults}>No sprints created... yet</div>
                                 )}

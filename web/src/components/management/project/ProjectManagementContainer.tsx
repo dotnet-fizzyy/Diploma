@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import * as epicActions from '../../../redux/actions/epicActions';
@@ -13,13 +13,12 @@ const ProjectManagementContainer = () => {
     const dispatch = useDispatch();
     const { projectId }: any = useParams();
 
-    const [selectedEpic, setSelectedEpic] = useState<string>('');
-
     const epics = useSelector(epicSelectors.getEpics);
     const sprints = useSelector(sprintSelectors.getSprints);
+    const selectedEpic = useSelector(epicSelectors.getCurrentEpic);
 
     const onSelectViewEpicSprints = (epicId: string) => {
-        setSelectedEpic(epicId);
+        dispatch(epicActions.setCurrentEpicById(epicId));
     };
 
     const onClickCreateEpic = () => {
@@ -33,7 +32,7 @@ const ProjectManagementContainer = () => {
     const projectManagementProps: IProjectManagementProps = {
         epics,
         sprints,
-        selectedEpic,
+        selectedEpic: selectedEpic ? selectedEpic.epicId : '',
         onClickCreateEpic,
         onClickCreateSprint,
         onSelectViewEpicSprints,
@@ -41,7 +40,7 @@ const ProjectManagementContainer = () => {
 
     useEffect(() => {
         if (selectedEpic) {
-            dispatch(sprintActions.getSprintsRequest(selectedEpic));
+            dispatch(sprintActions.getSprintsRequest(selectedEpic.epicId));
         }
     }, [dispatch, selectedEpic]);
 
