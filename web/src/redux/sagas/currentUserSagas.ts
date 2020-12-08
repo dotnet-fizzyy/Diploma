@@ -1,9 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import * as usersApi from '../../ajax/currentUserApi';
-import mockedUser from '../../mock/mockedUser';
+//import mockedUser from '../../mock/mockedUser';
 import { AuthenticationResponse } from '../../types';
+import { IUser } from '../../types/userTypes';
 import * as currentUserActions from '../actions/currentUserActions';
 import * as requestProcessorActions from '../actions/requestProcessorActions';
+import * as userApi from '../../ajax/currentUserApi';
 
 function* authenticateUser(action: currentUserActions.IAuthenticationRequest) {
     try {
@@ -37,13 +39,19 @@ function* logOutUser(action: currentUserActions.ILogOutUser) {
     yield put(currentUserActions.addUser(null));
 }
 
-function* verifyUser(action: currentUserActions.IVerifyUser) {
-    yield put(currentUserActions.addUser(mockedUser));
+function* verifyUser(action: currentUserActions.IVerifyUserRequest) {
+    try {
+        const user: IUser = yield call(userApi.getUserByToken);
+
+        yield put(currentUserActions.verifyUserSuccess(user));
+    } catch (error) {
+        yield put(currentUserActions.verifyUserFailure(error));
+    }
 }
 
 export default function* rootCurrentUserSaga() {
     yield takeLatest(currentUserActions.CurrentUserActions.AUTHENTICATION_REQUEST, authenticateUser);
     yield takeLatest(currentUserActions.CurrentUserActions.REGISTRATION_REQUEST, usersRegistration);
     yield takeLatest(currentUserActions.CurrentUserActions.LOGOUT_USER, logOutUser);
-    yield takeLatest(currentUserActions.CurrentUserActions.VERIFY_USER, verifyUser);
+    yield takeLatest(currentUserActions.CurrentUserActions.VERIFY_USER_REQUEST, verifyUser);
 }

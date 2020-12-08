@@ -8,6 +8,12 @@ export async function getUsers(params?: any) {
     return response.data;
 }
 
+export async function getUserByToken() {
+    const response = await axiosGet(routeConstants.UsersUrl);
+
+    return response.data;
+}
+
 export async function createUser(body: IAuthenticationUser) {
     const response = await axiosPost(routeConstants.CreateCustomerUrl, body);
 

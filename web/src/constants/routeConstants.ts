@@ -18,3 +18,4 @@ export const UsersUrl = BaseUrl + 'user';
 export const StoriesUrl = BaseUrl + 'stories';
 export const TokenUrl = BaseUrl + 'token';
 export const CreateCustomerUrl = BaseUrl + 'customer';
+export const ProjectUrl = BaseUrl + 'project';

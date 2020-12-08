@@ -11,10 +11,10 @@ using WebAPI.Presentation.Filters;
 
 namespace WebAPI.Presentation.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("project")]
-    [ServiceFilter(typeof(UserAuthorizationFilter))]
+    //[ServiceFilter(typeof(UserAuthorizationFilter))]
     public class ProjectController : ControllerBase
     {
         private readonly IProjectService _projectService;

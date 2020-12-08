@@ -12,6 +12,7 @@ const initialState: ICurrentUserState = {
 export default function currentUserReducer(state = initialState, action: UserActions.CurrentUserActionTypes) {
     switch (action.type) {
         case UserActions.CurrentUserActions.ADD_USER:
+        case UserActions.CurrentUserActions.VERIFY_USER_SUCCESS:
             return handleAddUser(state, action);
         case UserActions.CurrentUserActions.AUTHENTICATION_SUCCESS:
             return handleAuthenticationSuccess(state, action);

@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models;
 
@@ -19,7 +20,7 @@ namespace WebAPI.Presentation.Controllers
         
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateCustomer([FromBody]AuthenticationUser user)
+        public async Task<IActionResult> CreateCustomer([FromBody, BindRequired]AuthenticationUser user)
         {
             var createdCustomer = await _userService.CreateCustomer(user);
             

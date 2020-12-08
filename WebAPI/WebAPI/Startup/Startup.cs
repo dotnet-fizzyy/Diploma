@@ -58,6 +58,8 @@ namespace WebAPI.Startup
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware<LoggingMiddleware>();
+            
             app.UseRouting();
             
             app.RegisterSwaggerUi();

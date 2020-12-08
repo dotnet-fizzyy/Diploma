@@ -1,13 +1,20 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import * as currentUserActions from '../../redux/actions/currentUserActions';
 import * as currentUserSelectors from '../../redux/selectors/userSelectors';
 import CustomRouter, { ICustomRouterProps } from './CustomRouter';
 
 const CustomRouterContainer = () => {
+    const dispatch = useDispatch();
     const user = useSelector(currentUserSelectors.getUser);
+    const isLogged = !!(user && user.userId);
+
+    useEffect(() => {
+        if (!isLogged) dispatch(currentUserActions.verifyUserRequest());
+    }, [dispatch, isLogged]);
 
     const customRouterProps: ICustomRouterProps = {
-        isLogged: !!(user && user.userId),
+        isLogged,
     };
 
     return <CustomRouter {...customRouterProps} />;

@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -28,6 +30,23 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<CollectionResponse<User>>> GetAllUsers() => await _userService.GetAllUsers();
 
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<User>> GetUserByToken()
+        {
+            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+            var user = await _userService.GetUser(new Guid(userId!));
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            
+            return user;
+        }
+        
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

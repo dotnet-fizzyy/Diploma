@@ -10,7 +10,9 @@ export const CurrentUserActions = {
     REGISTRATION_FAILURE: 'REGISTRATION_FAILURE',
     ADD_USER: 'ADD_USER',
     LOGOUT_USER: 'LOGOUT_USER',
-    VERIFY_USER: 'VERIFY_USER',
+    VERIFY_USER_REQUEST: 'VERIFY_USER_REQUEST',
+    VERIFY_USER_SUCCESS: 'VERIFY_USER_SUCCESS',
+    VERIFY_USER_FAILURE: 'VERIFY_USER_FAILURE',
     HIDE_CUSTOMER_SUCCESSFUL_REGISTRATION: 'HIDE_CUSTOMER_SUCCESSFUL_REGISTRATION',
 };
 
@@ -53,8 +55,18 @@ export interface ILogOutUser {
     type: typeof CurrentUserActions.LOGOUT_USER;
 }
 
-export interface IVerifyUser {
-    type: typeof CurrentUserActions.VERIFY_USER;
+export interface IVerifyUserRequest {
+    type: typeof CurrentUserActions.VERIFY_USER_REQUEST;
+}
+
+export interface IVerifyUserSuccess {
+    type: typeof CurrentUserActions.VERIFY_USER_SUCCESS;
+    payload: IUser;
+}
+
+export interface IVerifyUserFailure {
+    type: typeof CurrentUserActions.VERIFY_USER_FAILURE;
+    payload: Error;
 }
 
 export interface IHideCustomerSuccessfulRegistration {
@@ -122,9 +134,23 @@ export function logOutUser(): ILogOutUser {
     };
 }
 
-export function verifyUser(): IVerifyUser {
+export function verifyUserRequest(): IVerifyUserRequest {
     return {
-        type: CurrentUserActions.VERIFY_USER,
+        type: CurrentUserActions.VERIFY_USER_REQUEST,
+    };
+}
+
+export function verifyUserSuccess(user: IUser): IVerifyUserSuccess {
+    return {
+        type: CurrentUserActions.VERIFY_USER_SUCCESS,
+        payload: user,
+    };
+}
+
+export function verifyUserFailure(error: Error): IVerifyUserFailure {
+    return {
+        type: CurrentUserActions.VERIFY_USER_FAILURE,
+        payload: error,
     };
 }
 
