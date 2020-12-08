@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import moment from 'moment';
 import React from 'react';
 import { IEpic } from '../../../types/epicTypes';
+import { ISprint } from '../../../types/sprintTypes';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -86,11 +87,21 @@ const useStyles = makeStyles(() =>
             fontSize: '16px',
             color: '#AFC1C4',
         },
+        emptyResults: {
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            fontFamily: 'Poppins, sans-serif',
+            fontSize: '20px',
+            marginTop: '30px',
+        },
     })
 );
 
 export interface IProjectManagementProps {
     epics: IEpic[];
+    sprints: ISprint[];
+    selectedEpic: string;
     onClickCreateEpic: () => void;
     onClickCreateSprint: () => void;
     onSelectViewEpicSprints: (epicId: string) => void;
@@ -98,7 +109,7 @@ export interface IProjectManagementProps {
 
 const ProjectManagement = (props: IProjectManagementProps) => {
     const classes = useStyles();
-    const { epics, onClickCreateEpic, onClickCreateSprint, onSelectViewEpicSprints } = props;
+    const { epics, sprints, selectedEpic, onClickCreateEpic, onClickCreateSprint, onSelectViewEpicSprints } = props;
 
     const renderEpics = (epic: IEpic): React.ReactNode => {
         return (
@@ -144,15 +155,25 @@ const ProjectManagement = (props: IProjectManagementProps) => {
                 <div className={classes.infoPartContainer}>
                     <span className={classes.header}>Sprints</span>
                     <div className={classes.body}>
-                        <Button
-                            onClick={onClickCreateSprint}
-                            className={classes.button}
-                            variant="outlined"
-                            startIcon={<AddIcon />}
-                        >
-                            Add Sprint
-                        </Button>
-                        {epics.length ? epics.map((x) => <div key={x.epicId}></div>) : <span>No items</span>}
+                        {selectedEpic ? (
+                            <>
+                                <Button
+                                    onClick={onClickCreateSprint}
+                                    className={classes.button}
+                                    variant="outlined"
+                                    startIcon={<AddIcon />}
+                                >
+                                    Add Sprint
+                                </Button>
+                                {sprints.length ? (
+                                    sprints.map((x) => <div key={x.sprintId}></div>)
+                                ) : (
+                                    <div className={classes.emptyResults}>No sprints created... yet</div>
+                                )}
+                            </>
+                        ) : (
+                            <div className={classes.emptyResults}>Please, select epic first</div>
+                        )}
                     </div>
                 </div>
             </div>

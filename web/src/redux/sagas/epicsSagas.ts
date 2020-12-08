@@ -4,6 +4,7 @@ import * as modalActions from '../actions/modalActions';
 
 function* createEpic(action: epicActions.ICreateEpicRequest) {
     try {
+        action.payload.epicId = new Date().toLocaleDateString();
         yield put(epicActions.createEpicSuccess(action.payload));
         yield put(modalActions.closeModal());
     } catch (error) {
