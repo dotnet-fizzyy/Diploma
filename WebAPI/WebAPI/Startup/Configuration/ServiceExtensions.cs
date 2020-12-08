@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using WebAPI.ApplicationLogic;
 using WebAPI.ApplicationLogic.Services;
@@ -7,8 +8,11 @@ using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Infrastructure.Postgres.Repository;
+using WebAPI.Models.Models;
 using WebAPI.Presentation.Aggregators;
+using WebAPI.Presentation.Filters;
 using WebAPI.Presentation.Mappers;
+using WebAPI.Presentation.Validators;
 
 namespace WebAPI.Startup.Configuration
 {
@@ -56,6 +60,13 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<IFullProjectDescriptionAggregator, FullProjectDescriptionAggregator>();
             services.AddTransient<IStoryAggregator, StoryAggregator>();
             services.AddTransient<IRefreshTokenAggregator, RefreshTokenAggregator>();
+            
+            //Filters
+            services.AddTransient<UserAuthorizationFilter>();
+            
+            //Validators
+            services.AddTransient<IValidator<AuthenticationUser>, AuthenticationUserValidator>();
+            services.AddTransient<IValidator<User>, UserValidator>();
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using WebAPI.Core.Configuration;
-using WebAPI.Presentation.Filters;
 using WebAPI.Startup.Configuration;
 
 namespace WebAPI.Startup
@@ -39,7 +39,9 @@ namespace WebAPI.Startup
                 options.SerializerSettings.Converters.Add(new EnumConverter());
             });
 
-            services.AddTransient<UserAuthorizationFilter>();
+            services
+                .AddMvc()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
             
             services.RegisterAuthSettings(tokenSettings);
             services.RegisterServices(appSettings);
