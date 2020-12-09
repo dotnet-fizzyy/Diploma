@@ -11,20 +11,26 @@ namespace WebAPI.Infrastructure.Postgres.Repository
     public class ProjectRepository : BaseCrudRepository<DatabaseContext, Project>, IProjectRepository
     {
         public ProjectRepository(DatabaseContext databaseContext) : base(databaseContext) { }
-        
-        public async Task<List<Project>> GetFullProjectByUserId(Guid userId)
+
+        public async Task<List<Project>> GetCustomerProjects(Guid userId)
+        {
+            var foundProjects = await _dbContext.Projects
+                .Where(x => x.Customer == userId.ToString())
+                .ToListAsync();
+
+            return foundProjects;
+        }
+
+        public async Task<List<Project>> GetProjectsByUserId(Guid userId)
         {
             var query = from users in _dbContext.Users
                 join teams in _dbContext.Teams on users.TeamId equals teams.TeamId
-                join projects in _dbContext.Projects
-                        .Include(x => x.Epics)
-                        .Include(x => x.Teams)
-                    on teams.ProjectId equals projects.ProjectId
-                where users.UserId == userId select projects;
+                join projects in _dbContext.Projects on teams.ProjectId equals projects.ProjectId
+                where users.UserId == userId || projects.Customer == userId.ToString() select projects;
 
-            var epics = await query.ToListAsync();
+            var foundProjects = await query.ToListAsync();
 
-            return epics;
+            return foundProjects;
         }
     }
 }

@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,10 +13,10 @@ using WebAPI.Presentation.Filters;
 
 namespace WebAPI.Presentation.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("project")]
-    //[ServiceFilter(typeof(UserAuthorizationFilter))]
+    [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class ProjectController : ControllerBase
     {
         private readonly IProjectService _projectService;
@@ -32,11 +34,17 @@ namespace WebAPI.Presentation.Controllers
             => await _projectService.GetAllProjects();
 
         [HttpGet]
-        [Route("user/{userId}")]
+        [Route("user")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CollectionResponse<FullProject>>> GetAllProjectByUserId(Guid userId) =>
-            await _projectService.GetProjectsByUserId(userId);
+        public async Task<ActionResult<CollectionResponse<Project>>> GetAllProjectsByUserId()
+        {
+            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+                
+            var userProjects = await _projectService.GetProjectsByUserId(new Guid(userId!));
+
+            return userProjects;
+        }
 
         [HttpGet]
         [Route("{id}")]

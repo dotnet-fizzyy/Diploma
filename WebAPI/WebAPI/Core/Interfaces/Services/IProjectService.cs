@@ -8,8 +8,10 @@ namespace WebAPI.Core.Interfaces.Services
     public interface IProjectService
     {
         Task<CollectionResponse<Project>> GetAllProjects();
+        
+        Task<CollectionResponse<Project>> GetCustomerProjects(Guid userId);
 
-        Task<CollectionResponse<FullProject>> GetProjectsByUserId(Guid userId);
+        Task<CollectionResponse<Project>> GetProjectsByUserId(Guid userId);
         
         Task<Project> GetProject(Guid projectId);
 
