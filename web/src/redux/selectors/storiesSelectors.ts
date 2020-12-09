@@ -6,13 +6,7 @@ export function getColumns(state: IState): IStoryColumns[] {
 }
 
 export const getStoriesForColumn = (columnId: string) => (state: IState): IStory[] => {
-    const stories = state.stories.columns.find((column) => column.key === columnId);
-
-    if (stories) {
-        return stories.value;
-    }
-
-    return [];
+    return state.stories.columns.find((column) => column.key === columnId).value;
 };
 
 export function getSelectedStory(state: IState): IStory {

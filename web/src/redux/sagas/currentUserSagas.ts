@@ -1,11 +1,10 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import * as usersApi from '../../ajax/currentUserApi';
-//import mockedUser from '../../mock/mockedUser';
+import * as userApi from '../../ajax/currentUserApi';
 import { AuthenticationResponse } from '../../types';
 import { IUser } from '../../types/userTypes';
 import * as currentUserActions from '../actions/currentUserActions';
 import * as requestProcessorActions from '../actions/requestProcessorActions';
-import * as userApi from '../../ajax/currentUserApi';
 
 function* authenticateUser(action: currentUserActions.IAuthenticationRequest) {
     try {

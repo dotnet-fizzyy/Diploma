@@ -1,5 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import * as epicApi from '../../ajax/epicsApi';
+import { ICollectionResponse } from '../../types';
 import { IEpic } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';
 import * as epicActions from '../actions/epicActions';
@@ -8,9 +9,9 @@ import * as projectSelectors from '../selectors/projectSelectors';
 
 function* getEpicsRequest(action: epicActions.IGetEpicsRequest) {
     try {
-        const selectedProject: IProject = yield select(projectSelectors.getProject);
-        const epics: IEpic[] = yield call(epicApi.getProjectEpics, selectedProject.projectId);
-        yield put(epicActions.getEpicsSuccess(epics));
+        const epics: ICollectionResponse<IEpic> = yield call(epicApi.getProjectEpics, action.payload);
+
+        yield put(epicActions.getEpicsSuccess(epics.items));
     } catch (error) {
         yield put(epicActions.getEpicsFailure(error));
     }

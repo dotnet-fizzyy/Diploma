@@ -51,9 +51,10 @@ namespace WebAPI.ApplicationLogic.Services
         }
 
         public async Task<CollectionResponse<Project>> GetCustomerProjects(Guid userId)
-        {
-            var projectEntities = await _projectRepository.GetCustomerProjects(userId);
-            
+        { 
+            var projectEntities = await _projectRepository
+                .SearchForMultipleItemsAsync(x => x.Customer == userId.ToString());
+
             var collectionResponse = new CollectionResponse<Project>
             {
                 Items = projectEntities.Select(_projectMapper.MapToModel).ToList()

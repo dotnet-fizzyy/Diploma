@@ -142,7 +142,7 @@ namespace WebAPI.Presentation.Controllers
             var userId = 
                 User.Claims.FirstOrDefault(x => ClaimTypes.NameIdentifier == x.Type)?.Value;
             
-            var createdStory = await _storyService.AddStory(story);
+            var createdStory = await _storyService.AddStory(story, new Guid(userId!));
 
             return CreatedAtAction(nameof(CreateStory), createdStory);
         }

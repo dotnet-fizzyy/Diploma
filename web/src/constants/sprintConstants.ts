@@ -7,7 +7,6 @@ export const initialSprintState: ISprint = {
     sprintId: '',
     sprintName: '',
     startDate: new Date(),
-    projectId: null,
 };
 
 export const sprintFields = {
@@ -17,5 +16,4 @@ export const sprintFields = {
     sprintId: 'sprintId',
     sprintName: 'sprintName',
     startDate: 'startDate',
-    projectId: 'projectId',
 };

@@ -45,10 +45,10 @@ const ProjectManagementContainer = () => {
     }, [dispatch, selectedEpic]);
 
     useEffect(() => {
-        if (!epics.length) {
+        if (!(epics && epics.length)) {
             dispatch(epicActions.getEpicsRequest(projectId));
         }
-    }, [dispatch, epics.length, projectId]);
+    }, [dispatch, epics, projectId]);
 
     return <ProjectManagement {...projectManagementProps} />;
 };

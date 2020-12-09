@@ -74,11 +74,12 @@ export interface IProjectViewerProps {
     projects: ISelectedItem[];
     onProjectSelect: (value: string) => void;
     onClickAddProject: () => void;
+    onClickViewBoard: (value: string) => void;
 }
 
 const ProjectViewer = (props: IProjectViewerProps) => {
     const classes = useStyles();
-    const { projects, onClickAddProject, onProjectSelect } = props;
+    const { projects, onClickAddProject, onProjectSelect, onClickViewBoard } = props;
 
     return (
         <div className={classes.root}>
@@ -103,6 +104,13 @@ const ProjectViewer = (props: IProjectViewerProps) => {
                                     onClick={() => onProjectSelect(project.key)}
                                 >
                                     Manage project
+                                </Button>
+                                <Button
+                                    className={classnames(classes.button, classes.manageButton)}
+                                    variant="outlined"
+                                    onClick={() => onClickViewBoard(project.key)}
+                                >
+                                    Go to board
                                 </Button>
                             </div>
                         ))

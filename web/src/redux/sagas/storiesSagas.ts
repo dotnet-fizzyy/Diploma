@@ -2,17 +2,13 @@ import { call, debounce, delay, put, select, take, takeLatest } from 'redux-saga
 import * as storyApi from '../../ajax/storiesApi';
 import { debouncePeriod } from '../../constants/storyConstants';
 import { createRequestBodyForColumnMovement, createStoryUpdatePartsFromStory } from '../../helpers/storyHelper';
-import mockedProject from '../../mock/mockedProject';
-import mockedStories from '../../mock/mockedStories';
-import mockedTeam from '../../mock/mockedTeam';
-import mockedUser from '../../mock/mockedUser';
 import { IStory, IStoryColumns } from '../../types/storyTypes';
 import { IUser } from '../../types/userTypes';
-import * as userActions from '../actions/currentUserActions';
+import * as epicActions from '../actions/epicActions';
 import * as projectActions from '../actions/projectActions';
 import * as sidebarActions from '../actions/sidebarActions';
+import * as sprintsActions from '../actions/sprintsActions';
 import * as storyActions from '../actions/storiesActions';
-import * as teamActions from '../actions/teamActions';
 import * as storySelectors from '../selectors/storiesSelectors';
 import * as currentUserSelectors from '../selectors/userSelectors';
 
@@ -32,16 +28,6 @@ function* createStory(action: storyActions.ICreateStoryRequest) {
     } catch (error) {
         yield put(storyActions.createStoryFailure(error));
     }
-}
-
-function* getGeneralInfo() {
-    yield put(userActions.addUser(mockedUser));
-    yield put(projectActions.setCurrentProject(mockedProject));
-    yield put(storyActions.getGeneralInfoSuccess());
-    yield put(storyActions.storyActionAddStories(mockedStories));
-    yield put(teamActions.setSelectedTeam(mockedTeam));
-    yield put(teamActions.addTeams([mockedTeam]));
-    yield put(storyActions.setStoryTitleTermSuccess([]));
 }
 
 function* dragAndDropHandler(action: storyActions.IStoryHandleDragAndDrop) {
@@ -129,7 +115,7 @@ function* updateStoryChanges(action: storyActions.IUpdateStoryChangesRequest) {
 
 function* changeEpic(action: storyActions.IChangeEpicRequest) {
     try {
-        console.log(action.payload);
+        yield put(epicActions.setCurrentEpicById(action.payload));
     } catch (error) {
         yield put(storyActions.changeEpicFailure(error));
     }
@@ -145,9 +131,18 @@ function* sortStories(action: storyActions.ISortStoriesRequest) {
     }
 }
 
+function* handleBoardRequestProcessing(action: storyActions.IHandleBoardRequestProcessing) {
+    yield put(projectActions.getProjectRequest(action.payload));
+    yield take(projectActions.ProjectActions.GET_PROJECT_SUCCESS);
+
+    yield put(epicActions.getEpicsRequest(action.payload));
+    yield take(epicActions.EpicActions.GET_EPICS_SUCCESS);
+
+    yield put(sprintsActions.getFullSprintsFromEpicRequest());
+}
+
 export default function* rootStoriesSaga() {
     yield takeLatest(storyActions.StoryActions.REFRESH_STORIES_REQUEST, refreshData);
-    yield takeLatest(storyActions.StoryActions.GET_GENERAL_INFO_REQUEST, getGeneralInfo);
     yield takeLatest(storyActions.StoryActions.CREATE_STORY_REQUEST, createStory);
     yield takeLatest(storyActions.StoryActions.STORY_HANDLE_DRAG_AND_DROP, dragAndDropHandler);
     yield takeLatest(storyActions.StoryActions.STORY_UPDATE_COLUMN_REQUEST, updateStoryColumn);
@@ -157,5 +152,6 @@ export default function* rootStoriesSaga() {
     yield takeLatest(storyActions.StoryActions.STORY_UPDATE_CHANGES_REQUEST, updateStoryChanges);
     yield takeLatest(storyActions.StoryActions.CHANGE_EPIC_REQUEST, changeEpic);
     yield takeLatest(storyActions.StoryActions.SORT_STORIES_REQUEST, sortStories);
+    yield takeLatest(storyActions.StoryActions.HANDLE_BOARD_REQUEST_PROCESSING, handleBoardRequestProcessing);
     yield debounce(debouncePeriod, storyActions.StoryActions.SET_STORY_TITLE_TERM_REQUEST, searchForStoriesByTitleTerm);
 }

@@ -119,13 +119,13 @@ namespace WebAPI.ApplicationLogic.Services
             return storyFullModel;
         }
 
-        public async Task<Story> AddStory(Story story)
+        public async Task<Story> AddStory(Story story, Guid userId)
         {
             var storyEntity = _storyMapper.MapToEntity(story);
 
             var createdStoryEntity = await _storyRepository.CreateAsync(storyEntity);
             await _storyHistoryRepository.CreateAsync(
-                StoryHistoryGenerator.GetStoryHistoryForCreation(Guid.Empty, createdStoryEntity.StoryId)
+                StoryHistoryGenerator.GetStoryHistoryForCreation(userId, createdStoryEntity.StoryId)
                 );
             
             var storyModel = _storyMapper.MapToModel(createdStoryEntity);

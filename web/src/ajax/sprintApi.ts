@@ -3,7 +3,7 @@ import { ISprint } from '../types/sprintTypes';
 import * as axios from './index';
 
 export async function getSprintsFromEpic(epicId: string) {
-    const response = await axios.axiosGet(routeConstants.SprintUrl + `/${epicId}`);
+    const response = await axios.axiosGet(routeConstants.SprintUrls.getEpicSprints + epicId);
 
     return response.data;
 }
@@ -13,6 +13,7 @@ export async function createSprint(sprint: ISprint) {
         sprintName: sprint.sprintName,
         endDate: new Date(sprint.endDate),
         startDate: new Date(sprint.startDate),
+        epicId: sprint.epicId,
     };
 
     const response = await axios.axiosPost(routeConstants.SprintUrl, mappedSprint);

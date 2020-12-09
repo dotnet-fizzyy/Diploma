@@ -19,7 +19,7 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<FullStory> GetFullStoryDescription(Guid storyId);
 
-        Task<Story> AddStory(Story story);
+        Task<Story> AddStory(Story story, Guid userId);
 
         Task<Story> UpdateStory(Story story);
 

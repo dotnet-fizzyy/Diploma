@@ -9,6 +9,8 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<CollectionResponse<Epic>> GetEpics();
         
+        Task<CollectionResponse<Epic>> GetEpicsFromProject(Guid projectId);
+        
         Task<Epic> GetEpic(Guid epicId);
 
         Task<FullEpic> GetFullEpicDescription(Guid epicId);

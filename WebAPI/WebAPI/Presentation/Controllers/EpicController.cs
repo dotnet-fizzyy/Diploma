@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -50,30 +48,12 @@ namespace WebAPI.Presentation.Controllers
         }
         
         [HttpGet]
-        [Route("/project/{projectId}")]
+        [Route("project/{projectId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Epic>> GetEpicsFromProject(Guid projectId)
-        {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
-
-            if (userId == null)
-            {
-                return BadRequest();
-            }
-            
-            var epic = await _epicService.GetEpic(projectId);
-
-            if (epic == null)
-            {
-                return NotFound();
-            }
-            
-            return epic;
-        }
-
+        public async Task<ActionResult<CollectionResponse<Epic>>> GetEpicsFromProject(Guid projectId) 
+            => await _epicService.GetEpicsFromProject(projectId);
+        
         [HttpGet]
         [Route("full/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

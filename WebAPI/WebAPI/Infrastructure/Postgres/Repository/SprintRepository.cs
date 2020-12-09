@@ -14,11 +14,11 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         
         public async Task<List<Sprint>> GetFullSprintsByEpicId(Guid epicId)
         {
-            var query = from sprints in _dbContext.Sprints.Include(x => x.Stories)
-                join epics in _dbContext.Epics on sprints.EpicId equals epics.EpicId
-                select sprints;
-
-            var sprintEntities = await query.ToListAsync();
+            var sprintEntities =
+                await _dbContext.Sprints
+                    .Where(x => x.EpicId == epicId)
+                    .Include(x => x.Stories)
+                    .ToListAsync();
 
             return sprintEntities;
         }

@@ -61,7 +61,7 @@ const LaunchBackground = (props: ILaunchBackgroundProps) => {
                     To start working in a moment, simple create a {teamExists ? 'team' : 'project'}
                 </span>
                 <Button className={classnames(classes.button, classes.text)} variant="outlined" onClick={onClick}>
-                    Create a project
+                    Create a {teamExists ? 'team' : 'project'}
                 </Button>
             </>
         );
@@ -70,7 +70,7 @@ const LaunchBackground = (props: ILaunchBackgroundProps) => {
     return (
         <div className={classes.root}>
             <span className={classnames(classes.text, classes.header)}>Welcome to the board!</span>
-            {projectExists && displayTitle(teamExists, onClickCreateProject)}
+            {projectExists && displayTitle(projectExists, onClickCreateProject)}
             {teamExists && displayTitle(teamExists, onClickCreateTeam)}
         </div>
     );

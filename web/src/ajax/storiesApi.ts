@@ -8,5 +8,5 @@ export async function getUsers(params?: any) {
 }
 
 export async function changeStoryColumn(jsonPatchDocument) {
-    await axios.axiosPatch(routeConstants.storiesUrls.boardMove, jsonPatchDocument);
+    await axios.axiosPatch(routeConstants.StoriesUrls.boardMove, jsonPatchDocument);
 }

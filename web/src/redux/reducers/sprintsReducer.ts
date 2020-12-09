@@ -8,6 +8,7 @@ const initialState: ISprintsState = {
 
 export default function sprintsReducer(state = initialState, action: SprintActions.SprintsActionTypes) {
     switch (action.type) {
+        case SprintActions.SprintActions.GET_SPRINTS_SUCCESS:
         case SprintActions.SprintActions.ADD_SPRINTS:
             return handleAddSprints(state, action);
         case SprintActions.SprintActions.SET_SELECTED_SPRINT:

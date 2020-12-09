@@ -18,3 +18,7 @@ export function getEpicsNames(state: IState): ISelectedItem[] {
 export function getCurrentEpic(state: IState): IEpic {
     return state.epics.currentEpic;
 }
+
+export function getIfEpicsExist(state: IState): boolean {
+    return !state.epics.epics.length;
+}

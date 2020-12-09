@@ -1,18 +1,20 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { getColumnKeyValuePair } from '../../helpers/columnHelper';
 import * as sidebarActions from '../../redux/actions/sidebarActions';
 import * as storyActions from '../../redux/actions/storiesActions';
-import * as epicSelectors from '../../redux/selectors/epicsSelectors';
+import * as epicsSelectors from '../../redux/selectors/epicsSelectors';
 import * as sidebarSelectors from '../../redux/selectors/sidebarSelectors';
 import { IStoryDragAndDrop } from '../../types/storyTypes';
 import Board, { IBoardProps } from './Board';
 
 const BoardContainer = () => {
     const dispatch = useDispatch();
+    const { projectId }: any = useParams();
 
     const isSidebarVisible = useSelector(sidebarSelectors.getSidebarVisibility);
-    const selectedEpic = useSelector(epicSelectors.getCurrentEpic);
+    const epicsExist = useSelector(epicsSelectors.getIfEpicsExist);
     const columns = getColumnKeyValuePair();
 
     const onCloseSidebar = () => {
@@ -22,14 +24,6 @@ const BoardContainer = () => {
     const onDragStart = () => {
         dispatch(storyActions.storyActionDragStart());
     };
-
-    useEffect(() => {
-        dispatch(storyActions.getGeneralInfoRequest('user_id'));
-    }, [dispatch]);
-
-    useEffect(() => {
-        dispatch(storyActions.getStoriesFromEpicRequest(selectedEpic.epicId));
-    }, [dispatch, selectedEpic.epicId]);
 
     const onDragEnd = (result: any) => {
         if (result.destination) {
@@ -42,6 +36,12 @@ const BoardContainer = () => {
             );
         }
     };
+
+    useEffect(() => {
+        if (!epicsExist) {
+            dispatch(storyActions.handleBoardRequestProcessing(projectId));
+        }
+    }, [epicsExist, projectId, dispatch]);
 
     const props: IBoardProps = {
         columns,

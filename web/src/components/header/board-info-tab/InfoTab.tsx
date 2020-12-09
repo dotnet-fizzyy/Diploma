@@ -109,7 +109,7 @@ const InfoTab = (props: IInfoTabProps) => {
                 >
                     {items &&
                         items.map((x) => (
-                            <MenuItem key={x.key} value={x.value}>
+                            <MenuItem key={x.key} value={x.key}>
                                 {x.value}
                             </MenuItem>
                         ))}

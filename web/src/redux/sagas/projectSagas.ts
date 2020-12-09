@@ -4,6 +4,7 @@ import { ICollectionResponse } from '../../types';
 import { IProject } from '../../types/projectTypes';
 import { IUser, UserRole } from '../../types/userTypes';
 import * as modalActions from '../actions/modalActions';
+import { IGetProjectRequest } from '../actions/projectActions';
 import * as projectActions from '../actions/projectActions';
 import * as userSelectors from '../selectors/userSelectors';
 
@@ -11,7 +12,6 @@ function* getUserProjects(action: projectActions.IGetUserProjectsRequest) {
     try {
         const currentUser: IUser = yield select(userSelectors.getUser);
         let projects: ICollectionResponse<IProject>;
-
         if (currentUser.userRole === UserRole.ProductOwner) {
             projects = yield call(projectApi.getCustomerProjects);
         } else {
@@ -21,6 +21,16 @@ function* getUserProjects(action: projectActions.IGetUserProjectsRequest) {
         yield put(projectActions.getUserProjectsSuccess(projects.items));
     } catch (error) {
         yield put(projectActions.getUserProjectsFailure(error));
+    }
+}
+
+function* getProject(action: IGetProjectRequest) {
+    try {
+        const project: IProject = yield call(projectApi.getProject, action.payload);
+
+        yield put(projectActions.getProjectSuccess(project));
+    } catch (error) {
+        yield put(projectActions.getProjectFailure(error));
     }
 }
 
@@ -40,5 +50,6 @@ function* createProject(action: projectActions.ICreateProjectRequest) {
 
 export default function* rootStoriesSaga() {
     yield takeLatest(projectActions.ProjectActions.CREATE_PROJECT_REQUEST, createProject);
+    yield takeLatest(projectActions.ProjectActions.GET_PROJECT_REQUEST, getProject);
     yield takeLatest(projectActions.ProjectActions.GET_USER_PROJECTS_REQUEST, getUserProjects);
 }

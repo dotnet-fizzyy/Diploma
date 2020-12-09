@@ -46,8 +46,8 @@ const useStyles = makeStyles(() =>
             alignItems: 'center',
         },
         epicName: {
-            maxWidth: '300px',
             width: '100%',
+            maxWidth: '400px',
             fontFamily: 'Poppins, sans-serif',
             fontSize: '20px',
             display: 'flex',
@@ -154,7 +154,7 @@ const ProjectManagement = (props: IProjectManagementProps) => {
                         >
                             Add Epic
                         </Button>
-                        {epics.length ? (
+                        {epics && epics.length ? (
                             epics.map((epic) => <React.Fragment key={epic.epicId}>{renderEpics(epic)}</React.Fragment>)
                         ) : (
                             <div className={classes.emptyResults}>No epics created... yet</div>

@@ -42,6 +42,7 @@ export const StoryActions = {
     SORT_STORIES_SUCCESS: 'SORT_STORIES_SUCCESS',
     SORT_STORIES_FAILURE: 'SORT_STORIES_FAILURE',
     CHANGE_SORT_TYPE: 'CHANGE_SORT_TYPE',
+    HANDLE_BOARD_REQUEST_PROCESSING: 'HANDLE_BOARD_REQUEST_PROCESSING',
 };
 
 //interfaces
@@ -240,6 +241,12 @@ export interface IGetStoriesFromEpicFailure {
     type: typeof StoryActions.GET_STORIES_FROM_EPIC_REQUEST;
     payload: Error;
 }
+
+export interface IHandleBoardRequestProcessing {
+    type: typeof StoryActions.HANDLE_BOARD_REQUEST_PROCESSING;
+    payload: string;
+}
+
 //actions
 export function storyActionAddStories(stories: IStory[]): IAddStories {
     return {
@@ -516,6 +523,13 @@ export function getStoriesFromEpicFailure(error: Error): IGetStoriesFromEpicFail
     return {
         type: StoryActions.GET_STORIES_FROM_EPIC_FAILURE,
         payload: error,
+    };
+}
+
+export function handleBoardRequestProcessing(projectId: string): IHandleBoardRequestProcessing {
+    return {
+        type: StoryActions.HANDLE_BOARD_REQUEST_PROCESSING,
+        payload: projectId,
     };
 }
 

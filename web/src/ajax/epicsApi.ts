@@ -3,7 +3,7 @@ import { IEpic } from '../types/epicTypes';
 import { axiosGet, axiosPost } from './index';
 
 export async function getProjectEpics(projectId: string) {
-    const response = await axiosGet(routeConstants.ProjectUrl);
+    const response = await axiosGet(routeConstants.EpicUrls.getProjectEpics + projectId);
 
     return response.data;
 }
@@ -17,7 +17,7 @@ export async function createEpicForProject(epic: IEpic) {
         projectId: epic.projectId,
     };
 
-    const response = await axiosPost(routeConstants.ProjectUrl, mappedEpic);
+    const response = await axiosPost(routeConstants.EpicUrl, mappedEpic);
 
     return response.data;
 }

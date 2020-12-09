@@ -9,6 +9,10 @@ export const ProjectActions = {
     CREATE_PROJECT_FAILURE: 'CREATE_PROJECT_FAILURE',
     SET_PROJECTS: 'SET_PROJECTS',
     SET_CURRENT_PROJECT: 'SET_CURRENT_PROJECT',
+    SET_CURRENT_PROJECT_BY_ID: 'SET_CURRENT_PROJECT_BY_ID',
+    GET_PROJECT_REQUEST: 'GET_PROJECT_REQUEST',
+    GET_PROJECT_SUCCESS: 'GET_PROJECT_SUCCESS',
+    GET_PROJECT_FAILURE: 'GET_PROJECT_FAILURE',
 };
 
 //interfaces
@@ -49,6 +53,26 @@ export interface ISetProjects {
 export interface ISetCurrentProject {
     type: typeof ProjectActions.SET_CURRENT_PROJECT;
     payload: IProject;
+}
+
+export interface ISetCurrentProjectById {
+    type: typeof ProjectActions.SET_CURRENT_PROJECT_BY_ID;
+    payload: string;
+}
+
+export interface IGetProjectRequest {
+    type: typeof ProjectActions.GET_PROJECT_REQUEST;
+    payload: string;
+}
+
+export interface IGetProjectSuccess {
+    type: typeof ProjectActions.GET_PROJECT_SUCCESS;
+    payload: IProject;
+}
+
+export interface IGetProjectFailure {
+    type: typeof ProjectActions.GET_PROJECT_FAILURE;
+    payload: Error;
 }
 
 //actions
@@ -107,4 +131,32 @@ export function setCurrentProject(project: IProject): ISetCurrentProject {
     };
 }
 
-export type ProjectActionTypes = IGetUserProjectsSuccess & ISetProjects & ISetCurrentProject;
+export function setCurrentProjectById(projectId: string): ISetCurrentProjectById {
+    return {
+        type: ProjectActions.SET_CURRENT_PROJECT_BY_ID,
+        payload: projectId,
+    };
+}
+
+export function getProjectRequest(projectId: string): IGetProjectRequest {
+    return {
+        type: ProjectActions.GET_PROJECT_REQUEST,
+        payload: projectId,
+    };
+}
+
+export function getProjectSuccess(project: IProject): IGetProjectSuccess {
+    return {
+        type: ProjectActions.GET_PROJECT_SUCCESS,
+        payload: project,
+    };
+}
+
+export function getProjectFailure(error: Error): IGetProjectFailure {
+    return {
+        type: ProjectActions.GET_PROJECT_FAILURE,
+        payload: error,
+    };
+}
+
+export type ProjectActionTypes = IGetUserProjectsSuccess & ISetProjects & ISetCurrentProject & ISetCurrentProjectById;

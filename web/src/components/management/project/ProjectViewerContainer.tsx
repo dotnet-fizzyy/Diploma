@@ -18,6 +18,12 @@ const ProjectViewerContainer = () => {
 
     const onProjectSelect = (value: string) => {
         history.push(`/project/${value}`);
+        dispatch(projectActions.setCurrentProjectById(value));
+    };
+
+    const onClickViewBoard = (value: string) => {
+        history.push(`/board/${value}`);
+        dispatch(projectActions.setCurrentProjectById(value));
     };
 
     useEffect(() => {
@@ -30,6 +36,7 @@ const ProjectViewerContainer = () => {
         projects,
         onProjectSelect,
         onClickAddProject,
+        onClickViewBoard,
     };
 
     return <ProjectViewer {...projectViewerProps} />;
