@@ -1,6 +1,9 @@
 import { IProject } from '../../types/projectTypes';
 
 export const ProjectActions = {
+    GET_USER_PROJECTS_REQUEST: 'GET_USER_PROJECTS_REQUEST',
+    GET_USER_PROJECTS_SUCCESS: 'GET_USER_PROJECTS_SUCCESS',
+    GET_USER_PROJECTS_FAILURE: 'GET_USER_PROJECTS_FAILURE',
     CREATE_PROJECT_REQUEST: 'CREATE_PROJECT_REQUEST',
     CREATE_PROJECT_SUCCESS: 'CREATE_PROJECT_SUCCESS',
     CREATE_PROJECT_FAILURE: 'CREATE_PROJECT_FAILURE',
@@ -9,6 +12,20 @@ export const ProjectActions = {
 };
 
 //interfaces
+export interface IGetUserProjectsRequest {
+    type: typeof ProjectActions.GET_USER_PROJECTS_REQUEST;
+}
+
+export interface IGetUserProjectsSuccess {
+    type: typeof ProjectActions.GET_USER_PROJECTS_SUCCESS;
+    payload: IProject[];
+}
+
+export interface IGetUserProjectsFailure {
+    type: typeof ProjectActions.GET_USER_PROJECTS_FAILURE;
+    payload: Error;
+}
+
 export interface ICreateProjectRequest {
     type: typeof ProjectActions.CREATE_PROJECT_REQUEST;
     payload: IProject;
@@ -35,6 +52,26 @@ export interface ISetCurrentProject {
 }
 
 //actions
+export function getUserProjectsRequest(): IGetUserProjectsRequest {
+    return {
+        type: ProjectActions.GET_USER_PROJECTS_REQUEST,
+    };
+}
+
+export function getUserProjectsSuccess(projects: IProject[]): IGetUserProjectsSuccess {
+    return {
+        type: ProjectActions.GET_USER_PROJECTS_SUCCESS,
+        payload: projects,
+    };
+}
+
+export function getUserProjectsFailure(error: Error): IGetUserProjectsFailure {
+    return {
+        type: ProjectActions.GET_USER_PROJECTS_FAILURE,
+        payload: error,
+    };
+}
+
 export function createProjectRequest(project: IProject): ICreateProjectRequest {
     return {
         type: ProjectActions.CREATE_PROJECT_REQUEST,
@@ -70,4 +107,4 @@ export function setCurrentProject(project: IProject): ISetCurrentProject {
     };
 }
 
-export type ProjectActionTypes = ISetProjects & ISetCurrentProject;
+export type ProjectActionTypes = IGetUserProjectsSuccess & ISetProjects & ISetCurrentProject;

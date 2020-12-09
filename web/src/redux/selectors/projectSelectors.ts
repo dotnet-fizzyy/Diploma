@@ -7,7 +7,7 @@ export function getProjects(state: IState): IProject[] {
 }
 
 export function getProjectNames(state: IState): ISelectedItem[] {
-    return state.project.projects
+    return state.project.projects.length
         ? state.project.projects.map((project) => {
               return {
                   key: project.projectId,

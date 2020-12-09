@@ -15,7 +15,7 @@ export async function getUserByToken() {
 }
 
 export async function createUser(body: IAuthenticationUser) {
-    const response = await axiosPost(routeConstants.CreateCustomerUrl, body);
+    const response = await axiosPost(routeConstants.customerUrl, body);
 
     return response.data;
 }

@@ -1,12 +1,15 @@
-import { put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
+import * as sprintApi from '../../ajax/sprintApi';
 import { IProject } from '../../types/projectTypes';
+import { ISprint } from '../../types/sprintTypes';
 import * as modalActions from '../actions/modalActions';
 import * as sprintActions from '../actions/sprintsActions';
 import * as epicSelectors from '../selectors/epicsSelectors';
 
-function* getSprints(action: sprintActions.IGetSprintsSuccess) {
+function* getSprints(action: sprintActions.IGetSprintsRequest) {
     try {
-        yield console.log(action.payload);
+        const sprints: ISprint[] = yield call(sprintApi.getSprintsFromEpic, action.payload);
+        yield put(sprintActions.getSprintsSuccess(sprints));
     } catch (error) {
         yield put(sprintActions.getSprintsFailure(error));
     }
@@ -15,11 +18,10 @@ function* getSprints(action: sprintActions.IGetSprintsSuccess) {
 function* createSprint(action: sprintActions.ICreateSprintRequest) {
     try {
         const project: IProject = yield select(epicSelectors.getCurrentEpic);
-
-        action.payload.sprintId = '123';
         action.payload.projectId = project.projectId;
 
-        yield put(sprintActions.createSprintSuccess(action.payload));
+        const createdSprint: ISprint = yield call(sprintApi.createSprint, action.payload);
+        yield put(sprintActions.createSprintSuccess(createdSprint));
         yield put(modalActions.closeModal());
     } catch (error) {
         yield put(sprintActions.createSprintFailure(error));

@@ -1,8 +1,8 @@
-import { debounce, delay, put, select, take, takeLatest } from 'redux-saga/effects';
+import { call, debounce, delay, put, select, take, takeLatest } from 'redux-saga/effects';
+import * as storyApi from '../../ajax/storiesApi';
 import { debouncePeriod } from '../../constants/storyConstants';
-import { createStoryUpdatePartsFromStory } from '../../helpers/storyHelper';
+import { createRequestBodyForColumnMovement, createStoryUpdatePartsFromStory } from '../../helpers/storyHelper';
 import mockedProject from '../../mock/mockedProject';
-//import mockedSearchResults from '../../mock/mockedSearchResults';
 import mockedStories from '../../mock/mockedStories';
 import mockedTeam from '../../mock/mockedTeam';
 import mockedUser from '../../mock/mockedUser';
@@ -75,6 +75,9 @@ function* dragAndDropHandler(action: storyActions.IStoryHandleDragAndDrop) {
 
 function* updateStoryColumn(action: storyActions.IUpdateStoryColumnRequest) {
     try {
+        const jsonPatchDocument = createRequestBodyForColumnMovement(action.payload);
+
+        yield call(storyApi.changeStoryColumn, jsonPatchDocument);
         yield put(storyActions.updateStoryColumnSuccess());
     } catch (error) {
         yield put(storyActions.updateStoryColumnFailure());

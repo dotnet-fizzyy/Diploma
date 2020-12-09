@@ -61,6 +61,12 @@ const useStyles = makeStyles(() =>
             marginRight: '20px',
             width: '170px',
         },
+        emptyProjects: {
+            fontFamily: 'Poppins',
+            fontSize: '20px',
+            display: 'flex',
+            justifyContent: 'center',
+        },
     })
 );
 
@@ -87,20 +93,22 @@ const ProjectViewer = (props: IProjectViewerProps) => {
                 </Button>
                 <span className={classes.header}>Your projects</span>
                 <div className={classes.body}>
-                    {projects && projects.length
-                        ? projects.map((project) => (
-                              <div key={project.key} className={classes.projectLink}>
-                                  <span className={classes.projectName}>{project.value}</span>
-                                  <Button
-                                      className={classnames(classes.button, classes.manageButton)}
-                                      variant="outlined"
-                                      onClick={() => onProjectSelect(project.key)}
-                                  >
-                                      Manage project
-                                  </Button>
-                              </div>
-                          ))
-                        : null}
+                    {projects && projects.length ? (
+                        projects.map((project) => (
+                            <div key={project.key} className={classes.projectLink}>
+                                <span className={classes.projectName}>{project.value}</span>
+                                <Button
+                                    className={classnames(classes.button, classes.manageButton)}
+                                    variant="outlined"
+                                    onClick={() => onProjectSelect(project.key)}
+                                >
+                                    Manage project
+                                </Button>
+                            </div>
+                        ))
+                    ) : (
+                        <div className={classes.emptyProjects}>Create your first project!</div>
+                    )}
                 </div>
             </div>
         </div>

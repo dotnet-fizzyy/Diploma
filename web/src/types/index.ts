@@ -37,3 +37,8 @@ export interface IJsonPatchBody {
     path: string;
     value: string;
 }
+
+export interface ICollectionResponse<T> {
+    items: T[];
+    count: number;
+}

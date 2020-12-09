@@ -11,6 +11,7 @@ export default function projectsReducer(state = initialState, action: projectAct
         case projectActions.ProjectActions.CREATE_PROJECT_SUCCESS:
             return handleCreateProjectSuccess(state, action);
         case projectActions.ProjectActions.SET_PROJECTS:
+        case projectActions.ProjectActions.GET_USER_PROJECTS_SUCCESS:
             return handleSetProjects(state, action);
         case projectActions.ProjectActions.SET_CURRENT_PROJECT:
             return handleSetCurrentProject(state, action);
@@ -22,7 +23,7 @@ export default function projectsReducer(state = initialState, action: projectAct
 function handleCreateProjectSuccess(state: IProjectState, action: projectActions.ICreateProjectSuccess): IProjectState {
     return {
         ...state,
-        projects: [...state.projects, action.payload],
+        projects: state.projects.length ? [...state.projects, action.payload] : [action.payload],
     };
 }
 

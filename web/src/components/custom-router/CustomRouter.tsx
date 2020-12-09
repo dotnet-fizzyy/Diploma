@@ -28,13 +28,13 @@ const CustomRouter = (props: ICustomRouterProps) => {
             <Switch>
                 <Route path={routeConstants.LoginScreenRoute} component={StartScreenContainer} />
                 <Route path={routeConstants.RegistrationScreenRoute} component={StartScreenContainer} />
+                <RouteGuard path={routeConstants.ProjectBoardRoute} component={BoardApplication} isLogged={isLogged} />
                 <RouteGuard
                     exact={true}
                     path={routeConstants.DefaultRoute}
-                    component={BoardApplication}
+                    component={MainPageContainer}
                     isLogged={isLogged}
                 />
-                <RouteGuard path={routeConstants.TestDefaultRoute} component={MainPageContainer} isLogged={isLogged} />
                 <RouteGuard
                     path={routeConstants.FullViewStoryRoute}
                     component={StoryFullViewContainer}

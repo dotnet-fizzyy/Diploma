@@ -15,7 +15,7 @@ function getAxiosInstance(): AxiosInstance {
 }
 
 export async function axiosGet(url: string, params?: any) {
-    return await getAxiosInstance().get(url, { params });
+    return await getAxiosInstance().get(url, params);
 }
 
 export async function axiosPost(url: string, body?: any) {
@@ -27,7 +27,7 @@ export async function axiosPut(url: string, body?: any) {
 }
 
 export async function axiosDelete(url: string, params: any) {
-    return await getAxiosInstance().delete(url, { params });
+    return await getAxiosInstance().delete(url, params);
 }
 
 export async function axiosPatch(url: string, body: any) {
