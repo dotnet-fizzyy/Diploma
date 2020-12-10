@@ -19,12 +19,9 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 join teams in _dbContext.Teams on users.TeamId equals teams.TeamId
                 join projects in _dbContext.Projects.Include(x => x.Teams)
                     on teams.ProjectId equals projects.ProjectId
-                where users.UserId == userId || projects.Customer == userId.ToString()
+                where users.UserId == userId
                 select projects
-                : from users in _dbContext.Users
-                join teams in _dbContext.Teams on users.TeamId equals teams.TeamId
-                join projects in _dbContext.Projects on teams.ProjectId equals projects.ProjectId
-                where users.UserId == userId || projects.Customer == userId.ToString()
+                : from projects in _dbContext.Projects where projects.Customer == userId.ToString()
                 select projects; 
 
             var foundProjects = await query.ToListAsync();

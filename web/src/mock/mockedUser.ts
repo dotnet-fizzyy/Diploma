@@ -8,6 +8,7 @@ const mockedUser: IUser = {
     avatarLink: '',
     userPosition: UserPosition.Developer,
     userRole: UserRole.Lead,
+    teamId: '',
 };
 
 export default mockedUser;

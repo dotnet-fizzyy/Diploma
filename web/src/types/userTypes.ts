@@ -1,5 +1,7 @@
 export interface IUser {
     userId: string;
+    password?: string;
+    teamId: string;
     userName: string;
     userRole: UserRole;
     userPosition: UserPosition;
@@ -14,8 +16,8 @@ export interface IAuthenticationUser {
 }
 
 export enum UserRole {
-    ProductOwner = 'ProductOwner',
-    TeamMaster = 'TeamMaster',
+    ProductOwner = 'Product Owner',
+    TeamMaster = 'Team Master',
     Lead = 'Lead',
     Engineer = 'Engineer',
 }

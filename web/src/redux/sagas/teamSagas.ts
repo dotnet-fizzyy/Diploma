@@ -7,9 +7,10 @@ import * as teamActions from '../actions/teamActions';
 
 function* createTeam(action: teamActions.ICreateTeamRequest) {
     try {
-        const createdTeams: ITeam = yield call(teamApi.createTeam, action.payload);
+        let createdTeam: ITeam = yield call(teamApi.createTeam, action.payload);
+        createdTeam.users = createdTeam.users || [];
 
-        yield put(teamActions.createTeamSuccess(createdTeams));
+        yield put(teamActions.createTeamSuccess(createdTeam));
         yield put(modalActions.closeModal());
     } catch (error) {
         yield put(teamActions.createTeamFailure(error));
@@ -19,8 +20,14 @@ function* createTeam(action: teamActions.ICreateTeamRequest) {
 function* getUserTeams(action: teamActions.IGetUserTeamsRequest) {
     try {
         const userTeams: ICollectionResponse<ITeam> = yield call(teamApi.getTeams);
+        const teams = userTeams.items.map((x) => {
+            return {
+                ...x,
+                users: x.users || [],
+            };
+        });
 
-        yield put(teamActions.getUserTeamsSuccess(userTeams.items));
+        yield put(teamActions.getUserTeamsSuccess(teams));
     } catch (error) {
         yield put(teamActions.getUserTeamsFailure(error));
     }

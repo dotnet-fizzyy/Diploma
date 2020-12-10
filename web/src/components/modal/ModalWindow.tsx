@@ -7,6 +7,7 @@ import ProjectCreationContainer from './project-creation/ProjectCreationContaine
 import SprintCreationContainer from './sprint-creation/SprintCreationContainer';
 import StoryCreationContainer from './story-creation/StoryCreationContainer';
 import TeamCreationContainer from './team-creation/TeamCreationContainer';
+import UserCreationContainer from './user-creation/UserCreationContainer';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -40,6 +41,8 @@ const ModalWindow = (props: IModalWindowProps) => {
                 return <SprintCreationContainer />;
             case ModalTypes.EPIC_CREATION:
                 return <EpicCreationContainer />;
+            case ModalTypes.USER_CREATION:
+                return <UserCreationContainer />;
             default:
                 return <React.Fragment />;
         }

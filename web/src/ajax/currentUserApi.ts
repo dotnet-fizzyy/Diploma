@@ -1,5 +1,5 @@
 import * as routeConstants from '../constants/routeConstants';
-import { IAuthenticationUser } from '../types/userTypes';
+import { IAuthenticationUser, IUser } from '../types/userTypes';
 import { axiosGet, axiosPost } from './index';
 
 export async function getUsers(params?: any) {
@@ -14,7 +14,23 @@ export async function getUserByToken() {
     return response.data;
 }
 
-export async function createUser(body: IAuthenticationUser) {
+export async function createUser(user: IUser) {
+    const mappedUser = {
+        userName: user.userName,
+        password: user.password,
+        email: user.email,
+        userRole: user.userRole.toString(),
+        userPosition: user.userPosition.toString(),
+        teamId: user.teamId,
+        isActive: true,
+    };
+
+    const response = await axiosPost(routeConstants.UsersUrl, mappedUser);
+
+    return response.data;
+}
+
+export async function createCustomer(body: IAuthenticationUser) {
     const response = await axiosPost(routeConstants.CustomerUrl, body);
 
     return response.data;

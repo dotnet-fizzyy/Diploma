@@ -33,10 +33,13 @@ export const EpicUrls = {
 export const StoriesUrls = {
     boardMove: StoriesUrl + '/board-move',
     partUpdate: StoriesUrl + '/part-update',
+    termSearch: StoriesUrl + '/term',
+    sortStories: StoriesUrl + '/sort',
 };
 
 export const CustomerUrls = {
     customerProjects: CustomerUrl + '/projects',
+    createTeam: CustomerUrl + '/team',
 };
 
 export const ProjectUrls = {

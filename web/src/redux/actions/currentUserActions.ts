@@ -8,6 +8,9 @@ export const CurrentUserActions = {
     REGISTRATION_REQUEST: 'REGISTRATION_REQUEST',
     REGISTRATION_SUCCESS: 'REGISTRATION_SUCCESS',
     REGISTRATION_FAILURE: 'REGISTRATION_FAILURE',
+    CREATE_USER_REQUEST: 'CREATE_USER_REQUEST',
+    CREATE_USER_SUCCESS: 'CREATE_USER_SUCCESS',
+    CREATE_USER_FAILURE: 'CREATE_USER_FAILURE',
     ADD_USER: 'ADD_USER',
     LOGOUT_USER: 'LOGOUT_USER',
     VERIFY_USER_REQUEST: 'VERIFY_USER_REQUEST',
@@ -43,6 +46,21 @@ export interface IRegistrationSuccess {
 
 export interface IRegistrationFailure {
     type: typeof CurrentUserActions.REGISTRATION_FAILURE;
+    payload: Error;
+}
+
+export interface ICreateUserRequest {
+    type: typeof CurrentUserActions.CREATE_USER_REQUEST;
+    payload: IUser;
+}
+
+export interface ICreateUserSuccess {
+    type: typeof CurrentUserActions.CREATE_USER_SUCCESS;
+    payload: IUser;
+}
+
+export interface ICreateUserFailure {
+    type: typeof CurrentUserActions.CREATE_USER_FAILURE;
     payload: Error;
 }
 
@@ -117,6 +135,27 @@ export function authenticationSuccess(authResponse: AuthenticationResponse): IAu
 export function authenticationFailure(error: Error): IAuthenticationFailure {
     return {
         type: CurrentUserActions.AUTHENTICATION_FAILURE,
+        payload: error,
+    };
+}
+
+export function createUserRequest(user: IUser): ICreateUserRequest {
+    return {
+        type: CurrentUserActions.CREATE_USER_REQUEST,
+        payload: user,
+    };
+}
+
+export function createUserSuccess(user: IUser): ICreateUserSuccess {
+    return {
+        type: CurrentUserActions.CREATE_USER_SUCCESS,
+        payload: user,
+    };
+}
+
+export function createUserFailure(error: Error): ICreateUserFailure {
+    return {
+        type: CurrentUserActions.CREATE_USER_FAILURE,
         payload: error,
     };
 }

@@ -26,6 +26,7 @@ const initialState: IStoryState = {
 export default function storiesReducer(state = initialState, action: any) {
     switch (action.type) {
         case storyActions.StoryActions.ADD_STORIES:
+        case storyActions.StoryActions.SORT_STORIES_SUCCESS:
             return handleAddStories(state, action);
         case storyActions.StoryActions.SELECT_STORY:
             return handleSelectStory(state, action);

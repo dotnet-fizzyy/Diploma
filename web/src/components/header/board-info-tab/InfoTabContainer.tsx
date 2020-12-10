@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSortFields } from '../../../helpers/storyHelper';
 import * as modalActions from '../../../redux/actions/modalActions';
@@ -32,8 +32,6 @@ const InfoTabContainer = () => {
     const onClickAddStory = () => {
         dispatch(modalActions.openModal(ModalTypes.STORY_CREATION));
     };
-
-    useEffect(() => {}, []);
 
     const infoTabProps: IInfoTabProps = {
         team,

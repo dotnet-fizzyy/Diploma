@@ -52,13 +52,13 @@ namespace WebAPI.Presentation.Controllers
         [HttpPost]
         [Route("team")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<CollectionResponse<Project>>> CreateTeamWithCustomer()
+        public async Task<ActionResult<Team>> CreateTeamWithCustomer([FromBody]Team team)
         {
             var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
             
-            var customerProjects = await _projectService.GetCustomerProjects(new Guid(userId!));
+            var createdTeam = await _teamService.CreateTeamWithCustomer(team, new Guid(userId!));
             
-            return customerProjects;
+            return createdTeam;
         }
     }
 }

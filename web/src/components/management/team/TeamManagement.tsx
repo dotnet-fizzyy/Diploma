@@ -73,7 +73,9 @@ const TeamManagement = (props: ITeamManagementProps) => {
     return (
         <div className={classes.root}>
             <div className={classes.mainContainer}>
-                <span className={classes.header}>{team.teamName}</span>
+                <span className={classes.header}>
+                    {team.teamName} | {team.location}
+                </span>
                 <Button onClick={onClickAddUser} className={classes.button} variant="outlined" startIcon={<AddIcon />}>
                     Add User
                 </Button>

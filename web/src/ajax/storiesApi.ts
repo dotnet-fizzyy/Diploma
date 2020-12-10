@@ -37,3 +37,25 @@ export async function updateStory(storyUpdate: IStoryUpdate) {
 
     return response.data;
 }
+
+export async function getStoriesByTerm(storyTerm: string, projectId: string) {
+    const response = await axios.axiosGet(
+        routeConstants.StoriesUrls.termSearch + `?term=${storyTerm}&limit=${5}&projectId=${projectId}`
+    );
+
+    return response.data;
+}
+
+export async function sortStories(sortType: string, epicId: string) {
+    const response = await axios.axiosGet(
+        routeConstants.StoriesUrls.sortStories + `?epicId=${epicId}&sortType=${sortType}&orderType=${'ASC'}`
+    );
+
+    return response.data;
+}
+
+export async function changeStoryStatus() {
+    const response = await axios.axiosPatch(routeConstants.StoriesUrls.sortStories, {});
+
+    return response.data;
+}

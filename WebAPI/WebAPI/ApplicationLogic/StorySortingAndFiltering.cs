@@ -31,7 +31,7 @@ namespace WebAPI.ApplicationLogic
             {
                 return null;
             }
-            
+
             if (orderType == OrderType.Asc)
             {
                 epicStories = sortType switch

@@ -97,3 +97,48 @@ export function createRequestBodyForColumnMovement(story: IStory): IJsonPatchBod
         },
     ];
 }
+
+export function createRequestBodyForReadyState(story: IStory): IJsonPatchBody[] {
+    return [
+        {
+            op: 'add',
+            path: '/storyId',
+            value: story.storyId,
+        },
+        {
+            op: 'add',
+            path: '/isReady',
+            value: story.isReady.toString(),
+        },
+        {
+            op: 'add',
+            path: '/recordVersion',
+            value: story.recordVersion.toString(),
+        },
+    ];
+}
+
+export function createRequestBodyForBlockedState(story: IStory): IJsonPatchBody[] {
+    return [
+        {
+            op: 'add',
+            path: '/storyId',
+            value: story.storyId,
+        },
+        {
+            op: 'add',
+            path: '/isBlocked',
+            value: story.isBlocked.toString(),
+        },
+        {
+            op: 'add',
+            path: '/blockReason',
+            value: story.blockReason,
+        },
+        {
+            op: 'add',
+            path: '/recordVersion',
+            value: story.recordVersion.toString(),
+        },
+    ];
+}

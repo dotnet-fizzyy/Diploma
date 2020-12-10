@@ -1,3 +1,4 @@
+import * as UserActions from '../actions/currentUserActions';
 import * as TeamActions from '../actions/teamActions';
 import { ITeamState } from '../store/state';
 
@@ -16,6 +17,8 @@ export default function teamsReducer(state = initialState, action: TeamActions.T
             return handleSetSelectedTeam(state, action);
         case TeamActions.TeamActions.SET_SELECTED_TEAM_BY_ID:
             return handleSetSelectedTeamById(state, action);
+        case UserActions.CurrentUserActions.CREATE_USER_SUCCESS:
+            return handleCreateUserSuccess(state, action as any);
         default:
             return state;
     }
@@ -46,5 +49,23 @@ function handleSetSelectedTeamById(state: ITeamState, action: TeamActions.ISetSe
     return {
         ...state,
         currentTeam: state.teams.find((x) => x.teamId === action.payload),
+    };
+}
+
+function handleCreateUserSuccess(state: ITeamState, action: UserActions.ICreateUserSuccess): ITeamState {
+    return {
+        ...state,
+        currentTeam: {
+            ...state.currentTeam,
+            users: state.currentTeam.users.concat(action.payload),
+        },
+        teams: state.teams.map((x) => {
+            return x.teamId === action.payload.teamId
+                ? {
+                      ...x,
+                      users: x.users.concat(action.payload),
+                  }
+                : x;
+        }),
     };
 }

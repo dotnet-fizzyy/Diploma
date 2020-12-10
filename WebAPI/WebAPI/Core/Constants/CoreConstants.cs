@@ -2,10 +2,10 @@ namespace WebAPI.Core.Constants
 {
     public class SortTypes
     {
-        public const string Priority = "Priority";
-        public const string Title = "Title";
-        public const string Estimate = "Estimate";
-        public const string CreationDate = "CreationDate";
+        public const string Priority = "PRIORITY";
+        public const string Title = "NAME";
+        public const string Estimate = "ESTIMATE";
+        public const string CreationDate = "CREATION_DATE";
     }
 
     public class StoryFields

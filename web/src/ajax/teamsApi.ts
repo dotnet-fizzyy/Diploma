@@ -9,7 +9,7 @@ export async function createTeam(team: ITeam) {
         projectId: team.projectId,
     };
 
-    const response = await axios.axiosPost(routeConstants.TeamUrl, mappedTeam);
+    const response = await axios.axiosPost(routeConstants.CustomerUrls.createTeam, mappedTeam);
 
     return response.data;
 }
