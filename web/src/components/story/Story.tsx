@@ -112,7 +112,7 @@ const Story = (props: IStoryProps) => {
                     <div className={classes.body}>
                         <span className={classes.bodyTitle}>{story.title}</span>
                         <div className={classes.card}>
-                            <StoryPriorityCard priority={story.priority} />
+                            <StoryPriorityCard priority={story.storyPriority} />
                         </div>
                     </div>
                     <StoryFooter

@@ -1,14 +1,19 @@
 import { call, debounce, delay, put, select, take, takeLatest } from 'redux-saga/effects';
 import * as storyApi from '../../ajax/storiesApi';
 import { debouncePeriod } from '../../constants/storyConstants';
+import { findCurrentEpic } from '../../helpers/epicHelper';
 import { createRequestBodyForColumnMovement, createStoryUpdatePartsFromStory } from '../../helpers/storyHelper';
+import { IEpic } from '../../types/epicTypes';
 import { IStory, IStoryColumns } from '../../types/storyTypes';
 import { IUser } from '../../types/userTypes';
 import * as epicActions from '../actions/epicActions';
+import * as modalActions from '../actions/modalActions';
 import * as projectActions from '../actions/projectActions';
+import * as requestProcessorActions from '../actions/requestProcessorActions';
 import * as sidebarActions from '../actions/sidebarActions';
 import * as sprintsActions from '../actions/sprintsActions';
 import * as storyActions from '../actions/storiesActions';
+import * as epicSelectors from '../selectors/epicsSelectors';
 import * as storySelectors from '../selectors/storiesSelectors';
 import * as currentUserSelectors from '../selectors/userSelectors';
 
@@ -24,7 +29,10 @@ function* refreshData() {
 
 function* createStory(action: storyActions.ICreateStoryRequest) {
     try {
-        yield put(storyActions.createStorySuccess(action.payload));
+        const createdStory: IStory = yield call(storyApi.createStory, action.payload);
+
+        yield put(storyActions.createStorySuccess(createdStory));
+        yield put(modalActions.closeModal());
     } catch (error) {
         yield put(storyActions.createStoryFailure(error));
     }
@@ -38,7 +46,7 @@ function* dragAndDropHandler(action: storyActions.IStoryHandleDragAndDrop) {
             .reduce((accumulator, stories) => accumulator.concat(stories), [])
             .find((story) => story.storyId === action.payload.storyId);
 
-        const updatedColumns = columns.map((column) => {
+        let updatedColumns = columns.map((column) => {
             if (column.key === action.payload.columnTypeOrigin) {
                 column.value = column.value.filter((story) => story.storyId !== action.payload.storyId);
             }
@@ -51,9 +59,8 @@ function* dragAndDropHandler(action: storyActions.IStoryHandleDragAndDrop) {
             return column;
         });
 
-        yield put(storyActions.updateStoryColumnRequest(movableStory));
-        yield take(storyActions.StoryActions.STORY_UPDATE_COLUMN_SUCCESS);
         yield put(storyActions.updateStoriesAfterDragAndDropAction(updatedColumns));
+        yield put(storyActions.updateStoryColumnRequest(movableStory));
     }
 
     yield put(storyActions.storyDragFinish());
@@ -62,11 +69,11 @@ function* dragAndDropHandler(action: storyActions.IStoryHandleDragAndDrop) {
 function* updateStoryColumn(action: storyActions.IUpdateStoryColumnRequest) {
     try {
         const jsonPatchDocument = createRequestBodyForColumnMovement(action.payload);
+        const updatedStory: IStory = yield call(storyApi.changeStoryColumn, jsonPatchDocument);
 
-        yield call(storyApi.changeStoryColumn, jsonPatchDocument);
-        yield put(storyActions.updateStoryColumnSuccess());
+        yield put(storyActions.updateStoryColumnSuccess(updatedStory));
     } catch (error) {
-        yield put(storyActions.updateStoryColumnFailure());
+        yield put(storyActions.updateStoryColumnFailure(error));
     }
 }
 
@@ -107,10 +114,14 @@ function* updateStoryChanges(action: storyActions.IUpdateStoryChangesRequest) {
         const currentUser: IUser = yield select(currentUserSelectors.getUser);
 
         const storyParts = createStoryUpdatePartsFromStory(selectedStory, action.payload, currentUser.userId);
-        console.log(storyParts);
+        const updatedStory = yield call(storyApi.updateStory, storyParts);
+
+        yield put(storyActions.storyUpdateChangesSuccess(updatedStory));
     } catch (error) {
         yield put(storyActions.storyUpdateChangesFailure(error));
     }
+
+    yield put(requestProcessorActions.hideSpinner());
 }
 
 function* changeEpic(action: storyActions.IChangeEpicRequest) {
@@ -138,6 +149,10 @@ function* handleBoardRequestProcessing(action: storyActions.IHandleBoardRequestP
     yield put(epicActions.getEpicsRequest(action.payload));
     yield take(epicActions.EpicActions.GET_EPICS_SUCCESS);
 
+    const epics: IEpic[] = yield select(epicSelectors.getEpics);
+    const currentEpic: IEpic = findCurrentEpic(epics);
+
+    yield put(epicActions.setCurrentEpic(currentEpic));
     yield put(sprintsActions.getFullSprintsFromEpicRequest());
 }
 

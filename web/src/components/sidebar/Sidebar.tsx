@@ -54,11 +54,12 @@ const useStyles = makeStyles(() =>
         spinnerContainer: {
             position: 'absolute',
             width: '100%',
-            height: '100%',
+            height: '100vh',
             backgroundColor: 'rgba(0, 0, 0, 0.4)',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            zIndex: 5,
         },
         link: {
             textDecoration: 'none',
@@ -117,7 +118,7 @@ const Sidebar = (props: ISidebarProps) => {
             isReady,
             isBlocked,
             blockReason,
-            priority,
+            storyPriority,
         },
         team,
         storyEstimates,
@@ -176,8 +177,8 @@ const Sidebar = (props: ISidebarProps) => {
                 />
 
                 <StoryDropdownMenu
-                    id={priority.toUpperCase()}
-                    name={storyFields.priority}
+                    id={storyPriority.toUpperCase()}
+                    name={storyFields.storyPriority}
                     disabled={false}
                     title={'Priority'}
                     items={storyPriorities}

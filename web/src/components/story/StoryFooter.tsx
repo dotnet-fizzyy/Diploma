@@ -8,6 +8,8 @@ const useStyles = makeStyles(() =>
         footer: {
             height: '40px',
             display: 'flex',
+            fontFamily: 'Poppins',
+            color: '#242624',
             justifyContent: 'center',
             alignItems: 'center',
             '& span': {
@@ -16,7 +18,6 @@ const useStyles = makeStyles(() =>
         },
         iconUser: {
             fontSize: '26px',
-            color: 'black',
         },
         currentStoryStatus: {
             borderBottomLeftRadius: '4px',

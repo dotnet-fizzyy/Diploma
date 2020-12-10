@@ -3,6 +3,7 @@ import BlockOutlinedIcon from '@material-ui/icons/BlockOutlined';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import classnames from 'classnames';
 import React from 'react';
+import { getShortIdNameForStory } from '../../helpers/storyHelper';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -13,8 +14,10 @@ const useStyles = makeStyles(() =>
             justifyContent: 'space-between',
         },
         storyId: {
-            marginLeft: '10px',
-            fontSize: '16px',
+            marginLeft: '15px',
+            fontSize: '18px',
+            color: '#242624',
+            fontFamily: 'Poppins',
         },
         iconBlock: {
             fontSize: '22px',
@@ -81,7 +84,7 @@ const StoryHeader = (props: IStoryHeaderProps) => {
     return (
         <div className={classes.header}>
             <span onClick={() => onSelectStory(storyId)} className={classes.storyId}>
-                {storyId}
+                {getShortIdNameForStory(storyId)}
             </span>
             <div className={classes.actionButtons}>
                 <CheckCircleOutlinedIcon

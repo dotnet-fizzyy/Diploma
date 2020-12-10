@@ -1,4 +1,4 @@
-import { IStory } from '../types/storyTypes';
+import { IStory, Priority } from '../types/storyTypes';
 import { ColumnIds } from './boardConstants';
 
 export const debouncePeriod: number = 1000;
@@ -28,7 +28,7 @@ export enum storyFields {
     isDefect = 'isDefect',
     isReady = 'isReady',
     notes = 'notes',
-    priority = 'priority',
+    storyPriority = 'storyPriority',
     sprintId = 'sprintId',
     storyId = 'storyId',
     title = 'title',
@@ -46,7 +46,7 @@ export const initialStory: IStory = {
     [storyFields.isDefect]: false,
     [storyFields.isReady]: false,
     [storyFields.notes]: '',
-    [storyFields.priority]: undefined,
+    [storyFields.storyPriority]: Priority.LOW,
     [storyFields.sprintId]: '',
     [storyFields.storyId]: '',
     [storyFields.title]: '',

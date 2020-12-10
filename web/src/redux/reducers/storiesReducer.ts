@@ -55,6 +55,9 @@ export default function storiesReducer(state = initialState, action: any) {
             return handleGetStoryHistorySuccess(state, action);
         case storyActions.StoryActions.CHANGE_SORT_TYPE:
             return handleChangeSortType(state, action);
+        case storyActions.StoryActions.STORY_UPDATE_CHANGES_SUCCESS:
+        case storyActions.StoryActions.STORY_UPDATE_COLUMN_SUCCESS:
+            return handleUpdateStoryColumn(state, action);
         default:
             return state;
     }
@@ -76,10 +79,12 @@ function handleCreateStory(state: IStoryState, action: storyActions.ICreateStory
     return {
         ...state,
         columns: state.columns.map((column) => {
-            return {
-                key: column.key,
-                value: [...column.value, action.payload],
-            } as IStoryColumns;
+            return column.key === action.payload.columnType
+                ? ({
+                      key: column.key,
+                      value: [...column.value, action.payload],
+                  } as IStoryColumns)
+                : column;
         }),
     };
 }
@@ -218,5 +223,24 @@ function handleChangeSortType(state: IStoryState, action: storyActions.IChangeSo
     return {
         ...state,
         sortType: action.payload,
+    };
+}
+
+function handleUpdateStoryColumn(state: IStoryState, action: storyActions.IUpdateStoryColumnSuccess): IStoryState {
+    return {
+        ...state,
+        selectedStory: action.payload,
+        columns: state.columns.map((column) => {
+            return {
+                ...column,
+                value: column.value.map((story) => {
+                    return story.storyId === action.payload.storyId
+                        ? {
+                              ...action.payload,
+                          }
+                        : story;
+                }),
+            };
+        }),
     };
 }

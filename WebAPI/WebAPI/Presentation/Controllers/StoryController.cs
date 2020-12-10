@@ -130,7 +130,7 @@ namespace WebAPI.Presentation.Controllers
                 return NotFound();
             }
 
-            return Ok();
+            return Ok(storyHistory);
         }
         
         
@@ -140,7 +140,7 @@ namespace WebAPI.Presentation.Controllers
         public async Task<ActionResult<Story>> CreateStory([FromBody, BindRequired] Story story)
         {
             var userId = 
-                User.Claims.FirstOrDefault(x => ClaimTypes.NameIdentifier == x.Type)?.Value;
+                User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
             
             var createdStory = await _storyService.AddStory(story, new Guid(userId!));
 
@@ -163,14 +163,17 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> UpdatePartsOfStory([FromBody, BindRequired] StoryUpdate storyUpdate)
         {
-            var updatedStory = await _storyService.UpdatePartsOfStory(storyUpdate);
+            var userId = 
+                User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+            
+            var updatedStory = await _storyService.UpdatePartsOfStory(storyUpdate, new Guid(userId!));
 
             return Ok(updatedStory);
         }
 
         [HttpPatch]
         [Route("board-move")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> UpdateStoryColumn([FromBody, BindRequired] JsonPatchDocument<Story> storyPatch)
@@ -178,9 +181,9 @@ namespace WebAPI.Presentation.Controllers
             var storyModel = new Story();
             storyPatch.ApplyTo(storyModel, ModelState);
 
-            await _storyService.UpdateStoryColumn(storyModel);
+            var updatedStory = await _storyService.UpdateStoryColumn(storyModel);
             
-            return NoContent();
+            return Ok(updatedStory);
         }
         
         [HttpPatch]

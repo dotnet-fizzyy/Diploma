@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 using WebAPI.Core.Enums;
-using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
@@ -18,21 +17,18 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly IStoryMapper _storyMapper;
         private readonly IStoryHistoryRepository _storyHistoryRepository;
         private readonly IStoryHistoryMapper _storyHistoryMapper;
-        private readonly IStoryAggregator _storyAggregator;
 
         public StoryService(
             IStoryRepository storyRepository, 
             IStoryMapper storyMapper, 
             IStoryHistoryRepository storyHistoryRepository,
-            IStoryHistoryMapper storyHistoryMapper,
-            IStoryAggregator storyAggregator
+            IStoryHistoryMapper storyHistoryMapper
         )
         {
             _storyRepository = storyRepository;
             _storyMapper = storyMapper;
             _storyHistoryRepository = storyHistoryRepository;
             _storyHistoryMapper = storyHistoryMapper;
-            _storyAggregator = storyAggregator;
         }
 
         public async Task<CollectionResponse<Story>> GetStories()
@@ -138,20 +134,23 @@ namespace WebAPI.ApplicationLogic.Services
             var storyEntity = _storyMapper.MapToEntity(story);
 
             var updatedStoryEntity = await _storyRepository.UpdateItemAsync(storyEntity);
-            await _storyHistoryRepository.CreateAsync(
-                StoryHistoryGenerator.GetStoryHistoryForCreation(Guid.Empty, updatedStoryEntity.StoryId)
-            );
-            
+
             var storyModel = _storyMapper.MapToModel(updatedStoryEntity);
             
             return storyModel;
         }
 
-        public async Task UpdateStoryColumn(Story story)
+        public async Task<Story> UpdateStoryColumn(Story story)
         {
             var storyEntity = _storyMapper.MapToEntity(story);
 
             await _storyRepository.UpdateStoryColumn(storyEntity);
+            var foundStoryEntity =
+                await _storyRepository.SearchForSingleItemAsync(x => x.StoryId == storyEntity.StoryId);
+            
+            var updatedStoryModel = _storyMapper.MapToModel(foundStoryEntity);
+            
+            return updatedStoryModel;
         }
 
         public async Task ChangeStoryStatus(Story story)
@@ -161,15 +160,14 @@ namespace WebAPI.ApplicationLogic.Services
             await _storyRepository.ChangeStoryStatus(storyEntity);
         }
 
-        public async Task<Story> UpdatePartsOfStory(StoryUpdate storyUpdate)
+        public async Task<Story> UpdatePartsOfStory(StoryUpdate storyUpdate, Guid userId)
         {
-            var storyHistoryItems = _storyHistoryMapper.MapToStoryEntityParts(storyUpdate);
+            var storyHistoryItems = _storyHistoryMapper.MapToStoryEntityParts(storyUpdate, userId);
+            var storyEntity = _storyMapper.MapToEntity(storyUpdate.Story);
 
             await _storyHistoryRepository.CreateAsync(storyHistoryItems);
 
-            var storyEntity = _storyAggregator.CreateStoryFromUpdateParts(storyUpdate);
-
-            var updatedStory = await _storyRepository.CreateAsync(storyEntity);
+            var updatedStory = await _storyRepository.UpdateItemAsync(storyEntity);
 
             var storyModel = _storyMapper.MapToModel(updatedStory);
             

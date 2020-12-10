@@ -61,6 +61,9 @@ const useStyles = makeStyles(() =>
             fontFamily: 'Poppins, sans-serif',
             marginLeft: '20px',
         },
+        epicsContainer: {
+            marginRight: '30px',
+        },
     })
 );
 
@@ -127,7 +130,11 @@ const InfoTab = (props: IInfoTabProps) => {
                     {project && <p>{project.projectName}</p>}
                 </div>
                 <div className={classes.buttonsContainer}>
-                    {epic && <div>{getDropdown('Epic', epic.epicId, epics, onChangeEpic)}</div>}
+                    {epic && (
+                        <div className={classes.epicsContainer}>
+                            {getDropdown('Epic', epic.epicId, epics, onChangeEpic)}
+                        </div>
+                    )}
                     <TeamMembers team={team} user={user} />
                     <div className={classes.selectContainer}>
                         {getDropdown('Sort by', sortType, sortFields, onChangeSortType)}

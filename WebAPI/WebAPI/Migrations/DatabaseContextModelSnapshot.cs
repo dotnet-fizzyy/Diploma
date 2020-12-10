@@ -135,9 +135,8 @@ namespace WebAPI.Migrations
                     b.Property<string>("BlockReason")
                         .HasColumnType("text");
 
-                    b.Property<string>("ColumnType")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("ColumnType")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("timestamp without time zone");
@@ -180,6 +179,8 @@ namespace WebAPI.Migrations
 
                     b.HasKey("StoryId");
 
+                    b.HasIndex("ColumnType");
+
                     b.HasIndex("SprintId");
 
                     b.HasIndex("UserId");
@@ -211,9 +212,8 @@ namespace WebAPI.Migrations
                         .HasColumnName("xmin")
                         .HasColumnType("xid");
 
-                    b.Property<string>("StoryHistoryAction")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("StoryHistoryAction")
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("StoryId")
                         .HasColumnType("uuid");
@@ -301,17 +301,23 @@ namespace WebAPI.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("text");
 
-                    b.Property<string>("UserPosition")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("UserPosition")
+                        .HasColumnType("integer");
 
-                    b.Property<string>("UserRole")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("UserRole")
+                        .HasColumnType("integer");
 
                     b.HasKey("UserId");
 
+                    b.HasIndex("Password");
+
                     b.HasIndex("TeamId");
+
+                    b.HasIndex("UserName");
+
+                    b.HasIndex("UserPosition");
+
+                    b.HasIndex("UserRole");
 
                     b.ToTable("Users");
                 });

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getColumnKeyValuePair } from '../../helpers/columnHelper';
+import * as requestProcessorActions from '../../redux/actions/requestProcessorActions';
 import * as sidebarActions from '../../redux/actions/sidebarActions';
 import * as storyActions from '../../redux/actions/storiesActions';
 import * as epicsSelectors from '../../redux/selectors/epicsSelectors';
@@ -14,7 +15,7 @@ const BoardContainer = () => {
     const { projectId }: any = useParams();
 
     const isSidebarVisible = useSelector(sidebarSelectors.getSidebarVisibility);
-    const epicsExist = useSelector(epicsSelectors.getIfEpicsExist);
+    const currentEpic = useSelector(epicsSelectors.getCurrentEpic);
     const columns = getColumnKeyValuePair();
 
     const onCloseSidebar = () => {
@@ -38,10 +39,11 @@ const BoardContainer = () => {
     };
 
     useEffect(() => {
-        if (!epicsExist) {
+        dispatch(requestProcessorActions.hideSpinner());
+        if (!currentEpic) {
             dispatch(storyActions.handleBoardRequestProcessing(projectId));
         }
-    }, [epicsExist, projectId, dispatch]);
+    }, [currentEpic, projectId, dispatch]);
 
     const props: IBoardProps = {
         columns,

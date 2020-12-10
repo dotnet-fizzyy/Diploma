@@ -11,10 +11,6 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
         public void Configure(EntityTypeBuilder<StoryHistory> builder)
         {
             builder.HasKey(x => x.StoryHistoryId);
-            builder.Property(x => x.StoryHistoryAction).HasConversion(
-                x => x.ToString(),
-                x => (StoryHistoryAction)Enum.Parse(typeof(StoryHistoryAction), x)
-                );
             builder
                 .HasOne<Story>()
                 .WithMany(e => e.StoryHistories)

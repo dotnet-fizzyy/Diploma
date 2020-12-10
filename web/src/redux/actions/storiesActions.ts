@@ -43,6 +43,9 @@ export const StoryActions = {
     SORT_STORIES_FAILURE: 'SORT_STORIES_FAILURE',
     CHANGE_SORT_TYPE: 'CHANGE_SORT_TYPE',
     HANDLE_BOARD_REQUEST_PROCESSING: 'HANDLE_BOARD_REQUEST_PROCESSING',
+    STORY_CHANGE_STATUS_REQUEST: 'STORY_CHANGE_STATUS_REQUEST',
+    STORY_CHANGE_STATUS_SUCCESS: 'STORY_CHANGE_STATUS_SUCCESS',
+    STORY_CHANGE_STATUS_FAILURE: 'STORY_CHANGE_STATUS_FAILURE',
 };
 
 //interfaces
@@ -120,10 +123,12 @@ export interface IUpdateStoryColumnRequest {
 
 export interface IUpdateStoryColumnSuccess {
     type: typeof StoryActions.STORY_UPDATE_COLUMN_SUCCESS;
+    payload: IStory;
 }
 
 export interface IUpdateStoryColumnFailure {
     type: typeof StoryActions.STORY_UPDATE_COLUMN_FAILURE;
+    payload: Error;
 }
 
 export interface IStoryDragFinish {
@@ -247,6 +252,21 @@ export interface IHandleBoardRequestProcessing {
     payload: string;
 }
 
+export interface IUpdateStoryStatusRequest {
+    type: typeof StoryActions.STORY_CHANGE_STATUS_REQUEST;
+    payload: IStory;
+}
+
+export interface IUpdateStoryStatusSuccess {
+    type: typeof StoryActions.STORY_CHANGE_STATUS_SUCCESS;
+    payload: IStory;
+}
+
+export interface IUpdateStoryStatusFailure {
+    type: typeof StoryActions.STORY_CHANGE_STATUS_FAILURE;
+    payload: Error;
+}
+
 //actions
 export function storyActionAddStories(stories: IStory[]): IAddStories {
     return {
@@ -350,15 +370,17 @@ export function updateStoryColumnRequest(value: IStory): IUpdateStoryColumnReque
     };
 }
 
-export function updateStoryColumnSuccess(): IUpdateStoryColumnSuccess {
+export function updateStoryColumnSuccess(story: IStory): IUpdateStoryColumnSuccess {
     return {
         type: StoryActions.STORY_UPDATE_COLUMN_SUCCESS,
+        payload: story,
     };
 }
 
-export function updateStoryColumnFailure(): IUpdateStoryColumnFailure {
+export function updateStoryColumnFailure(error: Error): IUpdateStoryColumnFailure {
     return {
         type: StoryActions.STORY_UPDATE_COLUMN_FAILURE,
+        payload: error,
     };
 }
 
@@ -530,6 +552,27 @@ export function handleBoardRequestProcessing(projectId: string): IHandleBoardReq
     return {
         type: StoryActions.HANDLE_BOARD_REQUEST_PROCESSING,
         payload: projectId,
+    };
+}
+
+export function handleUpdateStoryStatusRequest(story: IStory): IUpdateStoryStatusRequest {
+    return {
+        type: StoryActions.STORY_CHANGE_STATUS_REQUEST,
+        payload: story,
+    };
+}
+
+export function handleUpdateStoryStatusSuccess(story: IStory): IUpdateStoryStatusRequest {
+    return {
+        type: StoryActions.STORY_CHANGE_STATUS_SUCCESS,
+        payload: story,
+    };
+}
+
+export function handleUpdateStoryStatusFailure(error: Error): IUpdateStoryStatusFailure {
+    return {
+        type: StoryActions.STORY_CHANGE_STATUS_FAILURE,
+        payload: error,
     };
 }
 

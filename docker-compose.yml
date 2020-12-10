@@ -9,8 +9,6 @@ services:
       dockerfile: Dockerfile
     environment: 
       - REACT_APP_BACK_URL=http://web-api:80/
-    volumes:
-      - "app/node_modules"
     depends_on: 
         - web-api
     ports:

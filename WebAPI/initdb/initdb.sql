@@ -7,22 +7,22 @@
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
-    CREATE TABLE "Project" (
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
+    CREATE TABLE "Projects" (
         "ProjectId" uuid NOT NULL,
         "ProjectName" text NULL,
         "ProjectDescription" text NULL,
         "StartDate" timestamp without time zone NOT NULL,
         "EndDate" timestamp without time zone NOT NULL,
         "Customer" text NULL,
-        CONSTRAINT "PK_Project" PRIMARY KEY ("ProjectId")
+        CONSTRAINT "PK_Projects" PRIMARY KEY ("ProjectId")
     );
     END IF;
 END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE TABLE "Epics" (
         "EpicId" uuid NOT NULL,
         "ProjectId" uuid NOT NULL,
@@ -32,28 +32,28 @@ BEGIN
         "EpicDescription" text NULL,
         "Progress" double precision NOT NULL,
         CONSTRAINT "PK_Epics" PRIMARY KEY ("EpicId"),
-        CONSTRAINT "FK_Epics_Project_ProjectId" FOREIGN KEY ("ProjectId") REFERENCES "Project" ("ProjectId") ON DELETE SET NULL
+        CONSTRAINT "FK_Epics_Projects_ProjectId" FOREIGN KEY ("ProjectId") REFERENCES "Projects" ("ProjectId") ON DELETE SET NULL
     );
     END IF;
 END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE TABLE "Teams" (
         "TeamId" uuid NOT NULL,
         "ProjectId" uuid NULL,
         "TeamName" text NULL,
         "Location" text NULL,
         CONSTRAINT "PK_Teams" PRIMARY KEY ("TeamId"),
-        CONSTRAINT "FK_Teams_Project_ProjectId" FOREIGN KEY ("ProjectId") REFERENCES "Project" ("ProjectId") ON DELETE SET NULL
+        CONSTRAINT "FK_Teams_Projects_ProjectId" FOREIGN KEY ("ProjectId") REFERENCES "Projects" ("ProjectId") ON DELETE SET NULL
     );
     END IF;
 END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE TABLE "Sprints" (
         "SprintId" uuid NOT NULL,
         "EpicId" uuid NOT NULL,
@@ -69,7 +69,7 @@ END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE TABLE "TeamEpics" (
         "TeamEpicId" uuid NOT NULL,
         "TeamId" uuid NOT NULL,
@@ -83,14 +83,14 @@ END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE TABLE "Users" (
         "UserId" uuid NOT NULL,
         "TeamId" uuid NULL,
         "UserName" text NULL,
         "Password" text NULL,
-        "UserRole" text NOT NULL,
-        "UserPosition" text NOT NULL,
+        "UserRole" integer NOT NULL,
+        "UserPosition" integer NOT NULL,
         "IsActive" boolean NOT NULL,
         "Email" text NULL,
         "AvatarLink" text NULL,
@@ -102,7 +102,7 @@ END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE TABLE "RefreshTokens" (
         "RefreshTokenId" uuid NOT NULL,
         "UserId" uuid NOT NULL,
@@ -116,7 +116,7 @@ END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE TABLE "Stories" (
         "StoryId" uuid NOT NULL,
         "SprintId" uuid NULL,
@@ -141,13 +141,14 @@ END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE TABLE "StoryHistories" (
         "StoryHistoryId" uuid NOT NULL,
-        "StoryHistoryAction" text NOT NULL,
+        "StoryHistoryAction" integer NOT NULL,
         "FieldName" text NULL,
         "PreviousValue" text NULL,
         "CurrentValue" text NULL,
+        "CreationDate" timestamp without time zone NOT NULL,
         "UserId" uuid NOT NULL,
         "StoryId" uuid NOT NULL,
         CONSTRAINT "PK_StoryHistories" PRIMARY KEY ("StoryHistoryId"),
@@ -158,159 +159,113 @@ END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE INDEX "IX_Epics_ProjectId" ON "Epics" ("ProjectId");
     END IF;
 END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE INDEX "IX_RefreshTokens_UserId" ON "RefreshTokens" ("UserId");
     END IF;
 END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE INDEX "IX_Sprints_EpicId" ON "Sprints" ("EpicId");
     END IF;
 END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
+    CREATE INDEX "IX_Stories_ColumnType" ON "Stories" ("ColumnType");
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE INDEX "IX_Stories_SprintId" ON "Stories" ("SprintId");
     END IF;
 END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE INDEX "IX_Stories_UserId" ON "Stories" ("UserId");
     END IF;
 END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE INDEX "IX_StoryHistories_StoryId" ON "StoryHistories" ("StoryId");
     END IF;
 END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE INDEX "IX_TeamEpics_EpicId" ON "TeamEpics" ("EpicId");
     END IF;
 END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE INDEX "IX_TeamEpics_TeamId" ON "TeamEpics" ("TeamId");
     END IF;
 END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE INDEX "IX_Teams_ProjectId" ON "Teams" ("ProjectId");
     END IF;
 END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
+    CREATE INDEX "IX_Users_Password" ON "Users" ("Password");
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     CREATE INDEX "IX_Users_TeamId" ON "Users" ("TeamId");
     END IF;
 END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201111055014_InitialDatabase') THEN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
+    CREATE INDEX "IX_Users_UserName" ON "Users" ("UserName");
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
+    CREATE INDEX "IX_Users_UserPosition" ON "Users" ("UserPosition");
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
+    CREATE INDEX "IX_Users_UserRole" ON "Users" ("UserRole");
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201209190000_InitialMigration') THEN
     INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-    VALUES ('20201111055014_InitialDatabase', '3.1.9');
-    END IF;
-END $$;
-
-DO $$
-BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
-    ALTER TABLE "Epics" DROP CONSTRAINT "FK_Epics_Project_ProjectId";
-    END IF;
-END $$;
-
-DO $$
-BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
-    ALTER TABLE "Teams" DROP CONSTRAINT "FK_Teams_Project_ProjectId";
-    END IF;
-END $$;
-
-DO $$
-BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
-    ALTER TABLE "Project" DROP CONSTRAINT "PK_Project";
-    END IF;
-END $$;
-
-DO $$
-BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
-    ALTER TABLE "Project" RENAME TO "Projects";
-    END IF;
-END $$;
-
-DO $$
-BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
-    ALTER TABLE "StoryHistories" ADD "CreationDate" timestamp without time zone NOT NULL DEFAULT TIMESTAMP '0001-01-01 00:00:00';
-    END IF;
-END $$;
-
-DO $$
-BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
-    ALTER TABLE "Projects" ADD CONSTRAINT "PK_Projects" PRIMARY KEY ("ProjectId");
-    END IF;
-END $$;
-
-DO $$
-BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
-    ALTER TABLE "Epics" ADD CONSTRAINT "FK_Epics_Projects_ProjectId" FOREIGN KEY ("ProjectId") REFERENCES "Projects" ("ProjectId") ON DELETE SET NULL;
-    END IF;
-END $$;
-
-DO $$
-BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
-    ALTER TABLE "Teams" ADD CONSTRAINT "FK_Teams_Projects_ProjectId" FOREIGN KEY ("ProjectId") REFERENCES "Projects" ("ProjectId") ON DELETE SET NULL;
-    END IF;
-END $$;
-
-DO $$
-BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201129161740_AddTimeForStoryHist') THEN
-    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-    VALUES ('20201129161740_AddTimeForStoryHist', '3.1.9');
-    END IF;
-END $$;
-
-DO $$
-BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201201185157_UpdateColumnType') THEN
-    ALTER TABLE "Stories" ALTER COLUMN "ColumnType" TYPE text;
-    ALTER TABLE "Stories" ALTER COLUMN "ColumnType" SET NOT NULL;
-    ALTER TABLE "Stories" ALTER COLUMN "ColumnType" DROP DEFAULT;
-    END IF;
-END $$;
-
-DO $$
-BEGIN
-    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20201201185157_UpdateColumnType') THEN
-    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-    VALUES ('20201201185157_UpdateColumnType', '3.1.9');
+    VALUES ('20201209190000_InitialMigration', '3.1.9');
     END IF;
 END $$;

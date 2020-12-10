@@ -2,8 +2,7 @@ namespace WebAPI.Core.Enums
 {
     public enum ColumnType
     {
-        Idea,
-        Defined,
+        ToDo,
         InProgress,
         InReview,
         Testing,

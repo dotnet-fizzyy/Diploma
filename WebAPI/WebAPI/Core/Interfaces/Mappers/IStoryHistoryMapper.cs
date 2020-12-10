@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using WebAPI.Models.Models;
 
@@ -9,6 +10,6 @@ namespace WebAPI.Core.Interfaces.Mappers
         
         WebAPI.Models.Models.StoryHistory MapToModel(WebAPI.Core.Entities.StoryHistory storyHistory);
 
-        List<WebAPI.Core.Entities.StoryHistory> MapToStoryEntityParts(StoryUpdate storyUpdate);
+        List<WebAPI.Core.Entities.StoryHistory> MapToStoryEntityParts(StoryUpdate storyUpdate, Guid userId);
     }
 }

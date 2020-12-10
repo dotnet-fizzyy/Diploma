@@ -38,6 +38,6 @@ function handleHideSpinner(
     return {
         ...state,
         component: null,
-        isVisible: true,
+        isVisible: false,
     };
 }

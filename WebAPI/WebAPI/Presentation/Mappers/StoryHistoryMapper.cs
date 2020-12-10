@@ -54,7 +54,7 @@ namespace WebAPI.Presentation.Mappers
             return storyHistoryModel;
         }
 
-        public List<StoryHistory> MapToStoryEntityParts(StoryUpdate storyUpdate)
+        public List<StoryHistory> MapToStoryEntityParts(StoryUpdate storyUpdate, Guid userId)
         {
             var storyHistories = new List<StoryHistory>();
 
@@ -65,8 +65,8 @@ namespace WebAPI.Presentation.Mappers
 
             storyHistories.AddRange(storyUpdate.Parts.Select(part => new StoryHistory
             {
-                StoryId = storyUpdate.StoryId,
-                UserId = Guid.Empty, //need to add user's name from token
+                StoryId = storyUpdate.Story.StoryId,
+                UserId = userId,
                 StoryHistoryAction = StoryHistoryAction.Update,
                 FieldName = part.Field,
                 PreviousValue = part.PreviousValue,

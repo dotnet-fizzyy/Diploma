@@ -12,7 +12,7 @@ export interface IStory {
     creationDate: string;
     userId: string;
     sprintId: string;
-    priority: Priority;
+    storyPriority: Priority;
     recordVersion: number;
 }
 
@@ -56,8 +56,7 @@ export const SortFields = {
 };
 
 export interface IStoryUpdate {
-    storyId: string;
-    recordVersion: number;
+    story: IStory;
     parts: IStoryUpdatePart[];
 }
 

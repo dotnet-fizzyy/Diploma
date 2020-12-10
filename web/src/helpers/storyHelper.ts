@@ -14,7 +14,7 @@ export function areStoriesEqual(story: IStory, updatedStory: IStory): boolean {
         story.description === updatedStory.description &&
         story.estimate === updatedStory.estimate &&
         story.isDefect === updatedStory.isDefect &&
-        story.priority === updatedStory.priority
+        story.storyPriority === updatedStory.storyPriority
     );
 }
 
@@ -31,17 +31,18 @@ export function createStoryUpdatePartsFromStory(
     defaultStoryArray.forEach((def) => {
         const fieldFromUpdated = updatedStoryArray.find((up) => up[0] === def[0]);
 
-        parts.push({
-            field: def[0],
-            newValue: def[1],
-            previousValue: fieldFromUpdated[1],
-            userId,
-        } as IStoryUpdatePart);
+        if (fieldFromUpdated[1] !== def[1]) {
+            parts.push({
+                field: def[0],
+                newValue: fieldFromUpdated[1],
+                previousValue: def[1],
+                userId,
+            } as IStoryUpdatePart);
+        }
     });
 
     return {
-        storyId: updatedStory.storyId,
-        recordVersion: updatedStory.recordVersion,
+        story: updatedStory,
         parts,
     };
 }
@@ -71,6 +72,10 @@ export function createSortFields(): ISelectedItem[] {
             value: pr[1],
         } as ISelectedItem;
     });
+}
+
+export function getShortIdNameForStory(storyId: string): string {
+    return 'US' + storyId.split('-')[0].toUpperCase();
 }
 
 export function createRequestBodyForColumnMovement(story: IStory): IJsonPatchBody[] {

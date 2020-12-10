@@ -14,7 +14,7 @@ const mockedStory_1: IStory = {
     storyId: 'story_id_1',
     title: 'This is title of first story',
     userId: '',
-    priority: Priority.LOW,
+    storyPriority: Priority.LOW,
     recordVersion: 515,
 };
 
@@ -32,7 +32,7 @@ const mockedStory_2: IStory = {
     storyId: 'story_id_2',
     title: 'This title belongs to second mock',
     userId: '',
-    priority: Priority.HIGH,
+    storyPriority: Priority.HIGH,
     recordVersion: 521,
 };
 
@@ -50,7 +50,7 @@ const mockedStory_3: IStory = {
     storyId: 'story_id_3',
     title: 'Some title in 3 mock',
     userId: '',
-    priority: Priority.MEDIUM,
+    storyPriority: Priority.MEDIUM,
     recordVersion: 124,
 };
 
@@ -68,7 +68,7 @@ const mockedStory_4: IStory = {
     storyId: 'story_id_4',
     title: 'Very original title',
     userId: '',
-    priority: Priority.LOW,
+    storyPriority: Priority.LOW,
     recordVersion: 915,
 };
 

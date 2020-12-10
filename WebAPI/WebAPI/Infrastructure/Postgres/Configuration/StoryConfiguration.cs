@@ -22,10 +22,6 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
                 .WithMany(e => e.Stories)
                 .HasForeignKey(x => x.UserId)
                 .IsRequired(false);
-            builder.Property(x => x.ColumnType).HasConversion(
-                x => x.ToString(),
-                x => (ColumnType)Enum.Parse(typeof(ColumnType), x)
-            );
             builder.Property(x => x.RecordVersion)
                 .HasColumnName("xmin")
                 .HasColumnType("xid")
@@ -33,6 +29,7 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
                 .IsConcurrencyToken();
             builder.HasIndex(x => x.SprintId);
             builder.HasIndex(x => x.UserId);
+            builder.HasIndex(x => x.ColumnType);
         }
     }
 }

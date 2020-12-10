@@ -32,6 +32,7 @@ export const EpicUrls = {
 
 export const StoriesUrls = {
     boardMove: StoriesUrl + '/board-move',
+    partUpdate: StoriesUrl + '/part-update',
 };
 
 export const CustomerUrls = {

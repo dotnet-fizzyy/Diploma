@@ -1,8 +1,6 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WebAPI.Core.Entities;
-using WebAPI.Core.Enums;
 
 namespace WebAPI.Infrastructure.Postgres.Configuration
 {
@@ -11,14 +9,6 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasKey(x => x.UserId);
-            builder.Property(x => x.UserPosition).HasConversion(
-                x => x.ToString(),
-                x => (UserPosition)Enum.Parse(typeof(UserPosition), x)
-                );
-            builder.Property(x => x.UserRole).HasConversion(
-                x => x.ToString(),
-                x => (UserRole)Enum.Parse(typeof(UserRole), x)
-                );
             builder
                 .HasOne<Team>()
                 .WithMany(e => e.Users)
@@ -31,6 +21,10 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
                 .ValueGeneratedOnAddOrUpdate()
                 .IsConcurrencyToken();
             builder.HasIndex(x => x.TeamId);
+            builder.HasIndex(x => x.UserName);
+            builder.HasIndex(x => x.Password);
+            builder.HasIndex(x => x.UserRole);
+            builder.HasIndex(x => x.UserPosition);
         }
     }
 }

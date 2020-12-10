@@ -2,6 +2,7 @@ using System;
 using WebAPI.Core.Constants;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Interfaces.Aggregators;
+using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models;
 using Story = WebAPI.Core.Entities.Story;
 
@@ -9,11 +10,16 @@ namespace WebAPI.Presentation.Aggregators
 {
     public class StoryAggregator : IStoryAggregator
     {
+        private readonly IStoryMapper _storyMapper;
+
+        public StoryAggregator(IStoryMapper storyMapper)
+        {
+            _storyMapper = storyMapper;
+        }
+        
         public Story CreateStoryFromUpdateParts(StoryUpdate storyUpdate)
         {
-            var story = new Story();
-            story.StoryId = storyUpdate.StoryId;
-            story.RecordVersion = storyUpdate.RecordVersion;
+            var story = _storyMapper.MapToEntity(storyUpdate.Story);
 
             foreach (var part in storyUpdate.Parts)
             {

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace WebAPI.Models.Models
@@ -10,9 +9,7 @@ namespace WebAPI.Models.Models
             Parts = new List<StoryUpdatePart>();
         }
         
-        public Guid StoryId { get; set; }
-        
-        public uint RecordVersion { get; set; }
+        public Story Story { get; set; }
         
         public IList<StoryUpdatePart> Parts { get; set; }
     }

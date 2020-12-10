@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebAPI.Migrations
 {
-    public partial class InitialDatabase : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Project",
+                name: "Projects",
                 columns: table => new
                 {
                     ProjectId = table.Column<Guid>(nullable: false),
@@ -20,7 +20,7 @@ namespace WebAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Project", x => x.ProjectId);
+                    table.PrimaryKey("PK_Projects", x => x.ProjectId);
                 });
 
             migrationBuilder.CreateTable(
@@ -39,9 +39,9 @@ namespace WebAPI.Migrations
                 {
                     table.PrimaryKey("PK_Epics", x => x.EpicId);
                     table.ForeignKey(
-                        name: "FK_Epics_Project_ProjectId",
+                        name: "FK_Epics_Projects_ProjectId",
                         column: x => x.ProjectId,
-                        principalTable: "Project",
+                        principalTable: "Projects",
                         principalColumn: "ProjectId",
                         onDelete: ReferentialAction.SetNull);
                 });
@@ -59,9 +59,9 @@ namespace WebAPI.Migrations
                 {
                     table.PrimaryKey("PK_Teams", x => x.TeamId);
                     table.ForeignKey(
-                        name: "FK_Teams_Project_ProjectId",
+                        name: "FK_Teams_Projects_ProjectId",
                         column: x => x.ProjectId,
-                        principalTable: "Project",
+                        principalTable: "Projects",
                         principalColumn: "ProjectId",
                         onDelete: ReferentialAction.SetNull);
                 });
@@ -121,8 +121,8 @@ namespace WebAPI.Migrations
                     TeamId = table.Column<Guid>(nullable: true),
                     UserName = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
-                    UserRole = table.Column<string>(nullable: false),
-                    UserPosition = table.Column<string>(nullable: false),
+                    UserRole = table.Column<int>(nullable: false),
+                    UserPosition = table.Column<int>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     Email = table.Column<string>(nullable: true),
                     AvatarLink = table.Column<string>(nullable: true),
@@ -201,11 +201,12 @@ namespace WebAPI.Migrations
                 columns: table => new
                 {
                     StoryHistoryId = table.Column<Guid>(nullable: false),
-                    StoryHistoryAction = table.Column<string>(nullable: false),
+                    StoryHistoryAction = table.Column<int>(nullable: false),
                     FieldName = table.Column<string>(nullable: true),
                     PreviousValue = table.Column<string>(nullable: true),
                     CurrentValue = table.Column<string>(nullable: true),
                     xmin = table.Column<uint>(type: "xid", nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
                     StoryId = table.Column<Guid>(nullable: false)
                 },
@@ -234,6 +235,11 @@ namespace WebAPI.Migrations
                 name: "IX_Sprints_EpicId",
                 table: "Sprints",
                 column: "EpicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Stories_ColumnType",
+                table: "Stories",
+                column: "ColumnType");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Stories_SprintId",
@@ -266,9 +272,29 @@ namespace WebAPI.Migrations
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_Password",
+                table: "Users",
+                column: "Password");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_TeamId",
                 table: "Users",
                 column: "TeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_UserName",
+                table: "Users",
+                column: "UserName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_UserPosition",
+                table: "Users",
+                column: "UserPosition");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_UserRole",
+                table: "Users",
+                column: "UserRole");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -298,7 +324,7 @@ namespace WebAPI.Migrations
                 name: "Teams");
 
             migrationBuilder.DropTable(
-                name: "Project");
+                name: "Projects");
         }
     }
 }
