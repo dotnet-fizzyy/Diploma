@@ -6,3 +6,8 @@ export interface IProject {
     endDate: Date;
     customer?: string;
 }
+
+export enum LaunchModalType {
+    Team,
+    Project,
+}

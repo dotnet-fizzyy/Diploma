@@ -3,6 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import React from 'react';
 import StartBackground from '../../static/StartBackground.svg';
+import { LaunchModalType } from '../../types/projectTypes';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -54,14 +55,16 @@ const LaunchBackground = (props: ILaunchBackgroundProps) => {
     const classes = useStyles();
     const { teamExists, projectExists, onClickCreateProject, onClickCreateTeam } = props;
 
-    const displayTitle = (teamExists, onClick: () => void) => {
+    const displayTitle = (type: LaunchModalType, onClick: () => void) => {
+        const isTeam: boolean = type === LaunchModalType.Team;
+
         return (
             <>
                 <span className={classnames(classes.text, classes.infoLabel)}>
-                    To start working in a moment, simple create a {teamExists ? 'team' : 'project'}
+                    To start working in a moment, simple create a {isTeam ? 'team' : 'project'}
                 </span>
                 <Button className={classnames(classes.button, classes.text)} variant="outlined" onClick={onClick}>
-                    Create a {teamExists ? 'team' : 'project'}
+                    Create a {isTeam ? 'team' : 'project'}
                 </Button>
             </>
         );
@@ -70,8 +73,8 @@ const LaunchBackground = (props: ILaunchBackgroundProps) => {
     return (
         <div className={classes.root}>
             <span className={classnames(classes.text, classes.header)}>Welcome to the board!</span>
-            {projectExists && displayTitle(projectExists, onClickCreateProject)}
-            {teamExists && displayTitle(teamExists, onClickCreateTeam)}
+            {projectExists && displayTitle(LaunchModalType.Project, onClickCreateProject)}
+            {teamExists && displayTitle(LaunchModalType.Team, onClickCreateTeam)}
         </div>
     );
 };

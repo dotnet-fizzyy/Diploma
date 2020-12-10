@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import * as routeConstants from '../../constants/routeConstants';
@@ -28,6 +28,8 @@ const MainPageContainer = () => {
     const onClickCreateTeam = () => {
         history.push(routeConstants.TeamsViewerRoute);
     };
+
+    useEffect(() => {}, []);
 
     const mainPageProps: IMainPageProps = {
         teams,
