@@ -12,12 +12,20 @@ namespace WebAPI.Infrastructure.Postgres.Repository
     {
         public ProjectRepository(DatabaseContext databaseContext) : base(databaseContext) { }
 
-        public async Task<List<Project>> GetProjectsByUserId(Guid userId)
+        public async Task<List<Project>> GetProjectsByUserId(Guid userId, bool includeChildren)
         {
-            var query = from users in _dbContext.Users
+            var query = includeChildren
+                ? from users in _dbContext.Users
+                join teams in _dbContext.Teams on users.TeamId equals teams.TeamId
+                join projects in _dbContext.Projects.Include(x => x.Teams)
+                    on teams.ProjectId equals projects.ProjectId
+                where users.UserId == userId || projects.Customer == userId.ToString()
+                select projects
+                : from users in _dbContext.Users
                 join teams in _dbContext.Teams on users.TeamId equals teams.TeamId
                 join projects in _dbContext.Projects on teams.ProjectId equals projects.ProjectId
-                where users.UserId == userId || projects.Customer == userId.ToString() select projects;
+                where users.UserId == userId || projects.Customer == userId.ToString()
+                select projects; 
 
             var foundProjects = await query.ToListAsync();
 

@@ -18,11 +18,13 @@ namespace WebAPI.Presentation.Controllers
     {
         private readonly IUserService _userService;
         private readonly IProjectService _projectService;
+        private readonly ITeamService _teamService;
 
-        public CustomerController(IUserService userService, IProjectService projectService)
+        public CustomerController(IUserService userService, IProjectService projectService, ITeamService teamService)
         {
             _userService = userService;
             _projectService = projectService;
+            _teamService = teamService;
         }
         
         [HttpPost]
@@ -41,6 +43,19 @@ namespace WebAPI.Presentation.Controllers
         public async Task<ActionResult<CollectionResponse<Project>>> GetCustomerProjects()
         {
             var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+            var customerProjects = await _projectService.GetCustomerProjects(new Guid(userId!));
+            
+            return customerProjects;
+        }
+        
+        [Authorize]
+        [HttpPost]
+        [Route("team")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<ActionResult<CollectionResponse<Project>>> CreateTeamWithCustomer()
+        {
+            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+            
             var customerProjects = await _projectService.GetCustomerProjects(new Guid(userId!));
             
             return customerProjects;

@@ -1,6 +1,5 @@
 //UI routes
 export const DefaultRoute = '/';
-export const TestDefaultRoute = '/testmain';
 export const FullViewStoryRoute = '/full-view/:storyId';
 export const ProjectBoardRoute = '/board/:projectId';
 export const LoginScreenRoute = '/start/login';
@@ -17,10 +16,11 @@ const BaseUrl = process.env.REACT_APP_BACK_URL;
 export const UsersUrl = BaseUrl + 'user';
 export const StoriesUrl = BaseUrl + 'story';
 export const TokenUrl = BaseUrl + 'token';
-export const customerUrl = BaseUrl + 'customer';
+export const CustomerUrl = BaseUrl + 'customer';
 export const ProjectUrl = BaseUrl + 'project';
 export const SprintUrl = BaseUrl + 'sprint';
 export const EpicUrl = BaseUrl + 'epic';
+export const TeamUrl = BaseUrl + 'team';
 
 export const SprintUrls = {
     getEpicSprints: SprintUrl + '/epic/',
@@ -36,11 +36,16 @@ export const StoriesUrls = {
 };
 
 export const CustomerUrls = {
-    customerProjects: customerUrl + '/projects',
+    customerProjects: CustomerUrl + '/projects',
 };
 
 export const ProjectUrls = {
     getProject: ProjectUrl,
+};
+
+export const TeamUrls = {
+    getUserTeams: TeamUrl + '/user',
+    createTeam: CustomerUrl + '/team',
 };
 
 export const ProjectUrlUser = ProjectUrl + '/user';

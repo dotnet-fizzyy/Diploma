@@ -65,11 +65,23 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<CollectionResponse<Project>> GetProjectsByUserId(Guid userId)
         {
-            var projectEntities = await _projectRepository.GetProjectsByUserId(userId);
+            var projectEntities = await _projectRepository.GetProjectsByUserId(userId, false);
             
             var collectionResponse = new CollectionResponse<Project>
             {
                 Items = projectEntities.Select(_projectMapper.MapToModel).ToList(),
+            };
+
+            return collectionResponse;
+        }
+
+        public async Task<CollectionResponse<FullProject>> GetProjectsWithTeamsByUserId(Guid userId)
+        {
+            var projectEntities = await _projectRepository.GetProjectsByUserId(userId, true);
+            
+            var collectionResponse = new CollectionResponse<FullProject>
+            {
+                Items = projectEntities.Select(_projectMapper.MapToFullModel).ToList(),
             };
 
             return collectionResponse;

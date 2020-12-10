@@ -39,6 +39,18 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
+        public async Task<CollectionResponse<FullTeam>> GetUserTeams(Guid userId)
+        {
+            var teamEntities = await _teamRepository.GetUserTeams(userId);
+            
+            var collectionResponse = new CollectionResponse<FullTeam>
+            {
+                Items = teamEntities.Select(_teamMapper.MapToFullModel).ToList(),
+            };
+
+            return collectionResponse;
+        }
+
         public async Task<Team> GetTeam(Guid teamId)
         {
             var teamEntity = 
@@ -78,6 +90,20 @@ namespace WebAPI.ApplicationLogic.Services
 
             var createdTeamEntity = await _teamRepository.CreateAsync(teamEntity);
 
+            var teamModel = _teamMapper.MapToModel(createdTeamEntity);
+
+            return teamModel;
+        }
+
+        public async Task<Team> CreateTeamWithCustomer(Team team, Guid userId)
+        {
+            var teamEntity = _teamMapper.MapToEntity(team);
+
+            var createdTeamEntity = await _teamRepository.CreateAsync(teamEntity);
+            var customer = await _userRepository.SearchForSingleItemAsync(x => x.UserId == userId);
+            customer.TeamId = createdTeamEntity.TeamId;
+
+            await _userRepository.UpdateItemAsync(customer);
             var teamModel = _teamMapper.MapToModel(createdTeamEntity);
 
             return teamModel;

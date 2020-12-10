@@ -47,6 +47,19 @@ namespace WebAPI.Presentation.Controllers
         }
 
         [HttpGet]
+        [Route("project-teams")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<CollectionResponse<FullProject>>> GetAllProjectsWithTeamsByUserId()
+        {
+            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+                
+            var userProjects = await _projectService.GetProjectsWithTeamsByUserId(new Guid(userId!));
+
+            return userProjects;
+        }
+        
+        [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import * as modalActions from '../../../redux/actions/modalActions';
@@ -20,6 +20,12 @@ const TeamsViewerContainer = () => {
         dispatch(teamActions.setSelectedTeamById(value));
         history.push(`/team/${value}`);
     };
+
+    useEffect(() => {
+        if (!teams.length) {
+            dispatch(teamActions.getUserTeamsRequest());
+        }
+    }, [dispatch, teams.length]);
 
     const teamManagementProps: ITeamsViewerProps = {
         teams,
