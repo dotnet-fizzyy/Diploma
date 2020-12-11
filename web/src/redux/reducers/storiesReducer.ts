@@ -1,5 +1,4 @@
 import { ColumnIds } from '../../constants/boardConstants';
-import mockedSearchResults from '../../mock/mockedSearchResults';
 import { IStoryColumns, SortFields } from '../../types/storyTypes';
 import * as storyActions from '../actions/storiesActions';
 import { IStoryState } from '../store/state';
@@ -18,7 +17,7 @@ const initialState: IStoryState = {
     selectedStory: null,
     wasStoryBlocked: false,
     storyTitleTerm: '',
-    searchResult: mockedSearchResults,
+    searchResult: [],
     storyHistory: [],
     isDragging: false,
     sortType: SortFields.PRIORITY.toUpperCase(),
