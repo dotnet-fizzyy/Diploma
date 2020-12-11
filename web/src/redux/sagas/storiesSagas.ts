@@ -6,7 +6,7 @@ import { createRequestBodyForColumnMovement, createStoryUpdatePartsFromStory } f
 import { ICollectionResponse } from '../../types';
 import { IEpic } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';
-import { IStory, IStoryColumns } from '../../types/storyTypes';
+import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
 import { IUser } from '../../types/userTypes';
 import * as epicActions from '../actions/epicActions';
 import * as modalActions from '../actions/modalActions';
@@ -112,7 +112,9 @@ function* searchForStoriesByTitleTerm(action: storyActions.ISetStoryTitleTermReq
 
 function* getStoryHistory(action: storyActions.IGetStoryHistoryRequest) {
     try {
-        yield console.warn(action.payload);
+        const storyHistory: ICollectionResponse<IStoryHistory> = yield call(storyApi.getStoryHistory, action.payload);
+
+        yield put(storyActions.getStoryHistorySuccess(storyHistory.items));
     } catch (error) {
         yield put(storyActions.getStoryHistoryFailure(error));
     }

@@ -16,6 +16,7 @@ namespace WebAPI.ApplicationLogic
                 PreviousValue = string.Empty,
                 FieldName = string.Empty,
                 StoryId = storyId,
+                CreationDate = DateTime.Now,
             };
         }
 

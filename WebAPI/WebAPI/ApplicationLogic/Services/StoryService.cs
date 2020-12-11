@@ -86,7 +86,10 @@ namespace WebAPI.ApplicationLogic.Services
             
             var collectionResponse = new CollectionResponse<StoryHistory>
             {
-                Items = storyHistoryEntities.Select(_storyHistoryMapper.MapToModel).ToList(),
+                Items = storyHistoryEntities
+                    .Select(_storyHistoryMapper.MapToModel)
+                    .OrderBy(x => x.CreationDate)
+                    .ToList(),
             };
 
             return collectionResponse;

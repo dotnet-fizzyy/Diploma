@@ -7,6 +7,9 @@ services:
     build:
       context: web
       dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
     environment: 
       - REACT_APP_BACK_URL=http://web-api:80/
     depends_on: 

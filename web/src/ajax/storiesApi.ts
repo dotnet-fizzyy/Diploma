@@ -59,3 +59,9 @@ export async function changeStoryStatus() {
 
     return response.data;
 }
+
+export async function getStoryHistory(storyId: string) {
+    const response = await axios.axiosGet(routeConstants.StoriesUrls.storyHistory + storyId);
+
+    return response.data;
+}

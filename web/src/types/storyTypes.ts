@@ -40,6 +40,7 @@ export interface IStoryHistory {
     currentValue: string;
     recordVersion: number;
     userId: string;
+    creationDate: Date;
 }
 
 export enum Priority {

@@ -446,14 +446,14 @@ export function getStoryHistoryRequest(storyId: string): IGetStoryHistoryRequest
 
 export function getStoryHistorySuccess(storyHistories: IStoryHistory[]): IGetStoryHistorySuccess {
     return {
-        type: StoryActions.GET_GENERAL_INFO_SUCCESS,
+        type: StoryActions.GET_STORY_HISTORY_SUCCESS,
         payload: storyHistories,
     };
 }
 
 export function getStoryHistoryFailure(error: Error): IGetStoryHistoryFailure {
     return {
-        type: StoryActions.GET_GENERAL_INFO_SUCCESS,
+        type: StoryActions.GET_STORY_HISTORY_FAILURE,
         payload: error,
     };
 }

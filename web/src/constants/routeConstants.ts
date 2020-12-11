@@ -35,6 +35,7 @@ export const StoriesUrls = {
     partUpdate: StoriesUrl + '/part-update',
     termSearch: StoriesUrl + '/term',
     sortStories: StoriesUrl + '/sort',
+    storyHistory: StoriesUrl + '/history/',
 };
 
 export const CustomerUrls = {
