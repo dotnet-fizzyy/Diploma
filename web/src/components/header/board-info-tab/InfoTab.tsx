@@ -60,6 +60,7 @@ const useStyles = makeStyles(() =>
             fontSize: '16px',
             fontFamily: 'Poppins, sans-serif',
             marginLeft: '20px',
+            textTransform: 'unset',
         },
         epicsContainer: {
             marginRight: '30px',
@@ -78,6 +79,7 @@ export interface IInfoTabProps {
     onChangeEpic: (value: string) => void;
     onChangeSortType: (value: string) => void;
     onClickAddStory: () => void;
+    onClickViewCharts: () => void;
 }
 
 const InfoTab = (props: IInfoTabProps) => {
@@ -93,6 +95,7 @@ const InfoTab = (props: IInfoTabProps) => {
         onChangeSortType,
         onClickAddStory,
         onChangeEpic,
+        onClickViewCharts,
     } = props;
 
     const getDropdown = (
@@ -146,6 +149,9 @@ const InfoTab = (props: IInfoTabProps) => {
                         onClick={onClickAddStory}
                     >
                         Add task
+                    </Button>
+                    <Button className={classes.tasksButton} variant="outlined" onClick={onClickViewCharts}>
+                        View charts
                     </Button>
                 </div>
             </div>

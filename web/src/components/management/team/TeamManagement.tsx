@@ -1,6 +1,7 @@
 import { Button } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
+import classnames from 'classnames';
 import React from 'react';
 import { ITeam } from '../../../types/teamTypes';
 
@@ -58,6 +59,27 @@ const useStyles = makeStyles(() =>
             fontSize: '20px',
             marginTop: '30px',
         },
+        userContainer: {
+            display: 'flex',
+            margin: '10px 0',
+            fontFamily: 'Poppins',
+            flexDirection: 'row',
+            alignItems: 'flex-end',
+        },
+        userName: {
+            fontSize: '22px',
+        },
+        userPosition: {
+            fontSize: '20px',
+            color: '#AFC1C4',
+            marginLeft: '2px',
+        },
+        isActive: {
+            color: 'green',
+        },
+        isBlocked: {
+            color: '#FF3838',
+        },
     })
 );
 
@@ -81,7 +103,21 @@ const TeamManagement = (props: ITeamManagementProps) => {
                 </Button>
                 <div>
                     {team.users && team.users.length ? (
-                        team.users.map((user) => <div key={user.userId}>{user.userName}</div>)
+                        team.users.map((user) => (
+                            <div className={classes.userContainer} key={user.userId}>
+                                <span className={classes.userName}>{user.userName}</span>
+                                <span className={classes.userPosition}>| {user.userRole}</span>
+                                <span className={classes.userPosition}>| {user.userPosition}</span>
+                                <span
+                                    className={classnames(classes.userPosition, {
+                                        [classes.isActive]: user.isActive,
+                                        [classes.isBlocked]: !user.isActive,
+                                    })}
+                                >
+                                    | {user.isActive ? 'Active' : 'Blocked'}
+                                </span>
+                            </div>
+                        ))
                     ) : (
                         <span className={classes.emptyResults}>No users yet created</span>
                     )}

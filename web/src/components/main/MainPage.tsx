@@ -1,4 +1,4 @@
-import { Avatar } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { IProject } from '../../types/projectTypes';
@@ -56,7 +56,7 @@ const useStyles = makeStyles(() =>
             fontFamily: 'Poppins',
         },
         teamName: {
-            fontSize: '24px',
+            fontSize: '20px',
         },
         teamMembersLabel: {
             fontSize: '20px',
@@ -80,6 +80,22 @@ const useStyles = makeStyles(() =>
                 cursor: 'pointer',
             },
         },
+        projectName: {
+            fontSize: '20px',
+            marginBottom: '5px',
+        },
+        tasksButton: {
+            backgroundColor: '#75BAF7',
+            color: '#FFF',
+            border: 'none',
+            borderRadius: '5px',
+            width: '150px',
+            height: '45px',
+            fontSize: '16px',
+            fontFamily: 'Poppins, sans-serif',
+            textTransform: 'unset',
+            marginTop: '10px',
+        },
     })
 );
 
@@ -95,30 +111,17 @@ export interface IMainPageProps {
 
 const MainPage = (props: IMainPageProps) => {
     const classes = useStyles();
-    const { projects, teams, user, onClickCreateProject, onClickCreateTeam } = props;
-
-    const isOneTeam = teams && teams.length === 1;
+    const { projects, teams, user, onSelectProject, onSelectTeam, onClickCreateProject, onClickCreateTeam } = props;
 
     const renderTeamMembersForOneTeam = (team: ITeam): React.ReactNode => {
         return (
             <div className={classes.teamContainer}>
-                <span className={classes.teamName}>{team.teamName}</span>
-                {isOneTeam ? (
-                    <>
-                        <span className={classes.teamMembersLabel}>Team members:</span>
-                        <div className={classes.teamMembersContainer}>
-                            {team.users &&
-                                team.users.map((x) => (
-                                    <div className={classes.user} key={x.userId}>
-                                        <Avatar className={classes.teamAvatar} src={x.avatarLink}>
-                                            {x.userName.slice(0, 1)}
-                                        </Avatar>
-                                        <span>{x.userName}</span>
-                                    </div>
-                                ))}
-                        </div>
-                    </>
-                ) : null}
+                <span className={classes.teamName}>
+                    <b>{team.teamName}</b>
+                </span>
+                <Button className={classes.tasksButton} variant="outlined" onClick={() => onSelectTeam(team.teamId)}>
+                    Manage team
+                </Button>
             </div>
         );
     };
@@ -133,9 +136,22 @@ const MainPage = (props: IMainPageProps) => {
                             <span className={classes.topicLabel}>My projects</span>
                             <div className={classes.topicContainer}>
                                 {projects.map((x) => (
-                                    <div key={x.projectId}>
-                                        <span>{x.projectName}</span>
+                                    <div
+                                        className={classes.teamContainer}
+                                        style={{ marginBottom: '20px' }}
+                                        key={x.projectId}
+                                    >
+                                        <span className={classes.projectName}>
+                                            <b>{x.projectName}</b>
+                                        </span>
                                         <span>{x.projectDescription}</span>
+                                        <Button
+                                            variant="outlined"
+                                            className={classes.tasksButton}
+                                            onClick={() => onSelectProject(x.projectId)}
+                                        >
+                                            Manage project
+                                        </Button>
                                     </div>
                                 ))}
                             </div>

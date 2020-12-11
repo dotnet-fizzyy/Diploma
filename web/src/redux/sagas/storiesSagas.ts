@@ -7,6 +7,7 @@ import { ICollectionResponse } from '../../types';
 import { IEpic } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';
 import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
+import { ITeam } from '../../types/teamTypes';
 import { IUser } from '../../types/userTypes';
 import * as epicActions from '../actions/epicActions';
 import * as modalActions from '../actions/modalActions';
@@ -15,9 +16,11 @@ import * as requestProcessorActions from '../actions/requestProcessorActions';
 import * as sidebarActions from '../actions/sidebarActions';
 import * as sprintsActions from '../actions/sprintsActions';
 import * as storyActions from '../actions/storiesActions';
+import * as teamActions from '../actions/teamActions';
 import * as epicSelectors from '../selectors/epicsSelectors';
 import * as projectSelectors from '../selectors/projectSelectors';
 import * as storySelectors from '../selectors/storiesSelectors';
+import * as teamSelectors from '../selectors/teamSelectors';
 import * as currentUserSelectors from '../selectors/userSelectors';
 
 function* refreshData() {
@@ -162,6 +165,12 @@ function* sortStories(action: storyActions.ISortStoriesRequest) {
 function* handleBoardRequestProcessing(action: storyActions.IHandleBoardRequestProcessing) {
     yield put(projectActions.getProjectRequest(action.payload));
     yield take(projectActions.ProjectActions.GET_PROJECT_SUCCESS);
+
+    yield put(teamActions.getUserTeamsRequest());
+    yield take(teamActions.TeamActions.GET_USER_TEAMS_SUCCESS);
+
+    const teams: ITeam[] = yield select(teamSelectors.getTeams);
+    yield put(teamActions.setSelectedTeam(teams[0]));
 
     yield put(epicActions.getEpicsRequest(action.payload));
     yield take(epicActions.EpicActions.GET_EPICS_SUCCESS);

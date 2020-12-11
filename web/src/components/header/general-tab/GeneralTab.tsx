@@ -6,6 +6,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import * as routeConstants from '../../../constants/routeConstants';
+import { getShortIdNameForStory } from '../../../helpers/storyHelper';
 import LogoIcon from '../../../static/Icon.svg';
 import { IStory } from '../../../types/storyTypes';
 import { IUser } from '../../../types/userTypes';
@@ -162,8 +163,13 @@ const GeneralTab = (props: IGeneralTabProps) => {
                                 <div className={classes.searchResults}>
                                     {searchResults.map((x) => (
                                         <div className={classes.resultStory} key={x.storyId}>
-                                            <span>{x.title}</span>
-                                            <span className={classes.sprintName}>{x.sprintId}</span>
+                                            <span>
+                                                <b>{x.title}</b>
+                                            </span>
+                                            <span className={classes.sprintName}>
+                                                {getShortIdNameForStory(x.sprintId)} | {x.estimate} point
+                                                {x.estimate === 1 ? '' : 's'}
+                                            </span>
                                         </div>
                                     ))}
                                 </div>

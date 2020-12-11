@@ -9,6 +9,7 @@ export const TeamsViewerRoute = '/teams';
 export const ProjectsViewerRoute = '/projects';
 export const TeamManagementRoute = '/team/:teamId';
 export const ProjectManagementRoute = '/project/:projectId';
+export const EpicChartsRoute = '/charts';
 export const NoMatchRoute = '*';
 
 //WebAPI routes

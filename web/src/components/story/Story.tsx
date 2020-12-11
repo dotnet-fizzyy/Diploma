@@ -90,9 +90,10 @@ const Story = (props: IStoryProps) => {
     const classes = useStyles();
     const { story, team, index, onSelectStory, onMakeStoryReady, onMakeStoryBlocked } = props;
 
-    const userName = team.users.some((x) => x.userId === story.userId)
-        ? team.users.find((x) => x.userId === story.userId).userName
-        : 'No owner';
+    const userName =
+        team && team.users && team.users.some((x) => x.userId === story.userId)
+            ? team.users.find((x) => x.userId === story.userId).userName
+            : 'No owner';
 
     return (
         <Draggable draggableId={story.storyId} index={index}>

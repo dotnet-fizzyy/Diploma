@@ -74,7 +74,7 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<CollectionResponse<FullProject>> GetProjectsWithTeamsByUserId(Guid userId)
+        public async Task<CollectionResponse<FullProject>>GetProjectsWithTeamsByUserId(Guid userId)
         {
             var projectEntities = await _projectRepository.GetProjectsByUserId(userId, true);
             

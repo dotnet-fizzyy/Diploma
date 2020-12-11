@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import * as routeConstants from '../../constants/routeConstants';
+import ChartsContainer from '../charts/ChartsContainer';
 import Footer from '../footer/Footer';
 import GeneralTabContainer from '../header/general-tab/GeneralTabContainer';
 import BoardApplication from '../index';
@@ -65,6 +66,7 @@ const CustomRouter = (props: ICustomRouterProps) => {
                     component={ProjectManagementContainer}
                     isLogged={isLogged}
                 />
+                <RouteGuard path={routeConstants.EpicChartsRoute} component={ChartsContainer} isLogged={isLogged} />
                 <Route path={routeConstants.NoMatchRoute} component={UndefinedPage} />
             </Switch>
             {isLogged && <Footer />}

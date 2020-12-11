@@ -9,6 +9,10 @@ export const getStoriesForColumn = (columnId: string) => (state: IState): IStory
     return state.stories.columns.find((column) => column.key === columnId).value;
 };
 
+export const getAllStories = (state: IState): IStory[] => {
+    return state.stories.columns.map((x) => x.value).reduce((acc, x) => acc.concat(x), []);
+};
+
 export function getSelectedStory(state: IState): IStory {
     return state.stories.selectedStory;
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { createSortFields } from '../../../helpers/storyHelper';
 import * as modalActions from '../../../redux/actions/modalActions';
 import * as storiesActions from '../../../redux/actions/storiesActions';
@@ -13,6 +14,7 @@ import InfoTab, { IInfoTabProps } from './InfoTab';
 
 const InfoTabContainer = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const team = useSelector(teamSelectors.getCurrentTeam);
     const user = useSelector(userSelectors.getUser);
     const epic = useSelector(epicsSelectors.getCurrentEpic);
@@ -33,6 +35,10 @@ const InfoTabContainer = () => {
         dispatch(modalActions.openModal(ModalTypes.STORY_CREATION));
     };
 
+    const onClickViewCharts = () => {
+        history.push(`/charts/${epic.epicId}`);
+    };
+
     const infoTabProps: IInfoTabProps = {
         team,
         project,
@@ -44,6 +50,7 @@ const InfoTabContainer = () => {
         onChangeSortType,
         onClickAddStory,
         onChangeEpic,
+        onClickViewCharts,
     };
 
     return <InfoTab {...infoTabProps} />;

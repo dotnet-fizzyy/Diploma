@@ -16,11 +16,11 @@ const MainPageContainer = () => {
     const user = useSelector(currentUserSelectors.getUser);
 
     const onSelectTeam = (value: string) => {
-        console.log(value);
+        history.push(`/team/${value}`);
     };
 
     const onSelectProject = (value: string) => {
-        console.log(value);
+        history.push(`/project/${value}`);
     };
 
     const onClickCreateProject = () => {
