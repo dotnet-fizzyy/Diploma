@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import * as routeConstants from '../../constants/routeConstants';
+import * as projectActions from '../../redux/actions/projectActions';
 import * as projectSelectors from '../../redux/selectors/projectSelectors';
 import * as teamSelectors from '../../redux/selectors/teamSelectors';
 import * as currentUserSelectors from '../../redux/selectors/userSelectors';
 import MainPage, { IMainPageProps } from './MainPage';
 
 const MainPageContainer = () => {
+    const dispatch = useDispatch();
     const history = useHistory();
     const teams = useSelector(teamSelectors.getTeams);
     const projects = useSelector(projectSelectors.getProjects);
@@ -29,7 +31,11 @@ const MainPageContainer = () => {
         history.push(routeConstants.TeamsViewerRoute);
     };
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        if (!teams.length && !projects.length) {
+            dispatch(projectActions.getUserProjectsRequest());
+        }
+    }, [dispatch, teams.length, projects.length]);
 
     const mainPageProps: IMainPageProps = {
         teams,

@@ -15,7 +15,7 @@ export async function getProject(projectId: string) {
 }
 
 export async function getAllUserProjects() {
-    const response = await axios.axiosGet(routeConstants.ProjectUrlUser);
+    const response = await axios.axiosGet(routeConstants.ProjectUrls.getUserProjects);
 
     return response.data;
 }

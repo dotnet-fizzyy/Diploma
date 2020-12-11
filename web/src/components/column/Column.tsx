@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import { ISelectedItem, IStory } from '../../types/storyTypes';
+import { ITeam } from '../../types/teamTypes';
 import Story from '../story/Story';
 
 const useStyles = makeStyles(() =>
@@ -37,6 +38,7 @@ const useStyles = makeStyles(() =>
 
 export interface IColumnProps {
     column: ISelectedItem;
+    team: ITeam;
     stories: IStory[];
     isDragging: boolean;
     onSelectStory: (storyId: string) => void;
@@ -46,7 +48,7 @@ export interface IColumnProps {
 
 const Column = (props: IColumnProps) => {
     const classes = useStyles();
-    const { column, stories, isDragging, onSelectStory, onMakeStoryBlocked, onMakeStoryReady } = props;
+    const { column, team, stories, isDragging, onSelectStory, onMakeStoryBlocked, onMakeStoryReady } = props;
 
     return (
         <Droppable droppableId={column.key}>
@@ -65,6 +67,7 @@ const Column = (props: IColumnProps) => {
                                 <Story
                                     story={story}
                                     index={index}
+                                    team={team}
                                     onSelectStory={onSelectStory}
                                     onMakeStoryReady={onMakeStoryReady}
                                     onMakeStoryBlocked={onMakeStoryBlocked}

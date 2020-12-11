@@ -7,6 +7,7 @@ import * as modalActions from '../actions/modalActions';
 import { IGetProjectRequest } from '../actions/projectActions';
 import * as projectActions from '../actions/projectActions';
 import * as userSelectors from '../selectors/userSelectors';
+import * as teamActions from '../actions/teamActions';
 
 function* getUserProjects(action: projectActions.IGetUserProjectsRequest) {
     try {
@@ -19,6 +20,10 @@ function* getUserProjects(action: projectActions.IGetUserProjectsRequest) {
         }
 
         yield put(projectActions.getUserProjectsSuccess(projects.items));
+
+        const userTeams = projects.items.reduce((accumulator, project) => accumulator.concat(project.teams), []);
+
+        yield put(teamActions.getUserTeamsSuccess(userTeams));
     } catch (error) {
         yield put(projectActions.getUserProjectsFailure(error));
     }

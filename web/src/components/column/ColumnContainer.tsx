@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as sidebarActions from '../../redux/actions/sidebarActions';
 import * as storyActions from '../../redux/actions/storiesActions';
 import * as storiesSelectors from '../../redux/selectors/storiesSelectors';
+import * as teamSelectors from '../../redux/selectors/teamSelectors';
 import { ISelectedItem, IStory } from '../../types/storyTypes';
+import { ITeam } from '../../types/teamTypes';
 import Column, { IColumnProps } from './Column';
 
 export interface IColumnContainerProps {
@@ -15,6 +17,7 @@ const ColumnContainer = (props: IColumnContainerProps) => {
     const { column } = props;
 
     const stories: IStory[] = useSelector(storiesSelectors.getStoriesForColumn(column.key));
+    const team: ITeam = useSelector(teamSelectors.getCurrentTeam);
     const isDragging: boolean = useSelector(storiesSelectors.getIsDragging);
 
     const onSelectStory = (storyId: string) => {
@@ -32,6 +35,7 @@ const ColumnContainer = (props: IColumnContainerProps) => {
 
     const columnProps: IColumnProps = {
         column,
+        team,
         stories,
         isDragging,
         onMakeStoryBlocked,

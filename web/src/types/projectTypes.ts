@@ -1,3 +1,5 @@
+import { ITeam } from './teamTypes';
+
 export interface IProject {
     projectId?: string;
     projectName: string;
@@ -5,6 +7,7 @@ export interface IProject {
     startDate: Date;
     endDate: Date;
     customer?: string;
+    teams?: ITeam[];
 }
 
 export enum LaunchModalType {

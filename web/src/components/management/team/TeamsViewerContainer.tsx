@@ -22,10 +22,8 @@ const TeamsViewerContainer = () => {
     };
 
     useEffect(() => {
-        if (!teams.length) {
-            dispatch(teamActions.getUserTeamsRequest());
-        }
-    }, [dispatch, teams.length]);
+        dispatch(teamActions.getUserTeamsRequest());
+    }, [dispatch]);
 
     const teamManagementProps: ITeamsViewerProps = {
         teams,

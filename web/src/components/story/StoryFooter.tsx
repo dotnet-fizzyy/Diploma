@@ -43,20 +43,20 @@ const useStyles = makeStyles(() =>
 
 export interface IStoryFooterProps {
     avatarLink: string;
-    userId: string;
+    userName: string;
     isReady: boolean;
     isBlocked: boolean;
 }
 
 const StoryFooter = (props: IStoryFooterProps) => {
     const classes = useStyles();
-    const { userId, isBlocked, isReady } = props;
+    const { userName, isBlocked, isReady } = props;
 
     return (
         <React.Fragment>
             <div className={classes.footer}>
                 <AccountCircleIcon className={classes.iconUser} />
-                <span>{userId ? userId : 'No owner'}</span>
+                <span>{userName}</span>
             </div>
             {(isReady || isBlocked) && (
                 <div

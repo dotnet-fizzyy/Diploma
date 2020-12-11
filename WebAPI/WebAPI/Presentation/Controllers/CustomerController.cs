@@ -40,7 +40,7 @@ namespace WebAPI.Presentation.Controllers
         [HttpGet]
         [Route("projects")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<CollectionResponse<Project>>> GetCustomerProjects()
+        public async Task<ActionResult<CollectionResponse<FullProject>>> GetCustomerProjects()
         {
             var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
             var customerProjects = await _projectService.GetCustomerProjects(new Guid(userId!));

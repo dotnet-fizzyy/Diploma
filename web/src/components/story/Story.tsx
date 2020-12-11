@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { IStory } from '../../types/storyTypes';
+import { ITeam } from '../../types/teamTypes';
 import StoryFooter from './StoryFooter';
 import StoryHeader from './StoryHeader';
 import StoryPriorityCard from './StoryPriorityCard';
@@ -79,6 +80,7 @@ const useStyles = makeStyles(() =>
 export interface IStoryProps {
     story: IStory;
     index: number;
+    team: ITeam;
     onSelectStory: (storyId: string) => void;
     onMakeStoryBlocked: (storyId: string) => void;
     onMakeStoryReady: (storyId: string) => void;
@@ -86,7 +88,11 @@ export interface IStoryProps {
 
 const Story = (props: IStoryProps) => {
     const classes = useStyles();
-    const { story, index, onSelectStory, onMakeStoryReady, onMakeStoryBlocked } = props;
+    const { story, team, index, onSelectStory, onMakeStoryReady, onMakeStoryBlocked } = props;
+
+    const userName = team.users.some((x) => x.userId === story.userId)
+        ? team.users.find((x) => x.userId === story.userId).userName
+        : 'No owner';
 
     return (
         <Draggable draggableId={story.storyId} index={index}>
@@ -117,7 +123,7 @@ const Story = (props: IStoryProps) => {
                     </div>
                     <StoryFooter
                         avatarLink={''}
-                        userId={story.userId}
+                        userName={userName}
                         isReady={story.isReady}
                         isBlocked={story.isBlocked}
                     />

@@ -9,7 +9,7 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<CollectionResponse<Project>> GetAllProjects();
         
-        Task<CollectionResponse<Project>> GetCustomerProjects(Guid userId);
+        Task<CollectionResponse<FullProject>> GetCustomerProjects(Guid userId);
 
         Task<CollectionResponse<Project>> GetProjectsByUserId(Guid userId);
         

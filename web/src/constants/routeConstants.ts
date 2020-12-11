@@ -45,6 +45,7 @@ export const CustomerUrls = {
 
 export const ProjectUrls = {
     getProject: ProjectUrl,
+    getUserProjects: ProjectUrl + '/project-teams',
 };
 
 export const TeamUrls = {
