@@ -7,15 +7,15 @@ services:
     build:
       context: web
       dockerfile: Dockerfile
-    volumes:
-      - '.:/app'
-      - '/app/node_modules'
     environment: 
-      - REACT_APP_BACK_URL=http://web-api:80/
+      - REACT_APP_BACK_URL=http://localhost:7000/
     depends_on: 
         - web-api
     ports:
       - 5000:3000
+    volumes:
+      - '/app/node_modules'
+      - './web/:/app'
   
   web-api:
     build:

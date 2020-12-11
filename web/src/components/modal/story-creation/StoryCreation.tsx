@@ -130,7 +130,7 @@ const StoryCreation = (props: IStoryCreationProps) => {
                 </div>
                 <div className={classes.footerItem}>
                     <StoryCreationDropdown
-                        id={story.storyPriority}
+                        id={story.storyPriority.toUpperCase()}
                         title="Priority"
                         name={storyFields.storyPriority}
                         items={priorities}

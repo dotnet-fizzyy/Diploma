@@ -5,7 +5,6 @@ import { IProject } from '../../types/projectTypes';
 import { ITeam } from '../../types/teamTypes';
 import { IUser } from '../../types/userTypes';
 import LaunchBackground from './LaunchBackground';
-//import LaunchBackground from './LaunchBackground';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -98,25 +97,28 @@ const MainPage = (props: IMainPageProps) => {
     const classes = useStyles();
     const { projects, teams, user, onClickCreateProject, onClickCreateTeam } = props;
 
+    const isOneTeam = teams && teams.length === 1;
+
     const renderTeamMembersForOneTeam = (team: ITeam): React.ReactNode => {
         return (
             <div className={classes.teamContainer}>
                 <span className={classes.teamName}>{team.teamName}</span>
-                {teams.length === 1 && (
+                {isOneTeam ? (
                     <>
                         <span className={classes.teamMembersLabel}>Team members:</span>
                         <div className={classes.teamMembersContainer}>
-                            {team.users.map((x) => (
-                                <div className={classes.user} key={x.userId}>
-                                    <Avatar className={classes.teamAvatar} src={x.avatarLink}>
-                                        {x.userName.slice(0, 1)}
-                                    </Avatar>
-                                    <span>{x.userName}</span>
-                                </div>
-                            ))}
+                            {team.users &&
+                                team.users.map((x) => (
+                                    <div className={classes.user} key={x.userId}>
+                                        <Avatar className={classes.teamAvatar} src={x.avatarLink}>
+                                            {x.userName.slice(0, 1)}
+                                        </Avatar>
+                                        <span>{x.userName}</span>
+                                    </div>
+                                ))}
                         </div>
                     </>
-                )}
+                ) : null}
             </div>
         );
     };
@@ -130,28 +132,20 @@ const MainPage = (props: IMainPageProps) => {
                         <div className={classes.infoContainer}>
                             <span className={classes.topicLabel}>My projects</span>
                             <div className={classes.topicContainer}>
-                                {projects && projects.length
-                                    ? projects.map((x) => (
-                                          <div key={x.projectId}>
-                                              <span>{x.projectName}</span>
-                                              <span>{x.projectDescription}</span>
-                                          </div>
-                                      ))
-                                    : null}
+                                {projects.map((x) => (
+                                    <div key={x.projectId}>
+                                        <span>{x.projectName}</span>
+                                        <span>{x.projectDescription}</span>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                         <div className={classes.infoContainer}>
-                            <span className={classes.topicLabel}>My team{teams.length === 1 ? '' : 's'}</span>
+                            <span className={classes.topicLabel}>My team{teams && teams.length === 1 ? '' : 's'}</span>
                             <div className={classes.topicContainer}>
-                                {teams && teams
-                                    ? teams.map((x) => {
-                                          return (
-                                              <React.Fragment key={x.teamId}>
-                                                  {renderTeamMembersForOneTeam(x)}
-                                              </React.Fragment>
-                                          );
-                                      })
-                                    : null}
+                                {teams.map((x) => (
+                                    <React.Fragment key={x.teamId}>{renderTeamMembersForOneTeam(x)}</React.Fragment>
+                                ))}
                             </div>
                         </div>
                     </div>
