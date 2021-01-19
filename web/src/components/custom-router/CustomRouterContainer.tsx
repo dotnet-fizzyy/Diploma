@@ -10,7 +10,9 @@ const CustomRouterContainer = () => {
     const isLogged = !!(user && user.userId);
 
     useEffect(() => {
-        if (!isLogged) dispatch(currentUserActions.verifyUserRequest());
+        if (!isLogged) {
+            dispatch(currentUserActions.verifyUserRequest());
+        }
     }, [dispatch, isLogged]);
 
     const customRouterProps: ICustomRouterProps = {

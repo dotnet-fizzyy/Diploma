@@ -98,6 +98,12 @@ const StartScreenContainer = () => {
         }
     }, [user, history]);
 
+    useEffect(() => {
+        setName('');
+        setPassword('');
+        setRepeatedPassword('');
+    }, [startPageType]);
+
     return <StartScreen {...startScreenProps} />;
 };
 

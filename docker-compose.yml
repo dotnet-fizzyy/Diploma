@@ -10,7 +10,7 @@ services:
     environment: 
       - REACT_APP_BACK_URL=http://localhost:7000/
     depends_on: 
-        - web-api
+      - web-api
     ports:
       - 5000:3000
     volumes:

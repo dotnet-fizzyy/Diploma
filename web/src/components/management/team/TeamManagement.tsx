@@ -96,13 +96,17 @@ const TeamManagement = (props: ITeamManagementProps) => {
         <div className={classes.root}>
             <div className={classes.mainContainer}>
                 <span className={classes.header}>
-                    {team.teamName} | {team.location}
+                    {team && (
+                        <>
+                            {team.teamName} | {team.location}
+                        </>
+                    )}
                 </span>
                 <Button onClick={onClickAddUser} className={classes.button} variant="outlined" startIcon={<AddIcon />}>
                     Add User
                 </Button>
                 <div>
-                    {team.users && team.users.length ? (
+                    {team && team.users && team.users.length ? (
                         team.users.map((user) => (
                             <div className={classes.userContainer} key={user.userId}>
                                 <span className={classes.userName}>{user.userName}</span>

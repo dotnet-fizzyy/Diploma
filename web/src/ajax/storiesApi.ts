@@ -19,7 +19,7 @@ export async function createStory(story: IStory) {
         isDefect: false,
         isReady: false,
         notes: story.notes,
-        priority: story.storyPriority,
+        storyPriority: story.storyPriority,
         recordVersion: 0,
         sprintId: story.sprintId,
         title: story.title,

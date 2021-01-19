@@ -1,6 +1,7 @@
 import { Button } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
+import Background from '../../static/LaunchBackground.png';
 import { IProject } from '../../types/projectTypes';
 import { ITeam } from '../../types/teamTypes';
 import { IUser } from '../../types/userTypes';
@@ -24,6 +25,9 @@ const useStyles = makeStyles(() =>
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            backgroundImage: `url(${Background})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
         },
         header: {
             marginTop: '20px',
@@ -105,13 +109,23 @@ export interface IMainPageProps {
     user: IUser;
     onSelectTeam: (value: string) => void;
     onSelectProject: (value: string) => void;
+    onClickMoveBoard: (value: string) => void;
     onClickCreateProject: () => void;
     onClickCreateTeam: () => void;
 }
 
 const MainPage = (props: IMainPageProps) => {
     const classes = useStyles();
-    const { projects, teams, user, onSelectProject, onSelectTeam, onClickCreateProject, onClickCreateTeam } = props;
+    const {
+        projects,
+        teams,
+        user,
+        onSelectProject,
+        onClickMoveBoard,
+        onSelectTeam,
+        onClickCreateProject,
+        onClickCreateTeam,
+    } = props;
 
     const renderTeamMembersForOneTeam = (team: ITeam): React.ReactNode => {
         return (
@@ -145,13 +159,23 @@ const MainPage = (props: IMainPageProps) => {
                                             <b>{x.projectName}</b>
                                         </span>
                                         <span>{x.projectDescription}</span>
-                                        <Button
-                                            variant="outlined"
-                                            className={classes.tasksButton}
-                                            onClick={() => onSelectProject(x.projectId)}
-                                        >
-                                            Manage project
-                                        </Button>
+                                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                            <Button
+                                                variant="outlined"
+                                                className={classes.tasksButton}
+                                                onClick={() => onSelectProject(x.projectId)}
+                                            >
+                                                Manage project
+                                            </Button>
+                                            <Button
+                                                variant="outlined"
+                                                className={classes.tasksButton}
+                                                style={{ marginLeft: '15px' }}
+                                                onClick={() => onClickMoveBoard(x.projectId)}
+                                            >
+                                                Move to board
+                                            </Button>
+                                        </div>
                                     </div>
                                 ))}
                             </div>

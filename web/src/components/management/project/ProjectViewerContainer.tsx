@@ -27,10 +27,8 @@ const ProjectViewerContainer = () => {
     };
 
     useEffect(() => {
-        if (!projects.length) {
-            dispatch(projectActions.getUserProjectsRequest());
-        }
-    }, [dispatch, projects.length]);
+        dispatch(projectActions.getUserProjectsRequest());
+    }, [dispatch]);
 
     const projectViewerProps: IProjectViewerProps = {
         projects,

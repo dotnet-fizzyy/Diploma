@@ -1,11 +1,13 @@
 import { call, debounce, delay, put, select, take, takeLatest } from 'redux-saga/effects';
+import * as sprintApi from '../../ajax/sprintApi';
 import * as storyApi from '../../ajax/storiesApi';
 import { debouncePeriod } from '../../constants/storyConstants';
-import { findCurrentEpic } from '../../helpers/epicHelper';
+import { findCurrentEpic, mapFullSprintToSprint } from '../../helpers/epicHelper';
 import { createRequestBodyForColumnMovement, createStoryUpdatePartsFromStory } from '../../helpers/storyHelper';
 import { ICollectionResponse } from '../../types';
 import { IEpic } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';
+import { IFullSprint, ISprint } from '../../types/sprintTypes';
 import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
 import { ITeam } from '../../types/teamTypes';
 import { IUser } from '../../types/userTypes';
@@ -142,6 +144,18 @@ function* updateStoryChanges(action: storyActions.IUpdateStoryChangesRequest) {
 function* changeEpic(action: storyActions.IChangeEpicRequest) {
     try {
         yield put(epicActions.setCurrentEpicById(action.payload));
+        const sprintsFromCurrentEpic: ICollectionResponse<IFullSprint> = yield call(
+            sprintApi.getSprintsFromEpic,
+            action.payload
+        );
+
+        const sprints: ISprint[] = sprintsFromCurrentEpic.items.map((x) => mapFullSprintToSprint(x));
+        yield put(sprintsActions.addSprints(sprints));
+
+        const stories: IStory[] = sprintsFromCurrentEpic.items
+            .map((x) => x.stories)
+            .reduce((accumulator, stories) => accumulator.concat(stories), []);
+        yield put(storyActions.storyActionAddStories(stories));
     } catch (error) {
         yield put(storyActions.changeEpicFailure(error));
     }

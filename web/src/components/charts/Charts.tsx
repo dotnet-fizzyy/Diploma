@@ -23,7 +23,12 @@ const useStyles = makeStyles(() =>
             flexDirection: 'column',
             alignItems: 'center',
             height: '100%',
-            width: '100%',
+        },
+        sprintHeader: {
+            marginTop: '20px',
+            fontFamily: 'Poppins',
+            fontSize: '18px',
+            fontStyle: 'italic',
         },
     })
 );
@@ -66,7 +71,8 @@ const Charts = (props: IChartsProps) => {
 
                           return (
                               <React.Fragment key={sprint.sprintId}>
-                                  <BarChart width={600} height={500} data={data} style={{ height: '580px' }}>
+                                  <span className={classes.sprintHeader}>Sprint: {sprint.sprintName}</span>
+                                  <BarChart width={600} height={500} data={data} style={{ height: '540px' }}>
                                       <CartesianGrid strokeDasharray="3 3" />
                                       <XAxis dataKey="name" />
                                       <YAxis />

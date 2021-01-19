@@ -23,6 +23,10 @@ const MainPageContainer = () => {
         history.push(`/project/${value}`);
     };
 
+    const onClickMoveBoard = (value: string) => {
+        history.push(`/board/${value}`);
+    };
+
     const onClickCreateProject = () => {
         history.push(routeConstants.ProjectsViewerRoute);
     };
@@ -45,6 +49,7 @@ const MainPageContainer = () => {
         onSelectProject,
         onClickCreateTeam,
         onClickCreateProject,
+        onClickMoveBoard,
     };
 
     return <MainPage {...mainPageProps} />;

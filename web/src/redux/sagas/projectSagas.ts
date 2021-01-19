@@ -6,14 +6,14 @@ import { IUser, UserRole } from '../../types/userTypes';
 import * as modalActions from '../actions/modalActions';
 import { IGetProjectRequest } from '../actions/projectActions';
 import * as projectActions from '../actions/projectActions';
-import * as userSelectors from '../selectors/userSelectors';
 import * as teamActions from '../actions/teamActions';
+import * as userSelectors from '../selectors/userSelectors';
 
 function* getUserProjects(action: projectActions.IGetUserProjectsRequest) {
     try {
         const currentUser: IUser = yield select(userSelectors.getUser);
         let projects: ICollectionResponse<IProject>;
-        if (currentUser.userRole === UserRole.ProductOwner) {
+        if (currentUser.userRole === UserRole.ProductOwner.split(' ').join('')) {
             projects = yield call(projectApi.getCustomerProjects);
         } else {
             projects = yield call(projectApi.getAllUserProjects);

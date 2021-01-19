@@ -176,15 +176,15 @@ const GeneralTab = (props: IGeneralTabProps) => {
                             )}
                         </div>
                         <div className={classes.mainTabsContainer}>
-                            <Link to={routeConstants.ProjectBoardRoute} className={classes.tab}>
-                                Board
-                            </Link>
+                            {/*<Link to={routeConstants.ProjectBoardRoute} className={classes.tab}>*/}
+                            {/*    Board*/}
+                            {/*</Link>*/}
                             <Link to={routeConstants.ProjectsViewerRoute} className={classes.tab}>
                                 Projects
                             </Link>
-                            <Link to={routeConstants.ProjectsViewerRoute} className={classes.tab}>
-                                My tasks
-                            </Link>
+                            {/*<Link to={routeConstants.ProjectsViewerRoute} className={classes.tab}>*/}
+                            {/*    My tasks*/}
+                            {/*</Link>*/}
                             <Link to={routeConstants.TeamsViewerRoute} className={classes.tab}>
                                 Teams
                             </Link>

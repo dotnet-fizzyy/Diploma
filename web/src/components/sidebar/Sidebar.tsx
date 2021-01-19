@@ -177,7 +177,7 @@ const Sidebar = (props: ISidebarProps) => {
                 />
 
                 <StoryDropdownMenu
-                    id={storyPriority.toUpperCase()}
+                    id={storyPriority}
                     name={storyFields.storyPriority}
                     disabled={false}
                     title={'Priority'}
@@ -188,7 +188,7 @@ const Sidebar = (props: ISidebarProps) => {
                 <StoryDropdownMenu
                     id={sprintId}
                     name={storyFields.sprintId}
-                    disabled={true}
+                    disabled={false}
                     title={'Sprint'}
                     items={sprints}
                     onChangeItem={onChangeTextField}
@@ -198,7 +198,7 @@ const Sidebar = (props: ISidebarProps) => {
                     <StoryDropdownMenu
                         id={estimate.toString()}
                         name={storyFields.estimate}
-                        disabled={true}
+                        disabled={false}
                         title={'Estimate'}
                         items={storyEstimates}
                         onChangeItem={onChangeTextField}

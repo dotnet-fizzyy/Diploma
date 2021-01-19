@@ -5,8 +5,6 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src
-#COPY ["WebAPI/WebAPI.csproj", "WebAPI/"]
-#COPY ["WebAPI.Models/WebAPI.Models.csproj", "WebAPI.Models/"]
 COPY /*/*.csproj ./
 RUN dotnet restore "WebAPI.csproj"
 COPY . .

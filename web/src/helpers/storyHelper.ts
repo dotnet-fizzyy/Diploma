@@ -59,7 +59,7 @@ export function createStoryEstimationDropdownItems(): ISelectedItem[] {
 export function createStoryPriorityDropdownItems(): ISelectedItem[] {
     return Object.entries(Priority).map((pr) => {
         return {
-            key: pr[0],
+            key: pr[1],
             value: pr[1],
         } as ISelectedItem;
     });
