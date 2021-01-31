@@ -1,22 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 import * as currentUserActions from '../../redux/actions/currentUserActions';
 import * as currentUserSelectors from '../../redux/selectors/userSelectors';
 import CustomRouter, { ICustomRouterProps } from './CustomRouter';
 
 const CustomRouterContainer = () => {
     const dispatch = useDispatch();
+    const location = useLocation();
+    const history = useHistory();
+
+    const [defaultPath, setDefaultPath] = useState<string>('');
     const user = useSelector(currentUserSelectors.getUser);
-    const isLogged = !!(user && user.userId);
 
     useEffect(() => {
-        if (!isLogged) {
+        if (!(user && user.userId)) {
             dispatch(currentUserActions.verifyUserRequest());
         }
-    }, [dispatch, isLogged]);
+    }, [dispatch, user]);
+
+    useEffect(() => {
+        setDefaultPath(location.pathname);
+        // eslint-disable-next-line
+    }, []);
+
+    useEffect(() => {
+        if (defaultPath && user && user.userId) {
+            history.push(defaultPath);
+        }
+    }, [defaultPath, user, history]);
 
     const customRouterProps: ICustomRouterProps = {
-        isLogged,
+        user,
     };
 
     return <CustomRouter {...customRouterProps} />;

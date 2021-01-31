@@ -2,14 +2,12 @@ import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import * as routeConstants from '../../constants/routeConstants';
 
-const RouteGuard = ({ component: Component, isLogged, ...rest }) => {
+const RouteGuard = ({ component: Component, isValid, ...rest }) => {
     return (
         <Route
             {...rest}
             path={rest.path}
-            render={(props) =>
-                isLogged ? <Component {...props} /> : <Redirect to={routeConstants.LoginScreenRoute} />
-            }
+            render={(props) => (isValid ? <Component {...props} /> : <Redirect to={routeConstants.LoginScreenRoute} />)}
         />
     );
 };
