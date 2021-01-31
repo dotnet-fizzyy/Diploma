@@ -13,6 +13,7 @@
     "axios": "^0.21.0",
     "classnames": "^2.2.6",
     "dotenv": "^8.2.0",
+    "formik": "^2.2.6",
     "husky": "^4.3.0",
     "moment": "^2.29.1",
     "prettier": "^2.1.2",

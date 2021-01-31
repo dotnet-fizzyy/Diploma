@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { createSortFields } from '../../../helpers/storyHelper';
+import { createSortFields } from '../../../utils/storyHelper';
 import * as modalActions from '../../../redux/actions/modalActions';
 import * as storiesActions from '../../../redux/actions/storiesActions';
 import * as epicsSelectors from '../../../redux/selectors/epicsSelectors';

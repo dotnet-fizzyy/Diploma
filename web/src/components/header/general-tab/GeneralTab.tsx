@@ -6,7 +6,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import * as routeConstants from '../../../constants/routeConstants';
-import { getShortIdNameForStory } from '../../../helpers/storyHelper';
+import { getShortIdNameForStory } from '../../../utils/storyHelper';
 import LogoIcon from '../../../static/Icon.svg';
 import { IStory } from '../../../types/storyTypes';
 import { IUser } from '../../../types/userTypes';

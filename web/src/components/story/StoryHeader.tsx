@@ -3,7 +3,7 @@ import BlockOutlinedIcon from '@material-ui/icons/BlockOutlined';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import classnames from 'classnames';
 import React from 'react';
-import { getShortIdNameForStory } from '../../helpers/storyHelper';
+import { getShortIdNameForStory } from '../../utils/storyHelper';
 
 const useStyles = makeStyles(() =>
     createStyles({

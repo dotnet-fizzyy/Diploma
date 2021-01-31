@@ -2,8 +2,8 @@ import { call, debounce, delay, put, select, take, takeLatest } from 'redux-saga
 import * as sprintApi from '../../ajax/sprintApi';
 import * as storyApi from '../../ajax/storiesApi';
 import { debouncePeriod } from '../../constants/storyConstants';
-import { findCurrentEpic, mapFullSprintToSprint } from '../../helpers/epicHelper';
-import { createRequestBodyForColumnMovement, createStoryUpdatePartsFromStory } from '../../helpers/storyHelper';
+import { findCurrentEpic, mapFullSprintToSprint } from '../../utils/epicHelper';
+import { createRequestBodyForColumnMovement, createStoryUpdatePartsFromStory } from '../../utils/storyHelper';
 import { ICollectionResponse } from '../../types';
 import { IEpic } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';

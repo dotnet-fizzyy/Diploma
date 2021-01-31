@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { initialStory } from '../../../constants/storyConstants';
-import { createStoryEstimationDropdownItems, createStoryPriorityDropdownItems } from '../../../helpers/storyHelper';
+import { createStoryEstimationDropdownItems, createStoryPriorityDropdownItems } from '../../../utils/storyHelper';
 import * as storyActions from '../../../redux/actions/storiesActions';
 import * as sprintSelectors from '../../../redux/selectors/sprintsSelectors';
 import * as teamSelectors from '../../../redux/selectors/teamSelectors';

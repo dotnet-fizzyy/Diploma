@@ -1,10 +1,14 @@
-import { Button, TextField } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
+import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { InitialLoginFormValues, LoginFormConstants } from '../../constants';
 import * as routeConstants from '../../constants/routeConstants';
+import { ILoginForm } from '../../types/formTypes';
+import FormTextField from '../common/FormTextField';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -92,68 +96,69 @@ const useStyles = makeStyles(() =>
 );
 
 export interface ILoginPageProps {
-    name: string;
-    password: string;
     wasAttemptToLogIn: boolean;
     isSpinnerVisible: boolean;
-    onChangeName: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onChangePassword: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onSubmitLogIn: () => void;
+    validateField: (value: string) => void;
+    onSubmitLogIn: (values: ILoginForm) => void;
 }
 
 const LoginPage = (props: ILoginPageProps) => {
     const classes = useStyles();
-    const {
-        name,
-        isSpinnerVisible,
-        password,
-        wasAttemptToLogIn,
-        onChangeName,
-        onChangePassword,
-        onSubmitLogIn,
-    } = props;
+    const { isSpinnerVisible, validateField, wasAttemptToLogIn, onSubmitLogIn } = props;
 
     return (
-        <div className={classes.root}>
-            <span className={classes.title}>Sign In</span>
-            <div className={classes.fieldContainer}>
-                <span className={classes.keyWord}>Name</span>
-                <TextField
-                    InputProps={{ classes: { input: classes.textInput, focused: classes.focusedInput } }}
-                    className={classes.textField}
-                    value={name}
-                    onChange={onChangeName}
-                    variant="outlined"
-                />
-            </div>
-            <div className={classes.fieldContainer}>
-                <span className={classes.keyWord}>Password</span>
-                <TextField
-                    InputProps={{ classes: { input: classes.textInput } }}
-                    className={classes.textField}
-                    type="password"
-                    value={password}
-                    onChange={onChangePassword}
-                    variant="outlined"
-                />
-            </div>
-            {isSpinnerVisible && <CircularProgress className={classes.spinner} />}
-            {wasAttemptToLogIn && !isSpinnerVisible && (
-                <span className={classes.errorMessage}>Unable to login with following credentials</span>
-            )}
-            <div
-                className={classnames(classes.linkContainer, {
-                    [classes.errorMessageMargin]: wasAttemptToLogIn,
-                    [classes.spinnerMargin]: isSpinnerVisible,
-                })}
-            >
-                <span>Don't you have project yet?</span>
-                <Link to={`${routeConstants.RegistrationScreenRoute}`}>Create it!</Link>
-            </div>
-            <Button className={classes.button} color="primary" variant="contained" onClick={onSubmitLogIn}>
-                Sign in
-            </Button>
-        </div>
+        <Formik initialValues={InitialLoginFormValues} onSubmit={onSubmitLogIn}>
+            {({ isValid, touched }) => {
+                const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
+
+                return (
+                    <Form>
+                        <div className={classes.root}>
+                            <span className={classes.title}>Sign In</span>
+                            <div className={classes.fieldContainer}>
+                                <Field
+                                    name={LoginFormConstants.name}
+                                    label="Name"
+                                    validate={validateField}
+                                    component={FormTextField}
+                                />
+                            </div>
+                            <div className={classes.fieldContainer}>
+                                <Field
+                                    name={LoginFormConstants.password}
+                                    label="Password"
+                                    type="password"
+                                    validate={validateField}
+                                    component={FormTextField}
+                                />
+                            </div>
+                            {isSpinnerVisible && <CircularProgress className={classes.spinner} />}
+                            {wasAttemptToLogIn && !isSpinnerVisible && (
+                                <span className={classes.errorMessage}>Unable to login with following credentials</span>
+                            )}
+                            <div
+                                className={classnames(classes.linkContainer, {
+                                    [classes.errorMessageMargin]: wasAttemptToLogIn,
+                                    [classes.spinnerMargin]: isSpinnerVisible,
+                                })}
+                            >
+                                <span>Don't you have project yet?</span>
+                                <Link to={`${routeConstants.RegistrationScreenRoute}`}>Create it!</Link>
+                            </div>
+                            <Button
+                                type="submit"
+                                disabled={!isAnyFieldTouched || !isValid}
+                                className={classes.button}
+                                color="primary"
+                                variant="contained"
+                            >
+                                Sign in
+                            </Button>
+                        </div>
+                    </Form>
+                );
+            }}
+        </Formik>
     );
 };
 

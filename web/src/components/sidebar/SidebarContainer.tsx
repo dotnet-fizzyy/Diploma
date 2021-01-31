@@ -4,7 +4,7 @@ import {
     areStoriesEqual,
     createStoryEstimationDropdownItems,
     createStoryPriorityDropdownItems,
-} from '../../helpers/storyHelper';
+} from '../../utils/storyHelper';
 import * as requestProcessorActions from '../../redux/actions/requestProcessorActions';
 import * as sidebarActions from '../../redux/actions/sidebarActions';
 import * as storiesActions from '../../redux/actions/storiesActions';

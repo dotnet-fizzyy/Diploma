@@ -7,7 +7,9 @@ import * as requestProcessorActions from '../../redux/actions/requestProcessorAc
 import * as requestProcessorSelectors from '../../redux/selectors/requestProcessorSelectors';
 import * as currentUserSelectors from '../../redux/selectors/userSelectors';
 import { SpinnerComponent } from '../../types';
+import { ILoginForm, IRegistrationForm } from '../../types/formTypes';
 import { StartPageTypes } from '../../types/pageTypes';
+import { InputFormFieldValidator } from '../../utils/formHelper';
 import { ILoginPageProps } from './Login';
 import { IRegistrationPageProps } from './Registration';
 import StartScreen, { IStartScreenProps } from './StartScreen';
@@ -26,47 +28,26 @@ const StartScreenContainer = () => {
     const user = useSelector(currentUserSelectors.getUser);
     const isSpinnerVisible = useSelector(requestProcessorSelectors.getIsSpinnerVisible);
 
-    const [name, setName] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [repeatedPassword, setRepeatedPassword] = useState<string>('');
     const [arePasswordsSame, setSamePasswords] = useState<boolean>(true);
     const [wasAttemptToLogIn, setWasAttemptToLogIn] = useState<boolean>(false);
 
-    const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value);
-    };
-
-    const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setName(event.target.value);
-    };
-
     const loginProps: ILoginPageProps = {
-        name,
-        password,
         isSpinnerVisible,
         wasAttemptToLogIn: wasAttemptToLogIn && !isAuthenticationSuccessful,
-        onChangeName,
-        onChangePassword,
-        onSubmitLogIn: () => {
+        validateField: (value: string) => new InputFormFieldValidator(value).validate(),
+        onSubmitLogIn: (values: ILoginForm) => {
             setWasAttemptToLogIn(true);
             dispatch(requestProcessorActions.launchSpinner(SpinnerComponent.LOGIN));
-            dispatch(currentUserActions.authenticationRequest(name, password));
+            dispatch(currentUserActions.authenticationRequest(values.name, values.password));
         },
     };
 
     const registrationProps: IRegistrationPageProps = {
-        name,
-        password,
-        repeatedPassword,
         wasUserCreated,
         arePasswordsSame,
         isSpinnerVisible,
-        onChangeName,
-        onChangePassword,
-        onChangeRepeatedPassword: (event: React.ChangeEvent<HTMLInputElement>) =>
-            setRepeatedPassword(event.target.value),
-        onSubmitRegistration: () => {
-            if (password !== repeatedPassword) {
+        onSubmitRegistration: (values: IRegistrationForm) => {
+            if (values.password !== values.repeatedPassword) {
                 setSamePasswords(false);
 
                 return;
@@ -74,7 +55,7 @@ const StartScreenContainer = () => {
 
             setSamePasswords(true);
             dispatch(requestProcessorActions.launchSpinner(SpinnerComponent.LOGIN));
-            dispatch(currentUserActions.registrationRequest(name, password));
+            dispatch(currentUserActions.registrationRequest(values.name, values.password));
         },
     };
 
@@ -97,12 +78,6 @@ const StartScreenContainer = () => {
             history.push(routeConstants.DefaultRoute);
         }
     }, [user, history]);
-
-    useEffect(() => {
-        setName('');
-        setPassword('');
-        setRepeatedPassword('');
-    }, [startPageType]);
 
     return <StartScreen {...startScreenProps} />;
 };

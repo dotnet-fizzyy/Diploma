@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import * as sprintApi from '../../ajax/sprintApi';
-import { findCurrentEpic, mapFullSprintToSprint } from '../../helpers/epicHelper';
+import { findCurrentEpic, mapFullSprintToSprint } from '../../utils/epicHelper';
 import { ICollectionResponse } from '../../types';
 import { IEpic } from '../../types/epicTypes';
 import { IFullSprint, ISprint } from '../../types/sprintTypes';
