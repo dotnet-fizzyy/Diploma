@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using WebAPI.Core.Configuration;
 using WebAPI.Core.Entities;
 using WebAPI.Infrastructure.Postgres;
 
@@ -11,9 +12,12 @@ namespace WebAPI.Startup.Configuration
 {
     public static class HealthChecksExtensions
     {
-        public static void RegisterHealthChecks(this IServiceCollection services)
+        public static void RegisterHealthChecks(this IServiceCollection services, RedisSettings redisSettings)
         {
-            services.AddHealthChecks().AddDbContextCheck<DatabaseContext>();
+            services
+                .AddHealthChecks()
+                .AddDbContextCheck<DatabaseContext>()
+                .AddRedis(redisSettings.ConnectionString);
         }
         
         public static void RegisterHealthChecks(this IApplicationBuilder app)

@@ -27,7 +27,7 @@ namespace WebAPI.Startup
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var (databaseSettings, tokenSettings) = RegisterSettings(Configuration);
+            var (databaseSettings, tokenSettings, redisSettings) = RegisterSettings(Configuration);
             var appSettings = new AppSettings
             {
                 Database = databaseSettings,
@@ -46,7 +46,8 @@ namespace WebAPI.Startup
             services.RegisterAuthSettings(tokenSettings);
             services.RegisterServices(appSettings);
             services.RegisterDatabase(databaseSettings, LoggerFactory);
-            services.RegisterHealthChecks();
+            services.RegisterRedis(redisSettings);
+            services.RegisterHealthChecks(redisSettings);
             services.RegisterSwagger();
         }
 
@@ -63,7 +64,7 @@ namespace WebAPI.Startup
             app.UseRouting();
             
             app.RegisterSwaggerUi();
-            
+
             app.RegisterExceptionHandler(logger.CreateLogger("Exceptions"));
             
             app.UseCors(options => options
@@ -84,13 +85,15 @@ namespace WebAPI.Startup
 
         private static (
             DatabaseSettings databaseSettings, 
-            TokenSettings tokenSettings
+            TokenSettings tokenSettings,
+            RedisSettings redisSettings
             ) RegisterSettings(IConfiguration configuration)
         {
             var databaseSettings = configuration.GetSection(nameof(AppSettings.Database)).Get<DatabaseSettings>();
             var tokenSettings = configuration.GetSection(nameof(AppSettings.Token)).Get<TokenSettings>();
+            var redisSettings = configuration.GetSection(nameof(AppSettings.Redis)).Get<RedisSettings>();
 
-            return (databaseSettings, tokenSettings);
+            return (databaseSettings, tokenSettings, redisSettings);
         }
     }
     
