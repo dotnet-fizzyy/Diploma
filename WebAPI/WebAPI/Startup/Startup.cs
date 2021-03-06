@@ -60,6 +60,9 @@ namespace WebAPI.Startup
             }
 
             app.UseMiddleware<LoggingMiddleware>();
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             
             app.UseRouting();
             

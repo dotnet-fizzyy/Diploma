@@ -27,6 +27,15 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Content Update="appsettings.docker.json">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Remove="initdb\**" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Compile Remove="initdb\**" />
     </ItemGroup>
 
@@ -36,15 +45,6 @@
 
     <ItemGroup>
       <None Remove="initdb\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Remove="initdb\**" />
-      <Content Update="appsettings.docker.json">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
     </ItemGroup>
 
 

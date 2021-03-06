@@ -1,17 +1,4 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3aac94ae_002D6e21_002D4c27_002D8c7b_002D3628ef89efbe/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ShouldAggregateFullProjectDescription" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::F06E4DC4-02E5-4DF7-873E-21476F783688::.NETCoreApp,Version=v3.1::WebAPI.UnitTests.Aggregators.FullProjectDescriptionAggregatorTests.ShouldAggregateFullProjectDescription&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::F06E4DC4-02E5-4DF7-873E-21476F783688::.NETCoreApp,Version=v3.1::WebAPI.UnitTests.Mappers.UserMapperTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::F06E4DC4-02E5-4DF7-873E-21476F783688::.NETCoreApp,Version=v3.1::WebAPI.UnitTests.Mappers.EpicMapperTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::F06E4DC4-02E5-4DF7-873E-21476F783688::.NETCoreApp,Version=v3.1::WebAPI.UnitTests.Mappers.ProjectMapperTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::F06E4DC4-02E5-4DF7-873E-21476F783688::.NETCoreApp,Version=v3.1::WebAPI.UnitTests.Mappers.TeamMapperTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::F06E4DC4-02E5-4DF7-873E-21476F783688::.NETCoreApp,Version=v3.1::WebAPI.UnitTests.Mappers.StoryMapperTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::F06E4DC4-02E5-4DF7-873E-21476F783688::.NETCoreApp,Version=v3.1::WebAPI.UnitTests.Mappers.SprintMapperTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::F06E4DC4-02E5-4DF7-873E-21476F783688::.NETCoreApp,Version=v3.1::WebAPI.UnitTests.Mappers.RefreshTokenMapperTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::F06E4DC4-02E5-4DF7-873E-21476F783688::.NETCoreApp,Version=v3.1::WebAPI.UnitTests.Mappers.StoryHistoryMapperTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::F06E4DC4-02E5-4DF7-873E-21476F783688::.NETCoreApp,Version=v3.1::WebAPI.UnitTests.Aggregators.FullProjectDescriptionAggregatorTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::F06E4DC4-02E5-4DF7-873E-21476F783688::.NETCoreApp,Version=v3.1::WebAPI.UnitTests.Services.UserServiceTests.ShouldGetAllUsers&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::F06E4DC4-02E5-4DF7-873E-21476F783688::.NETCoreApp,Version=v3.1::WebAPI.UnitTests.Services.UserServiceTests.ShouldGetExactUser&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+  &lt;Project Location="/Users/dmyaniuk/Desktop/University/Diplom/WebAPI/WebAPI.UnitTests" Presentation="&amp;lt;WebAPI.UnitTests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

@@ -12,7 +12,7 @@ services:
     depends_on: 
       - web-api
     ports:
-      - 5000:3000
+      - 3006:3000
     volumes:
       - '/app/node_modules'
       - './web/:/app'

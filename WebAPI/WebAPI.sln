@@ -6,6 +6,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI.Models", "WebAPI.Mod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI.UnitTests", "WebAPI.UnitTests\WebAPI.UnitTests.csproj", "{F06E4DC4-02E5-4DF7-873E-21476F783688}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{8DCCB0E6-671C-4E1C-A6B2-2D2282FD05FC}"
+ProjectSection(SolutionItems) = preProject
+	Dockerfile = Dockerfile
+	dummytoken.txt = dummytoken.txt
+	.dockerignore = .dockerignore
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{688501E3-AECA-4CC5-B25D-0BD9E2729FB6}"
+ProjectSection(SolutionItems) = preProject
+	CreateMigration.sh = CreateMigration.sh
+	CreateSqlScript.sh = CreateSqlScript.sh
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "initdb", "initdb", "{C70EC8E0-D538-448D-9E33-BF46A4F2E49B}"
+ProjectSection(SolutionItems) = preProject
+	initdb\initdb.sql = initdb\initdb.sql
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,5 +44,6 @@ Global
 		{F06E4DC4-02E5-4DF7-873E-21476F783688}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{C70EC8E0-D538-448D-9E33-BF46A4F2E49B} = {688501E3-AECA-4CC5-B25D-0BD9E2729FB6}
 	EndGlobalSection
 EndGlobal
