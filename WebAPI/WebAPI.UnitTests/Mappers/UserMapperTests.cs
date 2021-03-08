@@ -42,7 +42,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var userEntity = new Core.Entities.User
             {
-                UserId = userId,
+                Id = userId,
                 UserName = "SomeUser",
                 UserPosition = Core.Enums.UserPosition.Developer,
                 UserRole = Core.Enums.UserRole.Engineer,
@@ -87,7 +87,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var userEntity = new Core.Entities.User
             {
-                UserId = userId,
+                Id = userId,
                 UserName = "SomeUser2",
                 UserPosition = Core.Enums.UserPosition.Developer,
                 UserRole = Core.Enums.UserRole.Engineer,
@@ -114,7 +114,7 @@ namespace WebAPI.UnitTests.Mappers
             var mappedResult = userMapper.MapToEntity(userModel);
 
             //Assert
-            Assert.Equal(userEntity.UserId, mappedResult.UserId);
+            Assert.Equal(userEntity.Id, mappedResult.Id);
             Assert.Equal(userEntity.UserName, mappedResult.UserName);
             Assert.Equal(userEntity.UserPosition.ToString(), mappedResult.UserPosition.ToString());
             Assert.Equal(userEntity.UserRole.ToString(), mappedResult.UserRole.ToString());

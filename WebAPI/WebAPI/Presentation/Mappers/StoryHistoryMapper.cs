@@ -19,7 +19,7 @@ namespace WebAPI.Presentation.Mappers
             
             var storyHistoryEntity = new StoryHistory
             {
-                StoryHistoryId = storyHistory.StoryHistoryId,
+                Id = storyHistory.StoryHistoryId,
                 StoryHistoryAction = Enum.Parse<StoryHistoryAction>(storyHistory.StoryHistoryAction.ToString(), true),
                 PreviousValue = storyHistory.PreviousValue,
                 CurrentValue = storyHistory.CurrentValue,
@@ -41,7 +41,7 @@ namespace WebAPI.Presentation.Mappers
             
             var storyHistoryModel = new Models.Models.StoryHistory
             {
-                StoryHistoryId = storyHistory.StoryHistoryId,
+                StoryHistoryId = storyHistory.Id,
                 StoryHistoryAction = Enum.Parse<Models.Enums.StoryHistoryAction>(storyHistory.StoryHistoryAction.ToString(), true),
                 PreviousValue = storyHistory.PreviousValue,
                 CurrentValue = storyHistory.CurrentValue,

@@ -46,7 +46,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var storyHistoryEntity = new StoryHistory
             {
-                StoryHistoryId = storyHistoryId,
+                Id = storyHistoryId,
                 StoryHistoryAction = StoryHistoryAction.Add,
                 StoryId = storyId,
                 CurrentValue = "Current",
@@ -91,7 +91,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var storyHistoryEntity = new StoryHistory
             {
-                StoryHistoryId = storyHistoryId,
+                Id = storyHistoryId,
                 StoryHistoryAction = StoryHistoryAction.Update,
                 StoryId = storyId,
                 CurrentValue = "Some value",

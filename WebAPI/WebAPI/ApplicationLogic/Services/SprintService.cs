@@ -60,7 +60,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Sprint> GetSprint(Guid sprintId)
         {
             var sprintEntity = await _sprintRepository
-                .SearchForSingleItemAsync(x => x.SprintId == sprintId);
+                .SearchForSingleItemAsync(x => x.Id == sprintId);
 
             if (sprintEntity == null)
             {
@@ -76,7 +76,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var sprintEntity = await _sprintRepository
                 .SearchForSingleItemAsync(
-                    x => x.SprintId == sprintId,
+                    x => x.Id == sprintId,
                     x => x.Stories
                     );
 
@@ -126,7 +126,7 @@ namespace WebAPI.ApplicationLogic.Services
             )
             {
                 await _storyRepository.DeleteAsync(x => x.SprintId == sprintId);
-                await _sprintRepository.DeleteAsync(x => x.SprintId == sprintId);
+                await _sprintRepository.DeleteAsync(x => x.Id == sprintId);
                 
                 scope.Complete();
             }

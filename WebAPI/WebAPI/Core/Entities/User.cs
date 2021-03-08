@@ -4,16 +4,14 @@ using WebAPI.Core.Enums;
 
 namespace WebAPI.Core.Entities
 {
-    public class User
+    public class User : BaseEntity
     {
         public User()
         {
             RefreshTokens = new List<RefreshToken>();
             Stories = new List<Story>();
         }
-        
-        public Guid UserId { get; set; }
-        
+
         public Guid? TeamId { get; set; }
         
         public string UserName { get; set; }

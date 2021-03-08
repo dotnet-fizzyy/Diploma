@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WebAPI.Core.Entities;
@@ -8,7 +9,9 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
     {
         public void Configure(EntityTypeBuilder<Epic> builder)
         {
-            builder.HasKey(x => x.EpicId);
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).HasColumnName("EpicId");
+            builder.Property(x => x.CreationDate).HasDefaultValue(DateTime.UtcNow.Date);
             builder
                 .HasOne<Project>()
                 .WithMany(e => e.Epics)

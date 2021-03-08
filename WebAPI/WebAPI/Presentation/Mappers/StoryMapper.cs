@@ -25,7 +25,7 @@ namespace WebAPI.Presentation.Mappers
             
             var storyEntity = new Story
             {
-                StoryId = story.StoryId,
+                Id = story.StoryId,
                 UserId = story.UserId,
                 SprintId = story.SprintId,
                 Description = story.Description,
@@ -54,7 +54,7 @@ namespace WebAPI.Presentation.Mappers
             
             var storyModel = new Models.Models.Story
             {
-                StoryId = story.StoryId,
+                StoryId = story.Id,
                 UserId = story.UserId,
                 SprintId = story.SprintId,
                 Description = story.Description,
@@ -83,7 +83,7 @@ namespace WebAPI.Presentation.Mappers
             
             var fullStoryModel = new FullStory
             {
-                StoryId = story.StoryId,
+                StoryId = story.Id,
                 UserId = story.UserId,
                 SprintId = story.SprintId,
                 Description = story.Description,

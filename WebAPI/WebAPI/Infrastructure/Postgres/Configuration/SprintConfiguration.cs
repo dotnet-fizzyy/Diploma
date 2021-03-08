@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WebAPI.Core.Entities;
@@ -8,7 +9,9 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
     {
         public void Configure(EntityTypeBuilder<Sprint> builder)
         {
-            builder.HasKey(x => x.SprintId);
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).HasColumnName("SprintId");
+            builder.Property(x => x.CreationDate).HasDefaultValue(DateTime.UtcNow.Date);
             builder
                 .HasOne<Epic>()
                 .WithMany(e => e.Sprints)

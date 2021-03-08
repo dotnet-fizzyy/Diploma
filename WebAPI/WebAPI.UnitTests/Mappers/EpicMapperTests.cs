@@ -69,7 +69,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var epicEntity = new Epic
             {
-                EpicId = epicId,
+                Id = epicId,
                 EpicName = "TestName",
                 EpicDescription = "SomeDecs",
                 ProjectId = new Guid(),
@@ -111,7 +111,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var epicEntity = new Epic
             {
-                EpicId = epicId,
+                Id = epicId,
                 EpicName = "Name",
                 EpicDescription = "Decs",
                 ProjectId = new Guid(),
@@ -135,7 +135,7 @@ namespace WebAPI.UnitTests.Mappers
             var mappedResult = epicMapper.MapToEntity(epicModel);
             
             //Assert
-            Assert.Equal(epicEntity.EpicId, mappedResult.EpicId);
+            Assert.Equal(epicEntity.Id, mappedResult.Id);
             Assert.Equal(epicEntity.EpicName, mappedResult.EpicName);
             Assert.Equal(epicEntity.StartDate, mappedResult.StartDate);
             Assert.Equal(epicEntity.EndDate, mappedResult.EndDate);
@@ -154,7 +154,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var epicEntity = new Epic
             {
-                EpicId = epicId,
+                Id = epicId,
                 EpicName = "Name",
                 EpicDescription = "Decs",
                 ProjectId = new Guid(),
@@ -165,7 +165,7 @@ namespace WebAPI.UnitTests.Mappers
                 {
                     new Sprint
                     {
-                        SprintId = sprintId,
+                        Id = sprintId,
                         SprintName = "Sprint",
                         EpicId = epicId,
                         StartDate = new DateTime(2020, 10, 12),

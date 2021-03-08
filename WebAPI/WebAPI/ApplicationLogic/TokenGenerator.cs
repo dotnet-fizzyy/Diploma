@@ -55,7 +55,7 @@ namespace WebAPI.ApplicationLogic
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserId.ToString()),
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Id.ToString()),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, user.UserRole.ToString())
             };
             

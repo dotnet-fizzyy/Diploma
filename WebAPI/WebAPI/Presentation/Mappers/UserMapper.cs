@@ -16,7 +16,7 @@ namespace WebAPI.Presentation.Mappers
             
             var userEntity = new User
             {
-                UserId = user.UserId,
+                Id = user.UserId,
                 TeamId = user.TeamId,
                 UserName = user.UserName,
                 Password = user.Password,
@@ -40,7 +40,7 @@ namespace WebAPI.Presentation.Mappers
             
             var userModel = new Models.Models.User
             {
-                UserId = user.UserId,
+                UserId = user.Id,
                 TeamId = user.TeamId,
                 UserName = user.UserName,
                 IsActive = user.IsActive,

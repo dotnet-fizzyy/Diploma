@@ -3,14 +3,12 @@ using System.Collections.Generic;
 
 namespace WebAPI.Core.Entities
 {
-    public class Sprint
+    public class Sprint : BaseEntity
     {
         public Sprint()
         {
             Stories = new List<Story>();
         }
-        
-        public Guid SprintId { get; set; }
 
         public Guid EpicId { get; set; }
         

@@ -25,7 +25,7 @@ namespace WebAPI.Presentation.Mappers
             
             var projectEntity = new Project
             {
-                ProjectId = project.ProjectId,
+                Id = project.ProjectId,
                 ProjectDescription = project.ProjectDescription,
                 ProjectName = project.ProjectName,
                 StartDate = project.StartDate,
@@ -45,7 +45,7 @@ namespace WebAPI.Presentation.Mappers
             
             var projectModel = new Models.Models.Project
             {
-                ProjectId = project.ProjectId,
+                ProjectId = project.Id,
                 ProjectDescription = project.ProjectDescription,
                 ProjectName = project.ProjectName,
                 StartDate = project.StartDate,
@@ -65,7 +65,7 @@ namespace WebAPI.Presentation.Mappers
             
             var projectFullModel = new FullProject
             {
-                ProjectId = project.ProjectId,
+                ProjectId = project.Id,
                 ProjectDescription = project.ProjectDescription,
                 ProjectName = project.ProjectName,
                 StartDate = project.StartDate,

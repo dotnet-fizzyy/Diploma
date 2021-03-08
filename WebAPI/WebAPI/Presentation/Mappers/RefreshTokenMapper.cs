@@ -14,10 +14,9 @@ namespace WebAPI.Presentation.Mappers
             
             var entityRefreshToken = new RefreshToken
             {
-                RefreshTokenId = refreshToken.RefreshTokenId,
+                Id = refreshToken.RefreshTokenId,
                 UserId = refreshToken.UserId,
-                Value = refreshToken.Value,
-                IsActive = refreshToken.IsActive,
+                Value = refreshToken.Value
             };
 
             return entityRefreshToken;
@@ -32,10 +31,9 @@ namespace WebAPI.Presentation.Mappers
             
             var modelRefreshToken = new Models.Models.RefreshToken
             {
-                RefreshTokenId = refreshToken.RefreshTokenId,
+                RefreshTokenId = refreshToken.Id,
                 UserId = refreshToken.UserId,
-                Value = refreshToken.Value,
-                IsActive = refreshToken.IsActive,
+                Value = refreshToken.Value
             };
 
             return modelRefreshToken;
@@ -50,10 +48,9 @@ namespace WebAPI.Presentation.Mappers
             
             var entityRefreshToken = new RefreshToken
             {
-                RefreshTokenId = refreshToken.RefreshTokenId,
+                Id = refreshToken.RefreshTokenId,
                 UserId = refreshToken.UserId,
-                Value = refreshToken.Value,
-                IsActive = true,
+                Value = refreshToken.Value
             };
 
             return entityRefreshToken;

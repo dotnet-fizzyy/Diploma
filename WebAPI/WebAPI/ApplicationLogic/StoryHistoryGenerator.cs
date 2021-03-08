@@ -29,7 +29,7 @@ namespace WebAPI.ApplicationLogic
                 CurrentValue = string.Empty,
                 PreviousValue = string.Empty,
                 FieldName = string.Empty,
-                StoryId = story.StoryId,
+                StoryId = story.Id,
             };
         }
     }

@@ -31,7 +31,7 @@ namespace WebAPI.UnitTests.Aggregators
             {
                 new Team
                 {
-                    TeamId = teamId,
+                    Id = teamId,
                     TeamName = "AwesomeTeam",
                     Location = "Minsk",
                     ProjectId = projectId
@@ -42,7 +42,7 @@ namespace WebAPI.UnitTests.Aggregators
             {
                 new Sprint
                 {
-                    SprintId = sprintId,
+                    Id = sprintId,
                     EpicId = epicId,
                     SprintName = "AwesomeSprint",
                     StartDate = new DateTime(2020, 10, 1),
@@ -100,7 +100,7 @@ namespace WebAPI.UnitTests.Aggregators
             {
                 new Team
                 {
-                    TeamId = teamId,
+                    Id = teamId,
                     TeamName = "AwesomeTeam",
                     Location = "Minsk",
                     ProjectId = projectId
@@ -111,7 +111,7 @@ namespace WebAPI.UnitTests.Aggregators
             {
                 new Sprint
                 {
-                    SprintId = sprintId,
+                    Id = sprintId,
                     EpicId = epicId,
                     SprintName = "AwesomeSprint",
                     StartDate = new DateTime(2020, 10, 1),
@@ -122,7 +122,7 @@ namespace WebAPI.UnitTests.Aggregators
             
             var epicEntity = new Epic
             {
-                EpicId = epicId,
+                Id = epicId,
                 EpicDescription = "Some epic description",
                 StartDate = new DateTime(2020, 10, 1),
                 EndDate = new DateTime(2020, 10, 30),
@@ -131,7 +131,7 @@ namespace WebAPI.UnitTests.Aggregators
             
             var projectEntity = new Project
             {
-                ProjectId = projectId,
+                Id = projectId,
                 ProjectName = "Project",
                 ProjectDescription = "Some Description",
                 Epics = new List<Epic>

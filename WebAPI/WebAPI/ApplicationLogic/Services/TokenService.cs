@@ -60,7 +60,7 @@ namespace WebAPI.ApplicationLogic.Services
                 refreshToken = _tokenGenerator.GenerateRefreshToken();
 
                 var refreshTokenEntity =
-                    _refreshTokenAggregator.GenerateRefreshTokenEntityOnSave(authUser.UserId, refreshToken);
+                    _refreshTokenAggregator.GenerateRefreshTokenEntityOnSave(authUser.Id, refreshToken);
             
                 await _refreshTokenRepository.CreateAsync(refreshTokenEntity);
             }
@@ -78,15 +78,14 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Core.Entities.User> GetRefreshTokenByUserId(string refreshToken, Guid userId)
         {
             var refreshTokenEntity = await _refreshTokenRepository.SearchForSingleItemAsync(
-                x => x.UserId == userId && x.Value == refreshToken && x.IsActive
-                );
+                x => x.UserId == userId && x.Value == refreshToken);
 
             if (refreshTokenEntity == null)
             {
                 return null;
             }
 
-            var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.UserId == userId);
+            var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == userId);
 
             return userEntity;
         }

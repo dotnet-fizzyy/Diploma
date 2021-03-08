@@ -73,7 +73,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var projectEntity = new Project
             {
-                ProjectId = projectId,
+                Id = projectId,
                 ProjectName = "Name",
                 ProjectDescription = "Description",
                 StartDate = new DateTime(2020, 11, 11),
@@ -115,7 +115,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var projectEntity = new Project
             {
-                ProjectId = projectId,
+                Id = projectId,
                 ProjectName = "SomeName",
                 ProjectDescription = "Desc",
                 StartDate = new DateTime(2020, 11, 11),
@@ -138,7 +138,7 @@ namespace WebAPI.UnitTests.Mappers
             var mappedResult = projectMapper.MapToEntity(projectModel);
 
             //Assert
-            Assert.Equal(projectEntity.ProjectId, mappedResult.ProjectId);
+            Assert.Equal(projectEntity.Id, mappedResult.Id);
             Assert.Equal(projectEntity.ProjectName, mappedResult.ProjectName);
             Assert.Equal(projectEntity.ProjectDescription, mappedResult.ProjectDescription);
             Assert.Equal(projectEntity.StartDate, mappedResult.StartDate);
@@ -158,7 +158,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var projectEntity = new Project
             {
-                ProjectId = projectId,
+                Id = projectId,
                 ProjectName = "Name",
                 ProjectDescription = "Description",
                 StartDate = new DateTime(2020, 11, 11),
@@ -168,7 +168,7 @@ namespace WebAPI.UnitTests.Mappers
                 {
                     new Team
                     {
-                        TeamId = teamId,
+                        Id = teamId,
                         Location = "Minsk",
                         ProjectId = projectId,
                         TeamName = "TopTeam"

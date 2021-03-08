@@ -16,8 +16,7 @@ namespace WebAPI.Presentation.Aggregators
             return new RefreshToken
             {
                 UserId = userId,
-                Value = token,
-                IsActive = true,
+                Value = token
             };
         }
     }

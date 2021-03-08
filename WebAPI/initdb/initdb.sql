@@ -269,3 +269,78 @@ BEGIN
     VALUES ('20201209190000_InitialMigration', '3.1.9');
     END IF;
 END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210308100449_UpdateEntitiesWithGeneralEntity') THEN
+    ALTER TABLE "RefreshTokens" DROP COLUMN "IsActive";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210308100449_UpdateEntitiesWithGeneralEntity') THEN
+    ALTER TABLE "Users" ADD "CreationDate" timestamp without time zone NOT NULL DEFAULT TIMESTAMP '2021-03-08 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210308100449_UpdateEntitiesWithGeneralEntity') THEN
+    ALTER TABLE "Teams" ADD "CreationDate" timestamp without time zone NOT NULL DEFAULT TIMESTAMP '2021-03-08 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210308100449_UpdateEntitiesWithGeneralEntity') THEN
+    ALTER TABLE "StoryHistories" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "StoryHistories" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "StoryHistories" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-08 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210308100449_UpdateEntitiesWithGeneralEntity') THEN
+    ALTER TABLE "Stories" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "Stories" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Stories" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-08 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210308100449_UpdateEntitiesWithGeneralEntity') THEN
+    ALTER TABLE "Sprints" ADD "CreationDate" timestamp without time zone NOT NULL DEFAULT TIMESTAMP '2021-03-08 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210308100449_UpdateEntitiesWithGeneralEntity') THEN
+    ALTER TABLE "RefreshTokens" ADD "CreationDate" timestamp without time zone NOT NULL DEFAULT TIMESTAMP '2021-03-08 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210308100449_UpdateEntitiesWithGeneralEntity') THEN
+    ALTER TABLE "Projects" ADD "CreationDate" timestamp without time zone NOT NULL DEFAULT TIMESTAMP '2021-03-08 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210308100449_UpdateEntitiesWithGeneralEntity') THEN
+    ALTER TABLE "Epics" ADD "CreationDate" timestamp without time zone NOT NULL DEFAULT TIMESTAMP '2021-03-08 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210308100449_UpdateEntitiesWithGeneralEntity') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20210308100449_UpdateEntitiesWithGeneralEntity', '3.1.9');
+    END IF;
+END $$;

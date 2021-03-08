@@ -57,7 +57,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Epic> GetEpic(Guid epicId)
         {
             var epicEntity =
-                await _epicRepository.SearchForSingleItemAsync(x => x.EpicId == epicId);
+                await _epicRepository.SearchForSingleItemAsync(x => x.Id == epicId);
 
             var epicModel = _epicMapper.MapToModel(epicEntity);
             
@@ -68,7 +68,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var epicEntity =
                 await _epicRepository.SearchForSingleItemAsync(
-                    x => x.EpicId == epicId, 
+                    x => x.Id == epicId, 
                     includes => includes.Sprints
                     );
             
@@ -115,7 +115,7 @@ namespace WebAPI.ApplicationLogic.Services
             {
                 await _teamEpicRepository.DeleteAsync(x => x.EpicId == epicId);
                 await _sprintRepository.DeleteAsync(x => x.EpicId == epicId);
-                await _epicRepository.DeleteAsync(x => x.EpicId == epicId);
+                await _epicRepository.DeleteAsync(x => x.Id == epicId);
                 
                 scope.Complete();
             }

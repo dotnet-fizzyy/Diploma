@@ -2,7 +2,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WebAPI.Core.Entities;
-using WebAPI.Core.Enums;
 
 namespace WebAPI.Infrastructure.Postgres.Configuration
 {
@@ -10,7 +9,9 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
     {
         public void Configure(EntityTypeBuilder<Story> builder)
         {
-            builder.HasKey(x => x.StoryId);
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).HasColumnName("StoryId");
+            builder.Property(x => x.CreationDate).HasDefaultValue(DateTime.UtcNow.Date);
             builder
                 .HasOne<Sprint>()
                 .WithMany(x => x.Stories)

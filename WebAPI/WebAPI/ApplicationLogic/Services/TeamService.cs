@@ -54,7 +54,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Team> GetTeam(Guid teamId)
         {
             var teamEntity = 
-                await _teamRepository.SearchForSingleItemAsync(x => x.TeamId == teamId);
+                await _teamRepository.SearchForSingleItemAsync(x => x.Id == teamId);
 
             if (teamEntity == null)
             {
@@ -70,7 +70,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var teamEntity = 
                 await _teamRepository.SearchForSingleItemAsync(
-                    team => team.TeamId == teamId, 
+                    team => team.Id == teamId, 
                     include => include.Users
                     );
 
@@ -100,8 +100,8 @@ namespace WebAPI.ApplicationLogic.Services
             var teamEntity = _teamMapper.MapToEntity(team);
 
             var createdTeamEntity = await _teamRepository.CreateAsync(teamEntity);
-            var customer = await _userRepository.SearchForSingleItemAsync(x => x.UserId == userId);
-            customer.TeamId = createdTeamEntity.TeamId;
+            var customer = await _userRepository.SearchForSingleItemAsync(x => x.Id == userId);
+            customer.TeamId = createdTeamEntity.Id;
 
             await _userRepository.UpdateItemAsync(customer);
             var teamModel = _teamMapper.MapToModel(createdTeamEntity);
@@ -134,7 +134,7 @@ namespace WebAPI.ApplicationLogic.Services
             )
             {
                 await _userRepository.DeleteAsync(x => x.TeamId == id);
-                await _teamRepository.DeleteAsync(x => x.TeamId == id);
+                await _teamRepository.DeleteAsync(x => x.Id == id);
                 
                 scope.Complete();
             }

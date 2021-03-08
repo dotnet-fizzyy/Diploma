@@ -73,7 +73,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var storyEntity = new Story
             {
-                StoryId = storyId,
+                Id = storyId,
                 StoryPriority = StoryPriority.Low,
                 ColumnType = ColumnType.InProgress,
                 Estimate = 3,
@@ -142,7 +142,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var storyEntity = new Story
             {
-                StoryId = storyId,
+                Id = storyId,
                 StoryPriority = StoryPriority.High,
                 ColumnType = ColumnType.InReview,
                 Estimate = 5,
@@ -183,7 +183,7 @@ namespace WebAPI.UnitTests.Mappers
             var mappedResult = storyMapper.MapToEntity(storyModel);
 
             //Assert
-            Assert.Equal(storyEntity.StoryId, mappedResult.StoryId);
+            Assert.Equal(storyEntity.Id, mappedResult.Id);
             Assert.Equal(storyEntity.UserId, mappedResult.UserId);
             Assert.Equal(storyEntity.SprintId, mappedResult.SprintId);
             Assert.Equal(storyEntity.Title, mappedResult.Title);
@@ -212,7 +212,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var storyEntity = new Story
             {
-                StoryId = storyId,
+                Id = storyId,
                 StoryPriority = StoryPriority.High,
                 ColumnType = ColumnType.InReview,
                 Estimate = 5,
@@ -231,7 +231,7 @@ namespace WebAPI.UnitTests.Mappers
                 {
                     new StoryHistory
                     {
-                        StoryHistoryId = storyHistoryId,
+                        Id = storyHistoryId,
                         StoryHistoryAction = StoryHistoryAction.Add,
                         CurrentValue = "new_value",
                         FieldName = "field",
@@ -279,7 +279,7 @@ namespace WebAPI.UnitTests.Mappers
             
             
             //Assert
-            Assert.Equal(storyEntity.StoryId, mappedResult.StoryId);
+            Assert.Equal(storyEntity.Id, mappedResult.StoryId);
             Assert.Equal(storyEntity.UserId, mappedResult.UserId);
             Assert.Equal(storyEntity.SprintId, mappedResult.SprintId);
             Assert.Equal(storyEntity.Title, mappedResult.Title);
@@ -295,7 +295,7 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(storyEntity.RecordVersion, mappedResult.RecordVersion);
             Assert.All(mappedResult.StoryHistories, history =>
             {
-                Assert.Equal(storyEntity.StoryHistories.First().StoryHistoryId, history.StoryHistoryId);
+                Assert.Equal(storyEntity.StoryHistories.First().Id, history.StoryHistoryId);
                 Assert.Equal(storyEntity.StoryHistories.First().CurrentValue, history.CurrentValue);
                 Assert.Equal(storyEntity.StoryHistories.First().StoryHistoryAction.ToString(), history.StoryHistoryAction.ToString());
                 Assert.Equal(storyEntity.StoryHistories.First().FieldName, history.FieldName);

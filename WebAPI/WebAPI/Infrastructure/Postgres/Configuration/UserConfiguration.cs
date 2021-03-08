@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WebAPI.Core.Entities;
@@ -8,7 +9,9 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(x => x.UserId);
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).HasColumnName("UserId");
+            builder.Property(x => x.CreationDate).HasDefaultValue(DateTime.UtcNow.Date);
             builder
                 .HasOne<Team>()
                 .WithMany(e => e.Users)

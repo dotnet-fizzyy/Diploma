@@ -89,7 +89,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Project> GetProject(Guid projectId)
         {
             var projectEntity = await _projectRepository.SearchForSingleItemAsync(
-                x => x.ProjectId == projectId
+                x => x.Id == projectId
             );
 
             if (projectEntity == null)
@@ -106,7 +106,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             //Receive project description
             var projectEntity = await _projectRepository.SearchForSingleItemAsync(
-                x => x.ProjectId == projectId
+                x => x.Id == projectId
             );
 
             if (projectEntity == null)
@@ -132,7 +132,7 @@ namespace WebAPI.ApplicationLogic.Services
             //Receive sprints for teams
             var epicSprints =
                 await _sprintRepository.SearchForMultipleItemsAsync(
-                    x => x.EpicId == projectEpicEntity.EpicId,
+                    x => x.EpicId == projectEpicEntity.Id,
                     x => x.StartDate,
                     OrderType.Desc
                     );
@@ -154,7 +154,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<FullProject> GetFullProject(Guid projectId)
         {
             var projectEntity = await _projectRepository.SearchForSingleItemAsync(
-                x => x.ProjectId == projectId,
+                x => x.Id == projectId,
                 x => x.Teams
             );
 
@@ -205,7 +205,7 @@ namespace WebAPI.ApplicationLogic.Services
             {
                 await _teamRepository.DeleteAsync(x => x.ProjectId == projectId);
                 await _epicRepository.DeleteAsync(x => x.ProjectId == projectId);
-                await _projectRepository.DeleteAsync(x => x.ProjectId == projectId);
+                await _projectRepository.DeleteAsync(x => x.Id == projectId);
                 
                 scope.Complete();
             }

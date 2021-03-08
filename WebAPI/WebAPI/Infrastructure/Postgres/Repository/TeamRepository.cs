@@ -15,7 +15,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         public async Task<IEnumerable<Team>> GetUserTeams(Guid userId)
         {
             var userTeams = await _dbContext.Teams.Include(x => x.Users)
-                .Where(x => x.Users.Any(t => t.UserId == userId)).ToListAsync();
+                .Where(x => x.Users.Any(t => t.Id == userId)).ToListAsync();
 
             return userTeams;
         }

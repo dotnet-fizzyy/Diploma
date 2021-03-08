@@ -23,7 +23,7 @@ namespace WebAPI.Presentation.Mappers
             
             var teamEntity = new Team
             {
-                TeamId = team.TeamId,
+                Id = team.TeamId,
                 ProjectId = team.ProjectId,
                 TeamName = team.TeamName,
                 Location = team.Location,
@@ -41,7 +41,7 @@ namespace WebAPI.Presentation.Mappers
             
             var teamModel = new Models.Models.Team
             {
-                TeamId = team.TeamId,
+                TeamId = team.Id,
                 ProjectId = team.ProjectId,
                 TeamName = team.TeamName,
                 Location = team.Location,
@@ -60,7 +60,7 @@ namespace WebAPI.Presentation.Mappers
             
             var fullTeamModel = new FullTeam
             {
-                TeamId = team.TeamId,
+                TeamId = team.Id,
                 TeamName = team.TeamName,
                 Location = team.Location,
                 Users = team.Users.Select(_userMapper.MapToModel).ToList(),

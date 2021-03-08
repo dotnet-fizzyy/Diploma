@@ -16,7 +16,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         {
             var query = from sprints in _dbContext.Sprints
                 join stories in _dbContext.Stories
-                    on sprints.SprintId equals stories.SprintId
+                    on sprints.Id equals stories.SprintId
                     where sprints.EpicId == epicId select stories;
 
             var storiesFromEpic = await query.ToListAsync();
@@ -30,9 +30,9 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 _dbContext.Stories.Where(
                     x => EF.Functions.Like(x.Title, $"%{term}%")
                 ).AsNoTracking().Take(limit) 
-                join sprints in _dbContext.Sprints on stories.SprintId equals sprints.SprintId
-                join epic in _dbContext.Epics on sprints.EpicId equals epic.EpicId
-                join project in _dbContext.Projects on epic.ProjectId equals project.ProjectId
+                join sprints in _dbContext.Sprints on stories.SprintId equals sprints.Id
+                join epic in _dbContext.Epics on sprints.EpicId equals epic.Id
+                join project in _dbContext.Projects on epic.ProjectId equals project.Id
                 select stories;
 
 

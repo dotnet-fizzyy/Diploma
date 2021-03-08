@@ -3,10 +3,8 @@ using WebAPI.Core.Enums;
 
 namespace WebAPI.Core.Entities
 {
-    public class StoryHistory
+    public class StoryHistory : BaseEntity
     {
-        public Guid StoryHistoryId { get; set; }
-        
         public StoryHistoryAction StoryHistoryAction { get; set; }
         
         public string FieldName { get; set; }
@@ -16,9 +14,7 @@ namespace WebAPI.Core.Entities
         public string CurrentValue { get; set; }
         
         public uint RecordVersion { get; set; }
-        
-        public DateTime CreationDate { get; set; }
-        
+
         public Guid UserId { get; set; }
         
         public Guid StoryId { get; set; }

@@ -44,18 +44,16 @@ namespace WebAPI.UnitTests.Mappers
             
             var refreshTokenEntity = new RefreshToken
             {
-                RefreshTokenId = refreshTokenId,
+                Id = refreshTokenId,
                 UserId = userId,
-                Value = "RefreshToken",
-                IsActive = true,
+                Value = "RefreshToken"
             };
 
             var refreshTokenModel = new Models.Models.RefreshToken
             {
                 RefreshTokenId = refreshTokenId,
                 UserId = userId,
-                Value = "RefreshToken",
-                IsActive = true,
+                Value = "RefreshToken"
             };
             
             //Act
@@ -66,7 +64,6 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(refreshTokenModel.RefreshTokenId, mappedResult.RefreshTokenId);
             Assert.Equal(refreshTokenModel.UserId, mappedResult.UserId);
             Assert.Equal(refreshTokenModel.Value, mappedResult.Value);
-            Assert.Equal(refreshTokenModel.IsActive, mappedResult.IsActive);
         }
 
         [Fact]
@@ -80,16 +77,14 @@ namespace WebAPI.UnitTests.Mappers
             {
                 RefreshTokenId = refreshTokenId,
                 UserId = userId,
-                Value = "RefreshTokenValue",
-                IsActive = false,
+                Value = "RefreshTokenValue"
             };
             
             var refreshTokenEntity = new RefreshToken
             {
-                RefreshTokenId = refreshTokenId,
+                Id = refreshTokenId,
                 UserId = userId,
-                Value = "RefreshTokenValue",
-                IsActive = false,
+                Value = "RefreshTokenValue"
             };
 
             //Act
@@ -100,7 +95,6 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(refreshTokenModel.RefreshTokenId, mappedResult.RefreshTokenId);
             Assert.Equal(refreshTokenModel.UserId, mappedResult.UserId);
             Assert.Equal(refreshTokenModel.Value, mappedResult.Value);
-            Assert.Equal(refreshTokenModel.IsActive, mappedResult.IsActive);
         }
     }
 }

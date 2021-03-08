@@ -4,14 +4,12 @@ using WebAPI.Core.Enums;
 
 namespace WebAPI.Core.Entities
 {
-    public class Story
+    public class Story : BaseEntity
     {
         public Story()
         {
             StoryHistories = new List<StoryHistory>();
         }
-        
-        public Guid StoryId { get; set; }
         
         public Guid? SprintId { get; set; }
         
@@ -34,9 +32,7 @@ namespace WebAPI.Core.Entities
         public bool IsBlocked { get; set; }
         
         public string BlockReason { get; set; }
-        
-        public DateTime CreationDate { get; set; }
-        
+
         public uint RecordVersion { get; set; } 
         
         public bool IsDeleted { get; set; }

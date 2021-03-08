@@ -70,7 +70,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var sprintEntity = new Sprint
             {
-                SprintId = sprintId,
+                Id = sprintId,
                 SprintName = "SprintName",
                 StartDate = new DateTime(2020, 11, 11),
                 EndDate = new DateTime(2020, 11, 22),
@@ -122,7 +122,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var sprintEntity = new Sprint
             {
-                SprintId = sprintId,
+                Id = sprintId,
                 SprintName = "Sprint",
                 StartDate = new DateTime(2020, 12, 11),
                 EndDate = new DateTime(2020, 12, 22),
@@ -135,7 +135,7 @@ namespace WebAPI.UnitTests.Mappers
             var mappedResult = sprintMapper.MapToEntity(sprintModel);
 
             //Assert
-            Assert.Equal(sprintEntity.SprintId, mappedResult.SprintId);
+            Assert.Equal(sprintEntity.Id, mappedResult.Id);
             Assert.Equal(sprintEntity.SprintName, mappedResult.SprintName);
             Assert.Equal(sprintEntity.StartDate, mappedResult.StartDate);
             Assert.Equal(sprintEntity.EndDate, mappedResult.EndDate);
@@ -155,7 +155,7 @@ namespace WebAPI.UnitTests.Mappers
 
             var sprintEntity = new Sprint
             {
-                SprintId = sprintId,
+                Id = sprintId,
                 SprintName = "Sprint",
                 StartDate = new DateTime(2020, 12, 11),
                 EndDate = new DateTime(2020, 12, 22),
@@ -165,7 +165,7 @@ namespace WebAPI.UnitTests.Mappers
                 {
                     new Story
                     {
-                        StoryId = storyId,
+                        Id = storyId,
                         SprintId = sprintId
                     }
                 }

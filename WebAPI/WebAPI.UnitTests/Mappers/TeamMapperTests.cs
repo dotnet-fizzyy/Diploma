@@ -78,7 +78,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var teamEntity = new Team
             {
-                TeamId = teamId,
+                Id = teamId,
                 TeamName = "TeamName",
                 Location = "Phoenix",
                 Users = new List<User>(),
@@ -89,7 +89,7 @@ namespace WebAPI.UnitTests.Mappers
             var mappedResult = teamMapper.MapToEntity(teamModel);
 
             //Assert
-            Assert.Equal(teamEntity.TeamId, mappedResult.TeamId);
+            Assert.Equal(teamEntity.Id, mappedResult.Id);
             Assert.Equal(teamEntity.TeamName, mappedResult.TeamName);
             Assert.Equal(teamEntity.Location, mappedResult.Location);
             Assert.Equal(teamEntity.MembersCount, mappedResult.MembersCount);
@@ -105,7 +105,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var teamEntity = new Team
             {
-                TeamId = teamId,
+                Id = teamId,
                 TeamName = "Team",
                 Location = "Minsk",
                 Users = new List<User>(),
@@ -141,14 +141,14 @@ namespace WebAPI.UnitTests.Mappers
             
             var teamEntity = new Team
             {
-                TeamId = teamId,
+                Id = teamId,
                 TeamName = "Team",
                 Location = "Minsk",
                 Users = new List<User>
                 {
                     new User
                     {
-                        UserId = userId,
+                        Id = userId,
                         UserName = "SomeUser",
                         UserPosition = Core.Enums.UserPosition.Developer,
                         UserRole = Core.Enums.UserRole.Engineer,

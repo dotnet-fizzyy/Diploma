@@ -23,7 +23,7 @@ namespace WebAPI.Presentation.Mappers
         
             var entityEpic = new Epic
             {
-                EpicId = epic.EpicId,
+                Id = epic.EpicId,
                 ProjectId = epic.ProjectId,
                 EpicName = epic.EpicName,
                 EpicDescription = epic.EpicDescription,
@@ -44,7 +44,7 @@ namespace WebAPI.Presentation.Mappers
             
             var epicModel = new Models.Models.Epic
             {
-                EpicId = epic.EpicId,
+                EpicId = epic.Id,
                 ProjectId = epic.ProjectId,
                 EpicName = epic.EpicName,
                 EpicDescription = epic.EpicDescription,
@@ -65,7 +65,7 @@ namespace WebAPI.Presentation.Mappers
             
             var epicModel = new FullEpic
             {
-                EpicId = epic.EpicId,
+                EpicId = epic.Id,
                 ProjectId = epic.ProjectId,
                 EpicName = epic.EpicName,
                 EpicDescription = epic.EpicDescription,

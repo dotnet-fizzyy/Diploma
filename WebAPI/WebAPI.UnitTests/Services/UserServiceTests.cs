@@ -66,7 +66,7 @@ namespace WebAPI.UnitTests.Services
 
             var userEntity = new User
             {
-                UserId = userId
+                Id = userId
             };
 
             var userModel = new Models.Models.User

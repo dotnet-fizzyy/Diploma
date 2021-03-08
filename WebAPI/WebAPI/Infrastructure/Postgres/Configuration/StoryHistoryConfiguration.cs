@@ -10,7 +10,9 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
     {
         public void Configure(EntityTypeBuilder<StoryHistory> builder)
         {
-            builder.HasKey(x => x.StoryHistoryId);
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).HasColumnName("StoryHistoryId");
+            builder.Property(x => x.CreationDate).HasDefaultValue(DateTime.UtcNow.Date);
             builder
                 .HasOne<Story>()
                 .WithMany(e => e.StoryHistories)

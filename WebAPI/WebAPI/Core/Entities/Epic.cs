@@ -3,16 +3,14 @@ using System.Collections.Generic;
 
 namespace WebAPI.Core.Entities
 {
-    public class Epic
+    public class Epic : BaseEntity
     {
         public Epic()
         {
             Sprints = new List<Sprint>();    
             TeamEpics = new List<TeamEpic>();
         }
-        
-        public Guid EpicId { get; set; }
-        
+
         public Guid ProjectId { get; set; }
         
         public string EpicName { get; set; }

@@ -42,7 +42,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<User> GetUser(Guid id)
         {
-            var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.UserId == id);
+            var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == id);
 
             if (userEntity == null)
             {
@@ -103,7 +103,7 @@ namespace WebAPI.ApplicationLogic.Services
             )
             {
                 await _refreshTokenRepository.DeleteAsync(x => x.UserId == id);
-                await _userRepository.DeleteAsync(x => x.UserId == id);
+                await _userRepository.DeleteAsync(x => x.Id == id);
                 
                 scope.Complete();
             }

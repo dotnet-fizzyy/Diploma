@@ -23,7 +23,7 @@ namespace WebAPI.Presentation.Mappers
 
             var sprintEntity = new Sprint
             {
-                SprintId = sprint.SprintId,
+                Id = sprint.SprintId,
                 EpicId = sprint.EpicId,
                 SprintName = sprint.SprintName,
                 StartDate = sprint.StartDate,
@@ -43,7 +43,7 @@ namespace WebAPI.Presentation.Mappers
             
             var sprintEntity = new Models.Models.Sprint
             {
-                SprintId = sprint.SprintId,
+                SprintId = sprint.Id,
                 SprintName = sprint.SprintName,
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,
@@ -63,7 +63,7 @@ namespace WebAPI.Presentation.Mappers
             
             var sprintFullModel = new FullSprint
             {
-                SprintId = sprint.SprintId,
+                SprintId = sprint.Id,
                 EpicId = sprint.EpicId,
                 SprintName = sprint.SprintName,
                 StartDate = sprint.StartDate,

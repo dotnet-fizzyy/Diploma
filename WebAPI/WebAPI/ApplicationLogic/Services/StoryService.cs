@@ -50,7 +50,7 @@ namespace WebAPI.ApplicationLogic.Services
                     x => x.SprintId == sprintId,
                     limit,
                     offset,
-                    x => x.StoryId,
+                    x => x.Id,
                     OrderType.Asc
                     );
 
@@ -98,7 +98,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Story> GetStory(Guid storyId)
         {
             var storyEntity =
-                await _storyRepository.SearchForSingleItemAsync(story => story.StoryId == storyId);
+                await _storyRepository.SearchForSingleItemAsync(story => story.Id == storyId);
 
             var storyModel = _storyMapper.MapToModel(storyEntity);
             
@@ -109,7 +109,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var storyEntity =
                 await _storyRepository.SearchForSingleItemAsync(
-                    story => story.StoryId == storyId,
+                    story => story.Id == storyId,
                 include => include.StoryHistories
                     );
 
@@ -124,7 +124,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             var createdStoryEntity = await _storyRepository.CreateAsync(storyEntity);
             await _storyHistoryRepository.CreateAsync(
-                StoryHistoryGenerator.GetStoryHistoryForCreation(userId, createdStoryEntity.StoryId)
+                StoryHistoryGenerator.GetStoryHistoryForCreation(userId, createdStoryEntity.Id)
                 );
             
             var storyModel = _storyMapper.MapToModel(createdStoryEntity);
@@ -149,7 +149,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             await _storyRepository.UpdateStoryColumn(storyEntity);
             var foundStoryEntity =
-                await _storyRepository.SearchForSingleItemAsync(x => x.StoryId == storyEntity.StoryId);
+                await _storyRepository.SearchForSingleItemAsync(x => x.Id == storyEntity.Id);
             
             var updatedStoryModel = _storyMapper.MapToModel(foundStoryEntity);
             
@@ -191,7 +191,7 @@ namespace WebAPI.ApplicationLogic.Services
             )
             {
                 await _storyHistoryRepository.DeleteAsync(x => x.StoryId == id);
-                await _storyRepository.DeleteAsync(x => x.StoryId == id);
+                await _storyRepository.DeleteAsync(x => x.Id == id);
 
                 scope.Complete();
             }
