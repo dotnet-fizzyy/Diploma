@@ -15,7 +15,7 @@ namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("sprint")]
+    [Route("api/sprint")]
     [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class SprintController : ControllerBase
     {

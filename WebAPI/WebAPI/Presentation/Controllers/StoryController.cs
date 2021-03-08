@@ -17,7 +17,7 @@ namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("story")]
+    [Route("api/story")]
     [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class StoryController : ControllerBase
     {

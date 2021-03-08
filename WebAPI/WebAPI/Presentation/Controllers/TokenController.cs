@@ -9,7 +9,7 @@ using WebAPI.Models.Result;
 namespace WebAPI.Presentation.Controllers
 {
     [ApiController]
-    [Route("token")]
+    [Route("api/token")]
     public class TokenController : ControllerBase
     {
         private readonly ITokenService _tokenService;

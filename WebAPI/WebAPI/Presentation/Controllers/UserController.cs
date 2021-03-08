@@ -14,7 +14,7 @@ namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("user")]
+    [Route("api/user")]
     [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class UserController : ControllerBase
     {

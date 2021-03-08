@@ -15,7 +15,7 @@ namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("project")]
+    [Route("api/project")]
     [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class ProjectController : ControllerBase
     {

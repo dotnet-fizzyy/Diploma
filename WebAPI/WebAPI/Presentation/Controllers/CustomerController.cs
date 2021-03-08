@@ -13,7 +13,7 @@ using WebAPI.Models.Result;
 namespace WebAPI.Presentation.Controllers
 {
     [ApiController]
-    [Route("customer")]
+    [Route("api/customer")]
     public class CustomerController : ControllerBase
     {
         private readonly IUserService _userService;

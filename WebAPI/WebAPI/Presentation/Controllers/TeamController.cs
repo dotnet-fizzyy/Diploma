@@ -15,7 +15,7 @@ namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("team")]
+    [Route("api/team")]
     [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class TeamController : ControllerBase
     {
