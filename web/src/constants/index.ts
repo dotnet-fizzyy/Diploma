@@ -1,6 +1,7 @@
 import { ILoginForm, IRegistrationForm } from '../types/formTypes';
 
-export const BaseRegexExpression: string = '[A-Za-z-,.!?:_@ ][A-Za-z0-9-,.!?:_@ ]*';
+export const BaseRegexExpression: string = '^[- a-zA-Z0-9]*$';
+export const EmailRegexExpression: RegExp = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 export const LoginFormConstants = {
     name: 'name',
@@ -9,6 +10,7 @@ export const LoginFormConstants = {
 
 export const RegistrationFormConstants = {
     name: 'name',
+    email: 'email',
     password: 'password',
     repeatedPassword: 'repeatedPassword',
 };
@@ -20,6 +22,7 @@ export const InitialLoginFormValues: ILoginForm = {
 
 export const InitialRegistrationFormValues: IRegistrationForm = {
     name: '',
+    email: '',
     password: '',
     repeatedPassword: '',
 };

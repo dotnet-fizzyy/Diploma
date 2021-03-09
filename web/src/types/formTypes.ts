@@ -6,5 +6,6 @@ export interface ILoginForm {
 export interface IRegistrationForm {
     name: string;
     password: string;
+    email: string;
     repeatedPassword: string;
 }

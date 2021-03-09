@@ -1,4 +1,4 @@
-import { matchAlphaNumericSymbols } from './index';
+import { BaseRegexExpression, EmailRegexExpression } from '../constants';
 
 abstract class FormFieldValidator {
     protected readonly _value: string;
@@ -18,12 +18,6 @@ abstract class FormFieldValidator {
             return error;
         }
 
-        if (!matchAlphaNumericSymbols(this._value)) {
-            error = 'This field contains prohibited symbols';
-
-            return error;
-        }
-
         return error;
     }
 
@@ -33,18 +27,32 @@ abstract class FormFieldValidator {
 export class InputFormFieldValidator extends FormFieldValidator {
     private readonly _minLength: number;
     private readonly _maxLength: number;
+    private readonly _regex: string | RegExp;
 
-    public constructor(value: string, minLength?: number, maxLength?: number, required?: boolean) {
+    public constructor(
+        value: string,
+        minLength?: number,
+        maxLength?: number,
+        required?: boolean,
+        regex?: string | RegExp
+    ) {
         super(value, required);
 
         this._minLength = minLength;
         this._maxLength = maxLength;
+        this._regex = regex;
     }
 
     public validate(): string {
         let error: string = super.validateBase();
 
         if (error) {
+            return error;
+        }
+
+        if (this._regex && !RegExp(BaseRegexExpression).test(this._value)) {
+            error = 'This field contains prohibited symbols';
+
             return error;
         }
 
@@ -56,6 +64,24 @@ export class InputFormFieldValidator extends FormFieldValidator {
 
         if (this._maxLength && this._value.length > this._maxLength) {
             error = `The max length of this field is ${this._maxLength} symbols`;
+
+            return error;
+        }
+
+        return error;
+    }
+}
+
+export class EmailInputFormFieldValidator extends FormFieldValidator {
+    public constructor(value: string, required?: boolean) {
+        super(value, required);
+    }
+
+    public validate(): string {
+        let error: string = super.validateBase();
+
+        if (!RegExp(EmailRegexExpression).test(this._value)) {
+            error = 'Incorrect email format';
 
             return error;
         }

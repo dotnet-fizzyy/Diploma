@@ -1,38 +1,42 @@
-import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { InitialRegistrationFormValues, RegistrationFormConstants } from '../../constants';
 import * as routeConstants from '../../constants/routeConstants';
 import { IRegistrationForm } from '../../types/formTypes';
+import Button from '../common/Button';
 import FormTextField from '../common/FormTextField';
+import ForwardLink from './ForwardLink';
 
 const useStyles = makeStyles(() =>
     createStyles({
+        form: {
+            width: '100%',
+            padding: '0 20px',
+        },
         root: {
             borderRadius: '5px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            width: '100%',
         },
         textField: {
             width: '350px',
         },
         title: {
-            fontSize: '34px',
+            fontSize: '30px',
             fontFamily: 'Poppins',
-            marginBottom: '20px',
+            marginBottom: '10px',
         },
         linkContainer: {
             display: 'inherit',
             flexDirection: 'column',
             alignItems: 'center',
-            margin: '40px 0',
+            margin: '20px 0',
             fontFamily: 'Poppins',
-            fontSize: '22px',
+            fontSize: '16px',
             '& a': {
                 marginTop: '10px',
                 textDecoration: 'none',
@@ -43,26 +47,14 @@ const useStyles = makeStyles(() =>
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            width: '580px',
-            marginTop: '30px',
+            width: '100%',
+            maxWidth: '450px',
+            marginTop: '20px',
         },
         keyWord: {
             fontFamily: 'Poppins',
             fontSize: '22px',
             color: '#75BAF7',
-        },
-        button: {
-            height: '45px',
-            fontFamily: 'Poppins',
-            fontSize: '18px',
-            textTransform: 'capitalize',
-            backgroundColor: '#75BAF7',
-            boxShadow: 'none',
-            transition: 'unset',
-            '&:hover': {
-                backgroundColor: '#E8F4FF',
-                boxShadow: 'none',
-            },
         },
         textInput: {
             fontFamily: 'Poppins',
@@ -85,31 +77,58 @@ const useStyles = makeStyles(() =>
         spinnerMargin: {
             marginTop: '20px',
         },
+        buttonContainer: {
+            width: '250px',
+        },
     })
 );
 
 export interface IRegistrationPageProps {
-    arePasswordsSame: boolean;
     wasUserCreated: boolean;
     isSpinnerVisible: boolean;
+    customError?: string;
+    validateField: (value: string) => void;
+    validateEmail: (value: string) => void;
+    validatePassword: (value: string) => void;
     onSubmitRegistration: (values: IRegistrationForm) => void;
 }
 
 const RegistrationPage = (props: IRegistrationPageProps) => {
     const classes = useStyles();
-    const { isSpinnerVisible, wasUserCreated, onSubmitRegistration } = props;
+    const {
+        isSpinnerVisible,
+        customError,
+        wasUserCreated,
+        validatePassword,
+        validateField,
+        validateEmail,
+        onSubmitRegistration,
+    } = props;
 
     return (
-        <Formik initialValues={InitialRegistrationFormValues} onSubmit={onSubmitRegistration}>
+        <Formik initialValues={InitialRegistrationFormValues} onSubmit={onSubmitRegistration} validateOnChange={true}>
             {({ isValid, touched }) => {
                 const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
 
                 return (
-                    <Form>
+                    <Form className={classes.form}>
                         <div className={classes.root}>
                             <span className={classes.title}>Registration</span>
                             <div className={classes.fieldContainer}>
-                                <Field label="Name" name={RegistrationFormConstants.name} component={FormTextField} />
+                                <Field
+                                    label="Name"
+                                    name={RegistrationFormConstants.name}
+                                    component={FormTextField}
+                                    validate={validateField}
+                                />
+                            </div>
+                            <div className={classes.fieldContainer}>
+                                <Field
+                                    label="Email"
+                                    name={RegistrationFormConstants.email}
+                                    component={FormTextField}
+                                    validate={validateEmail}
+                                />
                             </div>
                             <div className={classes.fieldContainer}>
                                 <Field
@@ -117,6 +136,8 @@ const RegistrationPage = (props: IRegistrationPageProps) => {
                                     name={RegistrationFormConstants.password}
                                     type="password"
                                     component={FormTextField}
+                                    validate={validatePassword}
+                                    customError={customError}
                                 />
                             </div>
                             <div className={classes.fieldContainer}>
@@ -125,32 +146,28 @@ const RegistrationPage = (props: IRegistrationPageProps) => {
                                     name={RegistrationFormConstants.repeatedPassword}
                                     type="password"
                                     component={FormTextField}
+                                    validate={validatePassword}
+                                    customError={customError}
                                 />
                             </div>
                             {isSpinnerVisible && <CircularProgress className={classes.spinner} />}
-                            <div
-                                className={classnames(classes.linkContainer, {
-                                    [classes.lessMarginBottom]: wasUserCreated,
-                                    [classes.spinnerMargin]: isSpinnerVisible,
-                                })}
-                            >
-                                <span>Do you have account?</span>
-                                <Link to={routeConstants.LoginScreenRoute}>Sign in</Link>
-                            </div>
+                            <ForwardLink
+                                mainLabel="Do you have account?"
+                                link={routeConstants.LoginScreenRoute}
+                                linkLabel="Sign in"
+                            />
                             {wasUserCreated && (
                                 <span className={classes.createdAccountLabel}>
                                     Your account was successfully created!
                                 </span>
                             )}
-                            <Button
-                                disabled={!isAnyFieldTouched || !isValid}
-                                className={classes.button}
-                                color="primary"
-                                variant="contained"
-                                type="submit"
-                            >
-                                Create your account
-                            </Button>
+                            <div className={classes.buttonContainer}>
+                                <Button
+                                    disabled={!isAnyFieldTouched || !isValid}
+                                    type="submit"
+                                    label="Create your account"
+                                />
+                            </div>
                         </div>
                     </Form>
                 );

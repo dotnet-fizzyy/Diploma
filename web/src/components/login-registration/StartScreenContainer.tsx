@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useRouteMatch } from 'react-router-dom';
+import { BaseRegexExpression } from '../../constants';
 import * as routeConstants from '../../constants/routeConstants';
 import * as currentUserActions from '../../redux/actions/currentUserActions';
 import * as requestProcessorActions from '../../redux/actions/requestProcessorActions';
@@ -9,7 +10,7 @@ import * as currentUserSelectors from '../../redux/selectors/userSelectors';
 import { SpinnerComponent } from '../../types';
 import { ILoginForm, IRegistrationForm } from '../../types/formTypes';
 import { StartPageTypes } from '../../types/pageTypes';
-import { InputFormFieldValidator } from '../../utils/formHelper';
+import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../utils/formHelper';
 import { ILoginPageProps } from './Login';
 import { IRegistrationPageProps } from './Registration';
 import StartScreen, { IStartScreenProps } from './StartScreen';
@@ -31,32 +32,46 @@ const StartScreenContainer = () => {
     const [arePasswordsSame, setSamePasswords] = useState<boolean>(true);
     const [wasAttemptToLogIn, setWasAttemptToLogIn] = useState<boolean>(false);
 
+    const validateField = (value: string): string =>
+        new InputFormFieldValidator(value, null, null, true, BaseRegexExpression).validate();
+
+    const validateEmail = (value: string): string => new EmailInputFormFieldValidator(value).validate();
+
+    const validatePassword = (value: string): string => new InputFormFieldValidator(value, 3, 16, true).validate();
+
+    const onSubmitLogIn = (values: ILoginForm) => {
+        setWasAttemptToLogIn(true);
+        dispatch(requestProcessorActions.launchSpinner(SpinnerComponent.LOGIN));
+        dispatch(currentUserActions.authenticationRequest(values.name, values.password));
+    };
+
+    const onSubmitRegistration = (values: IRegistrationForm) => {
+        if (values.password !== values.repeatedPassword) {
+            setSamePasswords(false);
+
+            return;
+        }
+
+        setSamePasswords(true);
+        dispatch(requestProcessorActions.launchSpinner(SpinnerComponent.REGISTRATION));
+        dispatch(currentUserActions.registrationRequest(values.name, values.password));
+    };
+
     const loginProps: ILoginPageProps = {
         isSpinnerVisible,
         wasAttemptToLogIn: wasAttemptToLogIn && !isAuthenticationSuccessful,
-        validateField: (value: string) => new InputFormFieldValidator(value).validate(),
-        onSubmitLogIn: (values: ILoginForm) => {
-            setWasAttemptToLogIn(true);
-            dispatch(requestProcessorActions.launchSpinner(SpinnerComponent.LOGIN));
-            dispatch(currentUserActions.authenticationRequest(values.name, values.password));
-        },
+        validateField,
+        onSubmitLogIn,
     };
 
     const registrationProps: IRegistrationPageProps = {
         wasUserCreated,
-        arePasswordsSame,
         isSpinnerVisible,
-        onSubmitRegistration: (values: IRegistrationForm) => {
-            if (values.password !== values.repeatedPassword) {
-                setSamePasswords(false);
-
-                return;
-            }
-
-            setSamePasswords(true);
-            dispatch(requestProcessorActions.launchSpinner(SpinnerComponent.LOGIN));
-            dispatch(currentUserActions.registrationRequest(values.name, values.password));
-        },
+        customError: !arePasswordsSame ? 'Provided passwords are different' : '',
+        validateField,
+        validatePassword,
+        validateEmail,
+        onSubmitRegistration,
     };
 
     const startScreenProps: IStartScreenProps = {

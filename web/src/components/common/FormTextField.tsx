@@ -1,5 +1,6 @@
 import { TextField } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import ErrorIcon from '@material-ui/icons/Error';
 import { FieldProps } from 'formik';
 import React from 'react';
 
@@ -11,12 +12,29 @@ const useStyles = makeStyles(() =>
             width: '100%',
             height: '100%',
         },
-        textField: {},
         title: {
             fontSize: '16px',
             fontFamily: 'Poppins',
             color: '#242126',
             marginBottom: '4px',
+        },
+        errorMessageContainer: {
+            color: '#c33a00',
+            display: 'flex',
+            alignItems: 'center',
+            marginTop: '5px',
+        },
+        textField: {
+            '& .MuiOutlinedInput-input': {
+                padding: '12px',
+            },
+        },
+        errorIcon: {
+            fontSize: '16px',
+        },
+        errorMessage: {
+            marginLeft: '5px',
+            fontSize: '14px',
         },
     })
 );
@@ -25,6 +43,7 @@ export interface IFormTextFieldProps {
     label?: string;
     placeholder?: string;
     type?: string;
+    customError?: string;
 }
 
 const FormTextField = (props: IFormTextFieldProps & FieldProps) => {
@@ -32,6 +51,7 @@ const FormTextField = (props: IFormTextFieldProps & FieldProps) => {
     const {
         label,
         placeholder,
+        customError,
         type,
         field,
         form: { touched, errors },
@@ -39,15 +59,20 @@ const FormTextField = (props: IFormTextFieldProps & FieldProps) => {
 
     return (
         <div className={classes.root}>
-            {label && <span className={classes.title}>{label}</span>}
+            {label && <span className={classes.title}>{label}:</span>}
             <TextField
                 {...field}
+                className={classes.textField}
                 type={type ? type : 'text'}
                 placeholder={placeholder}
-                className={classes.textField}
                 variant="outlined"
             />
-            {touched[field.name] && errors[field.name] && <span>{errors[field.name]}</span>}
+            {(customError || (touched[field.name] && errors[field.name])) && (
+                <div className={classes.errorMessageContainer}>
+                    <ErrorIcon className={classes.errorIcon} />
+                    <span className={classes.errorMessage}>{customError || errors[field.name]}</span>
+                </div>
+            )}
         </div>
     );
 };

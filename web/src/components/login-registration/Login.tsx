@@ -1,71 +1,52 @@
-import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { InitialLoginFormValues, LoginFormConstants } from '../../constants';
 import * as routeConstants from '../../constants/routeConstants';
 import { ILoginForm } from '../../types/formTypes';
+import Button from '../common/Button';
 import FormTextField from '../common/FormTextField';
+import ForwardLink from './ForwardLink';
 
 const useStyles = makeStyles(() =>
     createStyles({
+        form: {
+            width: '100%',
+            padding: '0 20px',
+        },
         root: {
             borderRadius: '5px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            width: '100%',
         },
         textField: {
             width: '350px',
         },
         title: {
-            fontSize: '34px',
+            fontSize: '30px',
             fontFamily: 'Poppins',
-            marginBottom: '20px',
+            marginBottom: '10px',
             color: '#242126',
-        },
-        linkContainer: {
-            display: 'inherit',
-            flexDirection: 'column',
-            alignItems: 'center',
-            margin: '40px 0',
-            fontFamily: 'Poppins',
-            fontSize: '22px',
-            '& a': {
-                marginTop: '10px',
-                textDecoration: 'none',
-            },
         },
         fieldContainer: {
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            width: '450px',
-            marginTop: '30px',
+            width: '100%',
+            maxWidth: '450px',
+            marginTop: '20px',
         },
         keyWord: {
             fontFamily: 'Poppins',
             fontSize: '22px',
             color: '#75BAF7',
         },
-        button: {
-            height: '45px',
-            fontFamily: 'Poppins',
-            fontSize: '18px',
-            textTransform: 'capitalize',
-            width: '150px',
-            color: 'white',
-            backgroundColor: '#75BAF7',
-            boxShadow: 'none',
-            transition: 'unset',
-            '&:hover': {
-                backgroundColor: '#E8F4FF',
-                boxShadow: 'none',
-            },
+        buttonContainer: {
+            width: '250px',
         },
         textInput: {
             fontFamily: 'Poppins',
@@ -112,7 +93,7 @@ const LoginPage = (props: ILoginPageProps) => {
                 const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
 
                 return (
-                    <Form>
+                    <Form className={classes.form}>
                         <div className={classes.root}>
                             <span className={classes.title}>Sign In</span>
                             <div className={classes.fieldContainer}>
@@ -136,24 +117,14 @@ const LoginPage = (props: ILoginPageProps) => {
                             {wasAttemptToLogIn && !isSpinnerVisible && (
                                 <span className={classes.errorMessage}>Unable to login with following credentials</span>
                             )}
-                            <div
-                                className={classnames(classes.linkContainer, {
-                                    [classes.errorMessageMargin]: wasAttemptToLogIn,
-                                    [classes.spinnerMargin]: isSpinnerVisible,
-                                })}
-                            >
-                                <span>Don't you have project yet?</span>
-                                <Link to={`${routeConstants.RegistrationScreenRoute}`}>Create it!</Link>
+                            <ForwardLink
+                                mainLabel="Don't you an account yet?"
+                                link={routeConstants.RegistrationScreenRoute}
+                                linkLabel="Create it now!"
+                            />
+                            <div className={classes.buttonContainer}>
+                                <Button disabled={!isAnyFieldTouched || !isValid} type="submit" label="Sign in" />
                             </div>
-                            <Button
-                                type="submit"
-                                disabled={!isAnyFieldTouched || !isValid}
-                                className={classes.button}
-                                color="primary"
-                                variant="contained"
-                            >
-                                Sign in
-                            </Button>
                         </div>
                     </Form>
                 );
