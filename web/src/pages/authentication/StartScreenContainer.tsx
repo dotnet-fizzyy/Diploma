@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useRouteMatch } from 'react-router-dom';
+import { ILoginPageProps } from '../../components/authentication/Login';
+import { IRegistrationPageProps } from '../../components/authentication/Registration';
 import { BaseRegexExpression } from '../../constants';
 import * as routeConstants from '../../constants/routeConstants';
 import * as currentUserActions from '../../redux/actions/currentUserActions';
@@ -11,8 +13,6 @@ import { SpinnerComponent } from '../../types';
 import { ILoginForm, IRegistrationForm } from '../../types/formTypes';
 import { StartPageTypes } from '../../types/pageTypes';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../utils/formHelper';
-import { ILoginPageProps } from './Login';
-import { IRegistrationPageProps } from './Registration';
 import StartScreen, { IStartScreenProps } from './StartScreen';
 
 const StartScreenContainer = () => {
