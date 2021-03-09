@@ -22,8 +22,6 @@ namespace WebAPI.Infrastructure.Postgres
         
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         
-        public DbSet<TeamEpic> TeamEpics { get; set; }
-
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
             
@@ -39,7 +37,6 @@ namespace WebAPI.Infrastructure.Postgres
             modelBuilder.ApplyConfiguration(new StoryConfiguration());
             modelBuilder.ApplyConfiguration(new StoryHistoryConfiguration());
             modelBuilder.ApplyConfiguration(new ProjectConfiguration());
-            modelBuilder.ApplyConfiguration(new TeamEpicConfiguration());
         }
     }
 }

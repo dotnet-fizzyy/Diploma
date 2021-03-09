@@ -115,6 +115,7 @@ namespace WebAPI.ApplicationLogic.Services
             {
                 UserName = user.UserName,
                 Password = user.Password,
+                Email = user.Email,
                 UserPosition = UserPosition.Customer,
                 UserRole = UserRole.ProductOwner,
                 IsActive = true,

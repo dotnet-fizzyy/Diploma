@@ -344,3 +344,90 @@ BEGIN
     VALUES ('20210308100449_UpdateEntitiesWithGeneralEntity', '3.1.9');
     END IF;
 END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210309201028_RemoveExtraTeamEpicTable') THEN
+    DROP TABLE "TeamEpics";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210309201028_RemoveExtraTeamEpicTable') THEN
+    ALTER TABLE "Users" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "Users" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Users" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-09 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210309201028_RemoveExtraTeamEpicTable') THEN
+    ALTER TABLE "Teams" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "Teams" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Teams" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-09 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210309201028_RemoveExtraTeamEpicTable') THEN
+    ALTER TABLE "StoryHistories" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "StoryHistories" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "StoryHistories" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-09 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210309201028_RemoveExtraTeamEpicTable') THEN
+    ALTER TABLE "Stories" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "Stories" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Stories" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-09 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210309201028_RemoveExtraTeamEpicTable') THEN
+    ALTER TABLE "Sprints" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "Sprints" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Sprints" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-09 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210309201028_RemoveExtraTeamEpicTable') THEN
+    ALTER TABLE "RefreshTokens" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "RefreshTokens" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "RefreshTokens" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-09 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210309201028_RemoveExtraTeamEpicTable') THEN
+    ALTER TABLE "Projects" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "Projects" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Projects" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-09 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210309201028_RemoveExtraTeamEpicTable') THEN
+    ALTER TABLE "Epics" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "Epics" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Epics" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-09 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210309201028_RemoveExtraTeamEpicTable') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20210309201028_RemoveExtraTeamEpicTable', '3.1.9');
+    END IF;
+END $$;

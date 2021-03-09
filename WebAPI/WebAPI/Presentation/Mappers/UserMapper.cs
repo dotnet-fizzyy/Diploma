@@ -65,6 +65,7 @@ namespace WebAPI.Presentation.Mappers
             {
                 UserName = user.UserName,
                 Password = user.Password,
+                Email = user.Email
             };
 
             return userEntity;

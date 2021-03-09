@@ -14,19 +14,16 @@ namespace WebAPI.ApplicationLogic.Services
     {
         private readonly IEpicRepository _epicRepository;
         private readonly ISprintRepository _sprintRepository;
-        private readonly ITeamEpicRepository _teamEpicRepository;
         private readonly IEpicMapper _epicMapper;
 
         public EpicService(
             IEpicRepository epicRepository,
             ISprintRepository sprintRepository,
-            ITeamEpicRepository teamEpicRepository,
             IEpicMapper epicMapper
             )
         {
             _epicRepository = epicRepository;
             _sprintRepository = sprintRepository;
-            _teamEpicRepository = teamEpicRepository;
             _epicMapper = epicMapper;
         }
 
@@ -113,7 +110,6 @@ namespace WebAPI.ApplicationLogic.Services
                 )
             )
             {
-                await _teamEpicRepository.DeleteAsync(x => x.EpicId == epicId);
                 await _sprintRepository.DeleteAsync(x => x.EpicId == epicId);
                 await _epicRepository.DeleteAsync(x => x.Id == epicId);
                 
