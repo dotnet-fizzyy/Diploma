@@ -4,7 +4,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models;
 using WebAPI.Models.Result;
@@ -84,11 +86,26 @@ namespace WebAPI.Presentation.Controllers
             return Ok(updatedUser);
         }
 
+        [HttpPatch]
+        [Route("deactivate")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult> DeactivateUser([FromBody] JsonPatchDocument<User> userPatchDocument)
+        {
+            var user = new User();
+            userPatchDocument.ApplyTo(user);
+
+            await _userService.DeactivateUser(user);
+            
+            return NoContent();
+        }
+
         [HttpDelete]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> RemoveUser(Guid id)
+        public async Task<IActionResult> RemoveUser([BindRequired]Guid id)
         {
             await _userService.RemoveUser(id);
 

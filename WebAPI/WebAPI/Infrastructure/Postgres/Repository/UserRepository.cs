@@ -7,16 +7,21 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 {
     public class UserRepository : BaseCrudRepository<DatabaseContext, User>, IUserRepository
     {
-        private readonly DatabaseContext _databaseContext;
-
         public UserRepository(DatabaseContext databaseContext) : base(databaseContext)
         {
-            _databaseContext = databaseContext;
         }
         public async Task<User> AuthenticateUser(User user)
         {
-            return await _databaseContext.Users
+            return await _dbContext.Users
                 .FirstOrDefaultAsync(x => x.UserName == user.UserName && x.Password == user.Password);
+        }
+
+        public async Task DeactivateUser(User user)
+        {
+            _dbContext.Users.Attach(user);
+            _dbContext.Entry(user).Property(x => x.IsActive).IsModified = true;
+
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

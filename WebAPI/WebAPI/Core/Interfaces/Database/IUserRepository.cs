@@ -6,5 +6,7 @@ namespace WebAPI.Core.Interfaces.Database
     public interface IUserRepository : IBaseCrudRepository<User>
     {
         Task<User> AuthenticateUser(User user);
+
+        Task DeactivateUser(User user);
     }
 }

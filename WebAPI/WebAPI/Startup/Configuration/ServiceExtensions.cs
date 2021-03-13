@@ -66,6 +66,12 @@ namespace WebAPI.Startup.Configuration
             //Validators
             services.AddTransient<IValidator<AuthenticationUser>, AuthenticationUserValidator>();
             services.AddTransient<IValidator<User>, UserValidator>();
+            services.AddTransient<IValidator<Story>, StoryValidator>();
+            services.AddTransient<IValidator<Team>, TeamValidator>();
+            services.AddTransient<IValidator<Epic>, EpicValidator>();
+            services.AddTransient<IValidator<Sprint>, SprintValidator>();
+            services.AddTransient<IValidator<Project>, ProjectValidator>();
+            services.AddTransient<IValidator<StoryUpdate>, StoryUpdateValidator>();
         }
     }
 }

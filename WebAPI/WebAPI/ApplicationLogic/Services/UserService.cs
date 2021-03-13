@@ -89,6 +89,13 @@ namespace WebAPI.ApplicationLogic.Services
             return userModel;
         }
 
+        public async Task DeactivateUser(User user)
+        {
+            var userEntity = _userMapper.MapToEntity(user);
+
+            await _userRepository.DeactivateUser(userEntity);
+        }
+
         public async Task RemoveUser(Guid id)
         {
             using (var scope = new TransactionScope

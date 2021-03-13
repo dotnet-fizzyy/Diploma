@@ -17,6 +17,8 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<User> UpdateUser(User user);
 
+        Task DeactivateUser(User user);
+
         Task RemoveUser(Guid id);
     }
 }

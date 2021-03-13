@@ -31,8 +31,8 @@ namespace WebAPI.Models.Models
         
         public DateTime CreationDate { get; set; }
         
-        public uint RecordVersion { get; set; } 
-        
+        public uint RecordVersion { get; set; }
+
         public bool IsDeleted { get; set; }
     }
 }

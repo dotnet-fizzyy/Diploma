@@ -1,4 +1,5 @@
 using FluentValidation;
+using FluentValidation.Validators;
 using WebAPI.Models.Models;
 
 namespace WebAPI.Presentation.Validators
@@ -13,6 +14,11 @@ namespace WebAPI.Presentation.Validators
             RuleFor(x => x.Password)
                 .NotNull()
                 .NotEmpty();
+            RuleFor(x => x.Email)
+                .NotNull()
+                .NotEmpty()
+                .EmailAddress(EmailValidationMode.Net4xRegex)
+                .WithMessage("Provided email is not valid");
         }
     }
 }
