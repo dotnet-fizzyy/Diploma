@@ -10,7 +10,7 @@ const CustomRouterContainer = () => {
     const location = useLocation();
     const history = useHistory();
 
-    const [defaultPath, setDefaultPath] = useState<string>('');
+    const [initialPath, setInitialPath] = useState<string>('');
     const user = useSelector(currentUserSelectors.getUser);
 
     useEffect(() => {
@@ -20,15 +20,15 @@ const CustomRouterContainer = () => {
     }, [dispatch, user]);
 
     useEffect(() => {
-        setDefaultPath(location.pathname);
+        setInitialPath(location.pathname);
         // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
-        if (defaultPath && user && user.userId) {
-            history.push(defaultPath);
+        if (initialPath && user && user.userId) {
+            history.push(initialPath);
         }
-    }, [defaultPath, user, history]);
+    }, [initialPath, user, history]);
 
     const customRouterProps: ICustomRouterProps = {
         user,
