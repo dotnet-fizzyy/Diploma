@@ -8,7 +8,7 @@ import ChartsContainer from '../charts/ChartsContainer';
 import Footer from '../footer/Footer';
 import GeneralTabContainer from '../header/general-tab/GeneralTabContainer';
 import BoardApplication from '../index';
-import MainPageContainer from '../main/MainPageContainer';
+import MainPageContainer from '../../pages/default/MainPageContainer';
 import ProjectManagementContainer from '../management/project/ProjectManagementContainer';
 import ProjectViewerContainer from '../management/project/ProjectViewerContainer';
 import TeamManagementContainer from '../management/team/TeamManagementContainer';

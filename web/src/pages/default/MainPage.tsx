@@ -1,11 +1,11 @@
 import { Button } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
+import LaunchBackground from '../../components/default/LaunchBackground';
 import Background from '../../static/LaunchBackground.png';
 import { IProject } from '../../types/projectTypes';
 import { ITeam } from '../../types/teamTypes';
 import { IUser } from '../../types/userTypes';
-import LaunchBackground from './LaunchBackground';
 
 const useStyles = makeStyles(() =>
     createStyles({
