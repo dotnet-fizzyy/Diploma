@@ -6,9 +6,9 @@ const BoardApplication = () => {
     config();
 
     return (
-        <div>
+        <React.Fragment>
             <BoardContainer />
-        </div>
+        </React.Fragment>
     );
 };
 

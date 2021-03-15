@@ -13,7 +13,12 @@ export const EpicChartsRoute = '/charts';
 export const NoMatchRoute = '*';
 
 //WebAPI routes
-const BaseUrl = process.env.REACT_APP_BACK_URL;
+const getBaseUrl = (): string =>
+    process.env.REACT_APP_ENVIRONMENT === 'docker'
+        ? process.env.REACT_APP_BACK_DOCKER_URL
+        : process.env.REACT_APP_BACK_URL;
+
+const BaseUrl = getBaseUrl() + 'api/';
 export const UsersUrl = BaseUrl + 'user';
 export const StoriesUrl = BaseUrl + 'story';
 export const TokenUrl = BaseUrl + 'token';

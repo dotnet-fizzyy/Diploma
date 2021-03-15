@@ -1,3 +1,11 @@
-import { BaseRegexExpression } from '../constants';
+import { AccessTokenLocalStorageField, RefreshTokenLocalStorageField } from '../constants';
 
-export const matchAlphaNumericSymbols = (str: string): boolean => new RegExp(BaseRegexExpression).test(str);
+export function setCredentialsToLocalStorage(accessToken: string, refreshToken: string): void {
+    localStorage.setItem(AccessTokenLocalStorageField, accessToken);
+    localStorage.setItem(RefreshTokenLocalStorageField, refreshToken);
+}
+
+export function clearCredentialsFromLocalStorage(): void {
+    localStorage.removeItem(AccessTokenLocalStorageField);
+    localStorage.removeItem(RefreshTokenLocalStorageField);
+}

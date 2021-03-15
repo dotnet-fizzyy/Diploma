@@ -92,12 +92,13 @@ export interface IHideCustomerSuccessfulRegistration {
 }
 
 //actions
-export function registrationRequest(userName: string, password: string): IRegistrationRequest {
+export function registrationRequest(userName: string, password: string, email: string): IRegistrationRequest {
     return {
         type: CurrentUserActions.REGISTRATION_REQUEST,
         payload: {
             userName,
             password,
+            email,
         },
     };
 }

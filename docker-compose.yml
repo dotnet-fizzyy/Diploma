@@ -8,7 +8,9 @@ services:
       context: web
       dockerfile: Dockerfile
     environment: 
-      - REACT_APP_BACK_URL=http://localhost:7000/
+      - REACT_APP_ENVIRONMENT=docker
+      - REACT_APP_BACK_URL=https://localhost:5001/
+      - REACT_APP_BACK_DOCKER_URL=http://localhost:7000/
     depends_on: 
       - web-api
     ports:

@@ -54,7 +54,7 @@ const StartScreenContainer = () => {
 
         setSamePasswords(true);
         dispatch(requestProcessorActions.launchSpinner(SpinnerComponent.REGISTRATION));
-        dispatch(currentUserActions.registrationRequest(values.name, values.password));
+        dispatch(currentUserActions.registrationRequest(values.name, values.password, values.email));
     };
 
     const loginProps: ILoginPageProps = {

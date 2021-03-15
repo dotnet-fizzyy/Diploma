@@ -2,7 +2,7 @@ import { TextField } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import ErrorIcon from '@material-ui/icons/Error';
 import { FieldProps } from 'formik';
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -54,8 +54,17 @@ const FormTextField = (props: IFormTextFieldProps & FieldProps) => {
         customError,
         type,
         field,
-        form: { touched, errors },
+        form: { touched, errors, setFieldTouched, handleChange },
     } = props;
+
+    const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const {
+            target: { name },
+        } = e;
+
+        setFieldTouched(name);
+        handleChange(e);
+    };
 
     return (
         <div className={classes.root}>
@@ -66,6 +75,7 @@ const FormTextField = (props: IFormTextFieldProps & FieldProps) => {
                 type={type ? type : 'text'}
                 placeholder={placeholder}
                 variant="outlined"
+                onChange={onChange}
             />
             {(customError || (touched[field.name] && errors[field.name])) && (
                 <div className={classes.errorMessageContainer}>

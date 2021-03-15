@@ -1,7 +1,9 @@
 import { ILoginForm, IRegistrationForm } from '../types/formTypes';
 
-export const BaseRegexExpression: string = '^[- a-zA-Z0-9]*$';
+export const BaseRegexExpression: RegExp = /^[- a-zA-Z0-9]*$/;
 export const EmailRegexExpression: RegExp = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+export const AccessTokenLocalStorageField: string = 'access_token';
+export const RefreshTokenLocalStorageField: string = 'refresh_token';
 
 export const LoginFormConstants = {
     name: 'name',

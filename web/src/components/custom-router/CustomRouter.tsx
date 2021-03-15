@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import * as routeConstants from '../../constants/routeConstants';
+import StartScreenContainer from '../../pages/authentication/StartScreenContainer';
 import { IUser } from '../../types/userTypes';
 import { UserRouteGuard } from '../../utils/routeHelper';
 import ChartsContainer from '../charts/ChartsContainer';
 import Footer from '../footer/Footer';
 import GeneralTabContainer from '../header/general-tab/GeneralTabContainer';
 import BoardApplication from '../index';
-import StartScreenContainer from '../../pages/authentication/StartScreenContainer';
 import MainPageContainer from '../main/MainPageContainer';
 import ProjectManagementContainer from '../management/project/ProjectManagementContainer';
 import ProjectViewerContainer from '../management/project/ProjectViewerContainer';
@@ -30,8 +30,12 @@ const CustomRouter = (props: ICustomRouterProps) => {
         <>
             {isUserAuthenticated && <GeneralTabContainer />}
             <Switch>
-                <Route path={routeConstants.LoginScreenRoute} component={StartScreenContainer} />
-                <Route path={routeConstants.RegistrationScreenRoute} component={StartScreenContainer} />
+                {!isUserAuthenticated && (
+                    <Route path={routeConstants.LoginScreenRoute} component={StartScreenContainer} />
+                )}
+                {!isUserAuthenticated && (
+                    <Route path={routeConstants.RegistrationScreenRoute} component={StartScreenContainer} />
+                )}
                 <RouteGuard
                     path={routeConstants.ProjectBoardRoute}
                     component={BoardApplication}

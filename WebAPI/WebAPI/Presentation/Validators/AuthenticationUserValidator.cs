@@ -18,6 +18,7 @@ namespace WebAPI.Presentation.Validators
                 .NotNull()
                 .NotEmpty()
                 .EmailAddress(EmailValidationMode.Net4xRegex)
+                .When(x => x.Email != null)
                 .WithMessage("Provided email is not valid");
         }
     }

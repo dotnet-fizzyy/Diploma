@@ -106,8 +106,13 @@ const RegistrationPage = (props: IRegistrationPageProps) => {
     } = props;
 
     return (
-        <Formik initialValues={InitialRegistrationFormValues} onSubmit={onSubmitRegistration} validateOnChange={true}>
-            {({ isValid, touched }) => {
+        <Formik
+            initialValues={InitialRegistrationFormValues}
+            onSubmit={onSubmitRegistration}
+            validateOnBlur={false}
+            validateOnChange={true}
+        >
+            {({ isValid, touched, setFieldTouched, handleChange }) => {
                 const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
 
                 return (

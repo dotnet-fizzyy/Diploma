@@ -4,6 +4,7 @@ import * as userApi from '../../ajax/currentUserApi';
 import { AuthenticationResponse } from '../../types';
 import { ITeam } from '../../types/teamTypes';
 import { IUser } from '../../types/userTypes';
+import { clearCredentialsFromLocalStorage, setCredentialsToLocalStorage } from '../../utils';
 import * as currentUserActions from '../actions/currentUserActions';
 import * as modalActions from '../actions/modalActions';
 import * as requestProcessorActions from '../actions/requestProcessorActions';
@@ -15,16 +16,14 @@ function* authenticateUser(action: currentUserActions.IAuthenticationRequest) {
         yield put(currentUserActions.authenticationSuccess(authResponse));
         yield put(requestProcessorActions.hideSpinner());
 
-        //Set tokens to locale storage
-        localStorage.setItem('access_token', authResponse.accessToken.value);
-        localStorage.setItem('refresh_token', authResponse.refreshToken.value);
+        setCredentialsToLocalStorage(authResponse.accessToken.value, authResponse.refreshToken.value);
     } catch (error) {
         yield put(currentUserActions.authenticationFailure(error));
         yield put(requestProcessorActions.hideSpinner());
     }
 }
 
-function* usersRegistration(action: currentUserActions.IRegistrationRequest) {
+function* createCustomer(action: currentUserActions.IRegistrationRequest) {
     try {
         yield call(usersApi.createCustomer, action.payload);
         yield put(currentUserActions.registrationSuccess());
@@ -36,8 +35,8 @@ function* usersRegistration(action: currentUserActions.IRegistrationRequest) {
 }
 
 function* logOutUser(action: currentUserActions.ILogOutUser) {
-    localStorage.clear();
-    sessionStorage.clear();
+    clearCredentialsFromLocalStorage();
+
     yield put(currentUserActions.addUser(null));
 }
 
@@ -67,7 +66,7 @@ function* createUser(action: currentUserActions.ICreateUserRequest) {
 
 export default function* rootCurrentUserSaga() {
     yield takeLatest(currentUserActions.CurrentUserActions.AUTHENTICATION_REQUEST, authenticateUser);
-    yield takeLatest(currentUserActions.CurrentUserActions.REGISTRATION_REQUEST, usersRegistration);
+    yield takeLatest(currentUserActions.CurrentUserActions.REGISTRATION_REQUEST, createCustomer);
     yield takeLatest(currentUserActions.CurrentUserActions.LOGOUT_USER, logOutUser);
     yield takeLatest(currentUserActions.CurrentUserActions.VERIFY_USER_REQUEST, verifyUser);
     yield takeLatest(currentUserActions.CurrentUserActions.CREATE_USER_REQUEST, createUser);

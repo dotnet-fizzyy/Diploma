@@ -13,6 +13,7 @@ export interface IUser {
 export interface IAuthenticationUser {
     userName: string;
     password: string;
+    email?: string;
 }
 
 export enum UserRole {
