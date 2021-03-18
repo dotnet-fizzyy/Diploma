@@ -28,6 +28,7 @@ const useStyles = makeStyles(() =>
             marginTop: '5px',
         },
         calendar: {
+            padding: '12px',
             '&:hover': {
                 cursor: 'pointer',
             },

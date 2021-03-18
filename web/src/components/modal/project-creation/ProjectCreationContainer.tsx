@@ -1,33 +1,33 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { initialProjectState } from '../../../constants/projectConstants';
-import * as projectActions from '../../../redux/actions/projectActions';
+import { BaseRegexExpression } from '../../../constants';
+import { ProjectLengthDescriptionMaxLength } from '../../../constants/projectConstants';
+import { createProjectRequest } from '../../../redux/actions/projectActions';
+import { IProjectForm } from '../../../types/formTypes';
 import { IProject } from '../../../types/projectTypes';
+import { InputFormFieldValidator } from '../../../utils/formHelper';
 import ProjectCreation, { IProjectCreationProps } from './ProjectCreation';
 
 const ProjectCreationContainer = () => {
     const dispatch = useDispatch();
-    const [project, setProject] = useState<IProject>(initialProjectState);
 
-    const onChangeProjectField = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
+    const onSubmitProjectHandling = (values: IProjectForm) => {
+        const project: IProject = {
+            projectName: values.projectName,
+            projectDescription: values.projectDescription,
+            startDate: new Date(values.startDate),
+            endDate: new Date(values.endDate),
+        };
 
-        setProject((prevState) => {
-            return {
-                ...prevState,
-                [name]: value,
-            };
-        });
+        dispatch(createProjectRequest(project));
     };
 
-    const onClickProjectCreate = () => {
-        dispatch(projectActions.createProjectRequest(project));
-    };
+    const validateProjectName = (value: string) =>
+        new InputFormFieldValidator(value, 2, ProjectLengthDescriptionMaxLength, true, BaseRegexExpression).validate();
 
     const projectCreationProps: IProjectCreationProps = {
-        project,
-        onChangeProjectField,
-        onClickProjectCreate,
+        onSubmitProjectHandling,
+        validateProjectName,
     };
 
     return <ProjectCreation {...projectCreationProps} />;

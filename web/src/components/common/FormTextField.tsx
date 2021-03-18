@@ -75,6 +75,7 @@ const FormTextField = (props: IFormTextFieldProps & FieldProps) => {
                 type={type ? type : 'text'}
                 placeholder={placeholder}
                 variant="outlined"
+                value={field.value}
                 onChange={onChange}
             />
             {(customError || (touched[field.name] && errors[field.name])) && (

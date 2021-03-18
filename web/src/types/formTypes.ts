@@ -9,3 +9,11 @@ export interface IRegistrationForm {
     email: string;
     repeatedPassword: string;
 }
+
+export interface IProjectForm {
+    projectId?: string;
+    projectName: string;
+    projectDescription: string;
+    startDate: Date;
+    endDate: Date;
+}

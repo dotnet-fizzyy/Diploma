@@ -112,7 +112,7 @@ const RegistrationPage = (props: IRegistrationPageProps) => {
             validateOnBlur={false}
             validateOnChange={true}
         >
-            {({ isValid, touched, setFieldTouched, handleChange }) => {
+            {({ isValid, touched }) => {
                 const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
 
                 return (

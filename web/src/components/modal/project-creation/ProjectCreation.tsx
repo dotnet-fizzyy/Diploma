@@ -1,10 +1,13 @@
-import { Button } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import moment from 'moment';
+import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { projectFields } from '../../../constants/projectConstants';
-import { IProject } from '../../../types/projectTypes';
-import GenericFormDates from '../generic-form/GenericFormDates';
+import { initialProjectFormValues, projectFields } from '../../../constants/projectConstants';
+import { IProjectForm } from '../../../types/formTypes';
+import Button from '../../common/Button';
+import FormDatePicker from '../../common/FormDatePicker';
+import FormTextArea from '../../common/FormTextArea';
+import FormTextField from '../../common/FormTextField';
+import MainLabel from '../../common/MainLabel';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -19,73 +22,85 @@ const useStyles = makeStyles(() =>
             borderRadius: '10px',
             padding: '30px',
             overflowY: 'scroll',
-        },
-        header: {
-            fontFamily: 'Poppins, sans-serif',
-            fontSize: '24px',
-            color: '#242126',
-            fontWeight: 'bold',
-        },
-        button: {
-            width: '170px',
-            height: '40px',
-            marginTop: '30px',
-            backgroundColor: '#75BAF7',
-            border: 'none',
-            color: '#FFF',
-            boxShadow: 'none',
-            transition: 'unset',
-            '&:hover': {
-                backgroundColor: '#E8F4FF',
-                boxShadow: 'none',
-                color: '#75BAF7',
-                border: '1px solid lightgrey',
+
+            '@media(min-width:789px)': {
+                minWidth: '590px',
             },
+        },
+        buttonContainer: {
+            marginTop: '20px',
+            width: '170px',
         },
         title: {
             fontFamily: 'Poppins, sans-serif',
             color: '#75BAF7',
             fontSize: '18px',
         },
+        fieldContainer: {
+            marginTop: '20px',
+            width: '100%',
+        },
     })
 );
 
 export interface IProjectCreationProps {
-    project: IProject;
-    onChangeProjectField: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onClickProjectCreate: () => void;
+    onSubmitProjectHandling: (values: IProjectForm) => void;
+    validateProjectName: (value: string) => void;
 }
 
 const ProjectCreation = (props: IProjectCreationProps) => {
     const classes = useStyles();
-    const { project, onChangeProjectField, onClickProjectCreate } = props;
-
-    const names = [
-        projectFields.projectName,
-        projectFields.startDate,
-        projectFields.endDate,
-        projectFields.projectDescription,
-    ];
-    const values = [
-        project.projectName,
-        moment(project.startDate).format('yyyy-MM-DD'),
-        moment(project.endDate).format('yyyy-MM-DD'),
-        project.projectDescription,
-    ];
+    const { onSubmitProjectHandling, validateProjectName } = props;
 
     return (
-        <div className={classes.root}>
-            <span className={classes.header}>Create a project</span>
-            <GenericFormDates
-                names={names}
-                values={values}
-                onChangeField={onChangeProjectField}
-                hideDescription={false}
-            />
-            <Button onClick={onClickProjectCreate} className={classes.button} variant="outlined">
-                Create project
-            </Button>
-        </div>
+        <Formik
+            initialValues={initialProjectFormValues}
+            onSubmit={onSubmitProjectHandling}
+            validateOnBlur={false}
+            validateOnChange={true}
+        >
+            {({ isValid, touched }) => {
+                const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
+
+                return (
+                    <Form>
+                        <div className={classes.root}>
+                            <MainLabel title="Create a project" />
+                            <div className={classes.fieldContainer}>
+                                <Field
+                                    label="Name"
+                                    name={projectFields.projectName}
+                                    component={FormTextField}
+                                    validate={validateProjectName}
+                                />
+                            </div>
+                            <div className={classes.fieldContainer}>
+                                <Field
+                                    label="Project Description"
+                                    placeholder="Add full and clean description for your task"
+                                    minHeight="93px"
+                                    name={projectFields.projectDescription}
+                                    component={FormTextArea}
+                                />
+                            </div>
+                            <div className={classes.fieldContainer}>
+                                <Field label="Start Date" name={projectFields.startDate} component={FormDatePicker} />
+                            </div>
+                            <div className={classes.fieldContainer}>
+                                <Field label="End Date" name={projectFields.endDate} component={FormDatePicker} />
+                            </div>
+                            <div className={classes.buttonContainer}>
+                                <Button
+                                    disabled={!isAnyFieldTouched || !isValid}
+                                    type="submit"
+                                    label="Create Project"
+                                />
+                            </div>
+                        </div>
+                    </Form>
+                );
+            }}
+        </Formik>
     );
 };
 
