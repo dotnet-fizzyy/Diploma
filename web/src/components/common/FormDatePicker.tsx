@@ -1,8 +1,11 @@
-import { TextField } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import DateRangeIcon from '@material-ui/icons/DateRange';
 import ErrorIcon from '@material-ui/icons/Error';
+import { DatePicker } from '@material-ui/pickers';
 import { FieldProps } from 'formik';
-import React, { ChangeEvent } from 'react';
+import { Moment } from 'moment';
+import React from 'react';
+import { DateFormat } from '../../constants';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -24,9 +27,9 @@ const useStyles = makeStyles(() =>
             alignItems: 'center',
             marginTop: '5px',
         },
-        textField: {
-            '& .MuiOutlinedInput-input': {
-                padding: '12px',
+        calendar: {
+            '&:hover': {
+                cursor: 'pointer',
             },
         },
         errorIcon: {
@@ -39,52 +42,54 @@ const useStyles = makeStyles(() =>
     })
 );
 
-export interface IFormTextFieldProps {
-    label?: string;
-    placeholder?: string;
-    type?: string;
+export interface IFormDatePickerProps {
+    label: string;
+    disabled?: boolean;
     customError?: string;
 }
 
-const FormTextField = (props: IFormTextFieldProps & FieldProps) => {
+const FormDatePicker = (props: IFormDatePickerProps & FieldProps) => {
     const classes = useStyles();
     const {
         label,
-        placeholder,
-        customError,
-        type,
         field,
-        form: { touched, errors, setFieldTouched, handleChange },
+        field: { value, name },
+        disabled,
+        customError,
+        form: { setFieldTouched, setFieldValue, touched, errors },
     } = props;
 
-    const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const {
-            target: { name },
-        } = e;
-
+    const onChange = (date: Moment) => {
         setFieldTouched(name);
-        handleChange(e);
+        setFieldValue(name, date.toISOString());
     };
 
     return (
         <div className={classes.root}>
             {label && <span className={classes.title}>{label}:</span>}
-            <TextField
+            <DatePicker
                 {...field}
-                className={classes.textField}
-                type={type ? type : 'text'}
-                placeholder={placeholder}
-                variant="outlined"
+                autoOk={true}
+                inputVariant="outlined"
+                variant="inline"
+                disablePast={true}
+                disabled={disabled}
+                format={DateFormat}
+                views={['year', 'month', 'date']}
+                value={value ? new Date(value) : null}
                 onChange={onChange}
+                error={false}
+                helperText={false}
+                InputProps={{ endAdornment: <DateRangeIcon />, classes: { input: classes.calendar } }}
             />
-            {(customError || (touched[field.name] && errors[field.name])) && (
+            {(customError || (touched[name] && errors[name])) && (
                 <div className={classes.errorMessageContainer}>
                     <ErrorIcon className={classes.errorIcon} />
-                    <span className={classes.errorMessage}>{customError || errors[field.name]}</span>
+                    <span className={classes.errorMessage}>{customError || errors[name]}</span>
                 </div>
             )}
         </div>
     );
 };
 
-export default FormTextField;
+export default FormDatePicker;

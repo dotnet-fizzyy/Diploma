@@ -1,6 +1,8 @@
 import { IProject } from '../types/projectTypes';
 
-export const initialProjectState: IProject = {
+export const ProjectLengthDescriptionMaxLength: number = 250;
+
+export const initialProjectFormValues: IProject = {
     endDate: new Date(),
     startDate: new Date(),
     projectDescription: '',
