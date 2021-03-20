@@ -9,7 +9,7 @@ using WebAPI.Core.Configuration;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Services;
 
-namespace WebAPI.ApplicationLogic
+namespace WebAPI.ApplicationLogic.Utilities
 {
     public class TokenGenerator : ITokenGenerator
     {

@@ -6,7 +6,7 @@ using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Models;
 
-namespace WebAPI.ApplicationLogic
+namespace WebAPI.ApplicationLogic.Utilities
 {
     public class ClaimsReader : IClaimsReader
     {

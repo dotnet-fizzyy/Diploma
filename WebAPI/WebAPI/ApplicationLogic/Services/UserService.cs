@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;

@@ -1,7 +1,9 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using WebAPI.ApplicationLogic;
+using WebAPI.ApplicationLogic.Handlers;
 using WebAPI.ApplicationLogic.Services;
+using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Configuration;
 using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;

@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace WebAPI.ApplicationLogic
+namespace WebAPI.ApplicationLogic.Utilities
 {
     public static class PasswordHashing
     {

@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Configuration;
 using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;

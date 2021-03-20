@@ -2,9 +2,9 @@ using System;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 
-namespace WebAPI.ApplicationLogic
+namespace WebAPI.ApplicationLogic.Handlers
 {
-    public class StoryHistoryGenerator
+    public static class StoryHistoryGenerator
     {
         public static StoryHistory GetStoryHistoryForCreation(Guid userId, Guid storyId)
         {

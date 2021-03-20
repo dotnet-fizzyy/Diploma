@@ -9,7 +9,7 @@ using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models;
 using WebAPI.Models.Result;
 
-namespace WebAPI.ApplicationLogic
+namespace WebAPI.ApplicationLogic.Handlers
 {
     public class StorySortingAndFiltering : IStorySortingAndFiltering
     {
