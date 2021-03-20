@@ -9,14 +9,16 @@ using WebAPI.Models.Result;
 namespace WebAPI.Presentation.Controllers
 {
     [ApiController]
-    [Route("api/token")]
-    public class TokenController : ControllerBase
+    [Route("api/auth")]
+    public class AuthenticationController : ControllerBase
     {
         private readonly ITokenService _tokenService;
+        private readonly IUserService _userService;
 
-        public TokenController(ITokenService tokenService)
+        public AuthenticationController(ITokenService tokenService, IUserService userService)
         {
             _tokenService = tokenService;
+            _userService = userService;
         }
 
         [HttpPost]
@@ -32,6 +34,15 @@ namespace WebAPI.Presentation.Controllers
             }
 
             return authResult;
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<ActionResult<User>> CreateCustomer([FromBody, BindRequired] AuthenticationUser user)
+        {
+            var createdCustomer = await _userService.CreateCustomer(user);
+            
+            return CreatedAtAction(nameof(CreateCustomer), createdCustomer);
         }
     }
 }

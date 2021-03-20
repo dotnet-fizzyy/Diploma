@@ -6,7 +6,7 @@ namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ServiceFilter(typeof(UserAuthorizationFilter))]
-    public class TestController : ControllerBase
+    public class DevController : ControllerBase
     {
         [HttpGet]
         [Route("test")]
