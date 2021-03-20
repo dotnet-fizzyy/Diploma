@@ -7,6 +7,6 @@ namespace WebAPI.Core.Interfaces.Database
 {
     public interface IProjectRepository : IBaseCrudRepository<Project>
     {
-        Task<List<Project>> GetProjectsByUserId(Guid userId, bool includeChildren);
+        Task<List<Project>> GetProjectsByUserId(Guid userId);
     }
 }

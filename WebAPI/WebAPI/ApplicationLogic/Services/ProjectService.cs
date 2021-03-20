@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -7,6 +8,7 @@ using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
+using WebAPI.Core.Models;
 using WebAPI.Models.Models;
 using WebAPI.Models.Result;
 
@@ -52,7 +54,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<CollectionResponse<FullProject>> GetCustomerProjects(Guid userId)
         {
-            var projectEntities = await _projectRepository.GetProjectsByUserId(userId, true);
+            var projectEntities = await _projectRepository.GetProjectsByUserId(userId);
             
             var collectionResponse = new CollectionResponse<FullProject>
             {
@@ -62,21 +64,33 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<CollectionResponse<Project>> GetProjectsByUserId(Guid userId)
+        public async Task<CollectionResponse<Project>> GetUserProjects(UserClaims user)
         {
-            var projectEntities = await _projectRepository.GetProjectsByUserId(userId, false);
-            
-            var collectionResponse = new CollectionResponse<Project>
-            {
-                Items = projectEntities.Select(_projectMapper.MapToModel).ToList(),
-            };
+            List<Core.Entities.Project> projectEntities;
 
-            return collectionResponse;
+            switch (user.UserRole)
+            {
+                case UserRole.ProductOwner:
+                    projectEntities =
+                        await _projectRepository.SearchForMultipleItemsAsync(
+                            x => x.Customer == user.UserId.ToString());
+                    break;
+                default:
+                    projectEntities = await _projectRepository.GetProjectsByUserId(user.UserId);
+                    break;
+            }
+
+            var userProjects = new CollectionResponse<Project>
+            {
+                Items = projectEntities.Select(_projectMapper.MapToModel).ToList()
+            };
+            
+            return userProjects;
         }
 
         public async Task<CollectionResponse<FullProject>>GetProjectsWithTeamsByUserId(Guid userId)
         {
-            var projectEntities = await _projectRepository.GetProjectsByUserId(userId, true);
+            var projectEntities = await _projectRepository.GetProjectsByUserId(userId);
             
             var collectionResponse = new CollectionResponse<FullProject>
             {

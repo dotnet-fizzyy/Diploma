@@ -54,6 +54,8 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IStorySortingAndFiltering, StorySortingAndFiltering>();
             services.AddTransient<ITokenGenerator, TokenGenerator>();
+            services.AddTransient<IPageService, PageService>();
+            services.AddTransient<IClaimsReader, ClaimsReader>();
             
             //Aggregators
             services.AddTransient<IFullProjectDescriptionAggregator, FullProjectDescriptionAggregator>();

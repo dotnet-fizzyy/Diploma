@@ -20,10 +20,12 @@ namespace WebAPI.Presentation.Controllers
     public class ProjectController : ControllerBase
     {
         private readonly IProjectService _projectService;
+        private readonly IClaimsReader _claimsReader;
 
-        public ProjectController(IProjectService projectService)
+        public ProjectController(IProjectService projectService, IClaimsReader claimsReader)
         {
             _projectService = projectService;
+            _claimsReader = claimsReader;
         }
 
         [HttpGet]
@@ -39,9 +41,9 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<CollectionResponse<Project>>> GetAllProjectsByUserId()
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+            var user = _claimsReader.GetUserClaims(User);
                 
-            var userProjects = await _projectService.GetProjectsByUserId(new Guid(userId!));
+            var userProjects = await _projectService.GetUserProjects(user);
 
             return userProjects;
         }
@@ -58,7 +60,7 @@ namespace WebAPI.Presentation.Controllers
 
             return userProjects;
         }
-        
+
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

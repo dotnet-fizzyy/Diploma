@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using WebAPI.Core.Enums;
+using WebAPI.Core.Exceptions;
 
 namespace WebAPI.Startup.Configuration
 {
@@ -21,6 +23,22 @@ namespace WebAPI.Startup.Configuration
 
                     if (contextFeature != null)
                     {
+                        switch (contextFeature.Error)
+                        {
+                            case UserFriendlyException userFriendlyException:
+                                switch (userFriendlyException.ErrorStatus)
+                                {
+                                    case ErrorStatus.NOT_FOUND:
+                                        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                                        break;
+                                    case ErrorStatus.INVALID_DATA:
+                                        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                                        break;
+                                }
+                                
+                                break;
+                        }
+                        
                         logger.LogError($"Error caught in global handler: ${contextFeature.Error.Message}");
                         
                         await context.Response.WriteAsync($@"

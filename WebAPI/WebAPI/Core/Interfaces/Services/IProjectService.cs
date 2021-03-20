@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using WebAPI.Core.Models;
 using WebAPI.Models.Models;
 using WebAPI.Models.Result;
 
@@ -9,9 +10,7 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<CollectionResponse<Project>> GetAllProjects();
         
-        Task<CollectionResponse<FullProject>> GetCustomerProjects(Guid userId);
-
-        Task<CollectionResponse<Project>> GetProjectsByUserId(Guid userId);
+        Task<CollectionResponse<Project>> GetUserProjects(UserClaims user);
         
         Task<CollectionResponse<FullProject>> GetProjectsWithTeamsByUserId(Guid userId);
         
