@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,29 +18,47 @@ namespace WebAPI.Presentation.Controllers
     public class TeamController : ControllerBase
     {
         private readonly ITeamService _teamService;
+        private readonly IClaimsReader _claimsReader;
 
-        public TeamController(ITeamService teamService)
+        public TeamController(ITeamService teamService, IClaimsReader claimsReader)
         {
             _teamService = teamService;
+            _claimsReader = claimsReader;
         }
 
+        /// <summary>
+        /// Receive all teams
+        /// </summary>
+        /// <response code="200">Receiving all teams</response>
+        /// <response code="401">Failed authentication</response>
         [HttpGet]
         [Route("all")]
         public async Task<ActionResult<CollectionResponse<Team>>> GetAllTeams() => await _teamService.GetAllTeams();
 
+        /// <summary>
+        /// Receive all teams that belong to user
+        /// </summary>
+        /// <response code="200">Receiving all teams that belong to user</response>
+        /// <response code="401">Failed authentication</response>
         [HttpGet]
         [Route("user")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<CollectionResponse<FullTeam>>> GetUserTeams()
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+            var user = _claimsReader.GetUserClaims(User);
             
-            var userTeams = await _teamService.GetUserTeams(new Guid(userId!));
+            var userTeams = await _teamService.GetUserTeams(user.UserId);
 
             return userTeams;
         }
         
+        /// <summary>
+        /// Receive team by provided id
+        /// </summary>
+        /// <response code="200">Receiving team by provided id</response>
+        /// <response code="401">Failed authentication</response>
+        /// <response code="404">Unable to find team by provided id</response>
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -52,14 +68,15 @@ namespace WebAPI.Presentation.Controllers
         {
            var team = await _teamService.GetTeam(id);
 
-           if (team == null)
-           {
-               return NotFound();
-           }
-           
            return team;
         }
 
+        /// <summary>
+        /// Receive full team description by provided id
+        /// </summary>
+        /// <response code="200">Receiving full team description by provided id</response>
+        /// <response code="401">Failed authentication</response>
+        /// <response code="404">Unable to find project by provided id</response>
         [HttpGet]
         [Route("full/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -69,14 +86,14 @@ namespace WebAPI.Presentation.Controllers
         {
             var fullTeam = await _teamService.GetFullTeamDescription(id);
 
-            if (fullTeam == null)
-            {
-                return NotFound();
-            }
-            
             return fullTeam;
         }
 
+        /// <summary>
+        /// Create team with provided model properties
+        /// </summary>
+        /// <response code="201">Created team with provided model properties</response>
+        /// <response code="401">Failed authentication</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -87,16 +104,26 @@ namespace WebAPI.Presentation.Controllers
             return CreatedAtAction(nameof(CreateTeam), createdTeam);
         }
 
+        /// <summary>
+        /// Update team with provided model properties
+        /// </summary>
+        /// <response code="200">Updated team with provided model properties</response>
+        /// <response code="401">Failed authentication</response>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> UpdateTeam([FromBody, BindRequired] Team team)
+        public async Task<ActionResult<Team>> UpdateTeam([FromBody, BindRequired] Team team)
         {
             var updatedTeam = await _teamService.UpdateTeam(team);
             
-            return Ok(updatedTeam);
+            return updatedTeam;
         }
 
+        /// <summary>
+        /// Remove team with provided id
+        /// </summary>
+        /// <response code="204">Removed team with provided id</response>
+        /// <response code="401">Failed authentication</response>
         [HttpDelete]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

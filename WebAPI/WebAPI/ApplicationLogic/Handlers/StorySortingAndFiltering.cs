@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.Core.Constants;
 using WebAPI.Core.Enums;
+using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
@@ -29,7 +30,7 @@ namespace WebAPI.ApplicationLogic.Handlers
 
             if (epicStories.Count == 0)
             {
-                return null;
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find stories with provided epic id");
             }
 
             if (orderType == OrderType.Asc)

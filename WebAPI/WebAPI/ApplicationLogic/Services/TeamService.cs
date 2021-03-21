@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using WebAPI.Core.Enums;
+using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
@@ -58,7 +60,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (teamEntity == null)
             {
-                return null;
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find team with provided id");
             }
             
             var team = _teamMapper.MapToModel(teamEntity);
@@ -76,7 +78,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (teamEntity == null)
             {
-                return null;
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find team with provided id");
             }
             
             var teamFullModel = _teamMapper.MapToFullModel(teamEntity);

@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -10,6 +13,10 @@ namespace WebAPI.Startup.Configuration
         {
             services.AddSwaggerGen(c =>
             {
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);     
+                
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Diploma WebAPI swagger", Version = "v1" });
                 c.CustomSchemaIds(x => x.FullName);
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

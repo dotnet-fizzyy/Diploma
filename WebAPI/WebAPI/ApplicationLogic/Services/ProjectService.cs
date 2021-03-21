@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 using WebAPI.Core.Enums;
+using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
@@ -108,7 +109,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (projectEntity == null)
             {
-                return null;
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find project with provided id");
             }
 
             var projectModel = _projectMapper.MapToModel(projectEntity);
@@ -125,7 +126,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (projectEntity == null)
             {
-                return null;
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find project with provided id");
             }
 
             //Receive latest and actual epic for project

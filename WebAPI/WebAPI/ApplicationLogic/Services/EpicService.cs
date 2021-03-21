@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using WebAPI.Core.Enums;
+using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
@@ -56,6 +58,11 @@ namespace WebAPI.ApplicationLogic.Services
             var epicEntity =
                 await _epicRepository.SearchForSingleItemAsync(x => x.Id == epicId);
 
+            if (epicEntity == null)
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find epic with following id");
+            }
+            
             var epicModel = _epicMapper.MapToModel(epicEntity);
             
             return epicModel;
@@ -68,7 +75,11 @@ namespace WebAPI.ApplicationLogic.Services
                     x => x.Id == epicId, 
                     includes => includes.Sprints
                     );
-            
+
+            if (epicEntity == null)
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find epic with following id");
+            }
 
             var epicFullModel = _epicMapper.MapToFullModel(epicEntity);
             

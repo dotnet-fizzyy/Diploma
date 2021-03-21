@@ -2,6 +2,8 @@ using System;
 using System.Threading.Tasks;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Configuration;
+using WebAPI.Core.Enums;
+using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
@@ -49,7 +51,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (authUser == null)
             {
-                return null;
+                throw new UserFriendlyException(ErrorStatus.INVALID_DATA, "Unable to authenticate user");
             }
 
             //Generate tokens if record is valid

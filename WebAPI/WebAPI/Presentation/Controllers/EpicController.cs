@@ -23,13 +23,24 @@ namespace WebAPI.Presentation.Controllers
         {
             _epicService = epicService;
         }
-
+        
+        /// <summary>
+        /// Receive all available epics
+        /// </summary>
+        /// <response code="200">Receiving all epics</response>
+        /// <response code="401">Failed authentication</response>
         [HttpGet]
         [Route("all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<CollectionResponse<Epic>>> GetEpics() => await _epicService.GetEpics();
-
+        
+        /// <summary>
+        /// Receive epic by provided id
+        /// </summary>
+        /// <response code="200">Found epic by provided id</response>
+        /// <response code="401">Failed authentication</response>
+        /// <response code="404">Unable to find epic by provided id</response>
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -39,14 +50,14 @@ namespace WebAPI.Presentation.Controllers
         {
             var epic = await _epicService.GetEpic(id);
 
-            if (epic == null)
-            {
-                return NotFound();
-            }
-            
             return epic;
         }
         
+        /// <summary>
+        /// Receive all project epics by provided project id
+        /// </summary>
+        /// <response code="200">All found epics from project by provided project id</response>
+        /// <response code="401">Failed authentication</response>
         [HttpGet]
         [Route("project/{projectId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -54,6 +65,12 @@ namespace WebAPI.Presentation.Controllers
         public async Task<ActionResult<CollectionResponse<Epic>>> GetEpicsFromProject(Guid projectId) 
             => await _epicService.GetEpicsFromProject(projectId);
         
+        /// <summary>
+        /// Receive epic with sprints by provided id
+        /// </summary>
+        /// <response code="200">Found epic with sprints by provided id</response>
+        /// <response code="401">Failed authentication</response>
+        /// <response code="404">Unable to find epic by provided id</response>
         [HttpGet]
         [Route("full/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -63,14 +80,14 @@ namespace WebAPI.Presentation.Controllers
         {
             var fullEpic = await _epicService.GetFullEpicDescription(id);
 
-            if (fullEpic == null)
-            {
-                return NotFound();
-            }
-
             return fullEpic;
         }
-
+        
+        /// <summary>
+        /// Create epic with provided model properties
+        /// </summary>
+        /// <response code="201">Created epic with provided model properties</response>
+        /// <response code="401">Failed authentication</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -81,6 +98,11 @@ namespace WebAPI.Presentation.Controllers
             return CreatedAtAction(nameof(CreateEpic), createdEpic);
         }
         
+        /// <summary>
+        /// Update epic with provided model properties
+        /// </summary>
+        /// <response code="200">Updated epic with provided model properties</response>
+        /// <response code="401">Failed authentication</response>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -91,6 +113,11 @@ namespace WebAPI.Presentation.Controllers
             return Ok(updatedEpic);
         }
         
+        /// <summary>
+        /// Remove epic with provided id
+        /// </summary>
+        /// <response code="204">Removed epic with provided id</response>
+        /// <response code="401">Failed authentication</response>
         [HttpDelete]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

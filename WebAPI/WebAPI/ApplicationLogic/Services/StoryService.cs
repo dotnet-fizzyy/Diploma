@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using WebAPI.ApplicationLogic.Handlers;
 using WebAPI.Core.Enums;
+using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
@@ -55,6 +56,11 @@ namespace WebAPI.ApplicationLogic.Services
                     OrderType.Asc
                     );
 
+            if (storyEntities.Count == 0)
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "No stories found with provided sprint id");
+            }
+            
             var collectionResponse = new CollectionResponse<Story>
             {
                 Items = storyEntities.Select(_storyMapper.MapToModel).ToList()
@@ -82,7 +88,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (storyHistoryEntities.Count == 0)
             {
-                return new CollectionResponse<StoryHistory>();
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find story history records for provided story id");
             }
             
             var collectionResponse = new CollectionResponse<StoryHistory>
@@ -101,6 +107,11 @@ namespace WebAPI.ApplicationLogic.Services
             var storyEntity =
                 await _storyRepository.SearchForSingleItemAsync(story => story.Id == storyId);
 
+            if (storyEntity == null)
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find story with provided id");
+            }
+            
             var storyModel = _storyMapper.MapToModel(storyEntity);
             
             return storyModel;
@@ -114,6 +125,11 @@ namespace WebAPI.ApplicationLogic.Services
                 include => include.StoryHistories
                     );
 
+            if (storyEntity == null)
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find story with provided id");
+            }
+            
             var storyFullModel = _storyMapper.MapToFullModel(storyEntity);
 
             return storyFullModel;

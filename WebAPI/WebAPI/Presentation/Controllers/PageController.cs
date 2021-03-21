@@ -45,11 +45,17 @@ namespace WebAPI.Presentation.Controllers
             return Ok();
         }
         
+        /// <summary>
+        /// Receive projects belong to user for projects page
+        /// </summary>
+        /// <response code="200">Received projects belong to user for projects page</response>
+        /// <response code="400">Unable to receive user id and role</response>
+        /// <response code="401">Failed authentication</response>
         [HttpGet]
         [Route("projects")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<CollectionResponse<Project>>> GetUserProjectsDataIndex()
         {
             var user = _claimsReader.GetUserClaims(User);

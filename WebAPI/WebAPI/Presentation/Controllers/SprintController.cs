@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,37 +18,50 @@ namespace WebAPI.Presentation.Controllers
     public class SprintController : ControllerBase
     {
         private readonly ISprintService _sprintService;
-
-        public SprintController(ISprintService sprintService)
+        private readonly IClaimsReader _claimsReader;
+        
+        public SprintController(ISprintService sprintService, IClaimsReader claimsReader)
         {
             _sprintService = sprintService;
+            _claimsReader = claimsReader;
         }
-
+        
+        /// <summary>
+        /// Receive all available sprints
+        /// </summary>
+        /// <response code="200">Receiving all sprints</response>
+        /// <response code="401">Failed authentication</response>
         [HttpGet]
         [Route("all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<CollectionResponse<Sprint>>> GetAllSprints() => await _sprintService.GetALlSprints();
 
+        /// <summary>
+        /// Receive all sprints with description from epic by provided epic id
+        /// </summary>
+        /// <response code="200">Receiving all sprints from epic by provided epic id</response>
+        /// <response code="401">Failed authentication</response>
+        /// <response code="404">Unable to find sprints with description by provided epic id</response>
         [HttpGet]
         [Route("epic/{epicId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CollectionResponse<FullSprint>>> GetAllSprintsFromEpic(Guid epicId)
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
-
-            if (userId == null)
-            {
-                return BadRequest();
-            }
+            var user = _claimsReader.GetUserClaims(User);
             
-            var boardResponse = await _sprintService.GetAllSprintsFromEpic(epicId, new Guid(userId));
+            var boardResponse = await _sprintService.GetAllSprintsFromEpic(epicId, user.UserId);
 
             return boardResponse;
         }
 
+        /// <summary>
+        /// Receive sprint by provided id
+        /// </summary>
+        /// <response code="200">Receiving sprint by provided id</response>
+        /// <response code="401">Failed authentication</response>
+        /// <response code="404">Unable to find sprint by provided id</response>
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -60,14 +71,15 @@ namespace WebAPI.Presentation.Controllers
         {
             var sprint = await _sprintService.GetSprint(id);
 
-            if (sprint == null)
-            {
-                return NotFound();
-            }
-            
             return sprint;
         }
         
+        /// <summary>
+        /// Receive sprint with full description by provided id
+        /// </summary>
+        /// <response code="200">Receiving sprint with full description by provided id</response>
+        /// <response code="401">Failed authentication</response>
+        /// <response code="404">Unable to find sprint with full description by provided id</response>
         [HttpGet]
         [Route("full/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -77,14 +89,14 @@ namespace WebAPI.Presentation.Controllers
         {
             var fullSprint =  await _sprintService.GetFullSprint(id);
 
-            if (fullSprint == null)
-            {
-                return NotFound();
-            }
-            
             return fullSprint;
         }
 
+        /// <summary>
+        /// Create sprint with provided model properties
+        /// </summary>
+        /// <response code="201">Created sprint with provided model properties</response>
+        /// <response code="401">Failed authentication</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -95,6 +107,11 @@ namespace WebAPI.Presentation.Controllers
             return CreatedAtAction(nameof(CreateSprint), createdSprint);
         }
         
+        /// <summary>
+        /// Update sprint with provided model properties
+        /// </summary>
+        /// <response code="200">Updated sprint with provided model properties</response>
+        /// <response code="401">Failed authentication</response>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -105,6 +122,11 @@ namespace WebAPI.Presentation.Controllers
             return Ok(updatedSprint);
         }
         
+        /// <summary>
+        /// Remove sprint with provided id
+        /// </summary>
+        /// <response code="204">Removed sprint with provided id</response>
+        /// <response code="401">Failed authentication</response>
         [HttpDelete]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

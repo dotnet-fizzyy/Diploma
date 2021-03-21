@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +25,12 @@ namespace WebAPI.Presentation.Controllers
             _projectService = projectService;
             _claimsReader = claimsReader;
         }
-
+        
+        /// <summary>
+        /// Receive all available projects
+        /// </summary>
+        /// <response code="200">Receiving all projects</response>
+        /// <response code="401">Failed authentication</response>
         [HttpGet]
         [Route("all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -35,6 +38,11 @@ namespace WebAPI.Presentation.Controllers
         public async Task<ActionResult<CollectionResponse<Project>>> GetAllProjects()
             => await _projectService.GetAllProjects();
 
+        /// <summary>
+        /// Receive all projects that belong to user
+        /// </summary>
+        /// <response code="200">Receiving all user projects based</response>
+        /// <response code="401">Failed authentication</response>
         [HttpGet]
         [Route("user")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -54,13 +62,19 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<CollectionResponse<FullProject>>> GetAllProjectsWithTeamsByUserId()
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
-                
-            var userProjects = await _projectService.GetProjectsWithTeamsByUserId(new Guid(userId!));
+            var user = _claimsReader.GetUserClaims(User);
+            
+            var userProjects = await _projectService.GetProjectsWithTeamsByUserId(user.UserId);
 
             return userProjects;
         }
-
+        
+        /// <summary>
+        /// Receive project by provided id
+        /// </summary>
+        /// <response code="200">Receiving project by provided id</response>
+        /// <response code="401">Failed authentication</response>
+        /// <response code="404">Unable to find project by provided id</response>
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -70,14 +84,15 @@ namespace WebAPI.Presentation.Controllers
         {
             var project = await _projectService.GetProject(id);
 
-            if (project == null)
-            {
-                return NotFound();
-            }
-            
             return project;
         }
 
+        /// <summary>
+        /// Receive full project description by provided id
+        /// </summary>
+        /// <response code="200">Receiving full project description by provided id</response>
+        /// <response code="401">Failed authentication</response>
+        /// <response code="404">Unable to find project by provided id</response>
         [HttpGet]
         [Route("full-desc/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -87,14 +102,14 @@ namespace WebAPI.Presentation.Controllers
         {
             var fullProjectDescription = await _projectService.GetFullProjectDescription(id);
 
-            if (fullProjectDescription == null)
-            {
-                return NotFound();
-            }
-
             return fullProjectDescription;
         }
 
+        /// <summary>
+        /// Create project with provided model properties
+        /// </summary>
+        /// <response code="201">Created project with provided model properties</response>
+        /// <response code="401">Failed authentication</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -104,7 +119,12 @@ namespace WebAPI.Presentation.Controllers
             
             return CreatedAtAction(nameof(CreateProject), createdProject);
         }
-
+        
+        /// <summary>
+        /// Update project with provided model properties
+        /// </summary>
+        /// <response code="200">Updated project with provided model properties</response>
+        /// <response code="401">Failed authentication</response>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -114,7 +134,12 @@ namespace WebAPI.Presentation.Controllers
 
             return Ok(updatedProject);
         }
-
+        
+        /// <summary>
+        /// Remove project with provided id
+        /// </summary>
+        /// <response code="204">Removed project with provided id</response>
+        /// <response code="401">Failed authentication</response>
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

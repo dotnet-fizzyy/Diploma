@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -21,34 +19,49 @@ namespace WebAPI.Presentation.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-
-        public UserController(IUserService userService)
+        private readonly IClaimsReader _claimsReader;
+        
+        public UserController(IUserService userService, IClaimsReader claimsReader)
         {
             _userService = userService;
+            _claimsReader = claimsReader;
         }
 
+        /// <summary>
+        /// Receive all users projects
+        /// </summary>
+        /// <response code="200">Receiving all users</response>
+        /// <response code="401">Failed authentication</response>
         [HttpGet]
         [Route("all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<CollectionResponse<User>>> GetAllUsers() => await _userService.GetAllUsers();
 
+        /// <summary>
+        /// Receive user by access token
+        /// </summary>
+        /// <response code="200">Receiving user by access token</response>
+        /// <response code="401">Failed authentication</response>        
+        /// <response code="404">Unable to find user by provided id</response>        
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<User>> GetUserByToken()
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
-            var user = await _userService.GetUser(new Guid(userId!));
-
-            if (user == null)
-            {
-                return NotFound();
-            }
+            var userClaims = _claimsReader.GetUserClaims(User);
             
+            var user = await _userService.GetUser(userClaims.UserId);
+
             return user;
         }
         
+        /// <summary>
+        /// Receive user by provided id
+        /// </summary>
+        /// <response code="200">Receiving user by provided id</response>
+        /// <response code="401">Failed authentication</response>
+        /// <response code="404">Unable to find user by provided id</response>
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -58,14 +71,14 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = await _userService.GetUser(id);
 
-            if (user == null)
-            {
-                return NotFound();
-            }
-            
             return user;
         }
 
+        /// <summary>
+        /// Create user with provided model properties
+        /// </summary>
+        /// <response code="201">Created user with provided model properties</response>
+        /// <response code="401">Failed authentication</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -76,22 +89,33 @@ namespace WebAPI.Presentation.Controllers
             return CreatedAtAction(nameof(CreateUser), createdUser);
         }
 
+        /// <summary>
+        /// Update user with provided model properties
+        /// </summary>
+        /// <response code="200">Updated user with provided model properties</response>
+        /// <response code="401">Failed authentication</response>
         [HttpPut]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> UpdateUser([FromBody] User user)
+        public async Task<ActionResult<User>> UpdateUser([FromBody] User user)
         {
             var updatedUser = await _userService.UpdateUser(user);
             
-            return Ok(updatedUser);
+            return updatedUser;
         }
 
+        /// <summary>
+        /// Deactivate user with provided user id
+        /// </summary>
+        /// <response code="200">Deactivated user with provided user id</response>
+        /// <response code="401">Failed authentication</response>
+        /// <response code="404">Unable to find user with provided user id</response>
         [HttpPatch]
         [Route("deactivate")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult> DeactivateUser([FromBody] JsonPatchDocument<User> userPatchDocument)
+        public async Task<IActionResult> DeactivateUser([FromBody] JsonPatchDocument<User> userPatchDocument)
         {
             var user = new User();
             userPatchDocument.ApplyTo(user);
@@ -101,6 +125,11 @@ namespace WebAPI.Presentation.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Remove user with provided id
+        /// </summary>
+        /// <response code="204">Removed user with provided id</response>
+        /// <response code="401">Failed authentication</response>
         [HttpDelete]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

@@ -8,6 +8,11 @@
       <ProjectReference Include="..\WebAPI.Models\WebAPI.Models.csproj" />
     </ItemGroup>
 
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);1591</NoWarn>
+    </PropertyGroup>
+    
     <ItemGroup>
       <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="3.1.2" />
       <PackageReference Include="FluentValidation.AspNetCore" Version="9.3.0" />

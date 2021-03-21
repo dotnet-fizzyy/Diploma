@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
+using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
@@ -47,7 +48,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (userEntity == null)
             {
-                return null;
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find user with provided id");
             }
             
             var userModel = _userMapper.MapToModel(userEntity);
