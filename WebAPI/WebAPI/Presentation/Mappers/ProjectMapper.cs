@@ -30,7 +30,7 @@ namespace WebAPI.Presentation.Mappers
                 ProjectName = project.ProjectName,
                 StartDate = project.StartDate,
                 EndDate = project.EndDate,
-                Customer = project.Customer,
+                WorkSpaceId = project.WorkSpaceId,
             };
 
             return projectEntity;
@@ -50,7 +50,7 @@ namespace WebAPI.Presentation.Mappers
                 ProjectName = project.ProjectName,
                 StartDate = project.StartDate,
                 EndDate = project.EndDate,
-                Customer = project.Customer,
+                WorkSpaceId = project.WorkSpaceId,
             };
 
             return projectModel;
@@ -70,7 +70,7 @@ namespace WebAPI.Presentation.Mappers
                 ProjectName = project.ProjectName,
                 StartDate = project.StartDate,
                 EndDate = project.EndDate,
-                Customer = project.Customer,
+                WorkSpaceId = project.WorkSpaceId,
                 Teams = project.Teams.Select(_teamMapper.MapToModel).ToList(),
                 Epics = project.Epics.Select(_epicMapper.MapToModel).ToList(),
             };

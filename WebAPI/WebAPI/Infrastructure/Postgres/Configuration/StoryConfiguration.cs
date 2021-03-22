@@ -28,8 +28,8 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
                 .HasColumnType("xid")
                 .ValueGeneratedOnAddOrUpdate()
                 .IsConcurrencyToken();
+            builder.HasIndex(x => x.Title);
             builder.HasIndex(x => x.SprintId);
-            builder.HasIndex(x => x.UserId);
             builder.HasIndex(x => x.ColumnType);
         }
     }

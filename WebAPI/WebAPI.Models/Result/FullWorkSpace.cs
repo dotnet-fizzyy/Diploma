@@ -3,14 +3,15 @@ using WebAPI.Models.Models;
 
 namespace WebAPI.Models.Result
 {
-    public class FullTeam : Team
+    public class FullWorkSpace : WorkSpace
     {
-        public FullTeam()
+        public FullWorkSpace()
         {
             Users = new List<User>();
+            Projects = new List<Project>();
         }
-
-        public override int MembersCount => Users.Count;
+        
+        public IList<Project> Projects { get; set; }
         
         public IList<User> Users { get; set; }
     }

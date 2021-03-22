@@ -13,6 +13,12 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
             builder.Property(x => x.Id).HasColumnName("UserId");
             builder.Property(x => x.CreationDate).HasDefaultValue(DateTime.UtcNow.Date);
             builder
+                .HasOne<WorkSpace>()
+                .WithMany(e => e.Users)
+                .HasForeignKey(x => x.WorkSpaceId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
+            builder
                 .HasOne<Team>()
                 .WithMany(e => e.Users)
                 .HasForeignKey(x => x.TeamId)
@@ -23,7 +29,6 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
                 .HasColumnType("xid")
                 .ValueGeneratedOnAddOrUpdate()
                 .IsConcurrencyToken();
-            builder.HasIndex(x => x.TeamId);
             builder.HasIndex(x => x.UserName);
             builder.HasIndex(x => x.Password);
             builder.HasIndex(x => x.UserRole);

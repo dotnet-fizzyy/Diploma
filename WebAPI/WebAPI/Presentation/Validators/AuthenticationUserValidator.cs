@@ -15,10 +15,10 @@ namespace WebAPI.Presentation.Validators
                 .NotNull()
                 .NotEmpty();
             RuleFor(x => x.Email)
+                .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEmpty()
                 .EmailAddress(EmailValidationMode.Net4xRegex)
-                .When(x => x.Email != null)
                 .WithMessage("Provided email is not valid");
         }
     }

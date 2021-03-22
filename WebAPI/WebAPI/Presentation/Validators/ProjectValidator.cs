@@ -10,10 +10,9 @@ namespace WebAPI.Presentation.Validators
             RuleFor(x => x.ProjectName)
                 .NotNull()
                 .NotEmpty();
-            RuleFor(x => x.Customer)
-                .NotNull()
+            RuleFor(x => x.WorkSpaceId)
                 .NotEmpty()
-                .WithMessage("Project requires customer");
+                .WithMessage("Project requires customer id");
             RuleFor(x => x.StartDate)
                 .NotEmpty();
             RuleFor(x => x.EndDate)

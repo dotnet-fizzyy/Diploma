@@ -218,7 +218,7 @@ namespace WebAPI.UnitTests.Aggregators
             
             //Assert
             Assert.Equal(projectFullModel.Project.ProjectId, fullProjectDescription.Project.ProjectId);
-            Assert.Equal(projectFullModel.Project.Customer, fullProjectDescription.Project.Customer);
+            Assert.Equal(projectFullModel.Project.WorkSpaceId, fullProjectDescription.Project.WorkSpaceId);
             Assert.Equal(projectFullModel.Project.ProjectDescription, fullProjectDescription.Project.ProjectDescription);
             Assert.Equal(projectFullModel.Project.ProjectName, fullProjectDescription.Project.ProjectName);
             Assert.Equal(projectFullModel.Project.StartDate, fullProjectDescription.Project.StartDate);

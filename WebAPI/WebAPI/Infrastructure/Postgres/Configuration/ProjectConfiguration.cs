@@ -12,6 +12,12 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnName("ProjectId");
             builder.Property(x => x.CreationDate).HasDefaultValue(DateTime.UtcNow.Date);
+            builder
+                .HasOne<WorkSpace>()
+                .WithMany(x => x.Projects)
+                .HasForeignKey(x => x.WorkSpaceId)
+                .OnDelete(DeleteBehavior.SetNull);
+            builder.HasIndex(x => x.WorkSpaceId);
         }
     }
 }

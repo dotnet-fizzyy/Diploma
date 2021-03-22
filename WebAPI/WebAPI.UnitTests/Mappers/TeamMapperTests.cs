@@ -93,6 +93,7 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(teamEntity.TeamName, mappedResult.TeamName);
             Assert.Equal(teamEntity.Location, mappedResult.Location);
             Assert.Equal(teamEntity.MembersCount, mappedResult.MembersCount);
+            Assert.Equal(teamModel.CustomerId, mappedResult.CustomerId);
         }
         
         [Fact]
@@ -128,6 +129,7 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(teamModel.TeamName, mappedResult.TeamName);
             Assert.Equal(teamModel.Location, mappedResult.Location);
             Assert.Equal(teamModel.MembersCount, mappedResult.MembersCount);
+            Assert.Equal(teamModel.CustomerId, mappedResult.CustomerId);
         }
         
         [Fact]
@@ -193,6 +195,7 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(teamFullModel.TeamName, mappedResult.TeamName);
             Assert.Equal(teamFullModel.Location, mappedResult.Location);
             Assert.Equal(teamFullModel.MembersCount, mappedResult.MembersCount);
+            Assert.Equal(teamFullModel.CustomerId, mappedResult.CustomerId);
             Assert.All(mappedResult.Users, user =>
             {
                 Assert.Equal(teamFullModel.Users.First().UserId, user.UserId);

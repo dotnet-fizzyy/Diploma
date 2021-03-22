@@ -74,7 +74,7 @@ namespace WebAPI.ApplicationLogic.Services
                 case UserRole.ProductOwner:
                     projectEntities =
                         await _projectRepository.SearchForMultipleItemsAsync(
-                            x => x.Customer == user.UserId.ToString());
+                            x => x.WorkSpaceId == user.UserId);
                     break;
                 default:
                     projectEntities = await _projectRepository.GetProjectsByUserId(user.UserId);

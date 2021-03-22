@@ -19,7 +19,7 @@ namespace WebAPI.Core.Entities
         
         public DateTime EndDate { get; set; }
         
-        public string Customer { get; set; }
+        public Guid WorkSpaceId { get; set; }
         
         public IList<Epic> Epics { get; set; }
         

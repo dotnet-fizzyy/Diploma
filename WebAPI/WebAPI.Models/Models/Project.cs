@@ -14,6 +14,6 @@ namespace WebAPI.Models.Models
         
         public DateTime EndDate { get; set; }
         
-        public string Customer { get; set; }
+        public Guid WorkSpaceId { get; set; }
     }
 }

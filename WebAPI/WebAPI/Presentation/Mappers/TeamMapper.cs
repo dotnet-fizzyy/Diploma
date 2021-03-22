@@ -26,7 +26,7 @@ namespace WebAPI.Presentation.Mappers
                 Id = team.TeamId,
                 ProjectId = team.ProjectId,
                 TeamName = team.TeamName,
-                Location = team.Location,
+                Location = team.Location
             };
 
             return teamEntity;
@@ -45,7 +45,7 @@ namespace WebAPI.Presentation.Mappers
                 ProjectId = team.ProjectId,
                 TeamName = team.TeamName,
                 Location = team.Location,
-                MembersCount = team.MembersCount,
+                MembersCount = team.MembersCount
             };
 
             return teamModel;

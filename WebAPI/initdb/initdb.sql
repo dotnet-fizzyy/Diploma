@@ -431,3 +431,166 @@ BEGIN
     VALUES ('20210309201028_RemoveExtraTeamEpicTable', '3.1.9');
     END IF;
 END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    ALTER TABLE "Projects" DROP COLUMN "Customer";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    ALTER TABLE "Users" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "Users" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Users" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-22 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    ALTER TABLE "Users" ADD "WorkSpaceId" uuid NULL;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    ALTER TABLE "Teams" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "Teams" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Teams" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-22 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    ALTER TABLE "Teams" ADD "CustomerId" uuid NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    ALTER TABLE "StoryHistories" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "StoryHistories" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "StoryHistories" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-22 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    ALTER TABLE "Stories" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "Stories" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Stories" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-22 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    ALTER TABLE "Sprints" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "Sprints" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Sprints" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-22 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    ALTER TABLE "RefreshTokens" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "RefreshTokens" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "RefreshTokens" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-22 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    ALTER TABLE "RefreshTokens" ADD "ExpirationDate" timestamp without time zone NOT NULL DEFAULT TIMESTAMP '0001-01-01 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    ALTER TABLE "Projects" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "Projects" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Projects" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-22 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    ALTER TABLE "Projects" ADD "WorkSpaceId" uuid NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    ALTER TABLE "Epics" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "Epics" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Epics" ALTER COLUMN "CreationDate" SET DEFAULT TIMESTAMP '2021-03-22 00:00:00';
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    CREATE TABLE "WorkSpaces" (
+        "Id" uuid NOT NULL,
+        "CreationDate" timestamp without time zone NOT NULL DEFAULT TIMESTAMP '2021-03-22 00:00:00',
+        "WorkSpaceName" text NULL,
+        "WorkSpaceDescription" text NULL,
+        CONSTRAINT "WorkSpaceId" PRIMARY KEY ("Id")
+    );
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    CREATE INDEX "IX_Users_WorkSpaceId" ON "Users" ("WorkSpaceId");
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    CREATE INDEX "IX_Stories_Title" ON "Stories" ("Title");
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    CREATE INDEX "IX_Projects_WorkSpaceId" ON "Projects" ("WorkSpaceId");
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    ALTER TABLE "Projects" ADD CONSTRAINT "FK_Projects_WorkSpaces_WorkSpaceId" FOREIGN KEY ("WorkSpaceId") REFERENCES "WorkSpaces" ("Id") ON DELETE SET NULL;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    ALTER TABLE "Users" ADD CONSTRAINT "FK_Users_WorkSpaces_WorkSpaceId" FOREIGN KEY ("WorkSpaceId") REFERENCES "WorkSpaces" ("Id") ON DELETE SET NULL;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210322194957_AddWorkSpaceTable') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20210322194957_AddWorkSpaceTable', '3.1.9');
+    END IF;
+END $$;

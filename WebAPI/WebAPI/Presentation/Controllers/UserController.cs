@@ -105,11 +105,11 @@ namespace WebAPI.Presentation.Controllers
         }
 
         /// <summary>
-        /// Deactivate user with provided user id
+        /// Deactivate user with provided id
         /// </summary>
-        /// <response code="200">Deactivated user with provided user id</response>
+        /// <response code="200">Deactivated user with provided id</response>
         /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find user with provided user id</response>
+        /// <response code="404">Unable to find user with provided id</response>
         [HttpPatch]
         [Route("deactivate")]
         [ProducesResponseType(StatusCodes.Status201Created)]

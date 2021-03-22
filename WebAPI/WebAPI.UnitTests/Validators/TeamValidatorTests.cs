@@ -19,7 +19,8 @@ namespace WebAPI.UnitTests.Validators
                 TeamId = new Guid("25ae4e1b-c700-42aa-b37d-22f8055f858f"),
                 TeamName = "Name",
                 Location = "Minsk",
-                MembersCount = 0
+                MembersCount = 0,
+                CustomerId = new Guid("25ae4e1b-c700-42aa-b37d-22f8055f8111")
             };
             
             _teamValidator = new TeamValidator();
@@ -43,7 +44,8 @@ namespace WebAPI.UnitTests.Validators
                 TeamId = new Guid("25ae4e1b-c700-42aa-b37d-22f8055f858f"),
                 TeamName = teamName,
                 Location = "Minsk",
-                MembersCount = 0
+                MembersCount = 0,
+                CustomerId = new Guid("25ae4e1b-c700-42aa-b37d-22f8055f8111")
             };
             
             _teamValidator = new TeamValidator();
@@ -67,7 +69,8 @@ namespace WebAPI.UnitTests.Validators
                 TeamId = new Guid("25ae4e1b-c700-42aa-b37d-22f8055f858f"),
                 TeamName = "Name",
                 Location = location,
-                MembersCount = 0
+                MembersCount = 0,
+                CustomerId = new Guid("25ae4e1b-c700-42aa-b37d-22f8055f8111")
             };
             
             _teamValidator = new TeamValidator();
@@ -78,6 +81,29 @@ namespace WebAPI.UnitTests.Validators
             //Assert
             Assert.False(result.IsValid);
             result.ShouldHaveValidationErrorFor(x => x.Location);
+        }
+        
+        [Fact]
+        public void ShouldValidateInCorrectTeamCustomerId()
+        {
+            //Arrange
+            var team = new Team
+            {
+                TeamId = new Guid("25ae4e1b-c700-42aa-b37d-22f8055f858f"),
+                TeamName = "Name",
+                Location = "Minsk",
+                MembersCount = 0,
+                CustomerId = Guid.Empty,
+            };
+            
+            _teamValidator = new TeamValidator();
+
+            //Act
+            var result = _teamValidator.TestValidate(team);
+
+            //Assert
+            Assert.False(result.IsValid);
+            result.ShouldHaveValidationErrorFor(x => x.CustomerId).WithErrorMessage("Team requires customer id");
         }
     }
 }

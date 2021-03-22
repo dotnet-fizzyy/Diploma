@@ -6,6 +6,8 @@ namespace WebAPI.Infrastructure.Postgres
 {
     public class DatabaseContext : DbContext
     {
+        public DbSet<WorkSpace> WorkSpaces { get; set; } 
+            
         public DbSet<Project> Projects { get; set; }
         
         public DbSet<Epic> Epics { get; set; }
@@ -37,6 +39,7 @@ namespace WebAPI.Infrastructure.Postgres
             modelBuilder.ApplyConfiguration(new StoryConfiguration());
             modelBuilder.ApplyConfiguration(new StoryHistoryConfiguration());
             modelBuilder.ApplyConfiguration(new ProjectConfiguration());
+            modelBuilder.ApplyConfiguration(new WorkSpaceConfiguration());
         }
     }
 }

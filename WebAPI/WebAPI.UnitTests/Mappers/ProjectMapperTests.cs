@@ -78,7 +78,7 @@ namespace WebAPI.UnitTests.Mappers
                 ProjectDescription = "Description",
                 StartDate = new DateTime(2020, 11, 11),
                 EndDate = new DateTime(2020, 11, 19),
-                Customer = "Customer"
+                WorkSpaceId = new Guid("1b7572ee-eb5b-4094-bd5e-e2191090c444")
             };
 
             var projectModel = new Models.Models.Project
@@ -88,7 +88,7 @@ namespace WebAPI.UnitTests.Mappers
                 ProjectDescription = "Description",
                 StartDate = new DateTime(2020, 11, 11),
                 EndDate = new DateTime(2020, 11, 19),
-                Customer = "Customer"
+                WorkSpaceId = new Guid("1b7572ee-eb5b-4094-bd5e-e2191090c444")
             };
             
             //Act
@@ -101,7 +101,7 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(projectModel.ProjectDescription, mappedResult.ProjectDescription);
             Assert.Equal(projectModel.StartDate, mappedResult.StartDate);
             Assert.Equal(projectModel.EndDate, mappedResult.EndDate);
-            Assert.Equal(projectModel.Customer, mappedResult.Customer);
+            Assert.Equal(projectModel.WorkSpaceId, mappedResult.WorkSpaceId);
         }
         
         [Fact]
@@ -120,7 +120,7 @@ namespace WebAPI.UnitTests.Mappers
                 ProjectDescription = "Desc",
                 StartDate = new DateTime(2020, 11, 11),
                 EndDate = new DateTime(2020, 11, 19),
-                Customer = "CustomerName"
+                WorkSpaceId = new Guid("1b7572ee-eb5b-4094-bd5e-e2191090c444")
             };
 
             var projectModel = new Models.Models.Project
@@ -130,7 +130,7 @@ namespace WebAPI.UnitTests.Mappers
                 ProjectDescription = "Desc",
                 StartDate = new DateTime(2020, 11, 11),
                 EndDate = new DateTime(2020, 11, 19),
-                Customer = "CustomerName"
+                WorkSpaceId = new Guid("1b7572ee-eb5b-4094-bd5e-e2191090c444")
             };
             
             //Act
@@ -143,7 +143,7 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(projectEntity.ProjectDescription, mappedResult.ProjectDescription);
             Assert.Equal(projectEntity.StartDate, mappedResult.StartDate);
             Assert.Equal(projectEntity.EndDate, mappedResult.EndDate);
-            Assert.Equal(projectEntity.Customer, mappedResult.Customer);
+            Assert.Equal(projectEntity.WorkSpaceId, mappedResult.WorkSpaceId);
         }
         
         [Fact]
@@ -163,7 +163,7 @@ namespace WebAPI.UnitTests.Mappers
                 ProjectDescription = "Description",
                 StartDate = new DateTime(2020, 11, 11),
                 EndDate = new DateTime(2020, 11, 19),
-                Customer = "Customer",
+                WorkSpaceId = new Guid("1b7572ee-eb5b-4094-bd5e-e2191090c444"),
                 Teams = new List<Team>
                 {
                     new Team
@@ -183,7 +183,7 @@ namespace WebAPI.UnitTests.Mappers
                 ProjectDescription = "Description",
                 StartDate = new DateTime(2020, 11, 11),
                 EndDate = new DateTime(2020, 11, 19),
-                Customer = "Customer",
+                WorkSpaceId = new Guid("1b7572ee-eb5b-4094-bd5e-e2191090c444"),
                 Teams = new List<Models.Models.Team>
                 {
                     new Models.Models.Team
@@ -208,7 +208,7 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(projectModel.ProjectDescription, mappedResult.ProjectDescription);
             Assert.Equal(projectModel.StartDate, mappedResult.StartDate);
             Assert.Equal(projectModel.EndDate, mappedResult.EndDate);
-            Assert.Equal(projectModel.Customer, mappedResult.Customer);
+            Assert.Equal(projectModel.WorkSpaceId, mappedResult.WorkSpaceId);
             Assert.All(mappedResult.Teams, team =>
             {
                 Assert.Equal(projectModel.Teams.First().TeamId, mappedResult.Teams.First().TeamId);

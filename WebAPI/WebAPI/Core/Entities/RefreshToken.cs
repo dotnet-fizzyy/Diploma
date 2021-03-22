@@ -7,5 +7,7 @@ namespace WebAPI.Core.Entities
         public Guid UserId { get; set; }
         
         public string Value { get; set; }
+        
+        public DateTime ExpirationDate { get; set; }
     }
 }

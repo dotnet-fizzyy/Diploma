@@ -21,7 +21,7 @@ namespace WebAPI.UnitTests.Validators
                 ProjectName = "Name",
                 StartDate = DateTime.UtcNow,
                 EndDate = DateTime.UtcNow,
-                Customer = "CustomerId"
+                WorkSpaceId =  new Guid("1b7572ee-eb5b-4094-bd5e-e2191090c333")
             };
             
             //Act
@@ -41,7 +41,7 @@ namespace WebAPI.UnitTests.Validators
             var project = new Project
             {
                 ProjectName = "Name",
-                Customer = "CustomerId"
+                WorkSpaceId = new Guid("1b7572ee-eb5b-4094-bd5e-e2191090c333")
             };
             
             //Act
@@ -53,10 +53,8 @@ namespace WebAPI.UnitTests.Validators
             result.ShouldHaveValidationErrorFor(x => x.EndDate);
         }
         
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        public void ShouldValidateIncorrectProjectCustomer(string customerId)
+        [Fact]
+        public void ShouldValidateIncorrectProjectCustomer()
         {
             //Arrange
             _projectValidator = new ProjectValidator();
@@ -66,7 +64,7 @@ namespace WebAPI.UnitTests.Validators
                 ProjectName = "Name",
                 StartDate = DateTime.UtcNow,
                 EndDate = DateTime.UtcNow,
-                Customer = customerId
+                WorkSpaceId = Guid.Empty
             };
             
             //Act
@@ -74,7 +72,7 @@ namespace WebAPI.UnitTests.Validators
             
             //Assert
             Assert.False(result.IsValid);
-            result.ShouldHaveValidationErrorFor(x => x.Customer).WithErrorMessage("Project requires customer");
+            result.ShouldHaveValidationErrorFor(x => x.WorkSpaceId).WithErrorMessage("Project requires customer id");
         }
     }
 }
