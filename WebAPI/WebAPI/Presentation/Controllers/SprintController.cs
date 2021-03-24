@@ -44,7 +44,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication</response>
         /// <response code="404">Unable to find sprints with description by provided epic id</response>
         [HttpGet]
-        [Route("epic/{epicId}")]
+        [Route("epic/id/{epicId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -64,7 +64,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication</response>
         /// <response code="404">Unable to find sprint by provided id</response>
         [HttpGet]
-        [Route("{id}")]
+        [Route("id/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -82,7 +82,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication</response>
         /// <response code="404">Unable to find sprint with full description by provided id</response>
         [HttpGet]
-        [Route("full/{id}")]
+        [Route("full/id/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -129,7 +129,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="204">Removed sprint with provided id</response>
         /// <response code="401">Failed authentication</response>
         [HttpDelete]
-        [Route("{id}")]
+        [Route("id/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveSprint(Guid id)
