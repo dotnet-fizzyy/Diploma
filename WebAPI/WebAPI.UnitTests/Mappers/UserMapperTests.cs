@@ -39,6 +39,7 @@ namespace WebAPI.UnitTests.Mappers
         {
             //Arrange
             var userId = new Guid();
+            var workSpaceId = new Guid();
             
             var userEntity = new Core.Entities.User
             {
@@ -46,9 +47,10 @@ namespace WebAPI.UnitTests.Mappers
                 UserName = "SomeUser",
                 UserPosition = Core.Enums.UserPosition.Developer,
                 UserRole = Core.Enums.UserRole.Engineer,
+                WorkSpaceId = workSpaceId,
                 AvatarLink = "avatarLink",
                 Email = "test@mail.com",
-                RecordVersion = 12345,
+                CreationDate = new DateTime(2021, 3, 1),
                 IsActive = true
             };
 
@@ -58,9 +60,10 @@ namespace WebAPI.UnitTests.Mappers
                 UserName = "SomeUser",
                 UserPosition = Models.Enums.UserPosition.Developer,
                 UserRole = Models.Enums.UserRole.Engineer,
+                WorkSpaceId = workSpaceId,
                 AvatarLink = "avatarLink",
                 Email = "test@mail.com",
-                RecordVersion = 12345,
+                CreationDate = new DateTime(2021, 3, 1),
                 IsActive = true
             };
             
@@ -76,7 +79,6 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(userModel.AvatarLink, mappedResult.AvatarLink);
             Assert.Equal(userModel.Email, mappedResult.Email);
             Assert.Equal(userModel.IsActive, mappedResult.IsActive);
-            Assert.Equal(userModel.RecordVersion, mappedResult.RecordVersion);
         }
         
         [Fact]
@@ -84,6 +86,7 @@ namespace WebAPI.UnitTests.Mappers
         {
             //Arrange
             var userId = new Guid();
+            var workSpaceId = new Guid();
             
             var userEntity = new Core.Entities.User
             {
@@ -91,9 +94,10 @@ namespace WebAPI.UnitTests.Mappers
                 UserName = "SomeUser2",
                 UserPosition = Core.Enums.UserPosition.Developer,
                 UserRole = Core.Enums.UserRole.Engineer,
+                WorkSpaceId = workSpaceId,
                 AvatarLink = "avatarLink123_321",
                 Email = "testTest@mail.com",
-                RecordVersion = 55555,
+                CreationDate = new DateTime(2021, 3, 1),
                 IsActive = false
             };
 
@@ -103,9 +107,10 @@ namespace WebAPI.UnitTests.Mappers
                 UserName = "SomeUser2",
                 UserPosition = Models.Enums.UserPosition.Developer,
                 UserRole = Models.Enums.UserRole.Engineer,
+                WorkSpaceId = workSpaceId,
                 AvatarLink = "avatarLink123_321",
                 Email = "testTest@mail.com",
-                RecordVersion = 55555,
+                CreationDate = new DateTime(2021, 3, 1),
                 IsActive = false
             };
             
@@ -121,7 +126,7 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(userEntity.AvatarLink, mappedResult.AvatarLink);
             Assert.Equal(userEntity.Email, mappedResult.Email);
             Assert.Equal(userEntity.IsActive, mappedResult.IsActive);
-            Assert.Equal(userEntity.RecordVersion, mappedResult.RecordVersion);
+            
         }
     }
 }

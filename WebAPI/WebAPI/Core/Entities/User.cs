@@ -29,8 +29,6 @@ namespace WebAPI.Core.Entities
         public string Email { get; set; }
         
         public string AvatarLink { get; set; }
-        
-        public uint RecordVersion { get; set; }
 
         public IList<RefreshToken> RefreshTokens { get; set; }
         

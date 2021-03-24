@@ -156,7 +156,6 @@ namespace WebAPI.UnitTests.Mappers
                         UserRole = Core.Enums.UserRole.Engineer,
                         AvatarLink = "avatarLink",
                         Email = "test@mail.com",
-                        RecordVersion = 12345,
                         IsActive = true
                     }
                 }
@@ -177,7 +176,6 @@ namespace WebAPI.UnitTests.Mappers
                         UserRole = Models.Enums.UserRole.Engineer,
                         AvatarLink = "avatarLink",
                         Email = "test@mail.com",
-                        RecordVersion = 12345,
                         IsActive = true
                     }
                 }
@@ -202,7 +200,6 @@ namespace WebAPI.UnitTests.Mappers
                 Assert.Equal(teamFullModel.Users.First().Email, user.Email);
                 Assert.Equal(teamFullModel.Users.First().UserName, user.UserName);
                 Assert.Equal(teamFullModel.Users.First().UserPosition.ToString(), user.UserPosition.ToString());
-                Assert.Equal(teamFullModel.Users.First().RecordVersion, user.RecordVersion);
                 Assert.Equal(teamFullModel.Users.First().AvatarLink, user.AvatarLink);
                 Assert.Equal(teamFullModel.Users.First().IsActive, user.IsActive);
                 Assert.Equal(teamFullModel.Users.First().UserRole.ToString(), user.UserRole.ToString());

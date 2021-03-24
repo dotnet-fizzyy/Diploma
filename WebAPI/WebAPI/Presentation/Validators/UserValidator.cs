@@ -8,12 +8,6 @@ namespace WebAPI.Presentation.Validators
     {
         public UserValidator()
         {
-            RuleFor(x => x.UserId)
-                .NotEmpty()
-                .When(x => x.RecordVersion != default);
-            RuleFor(x => x.RecordVersion)
-                .NotEmpty()
-                .When(x => x.UserId != default);
             RuleFor(x => x.UserName)
                 .NotNull()
                 .NotEmpty();

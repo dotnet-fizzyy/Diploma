@@ -20,30 +20,7 @@ namespace WebAPI.UnitTests.Validators
             {
                 UserId = new Guid("d295f413-d8c7-4e58-98ac-62c77bab6365"),
                 Email = "test@mail.com",
-                UserName = "Name",
-                RecordVersion = 123
-            };
-            
-            //Act
-            var result = _userValidator.TestValidate(user);
-            
-            //Assert
-            Assert.True(result.IsValid);
-            result.ShouldNotHaveAnyValidationErrors();
-        }
-        
-        [Fact]
-        public void ShouldValidateCorrectUserOnCreation()
-        {
-            //Arrange
-            _userValidator = new UserValidator();
-
-            var user = new User
-            {
-                UserId = Guid.Empty,
-                Email = "test@mail.com",
-                UserName = "Name",
-                RecordVersion = 0
+                UserName = "Name"
             };
             
             //Act
@@ -66,8 +43,7 @@ namespace WebAPI.UnitTests.Validators
             {
                 UserId = new Guid("d295f413-d8c7-4e58-98ac-62c77bab6365"),
                 Email = "email@mai.com",
-                UserName = name,
-                RecordVersion = 123
+                UserName = name
             };
             
             //Act
@@ -93,8 +69,7 @@ namespace WebAPI.UnitTests.Validators
             {
                 UserId = new Guid("d295f413-d8c7-4e58-98ac-62c77bab6365"),
                 Email = email,
-                UserName = "Name",
-                RecordVersion = 123
+                UserName = "Name"
             };
             
             //Act

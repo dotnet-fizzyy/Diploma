@@ -24,11 +24,6 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
                 .HasForeignKey(x => x.TeamId)
                 .OnDelete(DeleteBehavior.SetNull)
                 .IsRequired(false);
-            builder.Property(x => x.RecordVersion)
-                .HasColumnName("xmin")
-                .HasColumnType("xid")
-                .ValueGeneratedOnAddOrUpdate()
-                .IsConcurrencyToken();
             builder.HasIndex(x => x.UserName);
             builder.HasIndex(x => x.Password);
             builder.HasIndex(x => x.UserRole);

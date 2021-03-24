@@ -7,7 +7,11 @@ namespace WebAPI.Models.Models
     {
         public Guid UserId { get; set; }
         
+        public DateTime CreationDate { get; set; }
+        
         public Guid? TeamId { get; set; }
+        
+        public Guid? WorkSpaceId { get; set; }
         
         public string UserName { get; set; }
         
@@ -22,7 +26,5 @@ namespace WebAPI.Models.Models
         public string Email { get; set; }
         
         public string AvatarLink { get; set; }
-        
-        public uint RecordVersion { get; set; }
     }
 }

@@ -22,8 +22,9 @@ namespace WebAPI.Presentation.Mappers
                 Password = user.Password,
                 IsActive = user.IsActive,
                 AvatarLink = user.AvatarLink,
+                WorkSpaceId = user.WorkSpaceId,
                 Email = user.Email,
-                RecordVersion = user.RecordVersion,
+                CreationDate = user.CreationDate,
                 UserRole = Enum.Parse<Core.Enums.UserRole>(user.UserRole.ToString(), true),
                 UserPosition = Enum.Parse<Core.Enums.UserPosition>(user.UserPosition.ToString(), true),
             };
@@ -45,8 +46,9 @@ namespace WebAPI.Presentation.Mappers
                 UserName = user.UserName,
                 IsActive = user.IsActive,
                 AvatarLink = user.AvatarLink,
+                WorkSpaceId = user.WorkSpaceId,
                 Email = user.Email,
-                RecordVersion = user.RecordVersion,
+                CreationDate = user.CreationDate,
                 UserRole = Enum.Parse<Models.Enums.UserRole>(user.UserRole.ToString(), true),
                 UserPosition = Enum.Parse<Models.Enums.UserPosition>(user.UserPosition.ToString(), true),
             };
