@@ -4,6 +4,7 @@ using System.Security.Claims;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Services;
+using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Core.Models;
 
 namespace WebAPI.ApplicationLogic.Utilities

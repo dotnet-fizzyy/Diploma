@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using WebAPI.Core.Configuration;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Services;
+using WebAPI.Core.Interfaces.Utilities;
 
 namespace WebAPI.ApplicationLogic.Utilities
 {

@@ -20,7 +20,9 @@ namespace WebAPI.Presentation.Validators
             RuleFor(x => x.Email)
                 .NotNull()
                 .NotEmpty()
+#pragma warning disable 618
                 .EmailAddress(EmailValidationMode.Net4xRegex)
+#pragma warning restore 618
                 .WithMessage("Provided email is not valid");
         }
     }

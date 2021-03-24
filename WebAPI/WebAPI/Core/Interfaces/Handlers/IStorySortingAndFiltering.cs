@@ -4,7 +4,7 @@ using WebAPI.Core.Enums;
 using WebAPI.Models.Models;
 using WebAPI.Models.Result;
 
-namespace WebAPI.Core.Interfaces.Services
+namespace WebAPI.Core.Interfaces.Handlers
 {
     public interface IStorySortingAndFiltering
     {

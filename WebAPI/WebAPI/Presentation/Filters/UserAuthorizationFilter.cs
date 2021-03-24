@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Primitives;
 using WebAPI.Core.Configuration;
 using WebAPI.Core.Interfaces.Services;
+using WebAPI.Core.Interfaces.Utilities;
 
 namespace WebAPI.Presentation.Filters
 {

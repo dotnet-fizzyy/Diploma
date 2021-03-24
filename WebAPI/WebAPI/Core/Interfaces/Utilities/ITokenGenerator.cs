@@ -1,7 +1,7 @@
 using WebAPI.Core.Configuration;
 using WebAPI.Core.Entities;
 
-namespace WebAPI.Core.Interfaces.Services
+namespace WebAPI.Core.Interfaces.Utilities
 {
     public interface ITokenGenerator
     {

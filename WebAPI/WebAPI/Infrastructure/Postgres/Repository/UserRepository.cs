@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Core.Entities;
@@ -10,10 +11,19 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         public UserRepository(DatabaseContext databaseContext) : base(databaseContext)
         {
         }
+        
         public async Task<User> AuthenticateUser(User user)
         {
             return await _dbContext.Users
                 .FirstOrDefaultAsync(x => x.UserName == user.UserName && x.Password == user.Password);
+        }
+
+        public async Task UpdateUserWorkSpace(User user)
+        {
+            _dbContext.Users.Attach(user);
+            _dbContext.Entry(user).Property(x => x.WorkSpaceId).IsModified = true;
+
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeactivateUser(User user)

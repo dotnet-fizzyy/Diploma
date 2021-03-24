@@ -1,14 +1,15 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using WebAPI.ApplicationLogic;
 using WebAPI.ApplicationLogic.Handlers;
 using WebAPI.ApplicationLogic.Services;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Configuration;
 using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
+using WebAPI.Core.Interfaces.Handlers;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
+using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Infrastructure.Postgres.Repository;
 using WebAPI.Models.Models;
 using WebAPI.Presentation.Aggregators;
@@ -34,6 +35,7 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<IProjectRepository, ProjectRepository>();
             services.AddTransient<IStoryHistoryRepository, StoryHistoryRepository>();
             services.AddTransient<IStoryRepository, StoryRepository>();
+            services.AddTransient<IWorkSpaceRepository, WorkSpaceRepository>();
             
             //Mappers
             services.AddTransient<IStoryMapper, StoryMapper>();
@@ -44,6 +46,7 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<ISprintMapper, SprintMapper>();
             services.AddTransient<ITeamMapper, TeamMapper>();
             services.AddTransient<IProjectMapper, ProjectMapper>();
+            services.AddTransient<IWorkSpaceMapper, WorkSpaceMapper>();
             
             //Services
             services.AddTransient<IStoryService, StoryService>();
@@ -53,11 +56,16 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<ISprintService, SprintService>();
             services.AddTransient<IRefreshTokenService, RefreshTokenService>();
             services.AddTransient<IEpicService, EpicService>();
-            services.AddTransient<ITokenService, TokenService>();
-            services.AddTransient<IStorySortingAndFiltering, StorySortingAndFiltering>();
             services.AddTransient<ITokenGenerator, TokenGenerator>();
             services.AddTransient<IPageService, PageService>();
+            services.AddTransient<IWorkSpaceService, WorkSpaceService>();
+            
+            //Handlers
+            services.AddTransient<IStorySortingAndFiltering, StorySortingAndFiltering>();
+
+            //Utilities
             services.AddTransient<IClaimsReader, ClaimsReader>();
+            services.AddTransient<ITokenService, TokenService>();
             
             //Aggregators
             services.AddTransient<IFullProjectDescriptionAggregator, FullProjectDescriptionAggregator>();
@@ -76,6 +84,7 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<IValidator<Sprint>, SprintValidator>();
             services.AddTransient<IValidator<Project>, ProjectValidator>();
             services.AddTransient<IValidator<StoryUpdate>, StoryUpdateValidator>();
+            services.AddTransient<IValidator<WorkSpace>, WorkSpaceValidator>();
         }
     }
 }
