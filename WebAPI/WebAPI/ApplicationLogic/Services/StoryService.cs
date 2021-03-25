@@ -152,6 +152,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Story> UpdateStory(Story story)
         {
             var storyEntity = _storyMapper.MapToEntity(story);
+            storyEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
 
             var updatedStoryEntity = await _storyRepository.UpdateItemAsync(storyEntity);
 

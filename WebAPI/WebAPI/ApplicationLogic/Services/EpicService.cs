@@ -89,6 +89,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Epic> CreateEpic(Epic epic)
         {
             var epicEntity = _epicMapper.MapToEntity(epic);
+            epicEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
 
             var createdEpicEntity = await _epicRepository.CreateAsync(epicEntity);
 

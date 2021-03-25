@@ -65,7 +65,8 @@ namespace WebAPI.ApplicationLogic.Services
 
                 var refreshTokenEntity =
                     _refreshTokenAggregator.GenerateRefreshTokenEntityOnSave(authUser.Id, refreshToken);
-            
+                refreshTokenEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
+                
                 await _refreshTokenRepository.CreateAsync(refreshTokenEntity);
             }
 

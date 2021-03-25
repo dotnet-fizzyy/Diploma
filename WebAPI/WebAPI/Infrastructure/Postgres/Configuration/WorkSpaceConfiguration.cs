@@ -10,7 +10,7 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
         public void Configure(EntityTypeBuilder<WorkSpace> builder)
         {
             builder.HasKey(x => x.Id).HasName("WorkSpaceId");
-            builder.Property(x => x.CreationDate).HasDefaultValue(DateTime.UtcNow.Date);
+            builder.Property(x => x.CreationDate).HasColumnType("timestamptz");
         }
     }
 }

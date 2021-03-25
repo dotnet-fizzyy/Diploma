@@ -11,7 +11,7 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnName("UserId");
-            builder.Property(x => x.CreationDate).HasDefaultValue(DateTime.UtcNow.Date);
+            builder.Property(x => x.CreationDate).HasColumnType("timestamptz");
             builder
                 .HasOne<WorkSpace>()
                 .WithMany(e => e.Users)

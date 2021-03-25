@@ -72,6 +72,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var entityUser = _userMapper.MapToEntity(user);
             entityUser.Password = PasswordHashing.CreateHashPassword(entityUser.Password);
+            entityUser.CreationDate = DateTime.UtcNow.ToUniversalTime();
             
             var createdUserEntity = await _userRepository.CreateAsync(entityUser);
 

@@ -186,6 +186,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Project> AddProject(Project project)
         {
             var projectEntity = _projectMapper.MapToEntity(project);
+            projectEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
 
             var createdProject = await _projectRepository.CreateAsync(projectEntity);
 

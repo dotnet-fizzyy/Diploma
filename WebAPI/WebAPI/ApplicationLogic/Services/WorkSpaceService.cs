@@ -91,6 +91,7 @@ namespace WebAPI.ApplicationLogic.Services
             
             var workSpaceEntity = _workSpaceMapper.MapToEntity(workSpace);
             var createdWorkSpaceEntity = await _workSpaceRepository.CreateAsync(workSpaceEntity);
+            createdWorkSpaceEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
 
             var userEntity = new User
             {

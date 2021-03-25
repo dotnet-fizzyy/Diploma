@@ -12,7 +12,7 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnName("StoryHistoryId");
-            builder.Property(x => x.CreationDate).HasDefaultValue(DateTime.UtcNow.Date);
+            builder.Property(x => x.CreationDate).HasColumnType("timestamptz");
             builder
                 .HasOne<Story>()
                 .WithMany(e => e.StoryHistories)

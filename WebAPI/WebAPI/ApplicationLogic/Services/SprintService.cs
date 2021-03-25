@@ -16,23 +16,17 @@ namespace WebAPI.ApplicationLogic.Services
     {
         private readonly ISprintRepository _sprintRepository;
         private readonly IStoryRepository _storyRepository;
-        private readonly ITeamRepository _teamRepository;
         private readonly ISprintMapper _sprintMapper;
-        private readonly ITeamMapper _teamMapper;
 
         public SprintService(
             ISprintRepository sprintRepository, 
             IStoryRepository storyRepository, 
-            ITeamRepository teamRepository,
-            ISprintMapper sprintMapper,
-            ITeamMapper teamMapper
+            ISprintMapper sprintMapper
             )
         {
             _sprintRepository = sprintRepository;
             _storyRepository = storyRepository;
-            _teamRepository = teamRepository;
             _sprintMapper = sprintMapper;
-            _teamMapper = teamMapper;
         }
         
         public async Task<CollectionResponse<Sprint>> GetALlSprints()
@@ -95,6 +89,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Sprint> CreateSprint(Sprint sprint)
         {
             var sprintEntity = _sprintMapper.MapToEntity(sprint);
+            sprintEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
 
             var createdSprintEntity = await _sprintRepository.CreateAsync(sprintEntity);
 

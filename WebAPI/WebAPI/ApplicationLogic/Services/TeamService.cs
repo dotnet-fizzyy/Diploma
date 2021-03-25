@@ -89,6 +89,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Team> CreateTeam(Team team)
         {
             var teamEntity = _teamMapper.MapToEntity(team);
+            teamEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
 
             var createdTeamEntity = await _teamRepository.CreateAsync(teamEntity);
 
@@ -100,6 +101,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Team> CreateTeamWithCustomer(Team team, Guid userId)
         {
             var teamEntity = _teamMapper.MapToEntity(team);
+            teamEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
 
             var createdTeamEntity = await _teamRepository.CreateAsync(teamEntity);
             var customer = await _userRepository.SearchForSingleItemAsync(x => x.Id == userId);

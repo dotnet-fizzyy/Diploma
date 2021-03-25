@@ -683,3 +683,92 @@ BEGIN
     VALUES ('20210324192745_RemoveRecordVersionFromUser', '3.1.9');
     END IF;
 END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210325174612_FixIncorrectCreationDate') THEN
+    ALTER TABLE "WorkSpaces" ALTER COLUMN "CreationDate" TYPE timestamptz;
+    ALTER TABLE "WorkSpaces" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "WorkSpaces" ALTER COLUMN "CreationDate" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210325174612_FixIncorrectCreationDate') THEN
+    ALTER TABLE "Users" ALTER COLUMN "CreationDate" TYPE timestamptz;
+    ALTER TABLE "Users" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Users" ALTER COLUMN "CreationDate" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210325174612_FixIncorrectCreationDate') THEN
+    ALTER TABLE "Teams" ALTER COLUMN "CreationDate" TYPE timestamptz;
+    ALTER TABLE "Teams" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Teams" ALTER COLUMN "CreationDate" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210325174612_FixIncorrectCreationDate') THEN
+    ALTER TABLE "StoryHistories" ALTER COLUMN "CreationDate" TYPE timestamptz;
+    ALTER TABLE "StoryHistories" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "StoryHistories" ALTER COLUMN "CreationDate" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210325174612_FixIncorrectCreationDate') THEN
+    ALTER TABLE "Stories" ALTER COLUMN "CreationDate" TYPE timestamptz;
+    ALTER TABLE "Stories" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Stories" ALTER COLUMN "CreationDate" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210325174612_FixIncorrectCreationDate') THEN
+    ALTER TABLE "Sprints" ALTER COLUMN "CreationDate" TYPE timestamptz;
+    ALTER TABLE "Sprints" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Sprints" ALTER COLUMN "CreationDate" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210325174612_FixIncorrectCreationDate') THEN
+    ALTER TABLE "RefreshTokens" ALTER COLUMN "CreationDate" TYPE timestamptz;
+    ALTER TABLE "RefreshTokens" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "RefreshTokens" ALTER COLUMN "CreationDate" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210325174612_FixIncorrectCreationDate') THEN
+    ALTER TABLE "Projects" ALTER COLUMN "CreationDate" TYPE timestamptz;
+    ALTER TABLE "Projects" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Projects" ALTER COLUMN "CreationDate" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210325174612_FixIncorrectCreationDate') THEN
+    ALTER TABLE "Epics" ALTER COLUMN "CreationDate" TYPE timestamptz;
+    ALTER TABLE "Epics" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Epics" ALTER COLUMN "CreationDate" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210325174612_FixIncorrectCreationDate') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20210325174612_FixIncorrectCreationDate', '3.1.9');
+    END IF;
+END $$;
