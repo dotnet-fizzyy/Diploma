@@ -10,12 +10,9 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyModelOnNullEntity()
         {
-            //Arrange
-            RefreshToken refreshTokenEntity = null;
-
-            //Act
+            //Arrange & Act
             var refreshTokenMapper = new RefreshTokenMapper();
-            var mappedResult = refreshTokenMapper.MapToModel(refreshTokenEntity);
+            var mappedResult = refreshTokenMapper.MapToModel(null);
 
             //Assert
             Assert.NotNull(mappedResult);
@@ -24,12 +21,9 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyEntityOnNullModel()
         {
-            //Arrange
-            Models.Models.RefreshToken refreshTokenModel = null;
-
-            //Act
+            //Arrange & Act
             var refreshTokenMapper = new RefreshTokenMapper();
-            var mappedResult = refreshTokenMapper.MapToEntity(refreshTokenModel);
+            var mappedResult = refreshTokenMapper.MapToEntity(null);
 
             //Assert
             Assert.NotNull(mappedResult);

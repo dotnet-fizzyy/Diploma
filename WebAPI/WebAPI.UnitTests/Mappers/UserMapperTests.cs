@@ -1,4 +1,5 @@
 using System;
+using WebAPI.Models.Models;
 using WebAPI.Presentation.Mappers;
 using Xunit;
 
@@ -9,12 +10,9 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyModelOnNullEntity()
         {
-            //Arrange
-            Core.Entities.User userEntity = null;
-
-            //Act
+            //Arrange & Act
             var userMapper = new UserMapper();
-            var mappedResult = userMapper.MapToModel(userEntity);
+            var mappedResult = userMapper.MapToModel(null);
             
             //Assert
             Assert.NotNull(mappedResult);
@@ -23,12 +21,9 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyEntityOnNullModel()
         {
-            //Arrange
-            Models.Models.User userModel = null;
-
-            //Act
+            //Arrange & Act
             var userMapper = new UserMapper();
-            var mappedResult = userMapper.MapToEntity(userModel);
+            var mappedResult = userMapper.MapToEntity((User)null);
             
             //Assert
             Assert.NotNull(mappedResult);

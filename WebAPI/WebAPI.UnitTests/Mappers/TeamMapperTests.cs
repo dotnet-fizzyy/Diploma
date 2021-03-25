@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using FakeItEasy;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Mappers;
-using WebAPI.Models.Result;
 using WebAPI.Presentation.Mappers;
 using Xunit;
 
@@ -18,11 +16,9 @@ namespace WebAPI.UnitTests.Mappers
             //Arrange
             var userMapper = A.Fake<IUserMapper>();
 
-            Team teamEntity = null;
-            
             //Act
             var teamMapper = new TeamMapper(userMapper);
-            var mappedResult = teamMapper.MapToModel(teamEntity);
+            var mappedResult = teamMapper.MapToModel(null);
 
             //Assert
             Assert.NotNull(mappedResult);
@@ -33,28 +29,10 @@ namespace WebAPI.UnitTests.Mappers
         {
             //Arrange
             var userMapper = A.Fake<IUserMapper>();
-
-            Models.Models.Team teamModel = null;
             
             //Act
             var teamMapper = new TeamMapper(userMapper);
-            var mappedResult = teamMapper.MapToEntity(teamModel);
-
-            //Assert
-            Assert.NotNull(mappedResult);
-        }
-        
-        [Fact]
-        public void ShouldReturnEmptyFullModelOnNullEntity()
-        {
-            //Arrange
-            var userMapper = A.Fake<IUserMapper>();
-
-            Team teamEntity = null;
-            
-            //Act
-            var teamMapper = new TeamMapper(userMapper);
-            var mappedResult = teamMapper.MapToFullModel(teamEntity);
+            var mappedResult = teamMapper.MapToEntity(null);
 
             //Assert
             Assert.NotNull(mappedResult);
@@ -130,83 +108,6 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(teamModel.Location, mappedResult.Location);
             Assert.Equal(teamModel.MembersCount, mappedResult.MembersCount);
             Assert.Equal(teamModel.CustomerId, mappedResult.CustomerId);
-        }
-        
-        [Fact]
-        public void ShouldMapEntityToFullModel()
-        {
-            //Arrange
-            var userMapper = A.Fake<IUserMapper>();
-
-            var teamId = new Guid();
-            var userId = new Guid();
-            
-            var teamEntity = new Team
-            {
-                Id = teamId,
-                TeamName = "Team",
-                Location = "Minsk",
-                Users = new List<User>
-                {
-                    new User
-                    {
-                        Id = userId,
-                        UserName = "SomeUser",
-                        UserPosition = Core.Enums.UserPosition.Developer,
-                        UserRole = Core.Enums.UserRole.Engineer,
-                        AvatarLink = "avatarLink",
-                        Email = "test@mail.com",
-                        IsActive = true
-                    }
-                }
-            };
-
-            var teamFullModel = new FullTeam
-            {
-                TeamId = teamId,
-                TeamName = "Team",
-                Location = "Minsk",
-                Users = new List<Models.Models.User>
-                {
-                    new Models.Models.User
-                    {
-                        UserId = userId,
-                        UserName = "SomeUser",
-                        UserPosition = Models.Enums.UserPosition.Developer,
-                        UserRole = Models.Enums.UserRole.Engineer,
-                        AvatarLink = "avatarLink",
-                        Email = "test@mail.com",
-                        IsActive = true
-                    }
-                }
-            };
-            
-            //Act
-            A.CallTo(() => userMapper.MapToModel(teamEntity.Users.First()))
-                .Returns(teamFullModel.Users.First());
-            
-            var teamMapper = new TeamMapper(userMapper);
-            var mappedResult = teamMapper.MapToFullModel(teamEntity);
-
-            //Assert
-            Assert.Equal(teamFullModel.TeamId, mappedResult.TeamId);
-            Assert.Equal(teamFullModel.TeamName, mappedResult.TeamName);
-            Assert.Equal(teamFullModel.Location, mappedResult.Location);
-            Assert.Equal(teamFullModel.MembersCount, mappedResult.MembersCount);
-            Assert.Equal(teamFullModel.CustomerId, mappedResult.CustomerId);
-            Assert.All(mappedResult.Users, user =>
-            {
-                Assert.Equal(teamFullModel.Users.First().UserId, user.UserId);
-                Assert.Equal(teamFullModel.Users.First().Email, user.Email);
-                Assert.Equal(teamFullModel.Users.First().UserName, user.UserName);
-                Assert.Equal(teamFullModel.Users.First().UserPosition.ToString(), user.UserPosition.ToString());
-                Assert.Equal(teamFullModel.Users.First().AvatarLink, user.AvatarLink);
-                Assert.Equal(teamFullModel.Users.First().IsActive, user.IsActive);
-                Assert.Equal(teamFullModel.Users.First().UserRole.ToString(), user.UserRole.ToString());
-            });
-            
-            A.CallTo(() => userMapper.MapToModel(teamEntity.Users.First()))
-                .MustHaveHappened();
         }
     }
 }

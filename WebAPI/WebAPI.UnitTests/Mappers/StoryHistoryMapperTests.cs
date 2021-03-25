@@ -11,12 +11,9 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyModelOnNullEntity()
         {
-            //Arrange
-            StoryHistory storyHistoryEntity = null;
-
-            //Act
+            //Arrange & Act
             var storyHistoryMapper = new StoryHistoryMapper();
-            var mappedResult = storyHistoryMapper.MapToModel(storyHistoryEntity);
+            var mappedResult = storyHistoryMapper.MapToModel(null);
 
             //Assert
             Assert.NotNull(mappedResult);
@@ -25,12 +22,9 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyEntityOnNullModel()
         {
-            //Arrange
-            Models.Models.StoryHistory storyHistoryModel = null;
-
-            //Act
+            //Arrange & Act
             var storyHistoryMapper = new StoryHistoryMapper();
-            var mappedResult = storyHistoryMapper.MapToEntity(storyHistoryModel);
+            var mappedResult = storyHistoryMapper.MapToEntity(null);
 
             //Assert
             Assert.NotNull(mappedResult);

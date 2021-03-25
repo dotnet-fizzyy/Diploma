@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using FakeItEasy;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Mappers;
@@ -18,11 +16,9 @@ namespace WebAPI.UnitTests.Mappers
             var teamMapper = A.Fake<ITeamMapper>();
             var epicMapper = A.Fake<IEpicMapper>();
 
-            Project projectEntity = null;
-            
             //Act
             var projectMapper = new ProjectMapper(teamMapper, epicMapper);
-            var mappedResult = projectMapper.MapToModel(projectEntity);
+            var mappedResult = projectMapper.MapToModel(null);
 
             //Assert
             Assert.NotNull(mappedResult);
@@ -35,33 +31,14 @@ namespace WebAPI.UnitTests.Mappers
             var teamMapper = A.Fake<ITeamMapper>();
             var epicMapper = A.Fake<IEpicMapper>();
 
-            Models.Models.Project projectModel = null;
-            
             //Act
             var projectMapper = new ProjectMapper(teamMapper, epicMapper);
-            var mappedResult = projectMapper.MapToEntity(projectModel);
+            var mappedResult = projectMapper.MapToEntity(null);
 
             //Assert
             Assert.NotNull(mappedResult);
         }
         
-        [Fact]
-        public void ShouldReturnEmptyFullModelOnNullEntity()
-        {
-            //Arrange
-            var teamMapper = A.Fake<ITeamMapper>();
-            var epicMapper = A.Fake<IEpicMapper>();
-
-            Project projectEntity = null;
-            
-            //Act
-            var projectMapper = new ProjectMapper(teamMapper, epicMapper);
-            var mappedResult = projectMapper.MapToFullModel(projectEntity);
-
-            //Assert
-            Assert.NotNull(mappedResult);
-        }
-
         [Fact]
         public void ShouldMapEntityToModel()
         {
@@ -144,80 +121,6 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(projectEntity.StartDate, mappedResult.StartDate);
             Assert.Equal(projectEntity.EndDate, mappedResult.EndDate);
             Assert.Equal(projectEntity.WorkSpaceId, mappedResult.WorkSpaceId);
-        }
-        
-        [Fact]
-        public void ShouldMapEntityToFullModel()
-        {
-            //Arrange
-            var teamMapper = A.Fake<ITeamMapper>();
-            var epicMapper = A.Fake<IEpicMapper>();
-
-            var projectId = new Guid();
-            var teamId = new Guid();
-            
-            var projectEntity = new Project
-            {
-                Id = projectId,
-                ProjectName = "Name",
-                ProjectDescription = "Description",
-                StartDate = new DateTime(2020, 11, 11),
-                EndDate = new DateTime(2020, 11, 19),
-                WorkSpaceId = new Guid("1b7572ee-eb5b-4094-bd5e-e2191090c444"),
-                Teams = new List<Team>
-                {
-                    new Team
-                    {
-                        Id = teamId,
-                        Location = "Minsk",
-                        ProjectId = projectId,
-                        TeamName = "TopTeam"
-                    }
-                }
-            };
-
-            var projectModel = new Models.Result.FullProject
-            {
-                ProjectId = projectId,
-                ProjectName = "Name",
-                ProjectDescription = "Description",
-                StartDate = new DateTime(2020, 11, 11),
-                EndDate = new DateTime(2020, 11, 19),
-                WorkSpaceId = new Guid("1b7572ee-eb5b-4094-bd5e-e2191090c444"),
-                Teams = new List<Models.Models.Team>
-                {
-                    new Models.Models.Team
-                    {
-                        TeamId = teamId,
-                        Location = "Minsk",
-                        TeamName = "TopTeam"
-                    }
-                }
-            };
-            
-            //Act
-            A.CallTo(() => teamMapper.MapToModel(projectEntity.Teams.First()))
-                .Returns(projectModel.Teams.First());
-            
-            var projectMapper = new ProjectMapper(teamMapper, epicMapper);
-            var mappedResult = projectMapper.MapToFullModel(projectEntity);
-
-            //Assert
-            Assert.Equal(projectModel.ProjectId, mappedResult.ProjectId);
-            Assert.Equal(projectModel.ProjectName, mappedResult.ProjectName);
-            Assert.Equal(projectModel.ProjectDescription, mappedResult.ProjectDescription);
-            Assert.Equal(projectModel.StartDate, mappedResult.StartDate);
-            Assert.Equal(projectModel.EndDate, mappedResult.EndDate);
-            Assert.Equal(projectModel.WorkSpaceId, mappedResult.WorkSpaceId);
-            Assert.All(mappedResult.Teams, team =>
-            {
-                Assert.Equal(projectModel.Teams.First().TeamId, mappedResult.Teams.First().TeamId);
-                Assert.Equal(projectModel.Teams.First().Location, mappedResult.Teams.First().Location);
-                Assert.Equal(projectModel.Teams.First().TeamName, mappedResult.Teams.First().TeamName);
-            });
-
-            A.CallTo(() => teamMapper.MapToModel(projectEntity.Teams.First()))
-                .MustHaveHappened();
         }
     }
 }
