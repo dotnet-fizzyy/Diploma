@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models;
+using WebAPI.Models.Models.Authentication;
 using WebAPI.Models.Result;
 
 namespace WebAPI.Presentation.Controllers
@@ -31,7 +32,7 @@ namespace WebAPI.Presentation.Controllers
         [Route("sign-in")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<AuthenticationResponse>> AuthenticateUser([FromBody, BindRequired] AuthenticationUser user)
+        public async Task<ActionResult<AuthenticationResponse>> AuthenticateUser([FromBody, BindRequired] SignInUser user)
         {
             var authResult = await _tokenService.AuthenticateUser(user);
 
@@ -46,7 +47,7 @@ namespace WebAPI.Presentation.Controllers
         [HttpPost]
         [Route("sign-up")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<User>> CreateCustomer([FromBody, BindRequired] AuthenticationUser user)
+        public async Task<ActionResult<User>> CreateCustomer([FromBody, BindRequired] SignUpUser user)
         {
             var createdCustomer = await _userService.CreateCustomer(user);
             

@@ -10,6 +10,7 @@ using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models;
+using WebAPI.Models.Models.Authentication;
 using WebAPI.Models.Result;
 using WebAPI.Presentation.Constants;
 
@@ -42,7 +43,7 @@ namespace WebAPI.ApplicationLogic.Services
         }
         
 
-        public async Task<AuthenticationResponse> AuthenticateUser(AuthenticationUser user)
+        public async Task<AuthenticationResponse> AuthenticateUser(SignInUser user)
         {
             //Authenticate user (find in db)
             var userEntity = _userMapper.MapToEntity(user);

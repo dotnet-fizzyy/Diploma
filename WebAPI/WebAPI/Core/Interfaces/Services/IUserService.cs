@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using WebAPI.Models.Models;
+using WebAPI.Models.Models.Authentication;
 using WebAPI.Models.Result;
 
 namespace WebAPI.Core.Interfaces.Services
@@ -13,7 +14,7 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<User> CreateUser(User user);
 
-        Task<User> CreateCustomer(AuthenticationUser user);
+        Task<User> CreateCustomer(SignUpUser user);
 
         Task<User> UpdateUser(User user);
 

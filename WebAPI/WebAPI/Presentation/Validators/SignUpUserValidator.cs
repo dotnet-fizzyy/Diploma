@@ -1,12 +1,12 @@
 using FluentValidation;
 using FluentValidation.Validators;
-using WebAPI.Models.Models;
+using WebAPI.Models.Models.Authentication;
 
 namespace WebAPI.Presentation.Validators
 {
-    public class AuthenticationUserValidator : AbstractValidator<AuthenticationUser>
+    public class SignUpUserValidator : AbstractValidator<SignUpUser>
     {
-        public AuthenticationUserValidator()
+        public SignUpUserValidator()
         {
             RuleFor(x => x.UserName)
                 .NotNull()

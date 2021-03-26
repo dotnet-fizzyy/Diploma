@@ -9,6 +9,7 @@ using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models;
+using WebAPI.Models.Models.Authentication;
 using WebAPI.Models.Result;
 
 namespace WebAPI.ApplicationLogic.Services
@@ -56,7 +57,7 @@ namespace WebAPI.ApplicationLogic.Services
             return userModel;
         }
 
-        public async Task<User> CreateCustomer(AuthenticationUser user)
+        public async Task<User> CreateCustomer(SignUpUser user)
         {
             var mappedCustomer = CreateCustomerEntity(user);
             mappedCustomer.Password = PasswordHashing.CreateHashPassword(mappedCustomer.Password);
@@ -119,7 +120,7 @@ namespace WebAPI.ApplicationLogic.Services
             }
         }
 
-        private static Core.Entities.User CreateCustomerEntity(AuthenticationUser user)
+        private static Core.Entities.User CreateCustomerEntity(SignUpUser user)
         {
             return new Core.Entities.User
             {

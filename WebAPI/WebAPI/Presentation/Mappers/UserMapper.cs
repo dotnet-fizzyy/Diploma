@@ -1,6 +1,6 @@
 using System;
 using WebAPI.Core.Interfaces.Mappers;
-using WebAPI.Models.Models;
+using WebAPI.Models.Models.Authentication;
 using User = WebAPI.Core.Entities.User;
 
 namespace WebAPI.Presentation.Mappers
@@ -56,7 +56,7 @@ namespace WebAPI.Presentation.Mappers
             return userModel;
         }
 
-        public User MapToEntity(AuthenticationUser user)
+        public User MapToEntity(SignUpUser user)
         {
             if (user == null)
             {
@@ -68,6 +68,22 @@ namespace WebAPI.Presentation.Mappers
                 UserName = user.UserName,
                 Password = user.Password,
                 Email = user.Email
+            };
+
+            return userEntity;
+        }
+
+        public User MapToEntity(SignInUser user)
+        {
+            if (user == null)
+            {
+                return new User();
+            }
+            
+            var userEntity = new User
+            {
+                UserName = user.UserName,
+                Password = user.Password
             };
 
             return userEntity;

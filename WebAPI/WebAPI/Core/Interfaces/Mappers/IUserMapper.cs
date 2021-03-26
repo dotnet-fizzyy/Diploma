@@ -6,6 +6,8 @@ namespace WebAPI.Core.Interfaces.Mappers
         
         WebAPI.Models.Models.User MapToModel(WebAPI.Core.Entities.User user);
         
-        WebAPI.Core.Entities.User MapToEntity(WebAPI.Models.Models.AuthenticationUser user);
+        WebAPI.Core.Entities.User MapToEntity(WebAPI.Models.Models.Authentication.SignUpUser user);
+        
+        WebAPI.Core.Entities.User MapToEntity(WebAPI.Models.Models.Authentication.SignInUser user);
     }
 }

@@ -12,6 +12,7 @@ using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Infrastructure.Postgres.Repository;
 using WebAPI.Models.Models;
+using WebAPI.Models.Models.Authentication;
 using WebAPI.Presentation.Aggregators;
 using WebAPI.Presentation.Filters;
 using WebAPI.Presentation.Mappers;
@@ -76,7 +77,8 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<UserAuthorizationFilter>();
             
             //Validators
-            services.AddTransient<IValidator<AuthenticationUser>, AuthenticationUserValidator>();
+            services.AddTransient<IValidator<SignUpUser>, SignUpUserValidator>();
+            services.AddTransient<IValidator<SignInUser>, SignInUserValidator>();
             services.AddTransient<IValidator<User>, UserValidator>();
             services.AddTransient<IValidator<Story>, StoryValidator>();
             services.AddTransient<IValidator<Team>, TeamValidator>();
