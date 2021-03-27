@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import * as currentUserActions from '../../redux/actions/currentUserActions';
 import * as currentUserSelectors from '../../redux/selectors/userSelectors';
+import { IUser } from '../../types/userTypes';
 import CustomRouter, { ICustomRouterProps } from './CustomRouter';
 
 const CustomRouterContainer = () => {
@@ -11,7 +12,8 @@ const CustomRouterContainer = () => {
     const history = useHistory();
 
     const [initialPath, setInitialPath] = useState<string>('');
-    const user = useSelector(currentUserSelectors.getUser);
+    const user: IUser = useSelector(currentUserSelectors.getUser);
+    const isLoading: boolean = useSelector(currentUserSelectors.getIsUserLoading);
 
     useEffect(() => {
         if (!(user && user.userId)) {
@@ -32,6 +34,7 @@ const CustomRouterContainer = () => {
 
     const customRouterProps: ICustomRouterProps = {
         user,
+        isLoading,
     };
 
     return <CustomRouter {...customRouterProps} />;

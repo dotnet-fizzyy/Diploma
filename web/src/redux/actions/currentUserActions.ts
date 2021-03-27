@@ -204,4 +204,5 @@ export type CurrentUserActionTypes = IAddUser &
     IAuthenticationSuccess &
     IAuthenticationFailure &
     IRegistrationSuccess &
+    IVerifyUserRequest &
     IHideCustomerSuccessfulRegistration;

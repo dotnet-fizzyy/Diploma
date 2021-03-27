@@ -25,6 +25,7 @@ export interface ICurrentUserState {
     accessToken: string;
     refreshToken: string;
     user: IUser | null;
+    isLoading: boolean;
 }
 
 export interface IStoryState {

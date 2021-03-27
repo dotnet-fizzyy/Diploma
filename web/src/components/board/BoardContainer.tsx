@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getColumnKeyValuePair } from '../../utils/columnHelper';
 import * as sidebarActions from '../../redux/actions/sidebarActions';
 import * as storyActions from '../../redux/actions/storiesActions';
 import * as sidebarSelectors from '../../redux/selectors/sidebarSelectors';
 import { IStoryDragAndDrop } from '../../types/storyTypes';
+import { getColumnKeyValuePair } from '../../utils/columnHelper';
 import Board, { IBoardProps } from './Board';
 
 const BoardContainer = () => {

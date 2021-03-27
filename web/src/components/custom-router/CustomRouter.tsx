@@ -4,88 +4,39 @@ import * as routeConstants from '../../constants/routeConstants';
 import StartScreenContainer from '../../pages/authentication/StartScreenContainer';
 import { IUser } from '../../types/userTypes';
 import { UserRouteGuard } from '../../utils/routeHelper';
-import ChartsContainer from '../charts/ChartsContainer';
-import Footer from '../footer/Footer';
-import GeneralTabContainer from '../header/general-tab/GeneralTabContainer';
-import BoardApplication from '../index';
-import MainPageContainer from '../../pages/default/MainPageContainer';
-import ProjectManagementContainer from '../management/project/ProjectManagementContainer';
-import ProjectViewerContainer from '../management/project/ProjectViewerContainer';
-import TeamManagementContainer from '../management/team/TeamManagementContainer';
-import TeamsViewerContainer from '../management/team/TeamsViewerContainer';
-import UndefinedPage from '../no-match/UndefinedPage';
-import StoryFullViewContainer from '../story-full-view/StoryFullViewContainer';
-import StoryHistoryContainer from '../story-history/StoryHistoryContainer';
+import { ApplicationRouting } from './ApplicationRouting';
+import LoadingScreen from './LoadingScreen';
 import RouteGuard from './RouteGuard';
 
 export interface ICustomRouterProps {
     user: IUser;
+    isLoading: boolean;
 }
 
 const CustomRouter = (props: ICustomRouterProps) => {
-    const { user } = props;
-    const isUserAuthenticated: boolean = new UserRouteGuard(user).validate();
+    const { user, isLoading } = props;
+    const isAuthenticated: boolean = new UserRouteGuard(user).validate();
+
+    if (isLoading) {
+        return <LoadingScreen />;
+    }
 
     return (
-        <>
-            {isUserAuthenticated && <GeneralTabContainer />}
-            <Switch>
-                {!isUserAuthenticated && (
-                    <Route path={routeConstants.LoginScreenRoute} component={StartScreenContainer} />
-                )}
-                {!isUserAuthenticated && (
-                    <Route path={routeConstants.RegistrationScreenRoute} component={StartScreenContainer} />
-                )}
+        <Switch>
+            {!isAuthenticated && <Route path={routeConstants.LoginScreenRoute} component={StartScreenContainer} />}
+            {!isAuthenticated && (
+                <Route path={routeConstants.RegistrationScreenRoute} component={StartScreenContainer} />
+            )}
+            {ApplicationRouting.map((route) => (
                 <RouteGuard
-                    path={routeConstants.ProjectBoardRoute}
-                    component={BoardApplication}
-                    isValid={isUserAuthenticated}
+                    exact={route.exact}
+                    key={route.path}
+                    path={route.path}
+                    component={route.component}
+                    isAuthenticated={isAuthenticated}
                 />
-                <RouteGuard
-                    exact={true}
-                    path={routeConstants.DefaultRoute}
-                    component={MainPageContainer}
-                    isValid={isUserAuthenticated}
-                />
-                <RouteGuard
-                    path={routeConstants.FullViewStoryRoute}
-                    component={StoryFullViewContainer}
-                    isValid={isUserAuthenticated}
-                />
-                <RouteGuard
-                    path={routeConstants.ViewStoryHistoryRoute}
-                    component={StoryHistoryContainer}
-                    isValid={isUserAuthenticated}
-                />
-                <RouteGuard
-                    path={routeConstants.TeamsViewerRoute}
-                    component={TeamsViewerContainer}
-                    isValid={isUserAuthenticated}
-                />
-                <RouteGuard
-                    path={routeConstants.ProjectsViewerRoute}
-                    component={ProjectViewerContainer}
-                    isValid={isUserAuthenticated}
-                />
-                <RouteGuard
-                    path={routeConstants.TeamManagementRoute}
-                    component={TeamManagementContainer}
-                    isValid={isUserAuthenticated}
-                />
-                <RouteGuard
-                    path={routeConstants.ProjectManagementRoute}
-                    component={ProjectManagementContainer}
-                    isValid={isUserAuthenticated}
-                />
-                <RouteGuard
-                    path={routeConstants.EpicChartsRoute}
-                    component={ChartsContainer}
-                    isValid={isUserAuthenticated}
-                />
-                <Route path={routeConstants.NoMatchRoute} component={UndefinedPage} />
-            </Switch>
-            {isUserAuthenticated && <Footer />}
-        </>
+            ))}
+        </Switch>
     );
 };
 

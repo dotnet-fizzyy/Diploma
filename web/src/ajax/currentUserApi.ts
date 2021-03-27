@@ -31,13 +31,13 @@ export async function createUser(user: IUser) {
 }
 
 export async function createCustomer(body: IAuthenticationUser) {
-    const response = await axiosPost(routeConstants.CustomerUrl, body);
+    const response = await axiosPost(routeConstants.SignUpUrl, body);
 
     return response.data;
 }
 
 export async function authenticate(body: IAuthenticationUser) {
-    const response = await axiosPost(routeConstants.TokenUrl, body);
+    const response = await axiosPost(routeConstants.SignInUrl, body);
 
     return response.data;
 }

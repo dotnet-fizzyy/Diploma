@@ -18,15 +18,19 @@ const getBaseUrl = (): string =>
         ? process.env.REACT_APP_BACK_DOCKER_URL
         : process.env.REACT_APP_BACK_URL;
 
-const BaseUrl = getBaseUrl() + 'api/';
-export const UsersUrl = BaseUrl + 'user';
-export const StoriesUrl = BaseUrl + 'story';
-export const TokenUrl = BaseUrl + 'token';
-export const CustomerUrl = BaseUrl + 'customer';
-export const ProjectUrl = BaseUrl + 'project';
-export const SprintUrl = BaseUrl + 'sprint';
-export const EpicUrl = BaseUrl + 'epic';
-export const TeamUrl = BaseUrl + 'team';
+const BaseUrl = getBaseUrl() + 'api';
+
+export const SignInUrl = `${BaseUrl}/auth/sign-in`;
+export const SignUpUrl = `${BaseUrl}/auth/sign-up`;
+
+export const UsersUrl = BaseUrl + '/user';
+export const StoriesUrl = BaseUrl + '/story';
+export const TokenUrl = BaseUrl + '/token';
+export const CustomerUrl = BaseUrl + '/customer';
+export const ProjectUrl = BaseUrl + '/project';
+export const SprintUrl = BaseUrl + '/sprint';
+export const EpicUrl = BaseUrl + '/epic';
+export const TeamUrl = BaseUrl + '/team';
 
 export const SprintUrls = {
     getEpicSprints: SprintUrl + '/epic/',

@@ -42,3 +42,9 @@ export interface ICollectionResponse<T> {
     items: T[];
     count: number;
 }
+
+export interface IApplicationRoute {
+    path: string;
+    exact: boolean;
+    component: () => JSX.Element;
+}

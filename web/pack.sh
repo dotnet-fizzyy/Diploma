@@ -1,4 +1,4 @@
-mkdir dist
+rm -rf dist && mkdir dist
 
 "./node_modules/.bin/tsc" -p ./tsconfig.json --skipLibCheck
 

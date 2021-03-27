@@ -7,13 +7,18 @@ const initialState: ICurrentUserState = {
     accessToken: '',
     refreshToken: '',
     user: null,
+    isLoading: false,
 };
 
 export default function currentUserReducer(state = initialState, action: UserActions.CurrentUserActionTypes) {
     switch (action.type) {
+        case UserActions.CurrentUserActions.VERIFY_USER_REQUEST:
+            return handleVerifyUserRequest(state, action);
         case UserActions.CurrentUserActions.ADD_USER:
         case UserActions.CurrentUserActions.VERIFY_USER_SUCCESS:
             return handleAddUser(state, action);
+        case UserActions.CurrentUserActions.VERIFY_USER_FAILURE:
+            return handleVerifyUserFailure(state);
         case UserActions.CurrentUserActions.AUTHENTICATION_SUCCESS:
             return handleAuthenticationSuccess(state, action);
         case UserActions.CurrentUserActions.AUTHENTICATION_FAILURE:
@@ -27,6 +32,20 @@ export default function currentUserReducer(state = initialState, action: UserAct
     }
 }
 
+function handleVerifyUserRequest(state: ICurrentUserState, action: UserActions.IVerifyUserRequest): ICurrentUserState {
+    return {
+        ...state,
+        isLoading: true,
+    };
+}
+
+function handleVerifyUserFailure(state: ICurrentUserState): ICurrentUserState {
+    return {
+        ...state,
+        isLoading: false,
+    };
+}
+
 function handleAuthenticationSuccess(
     state: ICurrentUserState,
     action: UserActions.IAuthenticationSuccess
@@ -34,6 +53,7 @@ function handleAuthenticationSuccess(
     return {
         ...state,
         isAuthenticationSuccessful: true,
+        isLoading: false,
         accessToken: action.payload.accessToken.value,
         refreshToken: action.payload.refreshToken.value,
         user: action.payload.user,
@@ -64,6 +84,7 @@ function handleAddUser(state: ICurrentUserState, action: UserActions.IAddUser): 
     return {
         ...state,
         user: action.payload,
+        isLoading: false,
     };
 }
 

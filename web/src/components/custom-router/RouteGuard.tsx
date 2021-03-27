@@ -1,13 +1,23 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import * as routeConstants from '../../constants/routeConstants';
+import { LoginScreenRoute } from '../../constants/routeConstants';
+import ApplicationPageContainer from './ApplicationPageContainer';
 
-const RouteGuard = ({ component: Component, isValid, ...rest }) => {
+const RouteGuard = ({ component: Component, exact, isAuthenticated, ...rest }) => {
     return (
         <Route
             {...rest}
+            exact={exact}
             path={rest.path}
-            render={(props) => (isValid ? <Component {...props} /> : <Redirect to={routeConstants.LoginScreenRoute} />)}
+            render={(props) =>
+                isAuthenticated ? (
+                    <ApplicationPageContainer>
+                        <Component {...props} />
+                    </ApplicationPageContainer>
+                ) : (
+                    <Redirect to={LoginScreenRoute} />
+                )
+            }
         />
     );
 };

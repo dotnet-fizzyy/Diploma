@@ -20,3 +20,7 @@ export function getIsAuthenticationSuccessful(state: IState): boolean {
 export function getWasCustomerCreated(state: IState): boolean {
     return state.currentUser.wasCustomerCreated;
 }
+
+export function getIsUserLoading(state: IState): boolean {
+    return state.currentUser.isLoading;
+}
