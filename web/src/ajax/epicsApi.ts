@@ -1,9 +1,9 @@
-import * as routeConstants from '../constants/routeConstants';
+import { EpicUrls } from '../constants/routeConstants';
 import { IEpic } from '../types/epicTypes';
 import { axiosGet, axiosPost } from './index';
 
 export async function getProjectEpics(projectId: string) {
-    const response = await axiosGet(routeConstants.EpicUrls.getProjectEpics + projectId);
+    const response = await axiosGet(`${EpicUrls.getProjectEpics}/${projectId}`);
 
     return response.data;
 }
@@ -17,7 +17,7 @@ export async function createEpicForProject(epic: IEpic) {
         projectId: epic.projectId,
     };
 
-    const response = await axiosPost(routeConstants.EpicUrl, mappedEpic);
+    const response = await axiosPost(EpicUrls.createEpic, mappedEpic);
 
     return response.data;
 }

@@ -6,10 +6,10 @@ import SearchIcon from '@material-ui/icons/Search';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import * as routeConstants from '../../../constants/routeConstants';
-import { getShortIdNameForStory } from '../../../utils/storyHelper';
 import LogoIcon from '../../../static/Icon.svg';
 import { IStory } from '../../../types/storyTypes';
 import { IUser } from '../../../types/userTypes';
+import { getShortIdNameForStory } from '../../../utils/storyHelper';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -74,12 +74,11 @@ const useStyles = makeStyles(() =>
         },
         mainTabsContainer: {},
         logo: {
-            width: '68px',
-            height: '45px',
+            width: '65px',
+            height: '44px',
             backgroundImage: `url(${LogoIcon})`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
-            marginBottom: '5px',
             '&:hover': {
                 cursor: 'pointer',
             },

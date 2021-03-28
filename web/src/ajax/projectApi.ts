@@ -1,21 +1,21 @@
-import * as routeConstants from '../constants/routeConstants';
+import { CustomerUrls, ProjectUrls } from '../constants/routeConstants';
 import { IProject } from '../types/projectTypes';
 import * as axios from './index';
 
 export async function getCustomerProjects() {
-    const response = await axios.axiosGet(routeConstants.CustomerUrls.customerProjects);
+    const response = await axios.axiosGet(CustomerUrls.customerProjects);
 
     return response.data;
 }
 
 export async function getProject(projectId: string) {
-    const response = await axios.axiosGet(routeConstants.ProjectUrls.getProject + `/${projectId}`);
+    const response = await axios.axiosGet(`${ProjectUrls.getProject}/${projectId}`);
 
     return response.data;
 }
 
 export async function getAllUserProjects() {
-    const response = await axios.axiosGet(routeConstants.ProjectUrls.getUserProjects);
+    const response = await axios.axiosGet(ProjectUrls.getUserProjects);
 
     return response.data;
 }
@@ -29,7 +29,7 @@ export async function createProject(project: IProject) {
         customer: project.customer,
     };
 
-    const response = await axios.axiosPost(routeConstants.ProjectUrl, mappedProject);
+    const response = await axios.axiosPost(ProjectUrls.createProject, mappedProject);
 
     return response.data;
 }

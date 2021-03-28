@@ -6,9 +6,9 @@ import { createProjectRequest } from '../../../redux/actions/projectActions';
 import { IProjectForm } from '../../../types/formTypes';
 import { IProject } from '../../../types/projectTypes';
 import { InputFormFieldValidator } from '../../../utils/formHelper';
-import ProjectCreation, { IProjectCreationProps } from './ProjectCreation';
+import ProjectManagementModal, { IProjectCreationProps } from './ProjectManagementModal';
 
-const ProjectCreationContainer = () => {
+const ProjectManagementModalContainer = () => {
     const dispatch = useDispatch();
 
     const onSubmitProjectHandling = (values: IProjectForm) => {
@@ -30,7 +30,7 @@ const ProjectCreationContainer = () => {
         validateProjectName,
     };
 
-    return <ProjectCreation {...projectCreationProps} />;
+    return <ProjectManagementModal {...projectCreationProps} />;
 };
 
-export default ProjectCreationContainer;
+export default ProjectManagementModalContainer;

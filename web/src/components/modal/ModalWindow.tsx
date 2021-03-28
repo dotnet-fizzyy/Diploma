@@ -2,12 +2,12 @@ import { Modal } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { ModalTypes } from '../../types/modalTypes';
-import EpicCreationContainer from './epic-creation/EpicCreationContainer';
-import ProjectCreationContainer from './project-creation/ProjectCreationContainer';
-import SprintCreationContainer from './sprint-creation/SprintCreationContainer';
-import StoryCreationContainer from './story-creation/StoryCreationContainer';
-import TeamCreationContainer from './team-creation/TeamCreationContainer';
-import UserCreationContainer from './user-creation/UserCreationContainer';
+import EpicCreationContainer from './epic/EpicCreationContainer';
+import ProjectManagementModalContainer from './project/ProjectManagementModalContainer';
+import SprintCreationContainer from './sprint/SprintCreationContainer';
+import StoryCreationContainer from './story/StoryCreationContainer';
+import TeamCreationContainer from './team/TeamCreationContainer';
+import UserCreationContainer from './user/UserCreationContainer';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -36,7 +36,7 @@ const ModalWindow = (props: IModalWindowProps) => {
             case ModalTypes.TEAM_CREATION:
                 return <TeamCreationContainer />;
             case ModalTypes.PROJECT_CREATION:
-                return <ProjectCreationContainer />;
+                return <ProjectManagementModalContainer />;
             case ModalTypes.SPRINT_CREATION:
                 return <SprintCreationContainer />;
             case ModalTypes.EPIC_CREATION:

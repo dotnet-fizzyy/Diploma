@@ -6,9 +6,9 @@ import * as projectActions from '../../redux/actions/projectActions';
 import * as projectSelectors from '../../redux/selectors/projectSelectors';
 import * as teamSelectors from '../../redux/selectors/teamSelectors';
 import * as currentUserSelectors from '../../redux/selectors/userSelectors';
-import MainPage, { IMainPageProps } from './MainPage';
+import DefaultPage, { IMainPageProps } from './DefaultPage';
 
-const MainPageContainer = () => {
+const DefaultPageContainer = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const teams = useSelector(teamSelectors.getTeams);
@@ -31,10 +31,6 @@ const MainPageContainer = () => {
         history.push(routeConstants.ProjectsViewerRoute);
     };
 
-    const onClickCreateTeam = () => {
-        history.push(routeConstants.TeamsViewerRoute);
-    };
-
     useEffect(() => {
         if (!teams.length && !projects.length) {
             dispatch(projectActions.getUserProjectsRequest());
@@ -47,12 +43,11 @@ const MainPageContainer = () => {
         user,
         onSelectTeam,
         onSelectProject,
-        onClickCreateTeam,
         onClickCreateProject,
         onClickMoveBoard,
     };
 
-    return <MainPage {...mainPageProps} />;
+    return <DefaultPage {...mainPageProps} />;
 };
 
-export default MainPageContainer;
+export default DefaultPageContainer;

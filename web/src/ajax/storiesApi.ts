@@ -5,7 +5,7 @@ import { IStory, IStoryUpdate } from '../types/storyTypes';
 import * as axios from './index';
 
 export async function changeStoryColumn(jsonPatchDocument: IJsonPatchBody[]) {
-    const response = await axios.axiosPatch(routeConstants.StoriesUrls.boardMove, jsonPatchDocument);
+    const response = await axios.axiosPatch(routeConstants.StoryUrls.boardMove, jsonPatchDocument);
 
     return response.data;
 }
@@ -27,20 +27,20 @@ export async function createStory(story: IStory) {
         creationDate: new Date(),
     };
 
-    const response = await axios.axiosPost(routeConstants.StoriesUrl, mappedStory);
+    const response = await axios.axiosPost(routeConstants.StoryUrls.updateStory, mappedStory);
 
     return response.data;
 }
 
 export async function updateStory(storyUpdate: IStoryUpdate) {
-    const response = await axios.axiosPut(routeConstants.StoriesUrls.partUpdate, storyUpdate);
+    const response = await axios.axiosPut(routeConstants.StoryUrls.partUpdate, storyUpdate);
 
     return response.data;
 }
 
 export async function getStoriesByTerm(storyTerm: string, projectId: string) {
     const response = await axios.axiosGet(
-        routeConstants.StoriesUrls.termSearch + `?term=${storyTerm}&limit=${5}&projectId=${projectId}`
+        routeConstants.StoryUrls.termSearch + `?term=${storyTerm}&limit=${5}&projectId=${projectId}`
     );
 
     return response.data;
@@ -48,20 +48,20 @@ export async function getStoriesByTerm(storyTerm: string, projectId: string) {
 
 export async function sortStories(sortType: string, epicId: string) {
     const response = await axios.axiosGet(
-        routeConstants.StoriesUrls.sortStories + `?epicId=${epicId}&sortType=${sortType}&orderType=${'ASC'}`
+        routeConstants.StoryUrls.sortStories + `?epicId=${epicId}&sortType=${sortType}&orderType=${'ASC'}`
     );
 
     return response.data;
 }
 
 export async function changeStoryStatus() {
-    const response = await axios.axiosPatch(routeConstants.StoriesUrls.sortStories, {});
+    const response = await axios.axiosPatch(routeConstants.StoryUrls.sortStories, {});
 
     return response.data;
 }
 
 export async function getStoryHistory(storyId: string) {
-    const response = await axios.axiosGet(routeConstants.StoriesUrls.storyHistory + storyId);
+    const response = await axios.axiosGet(routeConstants.StoryUrls.storyHistory + storyId);
 
     return response.data;
 }

@@ -5,6 +5,7 @@ export const ProjectBoardRoute = '/board/:projectId';
 export const LoginScreenRoute = '/start/login';
 export const RegistrationScreenRoute = '/start/registration';
 export const ViewStoryHistoryRoute = '/history/:storyId';
+export const WorkspaceViewerRoute = '/workspace';
 export const TeamsViewerRoute = '/teams';
 export const ProjectsViewerRoute = '/projects';
 export const TeamManagementRoute = '/team/:teamId';
@@ -18,34 +19,35 @@ const getBaseUrl = (): string =>
         ? process.env.REACT_APP_BACK_DOCKER_URL
         : process.env.REACT_APP_BACK_URL;
 
-const BaseUrl = getBaseUrl() + 'api';
+const BaseUrl = `${getBaseUrl()}api`;
 
 export const SignInUrl = `${BaseUrl}/auth/sign-in`;
 export const SignUpUrl = `${BaseUrl}/auth/sign-up`;
 
 export const UsersUrl = BaseUrl + '/user';
-export const StoriesUrl = BaseUrl + '/story';
-export const TokenUrl = BaseUrl + '/token';
 export const CustomerUrl = BaseUrl + '/customer';
-export const ProjectUrl = BaseUrl + '/project';
-export const SprintUrl = BaseUrl + '/sprint';
-export const EpicUrl = BaseUrl + '/epic';
-export const TeamUrl = BaseUrl + '/team';
 
+const SprintBaseUrl = `${BaseUrl}/sprint`;
 export const SprintUrls = {
-    getEpicSprints: SprintUrl + '/epic/',
+    createSprint: SprintBaseUrl,
+    getEpicSprints: `${SprintBaseUrl}/epic`,
 };
 
+const EpicBaseUrl = `${BaseUrl}/epic`;
 export const EpicUrls = {
-    getProjectEpics: EpicUrl + '/project/',
+    createEpic: EpicBaseUrl,
+    getProjectEpics: `${EpicBaseUrl}/project`,
 };
 
-export const StoriesUrls = {
-    boardMove: StoriesUrl + '/board-move',
-    partUpdate: StoriesUrl + '/part-update',
-    termSearch: StoriesUrl + '/term',
-    sortStories: StoriesUrl + '/sort',
-    storyHistory: StoriesUrl + '/history/',
+const StoryBaseUrl = `${BaseUrl}/story`;
+export const StoryUrls = {
+    createStory: StoryBaseUrl,
+    updateStory: StoryBaseUrl,
+    boardMove: `${StoryBaseUrl}/board-move`,
+    partUpdate: `${StoryBaseUrl}/part-update`,
+    termSearch: `${StoryBaseUrl}/term`,
+    sortStories: `${StoryBaseUrl}/sort`,
+    storyHistory: `${StoryBaseUrl}/history`,
 };
 
 export const CustomerUrls = {
@@ -53,14 +55,15 @@ export const CustomerUrls = {
     createTeam: CustomerUrl + '/team',
 };
 
+const ProjectBaseUrl = `${BaseUrl}/project`;
 export const ProjectUrls = {
-    getProject: ProjectUrl,
-    getUserProjects: ProjectUrl + '/project-teams',
+    createProject: ProjectBaseUrl,
+    getProject: ProjectBaseUrl,
+    getUserProjects: `${ProjectBaseUrl}/project-teams`,
 };
 
+const TeamBaseUrl = `${BaseUrl}/team`;
 export const TeamUrls = {
-    getUserTeams: TeamUrl + '/user',
+    getUserTeams: TeamBaseUrl + '/user',
     createTeam: CustomerUrl + '/team',
 };
-
-export const ProjectUrlUser = ProjectUrl + '/user';

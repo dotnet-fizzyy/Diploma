@@ -1,9 +1,9 @@
-import * as routeConstants from '../constants/routeConstants';
+import { SprintUrls } from '../constants/routeConstants';
 import { ISprint } from '../types/sprintTypes';
 import * as axios from './index';
 
 export async function getSprintsFromEpic(epicId: string) {
-    const response = await axios.axiosGet(routeConstants.SprintUrls.getEpicSprints + epicId);
+    const response = await axios.axiosGet(`${SprintUrls.getEpicSprints}/${epicId}`);
 
     return response.data;
 }
@@ -16,7 +16,7 @@ export async function createSprint(sprint: ISprint) {
         epicId: sprint.epicId,
     };
 
-    const response = await axios.axiosPost(routeConstants.SprintUrl, mappedSprint);
+    const response = await axios.axiosPost(SprintUrls.createSprint, mappedSprint);
 
     return response.data;
 }

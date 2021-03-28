@@ -3,7 +3,6 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import React from 'react';
 import StartBackground from '../../static/StartBackground.svg';
-import { LaunchModalType } from '../../types/projectTypes';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -17,6 +16,13 @@ const useStyles = makeStyles(() =>
             backgroundImage: `url(${StartBackground})`,
             borderRadius: '15px',
         },
+        body: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%',
+        },
         text: {
             fontFamily: 'Poppins',
             fontSize: '16px',
@@ -24,7 +30,7 @@ const useStyles = makeStyles(() =>
         header: {
             color: 'white',
             fontSize: '26px',
-            marginTop: '50px',
+            marginTop: '80px',
         },
         button: {
             width: '215px',
@@ -39,42 +45,37 @@ const useStyles = makeStyles(() =>
         infoLabel: {
             color: 'white',
             fontSize: '20px',
-            margin: '60px 0 30px 0',
+            marginBottom: '30px',
+            width: '100%',
+            maxWidth: '500px',
+            textAlign: 'center',
         },
     })
 );
 
 export interface ILaunchBackgroundProps {
-    teamExists: boolean;
-    projectExists: boolean;
-    onClickCreateProject: () => void;
-    onClickCreateTeam: () => void;
+    onClickCreateWorkSpace: () => void;
 }
 
 const LaunchBackground = (props: ILaunchBackgroundProps) => {
     const classes = useStyles();
-    const { teamExists, projectExists, onClickCreateProject, onClickCreateTeam } = props;
-
-    const displayTitle = (type: LaunchModalType, onClick: () => void) => {
-        const isTeam: boolean = type === LaunchModalType.Team;
-
-        return (
-            <>
-                <span className={classnames(classes.text, classes.infoLabel)}>
-                    To start working in a moment, simple create a {isTeam ? 'team' : 'project'}
-                </span>
-                <Button className={classnames(classes.button, classes.text)} variant="outlined" onClick={onClick}>
-                    Create a {isTeam ? 'team' : 'project'}
-                </Button>
-            </>
-        );
-    };
+    const { onClickCreateWorkSpace } = props;
 
     return (
         <div className={classes.root}>
-            <span className={classnames(classes.text, classes.header)}>Welcome to the board!</span>
-            {projectExists && displayTitle(LaunchModalType.Project, onClickCreateProject)}
-            {teamExists && displayTitle(LaunchModalType.Team, onClickCreateTeam)}
+            <span className={classnames(classes.text, classes.header)}>Welcome to the application!</span>
+            <div className={classes.body}>
+                <span className={classnames(classes.text, classes.infoLabel)}>
+                    To start working in a moment, simple create a project and invite your team
+                </span>
+                <Button
+                    className={classnames(classes.button, classes.text)}
+                    variant="outlined"
+                    onClick={onClickCreateWorkSpace}
+                >
+                    Create a workspace
+                </Button>
+            </div>
         </div>
     );
 };
