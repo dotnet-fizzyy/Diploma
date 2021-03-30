@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { userInitialState } from '../../../constants/userConstants';
-import { createUserPositionDropdownItems, createUserRoleDropdownItems } from '../../../utils/userHelper';
 import * as userActions from '../../../redux/actions/currentUserActions';
 import { IUser } from '../../../types/userTypes';
-import UserCreation, { IUserCreationProps } from './UserCreation';
+import { createUserPositionDropdownItems, createUserRoleDropdownItems } from '../../../utils/userHelper';
+import UserModal, { IUserCreationProps } from './UserModal';
 
-const UserCreationContainer = () => {
+const UserModalContainer = () => {
     const dispatch = useDispatch();
     const [user, setUser] = useState<IUser>(userInitialState);
     const userRoles = createUserRoleDropdownItems();
@@ -36,7 +36,7 @@ const UserCreationContainer = () => {
         onChangeUserField,
     };
 
-    return <UserCreation {...userCreationProps} />;
+    return <UserModal {...userCreationProps} />;
 };
 
-export default UserCreationContainer;
+export default UserModalContainer;

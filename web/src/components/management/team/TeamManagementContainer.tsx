@@ -11,7 +11,7 @@ const TeamManagementContainer = () => {
     const team = useSelector(teamSelectors.getCurrentTeam);
 
     const onClickAddUser = () => {
-        dispatch(modalActions.openModal(ModalTypes.USER_CREATION));
+        dispatch(modalActions.openModal(ModalTypes.USER));
     };
 
     const teamManagementProps: ITeamManagementProps = {

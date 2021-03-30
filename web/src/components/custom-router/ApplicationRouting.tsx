@@ -1,5 +1,6 @@
 import * as routeConstants from '../../constants/routeConstants';
 import DefaultPageContainer from '../../pages/default/DefaultPageContainer';
+import WorkSpacePageContainer from '../../pages/workspace/WorkSpacePageContainer';
 import { IApplicationRoute } from '../../types';
 import BoardContainer from '../board/BoardContainer';
 import ChartsContainer from '../charts/ChartsContainer';
@@ -13,6 +14,7 @@ import StoryHistoryContainer from '../story-history/StoryHistoryContainer';
 
 export const ApplicationRouting: IApplicationRoute[] = [
     { path: routeConstants.DefaultRoute, exact: true, component: DefaultPageContainer },
+    { path: routeConstants.WorkspaceViewerRoute, exact: true, component: WorkSpacePageContainer },
     { path: routeConstants.ProjectBoardRoute, exact: false, component: BoardContainer },
     { path: routeConstants.ProjectsViewerRoute, exact: false, component: ProjectViewerContainer },
     { path: routeConstants.FullViewStoryRoute, exact: false, component: StoryFullViewContainer },

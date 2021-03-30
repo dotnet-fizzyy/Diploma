@@ -1,8 +1,9 @@
 export enum ModalTypes {
-    STORY_CREATION,
-    TEAM_CREATION,
-    PROJECT_CREATION,
-    EPIC_CREATION,
-    SPRINT_CREATION,
-    USER_CREATION,
+    STORY,
+    TEAM,
+    PROJECT,
+    EPIC,
+    SPRINT,
+    USER,
+    WORKSPACE,
 }

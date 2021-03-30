@@ -32,7 +32,7 @@ const InfoTabContainer = () => {
     };
 
     const onClickAddStory = () => {
-        dispatch(modalActions.openModal(ModalTypes.STORY_CREATION));
+        dispatch(modalActions.openModal(ModalTypes.STORY));
     };
 
     const onClickViewCharts = () => {

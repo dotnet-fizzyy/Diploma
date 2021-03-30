@@ -22,11 +22,11 @@ const ProjectManagementContainer = () => {
     };
 
     const onClickCreateEpic = () => {
-        dispatch(modalActions.openModal(ModalTypes.EPIC_CREATION));
+        dispatch(modalActions.openModal(ModalTypes.EPIC));
     };
 
     const onClickCreateSprint = () => {
-        dispatch(modalActions.openModal(ModalTypes.SPRINT_CREATION));
+        dispatch(modalActions.openModal(ModalTypes.SPRINT));
     };
 
     const projectManagementProps: IProjectManagementProps = {

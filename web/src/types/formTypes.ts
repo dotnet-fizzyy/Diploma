@@ -17,3 +17,10 @@ export interface IProjectForm {
     startDate: Date;
     endDate: Date;
 }
+
+export interface IWorkSpaceForm {
+    workSpaceId?: string;
+    workSpaceName: string;
+    workSpaceDescription: string;
+    creationDate: Date;
+}

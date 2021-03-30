@@ -110,12 +110,12 @@ export interface IMainPageProps {
     onSelectTeam: (value: string) => void;
     onSelectProject: (value: string) => void;
     onClickMoveBoard: (value: string) => void;
-    onClickCreateProject: () => void;
+    onClickCreateWorkSpace: () => void;
 }
 
 const DefaultPage = (props: IMainPageProps) => {
     const classes = useStyles();
-    const { projects, teams, user, onSelectProject, onClickMoveBoard, onSelectTeam, onClickCreateProject } = props;
+    const { projects, teams, user, onSelectProject, onClickMoveBoard, onSelectTeam, onClickCreateWorkSpace } = props;
 
     const renderTeamMembersForOneTeam = (team: ITeam): React.ReactNode => {
         return (
@@ -182,7 +182,7 @@ const DefaultPage = (props: IMainPageProps) => {
                 </div>
             ) : (
                 <div className={classes.launchScreenContainer}>
-                    <LaunchBackground onClickCreateWorkSpace={onClickCreateProject} />
+                    <LaunchBackground onClickCreateWorkSpace={onClickCreateWorkSpace} />
                 </div>
             )}
         </div>

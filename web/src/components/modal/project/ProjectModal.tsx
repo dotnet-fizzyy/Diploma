@@ -48,7 +48,7 @@ export interface IProjectCreationProps {
     validateProjectName: (value: string) => void;
 }
 
-const ProjectManagementModal = (props: IProjectCreationProps) => {
+const ProjectModal = (props: IProjectCreationProps) => {
     const classes = useStyles();
     const { onSubmitProjectHandling, validateProjectName } = props;
 
@@ -104,4 +104,4 @@ const ProjectManagementModal = (props: IProjectCreationProps) => {
     );
 };
 
-export default ProjectManagementModal;
+export default ProjectModal;

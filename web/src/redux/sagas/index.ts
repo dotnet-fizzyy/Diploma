@@ -1,20 +1,35 @@
-import { all } from 'redux-saga/effects';
+import { all, call, spawn } from 'redux-saga/effects';
 import rootCurrentUserSaga from './currentUserSagas';
-import epicsRootSaga from './epicsSagas';
+import epicsRootSaga from './epicSagas';
 import rootProjectSaga from './projectSagas';
-import rootSprintsSaga from './sprintsSagas';
-import rootStoriesSaga from './storiesSagas';
+import rootSprintsSaga from './sprintSagas';
+import rootStoriesSaga from './storySagas';
 import rootTeamsSaga from './teamSagas';
+import workSpaceSaga from './workSpaceSagas';
 
 export default function* rootSaga() {
     const sagas = [
-        rootStoriesSaga(),
-        rootCurrentUserSaga(),
-        rootProjectSaga(),
-        rootTeamsSaga(),
-        epicsRootSaga(),
-        rootSprintsSaga(),
+        rootStoriesSaga,
+        rootCurrentUserSaga,
+        rootProjectSaga,
+        rootTeamsSaga,
+        epicsRootSaga,
+        rootSprintsSaga,
+        workSpaceSaga,
     ];
 
-    yield all(sagas);
+    yield all(
+        sagas.map((saga) =>
+            spawn(function* () {
+                while (true) {
+                    try {
+                        yield call(saga);
+                        break;
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
+            })
+        )
+    );
 }

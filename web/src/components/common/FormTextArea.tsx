@@ -72,7 +72,7 @@ const FormTextArea = (props: IFormTextArea & FieldProps) => {
 
     return (
         <div className={classes.root}>
-            <span className={classes.title}>{label}</span>
+            <span className={classes.title}>{label}:</span>
             <textarea {...field} className={classes.textArea} placeholder={placeholder} maxLength={maxLength} />
             {displayLength && maxLength && (
                 <span className={classes.counter}>Allowed symbols left amount is {maxLength - value.length}</span>

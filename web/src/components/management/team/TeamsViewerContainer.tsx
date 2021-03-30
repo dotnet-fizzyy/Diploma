@@ -13,7 +13,7 @@ const TeamsViewerContainer = () => {
     const teams = useSelector(teamSelectors.getTeams);
 
     const onClickAddTeam = () => {
-        dispatch(modalActions.openModal(ModalTypes.TEAM_CREATION));
+        dispatch(modalActions.openModal(ModalTypes.TEAM));
     };
 
     const onTeamSelect = (value: string) => {

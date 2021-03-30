@@ -69,7 +69,7 @@ export interface IUserCreationProps {
     onClickCreateUser: () => void;
 }
 
-const UserCreation = (props: IUserCreationProps) => {
+const UserModal = (props: IUserCreationProps) => {
     const classes = useStyles();
     const { user, userRoles, userPositions, onChangeUserField, onClickCreateUser } = props;
 
@@ -146,4 +146,4 @@ const UserCreation = (props: IUserCreationProps) => {
     );
 };
 
-export default UserCreation;
+export default UserModal;

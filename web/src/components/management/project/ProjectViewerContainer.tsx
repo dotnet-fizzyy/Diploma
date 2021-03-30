@@ -13,7 +13,7 @@ const ProjectViewerContainer = () => {
     const projects = useSelector(projectSelectors.getProjectNames);
 
     const onClickAddProject = () => {
-        dispatch(modalActions.openModal(ModalTypes.PROJECT_CREATION));
+        dispatch(modalActions.openModal(ModalTypes.PROJECT));
     };
 
     const onProjectSelect = (value: string) => {

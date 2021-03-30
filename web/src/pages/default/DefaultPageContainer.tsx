@@ -27,8 +27,8 @@ const DefaultPageContainer = () => {
         history.push(`/board/${value}`);
     };
 
-    const onClickCreateProject = () => {
-        history.push(routeConstants.ProjectsViewerRoute);
+    const onClickCreateWorkSpace = () => {
+        history.push(routeConstants.WorkspaceViewerRoute);
     };
 
     useEffect(() => {
@@ -43,7 +43,7 @@ const DefaultPageContainer = () => {
         user,
         onSelectTeam,
         onSelectProject,
-        onClickCreateProject,
+        onClickCreateWorkSpace,
         onClickMoveBoard,
     };
 

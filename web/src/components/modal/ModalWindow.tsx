@@ -3,11 +3,12 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { ModalTypes } from '../../types/modalTypes';
 import EpicCreationContainer from './epic/EpicCreationContainer';
-import ProjectManagementModalContainer from './project/ProjectManagementModalContainer';
+import ProjectModalContainer from './project/ProjectModalContainer';
 import SprintCreationContainer from './sprint/SprintCreationContainer';
 import StoryCreationContainer from './story/StoryCreationContainer';
 import TeamCreationContainer from './team/TeamCreationContainer';
-import UserCreationContainer from './user/UserCreationContainer';
+import UserModalContainer from './user/UserModalContainer';
+import WorkSpaceModalContainer from './workspace/WorkSpaceModalContainer';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -31,18 +32,20 @@ const ModalWindow = (props: IModalWindowProps) => {
 
     const getModalType = () => {
         switch (modalType) {
-            case ModalTypes.STORY_CREATION:
+            case ModalTypes.STORY:
                 return <StoryCreationContainer />;
-            case ModalTypes.TEAM_CREATION:
+            case ModalTypes.TEAM:
                 return <TeamCreationContainer />;
-            case ModalTypes.PROJECT_CREATION:
-                return <ProjectManagementModalContainer />;
-            case ModalTypes.SPRINT_CREATION:
+            case ModalTypes.PROJECT:
+                return <ProjectModalContainer />;
+            case ModalTypes.SPRINT:
                 return <SprintCreationContainer />;
-            case ModalTypes.EPIC_CREATION:
+            case ModalTypes.EPIC:
                 return <EpicCreationContainer />;
-            case ModalTypes.USER_CREATION:
-                return <UserCreationContainer />;
+            case ModalTypes.USER:
+                return <UserModalContainer />;
+            case ModalTypes.WORKSPACE:
+                return <WorkSpaceModalContainer />;
             default:
                 return <React.Fragment />;
         }
