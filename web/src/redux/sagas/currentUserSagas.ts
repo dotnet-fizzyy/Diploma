@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import * as usersApi from '../../ajax/currentUserApi';
-import * as userApi from '../../ajax/currentUserApi';
+import * as usersApi from '../../api/currentUserApi';
+import * as userApi from '../../api/currentUserApi';
 import { AuthenticationResponse } from '../../types';
 import { ITeam } from '../../types/teamTypes';
 import { IUser } from '../../types/userTypes';

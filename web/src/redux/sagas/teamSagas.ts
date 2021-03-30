@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import * as teamApi from '../../ajax/teamsApi';
+import * as teamApi from '../../api/teamsApi';
 import { ICollectionResponse } from '../../types';
 import { ITeam } from '../../types/teamTypes';
 import * as modalActions from '../actions/modalActions';

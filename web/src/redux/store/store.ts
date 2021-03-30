@@ -11,6 +11,7 @@ import sidebarReducer from '../reducers/sidebarReducer';
 import sprintsReducer from '../reducers/sprintsReducer';
 import storiesReducer from '../reducers/storiesReducer';
 import teamsReducer from '../reducers/teamReducer';
+import workSpaceReducer from '../reducers/workSpaceReducer';
 import rootSaga from '../sagas';
 
 const reducers = {
@@ -23,6 +24,7 @@ const reducers = {
     sidebar: sidebarReducer,
     modal: modalReducer,
     requestProcessor: requestProcessorReducer,
+    workspace: workSpaceReducer,
 };
 
 const rootReducer = combineReducers({

@@ -53,7 +53,7 @@ const ModalWindow = (props: IModalWindowProps) => {
 
     return (
         <Modal open={isOpen} onClose={handleOnClose} className={classes.root}>
-            <>{getModalType()}</>
+            {getModalType()}
         </Modal>
     );
 };

@@ -69,6 +69,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<WorkSpace> CreateWorkSpaceAsync(WorkSpace workSpace)
         {
             var workSpaceEntity = _workSpaceMapper.MapToEntity(workSpace);
+            workSpace.CreationDate = DateTime.UtcNow.ToUniversalTime();
 
             var createdWorkSpaceEntity = await _workSpaceRepository.CreateAsync(workSpaceEntity);
 
@@ -90,9 +91,9 @@ namespace WebAPI.ApplicationLogic.Services
             );
             
             var workSpaceEntity = _workSpaceMapper.MapToEntity(workSpace);
+            workSpaceEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
             var createdWorkSpaceEntity = await _workSpaceRepository.CreateAsync(workSpaceEntity);
-            createdWorkSpaceEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
-
+            
             var userEntity = new User
             {
                 Id = userId,

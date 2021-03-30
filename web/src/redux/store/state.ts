@@ -6,6 +6,7 @@ import { ISprint } from '../../types/sprintTypes';
 import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
 import { ITeam } from '../../types/teamTypes';
 import { IUser } from '../../types/userTypes';
+import { IWorkSpace } from '../../types/workSpaceTypes';
 
 export interface IState {
     project: IProjectState;
@@ -17,6 +18,7 @@ export interface IState {
     requestProcessor: IRequestProcessorState;
     modal: IModalState;
     epics: IEpicsState;
+    workspace: IWorkSpaceState;
 }
 
 export interface ICurrentUserState {
@@ -71,4 +73,9 @@ export interface IModalState {
 export interface IEpicsState {
     epics: IEpic[];
     currentEpic: IEpic;
+}
+
+export interface IWorkSpaceState {
+    workSpace: IWorkSpace;
+    isLoading: boolean;
 }

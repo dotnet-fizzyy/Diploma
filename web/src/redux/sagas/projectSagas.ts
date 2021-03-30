@@ -1,5 +1,5 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import * as projectApi from '../../ajax/projectApi';
+import * as projectApi from '../../api/projectApi';
 import { ICollectionResponse } from '../../types';
 import { IProject } from '../../types/projectTypes';
 import { IUser, UserRole } from '../../types/userTypes';

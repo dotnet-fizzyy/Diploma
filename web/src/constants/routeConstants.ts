@@ -67,3 +67,9 @@ export const TeamUrls = {
     getUserTeams: TeamBaseUrl + '/user',
     createTeam: CustomerUrl + '/team',
 };
+
+const WorkSpaceBaseUrl = `${BaseUrl}/workspace`;
+export const WorkSpaceUrls = {
+    userWorkSpace: `${WorkSpaceBaseUrl}/user`,
+    createWorkSpace: `${WorkSpaceBaseUrl}/user`,
+};

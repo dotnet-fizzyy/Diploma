@@ -7,6 +7,7 @@ import Button from '../../common/Button';
 import FormTextArea from '../../common/FormTextArea';
 import FormTextField from '../../common/FormTextField';
 import MainLabel from '../../common/MainLabel';
+import ModalCloseButtonContainer from '../close-button/ModalCloseButtonContainer';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -19,6 +20,7 @@ const useStyles = makeStyles(() =>
             flexDirection: 'column',
             borderRadius: '10px',
             padding: '30px',
+            position: 'relative',
         },
         fieldContainer: {
             marginTop: '30px',
@@ -54,6 +56,7 @@ const WorkSpaceModal = (props: IWorkSpaceModalProps) => {
                     <div className={classes.root}>
                         <Form>
                             <MainLabel title="Create workspace" />
+                            <ModalCloseButtonContainer />
                             <div className={classes.fieldContainer}>
                                 <Field
                                     label="Name"
