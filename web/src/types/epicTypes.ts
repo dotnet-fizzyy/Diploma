@@ -5,5 +5,4 @@ export interface IEpic {
     startDate: Date;
     endDate: Date;
     epicDescription: string;
-    progress: number;
 }

@@ -1,35 +1,37 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
-function getAxiosInstance(): AxiosInstance {
-    const accessToken = localStorage.getItem('access_token');
-    const refreshToken = localStorage.getItem('refresh_token');
+export default class AxiosBaseApi {
+    private static getAxiosInstance(): AxiosInstance {
+        const accessToken = localStorage.getItem('access_token');
+        const refreshToken = localStorage.getItem('refresh_token');
 
-    return axios.create({
-        responseType: 'json',
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-            RefreshToken: refreshToken,
-            'Content-Type': 'application/json',
-        },
-    });
-}
+        return axios.create({
+            responseType: 'json',
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                RefreshToken: refreshToken,
+                'Content-Type': 'application/json',
+            },
+        });
+    }
 
-export async function axiosGet(url: string, params?: any) {
-    return await getAxiosInstance().get(url, params);
-}
+    public static async axiosGet(url: string, params?: any): Promise<AxiosResponse> {
+        return await AxiosBaseApi.getAxiosInstance().get(url, params);
+    }
 
-export async function axiosPost(url: string, body?: any) {
-    return await getAxiosInstance().post(url, body);
-}
+    public static async axiosPost(url: string, body?: any): Promise<AxiosResponse> {
+        return await AxiosBaseApi.getAxiosInstance().post(url, body);
+    }
 
-export async function axiosPut(url: string, body?: any) {
-    return await getAxiosInstance().put(url, body);
-}
+    public static async axiosPut(url: string, body?: any): Promise<AxiosResponse> {
+        return await AxiosBaseApi.getAxiosInstance().put(url, body);
+    }
 
-export async function axiosDelete(url: string, params: any) {
-    return await getAxiosInstance().delete(url, params);
-}
+    public static async axiosDelete(url: string, params: any): Promise<AxiosResponse> {
+        return await AxiosBaseApi.getAxiosInstance().delete(url, params);
+    }
 
-export async function axiosPatch(url: string, body: any) {
-    return await getAxiosInstance().patch(url, body);
+    public static async axiosPatch(url: string, body: any): Promise<AxiosResponse> {
+        return await AxiosBaseApi.getAxiosInstance().patch(url, body);
+    }
 }

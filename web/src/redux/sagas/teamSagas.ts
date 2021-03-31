@@ -1,13 +1,12 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import * as teamApi from '../../api/teamsApi';
-import { ICollectionResponse } from '../../types';
+import TeamApi from '../../api/teamApi';
 import { ITeam } from '../../types/teamTypes';
 import * as modalActions from '../actions/modalActions';
 import * as teamActions from '../actions/teamActions';
 
 function* createTeam(action: teamActions.ICreateTeamRequest) {
     try {
-        let createdTeam: ITeam = yield call(teamApi.createTeam, action.payload);
+        let createdTeam: ITeam = yield call(TeamApi.createTeam, action.payload);
         createdTeam.users = createdTeam.users || [];
 
         yield put(teamActions.createTeamSuccess(createdTeam));
@@ -19,15 +18,9 @@ function* createTeam(action: teamActions.ICreateTeamRequest) {
 
 function* getUserTeams(action: teamActions.IGetUserTeamsRequest) {
     try {
-        const userTeams: ICollectionResponse<ITeam> = yield call(teamApi.getTeams);
-        const teams = userTeams.items.map((x) => {
-            return {
-                ...x,
-                users: x.users || [],
-            };
-        });
+        const userTeams: ITeam[] = yield call(TeamApi.getTeams);
 
-        yield put(teamActions.getUserTeamsSuccess(teams));
+        yield put(teamActions.getUserTeamsSuccess(userTeams));
     } catch (error) {
         yield put(teamActions.getUserTeamsFailure(error));
     }

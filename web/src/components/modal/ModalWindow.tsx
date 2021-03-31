@@ -51,9 +51,10 @@ const ModalWindow = (props: IModalWindowProps) => {
         }
     };
 
+    //React.Fragment is required here to avoid ref issues
     return (
         <Modal open={isOpen} onClose={handleOnClose} className={classes.root}>
-            {getModalType()}
+            <React.Fragment>{getModalType()}</React.Fragment>
         </Modal>
     );
 };

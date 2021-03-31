@@ -1,10 +1,10 @@
 import { all, call, spawn } from 'redux-saga/effects';
-import rootCurrentUserSaga from './currentUserSagas';
 import rootEpicRootSaga from './epicSagas';
 import rootProjectSaga from './projectSagas';
 import rootSprintSaga from './sprintSagas';
 import rootStorySaga from './storySagas';
 import rootTeamsSaga from './teamSagas';
+import rootCurrentUserSaga from './userSagas';
 import rootWorkSpaceSaga from './workSpaceSagas';
 
 export default function* rootSaga() {

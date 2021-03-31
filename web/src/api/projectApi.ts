@@ -1,35 +1,57 @@
+import { AxiosResponse } from 'axios';
 import { CustomerUrls, ProjectUrls } from '../constants/routeConstants';
+import { ICollectionResponse } from '../types';
 import { IProject } from '../types/projectTypes';
-import * as axios from './index';
+import AxiosBaseApi from './axiosBaseApi';
 
-export async function getCustomerProjects() {
-    const response = await axios.axiosGet(CustomerUrls.customerProjects);
+export default class ProjectApi {
+    public static async getCustomerProjects(): Promise<IProject[]> {
+        const response: AxiosResponse<ICollectionResponse<IProject>> = await AxiosBaseApi.axiosGet(
+            CustomerUrls.customerProjects
+        );
 
-    return response.data;
-}
+        return response.data.items.map(ProjectApi.mapToModel);
+    }
 
-export async function getProject(projectId: string) {
-    const response = await axios.axiosGet(`${ProjectUrls.getProject}/${projectId}`);
+    public static async getProject(projectId: string): Promise<IProject> {
+        const response: AxiosResponse<IProject> = await AxiosBaseApi.axiosGet(`${ProjectUrls.getProject}/${projectId}`);
 
-    return response.data;
-}
+        return ProjectApi.mapToModel(response.data);
+    }
 
-export async function getAllUserProjects() {
-    const response = await axios.axiosGet(ProjectUrls.getUserProjects);
+    public static async createProject(project: IProject): Promise<IProject> {
+        const mappedProject = {
+            projectName: project.projectName,
+            projectDescription: project.projectDescription,
+            startDate: new Date(project.startDate),
+            endDate: new Date(project.endDate),
+            customer: project.customer,
+        };
 
-    return response.data;
-}
+        const response: AxiosResponse<IProject> = await AxiosBaseApi.axiosPost(
+            ProjectUrls.createProject,
+            mappedProject
+        );
 
-export async function createProject(project: IProject) {
-    const mappedProject = {
-        projectName: project.projectName,
-        projectDescription: project.projectDescription,
-        startDate: new Date(project.startDate),
-        endDate: new Date(project.endDate),
-        customer: project.customer,
-    };
+        return ProjectApi.mapToModel(response.data);
+    }
 
-    const response = await axios.axiosPost(ProjectUrls.createProject, mappedProject);
+    public static async getAllUserProjects(): Promise<IProject[]> {
+        const response: AxiosResponse<ICollectionResponse<IProject>> = await AxiosBaseApi.axiosGet(
+            ProjectUrls.getUserProjects
+        );
 
-    return response.data;
+        return response.data.items.map(ProjectApi.mapToModel);
+    }
+
+    private static mapToModel(data: any): IProject {
+        return {
+            projectName: data.projectName,
+            projectDescription: data.projectDescription,
+            startDate: new Date(data.startDate),
+            endDate: new Date(data.endDate),
+            customer: data.customer,
+            workSpaceId: data.workSpaceId,
+        };
+    }
 }

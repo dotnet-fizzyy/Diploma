@@ -2,6 +2,7 @@ export interface IUser {
     userId: string;
     password?: string;
     teamId: string;
+    workSpaceId?: string;
     userName: string;
     userRole: UserRole;
     userPosition: UserPosition;

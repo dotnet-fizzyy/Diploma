@@ -1,8 +1,7 @@
 import { call, debounce, delay, put, select, take, takeLatest } from 'redux-saga/effects';
-import * as sprintApi from '../../api/sprintApi';
-import * as storyApi from '../../api/storiesApi';
+import SprintApi from '../../api/sprintApi';
+import StoryApi from '../../api/storyApi';
 import { debouncePeriod } from '../../constants/storyConstants';
-import { ICollectionResponse } from '../../types';
 import { IEpic } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';
 import { IFullSprint, ISprint } from '../../types/sprintTypes';
@@ -37,7 +36,7 @@ function* refreshData() {
 
 function* createStory(action: storyActions.ICreateStoryRequest) {
     try {
-        const createdStory: IStory = yield call(storyApi.createStory, action.payload);
+        const createdStory: IStory = yield call(StoryApi.createStory, action.payload);
 
         yield put(storyActions.createStorySuccess(createdStory));
         yield put(modalActions.closeModal());
@@ -77,7 +76,7 @@ function* dragAndDropHandler(action: storyActions.IStoryHandleDragAndDrop) {
 function* updateStoryColumn(action: storyActions.IUpdateStoryColumnRequest) {
     try {
         const jsonPatchDocument = createRequestBodyForColumnMovement(action.payload);
-        const updatedStory: IStory = yield call(storyApi.changeStoryColumn, jsonPatchDocument);
+        const updatedStory: IStory = yield call(StoryApi.changeStoryColumn, jsonPatchDocument);
 
         yield put(storyActions.updateStoryColumnSuccess(updatedStory));
     } catch (error) {
@@ -103,13 +102,9 @@ function* declineStoryBlock(action: sidebarActions.ISidebarHandleVisibility) {
 function* searchForStoriesByTitleTerm(action: storyActions.ISetStoryTitleTermRequest) {
     try {
         const currentProject: IProject = yield select(projectSelectors.getProject);
-        const stories: ICollectionResponse<IStory> = yield call(
-            storyApi.getStoriesByTerm,
-            action.payload,
-            currentProject.projectId
-        );
+        const stories: IStory[] = yield call(StoryApi.getStoriesByTerm, action.payload, currentProject.projectId);
 
-        yield put(storyActions.setStoryTitleTermSuccess(stories.items));
+        yield put(storyActions.setStoryTitleTermSuccess(stories));
     } catch (error) {
         yield put(storyActions.setStoryTitleTermFailure(error));
     }
@@ -117,9 +112,9 @@ function* searchForStoriesByTitleTerm(action: storyActions.ISetStoryTitleTermReq
 
 function* getStoryHistory(action: storyActions.IGetStoryHistoryRequest) {
     try {
-        const storyHistory: ICollectionResponse<IStoryHistory> = yield call(storyApi.getStoryHistory, action.payload);
+        const storyHistory: IStoryHistory[] = yield call(StoryApi.getStoryHistory, action.payload);
 
-        yield put(storyActions.getStoryHistorySuccess(storyHistory.items));
+        yield put(storyActions.getStoryHistorySuccess(storyHistory));
     } catch (error) {
         yield put(storyActions.getStoryHistoryFailure(error));
     }
@@ -131,7 +126,7 @@ function* updateStoryChanges(action: storyActions.IUpdateStoryChangesRequest) {
         const currentUser: IUser = yield select(currentUserSelectors.getUser);
 
         const storyParts = createStoryUpdatePartsFromStory(selectedStory, action.payload, currentUser.userId);
-        const updatedStory = yield call(storyApi.updateStory, storyParts);
+        const updatedStory = yield call(StoryApi.updateStory, storyParts);
 
         yield put(storyActions.storyUpdateChangesSuccess(updatedStory));
     } catch (error) {
@@ -144,15 +139,12 @@ function* updateStoryChanges(action: storyActions.IUpdateStoryChangesRequest) {
 function* changeEpic(action: storyActions.IChangeEpicRequest) {
     try {
         yield put(epicActions.setCurrentEpicById(action.payload));
-        const sprintsFromCurrentEpic: ICollectionResponse<IFullSprint> = yield call(
-            sprintApi.getSprintsFromEpic,
-            action.payload
-        );
+        const sprintsFromCurrentEpic: IFullSprint[] = yield call(SprintApi.getSprintsFromEpic, action.payload);
 
-        const sprints: ISprint[] = sprintsFromCurrentEpic.items.map((x) => mapFullSprintToSprint(x));
+        const sprints: ISprint[] = sprintsFromCurrentEpic.map((x) => mapFullSprintToSprint(x));
         yield put(sprintsActions.addSprints(sprints));
 
-        const stories: IStory[] = sprintsFromCurrentEpic.items
+        const stories: IStory[] = sprintsFromCurrentEpic
             .map((x) => x.stories)
             .reduce((accumulator, stories) => accumulator.concat(stories), []);
         yield put(storyActions.storyActionAddStories(stories));
@@ -168,9 +160,9 @@ function* sortStories(action: storyActions.ISortStoriesRequest) {
         const epic: IEpic = yield select(epicSelectors.getCurrentEpic);
         const sort = action.payload.split(' ').join('');
 
-        const sortedStories: ICollectionResponse<IStory> = yield call(storyApi.sortStories, sort, epic.epicId);
+        const sortedStories: IStory[] = yield call(StoryApi.sortStories, sort, epic.epicId);
 
-        yield put(storyActions.sortStoriesSuccess(sortedStories.items));
+        yield put(storyActions.sortStoriesSuccess(sortedStories));
     } catch (error) {
         yield put(storyActions.sortStoriesFailure(error));
     }

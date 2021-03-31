@@ -1,6 +1,5 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import * as usersApi from '../../api/currentUserApi';
-import * as userApi from '../../api/currentUserApi';
+import UserApi from '../../api/userApi';
 import { AuthenticationResponse } from '../../types';
 import { ITeam } from '../../types/teamTypes';
 import { IUser } from '../../types/userTypes';
@@ -12,7 +11,7 @@ import * as teamSelectors from '../selectors/teamSelectors';
 
 function* authenticateUser(action: currentUserActions.IAuthenticationRequest) {
     try {
-        const authResponse: AuthenticationResponse = yield call(usersApi.authenticate, action.payload);
+        const authResponse: AuthenticationResponse = yield call(UserApi.authenticate, action.payload);
         yield put(currentUserActions.authenticationSuccess(authResponse));
         yield put(requestProcessorActions.hideSpinner());
 
@@ -25,7 +24,7 @@ function* authenticateUser(action: currentUserActions.IAuthenticationRequest) {
 
 function* createCustomer(action: currentUserActions.IRegistrationRequest) {
     try {
-        yield call(usersApi.createCustomer, action.payload);
+        yield call(UserApi.createCustomer, action.payload);
         yield put(currentUserActions.registrationSuccess());
         yield put(requestProcessorActions.hideSpinner());
     } catch (error) {
@@ -42,7 +41,7 @@ function* logOutUser(action: currentUserActions.ILogOutUser) {
 
 function* verifyUser(action: currentUserActions.IVerifyUserRequest) {
     try {
-        const user: IUser = yield call(userApi.getUserByToken);
+        const user: IUser = yield call(UserApi.getUserByToken);
 
         yield put(currentUserActions.verifyUserSuccess(user));
     } catch (error) {
@@ -55,7 +54,7 @@ function* createUser(action: currentUserActions.ICreateUserRequest) {
         const currentTeam: ITeam = yield select(teamSelectors.getCurrentTeam);
         action.payload.teamId = currentTeam.teamId;
 
-        const createdUser: IUser = yield call(userApi.createUser, action.payload);
+        const createdUser: IUser = yield call(UserApi.createUser, action.payload);
 
         yield put(currentUserActions.createUserSuccess(createdUser));
         yield put(modalActions.closeModal());

@@ -1,23 +1,40 @@
+import { AxiosResponse } from 'axios';
 import { EpicUrls } from '../constants/routeConstants';
+import { ICollectionResponse } from '../types';
 import { IEpic } from '../types/epicTypes';
-import { axiosGet, axiosPost } from './index';
+import AxiosBaseApi from './axiosBaseApi';
 
-export async function getProjectEpics(projectId: string) {
-    const response = await axiosGet(`${EpicUrls.getProjectEpics}/${projectId}`);
+export default class EpicsApi {
+    public static async getProjectEpics(projectId: string): Promise<IEpic[]> {
+        const response: AxiosResponse<ICollectionResponse<IEpic>> = await AxiosBaseApi.axiosGet(
+            `${EpicUrls.getProjectEpics}/${projectId}`
+        );
 
-    return response.data;
-}
+        return response.data.items.map(EpicsApi.mapToModel);
+    }
 
-export async function createEpicForProject(epic: IEpic) {
-    const mappedEpic = {
-        epicName: epic.epicName,
-        epicDescription: epic.epicDescription,
-        startDate: epic.startDate,
-        endDate: epic.endDate,
-        projectId: epic.projectId,
-    };
+    public static async createEpicForProject(epic: IEpic): Promise<IEpic> {
+        const mappedEpic = {
+            epicName: epic.epicName,
+            epicDescription: epic.epicDescription,
+            startDate: epic.startDate,
+            endDate: epic.endDate,
+            projectId: epic.projectId,
+        };
 
-    const response = await axiosPost(EpicUrls.createEpic, mappedEpic);
+        const response: AxiosResponse<IEpic> = await AxiosBaseApi.axiosPost(EpicUrls.createEpic, mappedEpic);
 
-    return response.data;
+        return EpicsApi.mapToModel(response.data);
+    }
+
+    private static mapToModel(data: any): IEpic {
+        return {
+            epicId: data.epicId,
+            epicName: data.epicName,
+            epicDescription: data.epicDescription,
+            startDate: data.startDate,
+            endDate: data.endDate,
+            projectId: data.projectId,
+        };
+    }
 }

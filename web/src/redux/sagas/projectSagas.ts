@@ -1,6 +1,5 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import * as projectApi from '../../api/projectApi';
-import { ICollectionResponse } from '../../types';
+import ProjectApi from '../../api/projectApi';
 import { IProject } from '../../types/projectTypes';
 import { IUser, UserRole } from '../../types/userTypes';
 import * as modalActions from '../actions/modalActions';
@@ -12,16 +11,16 @@ import * as userSelectors from '../selectors/userSelectors';
 function* getUserProjects(action: projectActions.IGetUserProjectsRequest) {
     try {
         const currentUser: IUser = yield select(userSelectors.getUser);
-        let projects: ICollectionResponse<IProject>;
+        let projects: IProject[];
         if (currentUser.userRole === UserRole.ProductOwner.split(' ').join('')) {
-            projects = yield call(projectApi.getCustomerProjects);
+            projects = yield call(ProjectApi.getCustomerProjects);
         } else {
-            projects = yield call(projectApi.getAllUserProjects);
+            projects = yield call(ProjectApi.getAllUserProjects);
         }
 
-        yield put(projectActions.getUserProjectsSuccess(projects.items));
+        yield put(projectActions.getUserProjectsSuccess(projects));
 
-        const userTeams = projects.items.reduce((accumulator, project) => accumulator.concat(project.teams), []);
+        const userTeams = projects.reduce((accumulator, project) => accumulator.concat(project.teams), []);
 
         yield put(teamActions.getUserTeamsSuccess(userTeams));
     } catch (error) {
@@ -31,7 +30,7 @@ function* getUserProjects(action: projectActions.IGetUserProjectsRequest) {
 
 function* getProject(action: IGetProjectRequest) {
     try {
-        const project: IProject = yield call(projectApi.getProject, action.payload);
+        const project: IProject = yield call(ProjectApi.getProject, action.payload);
 
         yield put(projectActions.getProjectSuccess(project));
     } catch (error) {
@@ -44,7 +43,7 @@ function* createProject(action: projectActions.ICreateProjectRequest) {
         const currentUser: IUser = yield select(userSelectors.getUser);
         action.payload.customer = currentUser.userId;
 
-        const createdProject: IProject = yield call(projectApi.createProject, action.payload);
+        const createdProject: IProject = yield call(ProjectApi.createProject, action.payload);
 
         yield put(projectActions.createProjectSuccess(createdProject));
         yield put(modalActions.closeModal());

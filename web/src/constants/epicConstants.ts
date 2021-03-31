@@ -5,7 +5,6 @@ export const epicInitialState: IEpic = {
     epicDescription: '',
     epicId: '',
     epicName: '',
-    progress: 0,
     projectId: '',
     startDate: new Date(),
 };
@@ -15,7 +14,6 @@ export const epicFields = {
     epicDescription: 'epicDescription',
     epicId: 'epicId',
     epicName: 'epicName',
-    progress: 'progress',
     projectId: 'projectId',
     startDate: 'startDate',
 };

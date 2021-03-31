@@ -38,7 +38,6 @@ export interface IStoryHistory {
     fieldName: string;
     previousValue: string;
     currentValue: string;
-    recordVersion: number;
     userId: string;
     creationDate: Date;
 }

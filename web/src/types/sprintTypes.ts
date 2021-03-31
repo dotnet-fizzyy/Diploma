@@ -1,20 +1,13 @@
 import { IStory } from './storyTypes';
 
 export interface ISprint {
-    sprintId: string;
+    sprintId?: string;
     epicId: string;
     sprintName: string;
     startDate: Date;
     endDate: Date;
-    progress: number;
 }
 
-export interface IFullSprint {
-    sprintId: string;
-    epicId: string;
-    sprintName: string;
-    startDate: Date;
-    endDate: Date;
-    progress: number;
+export interface IFullSprint extends ISprint {
     stories: IStory[];
 }

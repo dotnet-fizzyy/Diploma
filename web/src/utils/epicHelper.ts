@@ -24,6 +24,5 @@ export function mapFullSprintToSprint(fullSprint: IFullSprint): ISprint {
         sprintName: fullSprint.sprintName,
         startDate: fullSprint.startDate,
         endDate: fullSprint.endDate,
-        progress: fullSprint.progress,
     } as ISprint;
 }

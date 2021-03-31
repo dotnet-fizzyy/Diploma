@@ -1,6 +1,5 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import * as epicApi from '../../api/epicsApi';
-import { ICollectionResponse } from '../../types';
+import EpicsApi from '../../api/epicsApi';
 import { IEpic } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';
 import * as epicActions from '../actions/epicActions';
@@ -9,9 +8,9 @@ import * as projectSelectors from '../selectors/projectSelectors';
 
 function* getEpicsRequest(action: epicActions.IGetEpicsRequest) {
     try {
-        const epics: ICollectionResponse<IEpic> = yield call(epicApi.getProjectEpics, action.payload);
+        const epics: IEpic[] = yield call(EpicsApi.getProjectEpics, action.payload);
 
-        yield put(epicActions.getEpicsSuccess(epics.items));
+        yield put(epicActions.getEpicsSuccess(epics));
     } catch (error) {
         yield put(epicActions.getEpicsFailure(error));
     }
@@ -22,7 +21,7 @@ function* createEpic(action: epicActions.ICreateEpicRequest) {
         const selectedProject: IProject = yield select(projectSelectors.getProject);
         action.payload.projectId = selectedProject.projectId;
 
-        const createdEpic = yield call(epicApi.createEpicForProject, action.payload);
+        const createdEpic = yield call(EpicsApi.createEpicForProject, action.payload);
 
         yield put(epicActions.createEpicSuccess(createdEpic));
         yield put(modalActions.closeModal());

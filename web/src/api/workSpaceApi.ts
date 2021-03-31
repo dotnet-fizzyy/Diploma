@@ -1,10 +1,11 @@
+import { AxiosResponse } from 'axios';
 import { WorkSpaceUrls } from '../constants/routeConstants';
 import { IWorkSpace } from '../types/workSpaceTypes';
-import { axiosGet, axiosPost } from './axiosBaseApi';
+import AxiosBaseApi from './axiosBaseApi';
 
 export default class WorkSpaceApi {
     public static async getUserWorkSpace(): Promise<IWorkSpace> {
-        const response = await axiosGet(WorkSpaceUrls.userWorkSpace);
+        const response: AxiosResponse<IWorkSpace> = await AxiosBaseApi.axiosGet(WorkSpaceUrls.userWorkSpace);
 
         return WorkSpaceApi.mapToModel(response.data);
     }
@@ -15,7 +16,10 @@ export default class WorkSpaceApi {
             workSpaceDescription: workSpace.workSpaceDescription,
         };
 
-        const response = await axiosPost(WorkSpaceUrls.createWorkSpace, mappedWorkSpace);
+        const response: AxiosResponse<IWorkSpace> = await AxiosBaseApi.axiosPost(
+            WorkSpaceUrls.createWorkSpace,
+            mappedWorkSpace
+        );
 
         return WorkSpaceApi.mapToModel(response.data);
     }
