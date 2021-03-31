@@ -17,8 +17,6 @@ namespace WebAPI.Models.Models
         
         public string CurrentValue { get; set; }
         
-        public uint RecordVersion { get; set; }
-        
         public DateTime CreationDate { get; set; }
     }
 }

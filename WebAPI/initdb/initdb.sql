@@ -772,3 +772,25 @@ BEGIN
     VALUES ('20210325174612_FixIncorrectCreationDate', '3.1.9');
     END IF;
 END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210331203920_RemoveProgressFromEpicAndSprint') THEN
+    ALTER TABLE "Sprints" DROP COLUMN "Progress";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210331203920_RemoveProgressFromEpicAndSprint') THEN
+    ALTER TABLE "Epics" DROP COLUMN "Progress";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210331203920_RemoveProgressFromEpicAndSprint') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20210331203920_RemoveProgressFromEpicAndSprint', '3.1.9');
+    END IF;
+END $$;

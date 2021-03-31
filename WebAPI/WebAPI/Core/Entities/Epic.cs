@@ -19,8 +19,6 @@ namespace WebAPI.Core.Entities
         public DateTime EndDate { get; set; }
         
         public string EpicDescription { get; set; }
-        
-        public double Progress { get; set; }
 
         public IList<Sprint> Sprints { get; set; }
     }

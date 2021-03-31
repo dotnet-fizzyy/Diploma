@@ -25,7 +25,6 @@ namespace WebAPI.Presentation.Mappers
                 CurrentValue = storyHistory.CurrentValue,
                 FieldName = storyHistory.FieldName,
                 UserId = storyHistory.UserId,
-                RecordVersion = storyHistory.RecordVersion,
                 CreationDate = DateTime.Now,
             };
 
@@ -46,7 +45,6 @@ namespace WebAPI.Presentation.Mappers
                 PreviousValue = storyHistory.PreviousValue,
                 CurrentValue = storyHistory.CurrentValue,
                 FieldName = storyHistory.FieldName,
-                RecordVersion = storyHistory.RecordVersion,
                 UserId = storyHistory.UserId,
                 CreationDate = storyHistory.CreationDate,
             };

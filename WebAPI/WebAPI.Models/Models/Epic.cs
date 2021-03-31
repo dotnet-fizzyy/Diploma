@@ -15,7 +15,5 @@ namespace WebAPI.Models.Models
         public DateTime EndDate { get; set; }
         
         public string EpicDescription { get; set; }
-        
-        public double Progress { get; set; }
     }
 }

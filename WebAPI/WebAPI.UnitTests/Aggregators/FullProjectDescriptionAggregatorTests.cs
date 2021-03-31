@@ -47,7 +47,6 @@ namespace WebAPI.UnitTests.Aggregators
                     SprintName = "AwesomeSprint",
                     StartDate = new DateTime(2020, 10, 1),
                     EndDate = new DateTime(2020, 10, 30),
-                    Progress = 100,
                 }
             };
 
@@ -116,7 +115,6 @@ namespace WebAPI.UnitTests.Aggregators
                     SprintName = "AwesomeSprint",
                     StartDate = new DateTime(2020, 10, 1),
                     EndDate = new DateTime(2020, 10, 30),
-                    Progress = 100,
                 }
             };
             
@@ -241,8 +239,7 @@ namespace WebAPI.UnitTests.Aggregators
             Assert.Equal(projectFullModel.Sprints.Items.First().SprintName, fullProjectDescription.Sprints.Items.First().SprintName);
             Assert.Equal(projectFullModel.Sprints.Items.First().StartDate, fullProjectDescription.Sprints.Items.First().StartDate);
             Assert.Equal(projectFullModel.Sprints.Items.First().EndDate, fullProjectDescription.Sprints.Items.First().EndDate);
-            Assert.Equal(projectFullModel.Sprints.Items.First().Progress, fullProjectDescription.Sprints.Items.First().Progress);
-            
+
             A.CallTo(() => projectMapper.MapToModel(projectEntity))
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => epicMapper.MapToModel(epicEntity))

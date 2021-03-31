@@ -28,7 +28,6 @@ namespace WebAPI.Presentation.Mappers
                 SprintName = sprint.SprintName,
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,
-                Progress = sprint.Progress,
             };
 
             return sprintEntity;
@@ -47,7 +46,6 @@ namespace WebAPI.Presentation.Mappers
                 SprintName = sprint.SprintName,
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,
-                Progress = sprint.Progress,
                 EpicId = sprint.EpicId,
             };
 
@@ -68,7 +66,6 @@ namespace WebAPI.Presentation.Mappers
                 SprintName = sprint.SprintName,
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,
-                Progress = sprint.Progress,
                 Stories = sprint.Stories.Select(_storyMapper.MapToModel).ToList(),
             };
 

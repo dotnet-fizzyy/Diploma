@@ -45,7 +45,6 @@ namespace WebAPI.UnitTests.Mappers
                 StoryId = storyId,
                 CurrentValue = "Current",
                 PreviousValue = string.Empty,
-                RecordVersion = 111,
                 FieldName = "Field",
                 UserId = userId
             };
@@ -56,7 +55,6 @@ namespace WebAPI.UnitTests.Mappers
                 StoryHistoryAction = Models.Enums.StoryHistoryAction.Add,
                 CurrentValue = "Current",
                 PreviousValue = string.Empty,
-                RecordVersion = 111,
                 FieldName = "Field",
                 UserId = userId,
             };
@@ -70,7 +68,6 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(storyHistoryModel.StoryHistoryAction.ToString(), mappedResult.StoryHistoryAction.ToString());
             Assert.Equal(storyHistoryModel.UserId, mappedResult.UserId);
             Assert.Equal(storyHistoryModel.CurrentValue, mappedResult.CurrentValue);
-            Assert.Equal(storyHistoryModel.RecordVersion, mappedResult.RecordVersion);
             Assert.Equal(storyHistoryModel.FieldName, mappedResult.FieldName);
             Assert.Equal(storyHistoryModel.PreviousValue, mappedResult.PreviousValue);
         }
@@ -90,7 +87,6 @@ namespace WebAPI.UnitTests.Mappers
                 StoryId = storyId,
                 CurrentValue = "Some value",
                 PreviousValue = string.Empty,
-                RecordVersion = 122,
                 FieldName = "Some Field",
                 UserId = userId
             };
@@ -101,7 +97,6 @@ namespace WebAPI.UnitTests.Mappers
                 StoryHistoryAction = Models.Enums.StoryHistoryAction.Update,
                 CurrentValue = "Some value",
                 PreviousValue = string.Empty,
-                RecordVersion = 122,
                 FieldName = "Some Field",
                 UserId = userId,
             };
@@ -115,7 +110,6 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(storyHistoryModel.StoryHistoryAction.ToString(), mappedResult.StoryHistoryAction.ToString());
             Assert.Equal(storyHistoryModel.UserId, mappedResult.UserId);
             Assert.Equal(storyHistoryModel.CurrentValue, mappedResult.CurrentValue);
-            Assert.Equal(storyHistoryModel.RecordVersion, mappedResult.RecordVersion);
             Assert.Equal(storyHistoryModel.FieldName, mappedResult.FieldName);
             Assert.Equal(storyHistoryModel.PreviousValue, mappedResult.PreviousValue);
         }

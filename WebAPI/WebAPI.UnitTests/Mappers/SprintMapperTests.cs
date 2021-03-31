@@ -53,7 +53,6 @@ namespace WebAPI.UnitTests.Mappers
                 StartDate = new DateTime(2020, 11, 11),
                 EndDate = new DateTime(2020, 11, 22),
                 EpicId = epicId,
-                Progress = 100
             };
 
             var sprintModel = new Models.Models.Sprint
@@ -63,7 +62,6 @@ namespace WebAPI.UnitTests.Mappers
                 StartDate = new DateTime(2020, 11, 11),
                 EndDate = new DateTime(2020, 11, 22),
                 EpicId = epicId,
-                Progress = 100
             };
             
             //Act
@@ -76,7 +74,6 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(sprintModel.StartDate, mappedResult.StartDate);
             Assert.Equal(sprintModel.EndDate, mappedResult.EndDate);
             Assert.Equal(sprintModel.EpicId, mappedResult.EpicId);
-            Assert.Equal(sprintModel.Progress, mappedResult.Progress);
         }
         
         [Fact]
@@ -95,7 +92,6 @@ namespace WebAPI.UnitTests.Mappers
                 StartDate = new DateTime(2020, 12, 11),
                 EndDate = new DateTime(2020, 12, 22),
                 EpicId = epicId,
-                Progress = 50
             };
             
             var sprintEntity = new Sprint
@@ -105,7 +101,6 @@ namespace WebAPI.UnitTests.Mappers
                 StartDate = new DateTime(2020, 12, 11),
                 EndDate = new DateTime(2020, 12, 22),
                 EpicId = epicId,
-                Progress = 50
             };
             
             //Act
@@ -118,7 +113,6 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(sprintEntity.StartDate, mappedResult.StartDate);
             Assert.Equal(sprintEntity.EndDate, mappedResult.EndDate);
             Assert.Equal(sprintEntity.EpicId, mappedResult.EpicId);
-            Assert.Equal(sprintEntity.Progress, mappedResult.Progress);
         }
     }
 }

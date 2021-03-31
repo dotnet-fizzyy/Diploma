@@ -18,8 +18,6 @@ namespace WebAPI.Core.Entities
         
         public DateTime EndDate { get; set; }
         
-        public double Progress { get; set; }
-        
         public IList<Story> Stories { get; set; }
     }
 }

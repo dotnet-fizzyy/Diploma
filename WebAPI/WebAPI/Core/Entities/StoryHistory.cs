@@ -12,8 +12,6 @@ namespace WebAPI.Core.Entities
         public string PreviousValue { get; set; }
         
         public string CurrentValue { get; set; }
-        
-        public uint RecordVersion { get; set; }
 
         public Guid UserId { get; set; }
         

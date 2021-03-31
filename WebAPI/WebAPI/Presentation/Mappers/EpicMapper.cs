@@ -29,7 +29,6 @@ namespace WebAPI.Presentation.Mappers
                 EpicDescription = epic.EpicDescription,
                 StartDate = epic.StartDate,
                 EndDate = epic.EndDate,
-                Progress = epic.Progress,
             };
 
             return entityEpic;
@@ -50,7 +49,6 @@ namespace WebAPI.Presentation.Mappers
                 EpicDescription = epic.EpicDescription,
                 StartDate = epic.StartDate,
                 EndDate = epic.EndDate,
-                Progress = epic.Progress,
             };
 
             return epicModel;
@@ -71,7 +69,6 @@ namespace WebAPI.Presentation.Mappers
                 EpicDescription = epic.EpicDescription,
                 StartDate = epic.StartDate,
                 EndDate = epic.EndDate,
-                Progress = epic.Progress,
                 Sprints = epic.Sprints.Select(_sprintMapper.MapToModel).ToList(),
             };
 

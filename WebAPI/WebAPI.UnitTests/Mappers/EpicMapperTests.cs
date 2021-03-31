@@ -57,7 +57,6 @@ namespace WebAPI.UnitTests.Mappers
                 ProjectId = new Guid(),
                 StartDate = new DateTime(2020, 11, 12),
                 EndDate = new DateTime(2020, 11, 22),
-                Progress = 50.3
             };
             
             var epicModel = new Models.Models.Epic
@@ -67,7 +66,6 @@ namespace WebAPI.UnitTests.Mappers
                 EpicDescription = "SomeDecs",
                 StartDate = new DateTime(2020, 11, 12),
                 EndDate = new DateTime(2020, 11, 22),
-                Progress = 50.3
             };
             
             //Act
@@ -80,7 +78,6 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(epicModel.StartDate, mappedResult.StartDate);
             Assert.Equal(epicModel.EndDate, mappedResult.EndDate);
             Assert.Equal(epicModel.EpicDescription, mappedResult.EpicDescription);
-            Assert.Equal(epicModel.Progress, mappedResult.Progress);
         }
         
         [Fact]
@@ -99,7 +96,6 @@ namespace WebAPI.UnitTests.Mappers
                 ProjectId = new Guid(),
                 StartDate = new DateTime(2020, 10, 12),
                 EndDate = new DateTime(2020, 10, 22),
-                Progress = 80
             };
             
             var epicModel = new Models.Models.Epic
@@ -109,7 +105,6 @@ namespace WebAPI.UnitTests.Mappers
                 EpicDescription = "Decs",
                 StartDate = new DateTime(2020, 10, 12),
                 EndDate = new DateTime(2020, 10, 22),
-                Progress = 80
             };
             
             //Act
@@ -122,7 +117,6 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(epicEntity.StartDate, mappedResult.StartDate);
             Assert.Equal(epicEntity.EndDate, mappedResult.EndDate);
             Assert.Equal(epicEntity.EpicDescription, mappedResult.EpicDescription);
-            Assert.Equal(epicEntity.Progress, mappedResult.Progress);
         }
     }
 }
