@@ -7,7 +7,8 @@ import ProjectModalContainer from './project/ProjectModalContainer';
 import SprintCreationContainer from './sprint/SprintCreationContainer';
 import StoryCreationContainer from './story/StoryCreationContainer';
 import TeamCreationContainer from './team/TeamCreationContainer';
-import UserModalContainer from './user/UserModalContainer';
+import UserCustomerModalContainer from './user/customer-management/UserModalContainer';
+import UserSelfModalContainer from './user/self-management/UserModalContainer';
 import WorkSpaceModalContainer from './workspace/WorkSpaceModalContainer';
 
 const useStyles = makeStyles(() =>
@@ -42,8 +43,10 @@ const ModalWindow = (props: IModalWindowProps) => {
                 return <SprintCreationContainer />;
             case ModalTypes.EPIC:
                 return <EpicCreationContainer />;
-            case ModalTypes.USER:
-                return <UserModalContainer />;
+            case ModalTypes.USER_CUSTOMER:
+                return <UserCustomerModalContainer />;
+            case ModalTypes.USER_SELF:
+                return <UserSelfModalContainer />;
             case ModalTypes.WORKSPACE:
                 return <WorkSpaceModalContainer />;
             default:

@@ -76,7 +76,7 @@ const WorkSpaceModal = (props: IWorkSpaceModalProps) => {
                             </div>
                             <div className={classes.buttonContainer}>
                                 <Button
-                                    disabled={!isAnyFieldTouched || !isValid}
+                                    disabled={!isAnyFieldTouched || (isAnyFieldTouched && !isValid)}
                                     type="submit"
                                     label="Create Workspace"
                                 />

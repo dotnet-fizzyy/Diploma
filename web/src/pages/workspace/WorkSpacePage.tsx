@@ -1,6 +1,8 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import Button from '../../components/common/Button';
+import { IWorkSpace } from '../../types/workSpaceTypes';
+import WorkSpacePageDescription from './WorkSpacePageDescription';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -24,18 +26,21 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IWorkSpacePageProps {
+    workSpace: IWorkSpace;
+    isLoading: boolean;
     onClickCreateWorkSpace: () => void;
 }
 
 const WorkSpacePage = (props: IWorkSpacePageProps) => {
     const classes = useStyles();
-    const { onClickCreateWorkSpace } = props;
+    const { isLoading, workSpace, onClickCreateWorkSpace } = props;
 
     return (
         <div className={classes.root}>
-            <div className={classes.mainContainer}>
+            {!isLoading && !workSpace.workSpaceId && (
                 <Button label="Create Workspace" disabled={false} onClick={onClickCreateWorkSpace} />
-            </div>
+            )}
+            {!isLoading && workSpace && workSpace.workSpaceId && <WorkSpacePageDescription workSpace={workSpace} />}
         </div>
     );
 };

@@ -23,6 +23,10 @@ const CustomRouter = (props: ICustomRouterProps) => {
 
     return (
         <Switch>
+            {!isAuthenticated && <Route path={routeConstants.LoginScreenRoute} component={StartScreenContainer} />}
+            {!isAuthenticated && (
+                <Route path={routeConstants.RegistrationScreenRoute} component={StartScreenContainer} />
+            )}
             {ApplicationRouting.map((route) => (
                 <RouteGuard
                     exact={route.exact}
@@ -32,10 +36,6 @@ const CustomRouter = (props: ICustomRouterProps) => {
                     isAuthenticated={isAuthenticated}
                 />
             ))}
-            {!isAuthenticated && <Route path={routeConstants.LoginScreenRoute} component={StartScreenContainer} />}
-            {!isAuthenticated && (
-                <Route path={routeConstants.RegistrationScreenRoute} component={StartScreenContainer} />
-            )}
         </Switch>
     );
 };

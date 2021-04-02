@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { userInitialState } from '../../../constants/userConstants';
-import * as userActions from '../../../redux/actions/currentUserActions';
-import { IUser } from '../../../types/userTypes';
-import { createUserPositionDropdownItems, createUserRoleDropdownItems } from '../../../utils/userHelper';
+import { userInitialState } from '../../../../constants/userConstants';
+import * as userActions from '../../../../redux/actions/currentUserActions';
+import { IUser } from '../../../../types/userTypes';
+import { createUserPositionDropdownItems, createUserRoleDropdownItems } from '../../../../utils/userHelper';
 import UserModal, { IUserCreationProps } from './UserModal';
 
 const UserModalContainer = () => {

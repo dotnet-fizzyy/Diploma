@@ -1,25 +1,30 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as userActions from '../../../redux/actions/currentUserActions';
-import * as storyActions from '../../../redux/actions/storiesActions';
-import * as storiesSelectors from '../../../redux/selectors/storiesSelectors';
-import * as userSelectors from '../../../redux/selectors/userSelectors';
+import { useHistory } from 'react-router-dom';
+import { SignInUrl } from '../../../constants/routeConstants';
+import { logOutUser } from '../../../redux/actions/currentUserActions';
+import { openModal } from '../../../redux/actions/modalActions';
+import { blurStoryTitleTerm, setStoryTitleTermRequest } from '../../../redux/actions/storiesActions';
+import { getSearchResults, getStoryTitleTerm } from '../../../redux/selectors/storiesSelectors';
+import { getUser } from '../../../redux/selectors/userSelectors';
+import { ModalTypes } from '../../../types/modalTypes';
 import GeneralTab, { IGeneralTabProps } from './GeneralTab';
 
 const GeneralTabContainer = () => {
     const dispatch = useDispatch();
-    const user = useSelector(userSelectors.getUser);
-    const searchTerm = useSelector(storiesSelectors.getStoryTitleTerm);
-    const searchResults = useSelector(storiesSelectors.getSearchResults);
+    const history = useHistory();
+    const user = useSelector(getUser);
+    const searchTerm = useSelector(getStoryTitleTerm);
+    const searchResults = useSelector(getSearchResults);
 
     const [anchor, setAnchor] = useState<null | HTMLElement>(null);
 
     const onChangeSearchTerm = (value: string) => {
-        dispatch(storyActions.setStoryTitleTermRequest(value));
+        dispatch(setStoryTitleTermRequest(value));
     };
 
     const onBlur = () => {
-        dispatch(storyActions.blurStoryTitleTerm());
+        dispatch(blurStoryTitleTerm());
     };
 
     const onClickDisplayMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -30,8 +35,13 @@ const GeneralTabContainer = () => {
         setAnchor(null);
     };
 
+    const onClickOpenProfile = () => {
+        dispatch(openModal(ModalTypes.USER_SELF));
+    };
+
     const onClickLogOut = () => {
-        dispatch(userActions.logOutUser());
+        dispatch(logOutUser());
+        history.push(SignInUrl);
     };
 
     const generalTabProps: IGeneralTabProps = {
@@ -42,6 +52,7 @@ const GeneralTabContainer = () => {
         onClickDisplayMenu,
         onClickCloseMenu,
         onClickLogOut,
+        onClickOpenProfile,
         onChangeSearchTerm,
         onBlur,
     };

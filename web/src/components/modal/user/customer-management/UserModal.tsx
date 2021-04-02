@@ -1,9 +1,9 @@
 import { Button, MenuItem, Select, TextField } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { userFields } from '../../../constants/userConstants';
-import { ISelectedItem } from '../../../types/storyTypes';
-import { IUser } from '../../../types/userTypes';
+import { userFields } from '../../../../constants/userConstants';
+import { ISelectedItem } from '../../../../types/storyTypes';
+import { IUser } from '../../../../types/userTypes';
 
 const useStyles = makeStyles(() =>
     createStyles({

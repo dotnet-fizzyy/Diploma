@@ -23,6 +23,8 @@ export default function workSpaceReducer(
             return handleCreateWorkSpace(state, action);
         case WorkSpaceActions.WorkSpaceActions.GET_USER_WORKSPACE_SUCCESS:
             return handleGetUserWorkSpace(state, action);
+        case WorkSpaceActions.WorkSpaceActions.GET_USER_WORKSPACE_FAILURE:
+            return handleGetUserWorkSpaceFailure(state);
         default:
             return state;
     }
@@ -56,6 +58,13 @@ function handleGetUserWorkSpace(
     return {
         ...state,
         workSpace: action.payload,
+        isLoading: false,
+    };
+}
+
+function handleGetUserWorkSpaceFailure(state: IWorkSpaceState): IWorkSpaceState {
+    return {
+        ...state,
         isLoading: false,
     };
 }

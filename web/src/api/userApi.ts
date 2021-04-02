@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import * as routeConstants from '../constants/routeConstants';
+import { AuthenticationResponse, TokenType } from '../types';
 import { IAuthenticationUser, IUser } from '../types/userTypes';
 import AxiosBaseApi from './axiosBaseApi';
 
@@ -32,10 +33,10 @@ export default class UserApi {
         return UserApi.mapToModel(response.data);
     }
 
-    public static async authenticate(authUser: IAuthenticationUser): Promise<IUser> {
+    public static async authenticate(authUser: IAuthenticationUser): Promise<AuthenticationResponse> {
         const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosPost(routeConstants.SignInUrl, authUser);
 
-        return UserApi.mapToModel(response.data);
+        return UserApi.mapToAuthenticationUser(response.data);
     }
 
     private static mapToModel(data: any): IUser {
@@ -50,6 +51,20 @@ export default class UserApi {
             isActive: data.isActive,
             avatarLink: data.avatarLink,
             workSpaceId: data.workSpaceId,
+        };
+    }
+
+    private static mapToAuthenticationUser(data: any): AuthenticationResponse {
+        return {
+            accessToken: {
+                type: TokenType[data.accessToken.type],
+                value: data.accessToken.value,
+            },
+            refreshToken: {
+                type: TokenType[data.refreshToken.type],
+                value: data.refreshToken.value,
+            },
+            user: UserApi.mapToModel(data.user),
         };
     }
 }

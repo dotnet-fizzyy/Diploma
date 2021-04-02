@@ -1,15 +1,16 @@
-import { Avatar, Menu, MenuItem, TextField } from '@material-ui/core';
+import { Avatar, TextField } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import SearchIcon from '@material-ui/icons/Search';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import * as routeConstants from '../../../constants/routeConstants';
+import { DefaultRoute, WorkspaceViewerRoute } from '../../../constants/routeConstants';
 import LogoIcon from '../../../static/Icon.svg';
 import { IStory } from '../../../types/storyTypes';
 import { IUser } from '../../../types/userTypes';
 import { getShortIdNameForStory } from '../../../utils/storyHelper';
+import Menu from './Menu';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -121,6 +122,7 @@ export interface IGeneralTabProps {
     onClickDisplayMenu: (event: React.MouseEvent<HTMLElement>) => void;
     onChangeSearchTerm: (value: string) => void;
     onClickCloseMenu: () => void;
+    onClickOpenProfile: () => void;
     onClickLogOut: () => void;
     onBlur: () => void;
 }
@@ -134,6 +136,7 @@ const GeneralTab = (props: IGeneralTabProps) => {
         searchResults,
         onClickDisplayMenu,
         onClickCloseMenu,
+        onClickOpenProfile,
         onClickLogOut,
         onChangeSearchTerm,
         onBlur,
@@ -144,7 +147,7 @@ const GeneralTab = (props: IGeneralTabProps) => {
             <div className={classes.generalTabContainer}>
                 {user && user.userId && (
                     <>
-                        <Link to={routeConstants.DefaultRoute}>
+                        <Link to={DefaultRoute}>
                             <div className={classes.logo} />
                         </Link>
                         <div className={classes.searchResultsContainer}>
@@ -175,17 +178,11 @@ const GeneralTab = (props: IGeneralTabProps) => {
                             )}
                         </div>
                         <div className={classes.mainTabsContainer}>
-                            {/*<Link to={routeConstants.ProjectBoardRoute} className={classes.tab}>*/}
-                            {/*    Board*/}
-                            {/*</Link>*/}
-                            <Link to={routeConstants.ProjectsViewerRoute} className={classes.tab}>
-                                Projects
+                            <Link to={WorkspaceViewerRoute} className={classes.tab}>
+                                Workspace
                             </Link>
-                            {/*<Link to={routeConstants.ProjectsViewerRoute} className={classes.tab}>*/}
-                            {/*    My tasks*/}
-                            {/*</Link>*/}
-                            <Link to={routeConstants.TeamsViewerRoute} className={classes.tab}>
-                                Teams
+                            <Link to={`/team/${user.teamId}`} className={classes.tab}>
+                                Team
                             </Link>
                         </div>
                         <div className={classes.userInfoContainer} onClick={onClickDisplayMenu}>
@@ -201,15 +198,11 @@ const GeneralTab = (props: IGeneralTabProps) => {
                             )}
                         </div>
                         <Menu
-                            anchorEl={anchor}
-                            getContentAnchorEl={null}
-                            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                            open={Boolean(anchor)}
-                            onClose={onClickCloseMenu}
-                        >
-                            <MenuItem>Profile</MenuItem>
-                            <MenuItem onClick={onClickLogOut}>Log out</MenuItem>
-                        </Menu>
+                            anchor={anchor}
+                            onClickCloseMenu={onClickCloseMenu}
+                            onClickLogOut={onClickLogOut}
+                            onClickOpenProfile={onClickOpenProfile}
+                        />
                     </>
                 )}
             </div>

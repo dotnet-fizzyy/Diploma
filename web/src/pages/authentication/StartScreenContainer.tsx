@@ -92,7 +92,8 @@ const StartScreenContainer = () => {
         if (user) {
             history.push(routeConstants.DefaultRoute);
         }
-    }, [user, history]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user]);
 
     return <StartScreen {...startScreenProps} />;
 };

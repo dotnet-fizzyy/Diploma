@@ -1,4 +1,9 @@
+import { IWorkSpace } from '../../types/workSpaceTypes';
 import { IState } from '../store/state';
+
+export function getWorkSpace(state: IState): IWorkSpace {
+    return state.workspace.workSpace;
+}
 
 export function getWorkSpaceName(state: IState): string {
     return state.workspace.workSpace.workSpaceName;
