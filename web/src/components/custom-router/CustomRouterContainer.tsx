@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import * as currentUserActions from '../../redux/actions/currentUserActions';
+import * as currentUserActions from '../../redux/actions/userActions';
 import * as currentUserSelectors from '../../redux/selectors/userSelectors';
 import { IUser } from '../../types/userTypes';
 import CustomRouter, { ICustomRouterProps } from './CustomRouter';

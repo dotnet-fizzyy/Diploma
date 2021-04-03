@@ -5,7 +5,7 @@ import { ILoginPageProps } from '../../components/authentication/Login';
 import { IRegistrationPageProps } from '../../components/authentication/Registration';
 import { BaseRegexExpression } from '../../constants';
 import * as routeConstants from '../../constants/routeConstants';
-import * as currentUserActions from '../../redux/actions/currentUserActions';
+import * as currentUserActions from '../../redux/actions/userActions';
 import * as requestProcessorActions from '../../redux/actions/requestProcessorActions';
 import * as requestProcessorSelectors from '../../redux/selectors/requestProcessorSelectors';
 import * as currentUserSelectors from '../../redux/selectors/userSelectors';

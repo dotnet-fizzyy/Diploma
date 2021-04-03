@@ -1,3 +1,4 @@
+import { IJsonPatchBody } from '../types';
 import { ISelectedItem } from '../types/storyTypes';
 import { UserPosition, UserRole } from '../types/userTypes';
 
@@ -17,4 +18,19 @@ export function createUserPositionDropdownItems(): ISelectedItem[] {
             value: x[1],
         } as ISelectedItem;
     });
+}
+
+export function createRequestBodyForUserUpdateLink(userId: string, avatarLink: string): IJsonPatchBody[] {
+    return [
+        {
+            op: 'add',
+            path: '/userId',
+            value: userId,
+        },
+        {
+            op: 'add',
+            path: '/avatarLink',
+            value: avatarLink,
+        },
+    ];
 }

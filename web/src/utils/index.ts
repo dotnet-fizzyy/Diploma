@@ -9,3 +9,7 @@ export function clearCredentialsFromLocalStorage(): void {
     localStorage.removeItem(AccessTokenLocalStorageField);
     localStorage.removeItem(RefreshTokenLocalStorageField);
 }
+
+export function getFirstNameLetter(userName: string): string {
+    return userName ? userName.slice(0, 1) : '';
+}

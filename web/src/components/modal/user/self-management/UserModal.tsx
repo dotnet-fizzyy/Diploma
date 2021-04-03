@@ -1,11 +1,17 @@
+import { Avatar } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import React from 'react';
+import React, { RefObject } from 'react';
+import { IUser } from '../../../../types/userTypes';
+import { getFirstNameLetter } from '../../../../utils';
+import Button from '../../../common/Button';
+import MainLabel from '../../../common/MainLabel';
+import ModalCloseButtonContainer from '../../close-button/ModalCloseButtonContainer';
 
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
             maxWidth: '500px',
-            maxHeight: '750px',
+            maxHeight: '500px',
             width: '100%',
             height: '100%',
             backgroundColor: 'white',
@@ -14,55 +20,78 @@ const useStyles = makeStyles(() =>
             borderRadius: '10px',
             padding: '30px',
             overflowY: 'scroll',
+            position: 'relative',
         },
-        header: {
-            fontFamily: 'Poppins, sans-serif',
-            fontSize: '24px',
-            color: '#242126',
-            fontWeight: 'bold',
+        body: {
+            paddingTop: '20px',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'row',
         },
-        fieldContainer: {
-            margin: '20px 0',
-        },
-        textField: {
-            width: '100%',
-            marginTop: '10px',
-        },
-        footerItem: {
-            flexBasis: '230px',
+        photoContainer: {
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'column',
+            flexGrow: 0,
+            flexBasis: '150px',
             flexShrink: 0,
         },
-        button: {
-            width: '150px',
-            height: '40px',
-            marginTop: '30px',
-            backgroundColor: '#75BAF7',
-            fontFamily: 'Poppins, sans-serif',
-            fontSize: '18px',
-            border: 'none',
-            textTransform: 'capitalize',
-            color: '#FFF',
-            boxShadow: 'none',
-            transition: 'unset',
-            '&:hover': {
-                backgroundColor: '#E8F4FF',
-                boxShadow: 'none',
-            },
+        profileContainer: {
+            flexGrow: 1,
+            flexBasis: 0,
+            flexShrink: 0,
         },
-        title: {
-            fontFamily: 'Poppins, sans-serif',
-            color: '#75BAF7',
-            fontSize: '18px',
+        buttonContainer: {
+            marginTop: '20px',
+            width: '170px',
+        },
+        uploadButtonContainer: {
+            marginTop: '20px',
+            width: '150px',
+        },
+        profilePhoto: {
+            width: '120px',
+            height: '120px',
+            fontSize: '60px',
         },
     })
 );
 
-const UserModal = () => {
+export interface IUserModalProps {
+    user: IUser;
+    fileRef: RefObject<HTMLInputElement>;
+    onClickUpdateAvatar: () => void;
+    onChangeFile: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const UserModal = (props: IUserModalProps) => {
     const classes = useStyles();
+    const {
+        user: { userName },
+        fileRef,
+        onClickUpdateAvatar,
+        onChangeFile,
+    } = props;
 
     return (
         <div className={classes.root}>
-            <span>profile</span>
+            <MainLabel title="Profile settings" />
+            <ModalCloseButtonContainer />
+            <div className={classes.body}>
+                <div className={classes.photoContainer}>
+                    <Avatar alt="Your image" className={classes.profilePhoto}>
+                        {getFirstNameLetter(userName)}
+                    </Avatar>
+                    <div className={classes.uploadButtonContainer}>
+                        <Button label="Upload image" disabled={false} onClick={onClickUpdateAvatar} />
+                        <input type="file" ref={fileRef} hidden={true} onChange={onChangeFile} />
+                    </div>
+                </div>
+                <div className={classes.profileContainer} />
+            </div>
+            <div className={classes.buttonContainer}>
+                <Button label="Update" disabled={false} />
+            </div>
         </div>
     );
 };

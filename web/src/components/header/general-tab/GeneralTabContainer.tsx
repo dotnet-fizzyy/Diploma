@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { SignInUrl } from '../../../constants/routeConstants';
-import { logOutUser } from '../../../redux/actions/currentUserActions';
+import { logOutUser } from '../../../redux/actions/userActions';
 import { openModal } from '../../../redux/actions/modalActions';
 import { blurStoryTitleTerm, setStoryTitleTermRequest } from '../../../redux/actions/storiesActions';
 import { getSearchResults, getStoryTitleTerm } from '../../../redux/selectors/storiesSelectors';

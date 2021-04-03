@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { userInitialState } from '../../../../constants/userConstants';
-import * as userActions from '../../../../redux/actions/currentUserActions';
+import * as userActions from '../../../../redux/actions/userActions';
 import { IUser } from '../../../../types/userTypes';
 import { createUserPositionDropdownItems, createUserRoleDropdownItems } from '../../../../utils/userHelper';
 import UserModal, { IUserCreationProps } from './UserModal';

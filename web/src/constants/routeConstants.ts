@@ -21,11 +21,19 @@ const getBaseUrl = (): string =>
 
 const BaseUrl = `${getBaseUrl()}api`;
 
+export const getCloudStorageUrl = (cloudinaryId: string): string =>
+    `https://api.cloudinary.com/v1_1/${cloudinaryId}/upload`;
+
 export const SignInUrl = `${BaseUrl}/auth/sign-in`;
 export const SignUpUrl = `${BaseUrl}/auth/sign-up`;
 
 export const UsersUrl = BaseUrl + '/user';
 export const CustomerUrl = BaseUrl + '/customer';
+
+const UserBaseUrl = `${BaseUrl}/user`;
+export const UserUrls = {
+    updateAvatarLink: `${UserBaseUrl}/avatar`,
+};
 
 const SprintBaseUrl = `${BaseUrl}/sprint`;
 export const SprintUrls = {

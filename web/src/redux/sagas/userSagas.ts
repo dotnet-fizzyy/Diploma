@@ -1,72 +1,108 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import UserApi from '../../api/userApi';
-import { AuthenticationResponse } from '../../types';
+import { AuthenticationResponse, IJsonPatchBody } from '../../types';
 import { ITeam } from '../../types/teamTypes';
 import { IUser } from '../../types/userTypes';
 import { clearCredentialsFromLocalStorage, setCredentialsToLocalStorage } from '../../utils';
-import * as currentUserActions from '../actions/currentUserActions';
-import * as modalActions from '../actions/modalActions';
-import * as requestProcessorActions from '../actions/requestProcessorActions';
-import * as teamSelectors from '../selectors/teamSelectors';
+import { createRequestBodyForUserUpdateLink } from '../../utils/userHelper';
+import { closeModal } from '../actions/modalActions';
+import { hideSpinner } from '../actions/requestProcessorActions';
+import {
+    addUser,
+    authenticationFailure,
+    authenticationSuccess,
+    createUserFailure,
+    createUserSuccess,
+    registrationFailure,
+    registrationSuccess,
+    updateAvatarFailure,
+    updateAvatarSuccess,
+    verifyUserFailure,
+    verifyUserSuccess,
+    IAuthenticationRequest,
+    ICreateUserRequest,
+    ILogOutUser,
+    IRegistrationRequest,
+    IUpdateAvatarRequest,
+    IVerifyUserRequest,
+    UserActions,
+} from '../actions/userActions';
+import { getCurrentTeam } from '../selectors/teamSelectors';
 
-function* authenticateUser(action: currentUserActions.IAuthenticationRequest) {
+function* authenticateUser(action: IAuthenticationRequest) {
     try {
         const authResponse: AuthenticationResponse = yield call(UserApi.authenticate, action.payload);
-        yield put(currentUserActions.authenticationSuccess(authResponse));
-        yield put(requestProcessorActions.hideSpinner());
+        yield put(authenticationSuccess(authResponse));
+        yield put(hideSpinner());
 
         setCredentialsToLocalStorage(authResponse.accessToken.value, authResponse.refreshToken.value);
     } catch (error) {
-        yield put(currentUserActions.authenticationFailure(error));
-        yield put(requestProcessorActions.hideSpinner());
+        yield put(authenticationFailure(error));
+        yield put(hideSpinner());
     }
 }
 
-function* createCustomer(action: currentUserActions.IRegistrationRequest) {
+function* createCustomer(action: IRegistrationRequest) {
     try {
         yield call(UserApi.createCustomer, action.payload);
-        yield put(currentUserActions.registrationSuccess());
-        yield put(requestProcessorActions.hideSpinner());
+        yield put(registrationSuccess());
+        yield put(hideSpinner());
     } catch (error) {
-        yield put(currentUserActions.registrationFailure(error));
-        yield put(requestProcessorActions.hideSpinner());
+        yield put(registrationFailure(error));
+        yield put(hideSpinner());
     }
 }
 
-function* logOutUser(action: currentUserActions.ILogOutUser) {
+function* logOutUser(action: ILogOutUser) {
     clearCredentialsFromLocalStorage();
 
-    yield put(currentUserActions.addUser(null));
+    yield put(addUser(null));
 }
 
-function* verifyUser(action: currentUserActions.IVerifyUserRequest) {
+function* verifyUser(action: IVerifyUserRequest) {
     try {
         const user: IUser = yield call(UserApi.getUserByToken);
 
-        yield put(currentUserActions.verifyUserSuccess(user));
+        yield put(verifyUserSuccess(user));
     } catch (error) {
-        yield put(currentUserActions.verifyUserFailure(error));
+        yield put(verifyUserFailure(error));
     }
 }
 
-function* createUser(action: currentUserActions.ICreateUserRequest) {
+function* createUser(action: ICreateUserRequest) {
     try {
-        const currentTeam: ITeam = yield select(teamSelectors.getCurrentTeam);
+        const currentTeam: ITeam = yield select(getCurrentTeam);
         action.payload.teamId = currentTeam.teamId;
 
         const createdUser: IUser = yield call(UserApi.createUser, action.payload);
 
-        yield put(currentUserActions.createUserSuccess(createdUser));
-        yield put(modalActions.closeModal());
+        yield put(createUserSuccess(createdUser));
+        yield put(closeModal());
     } catch (error) {
-        yield put(currentUserActions.createUserFailure(error));
+        yield put(createUserFailure(error));
+    }
+}
+
+function* updateAvatarRequest(action: IUpdateAvatarRequest) {
+    try {
+        const { file, userId } = action.payload;
+        const avatarLink: string = yield call(UserApi.uploadImageOnCloud, file);
+
+        debugger;
+        const requestBody: IJsonPatchBody[] = createRequestBodyForUserUpdateLink(userId, avatarLink);
+        yield call(UserApi.updateAvatarLink, requestBody);
+
+        yield put(updateAvatarSuccess(avatarLink));
+    } catch (error) {
+        yield put(updateAvatarFailure(error));
     }
 }
 
 export default function* rootCurrentUserSaga() {
-    yield takeLatest(currentUserActions.CurrentUserActions.AUTHENTICATION_REQUEST, authenticateUser);
-    yield takeLatest(currentUserActions.CurrentUserActions.REGISTRATION_REQUEST, createCustomer);
-    yield takeLatest(currentUserActions.CurrentUserActions.LOGOUT_USER, logOutUser);
-    yield takeLatest(currentUserActions.CurrentUserActions.VERIFY_USER_REQUEST, verifyUser);
-    yield takeLatest(currentUserActions.CurrentUserActions.CREATE_USER_REQUEST, createUser);
+    yield takeLatest(UserActions.AUTHENTICATION_REQUEST, authenticateUser);
+    yield takeLatest(UserActions.REGISTRATION_REQUEST, createCustomer);
+    yield takeLatest(UserActions.LOGOUT_USER, logOutUser);
+    yield takeLatest(UserActions.VERIFY_USER_REQUEST, verifyUser);
+    yield takeLatest(UserActions.CREATE_USER_REQUEST, createUser);
+    yield takeLatest(UserActions.UPDATE_AVATAR_REQUEST, updateAvatarRequest);
 }

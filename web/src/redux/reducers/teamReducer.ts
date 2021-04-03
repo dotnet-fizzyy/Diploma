@@ -1,4 +1,4 @@
-import * as UserActions from '../actions/currentUserActions';
+import * as UserActions from '../actions/userActions';
 import * as TeamActions from '../actions/teamActions';
 import { ITeamState } from '../store/state';
 
@@ -17,7 +17,7 @@ export default function teamsReducer(state = initialState, action: TeamActions.T
             return handleSetSelectedTeam(state, action);
         case TeamActions.TeamActions.SET_SELECTED_TEAM_BY_ID:
             return handleSetSelectedTeamById(state, action);
-        case UserActions.CurrentUserActions.CREATE_USER_SUCCESS:
+        case UserActions.UserActions.CREATE_USER_SUCCESS:
             return handleCreateUserSuccess(state, action as any);
         default:
             return state;

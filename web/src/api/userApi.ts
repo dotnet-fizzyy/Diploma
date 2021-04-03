@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import * as routeConstants from '../constants/routeConstants';
-import { AuthenticationResponse, TokenType } from '../types';
+import { AuthenticationResponse, IJsonPatchBody, TokenType } from '../types';
 import { IAuthenticationUser, IUser } from '../types/userTypes';
 import AxiosBaseApi from './axiosBaseApi';
 
@@ -37,6 +37,27 @@ export default class UserApi {
         const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosPost(routeConstants.SignInUrl, authUser);
 
         return UserApi.mapToAuthenticationUser(response.data);
+    }
+
+    public static async uploadImageOnCloud(file: File): Promise<string> {
+        const cloudinaryId: string = process.env.REACT_APP_CLOUDINARY_ID || '';
+        const storageFolder: string = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET || '';
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', storageFolder);
+
+        const response: AxiosResponse = await AxiosBaseApi.axiosPost(
+            routeConstants.getCloudStorageUrl(cloudinaryId),
+            formData,
+            { headers: null }
+        );
+
+        return response.data.secure_url;
+    }
+
+    public static async updateAvatarLink(body: IJsonPatchBody[]): Promise<void> {
+        await AxiosBaseApi.axiosPatch(routeConstants.UserUrls.updateAvatarLink, body);
     }
 
     private static mapToModel(data: any): IUser {

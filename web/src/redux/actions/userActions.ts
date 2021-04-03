@@ -1,7 +1,7 @@
 import { AuthenticationResponse } from '../../types';
 import { IAuthenticationUser, IUser } from '../../types/userTypes';
 
-export const CurrentUserActions = {
+export const UserActions = {
     AUTHENTICATION_REQUEST: 'AUTHENTICATION_REQUEST',
     AUTHENTICATION_SUCCESS: 'AUTHENTICATION_SUCCESS',
     AUTHENTICATION_FAILURE: 'AUTHENTICATION_FAILURE',
@@ -17,84 +17,105 @@ export const CurrentUserActions = {
     VERIFY_USER_SUCCESS: 'VERIFY_USER_SUCCESS',
     VERIFY_USER_FAILURE: 'VERIFY_USER_FAILURE',
     HIDE_CUSTOMER_SUCCESSFUL_REGISTRATION: 'HIDE_CUSTOMER_SUCCESSFUL_REGISTRATION',
+    UPDATE_AVATAR_REQUEST: 'UPDATE_AVATAR_REQUEST',
+    UPDATE_AVATAR_SUCCESS: 'UPDATE_AVATAR_SUCCESS',
+    UPDATE_AVATAR_FAILURE: 'UPDATE_AVATAR_FAILURE',
 };
 
 //interfaces
 export interface IAuthenticationRequest {
-    type: typeof CurrentUserActions.AUTHENTICATION_REQUEST;
+    type: typeof UserActions.AUTHENTICATION_REQUEST;
     payload: IAuthenticationUser;
 }
 
 export interface IAuthenticationSuccess {
-    type: typeof CurrentUserActions.AUTHENTICATION_SUCCESS;
+    type: typeof UserActions.AUTHENTICATION_SUCCESS;
     payload: AuthenticationResponse;
 }
 
 export interface IAuthenticationFailure {
-    type: typeof CurrentUserActions.AUTHENTICATION_FAILURE;
+    type: typeof UserActions.AUTHENTICATION_FAILURE;
     payload: Error;
 }
 
 export interface IRegistrationRequest {
-    type: typeof CurrentUserActions.REGISTRATION_REQUEST;
+    type: typeof UserActions.REGISTRATION_REQUEST;
     payload: IAuthenticationUser;
 }
 
 export interface IRegistrationSuccess {
-    type: typeof CurrentUserActions.REGISTRATION_SUCCESS;
+    type: typeof UserActions.REGISTRATION_SUCCESS;
 }
 
 export interface IRegistrationFailure {
-    type: typeof CurrentUserActions.REGISTRATION_FAILURE;
+    type: typeof UserActions.REGISTRATION_FAILURE;
     payload: Error;
 }
 
 export interface ICreateUserRequest {
-    type: typeof CurrentUserActions.CREATE_USER_REQUEST;
+    type: typeof UserActions.CREATE_USER_REQUEST;
     payload: IUser;
 }
 
 export interface ICreateUserSuccess {
-    type: typeof CurrentUserActions.CREATE_USER_SUCCESS;
+    type: typeof UserActions.CREATE_USER_SUCCESS;
     payload: IUser;
 }
 
 export interface ICreateUserFailure {
-    type: typeof CurrentUserActions.CREATE_USER_FAILURE;
+    type: typeof UserActions.CREATE_USER_FAILURE;
     payload: Error;
 }
 
 export interface IAddUser {
-    type: typeof CurrentUserActions.ADD_USER;
+    type: typeof UserActions.ADD_USER;
     payload: IUser;
 }
 
 export interface ILogOutUser {
-    type: typeof CurrentUserActions.LOGOUT_USER;
+    type: typeof UserActions.LOGOUT_USER;
 }
 
 export interface IVerifyUserRequest {
-    type: typeof CurrentUserActions.VERIFY_USER_REQUEST;
+    type: typeof UserActions.VERIFY_USER_REQUEST;
 }
 
 export interface IVerifyUserSuccess {
-    type: typeof CurrentUserActions.VERIFY_USER_SUCCESS;
+    type: typeof UserActions.VERIFY_USER_SUCCESS;
     payload: IUser;
 }
 
 export interface IVerifyUserFailure {
-    type: typeof CurrentUserActions.VERIFY_USER_FAILURE;
+    type: typeof UserActions.VERIFY_USER_FAILURE;
     payload: Error;
 }
 
 export interface IHideCustomerSuccessfulRegistration {
-    type: typeof CurrentUserActions.HIDE_CUSTOMER_SUCCESSFUL_REGISTRATION;
+    type: typeof UserActions.HIDE_CUSTOMER_SUCCESSFUL_REGISTRATION;
+}
+
+export interface IUpdateAvatarRequest {
+    type: typeof UserActions.UPDATE_AVATAR_REQUEST;
+    payload: {
+        file: File;
+        userId: string;
+    };
+}
+
+export interface IUpdateAvatarSuccess {
+    type: typeof UserActions.UPDATE_AVATAR_SUCCESS;
+    payload: string;
+}
+
+export interface IUpdateAvatarFailure {
+    type: typeof UserActions.UPDATE_AVATAR_FAILURE;
+    payload: Error;
 }
 
 //actions
 export function registrationRequest(userName: string, password: string, email: string): IRegistrationRequest {
     return {
-        type: CurrentUserActions.REGISTRATION_REQUEST,
+        type: UserActions.REGISTRATION_REQUEST,
         payload: {
             userName,
             password,
@@ -105,20 +126,20 @@ export function registrationRequest(userName: string, password: string, email: s
 
 export function registrationSuccess(): IRegistrationSuccess {
     return {
-        type: CurrentUserActions.REGISTRATION_SUCCESS,
+        type: UserActions.REGISTRATION_SUCCESS,
     };
 }
 
 export function registrationFailure(error: Error): IRegistrationFailure {
     return {
-        type: CurrentUserActions.REGISTRATION_FAILURE,
+        type: UserActions.REGISTRATION_FAILURE,
         payload: error,
     };
 }
 
 export function authenticationRequest(userName: string, password: string): IAuthenticationRequest {
     return {
-        type: CurrentUserActions.AUTHENTICATION_REQUEST,
+        type: UserActions.AUTHENTICATION_REQUEST,
         payload: {
             userName,
             password,
@@ -128,75 +149,99 @@ export function authenticationRequest(userName: string, password: string): IAuth
 
 export function authenticationSuccess(authResponse: AuthenticationResponse): IAuthenticationSuccess {
     return {
-        type: CurrentUserActions.AUTHENTICATION_SUCCESS,
+        type: UserActions.AUTHENTICATION_SUCCESS,
         payload: authResponse,
     };
 }
 
 export function authenticationFailure(error: Error): IAuthenticationFailure {
     return {
-        type: CurrentUserActions.AUTHENTICATION_FAILURE,
+        type: UserActions.AUTHENTICATION_FAILURE,
         payload: error,
     };
 }
 
 export function createUserRequest(user: IUser): ICreateUserRequest {
     return {
-        type: CurrentUserActions.CREATE_USER_REQUEST,
+        type: UserActions.CREATE_USER_REQUEST,
         payload: user,
     };
 }
 
 export function createUserSuccess(user: IUser): ICreateUserSuccess {
     return {
-        type: CurrentUserActions.CREATE_USER_SUCCESS,
+        type: UserActions.CREATE_USER_SUCCESS,
         payload: user,
     };
 }
 
 export function createUserFailure(error: Error): ICreateUserFailure {
     return {
-        type: CurrentUserActions.CREATE_USER_FAILURE,
+        type: UserActions.CREATE_USER_FAILURE,
         payload: error,
     };
 }
 
 export function addUser(user: IUser): IAddUser {
     return {
-        type: CurrentUserActions.ADD_USER,
+        type: UserActions.ADD_USER,
         payload: user,
     };
 }
 
 export function logOutUser(): ILogOutUser {
     return {
-        type: CurrentUserActions.LOGOUT_USER,
+        type: UserActions.LOGOUT_USER,
     };
 }
 
 export function verifyUserRequest(): IVerifyUserRequest {
     return {
-        type: CurrentUserActions.VERIFY_USER_REQUEST,
+        type: UserActions.VERIFY_USER_REQUEST,
     };
 }
 
 export function verifyUserSuccess(user: IUser): IVerifyUserSuccess {
     return {
-        type: CurrentUserActions.VERIFY_USER_SUCCESS,
+        type: UserActions.VERIFY_USER_SUCCESS,
         payload: user,
     };
 }
 
 export function verifyUserFailure(error: Error): IVerifyUserFailure {
     return {
-        type: CurrentUserActions.VERIFY_USER_FAILURE,
+        type: UserActions.VERIFY_USER_FAILURE,
         payload: error,
     };
 }
 
 export function hideCustomerSuccessfulRegistration(): IHideCustomerSuccessfulRegistration {
     return {
-        type: CurrentUserActions.HIDE_CUSTOMER_SUCCESSFUL_REGISTRATION,
+        type: UserActions.HIDE_CUSTOMER_SUCCESSFUL_REGISTRATION,
+    };
+}
+
+export function updateAvatarRequest(file: File, userId: string): IUpdateAvatarRequest {
+    return {
+        type: UserActions.UPDATE_AVATAR_REQUEST,
+        payload: {
+            file,
+            userId,
+        },
+    };
+}
+
+export function updateAvatarSuccess(avatarLink: string): IUpdateAvatarSuccess {
+    return {
+        type: UserActions.UPDATE_AVATAR_FAILURE,
+        payload: avatarLink,
+    };
+}
+
+export function updateAvatarFailure(error: Error): IUpdateAvatarFailure {
+    return {
+        type: UserActions.UPDATE_AVATAR_FAILURE,
+        payload: error,
     };
 }
 
@@ -205,4 +250,7 @@ export type CurrentUserActionTypes = IAddUser &
     IAuthenticationFailure &
     IRegistrationSuccess &
     IVerifyUserRequest &
-    IHideCustomerSuccessfulRegistration;
+    IHideCustomerSuccessfulRegistration &
+    IUpdateAvatarRequest &
+    IUpdateAvatarSuccess &
+    IUpdateAvatarFailure;
