@@ -2,6 +2,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import ErrorIcon from '@material-ui/icons/Error';
 import { FieldProps } from 'formik';
 import React from 'react';
+import FormInputLabel from './FormInputLabel';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -10,12 +11,6 @@ const useStyles = makeStyles(() =>
             flexDirection: 'column',
             width: '100%',
             height: '100%',
-        },
-        title: {
-            fontSize: '18px',
-            fontFamily: 'Poppins',
-            color: '#242126',
-            marginBottom: '4px',
         },
         errorMessageContainer: {
             color: '#c33a00',
@@ -26,11 +21,12 @@ const useStyles = makeStyles(() =>
         textArea: ({ minHeight }: IFormTextArea) => ({
             minHeight: minHeight ? minHeight : 0,
             fontSize: '16px',
-            fontFamily: 'Poppins Medium',
             borderRadius: '5px',
             border: '1px solid #AFC1C4',
             padding: '10px',
             resize: 'none',
+            fontFamily: 'Poppins',
+            fontWeight: 500,
         }),
         errorIcon: {
             fontSize: '16px',
@@ -49,6 +45,7 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IFormTextArea {
+    isPrimaryTitle?: boolean;
     label: string;
     displayLength: boolean;
     minHeight?: string;
@@ -62,6 +59,7 @@ const FormTextArea = (props: IFormTextArea & FieldProps) => {
     const {
         label,
         displayLength,
+        isPrimaryTitle,
         placeholder,
         maxLength,
         customError,
@@ -72,7 +70,7 @@ const FormTextArea = (props: IFormTextArea & FieldProps) => {
 
     return (
         <div className={classes.root}>
-            <span className={classes.title}>{label}:</span>
+            {label && <FormInputLabel isPrimaryTitle={isPrimaryTitle} label={`${label}:`} />}
             <textarea {...field} className={classes.textArea} placeholder={placeholder} maxLength={maxLength} />
             {displayLength && maxLength && (
                 <span className={classes.counter}>Allowed symbols left amount is {maxLength - value.length}</span>

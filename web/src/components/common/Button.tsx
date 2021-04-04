@@ -8,6 +8,7 @@ const useStyles = makeStyles(() =>
             width: '100%',
             height: '40px',
             fontFamily: 'Poppins',
+            fontWeight: 600,
             fontSize: '16px',
             textTransform: 'capitalize',
             backgroundColor: '#75BAF7',

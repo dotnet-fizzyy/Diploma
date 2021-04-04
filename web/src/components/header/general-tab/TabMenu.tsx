@@ -17,25 +17,26 @@ const useStyles = makeStyles(() =>
             display: 'inherit',
             flexDirection: 'column',
             marginRight: '10px',
-            fontFamily: 'Poppins, sans-serif',
-            '& span': {
-                '&:last-child': {
-                    marginTop: '3px',
-                },
-            },
+            fontFamily: 'Poppins',
+            fontWeight: 500,
         },
         iconsStyle: {
+            marginLeft: '6px',
             '&:hover': {
                 cursor: 'pointer',
             },
         },
         userPosition: {
-            fontSize: '14px',
+            fontSize: '12px',
             textAlign: 'right',
             color: '#AFC1C4',
         },
         userName: {
-            fontSize: '16px',
+            fontSize: '14px',
+        },
+        menuItem: {
+            fontFamily: 'Poppins',
+            fontWeight: 400,
         },
     })
 );
@@ -74,8 +75,12 @@ const TabMenu = (props: IMenuProps) => {
                 open={Boolean(anchor)}
                 onClose={onClickCloseMenu}
             >
-                <MenuItem onClick={onClickOpenProfile}>Profile</MenuItem>
-                <MenuItem onClick={onClickLogOut}>Log out</MenuItem>
+                <MenuItem className={classes.menuItem} onClick={onClickOpenProfile}>
+                    Profile
+                </MenuItem>
+                <MenuItem className={classes.menuItem} onClick={onClickLogOut}>
+                    Log out
+                </MenuItem>
             </Menu>
         </>
     );

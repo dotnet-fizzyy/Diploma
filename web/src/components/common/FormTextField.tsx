@@ -3,6 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import ErrorIcon from '@material-ui/icons/Error';
 import { FieldProps } from 'formik';
 import React, { ChangeEvent } from 'react';
+import FormInputLabel from './FormInputLabel';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -12,12 +13,6 @@ const useStyles = makeStyles(() =>
             width: '100%',
             height: '100%',
         },
-        title: {
-            fontSize: '18px',
-            fontFamily: 'Poppins',
-            color: '#242126',
-            marginBottom: '4px',
-        },
         errorMessageContainer: {
             color: '#c33a00',
             display: 'flex',
@@ -26,6 +21,8 @@ const useStyles = makeStyles(() =>
         },
         textField: {
             '& .MuiOutlinedInput-input': {
+                fontFamily: 'Poppins',
+                fontWeight: 500,
                 padding: '12px',
             },
         },
@@ -40,6 +37,7 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IFormTextFieldProps {
+    isPrimaryTitle?: boolean;
     label?: string;
     placeholder?: string;
     type?: string;
@@ -47,7 +45,7 @@ export interface IFormTextFieldProps {
 }
 
 const FormTextField = (props: IFormTextFieldProps & FieldProps) => {
-    const classes = useStyles();
+    const classes = useStyles(props);
     const {
         label,
         placeholder,
@@ -68,7 +66,7 @@ const FormTextField = (props: IFormTextFieldProps & FieldProps) => {
 
     return (
         <div className={classes.root}>
-            {label && <span className={classes.title}>{label}:</span>}
+            {label && <FormInputLabel isPrimaryTitle={false} label={`${label}:`} />}
             <TextField
                 {...field}
                 className={classes.textField}

@@ -19,6 +19,8 @@ import {
     updateAvatarSuccess,
     updatePasswordFailure,
     updatePasswordSuccess,
+    updateProfileSettingsFailure,
+    updateProfileSettingsSuccess,
     verifyUserFailure,
     verifyUserSuccess,
     IAuthenticationRequest,
@@ -26,10 +28,8 @@ import {
     IRegistrationRequest,
     IUpdateAvatarRequest,
     IUpdatePasswordRequest,
-    UserActions,
     IUpdateProfileSettingsRequest,
-    updateProfileSettingsFailure,
-    updateProfileSettingsSuccess,
+    UserActions,
 } from '../actions/userActions';
 import { getCurrentTeam } from '../selectors/teamSelectors';
 

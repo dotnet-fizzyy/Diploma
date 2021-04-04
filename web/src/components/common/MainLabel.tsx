@@ -4,10 +4,10 @@ import React from 'react';
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'Poppins',
             fontSize: '24px',
             color: '#242126',
-            fontWeight: 'bold',
+            fontWeight: 600,
         },
     })
 );

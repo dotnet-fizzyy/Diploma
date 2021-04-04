@@ -31,6 +31,7 @@ const useStyles = makeStyles(() =>
             color: 'white',
             fontSize: '26px',
             marginTop: '80px',
+            fontWeight: 600,
         },
         button: {
             width: '215px',
@@ -49,6 +50,8 @@ const useStyles = makeStyles(() =>
             width: '100%',
             maxWidth: '500px',
             textAlign: 'center',
+            fontFamily: 'Poppins',
+            fontWeight: 500,
         },
     })
 );

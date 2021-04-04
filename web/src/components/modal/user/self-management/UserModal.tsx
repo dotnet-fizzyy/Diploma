@@ -40,7 +40,7 @@ const useStyles = makeStyles(() =>
             alignItems: 'center',
             flexDirection: 'column',
             flexGrow: 0,
-            flexBasis: '150px',
+            flexBasis: '170px',
             flexShrink: 0,
         },
         profileContainer: {
@@ -49,14 +49,14 @@ const useStyles = makeStyles(() =>
             flexShrink: 0,
         },
         buttonContainer: {
-            width: '170px',
+            width: '160px',
             position: 'absolute',
             left: 0,
             bottom: 0,
         },
         uploadButtonContainer: {
             marginTop: '20px',
-            width: '150px',
+            width: '100%',
         },
         profilePhoto: {
             width: '120px',

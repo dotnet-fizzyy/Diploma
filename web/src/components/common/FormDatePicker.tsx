@@ -6,6 +6,7 @@ import { FieldProps } from 'formik';
 import { Moment } from 'moment';
 import React from 'react';
 import { DateFormat } from '../../constants';
+import FormInputLabel from './FormInputLabel';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -14,12 +15,6 @@ const useStyles = makeStyles(() =>
             flexDirection: 'column',
             width: '100%',
             height: '100%',
-        },
-        title: {
-            fontSize: '18px',
-            fontFamily: 'Poppins',
-            color: '#242126',
-            marginBottom: '4px',
         },
         errorMessageContainer: {
             color: '#c33a00',
@@ -44,6 +39,7 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IFormDatePickerProps {
+    isPrimaryTitle?: boolean;
     label: string;
     disabled?: boolean;
     customError?: string;
@@ -53,6 +49,7 @@ const FormDatePicker = (props: IFormDatePickerProps & FieldProps) => {
     const classes = useStyles();
     const {
         label,
+        isPrimaryTitle,
         field,
         field: { value, name },
         disabled,
@@ -67,7 +64,7 @@ const FormDatePicker = (props: IFormDatePickerProps & FieldProps) => {
 
     return (
         <div className={classes.root}>
-            {label && <span className={classes.title}>{label}:</span>}
+            {label && <FormInputLabel isPrimaryTitle={isPrimaryTitle} label={`${label}:`} />}
             <DatePicker
                 {...field}
                 autoOk={true}
