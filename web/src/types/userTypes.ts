@@ -22,6 +22,12 @@ export interface IUpdateUserPassword {
     newPassword: string;
 }
 
+export interface IUserListItem {
+    userId: string;
+    userName: string;
+    avatarLink: string;
+}
+
 export enum UserRole {
     ProductOwner = 'Product Owner',
     TeamMaster = 'Team Master',

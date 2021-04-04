@@ -6,7 +6,7 @@ import { IWorkSpaceForm } from '../../../types/formTypes';
 import Button from '../../common/Button';
 import FormTextArea from '../../common/FormTextArea';
 import FormTextField from '../../common/FormTextField';
-import MainLabel from '../../common/MainLabel';
+import MainLabel, { LabelType } from '../../common/MainLabel';
 import ModalCloseButtonContainer from '../close-button/ModalCloseButtonContainer';
 
 const useStyles = makeStyles(() =>
@@ -55,7 +55,7 @@ const WorkSpaceModal = (props: IWorkSpaceModalProps) => {
                 return (
                     <div className={classes.root}>
                         <Form>
-                            <MainLabel title="Create workspace" />
+                            <MainLabel title="Create workspace" variant={LabelType.PRIMARY} />
                             <ModalCloseButtonContainer />
                             <div className={classes.fieldContainer}>
                                 <Field

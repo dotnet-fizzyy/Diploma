@@ -1,7 +1,8 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
 import React from 'react';
-import MainLabel from '../../components/common/MainLabel';
+import CustomersList from '../../components/workspace/CustomersList';
+import WorkSpaceHeader from '../../components/workspace/WorkSpaceHeader';
+import { IUserListItem } from '../../types/userTypes';
 import { IWorkSpace } from '../../types/workSpaceTypes';
 
 const useStyles = makeStyles(() =>
@@ -14,52 +15,36 @@ const useStyles = makeStyles(() =>
         body: {
             padding: '30px',
         },
-        workSpaceHeader: {
-            display: 'flex',
-            flexDirection: 'row',
-        },
-        descriptionContainer: {
-            marginTop: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-        },
-        text: {
-            fontFamily: 'Poppins',
-            fontSize: '16px',
-            color: '#242126',
-        },
-        descriptionLabel: {
-            fontWeight: 'bold',
-        },
-        descriptionText: {
-            marginTop: '5px',
-        },
     })
 );
 
 export interface IWorkSpacePageDescriptionProps {
+    customersList: IUserListItem[];
     workSpace: IWorkSpace;
+    onClickUpdateWorkSpaceInfo: () => void;
+    onClickCreateCustomer: () => void;
 }
 
 const WorkSpacePageDescription = (props: IWorkSpacePageDescriptionProps) => {
     const classes = useStyles();
     const {
-        workSpace: { workSpaceName, workSpaceDescription },
+        customersList,
+        workSpace: { workSpaceName, workSpaceDescription, creationDate },
+        onClickUpdateWorkSpaceInfo,
+        onClickCreateCustomer,
     } = props;
-
-    const getWorkSpaceHeader = (): React.ReactNode => (
-        <>
-            <MainLabel title={workSpaceName} />
-            <div className={classes.descriptionContainer}>
-                <span className={classnames(classes.text, classes.descriptionLabel)}>Description</span>
-                <span className={classnames(classes.text, classes.descriptionText)}>{workSpaceDescription || '-'}</span>
-            </div>
-        </>
-    );
 
     return (
         <div className={classes.root}>
-            <div className={classes.body}>{getWorkSpaceHeader()}</div>
+            <div className={classes.body}>
+                <WorkSpaceHeader
+                    workSpaceName={workSpaceName}
+                    workSpaceDescription={workSpaceDescription}
+                    workSpaceCreationDate={creationDate}
+                    onClickUpdateWorkSpaceInfo={onClickUpdateWorkSpaceInfo}
+                />
+                <CustomersList customersList={customersList} onClickCreateCustomer={onClickCreateCustomer} />
+            </div>
         </div>
     );
 };

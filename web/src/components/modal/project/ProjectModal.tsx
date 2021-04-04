@@ -7,7 +7,7 @@ import Button from '../../common/Button';
 import FormDatePicker from '../../common/FormDatePicker';
 import FormTextArea from '../../common/FormTextArea';
 import FormTextField from '../../common/FormTextField';
-import MainLabel from '../../common/MainLabel';
+import MainLabel, { LabelType } from '../../common/MainLabel';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -65,7 +65,7 @@ const ProjectModal = (props: IProjectCreationProps) => {
                 return (
                     <Form>
                         <div className={classes.root}>
-                            <MainLabel title="Create a project" />
+                            <MainLabel title="Create a project" variant={LabelType.PRIMARY} />
                             <div className={classes.fieldContainer}>
                                 <Field
                                     label="Name"

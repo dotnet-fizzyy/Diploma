@@ -1,23 +1,30 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
+export enum LabelType {
+    PRIMARY = 'primary',
+    SECONDARY = 'secondary',
+}
+
 const useStyles = makeStyles(() =>
     createStyles({
-        root: {
+        root: ({ variant }: IMainLabelProps) => ({
             fontFamily: 'Poppins',
-            fontSize: '24px',
+            fontSize: variant === LabelType.PRIMARY ? '24px' : '20px',
             color: '#242126',
             fontWeight: 600,
-        },
+        }),
     })
 );
 
 export interface IMainLabelProps {
     title: string;
+    variant: LabelType;
 }
 
-const MainLabel = ({ title }: IMainLabelProps) => {
-    const classes = useStyles();
+const MainLabel = (props: IMainLabelProps) => {
+    const classes = useStyles(props);
+    const { title } = props;
 
     return <span className={classes.root}>{title}</span>;
 };

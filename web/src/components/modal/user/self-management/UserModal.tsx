@@ -10,7 +10,7 @@ import { IUser, UserPosition, UserRole } from '../../../../types/userTypes';
 import { getFirstNameLetter } from '../../../../utils';
 import Button from '../../../common/Button';
 import FormTextField from '../../../common/FormTextField';
-import MainLabel from '../../../common/MainLabel';
+import MainLabel, { LabelType } from '../../../common/MainLabel';
 import ModalCloseButtonContainer from '../../close-button/ModalCloseButtonContainer';
 
 const useStyles = makeStyles(() =>
@@ -235,7 +235,7 @@ const UserModal = (props: IUserModalProps) => {
 
     return (
         <div className={classes.root}>
-            <MainLabel title="Profile settings" />
+            <MainLabel title="Profile settings" variant={LabelType.PRIMARY} />
             <ModalCloseButtonContainer />
             <div className={classes.body}>
                 <div className={classes.photoContainer}>
