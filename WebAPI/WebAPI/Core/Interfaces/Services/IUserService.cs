@@ -10,6 +10,8 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<CollectionResponse<User>> GetAllUsers();
 
+        Task<FullUser> GetUserByToken(Guid id);
+        
         Task<User> GetUser(Guid id);
 
         Task<User> CreateUser(User user);

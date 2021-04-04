@@ -49,11 +49,11 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<User>> GetUserByToken()
+        public async Task<ActionResult<FullUser>> GetUserByToken()
         {
             var userClaims = _claimsReader.GetUserClaims(User);
             
-            var user = await _userService.GetUser(userClaims.UserId);
+            var user = await _userService.GetUserByToken(userClaims.UserId);
 
             return user;
         }

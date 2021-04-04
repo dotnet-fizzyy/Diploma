@@ -17,16 +17,22 @@ namespace WebAPI.ApplicationLogic.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly ITeamRepository _teamRepository;
+        private readonly IProjectRepository _projectRepository;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IUserMapper _userMapper;
 
         public UserService(
             IUserRepository userRepository, 
+            IProjectRepository projectRepository,
+            ITeamRepository teamRepository,
             IRefreshTokenRepository refreshTokenRepository, 
             IUserMapper userMapper
             )
         {
             _userRepository = userRepository;
+            _projectRepository = projectRepository;
+            _teamRepository = teamRepository;
             _refreshTokenRepository = refreshTokenRepository;
             _userMapper = userMapper;
         }
@@ -41,6 +47,29 @@ namespace WebAPI.ApplicationLogic.Services
             };
 
             return collectionResponse;
+        }
+
+        public async Task<FullUser> GetUserByToken(Guid id)
+        {
+            var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == id);
+
+            if (userEntity == null)
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find user with provided id");
+            }
+
+            Core.Entities.Team teamEntity = null;
+            Core.Entities.Project projectEntity = null;
+            
+            if (userEntity.TeamId != null)
+            {
+                teamEntity = await _teamRepository.SearchForSingleItemAsync(x => x.Id == userEntity.TeamId);
+                projectEntity = await _projectRepository.SearchForSingleItemAsync(x => x.Id == teamEntity.ProjectId);
+            }
+
+            var userFullModel = _userMapper.MapToFullModel(userEntity, projectEntity, teamEntity);
+            
+            return userFullModel;
         }
 
         public async Task<User> GetUser(Guid id)

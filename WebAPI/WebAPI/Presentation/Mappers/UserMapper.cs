@@ -1,7 +1,8 @@
 using System;
+using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models.Authentication;
-using User = WebAPI.Core.Entities.User;
+using WebAPI.Models.Result;
 
 namespace WebAPI.Presentation.Mappers
 {
@@ -39,20 +40,9 @@ namespace WebAPI.Presentation.Mappers
                 return new Models.Models.User();
             }
             
-            var userModel = new Models.Models.User
-            {
-                UserId = user.Id,
-                TeamId = user.TeamId,
-                UserName = user.UserName,
-                IsActive = user.IsActive,
-                AvatarLink = user.AvatarLink,
-                WorkSpaceId = user.WorkSpaceId,
-                Email = user.Email,
-                CreationDate = user.CreationDate,
-                UserRole = Enum.Parse<Models.Enums.UserRole>(user.UserRole.ToString(), true),
-                UserPosition = Enum.Parse<Models.Enums.UserPosition>(user.UserPosition.ToString(), true),
-            };
-
+            var userModel = new Models.Models.User();
+            MapBaseModelProperties(userModel, user);
+            
             return userModel;
         }
 
@@ -87,6 +77,32 @@ namespace WebAPI.Presentation.Mappers
             };
 
             return userEntity;
+        }
+
+        public FullUser MapToFullModel(User user, Project project, Team team)
+        {
+            var fullUser = new FullUser();
+            MapBaseModelProperties(fullUser, user);
+            
+            fullUser.ProjectId = project?.Id;
+            fullUser.ProjectName = project?.ProjectName;
+            fullUser.TeamId = team?.Id;
+
+            return fullUser;
+        }
+        
+        private static void MapBaseModelProperties(Models.Models.User userModel, User userEntity)
+        {
+            userModel.UserId = userEntity.Id;
+            userModel.TeamId = userEntity.TeamId;
+            userModel.UserName = userEntity.UserName;
+            userModel.IsActive = userEntity.IsActive;
+            userModel.AvatarLink = userEntity.AvatarLink;
+            userModel.WorkSpaceId = userEntity.WorkSpaceId;
+            userModel.Email = userEntity.Email;
+            userModel.CreationDate = userEntity.CreationDate;
+            userModel.UserRole = Enum.Parse<Models.Enums.UserRole>(userEntity.UserRole.ToString(), true);
+            userModel.UserPosition = Enum.Parse<Models.Enums.UserPosition>(userEntity.UserPosition.ToString(), true);
         }
     }
 }

@@ -2,12 +2,14 @@ namespace WebAPI.Core.Interfaces.Mappers
 {
     public interface IUserMapper
     {
-        WebAPI.Core.Entities.User MapToEntity(WebAPI.Models.Models.User user);
+        Entities.User MapToEntity(WebAPI.Models.Models.User user);
         
-        WebAPI.Models.Models.User MapToModel(WebAPI.Core.Entities.User user);
+        WebAPI.Models.Models.User MapToModel(Entities.User user);
         
-        WebAPI.Core.Entities.User MapToEntity(WebAPI.Models.Models.Authentication.SignUpUser user);
+        Entities.User MapToEntity(WebAPI.Models.Models.Authentication.SignUpUser user);
         
-        WebAPI.Core.Entities.User MapToEntity(WebAPI.Models.Models.Authentication.SignInUser user);
+        Entities.User MapToEntity(WebAPI.Models.Models.Authentication.SignInUser user);
+        
+        WebAPI.Models.Result.FullUser MapToFullModel(Entities.User user, Entities.Project project, Entities.Team team);
     }
 }
