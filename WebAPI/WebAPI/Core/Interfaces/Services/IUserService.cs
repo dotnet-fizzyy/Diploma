@@ -18,6 +18,10 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<User> UpdateUser(User user);
 
+        Task UpdateUserPasswordAsync(Guid userId, PasswordUpdate passwordUpdate);
+        
+        Task UpdateUserAvatarAsync(User user);
+        
         Task DeactivateUser(User user);
 
         Task RemoveUser(Guid id);

@@ -6,7 +6,7 @@ import AxiosBaseApi from './axiosBaseApi';
 
 export default class UserApi {
     public static async getUserByToken(): Promise<IUser> {
-        const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosGet(routeConstants.UsersUrl);
+        const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosGet(routeConstants.UserUrls.getUserByToken);
 
         return UserApi.mapToModel(response.data);
     }
@@ -22,7 +22,10 @@ export default class UserApi {
             isActive: true,
         };
 
-        const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosPost(routeConstants.UsersUrl, mappedUser);
+        const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosPost(
+            routeConstants.UserUrls.createUser,
+            mappedUser
+        );
 
         return UserApi.mapToModel(response.data);
     }
@@ -56,8 +59,38 @@ export default class UserApi {
         return response.data.secure_url;
     }
 
+    public static async updateUser(user: IUser): Promise<IUser> {
+        const mappedUser = {
+            userId: user.userId,
+            userName: user.userName,
+            email: user.email,
+            userRole: user.userRole.toString(),
+            userPosition: user.userPosition.toString(),
+            teamId: user.teamId,
+            workSpaceId: user.workSpaceId,
+            avatarLink: user.avatarLink,
+            isActive: user.isActive,
+        };
+
+        const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosPut(
+            routeConstants.UserUrls.updateProfileSettings,
+            mappedUser
+        );
+
+        return UserApi.mapToModel(response.data);
+    }
+
     public static async updateAvatarLink(body: IJsonPatchBody[]): Promise<void> {
         await AxiosBaseApi.axiosPatch(routeConstants.UserUrls.updateAvatarLink, body);
+    }
+
+    public static async updatePassword(oldPassword: string, newPassword: string): Promise<void> {
+        const body = {
+            oldPassword,
+            newPassword,
+        };
+
+        await AxiosBaseApi.axiosPut(routeConstants.UserUrls.updatePassword, body);
     }
 
     private static mapToModel(data: any): IUser {

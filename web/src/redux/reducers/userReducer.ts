@@ -16,7 +16,8 @@ export default function userReducer(state = initialState, action: UserActions.Cu
             return handleVerifyUserRequest(state, action);
         case UserActions.UserActions.ADD_USER:
         case UserActions.UserActions.VERIFY_USER_SUCCESS:
-            return handleAddUser(state, action);
+        case UserActions.UserActions.UPDATE_PROFILE_SETTINGS_SUCCESS:
+            return handleGetUser(state, action);
         case UserActions.UserActions.VERIFY_USER_FAILURE:
             return handleVerifyUserFailure(state);
         case UserActions.UserActions.AUTHENTICATION_SUCCESS:
@@ -82,7 +83,10 @@ function handleAuthenticationFailure(
     };
 }
 
-function handleAddUser(state: ICurrentUserState, action: UserActions.IAddUser): ICurrentUserState {
+function handleGetUser(
+    state: ICurrentUserState,
+    action: UserActions.IAddUser | UserActions.IUpdateProfileSettingsSuccess | UserActions.IVerifyUserSuccess
+): ICurrentUserState {
     return {
         ...state,
         user: action.payload,

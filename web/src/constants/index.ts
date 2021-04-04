@@ -1,4 +1,4 @@
-import { ILoginForm, IRegistrationForm } from '../types/formTypes';
+import { ILoginForm, IProfilePasswordUpdateForm, IRegistrationForm } from '../types/formTypes';
 
 export const AppMode = {
     DEV: 'dev',
@@ -9,6 +9,7 @@ export const EmailRegexExpression: RegExp = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 export const AccessTokenLocalStorageField: string = 'access_token';
 export const RefreshTokenLocalStorageField: string = 'refresh_token';
 export const DateFormat: string = 'DD/MM/YYYY';
+export const PasswordsAreNotSameErrorMessage: string = 'Passwords are not equal';
 
 export const LoginFormConstants = {
     name: 'name',
@@ -31,5 +32,11 @@ export const InitialRegistrationFormValues: IRegistrationForm = {
     name: '',
     email: '',
     password: '',
+    repeatedPassword: '',
+};
+
+export const InitialProfileUpdatePassword: IProfilePasswordUpdateForm = {
+    password: '',
+    newPassword: '',
     repeatedPassword: '',
 };

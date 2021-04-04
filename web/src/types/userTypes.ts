@@ -17,6 +17,11 @@ export interface IAuthenticationUser {
     email?: string;
 }
 
+export interface IUpdateUserPassword {
+    oldPassword: string;
+    newPassword: string;
+}
+
 export enum UserRole {
     ProductOwner = 'Product Owner',
     TeamMaster = 'Team Master',

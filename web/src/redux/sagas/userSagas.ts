@@ -17,15 +17,19 @@ import {
     registrationSuccess,
     updateAvatarFailure,
     updateAvatarSuccess,
+    updatePasswordFailure,
+    updatePasswordSuccess,
     verifyUserFailure,
     verifyUserSuccess,
     IAuthenticationRequest,
     ICreateUserRequest,
-    ILogOutUser,
     IRegistrationRequest,
     IUpdateAvatarRequest,
-    IVerifyUserRequest,
+    IUpdatePasswordRequest,
     UserActions,
+    IUpdateProfileSettingsRequest,
+    updateProfileSettingsFailure,
+    updateProfileSettingsSuccess,
 } from '../actions/userActions';
 import { getCurrentTeam } from '../selectors/teamSelectors';
 
@@ -53,13 +57,13 @@ function* createCustomer(action: IRegistrationRequest) {
     }
 }
 
-function* logOutUser(action: ILogOutUser) {
+function* logOutUser() {
     clearCredentialsFromLocalStorage();
 
     yield put(addUser(null));
 }
 
-function* verifyUser(action: IVerifyUserRequest) {
+function* verifyUser() {
     try {
         const user: IUser = yield call(UserApi.getUserByToken);
 
@@ -83,12 +87,10 @@ function* createUser(action: ICreateUserRequest) {
     }
 }
 
-function* updateAvatarRequest(action: IUpdateAvatarRequest) {
+function* updateAvatarLink(action: IUpdateAvatarRequest) {
     try {
         const { file, userId } = action.payload;
         const avatarLink: string = yield call(UserApi.uploadImageOnCloud, file);
-
-        debugger;
         const requestBody: IJsonPatchBody[] = createRequestBodyForUserUpdateLink(userId, avatarLink);
         yield call(UserApi.updateAvatarLink, requestBody);
 
@@ -98,11 +100,34 @@ function* updateAvatarRequest(action: IUpdateAvatarRequest) {
     }
 }
 
+function* updatePassword(action: IUpdatePasswordRequest) {
+    try {
+        const { oldPassword, newPassword } = action.payload;
+        yield call(UserApi.updatePassword, oldPassword, newPassword);
+
+        yield put(updatePasswordSuccess());
+    } catch (error) {
+        yield put(updatePasswordFailure(error));
+    }
+}
+
+function* updateProfileSettings(action: IUpdateProfileSettingsRequest) {
+    try {
+        const user: IUser = yield call(UserApi.updateUser, action.payload);
+
+        yield put(updateProfileSettingsSuccess(user));
+    } catch (error) {
+        yield put(updateProfileSettingsFailure(error));
+    }
+}
+
 export default function* rootCurrentUserSaga() {
     yield takeLatest(UserActions.AUTHENTICATION_REQUEST, authenticateUser);
     yield takeLatest(UserActions.REGISTRATION_REQUEST, createCustomer);
     yield takeLatest(UserActions.LOGOUT_USER, logOutUser);
     yield takeLatest(UserActions.VERIFY_USER_REQUEST, verifyUser);
     yield takeLatest(UserActions.CREATE_USER_REQUEST, createUser);
-    yield takeLatest(UserActions.UPDATE_AVATAR_REQUEST, updateAvatarRequest);
+    yield takeLatest(UserActions.UPDATE_AVATAR_REQUEST, updateAvatarLink);
+    yield takeLatest(UserActions.UPDATE_USER_PASSWORD_REQUEST, updatePassword);
+    yield takeLatest(UserActions.UPDATE_PROFILE_SETTINGS_REQUEST, updateProfileSettings);
 }

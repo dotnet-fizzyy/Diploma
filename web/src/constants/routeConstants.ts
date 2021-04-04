@@ -27,12 +27,15 @@ export const getCloudStorageUrl = (cloudinaryId: string): string =>
 export const SignInUrl = `${BaseUrl}/auth/sign-in`;
 export const SignUpUrl = `${BaseUrl}/auth/sign-up`;
 
-export const UsersUrl = BaseUrl + '/user';
 export const CustomerUrl = BaseUrl + '/customer';
 
 const UserBaseUrl = `${BaseUrl}/user`;
 export const UserUrls = {
+    getUserByToken: UserBaseUrl,
+    createUser: UserBaseUrl,
+    updateProfileSettings: UserBaseUrl,
     updateAvatarLink: `${UserBaseUrl}/avatar`,
+    updatePassword: `${UserBaseUrl}/password`,
 };
 
 const SprintBaseUrl = `${BaseUrl}/sprint`;

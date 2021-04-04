@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models;
+using WebAPI.Models.Models.Authentication;
 using WebAPI.Models.Result;
 using WebAPI.Presentation.Filters;
 
@@ -104,16 +105,36 @@ namespace WebAPI.Presentation.Controllers
             
             return updatedUser;
         }
-
+        
         /// <summary>
-        /// Deactivate user with provided id
+        /// Update user password with provided model properties
         /// </summary>
-        /// <response code="200">Deactivated user with provided id</response>
+        /// <response code="204">Updated user password with provided model properties</response>
+        /// <response code="401">Failed authentication</response>
+        /// <response code="404">Unable to find user with provided id and password</response>
+        [HttpPut]
+        [Route("password")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateUserPassword([FromBody] PasswordUpdate passwordUpdate)
+        {
+            var user = _claimsReader.GetUserClaims(User);
+
+            await _userService.UpdateUserPasswordAsync(user.UserId, passwordUpdate);
+            
+            return NoContent();
+        }
+        
+        /// <summary>
+        /// Deactivate user with provided model properties
+        /// </summary>
+        /// <response code="204">Deactivated user with provided model properties</response>
         /// <response code="401">Failed authentication</response>
         /// <response code="404">Unable to find user with provided id</response>
         [HttpPatch]
         [Route("deactivate")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeactivateUser([FromBody] JsonPatchDocument<User> userPatchDocument)
@@ -126,6 +147,27 @@ namespace WebAPI.Presentation.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Update user avatar link with provided model properties
+        /// </summary>
+        /// <response code="204">Updated user avatar link with provided model properties</response>
+        /// <response code="401">Failed authentication</response>
+        /// <response code="404">Unable to find user with provided id</response>
+        [HttpPatch]
+        [Route("avatar")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateAvatar([FromBody] JsonPatchDocument<User> userPatchDocument)
+        {
+            var user = new User();
+            userPatchDocument.ApplyTo(user);
+
+            await _userService.UpdateUserAvatarAsync(user);
+            
+            return NoContent();
+        }
+        
         /// <summary>
         /// Remove user with provided id
         /// </summary>

@@ -1,5 +1,5 @@
 import { AuthenticationResponse } from '../../types';
-import { IAuthenticationUser, IUser } from '../../types/userTypes';
+import { IAuthenticationUser, IUpdateUserPassword, IUser } from '../../types/userTypes';
 
 export const UserActions = {
     AUTHENTICATION_REQUEST: 'AUTHENTICATION_REQUEST',
@@ -20,9 +20,17 @@ export const UserActions = {
     UPDATE_AVATAR_REQUEST: 'UPDATE_AVATAR_REQUEST',
     UPDATE_AVATAR_SUCCESS: 'UPDATE_AVATAR_SUCCESS',
     UPDATE_AVATAR_FAILURE: 'UPDATE_AVATAR_FAILURE',
+    UPDATE_USER_PASSWORD_REQUEST: 'UPDATE_USER_PASSWORD_REQUEST',
+    UPDATE_USER_PASSWORD_SUCCESS: 'UPDATE_USER_PASSWORD_SUCCESS',
+    UPDATE_USER_PASSWORD_FAILURE: 'UPDATE_USER_PASSWORD_FAILURE',
+    UPDATE_PROFILE_SETTINGS_REQUEST: 'UPDATE_PROFILE_SETTINGS_REQUEST',
+    UPDATE_PROFILE_SETTINGS_SUCCESS: 'UPDATE_PROFILE_SETTINGS_SUCCESS',
+    UPDATE_PROFILE_SETTINGS_FAILURE: 'UPDATE_PROFILE_SETTINGS_FAILURE',
 };
 
-//interfaces
+/*
+Interfaces
+ */
 export interface IAuthenticationRequest {
     type: typeof UserActions.AUTHENTICATION_REQUEST;
     payload: IAuthenticationUser;
@@ -112,7 +120,38 @@ export interface IUpdateAvatarFailure {
     payload: Error;
 }
 
-//actions
+export interface IUpdatePasswordRequest {
+    type: typeof UserActions.UPDATE_USER_PASSWORD_REQUEST;
+    payload: IUpdateUserPassword;
+}
+
+export interface IUpdatePasswordSuccess {
+    type: typeof UserActions.UPDATE_USER_PASSWORD_SUCCESS;
+}
+
+export interface IUpdatePasswordFailure {
+    type: typeof UserActions.UPDATE_USER_PASSWORD_FAILURE;
+    payload: Error;
+}
+
+export interface IUpdateProfileSettingsRequest {
+    type: typeof UserActions.UPDATE_PROFILE_SETTINGS_REQUEST;
+    payload: IUser;
+}
+
+export interface IUpdateProfileSettingsSuccess {
+    type: typeof UserActions.UPDATE_PROFILE_SETTINGS_SUCCESS;
+    payload: IUser;
+}
+
+export interface IUpdateProfileSettingsFailure {
+    type: typeof UserActions.UPDATE_PROFILE_SETTINGS_FAILURE;
+    payload: Error;
+}
+
+/*
+Actions
+ */
 export function registrationRequest(userName: string, password: string, email: string): IRegistrationRequest {
     return {
         type: UserActions.REGISTRATION_REQUEST,
@@ -233,7 +272,7 @@ export function updateAvatarRequest(file: File, userId: string): IUpdateAvatarRe
 
 export function updateAvatarSuccess(avatarLink: string): IUpdateAvatarSuccess {
     return {
-        type: UserActions.UPDATE_AVATAR_FAILURE,
+        type: UserActions.UPDATE_AVATAR_SUCCESS,
         payload: avatarLink,
     };
 }
@@ -241,6 +280,50 @@ export function updateAvatarSuccess(avatarLink: string): IUpdateAvatarSuccess {
 export function updateAvatarFailure(error: Error): IUpdateAvatarFailure {
     return {
         type: UserActions.UPDATE_AVATAR_FAILURE,
+        payload: error,
+    };
+}
+
+export function updatePasswordRequest(oldPassword: string, newPassword: string): IUpdatePasswordRequest {
+    return {
+        type: UserActions.UPDATE_USER_PASSWORD_REQUEST,
+        payload: {
+            oldPassword,
+            newPassword,
+        },
+    };
+}
+
+export function updatePasswordSuccess(): IUpdatePasswordSuccess {
+    return {
+        type: UserActions.UPDATE_USER_PASSWORD_SUCCESS,
+    };
+}
+
+export function updatePasswordFailure(error: Error): IUpdatePasswordFailure {
+    return {
+        type: UserActions.UPDATE_USER_PASSWORD_FAILURE,
+        payload: error,
+    };
+}
+
+export function updateProfileSettingsRequest(user: IUser): IUpdateProfileSettingsRequest {
+    return {
+        type: UserActions.UPDATE_PROFILE_SETTINGS_REQUEST,
+        payload: user,
+    };
+}
+
+export function updateProfileSettingsSuccess(user: IUser): IUpdateProfileSettingsSuccess {
+    return {
+        type: UserActions.UPDATE_PROFILE_SETTINGS_SUCCESS,
+        payload: user,
+    };
+}
+
+export function updateProfileSettingsFailure(error: Error): IUpdateProfileSettingsFailure {
+    return {
+        type: UserActions.UPDATE_PROFILE_SETTINGS_FAILURE,
         payload: error,
     };
 }
@@ -253,4 +336,10 @@ export type CurrentUserActionTypes = IAddUser &
     IHideCustomerSuccessfulRegistration &
     IUpdateAvatarRequest &
     IUpdateAvatarSuccess &
-    IUpdateAvatarFailure;
+    IUpdateAvatarFailure &
+    IUpdatePasswordRequest &
+    IUpdatePasswordSuccess &
+    IUpdatePasswordFailure &
+    IUpdateProfileSettingsRequest &
+    IUpdateProfileSettingsSuccess &
+    IUpdateProfileSettingsFailure;

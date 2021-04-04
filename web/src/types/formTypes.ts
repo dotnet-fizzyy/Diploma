@@ -24,3 +24,14 @@ export interface IWorkSpaceForm {
     workSpaceDescription: string;
     creationDate: Date;
 }
+
+export interface IProfileSettingsForm {
+    userName: string;
+    email: string;
+}
+
+export interface IProfilePasswordUpdateForm {
+    password: string;
+    newPassword: string;
+    repeatedPassword: string;
+}

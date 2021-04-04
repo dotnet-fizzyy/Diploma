@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using WebAPI.Core.Entities;
 
@@ -8,6 +7,10 @@ namespace WebAPI.Core.Interfaces.Database
     {
         Task<User> AuthenticateUser(User user);
 
+        Task UpdateUserAvatarLinkAsync(User user);
+
+        Task UpdateUserPasswordAsync(User user);
+        
         Task UpdateUserWorkSpace(User user);
         
         Task DeactivateUser(User user);

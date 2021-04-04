@@ -22,3 +22,9 @@ export const userFields = {
     userRole: 'userRole',
     password: 'password',
 };
+
+export const passwordUpdateFields = {
+    password: 'password',
+    newPassword: 'newPassword',
+    repeatedPassword: 'repeatedPassword',
+};

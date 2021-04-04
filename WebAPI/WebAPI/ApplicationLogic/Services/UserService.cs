@@ -93,6 +93,29 @@ namespace WebAPI.ApplicationLogic.Services
             return userModel;
         }
 
+        public async Task UpdateUserPasswordAsync(Guid userId, PasswordUpdate passwordUpdate)
+        {
+            var oldHashedPassword = PasswordHashing.CreateHashPassword(passwordUpdate.OldPassword);
+            var newHashedPassword = PasswordHashing.CreateHashPassword(passwordUpdate.NewPassword);
+            
+            var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == userId && x.Password == oldHashedPassword);
+
+            if (userEntity == null)
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find user with provided id and password");
+            }
+
+            userEntity.Password = newHashedPassword;
+            await _userRepository.UpdateUserPasswordAsync(userEntity);
+        }
+
+        public async Task UpdateUserAvatarAsync(User user)
+        {
+            var userEntity = _userMapper.MapToEntity(user);
+
+            await _userRepository.UpdateUserAvatarLinkAsync(userEntity);
+        }
+
         public async Task DeactivateUser(User user)
         {
             var userEntity = _userMapper.MapToEntity(user);
