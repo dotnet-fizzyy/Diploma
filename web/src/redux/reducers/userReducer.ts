@@ -1,7 +1,7 @@
 import * as UserActions from '../actions/userActions';
-import { ICurrentUserState } from '../store/state';
+import { IUserState } from '../store/state';
 
-const initialState: ICurrentUserState = {
+const initialState: IUserState = {
     isAuthenticationSuccessful: false,
     wasCustomerCreated: false,
     accessToken: '',
@@ -35,24 +35,21 @@ export default function userReducer(state = initialState, action: UserActions.Cu
     }
 }
 
-function handleVerifyUserRequest(state: ICurrentUserState, action: UserActions.IVerifyUserRequest): ICurrentUserState {
+function handleVerifyUserRequest(state: IUserState, action: UserActions.IVerifyUserRequest): IUserState {
     return {
         ...state,
         isLoading: true,
     };
 }
 
-function handleVerifyUserFailure(state: ICurrentUserState): ICurrentUserState {
+function handleVerifyUserFailure(state: IUserState): IUserState {
     return {
         ...state,
         isLoading: false,
     };
 }
 
-function handleAuthenticationSuccess(
-    state: ICurrentUserState,
-    action: UserActions.IAuthenticationSuccess
-): ICurrentUserState {
+function handleAuthenticationSuccess(state: IUserState, action: UserActions.IAuthenticationSuccess): IUserState {
     return {
         ...state,
         isAuthenticationSuccessful: true,
@@ -63,20 +60,14 @@ function handleAuthenticationSuccess(
     };
 }
 
-function handleRegistrationSuccess(
-    state: ICurrentUserState,
-    action: UserActions.IRegistrationSuccess
-): ICurrentUserState {
+function handleRegistrationSuccess(state: IUserState, action: UserActions.IRegistrationSuccess): IUserState {
     return {
         ...state,
         wasCustomerCreated: true,
     };
 }
 
-function handleAuthenticationFailure(
-    state: ICurrentUserState,
-    action: UserActions.IAuthenticationFailure
-): ICurrentUserState {
+function handleAuthenticationFailure(state: IUserState, action: UserActions.IAuthenticationFailure): IUserState {
     return {
         ...state,
         isAuthenticationSuccessful: false,
@@ -84,27 +75,30 @@ function handleAuthenticationFailure(
 }
 
 function handleGetUser(
-    state: ICurrentUserState,
+    state: IUserState,
     action: UserActions.IAddUser | UserActions.IUpdateProfileSettingsSuccess | UserActions.IVerifyUserSuccess
-): ICurrentUserState {
+): IUserState {
     return {
         ...state,
-        user: action.payload,
+        user: {
+            ...state.user,
+            ...action.payload,
+        },
         isLoading: false,
     };
 }
 
 function handleHideCustomerSuccessfulRegistration(
-    state: ICurrentUserState,
+    state: IUserState,
     action: UserActions.IHideCustomerSuccessfulRegistration
-): ICurrentUserState {
+): IUserState {
     return {
         ...state,
         wasCustomerCreated: false,
     };
 }
 
-function handleUpdateAvatarLink(state: ICurrentUserState, action: UserActions.IUpdateAvatarSuccess): ICurrentUserState {
+function handleUpdateAvatarLink(state: IUserState, action: UserActions.IUpdateAvatarSuccess): IUserState {
     return {
         ...state,
         user: {

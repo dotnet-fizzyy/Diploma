@@ -73,7 +73,11 @@ const CustomersList = (props: ICustomersListProps) => {
             <MainLabel title="Customers" variant={LabelType.SECONDARY} />
             <div className={classes.body}>
                 <div className={classes.customersListContainer}>
-                    {customersList && customersList.length ? customersList.map(getCustomerItem) : null}
+                    {customersList && customersList.length ? (
+                        customersList.map(getCustomerItem)
+                    ) : (
+                        <span className={classes.text}>No customers added yet...</span>
+                    )}
                 </div>
                 <div className={classes.addCustomerContainer}>
                     <Button label="Add" disabled={false} onClick={onClickCreateCustomer} />

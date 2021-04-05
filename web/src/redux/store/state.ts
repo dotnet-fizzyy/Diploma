@@ -5,12 +5,12 @@ import { IProject } from '../../types/projectTypes';
 import { ISprint } from '../../types/sprintTypes';
 import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
 import { ITeam } from '../../types/teamTypes';
-import { IUser } from '../../types/userTypes';
+import { IFullUser } from '../../types/userTypes';
 import { IWorkSpace } from '../../types/workSpaceTypes';
 
 export interface IState {
     project: IProjectState;
-    currentUser: ICurrentUserState;
+    currentUser: IUserState;
     stories: IStoryState;
     sidebar: ISidebarState;
     sprints: ISprintsState;
@@ -21,12 +21,12 @@ export interface IState {
     workspace: IWorkSpaceState;
 }
 
-export interface ICurrentUserState {
+export interface IUserState {
     isAuthenticationSuccessful: boolean;
     wasCustomerCreated: boolean;
     accessToken: string;
     refreshToken: string;
-    user: IUser | null;
+    user: IFullUser | null;
     isLoading: boolean;
 }
 

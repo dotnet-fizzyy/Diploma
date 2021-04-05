@@ -1,6 +1,6 @@
-import { IProject } from '../types/projectTypes';
+import { IProject, IProjectListItem } from '../types/projectTypes';
 
-const mockedProject: IProject = {
+export const mockedProject: IProject = {
     customer: 'Viktoria Kantarovich',
     endDate: new Date(2020, 12, 1),
     projectDescription: 'Diploma project',
@@ -9,4 +9,17 @@ const mockedProject: IProject = {
     startDate: new Date(2020, 10, 1),
 };
 
-export default mockedProject;
+export const mockedProjectList: IProjectListItem[] = [
+    {
+        projectId: '12345',
+        projectName: 'Scrum board',
+    },
+    {
+        projectId: '54321',
+        projectName: 'Test board',
+    },
+    {
+        projectId: '09876',
+        projectName: 'Test project123',
+    },
+];

@@ -1,14 +1,14 @@
 import { AxiosResponse } from 'axios';
 import * as routeConstants from '../constants/routeConstants';
 import { AuthenticationResponse, IJsonPatchBody, TokenType } from '../types';
-import { IAuthenticationUser, IUser } from '../types/userTypes';
+import { IAuthenticationUser, IFullUser, IUser } from '../types/userTypes';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class UserApi {
     public static async getUserByToken(): Promise<IUser> {
-        const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosGet(routeConstants.UserUrls.getUserByToken);
+        const response: AxiosResponse<IFullUser> = await AxiosBaseApi.axiosGet(routeConstants.UserUrls.getUserByToken);
 
-        return UserApi.mapToModel(response.data);
+        return UserApi.mapToFullUserModel(response.data);
     }
 
     public static async createUser(user: IUser): Promise<IUser> {
@@ -37,7 +37,10 @@ export default class UserApi {
     }
 
     public static async authenticate(authUser: IAuthenticationUser): Promise<AuthenticationResponse> {
-        const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosPost(routeConstants.SignInUrl, authUser);
+        const response: AxiosResponse<AuthenticationResponse> = await AxiosBaseApi.axiosPost(
+            routeConstants.SignInUrl,
+            authUser
+        );
 
         return UserApi.mapToAuthenticationUser(response.data);
     }
@@ -108,6 +111,15 @@ export default class UserApi {
         };
     }
 
+    private static mapToFullUserModel(data: any): IFullUser {
+        let fullUser: IFullUser = UserApi.mapToModel(data);
+        fullUser.projectId = data.projectId;
+        fullUser.projectName = data.projectName;
+        fullUser.teamName = data.teamName;
+
+        return fullUser;
+    }
+
     private static mapToAuthenticationUser(data: any): AuthenticationResponse {
         return {
             accessToken: {
@@ -118,7 +130,7 @@ export default class UserApi {
                 type: TokenType[data.refreshToken.type],
                 value: data.refreshToken.value,
             },
-            user: UserApi.mapToModel(data.user),
+            user: UserApi.mapToFullUserModel(data.user),
         };
     }
 }

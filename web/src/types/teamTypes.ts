@@ -1,10 +1,15 @@
 import { IUser } from './userTypes';
 
-export interface ITeam {
-    users: IUser[];
-    projectId?: string;
+interface IBaseTeam {
     teamId: string;
     teamName: string;
+}
+
+export interface ITeam extends IBaseTeam {
+    users: IUser[];
+    projectId?: string;
     location: string;
     membersCount: number;
 }
+
+export interface ITeamListItem extends IBaseTeam {}

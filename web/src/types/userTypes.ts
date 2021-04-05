@@ -11,6 +11,12 @@ export interface IUser {
     email: string;
 }
 
+export interface IFullUser extends IUser {
+    projectId?: string;
+    projectName?: string;
+    teamName?: string;
+}
+
 export interface IAuthenticationUser {
     userName: string;
     password: string;

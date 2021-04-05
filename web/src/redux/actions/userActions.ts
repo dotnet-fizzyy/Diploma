@@ -1,5 +1,5 @@
 import { AuthenticationResponse } from '../../types';
-import { IAuthenticationUser, IUpdateUserPassword, IUser } from '../../types/userTypes';
+import { IAuthenticationUser, IFullUser, IUpdateUserPassword, IUser } from '../../types/userTypes';
 
 export const UserActions = {
     AUTHENTICATION_REQUEST: 'AUTHENTICATION_REQUEST',
@@ -90,7 +90,7 @@ export interface IVerifyUserRequest {
 
 export interface IVerifyUserSuccess {
     type: typeof UserActions.VERIFY_USER_SUCCESS;
-    payload: IUser;
+    payload: IFullUser;
 }
 
 export interface IVerifyUserFailure {
@@ -240,7 +240,7 @@ export function verifyUserRequest(): IVerifyUserRequest {
     };
 }
 
-export function verifyUserSuccess(user: IUser): IVerifyUserSuccess {
+export function verifyUserSuccess(user: IFullUser): IVerifyUserSuccess {
     return {
         type: UserActions.VERIFY_USER_SUCCESS,
         payload: user,

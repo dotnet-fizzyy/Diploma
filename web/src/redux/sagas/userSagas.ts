@@ -2,7 +2,7 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import UserApi from '../../api/userApi';
 import { AuthenticationResponse, IJsonPatchBody } from '../../types';
 import { ITeam } from '../../types/teamTypes';
-import { IUser } from '../../types/userTypes';
+import { IFullUser, IUser } from '../../types/userTypes';
 import { clearCredentialsFromLocalStorage, setCredentialsToLocalStorage } from '../../utils';
 import { createRequestBodyForUserUpdateLink } from '../../utils/userHelper';
 import { closeModal } from '../actions/modalActions';
@@ -65,7 +65,7 @@ function* logOutUser() {
 
 function* verifyUser() {
     try {
-        const user: IUser = yield call(UserApi.getUserByToken);
+        const user: IFullUser = yield call(UserApi.getUserByToken);
 
         yield put(verifyUserSuccess(user));
     } catch (error) {

@@ -1,7 +1,7 @@
 import { IEpic } from './epicTypes';
 import { IProject } from './projectTypes';
 import { ISprint } from './sprintTypes';
-import { IUser } from './userTypes';
+import { IFullUser } from './userTypes';
 
 export enum SpinnerComponent {
     LOGIN = 'LOGIN',
@@ -24,7 +24,7 @@ export interface IFullProjectDescription {
 export interface AuthenticationResponse {
     accessToken: IToken;
     refreshToken: IToken;
-    user: IUser;
+    user: IFullUser;
 }
 
 export interface IToken {
