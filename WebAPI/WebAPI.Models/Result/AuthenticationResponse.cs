@@ -8,6 +8,6 @@ namespace WebAPI.Models.Result
         
         public Token RefreshToken { get; set; }
         
-        public User User { get; set; }
+        public FullUser User { get; set; }
     }
 }

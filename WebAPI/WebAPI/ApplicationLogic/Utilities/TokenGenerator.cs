@@ -6,17 +6,15 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using WebAPI.Core.Configuration;
-using WebAPI.Core.Entities;
-using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
 
 namespace WebAPI.ApplicationLogic.Utilities
 {
     public class TokenGenerator : ITokenGenerator
     {
-        public string GenerateAccessToken(AppSettings appSettings, User user)
+        public string GenerateAccessToken(AppSettings appSettings, Guid userId, string userRole)
         {
-            var claims = GetClaims(user);
+            var claims = GetClaims(userId, userRole);
 
             var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appSettings.Token.SigningKey));
             
@@ -52,12 +50,12 @@ namespace WebAPI.ApplicationLogic.Utilities
             return DateTime.Now > jwtSecurityToken.ValidTo;
         }
 
-        private static ClaimsIdentity GetClaims(User user)
+        private static ClaimsIdentity GetClaims(Guid userId, string userRole)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Id.ToString()),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.UserRole.ToString())
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userId.ToString()),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, userRole)
             };
             
             var claimsIdentity = new ClaimsIdentity(

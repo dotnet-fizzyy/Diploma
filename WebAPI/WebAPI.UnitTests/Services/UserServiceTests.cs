@@ -8,6 +8,7 @@ using WebAPI.ApplicationLogic.Services;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
+using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Models.Result;
 using Xunit;
 
@@ -20,8 +21,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var userRepository = A.Fake<IUserRepository>();
-            var projectRepository = A.Fake<IProjectRepository>();
-            var teamRepository = A.Fake<ITeamRepository>();
+            var userProvider = A.Fake<IUserProvider>();
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
             var userMapper = A.Fake<IUserMapper>();
 
@@ -30,7 +30,7 @@ namespace WebAPI.UnitTests.Services
                 new User()
             };
 
-            var userModels = new CollectionResponse<Models.Models.User>()
+            var userModels = new CollectionResponse<Models.Models.User>
             {
                 Items = new List<Models.Models.User>
                 {
@@ -45,7 +45,7 @@ namespace WebAPI.UnitTests.Services
             A.CallTo(() => userMapper.MapToModel(userEntities.First()))
                 .Returns(userModels.Items.First());
             
-            var userService = new UserService(userRepository, projectRepository, teamRepository,refreshTokenRepository, userMapper);
+            var userService = new UserService(userRepository, userProvider, refreshTokenRepository, userMapper);
             await userService.GetAllUsers();
             
             //Assert
@@ -61,8 +61,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var userRepository = A.Fake<IUserRepository>();
-            var projectRepository = A.Fake<IProjectRepository>();
-            var teamRepository = A.Fake<ITeamRepository>();
+            var userProvider = A.Fake<IUserProvider>();
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
             var userMapper = A.Fake<IUserMapper>();
 
@@ -85,7 +84,7 @@ namespace WebAPI.UnitTests.Services
             A.CallTo(() => userMapper.MapToModel(userEntity))
                 .Returns(userModel);
             
-            var userService = new UserService(userRepository, projectRepository, teamRepository, refreshTokenRepository, userMapper);
+            var userService = new UserService(userRepository, userProvider, refreshTokenRepository, userMapper);
             var result = await userService.GetUser(userId);
             
             //Assert

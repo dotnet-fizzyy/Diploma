@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using WebAPI.ApplicationLogic.Handlers;
+using WebAPI.ApplicationLogic.Providers;
 using WebAPI.ApplicationLogic.Services;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Configuration;
@@ -8,6 +9,7 @@ using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Handlers;
 using WebAPI.Core.Interfaces.Mappers;
+using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Infrastructure.Postgres.Repository;
@@ -64,6 +66,9 @@ namespace WebAPI.Startup.Configuration
             //Handlers
             services.AddTransient<IStorySortingAndFiltering, StorySortingAndFiltering>();
 
+            //Providers
+            services.AddTransient<IUserProvider, UserProvider>();
+            
             //Utilities
             services.AddTransient<IClaimsReader, ClaimsReader>();
             services.AddTransient<ITokenService, TokenService>();

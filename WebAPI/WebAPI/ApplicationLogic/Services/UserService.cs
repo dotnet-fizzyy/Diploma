@@ -7,6 +7,7 @@ using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
+using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models;
 using WebAPI.Models.Models.Authentication;
@@ -17,22 +18,19 @@ namespace WebAPI.ApplicationLogic.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly ITeamRepository _teamRepository;
-        private readonly IProjectRepository _projectRepository;
+        private readonly IUserProvider _userProvider;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IUserMapper _userMapper;
 
         public UserService(
-            IUserRepository userRepository, 
-            IProjectRepository projectRepository,
-            ITeamRepository teamRepository,
+            IUserRepository userRepository,
+            IUserProvider userProvider,
             IRefreshTokenRepository refreshTokenRepository, 
             IUserMapper userMapper
             )
         {
             _userRepository = userRepository;
-            _projectRepository = projectRepository;
-            _teamRepository = teamRepository;
+            _userProvider = userProvider;
             _refreshTokenRepository = refreshTokenRepository;
             _userMapper = userMapper;
         }
@@ -51,23 +49,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<FullUser> GetUserByToken(Guid id)
         {
-            var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == id);
-
-            if (userEntity == null)
-            {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find user with provided id");
-            }
-
-            Core.Entities.Team teamEntity = null;
-            Core.Entities.Project projectEntity = null;
-            
-            if (userEntity.TeamId != null)
-            {
-                teamEntity = await _teamRepository.SearchForSingleItemAsync(x => x.Id == userEntity.TeamId);
-                projectEntity = await _projectRepository.SearchForSingleItemAsync(x => x.Id == teamEntity.ProjectId);
-            }
-
-            var userFullModel = _userMapper.MapToFullModel(userEntity, projectEntity, teamEntity);
+            var userFullModel = await _userProvider.GetFullUser(id);
             
             return userFullModel;
         }

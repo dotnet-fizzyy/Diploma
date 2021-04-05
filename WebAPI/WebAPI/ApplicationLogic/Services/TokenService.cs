@@ -1,12 +1,9 @@
 using System;
 using System.Threading.Tasks;
-using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Configuration;
-using WebAPI.Core.Enums;
-using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
-using WebAPI.Core.Interfaces.Mappers;
+using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models;
@@ -18,24 +15,24 @@ namespace WebAPI.ApplicationLogic.Services
 {
     public class TokenService : ITokenService
     {
-        private readonly IUserMapper _userMapper;
         private readonly IUserRepository _userRepository;
+        private readonly IUserProvider _userProvider;
         private readonly ITokenGenerator _tokenGenerator;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IRefreshTokenAggregator _refreshTokenAggregator;
         private readonly AppSettings _appSettings;
 
         public TokenService(
-            IUserMapper userMapper, 
-            IUserRepository userRepository, 
+            IUserRepository userRepository,
+            IUserProvider userProvider,
             ITokenGenerator tokenGenerator,
             IRefreshTokenRepository refreshTokenRepository,
             IRefreshTokenAggregator refreshTokenAggregator,
             AppSettings appSettings
             )
         {
-            _userMapper = userMapper;
             _userRepository = userRepository;
+            _userProvider = userProvider;
             _appSettings = appSettings;
             _refreshTokenRepository = refreshTokenRepository;
             _tokenGenerator = tokenGenerator;
@@ -46,18 +43,10 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<AuthenticationResponse> AuthenticateUser(SignInUser user)
         {
             //Authenticate user (find in db)
-            var userEntity = _userMapper.MapToEntity(user);
-            userEntity.Password = PasswordHashing.CreateHashPassword(userEntity.Password);
-
-            var authUser = await _userRepository.AuthenticateUser(userEntity);
-
-            if (authUser == null)
-            {
-                throw new UserFriendlyException(ErrorStatus.INVALID_DATA, "Unable to authenticate user");
-            }
+            var fullUserModel = await _userProvider.GetFullUser(user);
 
             //Generate tokens if record is valid
-            var accessToken = _tokenGenerator.GenerateAccessToken(_appSettings, authUser);
+            var accessToken = _tokenGenerator.GenerateAccessToken(_appSettings, fullUserModel.UserId, fullUserModel.UserRole.ToString());
 
             string refreshToken = null;
             if (_appSettings.Token.EnableRefreshTokenVerification)
@@ -65,7 +54,7 @@ namespace WebAPI.ApplicationLogic.Services
                 refreshToken = _tokenGenerator.GenerateRefreshToken();
 
                 var refreshTokenEntity =
-                    _refreshTokenAggregator.GenerateRefreshTokenEntityOnSave(authUser.Id, refreshToken);
+                    _refreshTokenAggregator.GenerateRefreshTokenEntityOnSave(fullUserModel.UserId, refreshToken);
                 refreshTokenEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
                 
                 await _refreshTokenRepository.CreateAsync(refreshTokenEntity);
@@ -75,7 +64,7 @@ namespace WebAPI.ApplicationLogic.Services
             {
                 AccessToken = new Token(TokenTypes.Access, accessToken),
                 RefreshToken = new Token(TokenTypes.Refresh, refreshToken),
-                User = _userMapper.MapToModel(authUser),
+                User = fullUserModel
             };
 
             return tokenPair;

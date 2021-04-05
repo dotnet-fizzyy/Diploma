@@ -61,7 +61,7 @@ namespace WebAPI.Presentation.Filters
 
             //Update response with new access token
             var userEntity = await _tokenService.GetRefreshTokenByUserId(accessToken, new Guid(userId));
-            var newAccessToken = _tokenGenerator.GenerateAccessToken(_appSettings, userEntity);
+            var newAccessToken = _tokenGenerator.GenerateAccessToken(_appSettings, userEntity.Id, userEntity.UserRole.ToString());
 
             httpContext.Response.Headers.Add(
                 new KeyValuePair<string, StringValues>("Authorization", $"Bearer {newAccessToken}")
