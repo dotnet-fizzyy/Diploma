@@ -9,7 +9,6 @@ import MainLabel, { LabelType } from '../common/MainLabel';
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
-            margin: '30px 0',
             width: '100%',
         },
         body: {

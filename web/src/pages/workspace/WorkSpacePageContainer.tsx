@@ -28,6 +28,14 @@ const WorkSpacePageContainer = () => {
         dispatch(openModal(ModalTypes.WORKSPACE));
     };
 
+    const onClickCreateProject = (): void => {
+        dispatch(openModal(ModalTypes.PROJECT));
+    };
+
+    const onClickCreateTeam = (): void => {
+        dispatch(openModal(ModalTypes.TEAM));
+    };
+
     const onClickUpdateWorkSpaceInfo = (): void => {};
 
     const onClickViewProject = (projectId: string): void => {
@@ -56,6 +64,8 @@ const WorkSpacePageContainer = () => {
         onClickCreateWorkSpace,
         onClickUpdateWorkSpaceInfo,
         onClickCreateCustomer,
+        onClickCreateProject,
+        onClickCreateTeam,
         onClickViewProject,
         onClickViewTeam,
     };

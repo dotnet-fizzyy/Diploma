@@ -11,11 +11,17 @@ const useStyles = makeStyles(() =>
             width: '100%',
             minHeight: '500px',
         },
+        header: {
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
         body: {
             padding: '30px',
         },
         list: {
-            marginTop: '30px',
+            marginTop: '40px',
             display: 'flex',
             flexDirection: 'column',
         },
@@ -41,11 +47,12 @@ export interface IWorkSpaceListProps {
     listItems: (ITeamListItem | IProjectListItem)[];
     onClickViewProject: (projectId: string) => void;
     onClickViewTeam: (teamId: string) => void;
+    onClickCreate: () => void;
 }
 
 const WorkSpaceList = (props: IWorkSpaceListProps) => {
     const classes = useStyles();
-    const { label, listItems } = props;
+    const { label, listItems, onClickCreate } = props;
 
     const getProjectItem = ({ projectId, projectName }: IProjectListItem): React.ReactNode => {
         const onClickViewProject = (): void => {
@@ -79,7 +86,12 @@ const WorkSpaceList = (props: IWorkSpaceListProps) => {
 
     return (
         <div className={classes.root}>
-            <MainLabel title={label} variant={LabelType.SECONDARY} />
+            <div className={classes.header}>
+                <MainLabel title={label} variant={LabelType.SECONDARY} />
+                <div className={classes.buttonContainer}>
+                    <Button label="Add" disabled={false} onClick={onClickCreate} />
+                </div>
+            </div>
             <div className={classes.list}>
                 {listItems && listItems.length
                     ? listItems.map((item: IProjectListItem | ITeamListItem) =>

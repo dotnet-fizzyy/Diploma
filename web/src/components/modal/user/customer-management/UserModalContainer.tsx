@@ -1,39 +1,41 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { BaseRegexExpression } from '../../../../constants';
+//import { useDispatch } from 'react-redux';
 import { userInitialState } from '../../../../constants/userConstants';
-import * as userActions from '../../../../redux/actions/userActions';
+//import * as userActions from '../../../../redux/actions/userActions';
 import { IUser } from '../../../../types/userTypes';
+import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formHelper';
 import { createUserPositionDropdownItems, createUserRoleDropdownItems } from '../../../../utils/userHelper';
 import UserModal, { IUserCreationProps } from './UserModal';
 
 const UserModalContainer = () => {
-    const dispatch = useDispatch();
-    const [user, setUser] = useState<IUser>(userInitialState);
+    //const dispatch = useDispatch();
     const userRoles = createUserRoleDropdownItems();
     const userPositions = createUserPositionDropdownItems();
+    const initialState = userInitialState;
+    const mainLabel: string = 'Create a new team member';
 
-    const onChangeUserField = (
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-    ) => {
-        const { value, name } = event.target;
-        setUser((prevState) => {
-            return {
-                ...prevState,
-                [name]: value,
-            };
-        });
+    const onClickSubmit = (values: IUser) => {
+        console.warn(values);
+        //dispatch(userActions.createUserRequest(null));
     };
 
-    const onClickCreateUser = () => {
-        dispatch(userActions.createUserRequest(user));
-    };
+    const validateField = (value: string): string =>
+        new InputFormFieldValidator(value, null, null, true, BaseRegexExpression).validate();
+
+    const validateEmail = (value: string): string => new EmailInputFormFieldValidator(value).validate();
+
+    const validatePassword = (value: string): string => new InputFormFieldValidator(value, 3, 16, true).validate();
 
     const userCreationProps: IUserCreationProps = {
-        user,
+        mainLabel,
+        initialState,
         userRoles,
         userPositions,
-        onClickCreateUser,
-        onChangeUserField,
+        validateField,
+        validateEmail,
+        validatePassword,
+        onClickSubmit,
     };
 
     return <UserModal {...userCreationProps} />;

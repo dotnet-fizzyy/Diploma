@@ -23,7 +23,7 @@ const useStyles = makeStyles(() =>
             position: 'relative',
         },
         fieldContainer: {
-            marginTop: '30px',
+            marginTop: '20px',
             width: '100%',
         },
         buttonContainer: {

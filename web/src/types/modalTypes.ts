@@ -8,3 +8,8 @@ export enum ModalTypes {
     USER_SELF = 'USER_SELF',
     WORKSPACE = 'WORKSPACE',
 }
+
+export enum UserModalTypes {
+    USER_CREATION = 'USER_CREATION',
+    CUSTOMER_CREATION = 'CUSTOMER_CREATION',
+}

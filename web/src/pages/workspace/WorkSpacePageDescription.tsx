@@ -18,6 +18,9 @@ const useStyles = makeStyles(() =>
         body: {
             padding: '30px',
         },
+        customerList: {
+            margin: '50px 0',
+        },
         listsContainer: {
             display: 'flex',
             flexDirection: 'row',
@@ -39,6 +42,8 @@ export interface IWorkSpacePageDescriptionProps {
     customersList: IUserListItem[];
     workSpace: IWorkSpace;
     onClickUpdateWorkSpaceInfo: () => void;
+    onClickCreateTeam: () => void;
+    onClickCreateProject: () => void;
     onClickCreateCustomer: () => void;
     onClickViewProject: (projectId: string) => void;
     onClickViewTeam: (teamId: string) => void;
@@ -55,6 +60,8 @@ const WorkSpacePageDescription = (props: IWorkSpacePageDescriptionProps) => {
         onClickCreateCustomer,
         onClickViewProject,
         onClickViewTeam,
+        onClickCreateProject,
+        onClickCreateTeam,
     } = props;
 
     return (
@@ -66,7 +73,9 @@ const WorkSpacePageDescription = (props: IWorkSpacePageDescriptionProps) => {
                     workSpaceCreationDate={creationDate}
                     onClickUpdateWorkSpaceInfo={onClickUpdateWorkSpaceInfo}
                 />
-                <CustomersList customersList={customersList} onClickCreateCustomer={onClickCreateCustomer} />
+                <div className={classes.customerList}>
+                    <CustomersList customersList={customersList} onClickCreateCustomer={onClickCreateCustomer} />
+                </div>
                 <div className={classes.listsContainer}>
                     <div className={classes.list}>
                         <WorkSpaceList
@@ -74,6 +83,7 @@ const WorkSpacePageDescription = (props: IWorkSpacePageDescriptionProps) => {
                             listItems={projectList}
                             onClickViewProject={onClickViewProject}
                             onClickViewTeam={onClickViewTeam}
+                            onClickCreate={onClickCreateProject}
                         />
                     </div>
                     <div className={classes.list}>
@@ -82,6 +92,7 @@ const WorkSpacePageDescription = (props: IWorkSpacePageDescriptionProps) => {
                             listItems={teamList}
                             onClickViewProject={onClickViewProject}
                             onClickViewTeam={onClickViewTeam}
+                            onClickCreate={onClickCreateTeam}
                         />
                     </div>
                 </div>

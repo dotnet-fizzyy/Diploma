@@ -35,6 +35,8 @@ export interface IWorkSpacePageProps {
     workSpace: IWorkSpace;
     isLoading: boolean;
     onClickCreateWorkSpace: () => void;
+    onClickCreateTeam: () => void;
+    onClickCreateProject: () => void;
     onClickUpdateWorkSpaceInfo: () => void;
     onClickCreateCustomer: () => void;
     onClickViewProject: (projectId: string) => void;
@@ -54,6 +56,8 @@ const WorkSpacePage = (props: IWorkSpacePageProps) => {
         onClickCreateCustomer,
         onClickViewProject,
         onClickViewTeam,
+        onClickCreateProject,
+        onClickCreateTeam,
     } = props;
 
     return (
@@ -71,6 +75,8 @@ const WorkSpacePage = (props: IWorkSpacePageProps) => {
                     onClickCreateCustomer={onClickCreateCustomer}
                     onClickViewTeam={onClickViewTeam}
                     onClickViewProject={onClickViewProject}
+                    onClickCreateProject={onClickCreateProject}
+                    onClickCreateTeam={onClickCreateTeam}
                 />
             )}
         </div>
