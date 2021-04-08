@@ -71,6 +71,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<User> CreateCustomer(SignUpUser user)
         {
             var mappedCustomer = CreateCustomerEntity(user);
+            mappedCustomer.CreationDate = DateTime.UtcNow.Date;
             mappedCustomer.Password = PasswordHashing.CreateHashPassword(mappedCustomer.Password);
 
             var createdCustomerEntity = await _userRepository.CreateAsync(mappedCustomer);

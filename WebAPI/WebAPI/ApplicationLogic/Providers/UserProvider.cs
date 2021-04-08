@@ -57,7 +57,7 @@ namespace WebAPI.ApplicationLogic.Providers
                 throw new UserFriendlyException(ErrorStatus.INVALID_DATA, "Unable to authenticate user");
             }
             
-            var fullUser = await GetUser(userEntity);
+            var fullUser = await GetUser(authUser);
 
             return fullUser;
         }
