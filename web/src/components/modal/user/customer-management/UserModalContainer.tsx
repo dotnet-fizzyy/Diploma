@@ -1,8 +1,10 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../../constants';
-import { userInitialState } from '../../../../constants/userConstants';
-import * as userActions from '../../../../redux/actions/userActions';
+import { CustomerInitialState, UserInitialState } from '../../../../constants/userConstants';
+import { createUserRequest } from '../../../../redux/actions/userActions';
+import { getModalOption } from '../../../../redux/selectors/modalSelectors';
+import { ModalOptions } from '../../../../types/modalTypes';
 import { IUser } from '../../../../types/userTypes';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formHelper';
 import { createUserPositionDropdownItems, createUserRoleDropdownItems } from '../../../../utils/userHelper';
@@ -12,11 +14,12 @@ const UserModalContainer = () => {
     const dispatch = useDispatch();
     const userRoles = createUserRoleDropdownItems();
     const userPositions = createUserPositionDropdownItems();
-    const initialState = userInitialState;
+    const modalOption = useSelector(getModalOption);
+    const initialState = modalOption === ModalOptions.CUSTOMER_CREATION ? CustomerInitialState : UserInitialState;
     const mainLabel: string = 'Create a new team member';
 
     const onClickSubmit = (values: IUser) => {
-        dispatch(userActions.createUserRequest(values));
+        dispatch(createUserRequest(values));
     };
 
     const validateField = (value: string): string =>

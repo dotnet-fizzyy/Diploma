@@ -81,6 +81,7 @@ export const TeamUrls = {
 
 const WorkSpaceBaseUrl = `${BaseUrl}/workspace`;
 export const WorkSpaceUrls = {
+    updateWorkSpace: WorkSpaceBaseUrl,
     userWorkSpace: `${WorkSpaceBaseUrl}/user`,
     createWorkSpace: `${WorkSpaceBaseUrl}/user`,
 };

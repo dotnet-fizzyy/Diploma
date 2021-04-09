@@ -24,6 +24,15 @@ export default class WorkSpaceApi {
         return WorkSpaceApi.mapToModel(response.data);
     }
 
+    public static async updateWorkSpace(workSpace: IWorkSpace): Promise<IWorkSpace> {
+        const response: AxiosResponse<IWorkSpace> = await AxiosBaseApi.axiosPut(
+            WorkSpaceUrls.updateWorkSpace,
+            workSpace
+        );
+
+        return WorkSpaceApi.mapToModel(response.data);
+    }
+
     private static mapToModel(data: any): IWorkSpace {
         return {
             workSpaceId: data.workSpaceId,

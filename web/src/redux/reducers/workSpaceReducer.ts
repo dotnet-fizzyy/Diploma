@@ -20,9 +20,9 @@ export default function workSpaceReducer(
         case WorkSpaceActions.WorkSpaceActions.CREATE_WORKSPACE_REQUEST:
             return handleSetLoadingStatusForWorkSpace(state, action);
         case WorkSpaceActions.WorkSpaceActions.CREATE_WORKSPACE_SUCCESS:
-            return handleCreateWorkSpace(state, action);
+        case WorkSpaceActions.WorkSpaceActions.UPDATE_WORKSPACE_SUCCESS:
         case WorkSpaceActions.WorkSpaceActions.GET_USER_WORKSPACE_SUCCESS:
-            return handleGetUserWorkSpace(state, action);
+            return handleSetWorkSpace(state, action);
         case WorkSpaceActions.WorkSpaceActions.GET_USER_WORKSPACE_FAILURE:
             return handleGetUserWorkSpaceFailure(state);
         default:
@@ -40,20 +40,9 @@ function handleSetLoadingStatusForWorkSpace(
     };
 }
 
-function handleCreateWorkSpace(
+function handleSetWorkSpace(
     state: IWorkSpaceState,
-    action: WorkSpaceActions.ICreateWorkSpaceSuccess
-): IWorkSpaceState {
-    return {
-        ...state,
-        workSpace: action.payload,
-        isLoading: false,
-    };
-}
-
-function handleGetUserWorkSpace(
-    state: IWorkSpaceState,
-    action: WorkSpaceActions.IGetUserWorkspaceSuccess
+    action: WorkSpaceActions.ICreateWorkSpaceSuccess | WorkSpaceActions.IGetUserWorkspaceSuccess
 ): IWorkSpaceState {
     return {
         ...state,

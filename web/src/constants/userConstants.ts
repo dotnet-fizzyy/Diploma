@@ -1,13 +1,25 @@
 import { IUser, UserPosition, UserRole } from '../types/userTypes';
 
-export const userInitialState: IUser = {
+export const UserInitialState: IUser = {
     avatarLink: '',
     email: '',
     isActive: true,
     userId: '',
     userName: '',
-    userPosition: UserPosition.Developer,
-    userRole: UserRole.Engineer,
+    userPosition: 'Developer' as UserPosition,
+    userRole: 'Engineer' as UserRole,
+    password: '',
+    teamId: '',
+};
+
+export const CustomerInitialState: IUser = {
+    avatarLink: '',
+    email: '',
+    isActive: true,
+    userId: '',
+    userName: '',
+    userPosition: 'Customer' as UserPosition,
+    userRole: 'ProductOwner' as UserRole,
     password: '',
     teamId: '',
 };

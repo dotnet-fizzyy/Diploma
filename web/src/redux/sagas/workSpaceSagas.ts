@@ -23,7 +23,18 @@ function* createWorkSpace(action: WorkSpaceActions.ICreateWorkSpaceRequest) {
     }
 }
 
+function* updateWorkSpace(action: WorkSpaceActions.IUpdateWorkSpaceSuccess) {
+    try {
+        const createdWorkSpace: IWorkSpace = yield call(WorkSpaceApi.updateWorkSpace, action.payload);
+
+        yield put(WorkSpaceActions.updateWorkSpaceSuccess(createdWorkSpace));
+    } catch (error) {
+        yield put(WorkSpaceActions.updateWorkSpaceError(error));
+    }
+}
+
 export default function* workSpaceSaga() {
     yield takeLatest(WorkSpaceActions.WorkSpaceActions.GET_USER_WORKSPACE_REQUEST, getUserWorkSpace);
     yield takeLatest(WorkSpaceActions.WorkSpaceActions.CREATE_WORKSPACE_REQUEST, createWorkSpace);
+    yield takeLatest(WorkSpaceActions.WorkSpaceActions.UPDATE_WORKSPACE_REQUEST, updateWorkSpace);
 }

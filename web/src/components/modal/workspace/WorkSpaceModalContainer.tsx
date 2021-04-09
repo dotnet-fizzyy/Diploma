@@ -1,28 +1,49 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../constants';
-import { createWorkSpaceRequest } from '../../../redux/actions/workSpaceActions';
+import { InitialWorkSpaceFormValues } from '../../../constants/workSpaceContants';
+import { createWorkSpaceRequest, updateWorkSpaceRequest } from '../../../redux/actions/workSpaceActions';
+import { getModalOption } from '../../../redux/selectors/modalSelectors';
+import { getWorkSpace } from '../../../redux/selectors/workSpaceSelectors';
 import { IWorkSpaceForm } from '../../../types/formTypes';
+import { ModalOptions } from '../../../types/modalTypes';
 import { IWorkSpace } from '../../../types/workSpaceTypes';
 import { InputFormFieldValidator } from '../../../utils/formHelper';
 import WorkSpaceModal, { IWorkSpaceModalProps } from './WorkSpaceModal';
 
 const WorkSpaceModalContainer = () => {
     const dispatch = useDispatch();
+    const modalOption: ModalOptions = useSelector(getModalOption);
+    const workSpaceDescription: IWorkSpace = useSelector(getWorkSpace);
+
+    const isUpdate: boolean = modalOption === ModalOptions.WORKSPACE_UPDATE;
+    const initialState: IWorkSpaceForm = isUpdate
+        ? {
+              ...workSpaceDescription,
+          }
+        : InitialWorkSpaceFormValues;
 
     const onSubmitButton = (values: IWorkSpaceForm): void => {
         const workSpace: IWorkSpace = {
+            workSpaceId: values.workSpaceId,
             workSpaceName: values.workSpaceName,
             workSpaceDescription: values.workSpaceDescription,
+            creationDate: values.creationDate,
         };
 
-        dispatch(createWorkSpaceRequest(workSpace));
+        if (isUpdate) {
+            dispatch(updateWorkSpaceRequest(workSpace));
+        } else {
+            dispatch(createWorkSpaceRequest(workSpace));
+        }
     };
 
     const validateWorkSpaceName = (value: string) =>
         new InputFormFieldValidator(value, 3, 100, true, BaseRegexExpression).validate();
 
     const workSpaceModalProps: IWorkSpaceModalProps = {
+        isUpdate,
+        initialState,
         onSubmitButton,
         validateWorkSpaceName,
     };

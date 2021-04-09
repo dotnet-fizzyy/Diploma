@@ -1,6 +1,6 @@
 import { SpinnerComponent } from '../../types';
 import { IEpic } from '../../types/epicTypes';
-import { ModalTypes } from '../../types/modalTypes';
+import { ModalOptions, ModalTypes } from '../../types/modalTypes';
 import { IProject } from '../../types/projectTypes';
 import { ISprint } from '../../types/sprintTypes';
 import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
@@ -68,6 +68,7 @@ export interface IRequestProcessorState {
 export interface IModalState {
     isOpen: boolean;
     type?: ModalTypes;
+    option?: ModalOptions;
 }
 
 export interface IEpicsState {

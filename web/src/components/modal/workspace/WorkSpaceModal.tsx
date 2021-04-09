@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { InitialWorkSpaceFormValues, WorkSpaceFields } from '../../../constants/workSpaceContants';
+import { WorkSpaceFields } from '../../../constants/workSpaceContants';
 import { IWorkSpaceForm } from '../../../types/formTypes';
 import Button from '../../common/Button';
 import FormTextArea from '../../common/FormTextArea';
@@ -34,21 +34,18 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IWorkSpaceModalProps {
+    isUpdate: boolean;
+    initialState: IWorkSpaceForm;
     onSubmitButton: (values: IWorkSpaceForm) => void;
     validateWorkSpaceName: (value: string) => void;
 }
 
 const WorkSpaceModal = (props: IWorkSpaceModalProps) => {
     const classes = useStyles();
-    const { onSubmitButton, validateWorkSpaceName } = props;
+    const { initialState, isUpdate, onSubmitButton, validateWorkSpaceName } = props;
 
     return (
-        <Formik
-            initialValues={InitialWorkSpaceFormValues}
-            onSubmit={onSubmitButton}
-            validateOnBlur={false}
-            validateOnChange={true}
-        >
+        <Formik initialValues={initialState} onSubmit={onSubmitButton} validateOnBlur={false} validateOnChange={true}>
             {({ isValid, touched }) => {
                 const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
 
@@ -76,9 +73,9 @@ const WorkSpaceModal = (props: IWorkSpaceModalProps) => {
                             </div>
                             <div className={classes.buttonContainer}>
                                 <Button
-                                    disabled={!isAnyFieldTouched || (isAnyFieldTouched && !isValid)}
+                                    disabled={!isUpdate && (!isAnyFieldTouched || (isAnyFieldTouched && !isValid))}
                                     type="submit"
-                                    label="Create Workspace"
+                                    label={`${isUpdate ? 'Update' : 'Create'} Workspace`}
                                 />
                             </div>
                         </Form>

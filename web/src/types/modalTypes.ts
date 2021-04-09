@@ -9,7 +9,9 @@ export enum ModalTypes {
     WORKSPACE = 'WORKSPACE',
 }
 
-export enum UserModalTypes {
+export enum ModalOptions {
+    WORKSPACE_UPDATE = 'WORKSPACE_UPDATE',
+    TEAM_UPDATE = 'TEAM_UPDATE',
     USER_CREATION = 'USER_CREATION',
     CUSTOMER_CREATION = 'CUSTOMER_CREATION',
 }

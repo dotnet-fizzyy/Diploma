@@ -7,7 +7,7 @@ import { usersList } from '../../mock/mockedUser';
 import { openModal } from '../../redux/actions/modalActions';
 import { getUserWorkSpaceRequest } from '../../redux/actions/workSpaceActions';
 import { getWorkSpace, getWorkSpaceIsLoading } from '../../redux/selectors/workSpaceSelectors';
-import { ModalTypes } from '../../types/modalTypes';
+import { ModalOptions, ModalTypes } from '../../types/modalTypes';
 import { IProjectListItem } from '../../types/projectTypes';
 import { ITeamListItem } from '../../types/teamTypes';
 import { IUserListItem } from '../../types/userTypes';
@@ -36,7 +36,9 @@ const WorkSpacePageContainer = () => {
         dispatch(openModal(ModalTypes.TEAM));
     };
 
-    const onClickUpdateWorkSpaceInfo = (): void => {};
+    const onClickUpdateWorkSpaceInfo = (): void => {
+        dispatch(openModal(ModalTypes.WORKSPACE, ModalOptions.WORKSPACE_UPDATE));
+    };
 
     const onClickViewProject = (projectId: string): void => {
         history.push(`/project/${projectId}`);
@@ -47,7 +49,7 @@ const WorkSpacePageContainer = () => {
     };
 
     const onClickCreateCustomer = (): void => {
-        dispatch(openModal(ModalTypes.USER_CUSTOMER));
+        dispatch(openModal(ModalTypes.USER_CUSTOMER, ModalOptions.CUSTOMER_CREATION));
     };
 
     useEffect(() => {

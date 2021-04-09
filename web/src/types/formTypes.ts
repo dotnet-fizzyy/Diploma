@@ -22,7 +22,7 @@ export interface IWorkSpaceForm {
     workSpaceId?: string;
     workSpaceName: string;
     workSpaceDescription: string;
-    creationDate: Date;
+    creationDate?: Date;
 }
 
 export interface IProfileSettingsForm {

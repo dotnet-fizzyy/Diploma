@@ -1,4 +1,4 @@
-import { ModalTypes } from '../../types/modalTypes';
+import { ModalOptions, ModalTypes } from '../../types/modalTypes';
 
 export const ModalActions = {
     OPEN_MODAL: 'OPEN_MODAL',
@@ -8,7 +8,10 @@ export const ModalActions = {
 //interfaces
 export interface IOpenModal {
     type: typeof ModalActions.OPEN_MODAL;
-    payload: ModalTypes;
+    payload: {
+        type: ModalTypes;
+        option: ModalOptions;
+    };
 }
 
 export interface ICloseModal {
@@ -16,10 +19,13 @@ export interface ICloseModal {
 }
 
 //actions
-export function openModal(value: ModalTypes): IOpenModal {
+export function openModal(type: ModalTypes, option?: ModalOptions): IOpenModal {
     return {
         type: ModalActions.OPEN_MODAL,
-        payload: value,
+        payload: {
+            type,
+            option,
+        },
     };
 }
 

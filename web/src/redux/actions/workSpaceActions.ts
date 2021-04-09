@@ -7,6 +7,9 @@ export const WorkSpaceActions = {
     CREATE_WORKSPACE_REQUEST: 'CREATE_WORKSPACE_REQUEST',
     CREATE_WORKSPACE_SUCCESS: 'CREATE_WORKSPACE_SUCCESS',
     CREATE_WORKSPACE_FAILURE: 'CREATE_WORKSPACE_FAILURE',
+    UPDATE_WORKSPACE_REQUEST: 'UPDATE_WORKSPACE_REQUEST',
+    UPDATE_WORKSPACE_SUCCESS: 'UPDATE_WORKSPACE_SUCCESS',
+    UPDATE_WORKSPACE_FAILURE: 'UPDATE_WORKSPACE_FAILURE',
 };
 
 //Interfaces
@@ -36,6 +39,21 @@ export interface ICreateWorkSpaceSuccess {
 
 export interface ICreateWorkSpaceFailure {
     type: typeof WorkSpaceActions.CREATE_WORKSPACE_FAILURE;
+    payload: Error;
+}
+
+export interface IUpdateWorkSpaceRequest {
+    type: typeof WorkSpaceActions.UPDATE_WORKSPACE_REQUEST;
+    payload: IWorkSpace;
+}
+
+export interface IUpdateWorkSpaceSuccess {
+    type: typeof WorkSpaceActions.UPDATE_WORKSPACE_SUCCESS;
+    payload: IWorkSpace;
+}
+
+export interface IUpdateWorkSpaceFailure {
+    type: typeof WorkSpaceActions.UPDATE_WORKSPACE_FAILURE;
     payload: Error;
 }
 
@@ -81,5 +99,26 @@ export function createWorkSpaceFailure(error: Error): ICreateWorkSpaceFailure {
     };
 }
 
+export function updateWorkSpaceRequest(workSpace: IWorkSpace): IUpdateWorkSpaceRequest {
+    return {
+        type: WorkSpaceActions.UPDATE_WORKSPACE_REQUEST,
+        payload: workSpace,
+    };
+}
+
+export function updateWorkSpaceSuccess(workSpace: IWorkSpace): IUpdateWorkSpaceSuccess {
+    return {
+        type: WorkSpaceActions.UPDATE_WORKSPACE_SUCCESS,
+        payload: workSpace,
+    };
+}
+
+export function updateWorkSpaceError(error: Error): IUpdateWorkSpaceFailure {
+    return {
+        type: WorkSpaceActions.UPDATE_WORKSPACE_FAILURE,
+        payload: error,
+    };
+}
+
 //Types
-export type WorkSpaceActionTypes = ICreateWorkSpaceSuccess & IGetUserWorkspaceSuccess;
+export type WorkSpaceActionTypes = ICreateWorkSpaceSuccess & IGetUserWorkspaceSuccess & IUpdateWorkSpaceSuccess;
