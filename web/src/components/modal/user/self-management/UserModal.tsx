@@ -6,7 +6,7 @@ import React, { RefObject } from 'react';
 import { InitialProfileUpdatePassword, PasswordsAreNotSameErrorMessage } from '../../../../constants';
 import { passwordUpdateFields, userFields } from '../../../../constants/userConstants';
 import { IProfilePasswordUpdateForm, IProfileSettingsForm } from '../../../../types/formTypes';
-import { IUser, UserPosition, UserRole } from '../../../../types/userTypes';
+import { IFullUser, UserPosition, UserRole } from '../../../../types/userTypes';
 import { getFirstNameLetter } from '../../../../utils';
 import Button from '../../../common/Button';
 import FormTextField from '../../../common/FormTextField';
@@ -85,7 +85,7 @@ export interface IUserModalProps {
     isChangePassword: boolean;
     passwordsAreSame: boolean;
     initialProfileSettings: IProfileSettingsForm;
-    user: IUser;
+    user: IFullUser;
     fileRef: RefObject<HTMLInputElement>;
     validateField: (value: string) => void;
     validateEmail: (value: string) => void;
@@ -103,7 +103,7 @@ const UserModal = (props: IUserModalProps) => {
         isChangePassword,
         passwordsAreSame,
         initialProfileSettings,
-        user: { userName, avatarLink, userPosition, userRole },
+        user: { userName, avatarLink, userPosition, userRole, projectName, teamName },
         fileRef,
         onClickUpdateAvatar,
         onClickResetPassword,
@@ -218,6 +218,14 @@ const UserModal = (props: IUserModalProps) => {
                             <div className={classes.fieldContainer}>
                                 <span className={classnames(classes.text, classes.staticFieldLabel)}>Role:</span>
                                 <span className={classes.text}>{UserRole[userRole]}</span>
+                            </div>
+                            <div className={classes.fieldContainer}>
+                                <span className={classnames(classes.text, classes.staticFieldLabel)}>Project:</span>
+                                <span className={classes.text}>{projectName || '-'}</span>
+                            </div>
+                            <div className={classes.fieldContainer}>
+                                <span className={classnames(classes.text, classes.staticFieldLabel)}>Team:</span>
+                                <span className={classes.text}>{teamName || '-'}</span>
                             </div>
                             {getSaveChangesButton(areValuesSame || !isValid)}
                         </Form>

@@ -38,6 +38,10 @@ const useStyles = makeStyles(() =>
         descriptionText: {
             marginTop: '5px',
         },
+        creationDate: {
+            marginLeft: '30px',
+            fontSize: '14px',
+        },
     })
 );
 
@@ -56,6 +60,9 @@ const WorkSpaceHeader = (props: IWorkSpaceHeader) => {
         <div className={classes.root}>
             <div className={classes.descriptionHeaderPart}>
                 <MainLabel title={workSpaceName} variant={LabelType.PRIMARY} />
+                <span className={classnames(classes.text, classes.creationDate)}>
+                    Creation date: {moment(workSpaceCreationDate).format(DateFormat)}
+                </span>
                 <div className={classes.descriptionContainer}>
                     <span className={classnames(classes.text, classes.descriptionLabel)}>Description</span>
                     <span className={classnames(classes.text, classes.descriptionText)}>
@@ -64,7 +71,6 @@ const WorkSpaceHeader = (props: IWorkSpaceHeader) => {
                 </div>
             </div>
             <div className={classes.settingsHeaderPart}>
-                <span>{moment(workSpaceCreationDate).format(DateFormat)}</span>
                 <Button label="Update info" disabled={false} onClick={onClickUpdateWorkSpaceInfo} />
             </div>
         </div>

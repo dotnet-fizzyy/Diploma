@@ -6,7 +6,7 @@ import EpicCreationContainer from './epic/EpicCreationContainer';
 import ProjectModalContainer from './project/ProjectModalContainer';
 import SprintCreationContainer from './sprint/SprintCreationContainer';
 import StoryCreationContainer from './story/StoryCreationContainer';
-import TeamCreationContainer from './team/TeamCreationContainer';
+import TeamContainerModal from './team/TeamContainerModal';
 import UserCustomerModalContainer from './user/customer-management/UserModalContainer';
 import UserSelfModalContainer from './user/self-management/UserModalContainer';
 import WorkSpaceModalContainer from './workspace/WorkSpaceModalContainer';
@@ -36,7 +36,7 @@ const ModalWindow = (props: IModalWindowProps) => {
             case ModalTypes.STORY:
                 return <StoryCreationContainer />;
             case ModalTypes.TEAM:
-                return <TeamCreationContainer />;
+                return <TeamContainerModal />;
             case ModalTypes.PROJECT:
                 return <ProjectModalContainer />;
             case ModalTypes.SPRINT:

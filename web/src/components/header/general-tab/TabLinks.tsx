@@ -1,4 +1,6 @@
+import { Tooltip } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import classnames from 'classnames';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { WorkspaceViewerRoute } from '../../../constants/routeConstants';
@@ -12,26 +14,42 @@ const useStyles = makeStyles(() =>
             color: '#212624',
             fontSize: '18px',
             fontWeight: 'bold',
+            '&:hover': {
+                cursor: 'pointer',
+            },
+        },
+        disabledLink: {
+            color: '#959898',
+            fontWeight: 500,
         },
     })
 );
 
 export interface ITabLinks {
     teamId: string;
+    projectId: string;
 }
 
 const TabLinks = (props: ITabLinks) => {
     const classes = useStyles();
-    const { teamId } = props;
+    const { teamId, projectId } = props;
+
+    const getActiveOrDisabledLink = (isActive: boolean, route: string, label: string): React.ReactNode =>
+        isActive ? (
+            <Link to={route} className={classes.tab}>
+                {label}
+            </Link>
+        ) : (
+            <Tooltip title="This item has not been created yet">
+                <span className={classnames(classes.tab, classes.disabledLink)}>{label}</span>
+            </Tooltip>
+        );
 
     return (
         <>
-            <Link to={WorkspaceViewerRoute} className={classes.tab}>
-                Workspace
-            </Link>
-            <Link to={`/team/${teamId}`} className={classes.tab}>
-                Team
-            </Link>
+            {getActiveOrDisabledLink(true, WorkspaceViewerRoute, 'Workspace')}
+            {getActiveOrDisabledLink(!!projectId, `/project/${projectId}`, 'Project')}
+            {getActiveOrDisabledLink(!!teamId, `/team/${teamId}`, 'Team')}
         </>
     );
 };

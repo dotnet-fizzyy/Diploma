@@ -8,6 +8,7 @@ import FormDatePicker from '../../common/FormDatePicker';
 import FormTextArea from '../../common/FormTextArea';
 import FormTextField from '../../common/FormTextField';
 import MainLabel, { LabelType } from '../../common/MainLabel';
+import ModalCloseButtonContainer from '../close-button/ModalCloseButtonContainer';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -22,6 +23,7 @@ const useStyles = makeStyles(() =>
             borderRadius: '10px',
             padding: '30px',
             overflowY: 'scroll',
+            position: 'relative',
 
             '@media(min-width:789px)': {
                 minWidth: '590px',
@@ -45,7 +47,7 @@ const useStyles = makeStyles(() =>
 
 export interface IProjectCreationProps {
     onSubmitProjectHandling: (values: IProjectForm) => void;
-    validateProjectName: (value: string) => void;
+    validateProjectName: (value: string) => string;
 }
 
 const ProjectModal = (props: IProjectCreationProps) => {
@@ -66,6 +68,7 @@ const ProjectModal = (props: IProjectCreationProps) => {
                     <Form>
                         <div className={classes.root}>
                             <MainLabel title="Create a project" variant={LabelType.PRIMARY} />
+                            <ModalCloseButtonContainer />
                             <div className={classes.fieldContainer}>
                                 <Field
                                     label="Name"

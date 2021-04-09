@@ -1,23 +1,22 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { BaseRegexExpression } from '../../../../constants';
-//import { useDispatch } from 'react-redux';
 import { userInitialState } from '../../../../constants/userConstants';
-//import * as userActions from '../../../../redux/actions/userActions';
+import * as userActions from '../../../../redux/actions/userActions';
 import { IUser } from '../../../../types/userTypes';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formHelper';
 import { createUserPositionDropdownItems, createUserRoleDropdownItems } from '../../../../utils/userHelper';
 import UserModal, { IUserCreationProps } from './UserModal';
 
 const UserModalContainer = () => {
-    //const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const userRoles = createUserRoleDropdownItems();
     const userPositions = createUserPositionDropdownItems();
     const initialState = userInitialState;
     const mainLabel: string = 'Create a new team member';
 
     const onClickSubmit = (values: IUser) => {
-        console.warn(values);
-        //dispatch(userActions.createUserRequest(null));
+        dispatch(userActions.createUserRequest(values));
     };
 
     const validateField = (value: string): string =>

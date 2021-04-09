@@ -10,6 +10,7 @@ const useStyles = makeStyles(() =>
     createStyles({
         root: ({ variant }: IMainLabelProps) => ({
             fontFamily: 'Poppins',
+            wordBreak: 'break-word',
             fontSize: variant === LabelType.PRIMARY ? '24px' : '20px',
             color: '#242126',
             fontWeight: 600,

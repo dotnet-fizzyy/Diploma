@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { DefaultRoute } from '../../../constants/routeConstants';
 import LogoIcon from '../../../static/Icon.svg';
 import { IStory } from '../../../types/storyTypes';
-import { IUser } from '../../../types/userTypes';
+import { IFullUser } from '../../../types/userTypes';
 import SearchField from './SearchField';
 import TabLinks from './TabLinks';
 import TabMenu from './TabMenu';
@@ -41,7 +41,7 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IGeneralTabProps {
-    user: IUser;
+    user: IFullUser;
     searchTerm: string;
     anchor: HTMLElement;
     searchResults: IStory[];
@@ -85,7 +85,7 @@ const GeneralTab = (props: IGeneralTabProps) => {
                         />
                     </div>
                     <div className={classes.mainTabsContainer}>
-                        <TabLinks teamId={user.teamId} />
+                        <TabLinks teamId={user.teamId} projectId={user.projectId} />
                     </div>
                     <TabMenu
                         anchor={anchor}

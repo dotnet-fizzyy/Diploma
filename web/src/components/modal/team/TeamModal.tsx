@@ -1,10 +1,11 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { InitialWorkSpaceFormValues, WorkSpaceFields } from '../../../constants/workSpaceContants';
-import { IWorkSpaceForm } from '../../../types/formTypes';
+import { initialTeamState, teamStateFields } from '../../../constants/teamConstants';
+import { ISelectedItem } from '../../../types/storyTypes';
+import { ITeam } from '../../../types/teamTypes';
 import Button from '../../common/Button';
-import FormTextArea from '../../common/FormTextArea';
+import FormDropdown from '../../common/FormDropdown';
 import FormTextField from '../../common/FormTextField';
 import MainLabel, { LabelType } from '../../common/MainLabel';
 import ModalCloseButtonContainer from '../close-button/ModalCloseButtonContainer';
@@ -13,6 +14,7 @@ const useStyles = makeStyles(() =>
     createStyles({
         root: {
             maxWidth: '500px',
+            maxHeight: '550px',
             width: '100%',
             height: 'max-content',
             backgroundColor: 'white',
@@ -20,66 +22,65 @@ const useStyles = makeStyles(() =>
             flexDirection: 'column',
             borderRadius: '10px',
             padding: '30px',
+            overflowY: 'scroll',
             position: 'relative',
         },
         fieldContainer: {
             marginTop: '20px',
-            width: '100%',
         },
         buttonContainer: {
-            marginTop: '20px',
-            width: '200px',
+            marginTop: '30px',
+            width: '150px',
         },
     })
 );
 
-export interface IWorkSpaceModalProps {
-    onSubmitButton: (values: IWorkSpaceForm) => void;
-    validateWorkSpaceName: (value: string) => void;
+export interface ITeamModalProps {
+    projects: ISelectedItem[];
+    validateField: (value: string) => string;
+    onSubmit: (values: ITeam) => void;
 }
 
-const WorkSpaceModal = (props: IWorkSpaceModalProps) => {
+const TeamModal = (props: ITeamModalProps) => {
     const classes = useStyles();
-    const { onSubmitButton, validateWorkSpaceName } = props;
+    const { projects, validateField, onSubmit } = props;
 
     return (
-        <Formik
-            initialValues={InitialWorkSpaceFormValues}
-            onSubmit={onSubmitButton}
-            validateOnBlur={false}
-            validateOnChange={true}
-        >
+        <Formik initialValues={initialTeamState} onSubmit={onSubmit}>
             {({ isValid, touched }) => {
                 const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
 
                 return (
                     <div className={classes.root}>
                         <Form>
-                            <MainLabel title="Create workspace" variant={LabelType.PRIMARY} />
+                            <MainLabel title="Create a new team" variant={LabelType.PRIMARY} />
                             <ModalCloseButtonContainer />
                             <div className={classes.fieldContainer}>
                                 <Field
                                     label="Name"
-                                    name={WorkSpaceFields.workSpaceName}
+                                    name={teamStateFields.teamName}
                                     component={FormTextField}
-                                    validate={validateWorkSpaceName}
+                                    validate={validateField}
                                 />
                             </div>
                             <div className={classes.fieldContainer}>
                                 <Field
-                                    label="Description"
-                                    placeholder="Add full and clean description for your workspace"
-                                    minHeight="133px"
-                                    name={WorkSpaceFields.workSpaceDescription}
-                                    component={FormTextArea}
+                                    label="Location"
+                                    name={teamStateFields.location}
+                                    component={FormTextField}
+                                    validate={validateField}
+                                />
+                            </div>
+                            <div className={classes.fieldContainer}>
+                                <Field
+                                    label="Project"
+                                    name={teamStateFields.projectId}
+                                    items={projects}
+                                    component={FormDropdown}
                                 />
                             </div>
                             <div className={classes.buttonContainer}>
-                                <Button
-                                    disabled={!isAnyFieldTouched || (isAnyFieldTouched && !isValid)}
-                                    type="submit"
-                                    label="Create Workspace"
-                                />
+                                <Button label="Create team" type="submit" disabled={!isAnyFieldTouched || !isValid} />
                             </div>
                         </Form>
                     </div>
@@ -89,4 +90,4 @@ const WorkSpaceModal = (props: IWorkSpaceModalProps) => {
     );
 };
 
-export default WorkSpaceModal;
+export default TeamModal;

@@ -9,7 +9,7 @@ const useStyles = makeStyles(() =>
     createStyles({
         root: {
             width: '100%',
-            minHeight: '500px',
+            height: '500px',
         },
         header: {
             display: 'flex',
