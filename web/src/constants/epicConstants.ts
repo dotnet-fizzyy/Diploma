@@ -1,6 +1,6 @@
-import { IEpic } from '../types/epicTypes';
+import { IEpicFormTypes } from '../types/epicTypes';
 
-export const epicInitialState: IEpic = {
+export const EpicInitialState: IEpicFormTypes = {
     endDate: new Date(),
     epicDescription: '',
     epicId: '',
@@ -9,7 +9,7 @@ export const epicInitialState: IEpic = {
     startDate: new Date(),
 };
 
-export const epicFields = {
+export const EpicFields = {
     endDate: 'endDate',
     epicDescription: 'epicDescription',
     epicId: 'epicId',

@@ -1,10 +1,8 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import EpicsApi from '../../api/epicsApi';
 import { IEpic } from '../../types/epicTypes';
-import { IProject } from '../../types/projectTypes';
 import * as epicActions from '../actions/epicActions';
 import * as modalActions from '../actions/modalActions';
-import * as projectSelectors from '../selectors/projectSelectors';
 
 function* getEpicsRequest(action: epicActions.IGetEpicsRequest) {
     try {
@@ -18,9 +16,6 @@ function* getEpicsRequest(action: epicActions.IGetEpicsRequest) {
 
 function* createEpic(action: epicActions.ICreateEpicRequest) {
     try {
-        const selectedProject: IProject = yield select(projectSelectors.getProject);
-        action.payload.projectId = selectedProject.projectId;
-
         const createdEpic = yield call(EpicsApi.createEpicForProject, action.payload);
 
         yield put(epicActions.createEpicSuccess(createdEpic));

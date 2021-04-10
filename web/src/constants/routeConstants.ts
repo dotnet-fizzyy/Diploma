@@ -52,7 +52,7 @@ export const SprintUrls = {
 const EpicBaseUrl = `${BaseUrl}/epic`;
 export const EpicUrls = {
     createEpic: EpicBaseUrl,
-    getProjectEpics: `${EpicBaseUrl}/project`,
+    getProjectEpics: `${EpicBaseUrl}/project/id`,
 };
 
 const StoryBaseUrl = `${BaseUrl}/story`;

@@ -2,7 +2,7 @@ import { Modal } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { ModalTypes } from '../../types/modalTypes';
-import EpicCreationContainer from './epic/EpicCreationContainer';
+import EpicModalContainer from './epic/EpicModalContainer';
 import ProjectModalContainer from './project/ProjectModalContainer';
 import SprintCreationContainer from './sprint/SprintCreationContainer';
 import StoryCreationContainer from './story/StoryCreationContainer';
@@ -42,7 +42,7 @@ const ModalWindow = (props: IModalWindowProps) => {
             case ModalTypes.SPRINT:
                 return <SprintCreationContainer />;
             case ModalTypes.EPIC:
-                return <EpicCreationContainer />;
+                return <EpicModalContainer />;
             case ModalTypes.USER_CUSTOMER:
                 return <UserCustomerModalContainer />;
             case ModalTypes.USER_SELF:
