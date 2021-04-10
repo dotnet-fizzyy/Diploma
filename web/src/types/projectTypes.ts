@@ -10,7 +10,7 @@ export interface IProject extends IBaseProject {
     projectDescription: string;
     startDate: Date;
     endDate: Date;
-    customer?: string;
+    customerId?: string;
     teams?: ITeam[];
 }
 

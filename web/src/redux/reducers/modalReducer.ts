@@ -1,6 +1,7 @@
 import * as modalActions from '../actions/modalActions';
 import { UserActions } from '../actions/userActions';
 import { WorkSpaceActions } from '../actions/workSpaceActions';
+import { ProjectActions } from '../actions/projectActions';
 import { IModalState } from '../store/state';
 
 const initialState: IModalState = {
@@ -15,9 +16,10 @@ export default function modalReducer(state = initialState, action: modalActions.
             return handleOpenModal(state, action);
         case modalActions.ModalActions.CLOSE_MODAL:
         case UserActions.CREATE_USER_SUCCESS:
+        case ProjectActions.CREATE_PROJECT_SUCCESS:
         case WorkSpaceActions.CREATE_WORKSPACE_SUCCESS:
         case WorkSpaceActions.UPDATE_WORKSPACE_SUCCESS:
-            return handleCloseModal(state, action);
+            return handleCloseModal(state);
         default:
             return state;
     }
@@ -32,10 +34,11 @@ function handleOpenModal(state: IModalState, action: modalActions.IOpenModal): I
     };
 }
 
-function handleCloseModal(state: IModalState, action: modalActions.ICloseModal): IModalState {
+function handleCloseModal(state: IModalState): IModalState {
     return {
         ...state,
         isOpen: false,
         type: null,
+        option: null,
     };
 }

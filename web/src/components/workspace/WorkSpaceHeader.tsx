@@ -19,8 +19,11 @@ const useStyles = makeStyles(() =>
         },
         settingsHeaderPart: {
             flexGrow: 0,
-            flexBasis: '150px',
+            flexBasis: '180px',
             flexShrink: 0,
+            '& button': {
+                marginBottom: '10px',
+            },
         },
         descriptionContainer: {
             marginTop: '20px',
@@ -49,12 +52,21 @@ export interface IWorkSpaceHeader {
     workSpaceName: string;
     workSpaceDescription: string;
     workSpaceCreationDate: Date;
+    onClickCreateProject: () => void;
+    onClickCreateCustomer: () => void;
     onClickUpdateWorkSpaceInfo: () => void;
 }
 
 const WorkSpaceHeader = (props: IWorkSpaceHeader) => {
     const classes = useStyles();
-    const { workSpaceName, workSpaceDescription, workSpaceCreationDate, onClickUpdateWorkSpaceInfo } = props;
+    const {
+        workSpaceName,
+        workSpaceDescription,
+        workSpaceCreationDate,
+        onClickUpdateWorkSpaceInfo,
+        onClickCreateProject,
+        onClickCreateCustomer,
+    } = props;
 
     return (
         <div className={classes.root}>
@@ -72,6 +84,8 @@ const WorkSpaceHeader = (props: IWorkSpaceHeader) => {
             </div>
             <div className={classes.settingsHeaderPart}>
                 <Button label="Update info" disabled={false} onClick={onClickUpdateWorkSpaceInfo} />
+                <Button label="Create project" disabled={false} onClick={onClickCreateProject} />
+                <Button label="Create customer" disabled={false} onClick={onClickCreateCustomer} />
             </div>
         </div>
     );

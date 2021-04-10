@@ -1,7 +1,6 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import UserApi from '../../api/userApi';
 import { AuthenticationResponse, IJsonPatchBody } from '../../types';
-import { ITeam } from '../../types/teamTypes';
 import { IFullUser, IUser } from '../../types/userTypes';
 import { clearCredentialsFromLocalStorage, setCredentialsToLocalStorage } from '../../utils';
 import { createRequestBodyForUserUpdateLink } from '../../utils/userHelper';
@@ -31,7 +30,6 @@ import {
     IUpdateProfileSettingsRequest,
     UserActions,
 } from '../actions/userActions';
-import { getCurrentTeam } from '../selectors/teamSelectors';
 
 function* authenticateUser(action: IAuthenticationRequest) {
     try {
@@ -75,9 +73,6 @@ function* verifyUser() {
 
 function* createUser(action: ICreateUserRequest) {
     try {
-        const currentTeam: ITeam = yield select(getCurrentTeam);
-        action.payload.teamId = currentTeam.teamId;
-
         const createdUser: IUser = yield call(UserApi.createUser, action.payload);
 
         yield put(createUserSuccess(createdUser));

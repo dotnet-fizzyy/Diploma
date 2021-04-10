@@ -12,7 +12,7 @@ namespace WebAPI.Presentation.Validators
                 .NotEmpty();
             RuleFor(x => x.WorkSpaceId)
                 .NotEmpty()
-                .WithMessage("Project requires customer id");
+                .WithMessage("Project requires workspace id");
             RuleFor(x => x.StartDate)
                 .NotEmpty();
             RuleFor(x => x.EndDate)

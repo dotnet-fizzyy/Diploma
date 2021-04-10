@@ -4,6 +4,7 @@ import { BaseRegexExpression } from '../../../../constants';
 import { CustomerInitialState, UserInitialState } from '../../../../constants/userConstants';
 import { createUserRequest } from '../../../../redux/actions/userActions';
 import { getModalOption } from '../../../../redux/selectors/modalSelectors';
+import { getWorkSpaceId } from '../../../../redux/selectors/workSpaceSelectors';
 import { ModalOptions } from '../../../../types/modalTypes';
 import { IUser } from '../../../../types/userTypes';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formHelper';
@@ -15,10 +16,13 @@ const UserModalContainer = () => {
     const userRoles = createUserRoleDropdownItems();
     const userPositions = createUserPositionDropdownItems();
     const modalOption = useSelector(getModalOption);
+    const workSpaceId: string = useSelector(getWorkSpaceId);
     const initialState = modalOption === ModalOptions.CUSTOMER_CREATION ? CustomerInitialState : UserInitialState;
     const mainLabel: string = 'Create a new team member';
 
     const onClickSubmit = (values: IUser) => {
+        values.workSpaceId = workSpaceId;
+
         dispatch(createUserRequest(values));
     };
 

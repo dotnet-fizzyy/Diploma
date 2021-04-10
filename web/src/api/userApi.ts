@@ -15,6 +15,7 @@ export default class UserApi {
         const mappedUser = {
             userName: user.userName,
             password: user.password,
+            workSpaceId: user.workSpaceId,
             email: user.email,
             userRole: user.userRole.toString(),
             userPosition: user.userPosition.toString(),

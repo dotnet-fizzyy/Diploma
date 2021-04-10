@@ -1,17 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { mockedProjectList } from '../../mock/mockedProject';
-import { mockedTeamList } from '../../mock/mockedTeam';
-import { usersList } from '../../mock/mockedUser';
+import { mockedWorkSpaceTable } from '../../mock/mockedWorkSpace';
 import { openModal } from '../../redux/actions/modalActions';
 import { getUserWorkSpaceRequest } from '../../redux/actions/workSpaceActions';
 import { getWorkSpace, getWorkSpaceIsLoading } from '../../redux/selectors/workSpaceSelectors';
 import { ModalOptions, ModalTypes } from '../../types/modalTypes';
-import { IProjectListItem } from '../../types/projectTypes';
-import { ITeamListItem } from '../../types/teamTypes';
-import { IUserListItem } from '../../types/userTypes';
-import { IWorkSpace } from '../../types/workSpaceTypes';
+import { IWorkSpace, IWorkSpaceTable } from '../../types/workSpaceTypes';
 import WorkSpacePage, { IWorkSpacePageProps } from './WorkSpacePage';
 
 const WorkSpacePageContainer = () => {
@@ -20,9 +15,7 @@ const WorkSpacePageContainer = () => {
 
     const workSpace: IWorkSpace = useSelector(getWorkSpace);
     const isLoading: boolean = useSelector(getWorkSpaceIsLoading);
-    const customersList: IUserListItem[] = usersList;
-    const teamList: ITeamListItem[] = mockedTeamList;
-    const projectList: IProjectListItem[] = mockedProjectList;
+    const workSpaceTable: IWorkSpaceTable = mockedWorkSpaceTable;
 
     const onClickCreateWorkSpace = (): void => {
         dispatch(openModal(ModalTypes.WORKSPACE));
@@ -32,8 +25,8 @@ const WorkSpacePageContainer = () => {
         dispatch(openModal(ModalTypes.PROJECT));
     };
 
-    const onClickCreateTeam = (): void => {
-        dispatch(openModal(ModalTypes.TEAM));
+    const onClickCreateCustomer = (): void => {
+        dispatch(openModal(ModalTypes.USER_CUSTOMER, ModalOptions.CUSTOMER_CREATION));
     };
 
     const onClickUpdateWorkSpaceInfo = (): void => {
@@ -44,14 +37,6 @@ const WorkSpacePageContainer = () => {
         history.push(`/project/${projectId}`);
     };
 
-    const onClickViewTeam = (teamId: string): void => {
-        history.push(`/project/${teamId}`);
-    };
-
-    const onClickCreateCustomer = (): void => {
-        dispatch(openModal(ModalTypes.USER_CUSTOMER, ModalOptions.CUSTOMER_CREATION));
-    };
-
     useEffect(() => {
         dispatch(getUserWorkSpaceRequest());
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -60,16 +45,12 @@ const WorkSpacePageContainer = () => {
     const workSpacePageProps: IWorkSpacePageProps = {
         workSpace,
         isLoading,
-        customersList,
-        teamList,
-        projectList,
+        workSpaceTable,
         onClickCreateWorkSpace,
         onClickUpdateWorkSpaceInfo,
-        onClickCreateCustomer,
         onClickCreateProject,
-        onClickCreateTeam,
+        onClickCreateCustomer,
         onClickViewProject,
-        onClickViewTeam,
     };
 
     return <WorkSpacePage {...workSpacePageProps} />;

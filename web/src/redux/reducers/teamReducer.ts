@@ -1,5 +1,5 @@
-import * as UserActions from '../actions/userActions';
 import * as TeamActions from '../actions/teamActions';
+import * as UserActions from '../actions/userActions';
 import { ITeamState } from '../store/state';
 
 const initialState: ITeamState = {
@@ -55,10 +55,6 @@ function handleSetSelectedTeamById(state: ITeamState, action: TeamActions.ISetSe
 function handleCreateUserSuccess(state: ITeamState, action: UserActions.ICreateUserSuccess): ITeamState {
     return {
         ...state,
-        currentTeam: {
-            ...state.currentTeam,
-            users: state.currentTeam.users.concat(action.payload),
-        },
         teams: state.teams.map((x) => {
             return x.teamId === action.payload.teamId
                 ? {

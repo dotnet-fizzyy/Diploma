@@ -41,7 +41,7 @@ function* getProject(action: IGetProjectRequest) {
 function* createProject(action: projectActions.ICreateProjectRequest) {
     try {
         const currentUser: IUser = yield select(userSelectors.getUser);
-        action.payload.customer = currentUser.userId;
+        action.payload.customerId = currentUser.userId;
 
         const createdProject: IProject = yield call(ProjectApi.createProject, action.payload);
 

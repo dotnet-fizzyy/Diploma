@@ -5,6 +5,10 @@ export function getWorkSpace(state: IState): IWorkSpace {
     return state.workspace.workSpace;
 }
 
+export function getWorkSpaceId(state: IState): string {
+    return state.workspace.workSpace.workSpaceId;
+}
+
 export function getWorkSpaceName(state: IState): string {
     return state.workspace.workSpace.workSpaceName;
 }

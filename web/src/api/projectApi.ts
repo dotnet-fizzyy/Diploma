@@ -25,7 +25,7 @@ export default class ProjectApi {
             projectDescription: project.projectDescription,
             startDate: new Date(project.startDate),
             endDate: new Date(project.endDate),
-            customer: project.customer,
+            workSpaceId: project.workSpaceId,
         };
 
         const response: AxiosResponse<IProject> = await AxiosBaseApi.axiosPost(
@@ -50,7 +50,7 @@ export default class ProjectApi {
             projectDescription: data.projectDescription,
             startDate: new Date(data.startDate),
             endDate: new Date(data.endDate),
-            customer: data.customer,
+            customerId: data.customer.customerId,
             workSpaceId: data.workSpaceId,
         };
     }

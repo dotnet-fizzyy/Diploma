@@ -1,10 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import Button from '../../components/common/Button';
-import { IProjectListItem } from '../../types/projectTypes';
-import { ITeamListItem } from '../../types/teamTypes';
-import { IUserListItem } from '../../types/userTypes';
-import { IWorkSpace } from '../../types/workSpaceTypes';
+import { IWorkSpace, IWorkSpaceTable } from '../../types/workSpaceTypes';
 import WorkSpacePageDescription from './WorkSpacePageDescription';
 
 const useStyles = makeStyles(() =>
@@ -29,18 +26,14 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IWorkSpacePageProps {
-    customersList: IUserListItem[];
-    teamList: ITeamListItem[];
-    projectList: IProjectListItem[];
     workSpace: IWorkSpace;
+    workSpaceTable: IWorkSpaceTable;
     isLoading: boolean;
     onClickCreateWorkSpace: () => void;
-    onClickCreateTeam: () => void;
     onClickCreateProject: () => void;
-    onClickUpdateWorkSpaceInfo: () => void;
     onClickCreateCustomer: () => void;
+    onClickUpdateWorkSpaceInfo: () => void;
     onClickViewProject: (projectId: string) => void;
-    onClickViewTeam: (teamId: string) => void;
 }
 
 const WorkSpacePage = (props: IWorkSpacePageProps) => {
@@ -48,16 +41,12 @@ const WorkSpacePage = (props: IWorkSpacePageProps) => {
     const {
         isLoading,
         workSpace,
-        teamList,
-        projectList,
-        customersList,
+        workSpaceTable,
         onClickCreateWorkSpace,
         onClickUpdateWorkSpaceInfo,
-        onClickCreateCustomer,
         onClickViewProject,
-        onClickViewTeam,
+        onClickCreateCustomer,
         onClickCreateProject,
-        onClickCreateTeam,
     } = props;
 
     return (
@@ -67,16 +56,12 @@ const WorkSpacePage = (props: IWorkSpacePageProps) => {
             )}
             {!isLoading && workSpace && workSpace.workSpaceId && (
                 <WorkSpacePageDescription
-                    teamList={teamList}
-                    projectList={projectList}
-                    customersList={customersList}
                     workSpace={workSpace}
+                    workSpaceTable={workSpaceTable}
                     onClickUpdateWorkSpaceInfo={onClickUpdateWorkSpaceInfo}
-                    onClickCreateCustomer={onClickCreateCustomer}
-                    onClickViewTeam={onClickViewTeam}
                     onClickViewProject={onClickViewProject}
                     onClickCreateProject={onClickCreateProject}
-                    onClickCreateTeam={onClickCreateTeam}
+                    onClickCreateCustomer={onClickCreateCustomer}
                 />
             )}
         </div>

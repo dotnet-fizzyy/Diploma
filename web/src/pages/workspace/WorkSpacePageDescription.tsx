@@ -1,12 +1,8 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import CustomersList from '../../components/workspace/CustomersList';
 import WorkSpaceHeader from '../../components/workspace/WorkSpaceHeader';
-import WorkSpaceList from '../../components/workspace/WorkSpaceList';
-import { IProjectListItem } from '../../types/projectTypes';
-import { ITeamListItem } from '../../types/teamTypes';
-import { IUserListItem } from '../../types/userTypes';
-import { IWorkSpace } from '../../types/workSpaceTypes';
+import WorkSpaceTable from '../../components/workspace/WorkSpaceTable';
+import { IWorkSpace, IWorkSpaceTable } from '../../types/workSpaceTypes';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -18,50 +14,30 @@ const useStyles = makeStyles(() =>
         body: {
             padding: '30px',
         },
-        customerList: {
-            margin: '50px 0',
-        },
-        listsContainer: {
-            display: 'flex',
-            flexDirection: 'row',
-        },
-        list: {
-            flexGrow: 1,
-            flexShrink: 0,
-            flexBasis: 0,
-            '&:first-child': {
-                marginRight: '30px',
-            },
+        table: {
+            marginTop: '50px',
         },
     })
 );
 
 export interface IWorkSpacePageDescriptionProps {
-    teamList: ITeamListItem[];
-    projectList: IProjectListItem[];
-    customersList: IUserListItem[];
     workSpace: IWorkSpace;
+    workSpaceTable: IWorkSpaceTable;
     onClickUpdateWorkSpaceInfo: () => void;
-    onClickCreateTeam: () => void;
     onClickCreateProject: () => void;
     onClickCreateCustomer: () => void;
     onClickViewProject: (projectId: string) => void;
-    onClickViewTeam: (teamId: string) => void;
 }
 
 const WorkSpacePageDescription = (props: IWorkSpacePageDescriptionProps) => {
     const classes = useStyles();
     const {
-        customersList,
-        projectList,
-        teamList,
         workSpace: { workSpaceName, workSpaceDescription, creationDate },
+        workSpaceTable,
         onClickUpdateWorkSpaceInfo,
-        onClickCreateCustomer,
         onClickViewProject,
-        onClickViewTeam,
         onClickCreateProject,
-        onClickCreateTeam,
+        onClickCreateCustomer,
     } = props;
 
     return (
@@ -72,29 +48,11 @@ const WorkSpacePageDescription = (props: IWorkSpacePageDescriptionProps) => {
                     workSpaceDescription={workSpaceDescription}
                     workSpaceCreationDate={creationDate}
                     onClickUpdateWorkSpaceInfo={onClickUpdateWorkSpaceInfo}
+                    onClickCreateProject={onClickCreateProject}
+                    onClickCreateCustomer={onClickCreateCustomer}
                 />
-                <div className={classes.customerList}>
-                    <CustomersList customersList={customersList} onClickCreateCustomer={onClickCreateCustomer} />
-                </div>
-                <div className={classes.listsContainer}>
-                    <div className={classes.list}>
-                        <WorkSpaceList
-                            label="Projects"
-                            listItems={projectList}
-                            onClickViewProject={onClickViewProject}
-                            onClickViewTeam={onClickViewTeam}
-                            onClickCreate={onClickCreateProject}
-                        />
-                    </div>
-                    <div className={classes.list}>
-                        <WorkSpaceList
-                            label="Teams"
-                            listItems={teamList}
-                            onClickViewProject={onClickViewProject}
-                            onClickViewTeam={onClickViewTeam}
-                            onClickCreate={onClickCreateTeam}
-                        />
-                    </div>
+                <div className={classes.table}>
+                    <WorkSpaceTable workSpaceTable={workSpaceTable} onClickViewProject={onClickViewProject} />
                 </div>
             </div>
         </div>
