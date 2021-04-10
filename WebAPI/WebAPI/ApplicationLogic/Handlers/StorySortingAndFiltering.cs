@@ -8,7 +8,7 @@ using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Handlers;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models;
-using WebAPI.Models.Result;
+using WebAPI.Models.Models.Result;
 
 namespace WebAPI.ApplicationLogic.Handlers
 {

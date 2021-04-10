@@ -1,3 +1,5 @@
+using WebAPI.Models.Models.Result;
+
 namespace WebAPI.Core.Interfaces.Mappers
 {
     public interface ISprintMapper
@@ -6,6 +8,6 @@ namespace WebAPI.Core.Interfaces.Mappers
         
         WebAPI.Models.Models.Sprint MapToModel(WebAPI.Core.Entities.Sprint sprint);
         
-        WebAPI.Models.Result.FullSprint MapToFullModel(WebAPI.Core.Entities.Sprint sprint);
+        FullSprint MapToFullModel(WebAPI.Core.Entities.Sprint sprint);
     }
 }

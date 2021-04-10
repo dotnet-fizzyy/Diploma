@@ -1,3 +1,5 @@
+using WebAPI.Models.Models.Result;
+
 namespace WebAPI.Core.Interfaces.Mappers
 {
     public interface IStoryMapper
@@ -6,6 +8,6 @@ namespace WebAPI.Core.Interfaces.Mappers
         
         WebAPI.Models.Models.Story MapToModel(WebAPI.Core.Entities.Story story);
         
-        WebAPI.Models.Result.FullStory MapToFullModel(WebAPI.Core.Entities.Story story);
+        FullStory MapToFullModel(WebAPI.Core.Entities.Story story);
     }
 }

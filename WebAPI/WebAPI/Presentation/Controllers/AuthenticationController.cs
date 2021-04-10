@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models;
 using WebAPI.Models.Models.Authentication;
-using WebAPI.Models.Result;
+using WebAPI.Models.Models.Result;
 
 namespace WebAPI.Presentation.Controllers
 {

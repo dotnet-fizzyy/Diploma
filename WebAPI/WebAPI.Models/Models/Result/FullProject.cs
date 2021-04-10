@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using WebAPI.Models.Models;
 
-namespace WebAPI.Models.Result
+namespace WebAPI.Models.Models.Result
 {
     public class FullProject : Project
     {

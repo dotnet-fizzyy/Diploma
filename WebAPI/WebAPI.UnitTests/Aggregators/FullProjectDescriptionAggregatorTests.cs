@@ -4,7 +4,7 @@ using System.Linq;
 using FakeItEasy;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Mappers;
-using WebAPI.Models.Result;
+using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Aggregators;
 using Xunit;
 using Epic = WebAPI.Core.Entities.Epic;

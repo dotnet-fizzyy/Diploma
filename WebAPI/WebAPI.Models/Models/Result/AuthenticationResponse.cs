@@ -1,6 +1,4 @@
-using WebAPI.Models.Models;
-
-namespace WebAPI.Models.Result
+namespace WebAPI.Models.Models.Result
 {
     public class AuthenticationResponse
     {

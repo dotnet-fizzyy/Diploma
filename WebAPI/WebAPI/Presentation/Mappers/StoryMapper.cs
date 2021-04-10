@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Mappers;
-using WebAPI.Models.Result;
+using WebAPI.Models.Models.Result;
 using ColumnType = WebAPI.Core.Enums.ColumnType;
 using StoryPriority = WebAPI.Core.Enums.StoryPriority;
 

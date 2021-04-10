@@ -11,7 +11,7 @@ using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Models;
 using WebAPI.Models.Models;
-using WebAPI.Models.Result;
+using WebAPI.Models.Models.Result;
 
 namespace WebAPI.ApplicationLogic.Services
 {

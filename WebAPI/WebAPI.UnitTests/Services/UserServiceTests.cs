@@ -9,7 +9,7 @@ using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Providers;
-using WebAPI.Models.Result;
+using WebAPI.Models.Models.Result;
 using Xunit;
 
 namespace WebAPI.UnitTests.Services

@@ -1,3 +1,5 @@
+using WebAPI.Models.Models.Result;
+
 namespace WebAPI.Core.Interfaces.Mappers
 {
     public interface IUserMapper
@@ -10,6 +12,6 @@ namespace WebAPI.Core.Interfaces.Mappers
         
         Entities.User MapToEntity(WebAPI.Models.Models.Authentication.SignInUser user);
         
-        WebAPI.Models.Result.FullUser MapToFullModel(Entities.User user, Entities.Project project, Entities.Team team);
+        FullUser MapToFullModel(Entities.User user, Entities.Project project, Entities.Team team);
     }
 }

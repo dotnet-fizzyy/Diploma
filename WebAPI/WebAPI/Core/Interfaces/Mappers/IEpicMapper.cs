@@ -1,3 +1,5 @@
+using WebAPI.Models.Models.Result;
+
 namespace WebAPI.Core.Interfaces.Mappers
 {
     public interface IEpicMapper
@@ -6,6 +8,6 @@ namespace WebAPI.Core.Interfaces.Mappers
         
         WebAPI.Models.Models.Epic MapToModel(WebAPI.Core.Entities.Epic epic);
         
-        WebAPI.Models.Result.FullEpic MapToFullModel(WebAPI.Core.Entities.Epic epic);
+        FullEpic MapToFullModel(WebAPI.Core.Entities.Epic epic);
     }
 }

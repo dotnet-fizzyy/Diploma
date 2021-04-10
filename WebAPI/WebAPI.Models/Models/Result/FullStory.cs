@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using WebAPI.Models.Enums;
-using WebAPI.Models.Models;
 
-namespace WebAPI.Models.Result
+namespace WebAPI.Models.Models.Result
 {
     public class FullStory
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace WebAPI.Models.Result
+namespace WebAPI.Models.Models.Result
 {
     public class CollectionResponse<T> where T : class
     {

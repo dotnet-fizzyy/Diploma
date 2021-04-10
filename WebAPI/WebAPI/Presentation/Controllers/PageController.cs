@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,20 @@ namespace WebAPI.Presentation.Controllers
         [HttpGet]
         [Route("story-history")]
         public IActionResult GetStoryHistoryPageData()
+        {
+            return Ok();
+        }
+        
+        [HttpGet]
+        [Route("project/{projectId}")]
+        public IActionResult GetProjectPageIndex(Guid projectId)
+        {
+            return Ok();
+        }
+        
+        [HttpGet]
+        [Route("team/{teamId}")]
+        public IActionResult GetTeamPageIndex(Guid projectId)
         {
             return Ok();
         }

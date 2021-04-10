@@ -1,7 +1,7 @@
 using System.Linq;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Mappers;
-using WebAPI.Models.Result;
+using WebAPI.Models.Models.Result;
 
 namespace WebAPI.Presentation.Mappers
 {

@@ -8,7 +8,7 @@ using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Models.Models.Authentication;
-using WebAPI.Models.Result;
+using WebAPI.Models.Models.Result;
 
 namespace WebAPI.ApplicationLogic.Providers
 {
