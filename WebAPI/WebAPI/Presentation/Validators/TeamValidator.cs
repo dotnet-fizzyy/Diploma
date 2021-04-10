@@ -13,9 +13,6 @@ namespace WebAPI.Presentation.Validators
             RuleFor(x => x.TeamName)
                 .NotNull()
                 .NotEmpty();
-            RuleFor(x => x.CustomerId)
-                .NotEmpty()
-                .WithMessage("Team requires customer id");
         }
     }
 }

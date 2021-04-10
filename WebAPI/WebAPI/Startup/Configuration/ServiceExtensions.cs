@@ -77,7 +77,7 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<IFullProjectDescriptionAggregator, FullProjectDescriptionAggregator>();
             services.AddTransient<IStoryAggregator, StoryAggregator>();
             services.AddTransient<IRefreshTokenAggregator, RefreshTokenAggregator>();
-            services.AddTransient<IWorkSpaceAggregator, WorkSpaceAggregator>();
+            services.AddTransient<IPageAggregator, PageAggregator>();
             
             //Filters
             services.AddTransient<UserAuthorizationFilter>();

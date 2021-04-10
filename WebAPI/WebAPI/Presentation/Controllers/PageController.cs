@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models.Pages;
+using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Filters;
 
 namespace WebAPI.Presentation.Controllers
@@ -47,16 +48,20 @@ namespace WebAPI.Presentation.Controllers
         
         [HttpGet]
         [Route("project/{projectId}")]
-        public IActionResult GetProjectPageIndex(Guid projectId)
+        public async Task<ActionResult<ProjectPage>> GetProjectPageIndex(Guid projectId)
         {
-            return Ok();
+            var userProject = await _pageService.GetProjectPageData(projectId);
+            
+            return userProject;
         }
         
         [HttpGet]
         [Route("team/{teamId}")]
-        public IActionResult GetTeamPageIndex(Guid projectId)
+        public async Task<ActionResult<FullTeam>> GetTeamPageIndex(Guid teamId)
         {
-            return Ok();
+            var userTeam = await _pageService.GetTeamPageData(teamId);
+        
+            return userTeam;
         }
 
         [HttpGet]

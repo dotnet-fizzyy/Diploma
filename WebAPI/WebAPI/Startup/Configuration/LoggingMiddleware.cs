@@ -20,13 +20,21 @@ namespace WebAPI.Startup.Configuration
         {
             try
             {
-                await _next(context);
+                context.Request.EnableBuffering();
+                var jsonBody = string.Empty;
+
+                if (context.Request != null && context.Request.Body != null)
+                {
+                    context.Request.EnableBuffering();
+                    jsonBody = await new StreamReader(context.Request.Body).ReadToEndAsync();
+                    context.Request.Body.Position = 0;
+                }
+                
+                _logger.LogInformation($"Request {context.Request?.Method} {context.Request?.Path.Value} {jsonBody} => {context.Response?.StatusCode}");
             }
             finally
             {
-                var jsonBody = await new StreamReader(context.Request?.Body!).ReadToEndAsync();
-
-                _logger.LogInformation($"Request {context.Request?.Method} {context.Request?.Path.Value} {jsonBody} => {context.Response?.StatusCode}");
+                await _next(context);
             }
         }  
     }
