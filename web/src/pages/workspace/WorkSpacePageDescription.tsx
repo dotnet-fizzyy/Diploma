@@ -1,6 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import WorkSpaceHeader from '../../components/workspace/WorkSpaceHeader';
+import Button from '../../components/common/Button';
+import PageHeaderTab from '../../components/header/page-header/PageHeaderTab';
 import WorkSpaceTable from '../../components/workspace/WorkSpaceTable';
 import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
 
@@ -43,14 +44,15 @@ const WorkSpacePageDescription = (props: IWorkSpacePageDescriptionProps) => {
     return (
         <div className={classes.root}>
             <div className={classes.body}>
-                <WorkSpaceHeader
-                    workSpaceName={workSpaceName}
-                    workSpaceDescription={workSpaceDescription}
-                    workSpaceCreationDate={creationDate}
-                    onClickUpdateWorkSpaceInfo={onClickUpdateWorkSpaceInfo}
-                    onClickCreateProject={onClickCreateProject}
-                    onClickCreateCustomer={onClickCreateCustomer}
-                />
+                <PageHeaderTab
+                    title={workSpaceName}
+                    description={workSpaceDescription}
+                    creationDate={creationDate}
+                    onClickUpdateInfo={onClickUpdateWorkSpaceInfo}
+                >
+                    <Button label="Create project" disabled={false} onClick={onClickCreateProject} />
+                    <Button label="Create customer" disabled={false} onClick={onClickCreateCustomer} />
+                </PageHeaderTab>
                 <div className={classes.table}>
                     <WorkSpaceTable workSpaceProjects={workSpaceProjects} onClickViewProject={onClickViewProject} />
                 </div>

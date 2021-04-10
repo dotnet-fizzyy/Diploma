@@ -6,6 +6,7 @@ import moment from 'moment';
 import React from 'react';
 import { IEpic } from '../../../types/epicTypes';
 import { ISprint } from '../../../types/sprintTypes';
+import PageHeaderTab from '../../header/page-header/PageHeaderTab';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -13,9 +14,9 @@ const useStyles = makeStyles(() =>
             width: '100%',
             height: '100%',
             backgroundColor: '#FAFAFA',
+            padding: '30px',
         },
         mainContainer: {
-            padding: '30px',
             display: 'flex',
             flexDirection: 'row',
             height: '100%',
@@ -142,6 +143,7 @@ const ProjectManagement = (props: IProjectManagementProps) => {
 
     return (
         <div className={classes.root}>
+            <PageHeaderTab title="Test" description="TestDesc" creationDate={new Date()} onClickUpdateInfo={null} />
             <div className={classes.mainContainer}>
                 <div className={classes.infoPartContainer}>
                     <span className={classes.header}>Epics</span>

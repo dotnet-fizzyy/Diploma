@@ -2,9 +2,9 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import moment from 'moment';
 import React from 'react';
-import { DateFormat } from '../../constants';
-import Button from '../common/Button';
-import MainLabel, { LabelType } from '../common/MainLabel';
+import { DateFormat } from '../../../constants';
+import Button from '../../common/Button';
+import MainLabel, { LabelType } from '../../common/MainLabel';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -48,47 +48,36 @@ const useStyles = makeStyles(() =>
     })
 );
 
-export interface IWorkSpaceHeader {
-    workSpaceName: string;
-    workSpaceDescription: string;
-    workSpaceCreationDate: Date;
-    onClickCreateProject: () => void;
-    onClickCreateCustomer: () => void;
-    onClickUpdateWorkSpaceInfo: () => void;
+export interface IPageHeaderTab {
+    title: string;
+    description: string;
+    creationDate: Date;
+    children?: React.ReactNode;
+    onClickUpdateInfo: () => void;
 }
 
-const WorkSpaceHeader = (props: IWorkSpaceHeader) => {
+const PageHeaderTab = (props: IPageHeaderTab) => {
     const classes = useStyles();
-    const {
-        workSpaceName,
-        workSpaceDescription,
-        workSpaceCreationDate,
-        onClickUpdateWorkSpaceInfo,
-        onClickCreateProject,
-        onClickCreateCustomer,
-    } = props;
+    const { children, title, creationDate, description, onClickUpdateInfo } = props;
 
     return (
         <div className={classes.root}>
             <div className={classes.descriptionHeaderPart}>
-                <MainLabel title={workSpaceName} variant={LabelType.PRIMARY} />
+                <MainLabel title={title} variant={LabelType.PRIMARY} />
                 <span className={classnames(classes.text, classes.creationDate)}>
-                    Creation date: {moment(workSpaceCreationDate).format(DateFormat)}
+                    Creation date: {moment(creationDate).format(DateFormat)}
                 </span>
                 <div className={classes.descriptionContainer}>
                     <span className={classnames(classes.text, classes.descriptionLabel)}>Description</span>
-                    <span className={classnames(classes.text, classes.descriptionText)}>
-                        {workSpaceDescription || '-'}
-                    </span>
+                    <span className={classnames(classes.text, classes.descriptionText)}>{description || '-'}</span>
                 </div>
             </div>
             <div className={classes.settingsHeaderPart}>
-                <Button label="Update info" disabled={false} onClick={onClickUpdateWorkSpaceInfo} />
-                <Button label="Create project" disabled={false} onClick={onClickCreateProject} />
-                <Button label="Create customer" disabled={false} onClick={onClickCreateCustomer} />
+                <Button label="Update info" disabled={false} onClick={onClickUpdateInfo} />
+                {children}
             </div>
         </div>
     );
 };
 
-export default WorkSpaceHeader;
+export default PageHeaderTab;
