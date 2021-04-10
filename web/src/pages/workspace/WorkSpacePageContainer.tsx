@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { mockedWorkSpaceTable } from '../../mock/mockedWorkSpace';
 import { openModal } from '../../redux/actions/modalActions';
 import { getUserWorkSpaceRequest } from '../../redux/actions/workSpaceActions';
-import { getWorkSpace, getWorkSpaceIsLoading } from '../../redux/selectors/workSpaceSelectors';
+import { getWorkSpace, getWorkSpaceIsLoading, getWorkSpaceProjects } from '../../redux/selectors/workSpaceSelectors';
 import { ModalOptions, ModalTypes } from '../../types/modalTypes';
-import { IWorkSpace, IWorkSpaceTable } from '../../types/workSpaceTypes';
+import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
 import WorkSpacePage, { IWorkSpacePageProps } from './WorkSpacePage';
 
 const WorkSpacePageContainer = () => {
@@ -15,7 +14,7 @@ const WorkSpacePageContainer = () => {
 
     const workSpace: IWorkSpace = useSelector(getWorkSpace);
     const isLoading: boolean = useSelector(getWorkSpaceIsLoading);
-    const workSpaceTable: IWorkSpaceTable = mockedWorkSpaceTable;
+    const workSpaceProjects: IWorkSpacePageProject[] = useSelector(getWorkSpaceProjects);
 
     const onClickCreateWorkSpace = (): void => {
         dispatch(openModal(ModalTypes.WORKSPACE));
@@ -45,7 +44,7 @@ const WorkSpacePageContainer = () => {
     const workSpacePageProps: IWorkSpacePageProps = {
         workSpace,
         isLoading,
-        workSpaceTable,
+        workSpaceProjects,
         onClickCreateWorkSpace,
         onClickUpdateWorkSpaceInfo,
         onClickCreateProject,

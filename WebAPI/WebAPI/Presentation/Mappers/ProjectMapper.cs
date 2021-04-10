@@ -1,6 +1,7 @@
 using System.Linq;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Mappers;
+using WebAPI.Models.Models.Simple;
 using WebAPI.Models.Result;
 
 namespace WebAPI.Presentation.Mappers
@@ -76,6 +77,22 @@ namespace WebAPI.Presentation.Mappers
             };
 
             return projectFullModel;
+        }
+
+        public ProjectSimpleModel MapToSimpleModel(Project project)
+        {
+            if (project == null)
+            {
+                return new ProjectSimpleModel();
+            }
+
+            var simpleModel = new ProjectSimpleModel
+            {
+                ProjectId = project.Id,
+                ProjectName = project.ProjectName,
+            };
+
+            return simpleModel;
         }
     }
 }

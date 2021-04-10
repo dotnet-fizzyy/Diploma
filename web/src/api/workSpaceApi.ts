@@ -1,13 +1,13 @@
 import { AxiosResponse } from 'axios';
 import { WorkSpaceUrls } from '../constants/routeConstants';
-import { IWorkSpace } from '../types/workSpaceTypes';
+import { IWorkSpace, IWorkSpacePage } from '../types/workSpaceTypes';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class WorkSpaceApi {
-    public static async getUserWorkSpace(): Promise<IWorkSpace> {
-        const response: AxiosResponse<IWorkSpace> = await AxiosBaseApi.axiosGet(WorkSpaceUrls.userWorkSpace);
+    public static async getUserWorkSpace(): Promise<IWorkSpacePage> {
+        const response: AxiosResponse<IWorkSpacePage> = await AxiosBaseApi.axiosGet(WorkSpaceUrls.workSpacePage);
 
-        return WorkSpaceApi.mapToModel(response.data);
+        return response.data;
     }
 
     public static async createWorkSpace(workSpace: IWorkSpace): Promise<IWorkSpace> {

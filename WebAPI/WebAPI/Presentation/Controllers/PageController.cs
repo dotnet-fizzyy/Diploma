@@ -1,11 +1,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
-using WebAPI.Models.Models;
-using WebAPI.Models.Result;
+using WebAPI.Models.Models.Pages;
 using WebAPI.Presentation.Filters;
 
 namespace WebAPI.Presentation.Controllers
@@ -45,25 +43,16 @@ namespace WebAPI.Presentation.Controllers
         {
             return Ok();
         }
-        
-        /// <summary>
-        /// Receive projects belong to user for projects page
-        /// </summary>
-        /// <response code="200">Received projects belong to user for projects page</response>
-        /// <response code="400">Unable to receive user id and role</response>
-        /// <response code="401">Failed authentication</response>
+
         [HttpGet]
-        [Route("projects")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CollectionResponse<Project>>> GetUserProjectsDataIndex()
+        [Route("workspace")]
+        public async Task<ActionResult<WorkSpacePage>> GetWorkSpacePageIndex()
         {
             var user = _claimsReader.GetUserClaims(User);
 
-            var userProjects = await _pageService.GetUserProjects(user);
-            
-            return userProjects;
+            var userWorkSpace = await _pageService.GetUserWorkSpacePageData(user);
+
+            return userWorkSpace;
         }
     }
 }

@@ -1,4 +1,4 @@
-import { IWorkSpace } from '../../types/workSpaceTypes';
+import { IWorkSpace, IWorkSpacePage } from '../../types/workSpaceTypes';
 
 export const WorkSpaceActions = {
     GET_USER_WORKSPACE_REQUEST: 'GET_USER_WORKSPACE_REQUEST',
@@ -19,7 +19,7 @@ export interface IGetUserWorkspaceRequest {
 
 export interface IGetUserWorkspaceSuccess {
     type: typeof WorkSpaceActions.GET_USER_WORKSPACE_SUCCESS;
-    payload: IWorkSpace;
+    payload: IWorkSpacePage;
 }
 
 export interface IGetUserWorkspaceFailure {
@@ -64,7 +64,7 @@ export function getUserWorkSpaceRequest(): IGetUserWorkspaceRequest {
     };
 }
 
-export function getUserWorkSpaceSuccess(workSpace: IWorkSpace): IGetUserWorkspaceSuccess {
+export function getUserWorkSpaceSuccess(workSpace: IWorkSpacePage): IGetUserWorkspaceSuccess {
     return {
         type: WorkSpaceActions.GET_USER_WORKSPACE_SUCCESS,
         payload: workSpace,

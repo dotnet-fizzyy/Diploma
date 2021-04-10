@@ -25,5 +25,14 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 
             return foundProjects;
         }
+
+        public async Task<List<Project>> GetProjectWithTeamsByWorkSpaceIdAsync(Guid workSpaceId)
+        {
+            var query = _dbContext.Projects.Where(x => x.WorkSpaceId == workSpaceId).Include(x => x.Teams);
+
+            var foundProjects = await query.ToListAsync();
+
+            return foundProjects;
+        }
     }
 }

@@ -1,4 +1,4 @@
-import { IWorkSpace } from '../../types/workSpaceTypes';
+import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
 import { IState } from '../store/state';
 
 export function getWorkSpace(state: IState): IWorkSpace {
@@ -23,4 +23,8 @@ export function getWorkSpaceDate(state: IState): Date {
 
 export function getWorkSpaceIsLoading(state: IState): boolean {
     return state.workspace.isLoading;
+}
+
+export function getWorkSpaceProjects(state: IState): IWorkSpacePageProject[] {
+    return state.workspace.projects;
 }

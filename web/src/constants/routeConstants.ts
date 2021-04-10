@@ -29,6 +29,11 @@ export const SignUpUrl = `${BaseUrl}/auth/sign-up`;
 
 export const CustomerUrl = BaseUrl + '/customer';
 
+const PageBaseUrl = `${BaseUrl}/page`;
+const PageUrls = {
+    getWorkSpacePage: `${PageBaseUrl}/workspace`,
+};
+
 const UserBaseUrl = `${BaseUrl}/user`;
 export const UserUrls = {
     getUserByToken: UserBaseUrl,
@@ -81,6 +86,7 @@ export const TeamUrls = {
 
 const WorkSpaceBaseUrl = `${BaseUrl}/workspace`;
 export const WorkSpaceUrls = {
+    workSpacePage: PageUrls.getWorkSpacePage,
     updateWorkSpace: WorkSpaceBaseUrl,
     userWorkSpace: `${WorkSpaceBaseUrl}/user`,
     createWorkSpace: `${WorkSpaceBaseUrl}/user`,

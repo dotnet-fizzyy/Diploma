@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import Button from '../../components/common/Button';
-import { IWorkSpace, IWorkSpaceTable } from '../../types/workSpaceTypes';
+import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
 import WorkSpacePageDescription from './WorkSpacePageDescription';
 
 const useStyles = makeStyles(() =>
@@ -27,7 +27,7 @@ const useStyles = makeStyles(() =>
 
 export interface IWorkSpacePageProps {
     workSpace: IWorkSpace;
-    workSpaceTable: IWorkSpaceTable;
+    workSpaceProjects: IWorkSpacePageProject[];
     isLoading: boolean;
     onClickCreateWorkSpace: () => void;
     onClickCreateProject: () => void;
@@ -41,7 +41,7 @@ const WorkSpacePage = (props: IWorkSpacePageProps) => {
     const {
         isLoading,
         workSpace,
-        workSpaceTable,
+        workSpaceProjects,
         onClickCreateWorkSpace,
         onClickUpdateWorkSpaceInfo,
         onClickViewProject,
@@ -51,13 +51,13 @@ const WorkSpacePage = (props: IWorkSpacePageProps) => {
 
     return (
         <div className={classes.root}>
-            {!isLoading && !workSpace.workSpaceId && (
+            {!isLoading && workSpace && !workSpace.workSpaceId && (
                 <Button label="Create Workspace" disabled={false} onClick={onClickCreateWorkSpace} />
             )}
             {!isLoading && workSpace && workSpace.workSpaceId && (
                 <WorkSpacePageDescription
                     workSpace={workSpace}
-                    workSpaceTable={workSpaceTable}
+                    workSpaceProjects={workSpaceProjects}
                     onClickUpdateWorkSpaceInfo={onClickUpdateWorkSpaceInfo}
                     onClickViewProject={onClickViewProject}
                     onClickCreateProject={onClickCreateProject}

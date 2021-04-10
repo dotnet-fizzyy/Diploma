@@ -1,11 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import WorkSpaceApi from '../../api/workSpaceApi';
-import { IWorkSpace } from '../../types/workSpaceTypes';
+import { IWorkSpace, IWorkSpacePage } from '../../types/workSpaceTypes';
 import * as WorkSpaceActions from '../actions/workSpaceActions';
 
 function* getUserWorkSpace() {
     try {
-        const createdWorkSpace: IWorkSpace = yield call(WorkSpaceApi.getUserWorkSpace);
+        const createdWorkSpace: IWorkSpacePage = yield call(WorkSpaceApi.getUserWorkSpace);
 
         yield put(WorkSpaceActions.getUserWorkSpaceSuccess(createdWorkSpace));
     } catch (error) {

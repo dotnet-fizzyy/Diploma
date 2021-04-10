@@ -1,10 +1,7 @@
-import { Avatar, Tooltip } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import React from 'react';
-import { IUserListItem } from '../../types/userTypes';
-import { IWorkSpaceTable } from '../../types/workSpaceTypes';
-import { getFirstNameLetter } from '../../utils';
+import { IWorkSpacePageProject } from '../../types/workSpaceTypes';
 import Button from '../common/Button';
 
 const useStyles = makeStyles(() =>
@@ -56,23 +53,13 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IWorkSpaceTableProps {
-    workSpaceTable: IWorkSpaceTable;
+    workSpaceProjects: IWorkSpacePageProject[];
     onClickViewProject: (projectId: string) => void;
 }
 
 const WorkSpaceTable = (props: IWorkSpaceTableProps) => {
     const classes = useStyles();
-    const { workSpaceTable, onClickViewProject } = props;
-
-    const getCustomerItem = (customer: IUserListItem): React.ReactNode => (
-        <div className={classes.customerItemContainer} key={customer.userId}>
-            <Tooltip title={customer.userName}>
-                <Avatar className={classes.avatar} src={customer.avatarLink}>
-                    {getFirstNameLetter(customer.userName)}
-                </Avatar>
-            </Tooltip>
-        </div>
-    );
+    const { workSpaceProjects, onClickViewProject } = props;
 
     return (
         <div className={classes.root}>
@@ -83,34 +70,26 @@ const WorkSpaceTable = (props: IWorkSpaceTableProps) => {
                 <div className={classes.cell}>
                     <span className={classnames(classes.text, classes.header)}>Teams</span>
                 </div>
-                <div className={classes.cell}>
-                    <span className={classnames(classes.text, classes.header)}>Customers</span>
-                </div>
                 <div className={classes.cell} />
             </div>
-            {workSpaceTable && workSpaceTable.items && workSpaceTable.items.length
-                ? workSpaceTable.items.map(({ project, teams, customer }) => (
-                      <div key={project.projectId} className={classes.row}>
+            {workSpaceProjects && workSpaceProjects.length
+                ? workSpaceProjects.map(({ projectId, projectName, teams }) => (
+                      <div key={projectId} className={classes.row}>
                           <div className={classes.cell}>
-                              <span className={classes.text}>{project.projectName}</span>
+                              <span className={classes.text}>{projectName}</span>
                           </div>
                           <div className={classes.cell}>
                               <span className={classes.text}>
-                                  {teams && teams.length
-                                      ? teams.map((x) => <div key={x.teamId}>{x.teamName}</div>)
-                                      : null}
+                                  {teams && teams.length ? (
+                                      teams.map((x) => <div key={x.teamId}>{x.teamName}</div>)
+                                  ) : (
+                                      <span>-</span>
+                                  )}
                               </span>
                           </div>
                           <div className={classes.cell}>
-                              <span className={classes.text}>{getCustomerItem(customer)}</span>
-                          </div>
-                          <div className={classes.cell}>
                               <div className={classes.buttonContainer}>
-                                  <Button
-                                      label="View"
-                                      disabled={false}
-                                      onClick={() => onClickViewProject(project.projectId)}
-                                  />
+                                  <Button label="View" disabled={false} onClick={() => onClickViewProject(projectId)} />
                               </div>
                           </div>
                       </div>

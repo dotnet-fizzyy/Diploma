@@ -6,7 +6,7 @@ import { ISprint } from '../../types/sprintTypes';
 import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
 import { ITeam } from '../../types/teamTypes';
 import { IFullUser } from '../../types/userTypes';
-import { IWorkSpace } from '../../types/workSpaceTypes';
+import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
 
 export interface IState {
     project: IProjectState;
@@ -78,5 +78,6 @@ export interface IEpicsState {
 
 export interface IWorkSpaceState {
     workSpace: IWorkSpace;
+    projects: IWorkSpacePageProject[];
     isLoading: boolean;
 }

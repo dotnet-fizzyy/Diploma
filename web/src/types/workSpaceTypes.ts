@@ -18,3 +18,12 @@ export interface IWorkSpaceTableItem {
 export interface IWorkSpaceTable {
     items: IWorkSpaceTableItem[];
 }
+
+export interface IWorkSpacePageProject extends IProjectListItem {
+    teams: ITeamListItem[];
+}
+
+export interface IWorkSpacePage {
+    workSpace: IWorkSpace;
+    projects: IWorkSpacePageProject[];
+}

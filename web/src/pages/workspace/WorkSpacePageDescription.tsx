@@ -2,7 +2,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import WorkSpaceHeader from '../../components/workspace/WorkSpaceHeader';
 import WorkSpaceTable from '../../components/workspace/WorkSpaceTable';
-import { IWorkSpace, IWorkSpaceTable } from '../../types/workSpaceTypes';
+import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -22,7 +22,7 @@ const useStyles = makeStyles(() =>
 
 export interface IWorkSpacePageDescriptionProps {
     workSpace: IWorkSpace;
-    workSpaceTable: IWorkSpaceTable;
+    workSpaceProjects: IWorkSpacePageProject[];
     onClickUpdateWorkSpaceInfo: () => void;
     onClickCreateProject: () => void;
     onClickCreateCustomer: () => void;
@@ -33,7 +33,7 @@ const WorkSpacePageDescription = (props: IWorkSpacePageDescriptionProps) => {
     const classes = useStyles();
     const {
         workSpace: { workSpaceName, workSpaceDescription, creationDate },
-        workSpaceTable,
+        workSpaceProjects,
         onClickUpdateWorkSpaceInfo,
         onClickViewProject,
         onClickCreateProject,
@@ -52,7 +52,7 @@ const WorkSpacePageDescription = (props: IWorkSpacePageDescriptionProps) => {
                     onClickCreateCustomer={onClickCreateCustomer}
                 />
                 <div className={classes.table}>
-                    <WorkSpaceTable workSpaceTable={workSpaceTable} onClickViewProject={onClickViewProject} />
+                    <WorkSpaceTable workSpaceProjects={workSpaceProjects} onClickViewProject={onClickViewProject} />
                 </div>
             </div>
         </div>

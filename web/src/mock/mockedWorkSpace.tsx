@@ -1,10 +1,8 @@
-import { IWorkSpaceTable, IWorkSpaceTableItem } from '../types/workSpaceTypes';
+import { IWorkSpacePageProject } from '../types/workSpaceTypes';
 
-export const mockedWorkSpaceTableItem: IWorkSpaceTableItem = {
-    project: {
-        projectId: '12345',
-        projectName: 'Scrum board',
-    },
+export const mockedWorkSpaceTableItem: IWorkSpacePageProject = {
+    projectId: '12345',
+    projectName: 'Scrum board',
     teams: [
         {
             teamId: '54321',
@@ -15,13 +13,6 @@ export const mockedWorkSpaceTableItem: IWorkSpaceTableItem = {
             teamName: 'Awesome Team',
         },
     ],
-    customer: {
-        userId: '12345',
-        userName: 'Dima Yaniuk',
-        avatarLink: '',
-    },
 };
 
-export const mockedWorkSpaceTable: IWorkSpaceTable = {
-    items: [mockedWorkSpaceTableItem],
-};
+export const mockedWorkSpaceTable: IWorkSpacePageProject[] = [mockedWorkSpaceTableItem];

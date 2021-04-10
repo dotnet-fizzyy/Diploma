@@ -1,6 +1,7 @@
 using System.Linq;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Mappers;
+using WebAPI.Models.Models.Simple;
 using WebAPI.Models.Result;
 
 namespace WebAPI.Presentation.Mappers
@@ -67,6 +68,22 @@ namespace WebAPI.Presentation.Mappers
             };
 
             return fullTeamModel;
+        }
+
+        public TeamSimpleModel MapToSimpleModel(Team team)
+        {
+            if (team == null)
+            {
+                return new TeamSimpleModel();
+            }
+
+            var simpleTeamModel = new TeamSimpleModel
+            {
+                TeamId = team.Id,
+                TeamName = team.TeamName,
+            };
+
+            return simpleTeamModel;
         }
     }
 }

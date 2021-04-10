@@ -1,7 +1,7 @@
 import * as modalActions from '../actions/modalActions';
+import { ProjectActions } from '../actions/projectActions';
 import { UserActions } from '../actions/userActions';
 import { WorkSpaceActions } from '../actions/workSpaceActions';
-import { ProjectActions } from '../actions/projectActions';
 import { IModalState } from '../store/state';
 
 const initialState: IModalState = {
