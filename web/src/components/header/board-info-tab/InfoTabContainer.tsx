@@ -19,7 +19,7 @@ const InfoTabContainer = () => {
     const user = useSelector(userSelectors.getUser);
     const epic = useSelector(epicsSelectors.getCurrentEpic);
     const epics = useSelector(epicsSelectors.getEpicsNames);
-    const project = useSelector(projectSelectors.getProject);
+    const project = useSelector(projectSelectors.getSelectProject);
     const sortType = useSelector(storiesSelectors.getSortType);
     const sortFields = createSortFields();
 

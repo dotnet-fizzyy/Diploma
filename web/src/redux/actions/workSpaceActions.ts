@@ -1,9 +1,9 @@
 import { IWorkSpace, IWorkSpacePage } from '../../types/workSpaceTypes';
 
 export const WorkSpaceActions = {
-    GET_USER_WORKSPACE_REQUEST: 'GET_USER_WORKSPACE_REQUEST',
-    GET_USER_WORKSPACE_SUCCESS: 'GET_USER_WORKSPACE_SUCCESS',
-    GET_USER_WORKSPACE_FAILURE: 'GET_USER_WORKSPACE_FAILURE',
+    GET_USER_WORKSPACE_PAGE_REQUEST: 'GET_USER_WORKSPACE_PAGE_REQUEST',
+    GET_USER_WORKSPACE_PAGE_SUCCESS: 'GET_USER_WORKSPACE_PAGE_SUCCESS',
+    GET_USER_WORKSPACE_PAGE_FAILURE: 'GET_USER_WORKSPACE_PAGE_FAILURE',
     CREATE_WORKSPACE_REQUEST: 'CREATE_WORKSPACE_REQUEST',
     CREATE_WORKSPACE_SUCCESS: 'CREATE_WORKSPACE_SUCCESS',
     CREATE_WORKSPACE_FAILURE: 'CREATE_WORKSPACE_FAILURE',
@@ -12,18 +12,20 @@ export const WorkSpaceActions = {
     UPDATE_WORKSPACE_FAILURE: 'UPDATE_WORKSPACE_FAILURE',
 };
 
-//Interfaces
-export interface IGetUserWorkspaceRequest {
-    type: typeof WorkSpaceActions.GET_USER_WORKSPACE_REQUEST;
+/*
+Interfaces
+ */
+export interface IGetUserWorkspacePageRequest {
+    type: typeof WorkSpaceActions.GET_USER_WORKSPACE_PAGE_REQUEST;
 }
 
-export interface IGetUserWorkspaceSuccess {
-    type: typeof WorkSpaceActions.GET_USER_WORKSPACE_SUCCESS;
+export interface IGetUserWorkspacePageSuccess {
+    type: typeof WorkSpaceActions.GET_USER_WORKSPACE_PAGE_SUCCESS;
     payload: IWorkSpacePage;
 }
 
-export interface IGetUserWorkspaceFailure {
-    type: typeof WorkSpaceActions.GET_USER_WORKSPACE_FAILURE;
+export interface IGetUserWorkspacePageFailure {
+    type: typeof WorkSpaceActions.GET_USER_WORKSPACE_PAGE_FAILURE;
     payload: Error;
 }
 
@@ -57,23 +59,25 @@ export interface IUpdateWorkSpaceFailure {
     payload: Error;
 }
 
-//Actions
-export function getUserWorkSpaceRequest(): IGetUserWorkspaceRequest {
+/*
+Actions
+ */
+export function getUserWorkSpacePageRequest(): IGetUserWorkspacePageRequest {
     return {
-        type: WorkSpaceActions.GET_USER_WORKSPACE_REQUEST,
+        type: WorkSpaceActions.GET_USER_WORKSPACE_PAGE_REQUEST,
     };
 }
 
-export function getUserWorkSpaceSuccess(workSpace: IWorkSpacePage): IGetUserWorkspaceSuccess {
+export function getUserWorkSpacePageSuccess(workSpace: IWorkSpacePage): IGetUserWorkspacePageSuccess {
     return {
-        type: WorkSpaceActions.GET_USER_WORKSPACE_SUCCESS,
+        type: WorkSpaceActions.GET_USER_WORKSPACE_PAGE_SUCCESS,
         payload: workSpace,
     };
 }
 
-export function getUserWorkSpaceFailure(error: Error): IGetUserWorkspaceFailure {
+export function getUserWorkSpacePageFailure(error: Error): IGetUserWorkspacePageFailure {
     return {
-        type: WorkSpaceActions.GET_USER_WORKSPACE_FAILURE,
+        type: WorkSpaceActions.GET_USER_WORKSPACE_PAGE_FAILURE,
         payload: error,
     };
 }
@@ -121,4 +125,4 @@ export function updateWorkSpaceError(error: Error): IUpdateWorkSpaceFailure {
 }
 
 //Types
-export type WorkSpaceActionTypes = ICreateWorkSpaceSuccess & IGetUserWorkspaceSuccess & IUpdateWorkSpaceSuccess;
+export type WorkSpaceActionTypes = ICreateWorkSpaceSuccess & IGetUserWorkspacePageSuccess & IUpdateWorkSpaceSuccess;

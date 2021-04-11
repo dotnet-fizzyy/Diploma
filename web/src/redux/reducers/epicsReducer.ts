@@ -11,7 +11,8 @@ export default function epicReducer(state = initialState, action: epicActions.Ep
         case epicActions.EpicActions.CREATE_EPIC_SUCCESS:
             return handleCreateEpicSuccess(state, action);
         case epicActions.EpicActions.GET_EPICS_SUCCESS:
-            return handleGetEpicsSuccess(state, action);
+        case epicActions.EpicActions.ADD_EPICS:
+            return handleSetEpics(state, action);
         case epicActions.EpicActions.SET_CURRENT_EPIC:
             return handleSetCurrentEpic(state, action);
         case epicActions.EpicActions.SET_CURRENT_EPIC_BY_ID:
@@ -28,7 +29,7 @@ function handleCreateEpicSuccess(state: IEpicsState, action: epicActions.ICreate
     };
 }
 
-function handleGetEpicsSuccess(state: IEpicsState, action: epicActions.IGetEpicsSuccess): IEpicsState {
+function handleSetEpics(state: IEpicsState, action: epicActions.IGetEpicsSuccess): IEpicsState {
     return {
         ...state,
         epics: action.payload,

@@ -1,4 +1,5 @@
-import { ITeam } from './teamTypes';
+import { IEpic } from './epicTypes';
+import { ITeam, ITeamListItem } from './teamTypes';
 
 interface IBaseProject {
     projectId?: string;
@@ -10,8 +11,13 @@ export interface IProject extends IBaseProject {
     projectDescription: string;
     startDate: Date;
     endDate: Date;
-    customerId?: string;
     teams?: ITeam[];
 }
 
 export interface IProjectListItem extends IBaseProject {}
+
+export interface IProjectPage {
+    project: IProject;
+    teams: ITeamListItem[];
+    epics: IEpic[];
+}

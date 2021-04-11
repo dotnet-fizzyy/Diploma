@@ -4,7 +4,7 @@ import { EpicInitialState } from '../../../constants/epicConstants';
 import * as epicActions from '../../../redux/actions/epicActions';
 import { getCurrentEpic } from '../../../redux/selectors/epicsSelectors';
 import { getModalOption } from '../../../redux/selectors/modalSelectors';
-import { getProject } from '../../../redux/selectors/projectSelectors';
+import { getSelectProject } from '../../../redux/selectors/projectSelectors';
 import { IEpic, IEpicFormTypes } from '../../../types/epicTypes';
 import { ModalOptions } from '../../../types/modalTypes';
 import { IProject } from '../../../types/projectTypes';
@@ -13,7 +13,7 @@ import EpicModal, { IEpicCreationProps } from './EpicModal';
 
 const EpicModalContainer = () => {
     const dispatch = useDispatch();
-    const project: IProject = useSelector(getProject);
+    const project: IProject = useSelector(getSelectProject);
     const modalOption: ModalOptions = useSelector(getModalOption);
     const selectedEpic: IEpic = useSelector(getCurrentEpic);
 

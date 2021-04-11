@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { openModal } from '../../redux/actions/modalActions';
-import { getUserWorkSpaceRequest } from '../../redux/actions/workSpaceActions';
+import { getUserWorkSpacePageRequest } from '../../redux/actions/workSpaceActions';
 import { getWorkSpace, getWorkSpaceIsLoading, getWorkSpaceProjects } from '../../redux/selectors/workSpaceSelectors';
 import { ModalOptions, ModalTypes } from '../../types/modalTypes';
 import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
@@ -37,7 +37,7 @@ const WorkSpacePageContainer = () => {
     };
 
     useEffect(() => {
-        dispatch(getUserWorkSpaceRequest());
+        dispatch(getUserWorkSpacePageRequest());
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

@@ -1,16 +1,14 @@
 import { AxiosResponse } from 'axios';
-import * as routeConstants from '../constants/routeConstants';
-import { ICollectionResponse } from '../types';
+import { TeamUrls } from '../constants/routeConstants';
+import { mapToTeamModel } from '../mappers/teamMapper';
 import { ITeam } from '../types/teamTypes';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class TeamApi {
-    public static async getTeams(): Promise<ITeam[]> {
-        const response: AxiosResponse<ICollectionResponse<ITeam>> = await AxiosBaseApi.axiosGet(
-            routeConstants.TeamUrls.getUserTeams
-        );
+    public static async getUserTeamPage(teamId: string): Promise<ITeam> {
+        const response: AxiosResponse<ITeam> = await AxiosBaseApi.axiosGet(`${TeamUrls.getUserTeamPage}/${teamId}`);
 
-        return response.data.items.map(TeamApi.mapToModel);
+        return mapToTeamModel(response);
     }
 
     public static async createTeam(team: ITeam): Promise<ITeam> {
@@ -20,22 +18,8 @@ export default class TeamApi {
             projectId: team.projectId,
         };
 
-        const response: AxiosResponse<ITeam> = await AxiosBaseApi.axiosPost(
-            routeConstants.CustomerUrls.createTeam,
-            mappedTeam
-        );
+        const response: AxiosResponse<ITeam> = await AxiosBaseApi.axiosPost(TeamUrls.createTeam, mappedTeam);
 
-        return TeamApi.mapToModel(response.data);
-    }
-
-    private static mapToModel(data): ITeam {
-        return {
-            teamId: data.teamId,
-            teamName: data.teamName,
-            membersCount: data.membersCount,
-            projectId: data.projectId,
-            location: data.location,
-            users: data.users,
-        };
+        return mapToTeamModel(response.data);
     }
 }

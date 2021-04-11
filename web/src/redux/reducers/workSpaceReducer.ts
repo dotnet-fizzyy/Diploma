@@ -17,15 +17,15 @@ export default function workSpaceReducer(
     action: WorkSpaceActions.WorkSpaceActionTypes
 ): IWorkSpaceState {
     switch (action.type) {
-        case WorkSpaceActions.WorkSpaceActions.GET_USER_WORKSPACE_REQUEST:
+        case WorkSpaceActions.WorkSpaceActions.GET_USER_WORKSPACE_PAGE_REQUEST:
         case WorkSpaceActions.WorkSpaceActions.CREATE_WORKSPACE_REQUEST:
             return handleSetLoadingStatusForWorkSpace(state, action);
         case WorkSpaceActions.WorkSpaceActions.CREATE_WORKSPACE_SUCCESS:
         case WorkSpaceActions.WorkSpaceActions.UPDATE_WORKSPACE_SUCCESS:
             return handleSetWorkSpace(state, action);
-        case WorkSpaceActions.WorkSpaceActions.GET_USER_WORKSPACE_SUCCESS:
+        case WorkSpaceActions.WorkSpaceActions.GET_USER_WORKSPACE_PAGE_SUCCESS:
             return handleGetUserWorkSpacePage(state, action);
-        case WorkSpaceActions.WorkSpaceActions.GET_USER_WORKSPACE_FAILURE:
+        case WorkSpaceActions.WorkSpaceActions.GET_USER_WORKSPACE_PAGE_FAILURE:
             return handleGetUserWorkSpaceFailure(state);
         default:
             return state;
@@ -34,7 +34,7 @@ export default function workSpaceReducer(
 
 function handleSetLoadingStatusForWorkSpace(
     state: IWorkSpaceState,
-    action: WorkSpaceActions.IGetUserWorkspaceRequest | WorkSpaceActions.ICreateWorkSpaceRequest
+    action: WorkSpaceActions.IGetUserWorkspacePageRequest | WorkSpaceActions.ICreateWorkSpaceRequest
 ): IWorkSpaceState {
     return {
         ...state,
@@ -59,7 +59,7 @@ function handleGetUserWorkSpaceFailure(state: IWorkSpaceState): IWorkSpaceState 
 
 function handleGetUserWorkSpacePage(
     state: IWorkSpaceState,
-    action: WorkSpaceActions.IGetUserWorkspaceSuccess
+    action: WorkSpaceActions.IGetUserWorkspacePageSuccess
 ): IWorkSpaceState {
     return {
         ...state,

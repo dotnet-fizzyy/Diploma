@@ -6,8 +6,6 @@ export const LoginScreenRoute = '/start/login';
 export const RegistrationScreenRoute = '/start/registration';
 export const ViewStoryHistoryRoute = '/history/:storyId';
 export const WorkspaceViewerRoute = '/workspace';
-export const TeamsViewerRoute = '/teams';
-export const ProjectsViewerRoute = '/projects';
 export const TeamManagementRoute = '/team/:teamId';
 export const ProjectManagementRoute = '/project/:projectId';
 export const EpicChartsRoute = '/charts';
@@ -27,11 +25,11 @@ export const getCloudStorageUrl = (cloudinaryId: string): string =>
 export const SignInUrl = `${BaseUrl}/auth/sign-in`;
 export const SignUpUrl = `${BaseUrl}/auth/sign-up`;
 
-export const CustomerUrl = BaseUrl + '/customer';
-
 const PageBaseUrl = `${BaseUrl}/page`;
 const PageUrls = {
+    getTeamPage: `${PageBaseUrl}/team`,
     getWorkSpacePage: `${PageBaseUrl}/workspace`,
+    getProjectPage: `${PageBaseUrl}/project`,
 };
 
 const UserBaseUrl = `${BaseUrl}/user`;
@@ -52,7 +50,7 @@ export const SprintUrls = {
 const EpicBaseUrl = `${BaseUrl}/epic`;
 export const EpicUrls = {
     createEpic: EpicBaseUrl,
-    getProjectEpics: `${EpicBaseUrl}/project/id`,
+    getProjectPage: PageUrls.getProjectPage,
 };
 
 const StoryBaseUrl = `${BaseUrl}/story`;
@@ -66,13 +64,9 @@ export const StoryUrls = {
     storyHistory: `${StoryBaseUrl}/history`,
 };
 
-export const CustomerUrls = {
-    customerProjects: CustomerUrl + '/projects',
-    createTeam: CustomerUrl + '/team',
-};
-
 const ProjectBaseUrl = `${BaseUrl}/project`;
 export const ProjectUrls = {
+    getProjectPage: PageUrls.getProjectPage,
     createProject: ProjectBaseUrl,
     getProject: ProjectBaseUrl,
     getUserProjects: `${ProjectBaseUrl}/project-teams`,
@@ -80,8 +74,8 @@ export const ProjectUrls = {
 
 const TeamBaseUrl = `${BaseUrl}/team`;
 export const TeamUrls = {
-    getUserTeams: TeamBaseUrl + '/user',
-    createTeam: CustomerUrl + '/team',
+    getUserTeamPage: PageUrls.getTeamPage,
+    createTeam: TeamBaseUrl,
 };
 
 const WorkSpaceBaseUrl = `${BaseUrl}/workspace`;

@@ -1,6 +1,9 @@
 import { IProject } from '../../types/projectTypes';
 
 export const ProjectActions = {
+    GET_USER_PROJECT_PAGE_REQUEST: 'GET_USER_PROJECT_PAGE_REQUEST',
+    GET_USER_PROJECT_PAGE_SUCCESS: 'GET_USER_PROJECT_PAGE_SUCCESS',
+    GET_USER_PROJECT_PAGE_FAILURE: 'GET_USER_PROJECT_PAGE_FAILURE',
     GET_USER_PROJECTS_REQUEST: 'GET_USER_PROJECTS_REQUEST',
     GET_USER_PROJECTS_SUCCESS: 'GET_USER_PROJECTS_SUCCESS',
     GET_USER_PROJECTS_FAILURE: 'GET_USER_PROJECTS_FAILURE',
@@ -15,7 +18,24 @@ export const ProjectActions = {
     GET_PROJECT_FAILURE: 'GET_PROJECT_FAILURE',
 };
 
-//interfaces
+/*
+Interfaces
+ */
+export interface IGetUserProjectPageRequest {
+    type: typeof ProjectActions.GET_USER_PROJECT_PAGE_REQUEST;
+    payload: string;
+}
+
+export interface IGetUserProjectPageSuccess {
+    type: typeof ProjectActions.GET_USER_PROJECT_PAGE_SUCCESS;
+    payload: IProject;
+}
+
+export interface IGetUserProjectPageFailure {
+    type: typeof ProjectActions.GET_USER_PROJECT_PAGE_FAILURE;
+    payload: Error;
+}
+
 export interface IGetUserProjectsRequest {
     type: typeof ProjectActions.GET_USER_PROJECTS_REQUEST;
 }
@@ -75,7 +95,30 @@ export interface IGetProjectFailure {
     payload: Error;
 }
 
-//actions
+/*
+Actions
+ */
+export function getUserProjectPageRequest(projectId: string): IGetUserProjectPageRequest {
+    return {
+        type: ProjectActions.GET_USER_PROJECT_PAGE_REQUEST,
+        payload: projectId,
+    };
+}
+
+export function getUserProjectPageSuccess(project: IProject): IGetUserProjectPageSuccess {
+    return {
+        type: ProjectActions.GET_USER_PROJECT_PAGE_SUCCESS,
+        payload: project,
+    };
+}
+
+export function getUserProjectPageFailure(error: Error): IGetUserProjectPageFailure {
+    return {
+        type: ProjectActions.GET_USER_PROJECT_PAGE_FAILURE,
+        payload: error,
+    };
+}
+
 export function getUserProjectsRequest(): IGetUserProjectsRequest {
     return {
         type: ProjectActions.GET_USER_PROJECTS_REQUEST,
@@ -159,4 +202,8 @@ export function getProjectFailure(error: Error): IGetProjectFailure {
     };
 }
 
-export type ProjectActionTypes = IGetUserProjectsSuccess & ISetProjects & ISetCurrentProject & ISetCurrentProjectById;
+export type ProjectActionTypes = IGetUserProjectsSuccess &
+    IGetUserProjectPageSuccess &
+    ISetProjects &
+    ISetCurrentProject &
+    ISetCurrentProjectById;

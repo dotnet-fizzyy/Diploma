@@ -8,7 +8,6 @@ export const initialProjectFormValues: IProject = {
     projectDescription: '',
     projectId: '',
     projectName: '',
-    customerId: null,
 };
 
 export const projectFields = {

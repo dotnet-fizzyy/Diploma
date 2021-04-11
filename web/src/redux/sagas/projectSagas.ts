@@ -1,30 +1,32 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
 import ProjectApi from '../../api/projectApi';
-import { IProject } from '../../types/projectTypes';
-import { IUser, UserRole } from '../../types/userTypes';
-import * as modalActions from '../actions/modalActions';
-import { IGetProjectRequest } from '../actions/projectActions';
-import * as projectActions from '../actions/projectActions';
-import * as teamActions from '../actions/teamActions';
-import * as userSelectors from '../selectors/userSelectors';
+import { IProject, IProjectPage } from '../../types/projectTypes';
+import { addEpics } from '../actions/epicActions';
+import {
+    createProjectFailure,
+    createProjectSuccess,
+    getProjectFailure,
+    getProjectSuccess,
+    getUserProjectPageFailure,
+    getUserProjectPageSuccess,
+    ICreateProjectRequest,
+    IGetProjectRequest,
+    IGetUserProjectPageRequest,
+    ProjectActions,
+} from '../actions/projectActions';
+import { addTeamSimpleItems } from '../actions/teamActions';
 
-function* getUserProjects(action: projectActions.IGetUserProjectsRequest) {
+function* getUserProjectPage(action: IGetUserProjectPageRequest) {
     try {
-        const currentUser: IUser = yield select(userSelectors.getUser);
-        let projects: IProject[];
-        if (currentUser.userRole === UserRole.ProductOwner.split(' ').join('')) {
-            projects = yield call(ProjectApi.getCustomerProjects);
-        } else {
-            projects = yield call(ProjectApi.getAllUserProjects);
-        }
+        const projectPage: IProjectPage = yield call(ProjectApi.getProjectPage, action.payload);
 
-        yield put(projectActions.getUserProjectsSuccess(projects));
-
-        const userTeams = projects.reduce((accumulator, project) => accumulator.concat(project.teams), []);
-
-        yield put(teamActions.getUserTeamsSuccess(userTeams));
+        yield all([
+            put(getUserProjectPageSuccess(projectPage.project)),
+            put(addTeamSimpleItems(projectPage.teams)),
+            put(addEpics(projectPage.epics)),
+        ]);
     } catch (error) {
-        yield put(projectActions.getUserProjectsFailure(error));
+        yield put(getUserProjectPageFailure(error));
     }
 }
 
@@ -32,28 +34,24 @@ function* getProject(action: IGetProjectRequest) {
     try {
         const project: IProject = yield call(ProjectApi.getProject, action.payload);
 
-        yield put(projectActions.getProjectSuccess(project));
+        yield put(getProjectSuccess(project));
     } catch (error) {
-        yield put(projectActions.getProjectFailure(error));
+        yield put(getProjectFailure(error));
     }
 }
 
-function* createProject(action: projectActions.ICreateProjectRequest) {
+function* createProject(action: ICreateProjectRequest) {
     try {
-        const currentUser: IUser = yield select(userSelectors.getUser);
-        action.payload.customerId = currentUser.userId;
-
         const createdProject: IProject = yield call(ProjectApi.createProject, action.payload);
 
-        yield put(projectActions.createProjectSuccess(createdProject));
-        yield put(modalActions.closeModal());
+        yield put(createProjectSuccess(createdProject));
     } catch (error) {
-        yield put(projectActions.createProjectFailure(error));
+        yield put(createProjectFailure(error));
     }
 }
 
 export default function* rootStoriesSaga() {
-    yield takeLatest(projectActions.ProjectActions.CREATE_PROJECT_REQUEST, createProject);
-    yield takeLatest(projectActions.ProjectActions.GET_PROJECT_REQUEST, getProject);
-    yield takeLatest(projectActions.ProjectActions.GET_USER_PROJECTS_REQUEST, getUserProjects);
+    yield takeLatest(ProjectActions.GET_USER_PROJECT_PAGE_REQUEST, getUserProjectPage);
+    yield takeLatest(ProjectActions.CREATE_PROJECT_REQUEST, createProject);
+    yield takeLatest(ProjectActions.GET_PROJECT_REQUEST, getProject);
 }

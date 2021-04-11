@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+import { DefaultRoute, LoginScreenRoute } from '../../constants/routeConstants';
 import * as currentUserActions from '../../redux/actions/userActions';
 import * as currentUserSelectors from '../../redux/selectors/userSelectors';
 import { IUser } from '../../types/userTypes';
@@ -28,7 +29,9 @@ const CustomRouterContainer = () => {
 
     useEffect(() => {
         if (initialPath && user && user.userId) {
-            history.push(initialPath);
+            const isLoginPage: boolean = initialPath === LoginScreenRoute;
+
+            history.push(isLoginPage ? DefaultRoute : initialPath);
         }
     }, [initialPath, user, history]);
 

@@ -9,9 +9,12 @@ export const EpicActions = {
     GET_EPICS_FAILURE: 'GET_EPICS_FAILURE',
     SET_CURRENT_EPIC: 'SET_CURRENT_EPIC',
     SET_CURRENT_EPIC_BY_ID: 'SET_CURRENT_EPIC_BY_ID',
+    ADD_EPICS: 'ADD_EPICS',
 };
 
-//interfaces
+/*
+Interfaces
+ */
 export interface ICreateEpicRequest {
     type: typeof EpicActions.CREATE_EPIC_REQUEST;
     payload: IEpic;
@@ -52,7 +55,14 @@ export interface ISetCurrentEpicById {
     payload: string;
 }
 
-//actions
+export interface IAddEpics {
+    type: typeof EpicActions.ADD_EPICS;
+    payload: IEpic[];
+}
+
+/*
+Actions
+ */
 export function createEpicRequest(epic: IEpic): ICreateEpicRequest {
     return {
         type: EpicActions.CREATE_EPIC_REQUEST,
@@ -109,4 +119,11 @@ export function setCurrentEpicById(epicId: string): ISetCurrentEpicById {
     };
 }
 
-export type EpicActionTypes = ICreateEpicSuccess & IGetEpicsRequest & IGetEpicsSuccess & ISetCurrentEpic;
+export function addEpics(epics: IEpic[]): IAddEpics {
+    return {
+        type: EpicActions.ADD_EPICS,
+        payload: epics,
+    };
+}
+
+export type EpicActionTypes = ICreateEpicSuccess & IGetEpicsRequest & IGetEpicsSuccess & ISetCurrentEpic & IAddEpics;

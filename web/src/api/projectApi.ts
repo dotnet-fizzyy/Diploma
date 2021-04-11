@@ -1,22 +1,22 @@
 import { AxiosResponse } from 'axios';
-import { CustomerUrls, ProjectUrls } from '../constants/routeConstants';
-import { ICollectionResponse } from '../types';
-import { IProject } from '../types/projectTypes';
+import { ProjectUrls } from '../constants/routeConstants';
+import { mapToProjectModel, mapToProjectPageModel } from '../mappers/projectMapper';
+import { IProject, IProjectPage } from '../types/projectTypes';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class ProjectApi {
-    public static async getCustomerProjects(): Promise<IProject[]> {
-        const response: AxiosResponse<ICollectionResponse<IProject>> = await AxiosBaseApi.axiosGet(
-            CustomerUrls.customerProjects
+    public static async getProjectPage(projectId: string): Promise<IProjectPage> {
+        const response: AxiosResponse<IProjectPage> = await AxiosBaseApi.axiosGet(
+            `${ProjectUrls.getProjectPage}/${projectId}`
         );
 
-        return response.data.items.map(ProjectApi.mapToModel);
+        return mapToProjectPageModel(response.data);
     }
 
     public static async getProject(projectId: string): Promise<IProject> {
         const response: AxiosResponse<IProject> = await AxiosBaseApi.axiosGet(`${ProjectUrls.getProject}/${projectId}`);
 
-        return ProjectApi.mapToModel(response.data);
+        return mapToProjectModel(response.data);
     }
 
     public static async createProject(project: IProject): Promise<IProject> {
@@ -33,25 +33,6 @@ export default class ProjectApi {
             mappedProject
         );
 
-        return ProjectApi.mapToModel(response.data);
-    }
-
-    public static async getAllUserProjects(): Promise<IProject[]> {
-        const response: AxiosResponse<ICollectionResponse<IProject>> = await AxiosBaseApi.axiosGet(
-            ProjectUrls.getUserProjects
-        );
-
-        return response.data.items.map(ProjectApi.mapToModel);
-    }
-
-    private static mapToModel(data: any): IProject {
-        return {
-            projectName: data.projectName,
-            projectDescription: data.projectDescription,
-            startDate: new Date(data.startDate),
-            endDate: new Date(data.endDate),
-            customerId: data.customer.customerId,
-            workSpaceId: data.workSpaceId,
-        };
+        return mapToProjectModel(response.data);
     }
 }

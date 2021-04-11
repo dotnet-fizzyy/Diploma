@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { EpicUrls } from '../constants/routeConstants';
+import { mapToEpicModel } from '../mappers/epicMapper';
 import { ICollectionResponse } from '../types';
 import { IEpic } from '../types/epicTypes';
 import AxiosBaseApi from './axiosBaseApi';
@@ -7,10 +8,10 @@ import AxiosBaseApi from './axiosBaseApi';
 export default class EpicsApi {
     public static async getProjectEpics(projectId: string): Promise<IEpic[]> {
         const response: AxiosResponse<ICollectionResponse<IEpic>> = await AxiosBaseApi.axiosGet(
-            `${EpicUrls.getProjectEpics}/${projectId}`
+            `${EpicUrls.getProjectPage}/${projectId}`
         );
 
-        return response.data.items.map(EpicsApi.mapToModel);
+        return response.data.items.map(mapToEpicModel);
     }
 
     public static async createEpicForProject(epic: IEpic): Promise<IEpic> {
@@ -24,17 +25,6 @@ export default class EpicsApi {
 
         const response: AxiosResponse<IEpic> = await AxiosBaseApi.axiosPost(EpicUrls.createEpic, mappedEpic);
 
-        return EpicsApi.mapToModel(response.data);
-    }
-
-    private static mapToModel(data: any): IEpic {
-        return {
-            epicId: data.epicId,
-            epicName: data.epicName,
-            epicDescription: data.epicDescription,
-            startDate: data.startDate,
-            endDate: data.endDate,
-            projectId: data.projectId,
-        };
+        return mapToEpicModel(response.data);
     }
 }

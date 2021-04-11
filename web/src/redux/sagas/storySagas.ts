@@ -101,7 +101,7 @@ function* declineStoryBlock(action: sidebarActions.ISidebarHandleVisibility) {
 
 function* searchForStoriesByTitleTerm(action: storyActions.ISetStoryTitleTermRequest) {
     try {
-        const currentProject: IProject = yield select(projectSelectors.getProject);
+        const currentProject: IProject = yield select(projectSelectors.getSelectProject);
         const stories: IStory[] = yield call(StoryApi.getStoriesByTerm, action.payload, currentProject.projectId);
 
         yield put(storyActions.setStoryTitleTermSuccess(stories));
@@ -172,8 +172,8 @@ function* handleBoardRequestProcessing(action: storyActions.IHandleBoardRequestP
     yield put(projectActions.getProjectRequest(action.payload));
     yield take(projectActions.ProjectActions.GET_PROJECT_SUCCESS);
 
-    yield put(teamActions.getUserTeamsRequest());
-    yield take(teamActions.TeamActions.GET_USER_TEAMS_SUCCESS);
+    // yield put(teamActions.getUserTeamsRequest());
+    // yield take(teamActions.TeamActions.GET_USER_TEAMS_SUCCESS);
 
     const teams: ITeam[] = yield select(teamSelectors.getTeams);
     yield put(teamActions.setSelectedTeam(teams[0]));

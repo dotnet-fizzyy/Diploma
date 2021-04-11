@@ -1,28 +1,32 @@
-import { ITeam } from '../../types/teamTypes';
+import { ITeam, ITeamListItem } from '../../types/teamTypes';
 
 export const TeamActions = {
-    GET_USER_TEAMS_REQUEST: 'GET_USER_TEAMS_REQUEST',
-    GET_USER_TEAMS_SUCCESS: 'GET_USER_TEAMS_SUCCESS',
-    GET_USER_TEAMS_FAILURE: 'GET_USER_TEAMS_FAILURE',
+    GET_USER_TEAM_PAGE_REQUEST: 'GET_USER_TEAM_PAGE_REQUEST',
+    GET_USER_TEAM_PAGE_SUCCESS: 'GET_USER_TEAM_PAGE_SUCCESS',
+    GET_USER_TEAM_PAGE_FAILURE: 'GET_USER_TEAM_PAGE_FAILURE',
     CREATE_TEAM_REQUEST: 'CREATE_TEAM_REQUEST',
     CREATE_TEAM_SUCCESS: 'CREATE_TEAM_SUCCESS',
     CREATE_TEAM_FAILURE: 'CREATE_TEAM_FAILURE',
     SET_SELECTED_TEAM: 'SET_SELECTED_TEAM',
     SET_SELECTED_TEAM_BY_ID: 'SET_SELECTED_TEAM_BY_ID',
+    ADD_TEAM_SIMPLE_ITEMS: 'ADD_TEAM_SIMPLE_ITEMS',
 };
 
-//interfaces
-export interface IGetUserTeamsRequest {
-    type: typeof TeamActions.GET_USER_TEAMS_REQUEST;
+/*
+Interfaces
+ */
+export interface IGetUserTeamPageRequest {
+    type: typeof TeamActions.GET_USER_TEAM_PAGE_REQUEST;
+    payload: string;
 }
 
-export interface IGetUserTeamsSuccess {
-    type: typeof TeamActions.GET_USER_TEAMS_SUCCESS;
-    payload: ITeam[];
+export interface IGetUserTeamPageSuccess {
+    type: typeof TeamActions.GET_USER_TEAM_PAGE_SUCCESS;
+    payload: ITeam;
 }
 
-export interface IGetUserTeamsFailure {
-    type: typeof TeamActions.GET_USER_TEAMS_FAILURE;
+export interface IGetUserTeamPageFailure {
+    type: typeof TeamActions.GET_USER_TEAM_PAGE_FAILURE;
     payload: Error;
 }
 
@@ -51,23 +55,31 @@ export interface ISetSelectedTeamById {
     payload: string;
 }
 
-//actions
-export function getUserTeamsRequest(): IGetUserTeamsRequest {
+export interface IAddTeamSimpleItems {
+    type: typeof TeamActions.ADD_TEAM_SIMPLE_ITEMS;
+    payload: ITeamListItem[];
+}
+
+/*
+Actions
+ */
+export function getUserTeamPageRequest(teamId: string): IGetUserTeamPageRequest {
     return {
-        type: TeamActions.GET_USER_TEAMS_REQUEST,
+        type: TeamActions.GET_USER_TEAM_PAGE_REQUEST,
+        payload: teamId,
     };
 }
 
-export function getUserTeamsSuccess(teams: ITeam[]): IGetUserTeamsSuccess {
+export function getUserTeamPageSuccess(team: ITeam): IGetUserTeamPageSuccess {
     return {
-        type: TeamActions.GET_USER_TEAMS_SUCCESS,
-        payload: teams,
+        type: TeamActions.GET_USER_TEAM_PAGE_SUCCESS,
+        payload: team,
     };
 }
 
-export function getUserTeamsFailure(error: Error): IGetUserTeamsFailure {
+export function getUserTeamPageFailure(error: Error): IGetUserTeamPageFailure {
     return {
-        type: TeamActions.GET_USER_TEAMS_FAILURE,
+        type: TeamActions.GET_USER_TEAM_PAGE_SUCCESS,
         payload: error,
     };
 }
@@ -107,4 +119,15 @@ export function setSelectedTeamById(teamId: string): ISetSelectedTeamById {
     };
 }
 
-export type TeamActionsType = IGetUserTeamsSuccess & ISetSelectedTeam & ISetSelectedTeamById & ICreateTeamSuccess;
+export function addTeamSimpleItems(items: ITeamListItem[]): IAddTeamSimpleItems {
+    return {
+        type: TeamActions.ADD_TEAM_SIMPLE_ITEMS,
+        payload: items,
+    };
+}
+
+export type TeamActionsType = IGetUserTeamPageSuccess &
+    ISetSelectedTeam &
+    ISetSelectedTeamById &
+    ICreateTeamSuccess &
+    IAddTeamSimpleItems;

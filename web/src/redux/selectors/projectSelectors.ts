@@ -17,6 +17,6 @@ export function getProjectNames(state: IState): ISelectedItem[] {
         : [];
 }
 
-export function getProject(state: IState): IProject {
+export function getSelectProject(state: IState): IProject {
     return state.project.currentProject;
 }

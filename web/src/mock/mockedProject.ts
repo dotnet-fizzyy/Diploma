@@ -1,7 +1,6 @@
 import { IProject, IProjectListItem } from '../types/projectTypes';
 
 export const mockedProject: IProject = {
-    customerId: 'Viktoria Kantarovich',
     endDate: new Date(2020, 12, 1),
     projectDescription: 'Diploma project',
     projectId: '12345',

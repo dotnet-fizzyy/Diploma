@@ -3,13 +3,13 @@ import WorkSpaceApi from '../../api/workSpaceApi';
 import { IWorkSpace, IWorkSpacePage } from '../../types/workSpaceTypes';
 import * as WorkSpaceActions from '../actions/workSpaceActions';
 
-function* getUserWorkSpace() {
+function* getUserWorkSpacePage() {
     try {
         const createdWorkSpace: IWorkSpacePage = yield call(WorkSpaceApi.getUserWorkSpace);
 
-        yield put(WorkSpaceActions.getUserWorkSpaceSuccess(createdWorkSpace));
+        yield put(WorkSpaceActions.getUserWorkSpacePageSuccess(createdWorkSpace));
     } catch (error) {
-        yield put(WorkSpaceActions.getUserWorkSpaceFailure(error));
+        yield put(WorkSpaceActions.getUserWorkSpacePageFailure(error));
     }
 }
 
@@ -34,7 +34,7 @@ function* updateWorkSpace(action: WorkSpaceActions.IUpdateWorkSpaceSuccess) {
 }
 
 export default function* workSpaceSaga() {
-    yield takeLatest(WorkSpaceActions.WorkSpaceActions.GET_USER_WORKSPACE_REQUEST, getUserWorkSpace);
+    yield takeLatest(WorkSpaceActions.WorkSpaceActions.GET_USER_WORKSPACE_PAGE_REQUEST, getUserWorkSpacePage);
     yield takeLatest(WorkSpaceActions.WorkSpaceActions.CREATE_WORKSPACE_REQUEST, createWorkSpace);
     yield takeLatest(WorkSpaceActions.WorkSpaceActions.UPDATE_WORKSPACE_REQUEST, updateWorkSpace);
 }
