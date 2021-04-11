@@ -24,9 +24,10 @@ const useStyles = makeStyles(() =>
         },
         calendar: {
             padding: '12px',
-            '&:hover': {
-                cursor: 'pointer',
-            },
+            cursor: 'pointer',
+        },
+        calendarIcon: {
+            cursor: 'pointer',
         },
         errorIcon: {
             fontSize: '16px',
@@ -78,7 +79,10 @@ const FormDatePicker = (props: IFormDatePickerProps & FieldProps) => {
                 onChange={onChange}
                 error={false}
                 helperText={false}
-                InputProps={{ endAdornment: <DateRangeIcon />, classes: { input: classes.calendar } }}
+                InputProps={{
+                    endAdornment: <DateRangeIcon className={classes.calendarIcon} />,
+                    classes: { input: classes.calendar },
+                }}
             />
             {(customError || (touched[name] && errors[name])) && (
                 <div className={classes.errorMessageContainer}>
