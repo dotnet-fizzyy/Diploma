@@ -12,6 +12,7 @@ export interface IProject extends IBaseProject {
     startDate: Date;
     endDate: Date;
     teams?: ITeam[];
+    creationDate?: Date;
 }
 
 export interface IProjectListItem extends IBaseProject {}

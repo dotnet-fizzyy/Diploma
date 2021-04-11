@@ -16,6 +16,9 @@ export const ProjectActions = {
     GET_PROJECT_REQUEST: 'GET_PROJECT_REQUEST',
     GET_PROJECT_SUCCESS: 'GET_PROJECT_SUCCESS',
     GET_PROJECT_FAILURE: 'GET_PROJECT_FAILURE',
+    UPDATE_PROJECT_REQUEST: 'UPDATE_PROJECT_REQUEST',
+    UPDATE_PROJECT_SUCCESS: 'UPDATE_PROJECT_SUCCESS',
+    UPDATE_PROJECT_FAILURE: 'UPDATE_PROJECT_FAILURE',
 };
 
 /*
@@ -92,6 +95,21 @@ export interface IGetProjectSuccess {
 
 export interface IGetProjectFailure {
     type: typeof ProjectActions.GET_PROJECT_FAILURE;
+    payload: Error;
+}
+
+export interface IUpdateProjectRequest {
+    type: typeof ProjectActions.UPDATE_PROJECT_REQUEST;
+    payload: IProject;
+}
+
+export interface IUpdateProjectSuccess {
+    type: typeof ProjectActions.UPDATE_PROJECT_SUCCESS;
+    payload: IProject;
+}
+
+export interface IUpdateProjectFailure {
+    type: typeof ProjectActions.UPDATE_PROJECT_FAILURE;
     payload: Error;
 }
 
@@ -202,8 +220,30 @@ export function getProjectFailure(error: Error): IGetProjectFailure {
     };
 }
 
+export function updateProjectRequest(project: IProject): IUpdateProjectRequest {
+    return {
+        type: ProjectActions.UPDATE_PROJECT_REQUEST,
+        payload: project,
+    };
+}
+
+export function updateProjectSuccess(project: IProject): IUpdateProjectSuccess {
+    return {
+        type: ProjectActions.UPDATE_PROJECT_SUCCESS,
+        payload: project,
+    };
+}
+
+export function updateProjectFailure(error: Error): IUpdateProjectFailure {
+    return {
+        type: ProjectActions.UPDATE_PROJECT_FAILURE,
+        payload: error,
+    };
+}
+
 export type ProjectActionTypes = IGetUserProjectsSuccess &
     IGetUserProjectPageSuccess &
     ISetProjects &
     ISetCurrentProject &
-    ISetCurrentProjectById;
+    ISetCurrentProjectById &
+    IUpdateProjectSuccess;

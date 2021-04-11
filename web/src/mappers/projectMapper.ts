@@ -10,6 +10,7 @@ export function mapToProjectModel(data: any): IProject {
         startDate: new Date(data.startDate),
         endDate: new Date(data.endDate),
         workSpaceId: data.workSpaceId,
+        creationDate: data.creationDate,
     };
 }
 
