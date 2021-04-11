@@ -8,7 +8,7 @@ export default class TeamApi {
     public static async getUserTeamPage(teamId: string): Promise<ITeam> {
         const response: AxiosResponse<ITeam> = await AxiosBaseApi.axiosGet(`${TeamUrls.getUserTeamPage}/${teamId}`);
 
-        return mapToTeamModel(response);
+        return mapToTeamModel(response.data);
     }
 
     public static async createTeam(team: ITeam): Promise<ITeam> {

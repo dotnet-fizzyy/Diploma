@@ -11,7 +11,7 @@ const StoryHistoryContainer = () => {
     const params: any = useParams();
 
     const storyHistory = useSelector(storySelectors.getStoryHistory);
-    const team = useSelector(teamSelectors.getCurrentTeam);
+    const team = useSelector(teamSelectors.getSelectedTeam);
 
     useEffect(() => {
         if (!storyHistory.length) {

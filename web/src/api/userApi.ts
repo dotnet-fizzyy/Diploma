@@ -1,14 +1,15 @@
 import { AxiosResponse } from 'axios';
-import * as routeConstants from '../constants/routeConstants';
+import { getCloudStorageUrl, SignInUrl, SignUpUrl, UserUrls } from '../constants/routeConstants';
+import { mapToFullUserModel, mapToUserModel } from '../mappers/userMapper';
 import { AuthenticationResponse, IJsonPatchBody, TokenType } from '../types';
 import { IAuthenticationUser, IFullUser, IUser } from '../types/userTypes';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class UserApi {
     public static async getUserByToken(): Promise<IUser> {
-        const response: AxiosResponse<IFullUser> = await AxiosBaseApi.axiosGet(routeConstants.UserUrls.getUserByToken);
+        const response: AxiosResponse<IFullUser> = await AxiosBaseApi.axiosGet(UserUrls.getUserByToken);
 
-        return UserApi.mapToFullUserModel(response.data);
+        return mapToFullUserModel(response.data);
     }
 
     public static async createUser(user: IUser): Promise<IUser> {
@@ -23,25 +24,19 @@ export default class UserApi {
             isActive: true,
         };
 
-        const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosPost(
-            routeConstants.UserUrls.createUser,
-            mappedUser
-        );
+        const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosPost(UserUrls.createUser, mappedUser);
 
-        return UserApi.mapToModel(response.data);
+        return mapToUserModel(response.data);
     }
 
     public static async createCustomer(authUser: IAuthenticationUser): Promise<IUser> {
-        const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosPost(routeConstants.SignUpUrl, authUser);
+        const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosPost(SignUpUrl, authUser);
 
-        return UserApi.mapToModel(response.data);
+        return mapToUserModel(response.data);
     }
 
     public static async authenticate(authUser: IAuthenticationUser): Promise<AuthenticationResponse> {
-        const response: AxiosResponse<AuthenticationResponse> = await AxiosBaseApi.axiosPost(
-            routeConstants.SignInUrl,
-            authUser
-        );
+        const response: AxiosResponse<AuthenticationResponse> = await AxiosBaseApi.axiosPost(SignInUrl, authUser);
 
         return UserApi.mapToAuthenticationUser(response.data);
     }
@@ -54,11 +49,9 @@ export default class UserApi {
         formData.append('file', file);
         formData.append('upload_preset', storageFolder);
 
-        const response: AxiosResponse = await AxiosBaseApi.axiosPost(
-            routeConstants.getCloudStorageUrl(cloudinaryId),
-            formData,
-            { headers: null }
-        );
+        const response: AxiosResponse = await AxiosBaseApi.axiosPost(getCloudStorageUrl(cloudinaryId), formData, {
+            headers: null,
+        });
 
         return response.data.secure_url;
     }
@@ -76,16 +69,13 @@ export default class UserApi {
             isActive: user.isActive,
         };
 
-        const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosPut(
-            routeConstants.UserUrls.updateProfileSettings,
-            mappedUser
-        );
+        const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosPut(UserUrls.updateProfileSettings, mappedUser);
 
-        return UserApi.mapToModel(response.data);
+        return mapToUserModel(response.data);
     }
 
     public static async updateAvatarLink(body: IJsonPatchBody[]): Promise<void> {
-        await AxiosBaseApi.axiosPatch(routeConstants.UserUrls.updateAvatarLink, body);
+        await AxiosBaseApi.axiosPatch(UserUrls.updateAvatarLink, body);
     }
 
     public static async updatePassword(oldPassword: string, newPassword: string): Promise<void> {
@@ -94,31 +84,7 @@ export default class UserApi {
             newPassword,
         };
 
-        await AxiosBaseApi.axiosPut(routeConstants.UserUrls.updatePassword, body);
-    }
-
-    private static mapToModel(data: any): IUser {
-        return {
-            userId: data.userId,
-            userName: data.userName,
-            password: data.password,
-            email: data.email,
-            userRole: data.userRole,
-            userPosition: data.userPosition,
-            teamId: data.teamId,
-            isActive: data.isActive,
-            avatarLink: data.avatarLink,
-            workSpaceId: data.workSpaceId,
-        };
-    }
-
-    private static mapToFullUserModel(data: any): IFullUser {
-        let fullUser: IFullUser = UserApi.mapToModel(data);
-        fullUser.projectId = data.projectId;
-        fullUser.projectName = data.projectName;
-        fullUser.teamName = data.teamName;
-
-        return fullUser;
+        await AxiosBaseApi.axiosPut(UserUrls.updatePassword, body);
     }
 
     private static mapToAuthenticationUser(data: any): AuthenticationResponse {
@@ -131,7 +97,7 @@ export default class UserApi {
                 type: TokenType[data.refreshToken.type],
                 value: data.refreshToken.value,
             },
-            user: UserApi.mapToFullUserModel(data.user),
+            user: mapToFullUserModel(data.user),
         };
     }
 }

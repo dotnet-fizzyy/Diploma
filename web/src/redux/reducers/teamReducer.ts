@@ -12,6 +12,7 @@ export default function teamsReducer(state = initialState, action: TeamActions.T
     switch (action.type) {
         case TeamActions.TeamActions.CREATE_TEAM_SUCCESS:
             return handleCreateTeamSuccess(state, action);
+        case TeamActions.TeamActions.GET_USER_TEAM_PAGE_SUCCESS:
         case TeamActions.TeamActions.SET_SELECTED_TEAM:
             return handleSetSelectedTeam(state, action);
         case TeamActions.TeamActions.SET_SELECTED_TEAM_BY_ID:

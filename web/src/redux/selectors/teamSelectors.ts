@@ -17,6 +17,6 @@ export function getUserNames(state: IState): ISelectedItem[] {
         : [];
 }
 
-export function getCurrentTeam(state: IState): ITeam {
+export function getSelectedTeam(state: IState): ITeam {
     return state.teams.currentTeam;
 }

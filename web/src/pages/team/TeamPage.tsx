@@ -1,6 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import TeamDescriptionPage from '../../components/team/TeamDescriptionPage';
+import { ITeam } from '../../types/teamTypes';
+import TeamDescriptionPage from './TeamPageDescription';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -24,14 +25,17 @@ const useStyles = makeStyles(() =>
     })
 );
 
-const TeamPage = () => {
+export interface ITeamPageProps {
+    team: ITeam;
+}
+
+const TeamPage = (props: ITeamPageProps) => {
     const classes = useStyles();
+    const { team } = props;
 
     return (
         <div className={classes.root}>
-            <div className={classes.mainContainer}>
-                <TeamDescriptionPage />
-            </div>
+            <div className={classes.mainContainer}>{team && team.teamId && <TeamDescriptionPage team={team} />}</div>
         </div>
     );
 };

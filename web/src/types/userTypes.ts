@@ -9,6 +9,7 @@ export interface IUser {
     isActive: boolean;
     avatarLink: string;
     email: string;
+    creationDate?: Date;
 }
 
 export interface IFullUser extends IUser {

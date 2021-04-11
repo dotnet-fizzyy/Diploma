@@ -17,7 +17,7 @@ const ColumnContainer = (props: IColumnContainerProps) => {
     const { column } = props;
 
     const stories: IStory[] = useSelector(storiesSelectors.getStoriesForColumn(column.key));
-    const team: ITeam = useSelector(teamSelectors.getCurrentTeam);
+    const team: ITeam = useSelector(teamSelectors.getSelectedTeam);
     const isDragging: boolean = useSelector(storiesSelectors.getIsDragging);
 
     const onSelectStory = (storyId: string) => {

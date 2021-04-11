@@ -5,7 +5,6 @@ import { initialTeamState, teamStateFields } from '../../../constants/teamConsta
 import { ISelectedItem } from '../../../types/storyTypes';
 import { ITeam } from '../../../types/teamTypes';
 import Button from '../../common/Button';
-import FormDropdown from '../../common/FormDropdown';
 import FormTextField from '../../common/FormTextField';
 import MainLabel, { LabelType } from '../../common/MainLabel';
 import ModalCloseButtonContainer from '../close-button/ModalCloseButtonContainer';
@@ -43,7 +42,7 @@ export interface ITeamModalProps {
 
 const TeamModal = (props: ITeamModalProps) => {
     const classes = useStyles();
-    const { projects, validateField, onSubmit } = props;
+    const { validateField, onSubmit } = props;
 
     return (
         <Formik initialValues={initialTeamState} onSubmit={onSubmit}>
@@ -71,14 +70,14 @@ const TeamModal = (props: ITeamModalProps) => {
                                     validate={validateField}
                                 />
                             </div>
-                            <div className={classes.fieldContainer}>
-                                <Field
-                                    label="Project"
-                                    name={teamStateFields.projectId}
-                                    items={projects}
-                                    component={FormDropdown}
-                                />
-                            </div>
+                            {/*<div className={classes.fieldContainer}>*/}
+                            {/*    <Field*/}
+                            {/*        label="Project"*/}
+                            {/*        name={teamStateFields.projectId}*/}
+                            {/*        items={projects}*/}
+                            {/*        component={FormDropdown}*/}
+                            {/*    />*/}
+                            {/*</div>*/}
                             <div className={classes.buttonContainer}>
                                 <Button label="Create team" type="submit" disabled={!isAnyFieldTouched || !isValid} />
                             </div>

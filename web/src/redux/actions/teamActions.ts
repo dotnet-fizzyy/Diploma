@@ -79,7 +79,7 @@ export function getUserTeamPageSuccess(team: ITeam): IGetUserTeamPageSuccess {
 
 export function getUserTeamPageFailure(error: Error): IGetUserTeamPageFailure {
     return {
-        type: TeamActions.GET_USER_TEAM_PAGE_SUCCESS,
+        type: TeamActions.GET_USER_TEAM_PAGE_FAILURE,
         payload: error,
     };
 }

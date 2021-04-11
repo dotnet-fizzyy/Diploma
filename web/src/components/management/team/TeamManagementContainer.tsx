@@ -7,7 +7,7 @@ import TeamManagement, { ITeamManagementProps } from './TeamManagement';
 
 const TeamManagementContainer = () => {
     const dispatch = useDispatch();
-    const team = useSelector(teamSelectors.getCurrentTeam);
+    const team = useSelector(teamSelectors.getSelectedTeam);
 
     const onClickAddUser = () => {
         dispatch(modalActions.openModal(ModalTypes.USER_CUSTOMER));

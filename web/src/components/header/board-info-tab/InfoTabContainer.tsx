@@ -15,7 +15,7 @@ import InfoTab, { IInfoTabProps } from './InfoTab';
 const InfoTabContainer = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const team = useSelector(teamSelectors.getCurrentTeam);
+    const team = useSelector(teamSelectors.getSelectedTeam);
     const user = useSelector(userSelectors.getUser);
     const epic = useSelector(epicsSelectors.getCurrentEpic);
     const epics = useSelector(epicsSelectors.getEpicsNames);
