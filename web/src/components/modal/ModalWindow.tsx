@@ -4,7 +4,7 @@ import React from 'react';
 import { ModalTypes } from '../../types/modalTypes';
 import EpicModalContainer from './epic/EpicModalContainer';
 import ProjectModalContainer from './project/ProjectModalContainer';
-import SprintCreationContainer from './sprint/SprintCreationContainer';
+import SprintModalContainer from './sprint/SprintModalContainer';
 import StoryCreationContainer from './story/StoryCreationContainer';
 import TeamContainerModal from './team/TeamContainerModal';
 import UserCustomerModalContainer from './user/customer-management/UserModalContainer';
@@ -40,7 +40,7 @@ const ModalWindow = (props: IModalWindowProps) => {
             case ModalTypes.PROJECT:
                 return <ProjectModalContainer />;
             case ModalTypes.SPRINT:
-                return <SprintCreationContainer />;
+                return <SprintModalContainer />;
             case ModalTypes.EPIC:
                 return <EpicModalContainer />;
             case ModalTypes.USER_CUSTOMER:

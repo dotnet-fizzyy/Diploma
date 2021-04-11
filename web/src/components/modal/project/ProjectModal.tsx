@@ -81,7 +81,7 @@ const ProjectModal = (props: IProjectCreationProps) => {
                                 <Field
                                     label="Project Description"
                                     placeholder="Add full and clean description for your task"
-                                    minHeight="93px"
+                                    minHeight="113px"
                                     name={projectFields.projectDescription}
                                     component={FormTextArea}
                                 />

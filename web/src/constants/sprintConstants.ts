@@ -1,6 +1,6 @@
 import { ISprint } from '../types/sprintTypes';
 
-export const initialSprintState: ISprint = {
+export const InitialSprintState: ISprint = {
     endDate: new Date(),
     epicId: '',
     sprintId: '',
@@ -8,7 +8,7 @@ export const initialSprintState: ISprint = {
     startDate: new Date(),
 };
 
-export const sprintFields = {
+export const SprintFields = {
     endDate: 'endDate',
     epicId: 'epicId',
     sprintId: 'sprintId',
