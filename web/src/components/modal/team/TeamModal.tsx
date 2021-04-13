@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { initialTeamState, teamStateFields } from '../../../constants/teamConstants';
+import { teamStateFields } from '../../../constants/teamConstants';
 import { ISelectedItem } from '../../../types/storyTypes';
 import { ITeam } from '../../../types/teamTypes';
 import Button from '../../common/Button';
@@ -35,24 +35,29 @@ const useStyles = makeStyles(() =>
 );
 
 export interface ITeamModalProps {
+    isUpdate: boolean;
     projects: ISelectedItem[];
+    initialTeam: ITeam;
     validateField: (value: string) => string;
     onSubmit: (values: ITeam) => void;
 }
 
 const TeamModal = (props: ITeamModalProps) => {
     const classes = useStyles();
-    const { validateField, onSubmit } = props;
+    const { isUpdate, initialTeam, validateField, onSubmit } = props;
 
     return (
-        <Formik initialValues={initialTeamState} onSubmit={onSubmit}>
+        <Formik initialValues={initialTeam} onSubmit={onSubmit}>
             {({ isValid, touched }) => {
                 const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
 
                 return (
                     <div className={classes.root}>
                         <Form>
-                            <MainLabel title="Create a new team" variant={LabelType.PRIMARY} />
+                            <MainLabel
+                                title={`${isUpdate ? 'Update' : 'Create new'} team`}
+                                variant={LabelType.PRIMARY}
+                            />
                             <ModalCloseButtonContainer />
                             <div className={classes.fieldContainer}>
                                 <Field
@@ -79,7 +84,11 @@ const TeamModal = (props: ITeamModalProps) => {
                             {/*    />*/}
                             {/*</div>*/}
                             <div className={classes.buttonContainer}>
-                                <Button label="Create team" type="submit" disabled={!isAnyFieldTouched || !isValid} />
+                                <Button
+                                    label="Create team"
+                                    type="submit"
+                                    disabled={!isUpdate && (!isAnyFieldTouched || (isAnyFieldTouched && !isValid))}
+                                />
                             </div>
                         </Form>
                     </div>

@@ -19,6 +19,8 @@ export default function teamsReducer(state = initialState, action: TeamActions.T
             return handleSetSelectedTeamById(state, action);
         case UserActions.UserActions.CREATE_USER_SUCCESS:
             return handleCreateUserSuccess(state, action as any);
+        case TeamActions.TeamActions.ADD_TEAM_SIMPLE_ITEMS:
+            return handleSetSimpleItems(state, action);
         default:
             return state;
     }
@@ -56,5 +58,12 @@ function handleCreateUserSuccess(state: ITeamState, action: UserActions.ICreateU
                   }
                 : x;
         }),
+    };
+}
+
+function handleSetSimpleItems(state: ITeamState, action: TeamActions.IAddTeamSimpleItems): ITeamState {
+    return {
+        ...state,
+        simpleItems: action.payload,
     };
 }

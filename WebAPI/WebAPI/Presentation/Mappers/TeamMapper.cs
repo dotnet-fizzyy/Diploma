@@ -27,7 +27,8 @@ namespace WebAPI.Presentation.Mappers
                 Id = team.TeamId,
                 ProjectId = team.ProjectId,
                 TeamName = team.TeamName,
-                Location = team.Location
+                Location = team.Location,
+                CreationDate = team.CreationDate,
             };
 
             return teamEntity;
@@ -46,7 +47,8 @@ namespace WebAPI.Presentation.Mappers
                 ProjectId = team.ProjectId,
                 TeamName = team.TeamName,
                 Location = team.Location,
-                MembersCount = team.MembersCount
+                MembersCount = team.MembersCount,
+                CreationDate = team.CreationDate
             };
 
             return teamModel;
@@ -65,6 +67,7 @@ namespace WebAPI.Presentation.Mappers
                 TeamName = team.TeamName,
                 Location = team.Location,
                 ProjectId = team.ProjectId,
+                CreationDate = team.CreationDate,
                 Users = team.Users.Select(_userMapper.MapToModel).ToList(),
             };
 

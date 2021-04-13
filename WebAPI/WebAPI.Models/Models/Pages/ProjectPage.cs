@@ -7,7 +7,7 @@ namespace WebAPI.Models.Models.Pages
     {
         public Project Project { get; set; }
 
-        public IList<TeamSimpleModel> Team { get; set; } = new List<TeamSimpleModel>();
+        public IList<TeamSimpleModel> Teams { get; set; } = new List<TeamSimpleModel>();
 
         public IList<Epic> Epics { get; set; } = new List<Epic>();
     }

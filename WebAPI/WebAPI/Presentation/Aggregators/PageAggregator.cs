@@ -40,7 +40,7 @@ namespace WebAPI.Presentation.Aggregators
             var projectPage = new ProjectPage
             {
                 Project = _projectMapper.MapToModel(project),
-                Team = project.Teams.Select(_teamMapper.MapToSimpleModel).ToList(),
+                Teams = project.Teams.Select(_teamMapper.MapToSimpleModel).ToList(),
                 Epics =  project.Epics.Select(_epicMapper.MapToModel).ToList()
             };
 

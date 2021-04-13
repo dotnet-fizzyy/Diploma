@@ -18,6 +18,14 @@ const useStyles = makeStyles(() =>
         table: {
             marginTop: '50px',
         },
+        settingsHeaderPart: {
+            flexGrow: 0,
+            flexBasis: '180px',
+            flexShrink: 0,
+            '& button': {
+                marginBottom: '10px',
+            },
+        },
     })
 );
 
@@ -46,13 +54,16 @@ const WorkSpacePageDescription = (props: IWorkSpacePageDescriptionProps) => {
             <div className={classes.body}>
                 <PageHeaderTab
                     title={workSpaceName}
-                    description={workSpaceDescription}
+                    descriptionItems={[{ title: 'Description', description: workSpaceDescription }]}
                     creationDate={creationDate}
-                    onClickUpdateInfo={onClickUpdateWorkSpaceInfo}
-                >
-                    <Button label="Create project" disabled={false} onClick={onClickCreateProject} />
-                    <Button label="Create customer" disabled={false} onClick={onClickCreateCustomer} />
-                </PageHeaderTab>
+                    options={
+                        <div className={classes.settingsHeaderPart}>
+                            <Button label="Update info" disabled={false} onClick={onClickUpdateWorkSpaceInfo} />
+                            <Button label="Create project" disabled={false} onClick={onClickCreateProject} />
+                            <Button label="Create customer" disabled={false} onClick={onClickCreateCustomer} />
+                        </div>
+                    }
+                />
                 <div className={classes.table}>
                     <WorkSpaceTable workSpaceProjects={workSpaceProjects} onClickViewProject={onClickViewProject} />
                 </div>

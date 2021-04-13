@@ -3,7 +3,6 @@ import classnames from 'classnames';
 import moment from 'moment';
 import React from 'react';
 import { DateFormat } from '../../../constants';
-import Button from '../../common/Button';
 import MainLabel, { LabelType } from '../../common/MainLabel';
 
 const useStyles = makeStyles(() =>
@@ -16,14 +15,6 @@ const useStyles = makeStyles(() =>
             flexGrow: 1,
             flexBasis: 0,
             flexShrink: 0,
-        },
-        settingsHeaderPart: {
-            flexGrow: 0,
-            flexBasis: '180px',
-            flexShrink: 0,
-            '& button': {
-                marginBottom: '10px',
-            },
         },
         descriptionContainer: {
             marginTop: '20px',
@@ -48,17 +39,28 @@ const useStyles = makeStyles(() =>
     })
 );
 
-export interface IPageHeaderTab {
+export interface IPageHeaderTabDescription {
     title: string;
     description: string;
+}
+
+export interface IPageHeaderTab {
+    title: string;
+    descriptionItems: IPageHeaderTabDescription[];
     creationDate: Date;
-    children?: React.ReactNode;
-    onClickUpdateInfo: () => void;
+    options?: React.ReactNode;
 }
 
 const PageHeaderTab = (props: IPageHeaderTab) => {
     const classes = useStyles();
-    const { children, title, creationDate, description, onClickUpdateInfo } = props;
+    const { options, title, creationDate, descriptionItems } = props;
+
+    const getDescription = (item: IPageHeaderTabDescription, index: number): React.ReactNode => (
+        <div key={index} className={classes.descriptionContainer}>
+            <span className={classnames(classes.text, classes.descriptionLabel)}>{item.title}</span>
+            <span className={classnames(classes.text, classes.descriptionText)}>{item.description || '-'}</span>
+        </div>
+    );
 
     return (
         <div className={classes.root}>
@@ -67,15 +69,9 @@ const PageHeaderTab = (props: IPageHeaderTab) => {
                 <span className={classnames(classes.text, classes.creationDate)}>
                     Creation date: {moment(creationDate).format(DateFormat)}
                 </span>
-                <div className={classes.descriptionContainer}>
-                    <span className={classnames(classes.text, classes.descriptionLabel)}>Description</span>
-                    <span className={classnames(classes.text, classes.descriptionText)}>{description || '-'}</span>
-                </div>
+                {descriptionItems && descriptionItems.length ? descriptionItems.map(getDescription) : null}
             </div>
-            <div className={classes.settingsHeaderPart}>
-                <Button label="Update info" disabled={false} onClick={onClickUpdateInfo} />
-                {children}
-            </div>
+            {options}
         </div>
     );
 };

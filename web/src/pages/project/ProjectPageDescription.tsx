@@ -36,6 +36,14 @@ const useStyles = makeStyles(() =>
             fontSize: '16px',
             color: '#AFC1C4',
         },
+        settingsHeaderPart: {
+            flexGrow: 0,
+            flexBasis: '180px',
+            flexShrink: 0,
+            '& button': {
+                marginBottom: '10px',
+            },
+        },
     })
 );
 
@@ -68,13 +76,16 @@ const ProjectPageDescription = (props: IProjectPageDescriptionProps) => {
             <div className={classes.body}>
                 <PageHeaderTab
                     title={project.projectName}
-                    description={project.projectDescription}
+                    descriptionItems={[{ title: 'Description', description: project.projectDescription }]}
                     creationDate={project.creationDate}
-                    onClickUpdateInfo={onClickUpdateProjectInfo}
-                >
-                    <Button label="Add team" disabled={false} onClick={onClickCreateTeamInfo} />
-                    <Button label="View board" disabled={false} onClick={onClickViewBoard} />
-                </PageHeaderTab>
+                    options={
+                        <div className={classes.settingsHeaderPart}>
+                            <Button label="Update info" disabled={false} onClick={onClickUpdateProjectInfo} />
+                            <Button label="Add team" disabled={false} onClick={onClickCreateTeamInfo} />
+                            <Button label="View board" disabled={false} onClick={onClickViewBoard} />
+                        </div>
+                    }
+                />
                 <div className={classes.table}>
                     <ProjectList label="Epics" listItems={epics} onClickCreate={onClickCreateEpic} />
                     <ProjectList label="Sprints" listItems={sprints} onClickCreate={onClickCreateSprint} />

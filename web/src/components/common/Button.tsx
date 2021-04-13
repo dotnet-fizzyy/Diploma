@@ -19,6 +19,9 @@ const useStyles = makeStyles(() =>
                 boxShadow: 'none',
             },
         },
+        startIcon: {
+            marginRight: '4px',
+        },
     })
 );
 
@@ -27,11 +30,12 @@ export interface IButtonProps {
     disabled: boolean;
     onClick?: () => void;
     type?: string;
+    startIcon?: React.ReactNode;
 }
 
 const Button = (props: IButtonProps) => {
     const classes = useStyles();
-    const { label, disabled, onClick, type } = props;
+    const { label, disabled, onClick, type, startIcon } = props;
 
     return (
         <MuiButton
@@ -41,6 +45,8 @@ const Button = (props: IButtonProps) => {
             color="primary"
             variant="contained"
             type={(type as any) || 'button'}
+            startIcon={startIcon}
+            classes={{ startIcon: classes.startIcon }}
         >
             {label}
         </MuiButton>

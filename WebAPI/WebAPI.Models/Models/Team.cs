@@ -12,6 +12,8 @@ namespace WebAPI.Models.Models
         
         public string Location { get; set; }
 
+        public DateTime CreationDate { get; set; }
+        
         public virtual int MembersCount { get; set; }
     }
 }

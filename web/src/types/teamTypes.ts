@@ -3,6 +3,7 @@ import { IUser } from './userTypes';
 interface IBaseTeam {
     teamId: string;
     teamName: string;
+    creationDate?: Date;
 }
 
 export interface ITeam extends IBaseTeam {

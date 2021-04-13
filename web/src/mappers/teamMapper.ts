@@ -1,6 +1,6 @@
 import { ITeam, ITeamListItem } from '../types/teamTypes';
 
-export function mapToTeamModel(data): ITeam {
+export function mapToTeamModel(data: any): ITeam {
     return {
         teamId: data.teamId,
         teamName: data.teamName,
@@ -8,10 +8,11 @@ export function mapToTeamModel(data): ITeam {
         projectId: data.projectId,
         location: data.location,
         users: data.users,
+        creationDate: new Date(data.creationDate),
     };
 }
 
-export function mapToSimpleTeamModel(data): ITeamListItem {
+export function mapToSimpleTeamModel(data: any): ITeamListItem {
     return {
         teamId: data.teamId,
         teamName: data.teamName,

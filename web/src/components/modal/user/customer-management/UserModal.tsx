@@ -102,7 +102,6 @@ const UserModal = (props: IUserCreationProps) => {
                                     label="Position"
                                     name={userFields.userPosition}
                                     items={userPositions}
-                                    disabled={true}
                                     component={FormDropdown}
                                 />
                             </div>
@@ -111,7 +110,6 @@ const UserModal = (props: IUserCreationProps) => {
                                     label="Role"
                                     name={userFields.userRole}
                                     items={userRoles}
-                                    disabled={true}
                                     component={FormDropdown}
                                 />
                             </div>
