@@ -2,6 +2,12 @@ import { Button as MuiButton } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
+export enum ButtonVariant {
+    DEFAULT = 'DEFAULT',
+    SUCCESS = 'SUCCESS',
+    DANGER = 'DANGER',
+}
+
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
@@ -11,11 +17,41 @@ const useStyles = makeStyles(() =>
             fontWeight: 600,
             fontSize: '16px',
             textTransform: 'capitalize',
-            backgroundColor: '#75BAF7',
+            color: ({ buttonVariant }: IButtonProps) => {
+                switch (buttonVariant) {
+                    case ButtonVariant.SUCCESS:
+                        return 'green';
+                    case ButtonVariant.DEFAULT:
+                    default:
+                        return '#FFF';
+                }
+            },
+            backgroundColor: ({ buttonVariant }: IButtonProps) => {
+                switch (buttonVariant) {
+                    case ButtonVariant.SUCCESS:
+                        return '#a2ffa0';
+                    case ButtonVariant.DEFAULT:
+                    default:
+                        return '#75BAF7';
+                }
+            },
             boxShadow: 'none',
             transition: 'unset',
             '&:hover': {
-                backgroundColor: '#E8F4FF',
+                color: ({ buttonVariant }: IButtonProps) => {
+                    switch (buttonVariant) {
+                        case ButtonVariant.DEFAULT:
+                        default:
+                            return '#FFF';
+                    }
+                },
+                backgroundColor: ({ buttonVariant }: IButtonProps) => {
+                    switch (buttonVariant) {
+                        case ButtonVariant.DEFAULT:
+                        default:
+                            return '#E8F4FF';
+                    }
+                },
                 boxShadow: 'none',
             },
         },
@@ -31,10 +67,11 @@ export interface IButtonProps {
     onClick?: () => void;
     type?: string;
     startIcon?: React.ReactNode;
+    buttonVariant?: ButtonVariant;
 }
 
 const Button = (props: IButtonProps) => {
-    const classes = useStyles();
+    const classes = useStyles(props);
     const { label, disabled, onClick, type, startIcon } = props;
 
     return (

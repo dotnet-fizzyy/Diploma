@@ -13,6 +13,6 @@ namespace WebAPI.Core.Interfaces.Database
         
         Task UpdateUserWorkSpace(User user);
         
-        Task DeactivateUser(User user);
+        Task ChangeUserActivityStatusAsync(User user);
     }
 }

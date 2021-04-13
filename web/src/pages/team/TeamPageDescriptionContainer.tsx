@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { openModal } from '../../redux/actions/modalActions';
+import { changeUserActivityStatusRequest } from '../../redux/actions/userActions';
 import { ModalOptions, ModalTypes } from '../../types/modalTypes';
 import { ITeam } from '../../types/teamTypes';
 import TeamPageDescription, { ITeamPageDescriptionProps } from './TeamPageDescription';
@@ -21,10 +22,15 @@ const TeamPageDescriptionContainer = (props: ITeamPageDescriptionContainerProps)
         dispatch(openModal(ModalTypes.TEAM, ModalOptions.TEAM_UPDATE));
     };
 
+    const onClickChangeStatus = (userId: string, isActive: boolean): void => {
+        dispatch(changeUserActivityStatusRequest(userId, isActive));
+    };
+
     const teamPageDescriptionProps: ITeamPageDescriptionProps = {
         team,
         onClickAddUser,
         onClickUpdateTeam,
+        onClickChangeStatus,
     };
 
     return <TeamPageDescription {...teamPageDescriptionProps} />;

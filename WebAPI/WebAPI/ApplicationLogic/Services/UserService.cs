@@ -128,11 +128,11 @@ namespace WebAPI.ApplicationLogic.Services
             await _userRepository.UpdateUserAvatarLinkAsync(userEntity);
         }
 
-        public async Task DeactivateUser(User user)
+        public async Task ChangeUserActivityStatusAsync(User user)
         {
             var userEntity = _userMapper.MapToEntity(user);
 
-            await _userRepository.DeactivateUser(userEntity);
+            await _userRepository.ChangeUserActivityStatusAsync(userEntity);
         }
 
         public async Task RemoveUser(Guid id)

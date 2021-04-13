@@ -42,7 +42,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeactivateUser(User user)
+        public async Task ChangeUserActivityStatusAsync(User user)
         {
             _dbContext.Users.Attach(user);
             _dbContext.Entry(user).Property(x => x.IsActive).IsModified = true;

@@ -6,14 +6,15 @@ import React from 'react';
 import { DateFormat } from '../../constants';
 import { IUser, UserPosition, UserRole } from '../../types/userTypes';
 import { getFirstNameLetter } from '../../utils';
+import Button, { ButtonVariant } from '../common/Button';
 
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
             width: '100%',
-            height: '100%',
+            height: 'max-content',
             maxWidth: '400px',
-            minHeight: '300px',
+            maxHeight: '300px',
             backgroundColor: '#FFF',
             borderRadius: '10px',
         },
@@ -67,11 +68,16 @@ const useStyles = makeStyles(() =>
 
 export interface ITeamPersonCardProps {
     user: IUser;
+    onClickChangeStatus: (userId: string, isActive: boolean) => void;
 }
 
 const TeamPersonCard = (props: ITeamPersonCardProps) => {
     const classes = useStyles();
-    const { user } = props;
+    const { user, onClickChangeStatus } = props;
+
+    const onClick = (): void => {
+        onClickChangeStatus(user.userId, !user.isActive);
+    };
 
     return (
         <div className={classes.root}>
@@ -105,6 +111,7 @@ const TeamPersonCard = (props: ITeamPersonCardProps) => {
                         <span className={classes.text}>{user.email}</span>
                     </div>
                 </div>
+                <Button label="Activate" disabled={false} buttonVariant={ButtonVariant.SUCCESS} onClick={onClick} />
             </div>
         </div>
     );

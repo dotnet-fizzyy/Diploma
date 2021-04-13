@@ -24,7 +24,7 @@ namespace WebAPI.Core.Interfaces.Services
         
         Task UpdateUserAvatarAsync(User user);
         
-        Task DeactivateUser(User user);
+        Task ChangeUserActivityStatusAsync(User user);
 
         Task RemoveUser(Guid id);
     }

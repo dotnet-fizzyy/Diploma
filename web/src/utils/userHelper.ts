@@ -34,3 +34,18 @@ export function createRequestBodyForUserUpdateLink(userId: string, avatarLink: s
         },
     ];
 }
+
+export function createRequestBodyForUserChangeStatus(userId: string, isActive: boolean): IJsonPatchBody[] {
+    return [
+        {
+            op: 'add',
+            path: '/userId',
+            value: userId,
+        },
+        {
+            op: 'add',
+            path: '/isActive',
+            value: String(isActive),
+        },
+    ];
+}

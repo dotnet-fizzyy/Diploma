@@ -26,6 +26,9 @@ export const UserActions = {
     UPDATE_PROFILE_SETTINGS_REQUEST: 'UPDATE_PROFILE_SETTINGS_REQUEST',
     UPDATE_PROFILE_SETTINGS_SUCCESS: 'UPDATE_PROFILE_SETTINGS_SUCCESS',
     UPDATE_PROFILE_SETTINGS_FAILURE: 'UPDATE_PROFILE_SETTINGS_FAILURE',
+    CHANGE_USER_ACTIVITY_STATUS_REQUEST: 'CHANGE_USER_ACTIVITY_STATUS_REQUEST',
+    CHANGE_USER_ACTIVITY_STATUS_SUCCESS: 'CHANGE_USER_ACTIVITY_STATUS_SUCCESS',
+    CHANGE_USER_ACTIVITY_STATUS_FAILURE: 'CHANGE_USER_ACTIVITY_STATUS_FAILURE',
 };
 
 /*
@@ -146,6 +149,24 @@ export interface IUpdateProfileSettingsSuccess {
 
 export interface IUpdateProfileSettingsFailure {
     type: typeof UserActions.UPDATE_PROFILE_SETTINGS_FAILURE;
+    payload: Error;
+}
+
+export interface IChangeUserActivityStatusRequest {
+    type: typeof UserActions.CHANGE_USER_ACTIVITY_STATUS_REQUEST;
+    payload: {
+        userId: string;
+        isActive: boolean;
+    };
+}
+
+export interface IChangeUserActivityStatusSuccess {
+    type: typeof UserActions.CHANGE_USER_ACTIVITY_STATUS_SUCCESS;
+    payload: string;
+}
+
+export interface IChangeUserActivityStatusFailure {
+    type: typeof UserActions.CHANGE_USER_ACTIVITY_STATUS_FAILURE;
     payload: Error;
 }
 
@@ -328,6 +349,30 @@ export function updateProfileSettingsFailure(error: Error): IUpdateProfileSettin
     };
 }
 
+export function changeUserActivityStatusRequest(userId: string, isActive: boolean): IChangeUserActivityStatusRequest {
+    return {
+        type: UserActions.CHANGE_USER_ACTIVITY_STATUS_REQUEST,
+        payload: {
+            userId,
+            isActive,
+        },
+    };
+}
+
+export function changeUserActivityStatusSuccess(userId: string): IChangeUserActivityStatusSuccess {
+    return {
+        type: UserActions.CHANGE_USER_ACTIVITY_STATUS_SUCCESS,
+        payload: userId,
+    };
+}
+
+export function changeUserActivityStatusFailure(error: Error): IChangeUserActivityStatusFailure {
+    return {
+        type: UserActions.CHANGE_USER_ACTIVITY_STATUS_FAILURE,
+        payload: error,
+    };
+}
+
 export type CurrentUserActionTypes = IAddUser &
     IAuthenticationSuccess &
     IAuthenticationFailure &
@@ -342,4 +387,5 @@ export type CurrentUserActionTypes = IAddUser &
     IUpdatePasswordFailure &
     IUpdateProfileSettingsRequest &
     IUpdateProfileSettingsSuccess &
-    IUpdateProfileSettingsFailure;
+    IUpdateProfileSettingsFailure &
+    IChangeUserActivityStatusSuccess;

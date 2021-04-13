@@ -127,22 +127,22 @@ namespace WebAPI.Presentation.Controllers
         }
         
         /// <summary>
-        /// Deactivate user with provided model properties
+        /// Change user activity status with provided model properties
         /// </summary>
-        /// <response code="204">Deactivated user with provided model properties</response>
+        /// <response code="204">Changed user activity status with provided model properties</response>
         /// <response code="401">Failed authentication</response>
         /// <response code="404">Unable to find user with provided id</response>
         [HttpPatch]
-        [Route("deactivate")]
+        [Route("activity")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeactivateUser([FromBody] JsonPatchDocument<User> userPatchDocument)
+        public async Task<IActionResult> ChangeUserActivityStatus([FromBody] JsonPatchDocument<User> userPatchDocument)
         {
             var user = new User();
             userPatchDocument.ApplyTo(user);
 
-            await _userService.DeactivateUser(user);
+            await _userService.ChangeUserActivityStatusAsync(user);
             
             return NoContent();
         }

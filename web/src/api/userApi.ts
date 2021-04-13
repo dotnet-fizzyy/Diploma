@@ -3,6 +3,7 @@ import { getCloudStorageUrl, SignInUrl, SignUpUrl, UserUrls } from '../constants
 import { mapToFullUserModel, mapToUserModel } from '../mappers/userMapper';
 import { AuthenticationResponse, IJsonPatchBody, TokenType } from '../types';
 import { IAuthenticationUser, IFullUser, IUser } from '../types/userTypes';
+import { createRequestBodyForUserChangeStatus } from '../utils/userHelper';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class UserApi {
@@ -85,6 +86,12 @@ export default class UserApi {
         };
 
         await AxiosBaseApi.axiosPut(UserUrls.updatePassword, body);
+    }
+
+    public static async changeActivityStatus(userId: string, isActive: boolean): Promise<void> {
+        const body = createRequestBodyForUserChangeStatus(userId, isActive);
+
+        await AxiosBaseApi.axiosPatch(UserUrls.changeStatus, body);
     }
 
     private static mapToAuthenticationUser(data: any): AuthenticationResponse {

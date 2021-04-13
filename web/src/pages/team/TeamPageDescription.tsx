@@ -44,11 +44,12 @@ export interface ITeamPageDescriptionProps {
     team: ITeam;
     onClickAddUser: () => void;
     onClickUpdateTeam: () => void;
+    onClickChangeStatus: (userId: string, isActive: boolean) => void;
 }
 
 const TeamPageDescription = (props: ITeamPageDescriptionProps) => {
     const classes = useStyles();
-    const { team, onClickAddUser, onClickUpdateTeam } = props;
+    const { team, onClickAddUser, onClickUpdateTeam, onClickChangeStatus } = props;
 
     return (
         <div className={classes.root}>
@@ -74,7 +75,7 @@ const TeamPageDescription = (props: ITeamPageDescriptionProps) => {
                     </div>
                 </div>
                 <div className={classes.usersContainer}>
-                    <TeamPersonCard user={mockedUser} />
+                    <TeamPersonCard user={mockedUser} onClickChangeStatus={onClickChangeStatus} />
                 </div>
             </div>
         </div>

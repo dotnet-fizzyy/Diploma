@@ -13,7 +13,7 @@ const initialState: IUserState = {
 export default function userReducer(state = initialState, action: UserActions.CurrentUserActionTypes) {
     switch (action.type) {
         case UserActions.UserActions.VERIFY_USER_REQUEST:
-            return handleVerifyUserRequest(state, action);
+            return handleVerifyUserRequest(state);
         case UserActions.UserActions.ADD_USER:
         case UserActions.UserActions.VERIFY_USER_SUCCESS:
         case UserActions.UserActions.UPDATE_PROFILE_SETTINGS_SUCCESS:
@@ -23,11 +23,11 @@ export default function userReducer(state = initialState, action: UserActions.Cu
         case UserActions.UserActions.AUTHENTICATION_SUCCESS:
             return handleAuthenticationSuccess(state, action);
         case UserActions.UserActions.AUTHENTICATION_FAILURE:
-            return handleAuthenticationFailure(state, action);
+            return handleAuthenticationFailure(state);
         case UserActions.UserActions.REGISTRATION_SUCCESS:
-            return handleRegistrationSuccess(state, action);
+            return handleRegistrationSuccess(state);
         case UserActions.UserActions.HIDE_CUSTOMER_SUCCESSFUL_REGISTRATION:
-            return handleHideCustomerSuccessfulRegistration(state, action);
+            return handleHideCustomerSuccessfulRegistration(state);
         case UserActions.UserActions.UPDATE_AVATAR_SUCCESS:
             return handleUpdateAvatarLink(state, action);
         default:
@@ -35,7 +35,7 @@ export default function userReducer(state = initialState, action: UserActions.Cu
     }
 }
 
-function handleVerifyUserRequest(state: IUserState, action: UserActions.IVerifyUserRequest): IUserState {
+function handleVerifyUserRequest(state: IUserState): IUserState {
     return {
         ...state,
         isLoading: true,
@@ -60,14 +60,14 @@ function handleAuthenticationSuccess(state: IUserState, action: UserActions.IAut
     };
 }
 
-function handleRegistrationSuccess(state: IUserState, action: UserActions.IRegistrationSuccess): IUserState {
+function handleRegistrationSuccess(state: IUserState): IUserState {
     return {
         ...state,
         wasCustomerCreated: true,
     };
 }
 
-function handleAuthenticationFailure(state: IUserState, action: UserActions.IAuthenticationFailure): IUserState {
+function handleAuthenticationFailure(state: IUserState): IUserState {
     return {
         ...state,
         isAuthenticationSuccessful: false,
@@ -88,10 +88,7 @@ function handleGetUser(
     };
 }
 
-function handleHideCustomerSuccessfulRegistration(
-    state: IUserState,
-    action: UserActions.IHideCustomerSuccessfulRegistration
-): IUserState {
+function handleHideCustomerSuccessfulRegistration(state: IUserState): IUserState {
     return {
         ...state,
         wasCustomerCreated: false,

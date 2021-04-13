@@ -1,4 +1,4 @@
-import { IFullUser, IUser, IUserListItem, UserPosition, UserRole } from '../types/userTypes';
+import { IFullUser, IUser, IUserListItem } from '../types/userTypes';
 
 export function mapToUserModel(data: any): IUser {
     return {
@@ -6,8 +6,8 @@ export function mapToUserModel(data: any): IUser {
         userName: data.userName,
         password: data.password,
         email: data.email,
-        userRole: UserRole[data.userRole],
-        userPosition: UserPosition[data.userPosition],
+        userRole: data.userRole,
+        userPosition: data.userPosition,
         teamId: data.teamId,
         isActive: data.isActive,
         avatarLink: data.avatarLink,

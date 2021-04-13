@@ -39,6 +39,7 @@ export const UserUrls = {
     updateProfileSettings: UserBaseUrl,
     updateAvatarLink: `${UserBaseUrl}/avatar`,
     updatePassword: `${UserBaseUrl}/password`,
+    changeStatus: `${UserBaseUrl}/activity`,
 };
 
 const SprintBaseUrl = `${BaseUrl}/sprint`;

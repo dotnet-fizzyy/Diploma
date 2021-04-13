@@ -10,6 +10,8 @@ import {
     addUser,
     authenticationFailure,
     authenticationSuccess,
+    changeUserActivityStatusFailure,
+    changeUserActivityStatusSuccess,
     createUserFailure,
     createUserSuccess,
     registrationFailure,
@@ -23,6 +25,7 @@ import {
     verifyUserFailure,
     verifyUserSuccess,
     IAuthenticationRequest,
+    IChangeUserActivityStatusRequest,
     ICreateUserRequest,
     IRegistrationRequest,
     IUpdateAvatarRequest,
@@ -116,6 +119,18 @@ function* updateProfileSettings(action: IUpdateProfileSettingsRequest) {
     }
 }
 
+function* changeUserActivityStatus(action: IChangeUserActivityStatusRequest) {
+    try {
+        const { userId, isActive } = action.payload;
+
+        yield call(UserApi.changeActivityStatus, userId, isActive);
+
+        yield put(changeUserActivityStatusSuccess(userId));
+    } catch (error) {
+        yield put(changeUserActivityStatusFailure(error));
+    }
+}
+
 export default function* rootCurrentUserSaga() {
     yield takeLatest(UserActions.AUTHENTICATION_REQUEST, authenticateUser);
     yield takeLatest(UserActions.REGISTRATION_REQUEST, createCustomer);
@@ -125,4 +140,5 @@ export default function* rootCurrentUserSaga() {
     yield takeLatest(UserActions.UPDATE_AVATAR_REQUEST, updateAvatarLink);
     yield takeLatest(UserActions.UPDATE_USER_PASSWORD_REQUEST, updatePassword);
     yield takeLatest(UserActions.UPDATE_PROFILE_SETTINGS_REQUEST, updateProfileSettings);
+    yield takeLatest(UserActions.CHANGE_USER_ACTIVITY_STATUS_REQUEST, changeUserActivityStatus);
 }
