@@ -10,6 +10,7 @@ export const WorkSpaceActions = {
     UPDATE_WORKSPACE_REQUEST: 'UPDATE_WORKSPACE_REQUEST',
     UPDATE_WORKSPACE_SUCCESS: 'UPDATE_WORKSPACE_SUCCESS',
     UPDATE_WORKSPACE_FAILURE: 'UPDATE_WORKSPACE_FAILURE',
+    ADD_WORKSPACE: 'ADD_WORKSPACE',
 };
 
 /*
@@ -57,6 +58,11 @@ export interface IUpdateWorkSpaceSuccess {
 export interface IUpdateWorkSpaceFailure {
     type: typeof WorkSpaceActions.UPDATE_WORKSPACE_FAILURE;
     payload: Error;
+}
+
+export interface IAddWorkSpace {
+    type: typeof WorkSpaceActions.ADD_WORKSPACE;
+    payload: IWorkSpace;
 }
 
 /*
@@ -124,5 +130,15 @@ export function updateWorkSpaceError(error: Error): IUpdateWorkSpaceFailure {
     };
 }
 
+export function addWorkSpace(workSpace: IWorkSpace): IAddWorkSpace {
+    return {
+        type: WorkSpaceActions.ADD_WORKSPACE,
+        payload: workSpace,
+    };
+}
+
 //Types
-export type WorkSpaceActionTypes = ICreateWorkSpaceSuccess & IGetUserWorkspacePageSuccess & IUpdateWorkSpaceSuccess;
+export type WorkSpaceActionTypes = ICreateWorkSpaceSuccess &
+    IGetUserWorkspacePageSuccess &
+    IUpdateWorkSpaceSuccess &
+    IAddWorkSpace;

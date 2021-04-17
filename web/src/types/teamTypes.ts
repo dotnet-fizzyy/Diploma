@@ -1,4 +1,5 @@
 import { IUser } from './userTypes';
+import { IWorkSpace } from './workSpaceTypes';
 
 interface IBaseTeam {
     teamId: string;
@@ -14,3 +15,8 @@ export interface ITeam extends IBaseTeam {
 }
 
 export interface ITeamListItem extends IBaseTeam {}
+
+export interface ITeamPage {
+    workSpace: IWorkSpace;
+    team: ITeam;
+}

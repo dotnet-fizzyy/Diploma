@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { WorkSpaceUrls } from '../constants/routeConstants';
+import { mapToWorkSpaceModel } from '../mappers/workSpaceMapper';
 import { IWorkSpace, IWorkSpacePage } from '../types/workSpaceTypes';
 import AxiosBaseApi from './axiosBaseApi';
 
@@ -21,7 +22,7 @@ export default class WorkSpaceApi {
             mappedWorkSpace
         );
 
-        return WorkSpaceApi.mapToModel(response.data);
+        return mapToWorkSpaceModel(response.data);
     }
 
     public static async updateWorkSpace(workSpace: IWorkSpace): Promise<IWorkSpace> {
@@ -30,15 +31,6 @@ export default class WorkSpaceApi {
             workSpace
         );
 
-        return WorkSpaceApi.mapToModel(response.data);
-    }
-
-    private static mapToModel(data: any): IWorkSpace {
-        return {
-            workSpaceId: data.workSpaceId,
-            workSpaceName: data.workSpaceName,
-            workSpaceDescription: data.workSpaceDescription,
-            creationDate: data.creationDate,
-        };
+        return mapToWorkSpaceModel(response.data);
     }
 }

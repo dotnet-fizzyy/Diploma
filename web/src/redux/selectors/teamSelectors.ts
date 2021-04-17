@@ -20,3 +20,7 @@ export function getUserNames(state: IState): ISelectedItem[] {
 export function getSelectedTeam(state: IState): ITeam {
     return state.teams.currentTeam;
 }
+
+export function getSelectedTeamId(state: IState): string {
+    return state.teams.currentTeam ? state.teams.currentTeam.teamId : '';
+}

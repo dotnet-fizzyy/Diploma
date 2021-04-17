@@ -1,14 +1,15 @@
 import { AxiosResponse } from 'axios';
 import { TeamUrls } from '../constants/routeConstants';
 import { mapToTeamModel } from '../mappers/teamMapper';
-import { ITeam } from '../types/teamTypes';
+import { mapToWorkSpaceModel } from '../mappers/workSpaceMapper';
+import { ITeam, ITeamPage } from '../types/teamTypes';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class TeamApi {
-    public static async getUserTeamPage(teamId: string): Promise<ITeam> {
-        const response: AxiosResponse<ITeam> = await AxiosBaseApi.axiosGet(`${TeamUrls.getUserTeamPage}/${teamId}`);
+    public static async getUserTeamPage(teamId: string): Promise<ITeamPage> {
+        const response: AxiosResponse<ITeamPage> = await AxiosBaseApi.axiosGet(`${TeamUrls.getUserTeamPage}/${teamId}`);
 
-        return mapToTeamModel(response.data);
+        return { workSpace: mapToWorkSpaceModel(response.data.workSpace), team: mapToTeamModel(response.data.team) };
     }
 
     public static async createTeam(team: ITeam): Promise<ITeam> {

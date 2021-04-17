@@ -2,6 +2,7 @@ using System.Linq;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models.Result;
+using WebAPI.Models.Models.Simple;
 
 namespace WebAPI.Presentation.Mappers
 {
@@ -73,6 +74,24 @@ namespace WebAPI.Presentation.Mappers
             };
 
             return epicModel;
+        }
+
+        public EpicSimpleModel MapToSimpleModel(Epic epic)
+        {
+            if (epic == null)
+            {
+                return new EpicSimpleModel();
+            }
+
+            var epicSimpleModel = new EpicSimpleModel
+            {
+                EpicId = epic.Id,
+                EpicName = epic.EpicName,
+                StartDate = epic.StartDate,
+                EndDate = epic.EndDate,
+            };
+
+            return epicSimpleModel;
         }
     }
 }

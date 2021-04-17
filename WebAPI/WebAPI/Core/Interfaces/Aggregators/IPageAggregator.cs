@@ -7,7 +7,11 @@ namespace WebAPI.Core.Interfaces.Aggregators
 {
     public interface IPageAggregator
     {
-        FullTeam CreateFullTeamModel(Team team);
+        CollectionResponse<WebAPI.Models.Models.StoryHistory> CreateStoryHistoryItems(IList<StoryHistory> storyHistories);
+
+        BoardPage CreateBoardPageModel(Team team, IList<Epic> epics, IList<Sprint> sprints);
+        
+        TeamPage CreateTeamPageModel(WorkSpace workSpace, Team team);
         
         ProjectPage CreateProjectPageModel(Project project);
         

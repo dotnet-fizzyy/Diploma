@@ -21,6 +21,8 @@ export default function teamsReducer(state = initialState, action: TeamActions.T
             return handleCreateUserSuccess(state, action as any);
         case TeamActions.TeamActions.ADD_TEAM_SIMPLE_ITEMS:
             return handleSetSimpleItems(state, action);
+        case UserActions.UserActions.CHANGE_USER_ACTIVITY_STATUS_SUCCESS:
+            return handleUpdateUserActivityStatus(state, action);
         default:
             return state;
     }
@@ -65,5 +67,20 @@ function handleSetSimpleItems(state: ITeamState, action: TeamActions.IAddTeamSim
     return {
         ...state,
         simpleItems: action.payload,
+    };
+}
+
+function handleUpdateUserActivityStatus(
+    state: ITeamState,
+    action: UserActions.IChangeUserActivityStatusSuccess
+): ITeamState {
+    return {
+        ...state,
+        currentTeam: {
+            ...state.currentTeam,
+            users: state.currentTeam.users.map((x) => {
+                return x.userId === action.payload ? { ...x, isActive: !x.isActive } : x;
+            }),
+        },
     };
 }

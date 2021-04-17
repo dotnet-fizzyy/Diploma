@@ -4,6 +4,7 @@ import { BaseRegexExpression } from '../../../../constants';
 import { CustomerInitialState, UserInitialState } from '../../../../constants/userConstants';
 import { createUserRequest } from '../../../../redux/actions/userActions';
 import { getModalOption } from '../../../../redux/selectors/modalSelectors';
+import { getSelectedTeamId } from '../../../../redux/selectors/teamSelectors';
 import { getWorkSpaceId } from '../../../../redux/selectors/workSpaceSelectors';
 import { ModalOptions } from '../../../../types/modalTypes';
 import { IUser } from '../../../../types/userTypes';
@@ -17,11 +18,13 @@ const UserModalContainer = () => {
     const userPositions = createUserPositionDropdownItems();
     const modalOption = useSelector(getModalOption);
     const workSpaceId: string = useSelector(getWorkSpaceId);
+    const teamId: string = useSelector(getSelectedTeamId);
     const initialState = modalOption === ModalOptions.CUSTOMER_CREATION ? CustomerInitialState : UserInitialState;
     const mainLabel: string = 'Create a new team member';
 
     const onClickSubmit = (values: IUser) => {
         values.workSpaceId = workSpaceId;
+        values.teamId = teamId;
 
         dispatch(createUserRequest(values));
     };

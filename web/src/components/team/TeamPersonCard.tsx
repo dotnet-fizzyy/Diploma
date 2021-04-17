@@ -111,7 +111,12 @@ const TeamPersonCard = (props: ITeamPersonCardProps) => {
                         <span className={classes.text}>{user.email}</span>
                     </div>
                 </div>
-                <Button label="Activate" disabled={false} buttonVariant={ButtonVariant.SUCCESS} onClick={onClick} />
+                <Button
+                    label={user.isActive ? 'Deactivate' : 'Activate'}
+                    disabled={false}
+                    buttonVariant={user.isActive ? ButtonVariant.DANGER : ButtonVariant.SUCCESS}
+                    onClick={onClick}
+                />
             </div>
         </div>
     );

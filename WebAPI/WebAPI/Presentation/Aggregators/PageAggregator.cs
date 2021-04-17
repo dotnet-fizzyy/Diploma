@@ -14,25 +14,61 @@ namespace WebAPI.Presentation.Aggregators
         private readonly ITeamMapper _teamMapper;
         private readonly IProjectMapper _projectMapper;
         private readonly IEpicMapper _epicMapper;
+        private readonly ISprintMapper _sprintMapper;
+        private readonly IStoryMapper _storyMapper;
+        private readonly IStoryHistoryMapper _storyHistoryMapper;
 
         public PageAggregator(
             IWorkSpaceMapper workSpaceMapper, 
             ITeamMapper teamMapper, 
             IProjectMapper projectMapper, 
-            IEpicMapper epicMapper
+            IEpicMapper epicMapper,
+            ISprintMapper sprintMapper,
+            IStoryMapper storyMapper,
+            IStoryHistoryMapper storyHistoryMapper
             )
         {
             _workSpaceMapper = workSpaceMapper;
             _teamMapper = teamMapper;
             _projectMapper = projectMapper;
             _epicMapper = epicMapper;
+            _sprintMapper = sprintMapper;
+            _storyMapper = storyMapper;
+            _storyHistoryMapper = storyHistoryMapper;
         }
 
-        public FullTeam CreateFullTeamModel(Team team)
+        public CollectionResponse<WebAPI.Models.Models.StoryHistory> CreateStoryHistoryItems(IList<StoryHistory> storyHistories)
         {
-            var fullTeam = _teamMapper.MapToFullModel(team);
+            var storyHistoryCollection = new CollectionResponse<WebAPI.Models.Models.StoryHistory>
+            {
+                Items = storyHistories.Select(_storyHistoryMapper.MapToModel).ToList()
+            };
 
-            return fullTeam;
+            return storyHistoryCollection;
+        }
+
+        public BoardPage CreateBoardPageModel(Team team, IList<Epic> epics, IList<Sprint> sprints)
+        {
+            var boardPage = new BoardPage
+            {
+                Team = _teamMapper.MapToFullModel(team),
+                Epics = epics.Select(_epicMapper.MapToSimpleModel).ToList(),
+                Sprints = sprints.Select(_sprintMapper.MapToModel).ToList(),
+                Stories = sprints.SelectMany(x => x.Stories.Select(_storyMapper.MapToModel)).ToList(),
+            };
+
+            return boardPage;
+        }
+
+        public TeamPage CreateTeamPageModel(WorkSpace workSpace, Team team)
+        {
+            var teamPageModel = new TeamPage
+            {
+                WorkSpace = _workSpaceMapper.MapToModel(workSpace),
+                Team = _teamMapper.MapToFullModel(team)
+            };
+
+            return teamPageModel;
         }
 
         public ProjectPage CreateProjectPageModel(Project project)

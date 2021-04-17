@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
+using WebAPI.Models.Models;
 using WebAPI.Models.Models.Pages;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Filters;
@@ -33,17 +34,23 @@ namespace WebAPI.Presentation.Controllers
         }
         
         [HttpGet]
-        [Route("board")]
-        public IActionResult GetBoardPageData()
+        [Route("board/project/id/{projectId}/team/id/{teamId}")]
+        public async Task<ActionResult<BoardPage>> GetBoardPageData(Guid projectId, Guid teamId)
         {
-            return Ok();
+            var user = _claimsReader.GetUserClaims(User);
+
+            var projectBoardData = await _pageService.GetBoardPageData(projectId, teamId, user.UserId);
+            
+            return projectBoardData;
         }
         
         [HttpGet]
-        [Route("story-history")]
-        public IActionResult GetStoryHistoryPageData()
+        [Route("story-history/story/id/{storyId}")]
+        public async Task<ActionResult<CollectionResponse<StoryHistory>>> GetStoryHistoryPageIndex(Guid storyId)
         {
-            return Ok();
+            var storyHistory = await _pageService.GetStoryHistoryData(storyId);
+            
+            return storyHistory;
         }
         
         [HttpGet]
@@ -57,11 +64,13 @@ namespace WebAPI.Presentation.Controllers
         
         [HttpGet]
         [Route("team/{teamId}")]
-        public async Task<ActionResult<FullTeam>> GetTeamPageIndex(Guid teamId)
+        public async Task<ActionResult<TeamPage>> GetTeamPageIndex(Guid teamId)
         {
-            var userTeam = await _pageService.GetTeamPageData(teamId);
+            var user = _claimsReader.GetUserClaims(User);
+            
+            var teamPage = await _pageService.GetTeamPageData(user.UserId, teamId);
         
-            return userTeam;
+            return teamPage;
         }
 
         [HttpGet]

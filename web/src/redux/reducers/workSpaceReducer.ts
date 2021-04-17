@@ -22,6 +22,7 @@ export default function workSpaceReducer(
             return handleSetLoadingStatusForWorkSpace(state, action);
         case WorkSpaceActions.WorkSpaceActions.CREATE_WORKSPACE_SUCCESS:
         case WorkSpaceActions.WorkSpaceActions.UPDATE_WORKSPACE_SUCCESS:
+        case WorkSpaceActions.WorkSpaceActions.ADD_WORKSPACE:
             return handleSetWorkSpace(state, action);
         case WorkSpaceActions.WorkSpaceActions.GET_USER_WORKSPACE_PAGE_SUCCESS:
             return handleGetUserWorkSpacePage(state, action);
@@ -42,7 +43,10 @@ function handleSetLoadingStatusForWorkSpace(
     };
 }
 
-function handleSetWorkSpace(state: IWorkSpaceState, action: WorkSpaceActions.ICreateWorkSpaceSuccess): IWorkSpaceState {
+function handleSetWorkSpace(
+    state: IWorkSpaceState,
+    action: WorkSpaceActions.ICreateWorkSpaceSuccess | WorkSpaceActions.IAddWorkSpace
+): IWorkSpaceState {
     return {
         ...state,
         workSpace: action.payload,

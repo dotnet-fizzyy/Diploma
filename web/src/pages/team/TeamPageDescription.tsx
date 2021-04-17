@@ -4,7 +4,6 @@ import React from 'react';
 import Button from '../../components/common/Button';
 import PageHeaderTab from '../../components/header/page-header/PageHeaderTab';
 import TeamPersonCard from '../../components/team/TeamPersonCard';
-import { mockedUser } from '../../mock/mockedUser';
 import { ITeam } from '../../types/teamTypes';
 
 const useStyles = makeStyles(() =>
@@ -75,7 +74,11 @@ const TeamPageDescription = (props: ITeamPageDescriptionProps) => {
                     </div>
                 </div>
                 <div className={classes.usersContainer}>
-                    <TeamPersonCard user={mockedUser} onClickChangeStatus={onClickChangeStatus} />
+                    {team.users && team.users.length
+                        ? team.users.map((x) => (
+                              <TeamPersonCard key={x.userId} user={x} onClickChangeStatus={onClickChangeStatus} />
+                          ))
+                        : null}
                 </div>
             </div>
         </div>

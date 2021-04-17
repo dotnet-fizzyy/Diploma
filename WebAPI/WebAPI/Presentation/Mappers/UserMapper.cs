@@ -101,6 +101,7 @@ namespace WebAPI.Presentation.Mappers
             userModel.WorkSpaceId = userEntity.WorkSpaceId;
             userModel.Email = userEntity.Email;
             userModel.CreationDate = userEntity.CreationDate;
+            userModel.WorkSpaceId = userEntity.WorkSpaceId;
             userModel.UserRole = Enum.Parse<Models.Enums.UserRole>(userEntity.UserRole.ToString(), true);
             userModel.UserPosition = Enum.Parse<Models.Enums.UserPosition>(userEntity.UserPosition.ToString(), true);
         }
