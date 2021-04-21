@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.ApplicationLogic.Utilities;
+using WebAPI.Core.Constants;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Aggregators;
@@ -22,6 +23,7 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly ITeamRepository _teamRepository;
         private readonly ISprintRepository _sprintRepository;
         private readonly IStoryHistoryRepository _storyHistoryRepository;
+        private readonly IStoryRepository _storyRepository;
         private readonly IPageAggregator _pageAggregator;
         
         public PageService(
@@ -31,6 +33,7 @@ namespace WebAPI.ApplicationLogic.Services
             ITeamRepository teamRepository,
             ISprintRepository sprintRepository,
             IStoryHistoryRepository storyHistoryRepository,
+            IStoryRepository storyRepository,
             IPageAggregator pageAggregator
             )
         {
@@ -40,7 +43,19 @@ namespace WebAPI.ApplicationLogic.Services
             _teamRepository = teamRepository;
             _sprintRepository = sprintRepository;
             _storyHistoryRepository = storyHistoryRepository;
+            _storyRepository = storyRepository;
             _pageAggregator = pageAggregator;
+        }
+
+        public async Task<SearchResult> GetSearchResultsAsync(string term, Guid workSpaceId)
+        {
+            var epicEntities = await _epicRepository.GetEpicsByEpicNameTermAsync(term, Search.EpicsLimit, workSpaceId);
+            var sprintEntities = await _sprintRepository.GetSprintsBySprintNameTermAsync(term, Search.SprintsLimit, workSpaceId);
+            var storyEntities = await _storyRepository.GetStoriesByTitleTerm(term, Search.StoriesLimit, workSpaceId);
+
+            var searchResults = _pageAggregator.CreateSearchResultsByTerm(storyEntities, epicEntities, sprintEntities);
+            
+            return searchResults;
         }
 
         public async Task<CollectionResponse<StoryHistory>> GetStoryHistoryData(Guid storyId)

@@ -22,4 +22,11 @@ namespace WebAPI.Core.Constants
         public const string IsBlocked = "Blocked";
         public const string BlockReason = "Block reason";
     }
+
+    public static class Search
+    {
+        public const int EpicsLimit = 2;
+        public const int SprintsLimit = 3;
+        public const int StoriesLimit = 5;
+    }
 }

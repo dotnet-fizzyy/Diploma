@@ -37,6 +37,18 @@ namespace WebAPI.Presentation.Aggregators
             _storyHistoryMapper = storyHistoryMapper;
         }
 
+        public SearchResult CreateSearchResultsByTerm(IList<Story> stories, IList<Epic> epics, IList<Sprint> sprints)
+        {
+            var searchResults = new SearchResult
+            {
+                Epics = epics.Select(_epicMapper.MapToSimpleModel).ToList(),
+                Sprints = sprints.Select(_sprintMapper.MapToModel).ToList(),
+                Stories = stories.Select(_storyMapper.MapToSimpleModel).ToList(),
+            };
+
+            return searchResults;
+        }
+
         public CollectionResponse<WebAPI.Models.Models.StoryHistory> CreateStoryHistoryItems(IList<StoryHistory> storyHistories)
         {
             var storyHistoryCollection = new CollectionResponse<WebAPI.Models.Models.StoryHistory>

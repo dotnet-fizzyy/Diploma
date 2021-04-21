@@ -24,7 +24,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             return storiesFromEpic;
         }
 
-        public async Task<List<Story>> GetStoriesByTitleTerm(string term, int limit, Guid projectId)
+        public async Task<List<Story>> GetStoriesByTitleTerm(string term, int limit, Guid workSpaceId)
         {
             var query = from stories in
                 _dbContext.Stories.Where(
@@ -33,6 +33,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 join sprints in _dbContext.Sprints on stories.SprintId equals sprints.Id
                 join epic in _dbContext.Epics on sprints.EpicId equals epic.Id
                 join project in _dbContext.Projects on epic.ProjectId equals project.Id
+                where project.WorkSpaceId == workSpaceId
                 select stories;
 
 

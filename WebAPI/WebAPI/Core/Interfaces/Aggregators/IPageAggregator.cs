@@ -7,6 +7,8 @@ namespace WebAPI.Core.Interfaces.Aggregators
 {
     public interface IPageAggregator
     {
+        SearchResult CreateSearchResultsByTerm(IList<Story> stories, IList<Epic> epics, IList<Sprint> sprints);
+        
         CollectionResponse<WebAPI.Models.Models.StoryHistory> CreateStoryHistoryItems(IList<StoryHistory> storyHistories);
 
         BoardPage CreateBoardPageModel(Team team, IList<Epic> epics, IList<Sprint> sprints);

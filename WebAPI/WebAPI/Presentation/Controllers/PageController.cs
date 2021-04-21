@@ -25,6 +25,15 @@ namespace WebAPI.Presentation.Controllers
             _pageService = pageService;
             _claimsReader = claimsReader;
         }
+
+        [HttpGet]
+        [Route("search")]
+        public async Task<ActionResult<SearchResult>> GetSearchFieldDataIndex([FromQuery]string term, [FromQuery]Guid workSpaceId)
+        {
+            var searchResult = await _pageService.GetSearchResultsAsync(term, workSpaceId);
+            
+            return searchResult;
+        }
         
         [HttpGet]
         [Route("main")]
@@ -32,7 +41,7 @@ namespace WebAPI.Presentation.Controllers
         {
             return Ok();
         }
-        
+
         [HttpGet]
         [Route("board/project/id/{projectId}/team/id/{teamId}")]
         public async Task<ActionResult<BoardPage>> GetBoardPageData(Guid projectId, Guid teamId)

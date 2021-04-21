@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using WebAPI.Core.Entities;
+using WebAPI.Core.Enums;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models.Result;
-using ColumnType = WebAPI.Core.Enums.ColumnType;
-using StoryPriority = WebAPI.Core.Enums.StoryPriority;
+using WebAPI.Models.Models.Simple;
 
 namespace WebAPI.Presentation.Mappers
 {
@@ -102,6 +102,25 @@ namespace WebAPI.Presentation.Mappers
             };
 
             return fullStoryModel;
+        }
+
+        public StorySimpleModel MapToSimpleModel(Story story)
+        {
+
+            if (story == null)
+            {
+                return new StorySimpleModel();
+            }
+
+            var userSimpleModel = new StorySimpleModel
+            {
+                StoryId = story.Id,
+                Title = story.Title,
+                SprintId = story.SprintId,
+                RecordVersion = story.RecordVersion,
+            };
+
+            return userSimpleModel;
         }
     }
 }

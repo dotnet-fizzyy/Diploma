@@ -9,6 +9,8 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface IPageService
     {
+        Task<SearchResult> GetSearchResultsAsync(string term, Guid workSpaceId);
+        
         Task<CollectionResponse<StoryHistory>> GetStoryHistoryData(Guid storyId);
 
         Task<BoardPage> GetBoardPageData(Guid projectId, Guid teamId, Guid userId);
