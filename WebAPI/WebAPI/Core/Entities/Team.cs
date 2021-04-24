@@ -7,7 +7,7 @@ namespace WebAPI.Core.Entities
     {
         public Team()
         {
-            Users = new List<User>();
+            TeamUsers = new List<TeamUser>();
         }
 
         public Guid? ProjectId { get; set; }
@@ -16,10 +16,8 @@ namespace WebAPI.Core.Entities
         
         public string Location { get; set; }
         
-        public Guid CustomerId { get; set; }
+        public int MembersCount => TeamUsers.Count;
 
-        public int MembersCount => Users.Count;
-
-        public IList<User> Users { get; set; }
+        public IList<TeamUser> TeamUsers { get; set; }
     }
 }

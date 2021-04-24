@@ -67,9 +67,9 @@ namespace WebAPI.ApplicationLogic.Providers
             Team teamEntity = null;
             Project projectEntity = null;
             
-            if (userEntity.TeamId != null)
+            if (userEntity.TeamUserId != null)
             {
-                teamEntity = await _teamRepository.SearchForSingleItemAsync(x => x.Id == userEntity.TeamId);
+                teamEntity = await _teamRepository.SearchForSingleItemAsync(x => x.Id == userEntity.TeamUserId);
                 projectEntity = await _projectRepository.SearchForSingleItemAsync(x => x.Id == teamEntity.ProjectId);
             }
 

@@ -6,13 +6,7 @@ namespace WebAPI.Core.Entities
 {
     public class User : BaseEntity
     {
-        public User()
-        {
-            RefreshTokens = new List<RefreshToken>();
-            Stories = new List<Story>();
-        }
-
-        public Guid? TeamId { get; set; }
+        public Guid? TeamUserId { get; set; }
         
         public Guid? WorkSpaceId { get; set; }
         
@@ -30,8 +24,10 @@ namespace WebAPI.Core.Entities
         
         public string AvatarLink { get; set; }
 
-        public IList<RefreshToken> RefreshTokens { get; set; }
-        
-        public IList<Story> Stories { get; set; }
+        public IList<TeamUser> TeamUsers { get; set; } = new List<TeamUser>();
+
+        public IList<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
+
+        public IList<Story> Stories { get; set; } = new List<Story>();
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WebAPI.Core.Entities;
@@ -16,12 +15,6 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
                 .HasOne<WorkSpace>()
                 .WithMany(e => e.Users)
                 .HasForeignKey(x => x.WorkSpaceId)
-                .OnDelete(DeleteBehavior.SetNull)
-                .IsRequired(false);
-            builder
-                .HasOne<Team>()
-                .WithMany(e => e.Users)
-                .HasForeignKey(x => x.TeamId)
                 .OnDelete(DeleteBehavior.SetNull)
                 .IsRequired(false);
             builder.HasIndex(x => x.UserName);

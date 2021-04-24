@@ -40,6 +40,7 @@ namespace WebAPI.Infrastructure.Postgres
             modelBuilder.ApplyConfiguration(new StoryHistoryConfiguration());
             modelBuilder.ApplyConfiguration(new ProjectConfiguration());
             modelBuilder.ApplyConfiguration(new WorkSpaceConfiguration());
+            modelBuilder.ApplyConfiguration(new TeamUserConfiguration());
         }
     }
 }

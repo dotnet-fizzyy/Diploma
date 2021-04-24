@@ -68,7 +68,7 @@ namespace WebAPI.Presentation.Mappers
                 Location = team.Location,
                 ProjectId = team.ProjectId,
                 CreationDate = team.CreationDate,
-                Users = team.Users.Select(_userMapper.MapToModel).ToList(),
+                Users = team.TeamUsers.Select(x => _userMapper.MapToModel(x.User)).ToList()
             };
 
             return fullTeamModel;

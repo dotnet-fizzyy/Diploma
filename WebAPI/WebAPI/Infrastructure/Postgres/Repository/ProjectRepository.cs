@@ -15,7 +15,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         public async Task<List<Project>> GetProjectsByUserId(Guid userId)
         {
             var query = from users in _dbContext.Users
-                join teams in _dbContext.Teams on users.TeamId equals teams.Id
+                join teams in _dbContext.Teams on users.TeamUserId equals teams.Id
                 join projects in _dbContext.Projects.Include(x => x.Teams)
                     on teams.ProjectId equals projects.Id
                 where users.Id == userId

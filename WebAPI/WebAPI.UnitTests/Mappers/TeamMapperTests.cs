@@ -59,7 +59,7 @@ namespace WebAPI.UnitTests.Mappers
                 Id = teamId,
                 TeamName = "TeamName",
                 Location = "Phoenix",
-                Users = new List<User>(),
+                TeamUsers = new List<TeamUser>(),
             };
             
             //Act
@@ -86,7 +86,7 @@ namespace WebAPI.UnitTests.Mappers
                 Id = teamId,
                 TeamName = "Team",
                 Location = "Minsk",
-                Users = new List<User>(),
+                TeamUsers = new List<TeamUser>(),
             };
             
             var teamModel = new Models.Models.Team

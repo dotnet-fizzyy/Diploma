@@ -78,7 +78,7 @@ namespace WebAPI.ApplicationLogic.Services
             
             var sprints = await _sprintRepository.GetFullSprintsByEpicId(latestEpic.Id);
 
-            var team = await _teamRepository.SearchForSingleItemAsync(x => x.Id == teamId, include => include.Users);
+            var team = await _teamRepository.SearchForSingleItemAsync(x => x.Id == teamId, include => include.TeamUsers);
 
             var boardPage = _pageAggregator.CreateBoardPageModel(team, epics, sprints);
             
@@ -89,7 +89,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var workSpace = await _workSpaceRepository.GetUserWorkSpaceAsync(userId);
             
-            var team = await _teamRepository.SearchForSingleItemAsync(x => x.Id == teamId, include => include.Users);
+            var team = await _teamRepository.SearchForSingleItemAsync(x => x.Id == teamId, include => include.TeamUsers);
 
             var teamData = _pageAggregator.CreateTeamPageModel(workSpace, team);
             

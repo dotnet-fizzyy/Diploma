@@ -18,7 +18,7 @@ namespace WebAPI.Presentation.Mappers
             var userEntity = new User
             {
                 Id = user.UserId,
-                TeamId = user.TeamId,
+                TeamUserId = user.TeamId,
                 UserName = user.UserName,
                 Password = user.Password,
                 IsActive = user.IsActive,
@@ -94,7 +94,7 @@ namespace WebAPI.Presentation.Mappers
         private static void MapBaseModelProperties(Models.Models.User userModel, User userEntity)
         {
             userModel.UserId = userEntity.Id;
-            userModel.TeamId = userEntity.TeamId;
+            userModel.TeamId = userEntity.TeamUserId;
             userModel.UserName = userEntity.UserName;
             userModel.IsActive = userEntity.IsActive;
             userModel.AvatarLink = userEntity.AvatarLink;

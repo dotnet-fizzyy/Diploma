@@ -794,3 +794,52 @@ BEGIN
     VALUES ('20210331203920_RemoveProgressFromEpicAndSprint', '3.1.9');
     END IF;
 END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210422194213_CreateTeamUserEntity') THEN
+    ALTER TABLE "Users" DROP CONSTRAINT "FK_Users_Teams_TeamId";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210422194213_CreateTeamUserEntity') THEN
+    DROP INDEX "IX_Users_TeamId";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210422194213_CreateTeamUserEntity') THEN
+    ALTER TABLE "Teams" DROP COLUMN "CustomerId";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210422194213_CreateTeamUserEntity') THEN
+    CREATE TABLE "TeamUser" (
+        "TeamId" uuid NOT NULL,
+        "UserId" uuid NOT NULL,
+        CONSTRAINT "PK_TeamUser" PRIMARY KEY ("TeamId", "UserId"),
+        CONSTRAINT "FK_TeamUser_Users_TeamId" FOREIGN KEY ("TeamId") REFERENCES "Users" ("UserId") ON DELETE CASCADE,
+        CONSTRAINT "FK_TeamUser_Teams_UserId" FOREIGN KEY ("UserId") REFERENCES "Teams" ("TeamId") ON DELETE CASCADE
+    );
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210422194213_CreateTeamUserEntity') THEN
+    CREATE INDEX "IX_TeamUser_UserId" ON "TeamUser" ("UserId");
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210422194213_CreateTeamUserEntity') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20210422194213_CreateTeamUserEntity', '3.1.9');
+    END IF;
+END $$;
