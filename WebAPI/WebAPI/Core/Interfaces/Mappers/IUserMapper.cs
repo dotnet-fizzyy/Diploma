@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using WebAPI.Models.Models.Result;
 
 namespace WebAPI.Core.Interfaces.Mappers
@@ -12,6 +13,6 @@ namespace WebAPI.Core.Interfaces.Mappers
         
         Entities.User MapToEntity(WebAPI.Models.Models.Authentication.SignInUser user);
         
-        FullUser MapToFullModel(Entities.User user, Entities.Project project, Entities.Team team);
+        FullUser MapToFullModel(Entities.User user, IEnumerable<Entities.Project> projects, IEnumerable<Entities.Team> teams);
     }
 }

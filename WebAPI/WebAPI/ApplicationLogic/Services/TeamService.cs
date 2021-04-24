@@ -15,17 +15,17 @@ namespace WebAPI.ApplicationLogic.Services
     public class TeamService : ITeamService
     {
         private readonly ITeamRepository _teamRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly ITeamUserRepository _teamUserRepository;
         private readonly ITeamMapper _teamMapper;
 
         public TeamService(
-            ITeamRepository teamRepository, 
-            IUserRepository userRepository, 
+            ITeamRepository teamRepository,
+            ITeamUserRepository teamUserRepository,
             ITeamMapper teamMapper
             )
         {
             _teamRepository = teamRepository;
-            _userRepository = userRepository;
+            _teamUserRepository = teamUserRepository;
             _teamMapper = teamMapper;
         }
 
@@ -103,11 +103,23 @@ namespace WebAPI.ApplicationLogic.Services
             var teamEntity = _teamMapper.MapToEntity(team);
             teamEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
 
+            using var transaction = new TransactionScope(
+                TransactionScopeOption.Required, 
+                new TransactionOptions {IsolationLevel = IsolationLevel.Serializable},
+                TransactionScopeAsyncFlowOption.Enabled
+                );
+            
             var createdTeamEntity = await _teamRepository.CreateAsync(teamEntity);
-            var customer = await _userRepository.SearchForSingleItemAsync(x => x.Id == userId);
-            customer.TeamUserId = createdTeamEntity.Id;
+            var teamUser = new Core.Entities.TeamUser
+            {
+                TeamId = createdTeamEntity.Id,
+                UserId = userId,
+            };
 
-            await _userRepository.UpdateItemAsync(customer);
+            await _teamUserRepository.CreateAsync(teamUser);
+            
+            transaction.Complete();
+            
             var teamModel = _teamMapper.MapToModel(createdTeamEntity);
 
             return teamModel;
@@ -137,8 +149,8 @@ namespace WebAPI.ApplicationLogic.Services
                 )
             )
             {
-                await _userRepository.DeleteAsync(x => x.TeamUserId == id);
                 await _teamRepository.DeleteAsync(x => x.Id == id);
+                await _teamUserRepository.DeleteAsync(x => x.TeamId == id);
                 
                 scope.Complete();
             }

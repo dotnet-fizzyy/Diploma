@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models.Authentication;
@@ -18,7 +20,6 @@ namespace WebAPI.Presentation.Mappers
             var userEntity = new User
             {
                 Id = user.UserId,
-                TeamUserId = user.TeamId,
                 UserName = user.UserName,
                 Password = user.Password,
                 IsActive = user.IsActive,
@@ -79,22 +80,20 @@ namespace WebAPI.Presentation.Mappers
             return userEntity;
         }
 
-        public FullUser MapToFullModel(User user, Project project, Team team)
+        public FullUser MapToFullModel(User user, IEnumerable<Project> projects, IEnumerable<Team> teams)
         {
             var fullUser = new FullUser();
             MapBaseModelProperties(fullUser, user);
-            
-            fullUser.ProjectId = project?.Id;
-            fullUser.ProjectName = project?.ProjectName;
-            fullUser.TeamId = team?.Id;
 
+            fullUser.Projects = projects != null ? projects.Select(MapToUserProject).ToList() : new List<UserProject>();
+            fullUser.Teams = teams != null ? teams.Select(MapToUserTeam).ToList() : new List<UserTeam>();
+            
             return fullUser;
         }
         
         private static void MapBaseModelProperties(Models.Models.User userModel, User userEntity)
         {
             userModel.UserId = userEntity.Id;
-            userModel.TeamId = userEntity.TeamUserId;
             userModel.UserName = userEntity.UserName;
             userModel.IsActive = userEntity.IsActive;
             userModel.AvatarLink = userEntity.AvatarLink;
@@ -105,5 +104,19 @@ namespace WebAPI.Presentation.Mappers
             userModel.UserRole = Enum.Parse<Models.Enums.UserRole>(userEntity.UserRole.ToString(), true);
             userModel.UserPosition = Enum.Parse<Models.Enums.UserPosition>(userEntity.UserPosition.ToString(), true);
         }
+
+        private static UserTeam MapToUserTeam(Team team) => 
+            new UserTeam
+            {
+                TeamId = team.Id,
+                TeamName = team.TeamName,
+            };
+        
+        private static UserProject MapToUserProject(Project project) => 
+            new UserProject
+            {
+                ProjectId = project.Id,
+                ProjectName = project.ProjectName,
+            };
     }
 }

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Entities;
@@ -34,7 +36,7 @@ namespace WebAPI.ApplicationLogic.Providers
         
         public async Task<FullUser> GetFullUser(Guid userId)
         {
-            var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == userId);
+            var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == userId, x => x.TeamUsers);
             if (userEntity == null)
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find user with provided id");
@@ -64,16 +66,16 @@ namespace WebAPI.ApplicationLogic.Providers
 
         private async Task<FullUser> GetUser(User userEntity)
         {
-            Team teamEntity = null;
-            Project projectEntity = null;
+            IEnumerable<Team> teamEntities = null;
+            IEnumerable<Project> projectEntities = null;
             
-            if (userEntity.TeamUserId != null)
+            if (userEntity.TeamUsers.Any())
             {
-                teamEntity = await _teamRepository.SearchForSingleItemAsync(x => x.Id == userEntity.TeamUserId);
-                projectEntity = await _projectRepository.SearchForSingleItemAsync(x => x.Id == teamEntity.ProjectId);
+                teamEntities = await _teamRepository.GetUserTeams(userEntity.Id);
+                projectEntities = await _projectRepository.SearchForMultipleItemsAsync(x => teamEntities.Any(t => t.ProjectId == x.Id));
             }
 
-            var userFullModel = _userMapper.MapToFullModel(userEntity, projectEntity, teamEntity);
+            var userFullModel = _userMapper.MapToFullModel(userEntity, projectEntities, teamEntities);
             
             return userFullModel;
         }

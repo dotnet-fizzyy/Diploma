@@ -6,8 +6,6 @@ namespace WebAPI.Core.Entities
 {
     public class User : BaseEntity
     {
-        public Guid? TeamUserId { get; set; }
-        
         public Guid? WorkSpaceId { get; set; }
         
         public string UserName { get; set; }
