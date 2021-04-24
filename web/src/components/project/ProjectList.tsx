@@ -46,11 +46,12 @@ export interface IWorkSpaceListProps {
     label: string;
     listItems: (IEpic | ISprint)[];
     onClickCreate: () => void;
+    onClickSelectEpic?: (epicId: string) => void;
 }
 
 const ProjectList = (props: IWorkSpaceListProps) => {
     const classes = useStyles();
-    const { label, listItems, onClickCreate } = props;
+    const { label, listItems, onClickCreate, onClickSelectEpic } = props;
 
     const getSprintItem = ({ sprintId, sprintName }: ISprint): React.ReactNode => {
         return (
@@ -64,6 +65,11 @@ const ProjectList = (props: IWorkSpaceListProps) => {
         return (
             <div key={epicId} className={classes.listItem}>
                 <span className={classes.text}>{epicName}</span>
+                {onClickSelectEpic && (
+                    <div className={classes.buttonContainer}>
+                        <Button label="View" disabled={false} onClick={() => onClickSelectEpic(epicId)} />
+                    </div>
+                )}
             </div>
         );
     };
@@ -79,7 +85,7 @@ const ProjectList = (props: IWorkSpaceListProps) => {
             <div className={classes.list}>
                 {listItems && listItems.length
                     ? listItems.map((item: IEpic | ISprint) =>
-                          'epicId' in item ? getEpicItem(item as IEpic) : getSprintItem(item as ISprint)
+                          'sprintId' in item ? getSprintItem(item as ISprint) : getEpicItem(item as IEpic)
                       )
                     : null}
             </div>

@@ -8,22 +8,18 @@ import * as sprintsActions from '../actions/sprintsActions';
 import * as sprintActions from '../actions/sprintsActions';
 import * as storyActions from '../actions/storiesActions';
 import * as epicsSelectors from '../selectors/epicsSelectors';
-import * as epicSelectors from '../selectors/epicsSelectors';
 
-function* getSprints(action: sprintActions.IGetSprintsRequest) {
+function* getSprints(action: sprintActions.IGetSprintsFromEpicRequest) {
     try {
         const sprints: ISprint[] = yield call(SprintApi.getSprintsFromEpic, action.payload);
-        yield put(sprintActions.getSprintsSuccess(sprints));
+        yield put(sprintActions.getSprintsFromEpicSuccess(sprints));
     } catch (error) {
-        yield put(sprintActions.getSprintsFailure(error));
+        yield put(sprintActions.getSprintsFromEpicFailure(error));
     }
 }
 
 function* createSprint(action: sprintActions.ICreateSprintRequest) {
     try {
-        const epic: IEpic = yield select(epicSelectors.getCurrentEpic);
-        action.payload.epicId = epic.epicId;
-
         const createdSprint: ISprint = yield call(SprintApi.createSprint, action.payload);
         yield put(sprintActions.createSprintSuccess(createdSprint));
     } catch (error) {
@@ -47,7 +43,7 @@ function* getSprintsFromEpic() {
 }
 
 export default function* rootSprintsSaga() {
-    yield takeLatest(sprintActions.SprintActions.GET_SPRINTS_REQUEST, getSprints);
+    yield takeLatest(sprintActions.SprintActions.GET_SPRINTS_FROM_EPIC_REQUEST, getSprints);
     yield takeLatest(sprintActions.SprintActions.CREATE_SPRINT_REQUEST, createSprint);
     yield takeLatest(sprintActions.SprintActions.GET_FULL_SPRINTS_FROM_EPIC_REQUEST, getSprintsFromEpic);
 }

@@ -52,14 +52,10 @@ function handleSetSelectedTeamById(state: ITeamState, action: TeamActions.ISetSe
 function handleCreateUserSuccess(state: ITeamState, action: UserActions.ICreateUserSuccess): ITeamState {
     return {
         ...state,
-        teams: state.teams.map((x) => {
-            return x.teamId === action.payload.teamId
-                ? {
-                      ...x,
-                      users: x.users.concat(action.payload),
-                  }
-                : x;
-        }),
+        currentTeam: {
+            ...state.currentTeam,
+            users: state.currentTeam.users.concat(action.payload),
+        },
     };
 }
 

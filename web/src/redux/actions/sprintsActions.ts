@@ -1,9 +1,9 @@
 import { ISprint } from '../../types/sprintTypes';
 
 export const SprintActions = {
-    GET_SPRINTS_REQUEST: 'GET_SPRINTS_REQUEST',
-    GET_SPRINTS_SUCCESS: 'GET_SPRINTS_SUCCESS',
-    GET_SPRINTS_FAILURE: 'GET_SPRINTS_FAILURE',
+    GET_SPRINTS_FROM_EPIC_REQUEST: 'GET_SPRINTS_FROM_EPIC_REQUEST',
+    GET_SPRINTS_FROM_EPIC_SUCCESS: 'GET_SPRINTS_FROM_EPIC_SUCCESS',
+    GET_SPRINTS_FROM_EPIC_FAILURE: 'GET_SPRINTS_FROM_EPIC_FAILURE',
     CREATE_SPRINT_REQUEST: 'CREATE_SPRINT_REQUEST',
     CREATE_SPRINT_SUCCESS: 'CREATE_SPRINT_SUCCESS',
     CREATE_SPRINT_FAILURE: 'CREATE_SPRINT_FAILURE',
@@ -15,23 +15,23 @@ export const SprintActions = {
 };
 
 //interfaces
-export interface IGetSprintsRequest {
-    type: typeof SprintActions.GET_SPRINTS_REQUEST;
+export interface IGetSprintsFromEpicRequest {
+    type: typeof SprintActions.GET_SPRINTS_FROM_EPIC_REQUEST;
     payload: string;
 }
 
-export interface IGetSprintsSuccess {
-    type: typeof SprintActions.GET_SPRINTS_SUCCESS;
+export interface IGetSprintsFromEpicSuccess {
+    type: typeof SprintActions.GET_SPRINTS_FROM_EPIC_SUCCESS;
     payload: ISprint[];
 }
 
-export interface IGetSprintsFailure {
-    type: typeof SprintActions.GET_SPRINTS_FAILURE;
+export interface IGetSprintsFromEpicFailure {
+    type: typeof SprintActions.GET_SPRINTS_FROM_EPIC_FAILURE;
     payload: Error;
 }
 
 export interface IAddSprints {
-    type: typeof SprintActions.GET_SPRINTS_FAILURE;
+    type: typeof SprintActions.ADD_SPRINTS;
     payload: ISprint[];
 }
 
@@ -70,23 +70,23 @@ export interface IGetFullSprintsFromEpicFailure {
 }
 
 //actions
-export function getSprintsRequest(epicId: string): IGetSprintsRequest {
+export function getSprintsFromEpicRequest(epicId: string): IGetSprintsFromEpicRequest {
     return {
-        type: SprintActions.GET_SPRINTS_REQUEST,
+        type: SprintActions.GET_SPRINTS_FROM_EPIC_REQUEST,
         payload: epicId,
     };
 }
 
-export function getSprintsSuccess(sprints: ISprint[]): IGetSprintsSuccess {
+export function getSprintsFromEpicSuccess(sprints: ISprint[]): IGetSprintsFromEpicSuccess {
     return {
-        type: SprintActions.GET_SPRINTS_SUCCESS,
+        type: SprintActions.GET_SPRINTS_FROM_EPIC_SUCCESS,
         payload: sprints,
     };
 }
 
-export function getSprintsFailure(error: Error): IGetSprintsFailure {
+export function getSprintsFromEpicFailure(error: Error): IGetSprintsFromEpicFailure {
     return {
-        type: SprintActions.GET_SPRINTS_SUCCESS,
+        type: SprintActions.GET_SPRINTS_FROM_EPIC_FAILURE,
         payload: error,
     };
 }
@@ -147,7 +147,7 @@ export function getFullSprintsFromEpicFailure(error: Error): IGetFullSprintsFrom
 }
 
 export type SprintsActionTypes = IGetFullSprintsFromEpicSuccess &
-    IGetSprintsSuccess &
+    IGetSprintsFromEpicSuccess &
     IAddSprints &
     ISetSelectedSprint &
     ICreateSprintSuccess;

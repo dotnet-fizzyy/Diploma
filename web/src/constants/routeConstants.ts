@@ -45,7 +45,7 @@ export const UserUrls = {
 const SprintBaseUrl = `${BaseUrl}/sprint`;
 export const SprintUrls = {
     createSprint: SprintBaseUrl,
-    getEpicSprints: `${SprintBaseUrl}/epic`,
+    getEpicSprints: `${SprintBaseUrl}/epic/id`,
 };
 
 const EpicBaseUrl = `${BaseUrl}/epic`;

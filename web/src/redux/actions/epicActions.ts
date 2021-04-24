@@ -7,8 +7,8 @@ export const EpicActions = {
     GET_EPICS_REQUEST: 'GET_EPICS_REQUEST',
     GET_EPICS_SUCCESS: 'GET_EPICS_SUCCESS',
     GET_EPICS_FAILURE: 'GET_EPICS_FAILURE',
-    SET_CURRENT_EPIC: 'SET_CURRENT_EPIC',
-    SET_CURRENT_EPIC_BY_ID: 'SET_CURRENT_EPIC_BY_ID',
+    SET_SELECTED_EPIC: 'SET_SELECTED_EPIC',
+    SET_SELECTED_EPIC_BY_ID: 'SET_SELECTED_EPIC_BY_ID',
     ADD_EPICS: 'ADD_EPICS',
 };
 
@@ -45,13 +45,13 @@ export interface IGetEpicsFailure {
     payload: Error;
 }
 
-export interface ISetCurrentEpic {
-    type: typeof EpicActions.SET_CURRENT_EPIC;
+export interface ISetSelectedEpic {
+    type: typeof EpicActions.SET_SELECTED_EPIC;
     payload: IEpic;
 }
 
-export interface ISetCurrentEpicById {
-    type: typeof EpicActions.SET_CURRENT_EPIC_BY_ID;
+export interface ISetSelectedEpicById {
+    type: typeof EpicActions.SET_SELECTED_EPIC_BY_ID;
     payload: string;
 }
 
@@ -105,16 +105,16 @@ export function getEpicsFailure(error: Error): IGetEpicsFailure {
     };
 }
 
-export function setCurrentEpic(epic: IEpic): ISetCurrentEpic {
+export function setSelectedEpic(epic: IEpic): ISetSelectedEpic {
     return {
-        type: EpicActions.SET_CURRENT_EPIC,
+        type: EpicActions.SET_SELECTED_EPIC,
         payload: epic,
     };
 }
 
-export function setCurrentEpicById(epicId: string): ISetCurrentEpicById {
+export function setSelectedEpicById(epicId: string): ISetSelectedEpicById {
     return {
-        type: EpicActions.SET_CURRENT_EPIC_BY_ID,
+        type: EpicActions.SET_SELECTED_EPIC_BY_ID,
         payload: epicId,
     };
 }
@@ -126,4 +126,4 @@ export function addEpics(epics: IEpic[]): IAddEpics {
     };
 }
 
-export type EpicActionTypes = ICreateEpicSuccess & IGetEpicsRequest & IGetEpicsSuccess & ISetCurrentEpic & IAddEpics;
+export type EpicActionTypes = ICreateEpicSuccess & IGetEpicsRequest & IGetEpicsSuccess & ISetSelectedEpic & IAddEpics;

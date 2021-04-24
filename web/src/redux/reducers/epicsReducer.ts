@@ -13,9 +13,9 @@ export default function epicReducer(state = initialState, action: epicActions.Ep
         case epicActions.EpicActions.GET_EPICS_SUCCESS:
         case epicActions.EpicActions.ADD_EPICS:
             return handleSetEpics(state, action);
-        case epicActions.EpicActions.SET_CURRENT_EPIC:
+        case epicActions.EpicActions.SET_SELECTED_EPIC:
             return handleSetCurrentEpic(state, action);
-        case epicActions.EpicActions.SET_CURRENT_EPIC_BY_ID:
+        case epicActions.EpicActions.SET_SELECTED_EPIC_BY_ID:
             return handleSetCurrentEpicById(state, action);
         default:
             return state;
@@ -36,14 +36,14 @@ function handleSetEpics(state: IEpicsState, action: epicActions.IGetEpicsSuccess
     };
 }
 
-function handleSetCurrentEpic(state: IEpicsState, action: epicActions.ISetCurrentEpic): IEpicsState {
+function handleSetCurrentEpic(state: IEpicsState, action: epicActions.ISetSelectedEpic): IEpicsState {
     return {
         ...state,
         currentEpic: action.payload,
     };
 }
 
-function handleSetCurrentEpicById(state: IEpicsState, action: epicActions.ISetCurrentEpicById): IEpicsState {
+function handleSetCurrentEpicById(state: IEpicsState, action: epicActions.ISetSelectedEpicById): IEpicsState {
     return {
         ...state,
         currentEpic: state.epics.find((x) => x.epicId === action.payload),

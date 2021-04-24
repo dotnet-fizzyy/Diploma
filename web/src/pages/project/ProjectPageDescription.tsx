@@ -56,6 +56,7 @@ export interface IProjectPageDescriptionProps {
     onClickViewBoard: () => void;
     onClickCreateEpic: () => void;
     onClickCreateSprint: () => void;
+    onClickSelectEpic: (epicId: string) => void;
 }
 
 const ProjectPageDescription = (props: IProjectPageDescriptionProps) => {
@@ -69,6 +70,7 @@ const ProjectPageDescription = (props: IProjectPageDescriptionProps) => {
         onClickViewBoard,
         onClickCreateEpic,
         onClickCreateSprint,
+        onClickSelectEpic,
     } = props;
 
     return (
@@ -87,7 +89,12 @@ const ProjectPageDescription = (props: IProjectPageDescriptionProps) => {
                     }
                 />
                 <div className={classes.table}>
-                    <ProjectList label="Epics" listItems={epics} onClickCreate={onClickCreateEpic} />
+                    <ProjectList
+                        label="Epics"
+                        listItems={epics}
+                        onClickSelectEpic={onClickSelectEpic}
+                        onClickCreate={onClickCreateEpic}
+                    />
                     <ProjectList label="Sprints" listItems={sprints} onClickCreate={onClickCreateSprint} />
                 </div>
             </div>

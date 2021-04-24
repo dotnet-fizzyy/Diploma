@@ -1,7 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { setSelectedEpicById } from '../../redux/actions/epicActions';
 import { openModal } from '../../redux/actions/modalActions';
+import { getSprintsFromEpicRequest } from '../../redux/actions/sprintsActions';
 import { getEpics } from '../../redux/selectors/epicsSelectors';
 import { getSprints } from '../../redux/selectors/sprintsSelectors';
 import { IEpic } from '../../types/epicTypes';
@@ -34,6 +36,11 @@ const ProjectPageDescriptionContainer = (props: IProjectPageDescriptionContainer
         dispatch(openModal(ModalTypes.EPIC));
     };
 
+    const onClickSelectEpic = (epicId: string): void => {
+        dispatch(setSelectedEpicById(epicId));
+        dispatch(getSprintsFromEpicRequest(epicId));
+    };
+
     const onClickCreateSprint = (): void => {
         dispatch(openModal(ModalTypes.SPRINT));
     };
@@ -51,6 +58,7 @@ const ProjectPageDescriptionContainer = (props: IProjectPageDescriptionContainer
         onClickViewBoard,
         onClickCreateEpic,
         onClickCreateSprint,
+        onClickSelectEpic,
     };
 
     return <ProjectPageDescription {...pageDescriptionProps} />;

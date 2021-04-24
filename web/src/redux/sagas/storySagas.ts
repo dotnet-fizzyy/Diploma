@@ -138,7 +138,7 @@ function* updateStoryChanges(action: storyActions.IUpdateStoryChangesRequest) {
 
 function* changeEpic(action: storyActions.IChangeEpicRequest) {
     try {
-        yield put(epicActions.setCurrentEpicById(action.payload));
+        yield put(epicActions.setSelectedEpicById(action.payload));
         const sprintsFromCurrentEpic: IFullSprint[] = yield call(SprintApi.getSprintsFromEpic, action.payload);
 
         const sprints: ISprint[] = sprintsFromCurrentEpic.map((x) => mapFullSprintToSprint(x));
@@ -184,7 +184,7 @@ function* handleBoardRequestProcessing(action: storyActions.IHandleBoardRequestP
     const epics: IEpic[] = yield select(epicSelectors.getEpics);
     const currentEpic: IEpic = findCurrentEpic(epics);
 
-    yield put(epicActions.setCurrentEpic(currentEpic));
+    yield put(epicActions.setSelectedEpic(currentEpic));
     yield put(sprintsActions.getFullSprintsFromEpicRequest());
 }
 
