@@ -70,7 +70,6 @@ export const ProjectUrls = {
     getProjectPage: PageUrls.getProjectPage,
     createProject: ProjectBaseUrl,
     getProject: ProjectBaseUrl,
-    getUserProjects: `${ProjectBaseUrl}/project-teams`,
 };
 
 const TeamBaseUrl = `${BaseUrl}/team`;

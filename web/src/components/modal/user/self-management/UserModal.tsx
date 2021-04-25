@@ -3,7 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import { Field, Form, Formik } from 'formik';
 import React, { RefObject } from 'react';
-import { InitialProfileUpdatePassword, PasswordsAreNotSameErrorMessage } from '../../../../constants';
+import { InitialProfileUpdatePassword, PasswordsAreNotSameErrorMessage, UnspecifiedValue } from '../../../../constants';
 import { passwordUpdateFields, userFields } from '../../../../constants/userConstants';
 import { IProfilePasswordUpdateForm, IProfileSettingsForm } from '../../../../types/formTypes';
 import { IFullUser, UserPosition, UserRole } from '../../../../types/userTypes';
@@ -103,7 +103,7 @@ const UserModal = (props: IUserModalProps) => {
         isChangePassword,
         passwordsAreSame,
         initialProfileSettings,
-        user: { userName, avatarLink, userPosition, userRole, projectName, teamName },
+        user: { userName, avatarLink, userPosition, userRole, projects, teams },
         fileRef,
         onClickUpdateAvatar,
         onClickResetPassword,
@@ -220,12 +220,28 @@ const UserModal = (props: IUserModalProps) => {
                                 <span className={classes.text}>{UserRole[userRole]}</span>
                             </div>
                             <div className={classes.fieldContainer}>
-                                <span className={classnames(classes.text, classes.staticFieldLabel)}>Project:</span>
-                                <span className={classes.text}>{projectName || '-'}</span>
+                                <span className={classnames(classes.text, classes.staticFieldLabel)}>Projects:</span>
+                                {projects && projects.length ? (
+                                    projects.map((x) => (
+                                        <span key={x.projectId} className={classes.text}>
+                                            {x.projectName || UnspecifiedValue}
+                                        </span>
+                                    ))
+                                ) : (
+                                    <span className={classes.text}>-</span>
+                                )}
                             </div>
                             <div className={classes.fieldContainer}>
-                                <span className={classnames(classes.text, classes.staticFieldLabel)}>Team:</span>
-                                <span className={classes.text}>{teamName || '-'}</span>
+                                <span className={classnames(classes.text, classes.staticFieldLabel)}>Teams:</span>
+                                {teams && teams.length ? (
+                                    teams.map((x) => (
+                                        <span key={x.teamId} className={classes.text}>
+                                            {x.teamName || UnspecifiedValue}
+                                        </span>
+                                    ))
+                                ) : (
+                                    <span className={classes.text}>-</span>
+                                )}
                             </div>
                             {getSaveChangesButton(areValuesSame || !isValid)}
                         </Form>

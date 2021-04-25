@@ -8,14 +8,16 @@ import { logOutUser } from '../../../redux/actions/userActions';
 import { getSearchResults, getStoryTitleTerm } from '../../../redux/selectors/storiesSelectors';
 import { getUser } from '../../../redux/selectors/userSelectors';
 import { ModalTypes } from '../../../types/modalTypes';
+import { IStory } from '../../../types/storyTypes';
+import { IFullUser } from '../../../types/userTypes';
 import GeneralTab, { IGeneralTabProps } from './GeneralTab';
 
 const GeneralTabContainer = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const user = useSelector(getUser);
-    const searchTerm = useSelector(getStoryTitleTerm);
-    const searchResults = useSelector(getSearchResults);
+    const user: IFullUser = useSelector(getUser);
+    const searchTerm: string = useSelector(getStoryTitleTerm);
+    const searchResults: IStory[] = useSelector(getSearchResults);
 
     const [anchor, setAnchor] = useState<null | HTMLElement>(null);
 

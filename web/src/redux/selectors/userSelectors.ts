@@ -1,4 +1,4 @@
-import { IUser } from '../../types/userTypes';
+import { IFullUser } from '../../types/userTypes';
 import { IState } from '../store/state';
 
 export function getAccessToken(state: IState): string {
@@ -9,7 +9,7 @@ export function getRefreshToken(state: IState): string {
     return state.currentUser.refreshToken;
 }
 
-export function getUser(state: IState): IUser {
+export function getUser(state: IState): IFullUser {
     return state.currentUser.user;
 }
 

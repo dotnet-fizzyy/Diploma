@@ -91,7 +91,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var workSpace = await _workSpaceRepository.GetUserWorkSpaceAsync(userId);
             
-            var team = await _teamRepository.SearchForSingleItemAsync(x => x.Id == teamId, include => include.TeamUsers);
+            var team = await _teamRepository.GetTeamWithUsers(teamId);
 
             var teamData = _pageAggregator.CreateTeamPageModel(workSpace, team);
             

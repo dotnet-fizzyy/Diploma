@@ -1,4 +1,4 @@
-import { IFullUser, IUser, IUserListItem } from '../types/userTypes';
+import { IFullUser, IUser, IUserListItem, IUserProject, IUserTeam } from '../types/userTypes';
 
 export function mapToUserModel(data: any): IUser {
     return {
@@ -17,12 +17,13 @@ export function mapToUserModel(data: any): IUser {
 }
 
 export function mapToFullUserModel(data: any): IFullUser {
-    const fullUser: IFullUser = mapToUserModel(data);
-    fullUser.projectId = data.projectId;
-    fullUser.projectName = data.projectName;
-    fullUser.teamName = data.teamName;
+    const user: IUser = mapToUserModel(data);
 
-    return fullUser;
+    return {
+        ...user,
+        teams: data.teams && data.teams.length ? data.teams.map(mapToUserTeam) : [],
+        projects: data.projects && data.projects ? data.projects.map(mapToUserProject) : [],
+    };
 }
 
 export function mapToSimpleUserModel(data: any): IUserListItem {
@@ -31,4 +32,18 @@ export function mapToSimpleUserModel(data: any): IUserListItem {
         userName: data.userName,
         avatarLink: data.avatarLink,
     };
+}
+
+function mapToUserTeam(data: any): IUserTeam {
+    return {
+        teamId: data.teamId,
+        teamName: data.teamName,
+    }
+}
+
+function mapToUserProject(data: any): IUserProject {
+    return {
+        projectId: data.projectId,
+        projectName: data.projectName,
+    }
 }

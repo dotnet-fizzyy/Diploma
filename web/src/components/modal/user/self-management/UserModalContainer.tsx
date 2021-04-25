@@ -8,7 +8,7 @@ import {
 } from '../../../../redux/actions/userActions';
 import { getUser } from '../../../../redux/selectors/userSelectors';
 import { IProfilePasswordUpdateForm, IProfileSettingsForm } from '../../../../types/formTypes';
-import { IUser } from '../../../../types/userTypes';
+import { IFullUser, IUser } from '../../../../types/userTypes';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formHelper';
 import UserModal, { IUserModalProps } from './UserModal';
 
@@ -17,7 +17,7 @@ const UserModalContainer = () => {
     const fileRef = useRef<HTMLInputElement>(null);
     const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
     const [passwordsAreSame, setPasswordsAreSame] = useState<boolean>(true);
-    const user: IUser = useSelector(getUser);
+    const user: IFullUser = useSelector(getUser);
 
     const initialProfileSettings: IProfileSettingsForm = {
         userName: user.userName,

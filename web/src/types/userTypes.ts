@@ -13,9 +13,18 @@ export interface IUser {
 }
 
 export interface IFullUser extends IUser {
-    projectId?: string;
-    projectName?: string;
-    teamName?: string;
+    teams: IUserTeam[];
+    projects: IUserProject[];
+}
+
+export interface IUserTeam {
+    teamId: string;
+    teamName: string;
+}
+
+export interface IUserProject {
+    projectId: string;
+    projectName: string;
 }
 
 export interface IAuthenticationUser {

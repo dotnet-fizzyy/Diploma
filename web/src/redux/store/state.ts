@@ -26,7 +26,7 @@ export interface IUserState {
     wasCustomerCreated: boolean;
     accessToken: string;
     refreshToken: string;
-    user: IFullUser | null;
+    user?: IFullUser;
     isLoading: boolean;
 }
 

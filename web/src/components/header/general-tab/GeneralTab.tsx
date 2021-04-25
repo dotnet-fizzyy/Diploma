@@ -85,7 +85,7 @@ const GeneralTab = (props: IGeneralTabProps) => {
                         />
                     </div>
                     <div className={classes.mainTabsContainer}>
-                        <TabLinks teamId={user.teamId} projectId={user.projectId} />
+                        <TabLinks teams={user.teams} projects={user.projects} />
                     </div>
                     <TabMenu
                         anchor={anchor}
