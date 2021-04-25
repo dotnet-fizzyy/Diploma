@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{688501E3-AECA-
 ProjectSection(SolutionItems) = preProject
 	CreateMigration.sh = CreateMigration.sh
 	CreateSqlScript.sh = CreateSqlScript.sh
+	mockdata.sql = mockdata.sql
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "initdb", "initdb", "{C70EC8E0-D538-448D-9E33-BF46A4F2E49B}"

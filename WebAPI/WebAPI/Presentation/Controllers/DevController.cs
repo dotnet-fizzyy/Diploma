@@ -1,18 +1,26 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebAPI.Presentation.Filters;
+using WebAPI.ApplicationLogic.Utilities;
 
 namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
-    [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class DevController : ControllerBase
     {
         [HttpGet]
-        [Route("test")]
+        [Route("dev")]
         public ActionResult Test()
         {
             return Ok("test");
+        }
+
+        [HttpGet]
+        [Route("hash")]
+        public IActionResult GetHash([FromQuery] string value)
+        {
+            var hash = PasswordHashing.CreateHashPassword(value);
+            
+            return Ok(hash);
         }
     }
 }

@@ -10,7 +10,7 @@ using WebAPI.Infrastructure.Postgres;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20201209190000_InitialMigration")]
+    [Migration("20210425071547_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,9 +23,13 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.Core.Entities.Epic", b =>
                 {
-                    b.Property<Guid>("EpicId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("EpicId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamptz");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp without time zone");
@@ -36,16 +40,13 @@ namespace WebAPI.Migrations
                     b.Property<string>("EpicName")
                         .HasColumnType("text");
 
-                    b.Property<double>("Progress")
-                        .HasColumnType("double precision");
-
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.HasKey("EpicId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
 
@@ -54,12 +55,13 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.Core.Entities.Project", b =>
                 {
-                    b.Property<Guid>("ProjectId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("ProjectId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Customer")
-                        .HasColumnType("text");
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamptz");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp without time zone");
@@ -73,19 +75,28 @@ namespace WebAPI.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.HasKey("ProjectId");
+                    b.Property<Guid>("WorkSpaceId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WorkSpaceId");
 
                     b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("WebAPI.Core.Entities.RefreshToken", b =>
                 {
-                    b.Property<Guid>("RefreshTokenId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("RefreshTokenId")
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamptz");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -93,7 +104,7 @@ namespace WebAPI.Migrations
                     b.Property<string>("Value")
                         .HasColumnType("text");
 
-                    b.HasKey("RefreshTokenId");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
@@ -102,9 +113,13 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.Core.Entities.Sprint", b =>
                 {
-                    b.Property<Guid>("SprintId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("SprintId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamptz");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp without time zone");
@@ -112,16 +127,13 @@ namespace WebAPI.Migrations
                     b.Property<Guid>("EpicId")
                         .HasColumnType("uuid");
 
-                    b.Property<double>("Progress")
-                        .HasColumnType("double precision");
-
                     b.Property<string>("SprintName")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.HasKey("SprintId");
+                    b.HasKey("Id");
 
                     b.HasIndex("EpicId");
 
@@ -130,8 +142,9 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.Core.Entities.Story", b =>
                 {
-                    b.Property<Guid>("StoryId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("StoryId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("BlockReason")
@@ -141,7 +154,7 @@ namespace WebAPI.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreationDate")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamptz");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -179,11 +192,13 @@ namespace WebAPI.Migrations
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("StoryId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ColumnType");
 
                     b.HasIndex("SprintId");
+
+                    b.HasIndex("Title");
 
                     b.HasIndex("UserId");
 
@@ -192,12 +207,13 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.Core.Entities.StoryHistory", b =>
                 {
-                    b.Property<Guid>("StoryHistoryId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("StoryHistoryId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreationDate")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamptz");
 
                     b.Property<string>("CurrentValue")
                         .HasColumnType("text");
@@ -208,12 +224,6 @@ namespace WebAPI.Migrations
                     b.Property<string>("PreviousValue")
                         .HasColumnType("text");
 
-                    b.Property<uint>("RecordVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnName("xmin")
-                        .HasColumnType("xid");
-
                     b.Property<int>("StoryHistoryAction")
                         .HasColumnType("integer");
 
@@ -223,7 +233,7 @@ namespace WebAPI.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("StoryHistoryId");
+                    b.HasKey("Id");
 
                     b.HasIndex("StoryId");
 
@@ -232,9 +242,13 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.Core.Entities.Team", b =>
                 {
-                    b.Property<Guid>("TeamId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("TeamId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamptz");
 
                     b.Property<string>("Location")
                         .HasColumnType("text");
@@ -245,42 +259,50 @@ namespace WebAPI.Migrations
                     b.Property<string>("TeamName")
                         .HasColumnType("text");
 
-                    b.HasKey("TeamId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
 
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("WebAPI.Core.Entities.TeamEpic", b =>
+            modelBuilder.Entity("WebAPI.Core.Entities.TeamUser", b =>
                 {
-                    b.Property<Guid>("TeamEpicId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("EpicId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("TeamId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("TeamEpicId");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
-                    b.HasIndex("EpicId");
+                    b.Property<Guid?>("TeamId1")
+                        .HasColumnType("uuid");
 
-                    b.HasIndex("TeamId");
+                    b.Property<Guid?>("UserId1")
+                        .HasColumnType("uuid");
 
-                    b.ToTable("TeamEpics");
+                    b.HasKey("TeamId", "UserId");
+
+                    b.HasIndex("TeamId1");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("TeamUser");
                 });
 
             modelBuilder.Entity("WebAPI.Core.Entities.User", b =>
                 {
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("UserId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("AvatarLink")
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamptz");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
@@ -291,15 +313,6 @@ namespace WebAPI.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
-                    b.Property<uint>("RecordVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnName("xmin")
-                        .HasColumnType("xid");
-
-                    b.Property<Guid?>("TeamId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("UserName")
                         .HasColumnType("text");
 
@@ -309,11 +322,12 @@ namespace WebAPI.Migrations
                     b.Property<int>("UserRole")
                         .HasColumnType("integer");
 
-                    b.HasKey("UserId");
+                    b.Property<Guid?>("WorkSpaceId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("Password");
-
-                    b.HasIndex("TeamId");
 
                     b.HasIndex("UserName");
 
@@ -321,7 +335,30 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("UserRole");
 
+                    b.HasIndex("WorkSpaceId");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("WebAPI.Core.Entities.WorkSpace", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("WorkSpaceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamptz");
+
+                    b.Property<string>("WorkSpaceDescription")
+                        .HasColumnType("text");
+
+                    b.Property<string>("WorkSpaceName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WorkSpaces");
                 });
 
             modelBuilder.Entity("WebAPI.Core.Entities.Epic", b =>
@@ -329,6 +366,15 @@ namespace WebAPI.Migrations
                     b.HasOne("WebAPI.Core.Entities.Project", null)
                         .WithMany("Epics")
                         .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebAPI.Core.Entities.Project", b =>
+                {
+                    b.HasOne("WebAPI.Core.Entities.WorkSpace", null)
+                        .WithMany("Projects")
+                        .HasForeignKey("WorkSpaceId")
                         .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
                 });
@@ -380,26 +426,34 @@ namespace WebAPI.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
                 });
 
-            modelBuilder.Entity("WebAPI.Core.Entities.TeamEpic", b =>
+            modelBuilder.Entity("WebAPI.Core.Entities.TeamUser", b =>
                 {
-                    b.HasOne("WebAPI.Core.Entities.Epic", null)
-                        .WithMany("TeamEpics")
-                        .HasForeignKey("EpicId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                    b.HasOne("WebAPI.Core.Entities.Team", null)
+                        .WithMany("TeamUsers")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebAPI.Core.Entities.Team", null)
-                        .WithMany("TeamEpics")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                    b.HasOne("WebAPI.Core.Entities.Team", "Team")
+                        .WithMany()
+                        .HasForeignKey("TeamId1");
+
+                    b.HasOne("WebAPI.Core.Entities.User", null)
+                        .WithMany("TeamUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("WebAPI.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("WebAPI.Core.Entities.User", b =>
                 {
-                    b.HasOne("WebAPI.Core.Entities.Team", null)
+                    b.HasOne("WebAPI.Core.Entities.WorkSpace", null)
                         .WithMany("Users")
-                        .HasForeignKey("TeamId")
+                        .HasForeignKey("WorkSpaceId")
                         .OnDelete(DeleteBehavior.SetNull);
                 });
 #pragma warning restore 612, 618

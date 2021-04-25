@@ -8,19 +8,66 @@ namespace WebAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "WorkSpaces",
+                columns: table => new
+                {
+                    WorkSpaceId = table.Column<Guid>(nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamptz", nullable: false),
+                    WorkSpaceName = table.Column<string>(nullable: true),
+                    WorkSpaceDescription = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkSpaces", x => x.WorkSpaceId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
                     ProjectId = table.Column<Guid>(nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamptz", nullable: false),
                     ProjectName = table.Column<string>(nullable: true),
                     ProjectDescription = table.Column<string>(nullable: true),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
-                    Customer = table.Column<string>(nullable: true)
+                    WorkSpaceId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.ProjectId);
+                    table.ForeignKey(
+                        name: "FK_Projects_WorkSpaces_WorkSpaceId",
+                        column: x => x.WorkSpaceId,
+                        principalTable: "WorkSpaces",
+                        principalColumn: "WorkSpaceId",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamptz", nullable: false),
+                    WorkSpaceId = table.Column<Guid>(nullable: true),
+                    UserName = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    UserRole = table.Column<int>(nullable: false),
+                    UserPosition = table.Column<int>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    Email = table.Column<string>(nullable: true),
+                    AvatarLink = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.UserId);
+                    table.ForeignKey(
+                        name: "FK_Users_WorkSpaces_WorkSpaceId",
+                        column: x => x.WorkSpaceId,
+                        principalTable: "WorkSpaces",
+                        principalColumn: "WorkSpaceId",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -28,12 +75,12 @@ namespace WebAPI.Migrations
                 columns: table => new
                 {
                     EpicId = table.Column<Guid>(nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamptz", nullable: false),
                     ProjectId = table.Column<Guid>(nullable: false),
                     EpicName = table.Column<string>(nullable: true),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
-                    EpicDescription = table.Column<string>(nullable: true),
-                    Progress = table.Column<double>(nullable: false)
+                    EpicDescription = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -51,6 +98,7 @@ namespace WebAPI.Migrations
                 columns: table => new
                 {
                     TeamId = table.Column<Guid>(nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamptz", nullable: false),
                     ProjectId = table.Column<Guid>(nullable: true),
                     TeamName = table.Column<string>(nullable: true),
                     Location = table.Column<string>(nullable: true)
@@ -67,86 +115,14 @@ namespace WebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sprints",
-                columns: table => new
-                {
-                    SprintId = table.Column<Guid>(nullable: false),
-                    EpicId = table.Column<Guid>(nullable: false),
-                    SprintName = table.Column<string>(nullable: true),
-                    StartDate = table.Column<DateTime>(nullable: false),
-                    EndDate = table.Column<DateTime>(nullable: false),
-                    Progress = table.Column<double>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sprints", x => x.SprintId);
-                    table.ForeignKey(
-                        name: "FK_Sprints_Epics_EpicId",
-                        column: x => x.EpicId,
-                        principalTable: "Epics",
-                        principalColumn: "EpicId",
-                        onDelete: ReferentialAction.SetNull);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TeamEpics",
-                columns: table => new
-                {
-                    TeamEpicId = table.Column<Guid>(nullable: false),
-                    TeamId = table.Column<Guid>(nullable: false),
-                    EpicId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TeamEpics", x => x.TeamEpicId);
-                    table.ForeignKey(
-                        name: "FK_TeamEpics_Epics_EpicId",
-                        column: x => x.EpicId,
-                        principalTable: "Epics",
-                        principalColumn: "EpicId",
-                        onDelete: ReferentialAction.SetNull);
-                    table.ForeignKey(
-                        name: "FK_TeamEpics_Teams_TeamId",
-                        column: x => x.TeamId,
-                        principalTable: "Teams",
-                        principalColumn: "TeamId",
-                        onDelete: ReferentialAction.SetNull);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    UserId = table.Column<Guid>(nullable: false),
-                    TeamId = table.Column<Guid>(nullable: true),
-                    UserName = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    UserRole = table.Column<int>(nullable: false),
-                    UserPosition = table.Column<int>(nullable: false),
-                    IsActive = table.Column<bool>(nullable: false),
-                    Email = table.Column<string>(nullable: true),
-                    AvatarLink = table.Column<string>(nullable: true),
-                    xmin = table.Column<uint>(type: "xid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.UserId);
-                    table.ForeignKey(
-                        name: "FK_Users_Teams_TeamId",
-                        column: x => x.TeamId,
-                        principalTable: "Teams",
-                        principalColumn: "TeamId",
-                        onDelete: ReferentialAction.SetNull);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "RefreshTokens",
                 columns: table => new
                 {
                     RefreshTokenId = table.Column<Guid>(nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamptz", nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
                     Value = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false)
+                    ExpirationDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -160,10 +136,71 @@ namespace WebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Sprints",
+                columns: table => new
+                {
+                    SprintId = table.Column<Guid>(nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamptz", nullable: false),
+                    EpicId = table.Column<Guid>(nullable: false),
+                    SprintName = table.Column<string>(nullable: true),
+                    StartDate = table.Column<DateTime>(nullable: false),
+                    EndDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sprints", x => x.SprintId);
+                    table.ForeignKey(
+                        name: "FK_Sprints_Epics_EpicId",
+                        column: x => x.EpicId,
+                        principalTable: "Epics",
+                        principalColumn: "EpicId",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TeamUser",
+                columns: table => new
+                {
+                    TeamId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
+                    TeamId1 = table.Column<Guid>(nullable: true),
+                    UserId1 = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TeamUser", x => new { x.TeamId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_TeamUser_Teams_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Teams",
+                        principalColumn: "TeamId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TeamUser_Teams_TeamId1",
+                        column: x => x.TeamId1,
+                        principalTable: "Teams",
+                        principalColumn: "TeamId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TeamUser_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TeamUser_Users_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Stories",
                 columns: table => new
                 {
                     StoryId = table.Column<Guid>(nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamptz", nullable: false),
                     SprintId = table.Column<Guid>(nullable: true),
                     UserId = table.Column<Guid>(nullable: true),
                     Title = table.Column<string>(nullable: true),
@@ -175,7 +212,6 @@ namespace WebAPI.Migrations
                     IsReady = table.Column<bool>(nullable: false),
                     IsBlocked = table.Column<bool>(nullable: false),
                     BlockReason = table.Column<string>(nullable: true),
-                    CreationDate = table.Column<DateTime>(nullable: false),
                     xmin = table.Column<uint>(type: "xid", nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false)
                 },
@@ -201,12 +237,11 @@ namespace WebAPI.Migrations
                 columns: table => new
                 {
                     StoryHistoryId = table.Column<Guid>(nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamptz", nullable: false),
                     StoryHistoryAction = table.Column<int>(nullable: false),
                     FieldName = table.Column<string>(nullable: true),
                     PreviousValue = table.Column<string>(nullable: true),
                     CurrentValue = table.Column<string>(nullable: true),
-                    xmin = table.Column<uint>(type: "xid", nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
                     StoryId = table.Column<Guid>(nullable: false)
                 },
@@ -225,6 +260,11 @@ namespace WebAPI.Migrations
                 name: "IX_Epics_ProjectId",
                 table: "Epics",
                 column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_WorkSpaceId",
+                table: "Projects",
+                column: "WorkSpaceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_UserId",
@@ -247,6 +287,11 @@ namespace WebAPI.Migrations
                 column: "SprintId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Stories_Title",
+                table: "Stories",
+                column: "Title");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Stories_UserId",
                 table: "Stories",
                 column: "UserId");
@@ -257,29 +302,29 @@ namespace WebAPI.Migrations
                 column: "StoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeamEpics_EpicId",
-                table: "TeamEpics",
-                column: "EpicId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TeamEpics_TeamId",
-                table: "TeamEpics",
-                column: "TeamId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Teams_ProjectId",
                 table: "Teams",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TeamUser_TeamId1",
+                table: "TeamUser",
+                column: "TeamId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TeamUser_UserId",
+                table: "TeamUser",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TeamUser_UserId1",
+                table: "TeamUser",
+                column: "UserId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_Password",
                 table: "Users",
                 column: "Password");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_TeamId",
-                table: "Users",
-                column: "TeamId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UserName",
@@ -295,6 +340,11 @@ namespace WebAPI.Migrations
                 name: "IX_Users_UserRole",
                 table: "Users",
                 column: "UserRole");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_WorkSpaceId",
+                table: "Users",
+                column: "WorkSpaceId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -306,10 +356,13 @@ namespace WebAPI.Migrations
                 name: "StoryHistories");
 
             migrationBuilder.DropTable(
-                name: "TeamEpics");
+                name: "TeamUser");
 
             migrationBuilder.DropTable(
                 name: "Stories");
+
+            migrationBuilder.DropTable(
+                name: "Teams");
 
             migrationBuilder.DropTable(
                 name: "Sprints");
@@ -321,10 +374,10 @@ namespace WebAPI.Migrations
                 name: "Epics");
 
             migrationBuilder.DropTable(
-                name: "Teams");
+                name: "Projects");
 
             migrationBuilder.DropTable(
-                name: "Projects");
+                name: "WorkSpaces");
         }
     }
 }

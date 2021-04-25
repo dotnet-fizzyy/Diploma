@@ -272,9 +272,19 @@ namespace WebAPI.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("TeamId1")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("UserId1")
+                        .HasColumnType("uuid");
+
                     b.HasKey("TeamId", "UserId");
 
+                    b.HasIndex("TeamId1");
+
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("TeamUser");
                 });
@@ -300,9 +310,6 @@ namespace WebAPI.Migrations
 
                     b.Property<string>("Password")
                         .HasColumnType("text");
-
-                    b.Property<Guid?>("TeamId")
-                        .HasColumnType("uuid");
 
                     b.Property<string>("UserName")
                         .HasColumnType("text");
@@ -335,6 +342,7 @@ namespace WebAPI.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("WorkSpaceId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreationDate")
@@ -346,8 +354,7 @@ namespace WebAPI.Migrations
                     b.Property<string>("WorkSpaceName")
                         .HasColumnType("text");
 
-                    b.HasKey("Id")
-                        .HasName("WorkSpaceId");
+                    b.HasKey("Id");
 
                     b.ToTable("WorkSpaces");
                 });
@@ -419,17 +426,25 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.Core.Entities.TeamUser", b =>
                 {
-                    b.HasOne("WebAPI.Core.Entities.User", "User")
+                    b.HasOne("WebAPI.Core.Entities.Team", null)
                         .WithMany("TeamUsers")
                         .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebAPI.Core.Entities.Team", "Team")
+                        .WithMany()
+                        .HasForeignKey("TeamId1");
+
+                    b.HasOne("WebAPI.Core.Entities.User", null)
                         .WithMany("TeamUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("WebAPI.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("WebAPI.Core.Entities.User", b =>
