@@ -12,24 +12,6 @@ namespace WebAPI.Infrastructure.Postgres.Repository
     {
         public ProjectRepository(DatabaseContext databaseContext) : base(databaseContext) { }
 
-        public async Task<List<Project>> GetProjectsByUserId(Guid userId)
-        {
-            var query = 
-                from users in _dbContext.Users
-                    .Include(x => x.TeamUsers)
-                    .ThenInclude(y => y.Team)
-                join teams in _dbContext.Teams 
-                    on users.TeamUsers.FirstOrDefault().Team.Id equals teams.Id
-                join projects in _dbContext.Projects.Include(x => x.Teams)
-                    on teams.ProjectId equals projects.Id
-                where users.Id == userId
-                select projects; 
-
-            var foundProjects = await query.AsNoTracking().ToListAsync();
-
-            return foundProjects;
-        }
-
         public async Task<List<Project>> GetProjectWithTeamsByWorkSpaceIdAsync(Guid workSpaceId)
         {
             var query = _dbContext.Projects

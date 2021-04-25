@@ -40,37 +40,6 @@ namespace WebAPI.Presentation.Controllers
             => await _projectService.GetAllProjects();
 
         /// <summary>
-        /// Receive all projects that belong to user
-        /// </summary>
-        /// <response code="200">Receiving all user projects based</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpGet]
-        [Route("user")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CollectionResponse<Project>>> GetAllProjectsByUserId()
-        {
-            var user = _claimsReader.GetUserClaims(User);
-                
-            var userProjects = await _projectService.GetUserProjects(user);
-
-            return userProjects;
-        }
-
-        [HttpGet]
-        [Route("project-teams")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CollectionResponse<FullProject>>> GetAllProjectsWithTeamsByUserId()
-        {
-            var user = _claimsReader.GetUserClaims(User);
-            
-            var userProjects = await _projectService.GetProjectsWithTeamsByUserId(user.UserId);
-
-            return userProjects;
-        }
-        
-        /// <summary>
         /// Receive project by provided id
         /// </summary>
         /// <response code="200">Receiving project by provided id</response>

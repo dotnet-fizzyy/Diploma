@@ -7,8 +7,6 @@ namespace WebAPI.Core.Interfaces.Database
 {
     public interface IProjectRepository : IBaseCrudRepository<Project>
     {
-        Task<List<Project>> GetProjectsByUserId(Guid userId);
-
         Task<List<Project>> GetProjectWithTeamsByWorkSpaceIdAsync(Guid workSpaceId);
 
         Task<List<Project>> GetProjectsByCollectionOfTeamIds(IEnumerable<Team> teams);

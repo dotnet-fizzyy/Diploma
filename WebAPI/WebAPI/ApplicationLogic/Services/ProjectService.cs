@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -10,7 +9,6 @@ using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Core.Models;
 using WebAPI.Models.Models;
 using WebAPI.Models.Models.Result;
 
@@ -51,40 +49,6 @@ namespace WebAPI.ApplicationLogic.Services
                 Items = projectEntities.Select(_projectMapper.MapToModel).ToList()
             };
             
-            return collectionResponse;
-        }
-
-        public async Task<CollectionResponse<Project>> GetUserProjects(UserClaims user)
-        {
-            List<Core.Entities.Project> projectEntities;
-
-            switch (user.UserRole)
-            {
-                case UserRole.ProductOwner:
-                    projectEntities = await _projectRepository.SearchForMultipleItemsAsync(x => x.WorkSpaceId == user.UserId);
-                    break;
-                default:
-                    projectEntities = await _projectRepository.GetProjectsByUserId(user.UserId);
-                    break;
-            }
-
-            var userProjects = new CollectionResponse<Project>
-            {
-                Items = projectEntities.Select(_projectMapper.MapToModel).ToList()
-            };
-            
-            return userProjects;
-        }
-
-        public async Task<CollectionResponse<FullProject>>GetProjectsWithTeamsByUserId(Guid userId)
-        {
-            var projectEntities = await _projectRepository.GetProjectsByUserId(userId);
-            
-            var collectionResponse = new CollectionResponse<FullProject>
-            {
-                Items = projectEntities.Select(_projectMapper.MapToFullModel).ToList(),
-            };
-
             return collectionResponse;
         }
 
