@@ -39,7 +39,7 @@ namespace WebAPI.Presentation.Controllers
         [Route("user/id/{userId}")]
         public async Task<ActionResult<FullUser>> GetFullUserById(Guid userId)
         {
-            var fullUser = await _userService.GetFullUser(userId);
+            var fullUser = await _userService.GetFullUserAsync(userId);
             
             return fullUser;
         }

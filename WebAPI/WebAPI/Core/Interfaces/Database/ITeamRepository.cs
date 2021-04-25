@@ -8,5 +8,7 @@ namespace WebAPI.Core.Interfaces.Database
     public interface ITeamRepository : IBaseCrudRepository<Team>
     {
         Task<List<Team>> GetUserTeams(Guid userId);
+
+        Task<Team> GetTeamWithUsers(Guid teamId);
     }
 }

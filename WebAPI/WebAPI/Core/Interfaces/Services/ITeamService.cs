@@ -7,20 +7,20 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface ITeamService
     {
-        Task<CollectionResponse<Team>> GetAllTeams();
+        Task<CollectionResponse<Team>> GetAllTeamsAsync();
 
-        Task<CollectionResponse<FullTeam>> GetUserTeams(Guid userId);
+        Task<CollectionResponse<FullTeam>> GetUserTeamsAsync(Guid userId);
 
-        Task<Team> GetTeam(Guid teamId);
+        Task<Team> GetTeamByIdAsync(Guid teamId);
 
-        Task<FullTeam> GetFullTeamDescription(Guid teamId);
+        Task<FullTeam> GetFullTeamDescriptionAsync(Guid teamId);
 
-        Task<Team> CreateTeam(Team team);
+        Task<Team> CreateTeamAsync(Team team);
         
-        Task<Team> CreateTeamWithCustomer(Team team, Guid userId);
+        Task<Team> CreateTeamWithCustomerAsync(Team team, Guid userId);
         
-        Task<Team> UpdateTeam(Team team);
+        Task<Team> UpdateTeamAsync(Team team);
 
-        Task RemoveTeam(Guid id);
+        Task RemoveTeamAsync(Guid id);
     }
 }

@@ -40,7 +40,7 @@ namespace WebAPI.ApplicationLogic.Services
             _fullProjectDescriptionAggregator = fullProjectDescriptionAggregator;
         }
         
-        public async Task<CollectionResponse<Project>> GetAllProjects()
+        public async Task<CollectionResponse<Project>> GetAllProjectsAsync()
         {
             var projectEntities = await _projectRepository.SearchForMultipleItemsAsync();
 
@@ -52,7 +52,7 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<Project> GetProject(Guid projectId)
+        public async Task<Project> GetProjectAsync(Guid projectId)
         {
             var projectEntity = await _projectRepository.SearchForSingleItemAsync(x => x.Id == projectId);
 
@@ -66,7 +66,7 @@ namespace WebAPI.ApplicationLogic.Services
             return projectModel;
         }
 
-        public async Task<FullProjectDescription> GetFullProjectDescription(Guid projectId)
+        public async Task<FullProjectDescription> GetFullProjectDescriptionAsync(Guid projectId)
         {
             //Receive project description
             var projectEntity = await _projectRepository.SearchForSingleItemAsync(x => x.Id == projectId);
@@ -100,8 +100,7 @@ namespace WebAPI.ApplicationLogic.Services
                     );
             
             //Receive teams working on it
-            var projectTeams = 
-                await _teamRepository.SearchForMultipleItemsAsync(x => x.ProjectId == projectId);
+            var projectTeams =  await _teamRepository.SearchForMultipleItemsAsync(x => x.ProjectId == projectId);
 
             var fullProjectDescription = _fullProjectDescriptionAggregator.AggregateFullProjectDescription(
                 projectEntity,
@@ -113,7 +112,7 @@ namespace WebAPI.ApplicationLogic.Services
             return fullProjectDescription;
         }
 
-        public async Task<Project> AddProject(Project project)
+        public async Task<Project> CreateProjectAsync(Project project)
         {
             var projectEntity = _projectMapper.MapToEntity(project);
             projectEntity.CreationDate = DateTime.UtcNow;
@@ -125,7 +124,7 @@ namespace WebAPI.ApplicationLogic.Services
             return createdProjectModel;
         }
 
-        public async Task<Project> UpdateProject(Project project)
+        public async Task<Project> UpdateProjectAsync(Project project)
         {
             var projectEntity = _projectMapper.MapToEntity(project);
 
@@ -136,7 +135,7 @@ namespace WebAPI.ApplicationLogic.Services
             return updatedProjectModel;
         }
 
-        public async Task RemoveProject(Guid projectId)
+        public async Task RemoveProjectAsync(Guid projectId)
         {
             using var scope = new TransactionScope
             (

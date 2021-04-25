@@ -49,7 +49,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<User>> CreateCustomer([FromBody, BindRequired] SignUpUser user)
         {
-            var createdCustomer = await _userService.CreateCustomer(user);
+            var createdCustomer = await _userService.CreateCustomerAsync(user);
             
             return CreatedAtAction(nameof(CreateCustomer), createdCustomer);
         }

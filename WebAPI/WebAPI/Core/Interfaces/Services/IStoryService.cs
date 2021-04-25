@@ -7,28 +7,28 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface IStoryService
     {
-        Task<CollectionResponse<Story>> GetStories();
+        Task<CollectionResponse<Story>> GetStoriesAsync();
         
-        Task<CollectionResponse<Story>> GetStoriesByRange(Guid sprintId, int limit, int offset);
+        Task<CollectionResponse<Story>> GetStoriesByRangeAsync(Guid sprintId, int limit, int offset);
 
-        Task<CollectionResponse<Story>> GetFullStoriesByTitleTerm(string term, int limit, Guid projectId);
+        Task<CollectionResponse<Story>> GetFullStoriesByTitleTermAsync(string term, int limit, Guid projectId);
 
-        Task<CollectionResponse<StoryHistory>> GetStoryHistory(Guid storyId);
+        Task<CollectionResponse<StoryHistory>> GetStoryHistoryAsync(Guid storyId);
         
-        Task<Story> GetStory(Guid storyId);
+        Task<Story> GetStoryByIdAsync(Guid storyId);
 
-        Task<FullStory> GetFullStoryDescription(Guid storyId);
+        Task<FullStory> GetFullStoryDescriptionAsync(Guid storyId);
 
-        Task<Story> AddStory(Story story, Guid userId);
+        Task<Story> CreateStoryAsync(Story story, Guid userId);
 
-        Task<Story> UpdateStory(Story story);
+        Task<Story> UpdateStoryAsync(Story story);
 
-        Task<Story> UpdateStoryColumn(Story story);
+        Task<Story> UpdateStoryColumnAsync(Story story);
 
-        Task ChangeStoryStatus(Story story);
+        Task ChangeStoryStatusAsync(Story story);
 
-        Task<Story> UpdatePartsOfStory(StoryUpdate storyUpdate, Guid userId);
+        Task<Story> UpdatePartsOfStoryAsync(StoryUpdate storyUpdate, Guid userId);
         
-        Task RemoveStory(Guid id);
+        Task RemoveStoryAsync(Guid id);
     }
 }

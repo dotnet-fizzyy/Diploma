@@ -37,7 +37,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<CollectionResponse<Project>>> GetAllProjects()
-            => await _projectService.GetAllProjects();
+            => await _projectService.GetAllProjectsAsync();
 
         /// <summary>
         /// Receive project by provided id
@@ -52,7 +52,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Project>> GetProject(Guid id)
         {
-            var project = await _projectService.GetProject(id);
+            var project = await _projectService.GetProjectAsync(id);
 
             return project;
         }
@@ -70,7 +70,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<FullProjectDescription>> GetProjectFullDescription(Guid id)
         {
-            var fullProjectDescription = await _projectService.GetFullProjectDescription(id);
+            var fullProjectDescription = await _projectService.GetFullProjectDescriptionAsync(id);
 
             return fullProjectDescription;
         }
@@ -85,7 +85,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Project>> CreateProject([FromBody, BindRequired]Project project)
         {
-            var createdProject = await _projectService.AddProject(project);
+            var createdProject = await _projectService.CreateProjectAsync(project);
             
             return CreatedAtAction(nameof(CreateProject), createdProject);
         }
@@ -100,7 +100,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> UpdateProject([FromBody, BindRequired] Project project)
         {
-            var updatedProject = await _projectService.UpdateProject(project);
+            var updatedProject = await _projectService.UpdateProjectAsync(project);
 
             return Ok(updatedProject);
         }
@@ -116,7 +116,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveProject(Guid id)
         {
-            await _projectService.RemoveProject(id);
+            await _projectService.RemoveProjectAsync(id);
 
             return NoContent();
         }

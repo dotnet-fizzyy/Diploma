@@ -7,18 +7,18 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface IEpicService
     {
-        Task<CollectionResponse<Epic>> GetEpics();
+        Task<CollectionResponse<Epic>> GetEpicsAsync();
         
-        Task<CollectionResponse<Epic>> GetEpicsFromProject(Guid projectId);
+        Task<CollectionResponse<Epic>> GetEpicsFromProjectAsync(Guid projectId);
         
-        Task<Epic> GetEpic(Guid epicId);
+        Task<Epic> GetEpicByIdAsync(Guid epicId);
 
-        Task<FullEpic> GetFullEpicDescription(Guid epicId);
+        Task<FullEpic> GetFullEpicDescriptionAsync(Guid epicId);
         
-        Task<Epic> CreateEpic(Epic epic);
+        Task<Epic> CreateEpicAsync(Epic epic);
 
-        Task<Epic> UpdateEpic(Epic epic);
+        Task<Epic> UpdateEpicAsync(Epic epic);
         
-        Task RemoveEpic(Guid epicId);
+        Task RemoveEpicAsync(Guid epicId);
     }
 }

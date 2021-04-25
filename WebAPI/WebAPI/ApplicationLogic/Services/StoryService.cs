@@ -34,7 +34,7 @@ namespace WebAPI.ApplicationLogic.Services
             _storyHistoryMapper = storyHistoryMapper;
         }
 
-        public async Task<CollectionResponse<Story>> GetStories()
+        public async Task<CollectionResponse<Story>> GetStoriesAsync()
         {
             var storyEntities = await _storyRepository.SearchForMultipleItemsAsync();
 
@@ -46,7 +46,7 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<CollectionResponse<Story>> GetStoriesByRange(Guid sprintId, int limit, int offset)
+        public async Task<CollectionResponse<Story>> GetStoriesByRangeAsync(Guid sprintId, int limit, int offset)
         {
             var storyEntities =
                 await _storyRepository.SearchForMultipleItemsAsync(
@@ -70,7 +70,7 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<CollectionResponse<Story>> GetFullStoriesByTitleTerm(string term, int limit, Guid userId)
+        public async Task<CollectionResponse<Story>> GetFullStoriesByTitleTermAsync(string term, int limit, Guid userId)
         {
             var storyEntities = await _storyRepository.GetStoriesByTitleTerm(term, limit, userId);
 
@@ -82,7 +82,7 @@ namespace WebAPI.ApplicationLogic.Services
             return storyModels;
         }
 
-        public async Task<CollectionResponse<StoryHistory>> GetStoryHistory(Guid storyId)
+        public async Task<CollectionResponse<StoryHistory>> GetStoryHistoryAsync(Guid storyId)
         {
             var storyHistoryEntities = await _storyHistoryRepository.SearchForMultipleItemsAsync(x => x.StoryId == storyId);
 
@@ -102,7 +102,7 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<Story> GetStory(Guid storyId)
+        public async Task<Story> GetStoryByIdAsync(Guid storyId)
         {
             var storyEntity = await _storyRepository.SearchForSingleItemAsync(story => story.Id == storyId);
 
@@ -116,7 +116,7 @@ namespace WebAPI.ApplicationLogic.Services
             return storyModel;
         }
 
-        public async Task<FullStory> GetFullStoryDescription(Guid storyId)
+        public async Task<FullStory> GetFullStoryDescriptionAsync(Guid storyId)
         {
             var storyEntity =
                 await _storyRepository.SearchForSingleItemAsync(
@@ -134,7 +134,7 @@ namespace WebAPI.ApplicationLogic.Services
             return storyFullModel;
         }
 
-        public async Task<Story> AddStory(Story story, Guid userId)
+        public async Task<Story> CreateStoryAsync(Story story, Guid userId)
         {
             var storyEntity = _storyMapper.MapToEntity(story);
 
@@ -146,7 +146,7 @@ namespace WebAPI.ApplicationLogic.Services
             return storyModel;
         }
 
-        public async Task<Story> UpdateStory(Story story)
+        public async Task<Story> UpdateStoryAsync(Story story)
         {
             var storyEntity = _storyMapper.MapToEntity(story);
             storyEntity.CreationDate = DateTime.UtcNow;
@@ -158,7 +158,7 @@ namespace WebAPI.ApplicationLogic.Services
             return storyModel;
         }
 
-        public async Task<Story> UpdateStoryColumn(Story story)
+        public async Task<Story> UpdateStoryColumnAsync(Story story)
         {
             var storyEntity = _storyMapper.MapToEntity(story);
 
@@ -171,14 +171,14 @@ namespace WebAPI.ApplicationLogic.Services
             return updatedStoryModel;
         }
 
-        public async Task ChangeStoryStatus(Story story)
+        public async Task ChangeStoryStatusAsync(Story story)
         {
             var storyEntity = _storyMapper.MapToEntity(story);
 
             await _storyRepository.ChangeStoryStatus(storyEntity);
         }
 
-        public async Task<Story> UpdatePartsOfStory(StoryUpdate storyUpdate, Guid userId)
+        public async Task<Story> UpdatePartsOfStoryAsync(StoryUpdate storyUpdate, Guid userId)
         {
             var storyHistoryItems = _storyHistoryMapper.MapToStoryEntityParts(storyUpdate, userId);
             var storyEntity = _storyMapper.MapToEntity(storyUpdate.Story);
@@ -192,7 +192,7 @@ namespace WebAPI.ApplicationLogic.Services
             return storyModel;
         }
 
-        public async Task RemoveStory(Guid id)
+        public async Task RemoveStoryAsync(Guid id)
         {
             using var scope = new TransactionScope
             (

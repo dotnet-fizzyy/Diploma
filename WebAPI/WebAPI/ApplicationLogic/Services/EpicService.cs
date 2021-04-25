@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
@@ -29,7 +30,7 @@ namespace WebAPI.ApplicationLogic.Services
             _epicMapper = epicMapper;
         }
 
-        public async Task<CollectionResponse<Epic>> GetEpics()
+        public async Task<CollectionResponse<Epic>> GetEpicsAsync()
         {
             var epicEntities = await _epicRepository.SearchForMultipleItemsAsync();
 
@@ -41,7 +42,7 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<CollectionResponse<Epic>> GetEpicsFromProject(Guid projectId)
+        public async Task<CollectionResponse<Epic>> GetEpicsFromProjectAsync(Guid projectId)
         {
             var epicEntities = await _epicRepository.SearchForMultipleItemsAsync(x => x.ProjectId == projectId);
 
@@ -53,14 +54,14 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<Epic> GetEpic(Guid epicId)
+        public async Task<Epic> GetEpicByIdAsync(Guid epicId)
         {
             var epicEntity =
                 await _epicRepository.SearchForSingleItemAsync(x => x.Id == epicId);
 
             if (epicEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find epic with following id");
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(epicId)));
             }
             
             var epicModel = _epicMapper.MapToModel(epicEntity);
@@ -68,7 +69,7 @@ namespace WebAPI.ApplicationLogic.Services
             return epicModel;
         }
 
-        public async Task<FullEpic> GetFullEpicDescription(Guid epicId)
+        public async Task<FullEpic> GetFullEpicDescriptionAsync(Guid epicId)
         {
             var epicEntity =
                 await _epicRepository.SearchForSingleItemAsync(
@@ -78,7 +79,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (epicEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find epic with following id");
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(epicId)));
             }
 
             var epicFullModel = _epicMapper.MapToFullModel(epicEntity);
@@ -86,10 +87,10 @@ namespace WebAPI.ApplicationLogic.Services
             return epicFullModel;
         }
 
-        public async Task<Epic> CreateEpic(Epic epic)
+        public async Task<Epic> CreateEpicAsync(Epic epic)
         {
             var epicEntity = _epicMapper.MapToEntity(epic);
-            epicEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
+            epicEntity.CreationDate = DateTime.UtcNow;
 
             var createdEpicEntity = await _epicRepository.CreateAsync(epicEntity);
 
@@ -98,7 +99,7 @@ namespace WebAPI.ApplicationLogic.Services
             return epicModel;
         }
 
-        public async Task<Epic> UpdateEpic(Epic epic)
+        public async Task<Epic> UpdateEpicAsync(Epic epic)
         {
             var epicEntity = _epicMapper.MapToEntity(epic);
 
@@ -109,24 +110,21 @@ namespace WebAPI.ApplicationLogic.Services
             return epicModel;
         }
 
-        public async Task RemoveEpic(Guid epicId)
+        public async Task RemoveEpicAsync(Guid epicId)
         {
-            using (var scope = new TransactionScope
-                (
-                    TransactionScopeOption.Required, 
-                    new TransactionOptions
-                    {
-                        IsolationLevel = IsolationLevel.Serializable,
-                    },
-                    TransactionScopeAsyncFlowOption.Enabled
-                )
-            )
-            {
-                await _sprintRepository.DeleteAsync(x => x.EpicId == epicId);
-                await _epicRepository.DeleteAsync(x => x.Id == epicId);
+            using var scope = new TransactionScope
+            (
+                TransactionScopeOption.Required, 
+                new TransactionOptions
+                {
+                    IsolationLevel = IsolationLevel.Serializable,
+                },
+                TransactionScopeAsyncFlowOption.Enabled
+            );
+            await _sprintRepository.DeleteAsync(x => x.EpicId == epicId);
+            await _epicRepository.DeleteAsync(x => x.Id == epicId);
                 
-                scope.Complete();
-            }
+            scope.Complete();
         }
     }
 }

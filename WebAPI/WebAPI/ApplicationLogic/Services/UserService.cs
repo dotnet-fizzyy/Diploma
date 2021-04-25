@@ -9,9 +9,9 @@ using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Models.Models;
 using WebAPI.Models.Models.Authentication;
 using WebAPI.Models.Models.Result;
+using WebAPI.Models.Models;
 
 namespace WebAPI.ApplicationLogic.Services
 {
@@ -35,7 +35,7 @@ namespace WebAPI.ApplicationLogic.Services
             _userMapper = userMapper;
         }
         
-        public async Task<CollectionResponse<User>> GetAllUsers()
+        public async Task<CollectionResponse<User>> GetAllUsersAsync()
         {
             var userEntities = await _userRepository.SearchForMultipleItemsAsync();
 
@@ -47,14 +47,14 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<FullUser> GetFullUser(Guid id)
+        public async Task<FullUser> GetFullUserAsync(Guid id)
         {
             var userFullModel = await _userProvider.GetFullUser(id);
             
             return userFullModel;
         }
 
-        public async Task<User> GetUser(Guid id)
+        public async Task<User> GetUserByIdAsync(Guid id)
         {
             var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == id);
 
@@ -68,33 +68,35 @@ namespace WebAPI.ApplicationLogic.Services
             return userModel;
         }
 
-        public async Task<User> CreateCustomer(SignUpUser user)
+        public async Task<User> CreateUserWithTeamAsync(User user, Guid teamId)
         {
-            var mappedCustomer = CreateCustomerEntity(user);
-            mappedCustomer.CreationDate = DateTime.UtcNow.Date;
-            mappedCustomer.Password = PasswordHashing.CreateHashPassword(mappedCustomer.Password);
+            var userEntity = _userMapper.MapToEntity(user);
+            userEntity.TeamUsers.Add(new Core.Entities.TeamUser { TeamId = teamId});
+            
+            var createdUserModel = await CreateUser(userEntity);
+            
+            return createdUserModel;
+        }
 
-            var createdCustomerEntity = await _userRepository.CreateAsync(mappedCustomer);
-
-            var customerModel = _userMapper.MapToModel(createdCustomerEntity);
-
-            return customerModel;
+        public async Task<User> CreateCustomerAsync(SignUpUser user)
+        {
+            var customerEntity = CreateCustomerEntity(user);
+            
+            var createdUserModel = await CreateUser(customerEntity);
+            
+            return createdUserModel;
         }
         
-        public async Task<User> CreateUser(User user)
+        public async Task<User> CreateUserAsync(User user)
         {
             var entityUser = _userMapper.MapToEntity(user);
-            entityUser.Password = PasswordHashing.CreateHashPassword(entityUser.Password);
-            entityUser.CreationDate = DateTime.UtcNow.ToUniversalTime();
+
+            var createdUserModel = await CreateUser(entityUser);
             
-            var createdUserEntity = await _userRepository.CreateAsync(entityUser);
-
-            var userModel = _userMapper.MapToModel(createdUserEntity);
-
-            return userModel;
+            return createdUserModel;
         }
 
-        public async Task<User> UpdateUser(User user)
+        public async Task<User> UpdateUserAsync(User user)
         {
             var entityUser = _userMapper.MapToEntity(user);
 
@@ -135,26 +137,37 @@ namespace WebAPI.ApplicationLogic.Services
             await _userRepository.ChangeUserActivityStatusAsync(userEntity);
         }
 
-        public async Task RemoveUser(Guid id)
+        public async Task RemoveUserAsync(Guid id)
         {
-            using (var scope = new TransactionScope
-                (
-                    TransactionScopeOption.Required, 
-                    new TransactionOptions
-                    {
-                        IsolationLevel = IsolationLevel.Serializable,
-                    },
-                    TransactionScopeAsyncFlowOption.Enabled
-                )
-            )
-            {
-                await _refreshTokenRepository.DeleteAsync(x => x.UserId == id);
-                await _userRepository.DeleteAsync(x => x.Id == id);
+            using var scope = new TransactionScope
+            (
+                TransactionScopeOption.Required, 
+                new TransactionOptions
+                {
+                    IsolationLevel = IsolationLevel.Serializable,
+                },
+                TransactionScopeAsyncFlowOption.Enabled
+            );
+            
+            await _refreshTokenRepository.DeleteAsync(x => x.UserId == id);
+            await _userRepository.DeleteAsync(x => x.Id == id);
                 
-                scope.Complete();
-            }
+            scope.Complete();
         }
 
+        
+        private async Task<User> CreateUser(Core.Entities.User user)
+        {
+            user.Password = PasswordHashing.CreateHashPassword(user.Password);
+            user.CreationDate = DateTime.UtcNow;
+            
+            var createdUserEntity = await _userRepository.CreateAsync(user);
+            
+            var userModel = _userMapper.MapToModel(createdUserEntity);
+
+            return userModel;
+        }
+        
         private static Core.Entities.User CreateCustomerEntity(SignUpUser user)
         {
             return new Core.Entities.User
@@ -164,7 +177,7 @@ namespace WebAPI.ApplicationLogic.Services
                 Email = user.Email,
                 UserPosition = UserPosition.Customer,
                 UserRole = UserRole.ProductOwner,
-                IsActive = true,
+                IsActive = true
             };
         }
     }

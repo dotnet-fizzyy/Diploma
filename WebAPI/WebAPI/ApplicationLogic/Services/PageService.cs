@@ -25,6 +25,8 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly IStoryHistoryRepository _storyHistoryRepository;
         private readonly IStoryRepository _storyRepository;
         private readonly IPageAggregator _pageAggregator;
+
+        private const string MissingEpicsExceptionMessage = "No any epics found with provided project id";
         
         public PageService(
             IProjectRepository projectRepository, 
@@ -58,7 +60,7 @@ namespace WebAPI.ApplicationLogic.Services
             return searchResults;
         }
 
-        public async Task<CollectionResponse<StoryHistory>> GetStoryHistoryData(Guid storyId)
+        public async Task<CollectionResponse<StoryHistory>> GetStoryHistoryDataAsync(Guid storyId)
         {
             var storyHistoryEntities = await _storyHistoryRepository.SearchForMultipleItemsAsync(x => x.StoryId == storyId);
 
@@ -67,12 +69,12 @@ namespace WebAPI.ApplicationLogic.Services
             return storyHistoryCollection;
         }
 
-        public async Task<BoardPage> GetBoardPageData(Guid projectId, Guid teamId, Guid userId)
+        public async Task<BoardPage> GetBoardPageDataAsync(Guid projectId, Guid teamId, Guid userId)
         {
             var epics = await _epicRepository.SearchForMultipleItemsAsync(x => x.ProjectId == projectId, y => y.CreationDate, OrderType.Desc);
             if (epics == null || !epics.Any())
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "No any epics found with provided project id");
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, MissingEpicsExceptionMessage);
             }
             var latestEpic = epics.First();
             
@@ -85,7 +87,7 @@ namespace WebAPI.ApplicationLogic.Services
             return boardPage;
         }
 
-        public async Task<TeamPage> GetTeamPageData(Guid userId, Guid teamId)
+        public async Task<TeamPage> GetTeamPageDataAsync(Guid userId, Guid teamId)
         {
             var workSpace = await _workSpaceRepository.GetUserWorkSpaceAsync(userId);
             
@@ -96,7 +98,7 @@ namespace WebAPI.ApplicationLogic.Services
             return teamData;
         }
 
-        public async Task<ProjectPage> GetProjectPageData(Guid projectId)
+        public async Task<ProjectPage> GetProjectPageDataAsync(Guid projectId)
         {
             var project = await _projectRepository.SearchForSingleItemAsync(x => x.Id == projectId, include => include.Teams, include => include.Epics);
             if (project == null)
@@ -109,7 +111,7 @@ namespace WebAPI.ApplicationLogic.Services
             return projectData;
         }
 
-        public async Task<WorkSpacePage> GetUserWorkSpacePageData(UserClaims user)
+        public async Task<WorkSpacePage> GetUserWorkSpacePageDataAsync(UserClaims user)
         {
             var workSpace = await _workSpaceRepository.GetUserWorkSpaceAsync(user.UserId);
             if (workSpace == null)

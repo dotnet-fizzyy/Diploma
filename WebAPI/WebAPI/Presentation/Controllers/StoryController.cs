@@ -42,7 +42,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<CollectionResponse<Story>>> GetAllStories()
-            => await _storyService.GetStories();
+            => await _storyService.GetStoriesAsync();
 
         /// <summary>
         /// Receive stories in particular range matches params criteria
@@ -59,7 +59,7 @@ namespace WebAPI.Presentation.Controllers
             [FromQuery, BindRequired] Guid sprintId,
             [FromQuery, BindRequired] int limit,
             [FromQuery, BindRequired] int offset
-        ) => await _storyService.GetStoriesByRange(sprintId, limit, offset);
+        ) => await _storyService.GetStoriesByRangeAsync(sprintId, limit, offset);
 
         /// <summary>
         /// Sort stories in particular order from epic by params criteria
@@ -100,7 +100,7 @@ namespace WebAPI.Presentation.Controllers
             [FromQuery, BindRequired] string term,
             [FromQuery, BindRequired] int limit,
             [FromQuery, BindRequired] Guid projectId
-        ) => await _storyService.GetFullStoriesByTitleTerm(term, limit, projectId);
+        ) => await _storyService.GetFullStoriesByTitleTermAsync(term, limit, projectId);
         
         /// <summary>
         /// Receive story with provided id
@@ -115,7 +115,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Story>> GetStory(Guid id)
         {
-            var story = await _storyService.GetStory(id);
+            var story = await _storyService.GetStoryByIdAsync(id);
 
             return story;
         }
@@ -133,7 +133,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<FullStory>> GetFullStoryDescription(Guid id)
         {
-            var storyFullDescription = await _storyService.GetFullStoryDescription(id);
+            var storyFullDescription = await _storyService.GetFullStoryDescriptionAsync(id);
 
             return storyFullDescription;
         }
@@ -151,7 +151,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CollectionResponse<StoryHistory>>> GetStoryHistory(Guid id)
         {
-            var storyHistory = await _storyService.GetStoryHistory(id);
+            var storyHistory = await _storyService.GetStoryHistoryAsync(id);
 
             return storyHistory;
         }
@@ -168,7 +168,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = _claimsReader.GetUserClaims(User);
             
-            var createdStory = await _storyService.AddStory(story, user.UserId);
+            var createdStory = await _storyService.CreateStoryAsync(story, user.UserId);
 
             return CreatedAtAction(nameof(CreateStory), createdStory);
         }
@@ -183,7 +183,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Story>> UpdateStory([FromBody, BindRequired] Story story)
         {
-            var updatedStory = await _storyService.UpdateStory(story);
+            var updatedStory = await _storyService.UpdateStoryAsync(story);
 
             return updatedStory;
         }
@@ -201,7 +201,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = _claimsReader.GetUserClaims(User);
             
-            var updatedStory = await _storyService.UpdatePartsOfStory(storyUpdate, user.UserId);
+            var updatedStory = await _storyService.UpdatePartsOfStoryAsync(storyUpdate, user.UserId);
 
             return updatedStory;
         }
@@ -222,7 +222,7 @@ namespace WebAPI.Presentation.Controllers
             var storyModel = new Story();
             storyPatch.ApplyTo(storyModel, ModelState);
 
-            var updatedStory = await _storyService.UpdateStoryColumn(storyModel);
+            var updatedStory = await _storyService.UpdateStoryColumnAsync(storyModel);
             
             return updatedStory;
         }
@@ -243,7 +243,7 @@ namespace WebAPI.Presentation.Controllers
             var storyModel = new Story();
             storyPatch.ApplyTo(storyModel, ModelState);
 
-            await _storyService.ChangeStoryStatus(storyModel);
+            await _storyService.ChangeStoryStatusAsync(storyModel);
             
             return NoContent();
         }
@@ -259,7 +259,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveStory(Guid id)
         {
-            await _storyService.RemoveStory(id);
+            await _storyService.RemoveStoryAsync(id);
             
             return NoContent();
         }

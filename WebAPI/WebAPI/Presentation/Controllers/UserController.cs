@@ -37,7 +37,7 @@ namespace WebAPI.Presentation.Controllers
         [HttpGet]
         [Route("all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<CollectionResponse<User>>> GetAllUsers() => await _userService.GetAllUsers();
+        public async Task<ActionResult<CollectionResponse<User>>> GetAllUsers() => await _userService.GetAllUsersAsync();
 
         /// <summary>
         /// Receive user by access token
@@ -53,7 +53,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var userClaims = _claimsReader.GetUserClaims(User);
             
-            var user = await _userService.GetFullUser(userClaims.UserId);
+            var user = await _userService.GetFullUserAsync(userClaims.UserId);
 
             return user;
         }
@@ -71,7 +71,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<User>> GetUser(Guid id)
         {
-            var user = await _userService.GetUser(id);
+            var user = await _userService.GetUserByIdAsync(id);
 
             return user;
         }
@@ -84,9 +84,20 @@ namespace WebAPI.Presentation.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> CreateUser([FromBody]User user)
+        public async Task<ActionResult<User>> CreateUser([FromBody]User user)
         {
-            var createdUser = await _userService.CreateUser(user);
+            var createdUser = await _userService.CreateUserAsync(user);
+            
+            return CreatedAtAction(nameof(CreateUser), createdUser);
+        }
+
+        [HttpPost]
+        [Route("team/id/{teamId}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<User>> CreateUserWithTeam([FromBody]User user, Guid teamId)
+        {
+            var createdUser = await _userService.CreateUserWithTeamAsync(user, teamId);
             
             return CreatedAtAction(nameof(CreateUser), createdUser);
         }
@@ -101,7 +112,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<User>> UpdateUser([FromBody] User user)
         {
-            var updatedUser = await _userService.UpdateUser(user);
+            var updatedUser = await _userService.UpdateUserAsync(user);
             
             return updatedUser;
         }
@@ -179,7 +190,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveUser([BindRequired]Guid id)
         {
-            await _userService.RemoveUser(id);
+            await _userService.RemoveUserAsync(id);
 
             return NoContent();
         }

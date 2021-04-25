@@ -48,7 +48,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = _claimsReader.GetUserClaims(User);
 
-            var projectBoardData = await _pageService.GetBoardPageData(projectId, teamId, user.UserId);
+            var projectBoardData = await _pageService.GetBoardPageDataAsync(projectId, teamId, user.UserId);
             
             return projectBoardData;
         }
@@ -57,7 +57,7 @@ namespace WebAPI.Presentation.Controllers
         [Route("story-history/story/id/{storyId}")]
         public async Task<ActionResult<CollectionResponse<StoryHistory>>> GetStoryHistoryPageIndex(Guid storyId)
         {
-            var storyHistory = await _pageService.GetStoryHistoryData(storyId);
+            var storyHistory = await _pageService.GetStoryHistoryDataAsync(storyId);
             
             return storyHistory;
         }
@@ -66,7 +66,7 @@ namespace WebAPI.Presentation.Controllers
         [Route("project/{projectId}")]
         public async Task<ActionResult<ProjectPage>> GetProjectPageIndex(Guid projectId)
         {
-            var userProject = await _pageService.GetProjectPageData(projectId);
+            var userProject = await _pageService.GetProjectPageDataAsync(projectId);
             
             return userProject;
         }
@@ -77,7 +77,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = _claimsReader.GetUserClaims(User);
             
-            var teamPage = await _pageService.GetTeamPageData(user.UserId, teamId);
+            var teamPage = await _pageService.GetTeamPageDataAsync(user.UserId, teamId);
         
             return teamPage;
         }
@@ -88,7 +88,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = _claimsReader.GetUserClaims(User);
 
-            var userWorkSpace = await _pageService.GetUserWorkSpacePageData(user);
+            var userWorkSpace = await _pageService.GetUserWorkSpacePageDataAsync(user);
 
             return userWorkSpace;
         }

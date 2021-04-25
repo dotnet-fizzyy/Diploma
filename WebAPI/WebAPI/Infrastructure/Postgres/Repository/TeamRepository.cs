@@ -24,5 +24,16 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 .Select(x => x.Team)
                 .ToList();
         }
+
+        public async Task<Team> GetTeamWithUsers(Guid teamId)
+        {
+            var team = await _dbContext.Teams
+                .AsNoTracking()
+                .Include(x => x.TeamUsers)
+                .ThenInclude(x => x.User)
+                .FirstOrDefaultAsync(x => x.Id == teamId);
+
+            return team;
+        }
     }
 }

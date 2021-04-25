@@ -30,7 +30,7 @@ namespace WebAPI.ApplicationLogic.Services
             _sprintMapper = sprintMapper;
         }
         
-        public async Task<CollectionResponse<Sprint>> GetALlSprints()
+        public async Task<CollectionResponse<Sprint>> GetALlSprintsAsync()
         {
             var sprintEntities = await _sprintRepository.SearchForMultipleItemsAsync();
 
@@ -42,7 +42,7 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<CollectionResponse<FullSprint>> GetAllSprintsFromEpic(Guid epicId, Guid userId)
+        public async Task<CollectionResponse<FullSprint>> GetAllSprintsFromEpicAsync(Guid epicId, Guid userId)
         {
             var sprintEntities = await _sprintRepository.GetFullSprintsByEpicId(epicId);
            
@@ -54,7 +54,7 @@ namespace WebAPI.ApplicationLogic.Services
             return sprintsCollectionResponse;
         }
 
-        public async Task<Sprint> GetSprint(Guid sprintId)
+        public async Task<Sprint> GetSprintByIdAsync(Guid sprintId)
         {
             var sprintEntity = await _sprintRepository.SearchForSingleItemAsync(x => x.Id == sprintId);
 
@@ -68,7 +68,7 @@ namespace WebAPI.ApplicationLogic.Services
             return sprintModel;
         }
 
-        public async Task<FullSprint> GetFullSprint(Guid sprintId)
+        public async Task<FullSprint> GetFullSprintAsync(Guid sprintId)
         {
             var sprintEntity = await _sprintRepository
                 .SearchForSingleItemAsync(
@@ -86,7 +86,7 @@ namespace WebAPI.ApplicationLogic.Services
             return sprintFullModel;
         }
 
-        public async Task<Sprint> CreateSprint(Sprint sprint)
+        public async Task<Sprint> CreateSprintAsync(Sprint sprint)
         {
             var sprintEntity = _sprintMapper.MapToEntity(sprint);
             sprintEntity.CreationDate = DateTime.UtcNow;
@@ -98,7 +98,7 @@ namespace WebAPI.ApplicationLogic.Services
             return sprintModel;
         }
 
-        public async Task<Sprint> UpdateSprint(Sprint sprint)
+        public async Task<Sprint> UpdateSprintAsync(Sprint sprint)
         {
             var sprintEntity = _sprintMapper.MapToEntity(sprint);
 
@@ -109,7 +109,7 @@ namespace WebAPI.ApplicationLogic.Services
             return sprintModel;
         }
 
-        public async Task RemoveSprint(Guid sprintId)
+        public async Task RemoveSprintAsync(Guid sprintId)
         {
             using var scope = new TransactionScope
             (

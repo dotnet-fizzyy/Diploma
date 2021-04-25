@@ -34,7 +34,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication</response>
         [HttpGet]
         [Route("all")]
-        public async Task<ActionResult<CollectionResponse<Team>>> GetAllTeams() => await _teamService.GetAllTeams();
+        public async Task<ActionResult<CollectionResponse<Team>>> GetAllTeams() => await _teamService.GetAllTeamsAsync();
 
         /// <summary>
         /// Receive all teams that belong to user
@@ -49,7 +49,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = _claimsReader.GetUserClaims(User);
             
-            var userTeams = await _teamService.GetUserTeams(user.UserId);
+            var userTeams = await _teamService.GetUserTeamsAsync(user.UserId);
 
             return userTeams;
         }
@@ -67,7 +67,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Team>> GetTeam(Guid id)
         {
-           var team = await _teamService.GetTeam(id);
+           var team = await _teamService.GetTeamByIdAsync(id);
 
            return team;
         }
@@ -85,7 +85,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<FullTeam>> GetFullTeamDescription(Guid id)
         {
-            var fullTeam = await _teamService.GetFullTeamDescription(id);
+            var fullTeam = await _teamService.GetFullTeamDescriptionAsync(id);
 
             return fullTeam;
         }
@@ -100,7 +100,24 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Team>> CreateTeam([FromBody, BindRequired]Team team)
         {
-            var createdTeam = await _teamService.CreateTeam(team);
+            var createdTeam = await _teamService.CreateTeamAsync(team);
+            
+            return CreatedAtAction(nameof(CreateTeam), createdTeam);
+        }
+        
+        /// <summary>
+        /// Create team with customer with provided model properties
+        /// </summary>
+        /// <response code="201">Created team with customer via provided model properties</response>
+        /// <response code="401">Failed authentication</response>
+        [HttpPost]
+        [Route("customer")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<Team>> CreateTeamWithCustomer([FromBody, BindRequired]Team team)
+        {
+            var user = _claimsReader.GetUserClaims(User);
+            var createdTeam = await _teamService.CreateTeamWithCustomerAsync(team, user.UserId);
             
             return CreatedAtAction(nameof(CreateTeam), createdTeam);
         }
@@ -115,7 +132,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Team>> UpdateTeam([FromBody, BindRequired] Team team)
         {
-            var updatedTeam = await _teamService.UpdateTeam(team);
+            var updatedTeam = await _teamService.UpdateTeamAsync(team);
             
             return updatedTeam;
         }
@@ -131,7 +148,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveTeam(Guid id)
         {
-            await _teamService.RemoveTeam(id);
+            await _teamService.RemoveTeamAsync(id);
             
             return NoContent();
         }

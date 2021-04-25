@@ -11,14 +11,14 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<SearchResult> GetSearchResultsAsync(string term, Guid workSpaceId);
         
-        Task<CollectionResponse<StoryHistory>> GetStoryHistoryData(Guid storyId);
+        Task<CollectionResponse<StoryHistory>> GetStoryHistoryDataAsync(Guid storyId);
 
-        Task<BoardPage> GetBoardPageData(Guid projectId, Guid teamId, Guid userId);
+        Task<BoardPage> GetBoardPageDataAsync(Guid projectId, Guid teamId, Guid userId);
         
-        Task<TeamPage> GetTeamPageData(Guid userId, Guid teamId); 
+        Task<TeamPage> GetTeamPageDataAsync(Guid userId, Guid teamId); 
         
-        Task<ProjectPage> GetProjectPageData(Guid projectId);
+        Task<ProjectPage> GetProjectPageDataAsync(Guid projectId);
 
-        Task<WorkSpacePage> GetUserWorkSpacePageData(UserClaims user);
+        Task<WorkSpacePage> GetUserWorkSpacePageDataAsync(UserClaims user);
     }
 }

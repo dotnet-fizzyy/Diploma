@@ -35,7 +35,7 @@ namespace WebAPI.Presentation.Controllers
         [HttpGet]
         [Route("all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<CollectionResponse<Sprint>>> GetAllSprints() => await _sprintService.GetALlSprints();
+        public async Task<ActionResult<CollectionResponse<Sprint>>> GetAllSprints() => await _sprintService.GetALlSprintsAsync();
 
         /// <summary>
         /// Receive all sprints with description from epic by provided epic id
@@ -52,7 +52,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = _claimsReader.GetUserClaims(User);
             
-            var boardResponse = await _sprintService.GetAllSprintsFromEpic(epicId, user.UserId);
+            var boardResponse = await _sprintService.GetAllSprintsFromEpicAsync(epicId, user.UserId);
 
             return boardResponse;
         }
@@ -70,7 +70,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Sprint>> GetSprint(Guid id)
         {
-            var sprint = await _sprintService.GetSprint(id);
+            var sprint = await _sprintService.GetSprintByIdAsync(id);
 
             return sprint;
         }
@@ -88,7 +88,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<FullSprint>> GetFullSprint(Guid id)
         {
-            var fullSprint =  await _sprintService.GetFullSprint(id);
+            var fullSprint =  await _sprintService.GetFullSprintAsync(id);
 
             return fullSprint;
         }
@@ -103,7 +103,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Sprint>> CreateSprint([FromBody, BindRequired] Sprint sprint)
         {
-            var createdSprint = await _sprintService.CreateSprint(sprint);
+            var createdSprint = await _sprintService.CreateSprintAsync(sprint);
 
             return CreatedAtAction(nameof(CreateSprint), createdSprint);
         }
@@ -118,7 +118,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> UpdateSprint([FromBody, BindRequired] Sprint sprint)
         {
-            var updatedSprint = await _sprintService.UpdateSprint(sprint);
+            var updatedSprint = await _sprintService.UpdateSprintAsync(sprint);
 
             return Ok(updatedSprint);
         }
@@ -134,7 +134,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveSprint(Guid id)
         {
-            await _sprintService.RemoveSprint(id);
+            await _sprintService.RemoveSprintAsync(id);
 
             return NoContent();
         }

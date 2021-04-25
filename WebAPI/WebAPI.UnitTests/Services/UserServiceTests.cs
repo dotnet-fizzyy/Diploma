@@ -46,7 +46,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(userModels.Items.First());
             
             var userService = new UserService(userRepository, userProvider, refreshTokenRepository, userMapper);
-            await userService.GetAllUsers();
+            await userService.GetAllUsersAsync();
             
             //Assert
             A.CallTo(() => userRepository.SearchForMultipleItemsAsync())
@@ -85,7 +85,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(userModel);
             
             var userService = new UserService(userRepository, userProvider, refreshTokenRepository, userMapper);
-            var result = await userService.GetUser(userId);
+            var result = await userService.GetUserByIdAsync(userId);
             
             //Assert
             Assert.Equal(userModel.UserId, result.UserId);

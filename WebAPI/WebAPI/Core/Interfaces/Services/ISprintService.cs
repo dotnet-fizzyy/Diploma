@@ -7,18 +7,18 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface ISprintService
     {
-        Task<CollectionResponse<Sprint>> GetALlSprints();
+        Task<CollectionResponse<Sprint>> GetALlSprintsAsync();
 
-        Task<CollectionResponse<FullSprint>> GetAllSprintsFromEpic(Guid epicId, Guid userId);
+        Task<CollectionResponse<FullSprint>> GetAllSprintsFromEpicAsync(Guid epicId, Guid userId);
         
-        Task<Sprint> GetSprint(Guid sprintId);
+        Task<Sprint> GetSprintByIdAsync(Guid sprintId);
         
-        Task<FullSprint> GetFullSprint(Guid sprintId);
+        Task<FullSprint> GetFullSprintAsync(Guid sprintId);
 
-        Task<Sprint> CreateSprint(Sprint sprint);
+        Task<Sprint> CreateSprintAsync(Sprint sprint);
         
-        Task<Sprint> UpdateSprint(Sprint sprint);
+        Task<Sprint> UpdateSprintAsync(Sprint sprint);
 
-        Task RemoveSprint(Guid sprintId);
+        Task RemoveSprintAsync(Guid sprintId);
     }
 }

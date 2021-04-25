@@ -8,17 +8,19 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface IUserService
     {
-        Task<CollectionResponse<User>> GetAllUsers();
+        Task<CollectionResponse<User>> GetAllUsersAsync();
 
-        Task<FullUser> GetFullUser(Guid id);
+        Task<FullUser> GetFullUserAsync(Guid id);
         
-        Task<User> GetUser(Guid id);
+        Task<User> GetUserByIdAsync(Guid id);
 
-        Task<User> CreateUser(User user);
+        Task<User> CreateUserAsync(User user);
 
-        Task<User> CreateCustomer(SignUpUser user);
+        Task<User> CreateUserWithTeamAsync(User user, Guid teamId);
 
-        Task<User> UpdateUser(User user);
+        Task<User> CreateCustomerAsync(SignUpUser user);
+
+        Task<User> UpdateUserAsync(User user);
 
         Task UpdateUserPasswordAsync(Guid userId, PasswordUpdate passwordUpdate);
         
@@ -26,6 +28,6 @@ namespace WebAPI.Core.Interfaces.Services
         
         Task ChangeUserActivityStatusAsync(User user);
 
-        Task RemoveUser(Guid id);
+        Task RemoveUserAsync(Guid id);
     }
 }
