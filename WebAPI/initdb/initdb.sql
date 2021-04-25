@@ -311,3 +311,70 @@ BEGIN
     VALUES ('20210425071547_InitialMigration', '3.1.9');
     END IF;
 END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210425101020_UpdateTeamUserEntity') THEN
+    ALTER TABLE "TeamUser" DROP CONSTRAINT "FK_TeamUser_Teams_TeamId1";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210425101020_UpdateTeamUserEntity') THEN
+    ALTER TABLE "TeamUser" DROP CONSTRAINT "FK_TeamUser_Users_UserId1";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210425101020_UpdateTeamUserEntity') THEN
+    DROP INDEX "IX_TeamUser_TeamId1";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210425101020_UpdateTeamUserEntity') THEN
+    DROP INDEX "IX_TeamUser_UserId1";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210425101020_UpdateTeamUserEntity') THEN
+    ALTER TABLE "TeamUser" DROP COLUMN "TeamId1";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210425101020_UpdateTeamUserEntity') THEN
+    ALTER TABLE "TeamUser" DROP COLUMN "UserId1";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210425101020_UpdateTeamUserEntity') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20210425101020_UpdateTeamUserEntity', '3.1.9');
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210425102343_RemoveNullableTeamProjectId') THEN
+    ALTER TABLE "Teams" ALTER COLUMN "ProjectId" TYPE uuid;
+    ALTER TABLE "Teams" ALTER COLUMN "ProjectId" SET NOT NULL;
+    ALTER TABLE "Teams" ALTER COLUMN "ProjectId" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210425102343_RemoveNullableTeamProjectId') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20210425102343_RemoveNullableTeamProjectId', '3.1.9');
+    END IF;
+END $$;

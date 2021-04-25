@@ -2,7 +2,7 @@ namespace WebAPI.Core.Enums
 {
     public enum UserPosition
     {
-        Manager,
+        Manager = 1,
         Developer,
         Qa,
         DevOps,

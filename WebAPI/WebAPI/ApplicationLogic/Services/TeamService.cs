@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
@@ -55,12 +56,11 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<Team> GetTeam(Guid teamId)
         {
-            var teamEntity = 
-                await _teamRepository.SearchForSingleItemAsync(x => x.Id == teamId);
+            var teamEntity = await _teamRepository.SearchForSingleItemAsync(x => x.Id == teamId);
 
             if (teamEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find team with provided id");
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(teamId)));
             }
             
             var team = _teamMapper.MapToModel(teamEntity);
@@ -78,7 +78,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (teamEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find team with provided id");
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(teamId)));
             }
             
             var teamFullModel = _teamMapper.MapToFullModel(teamEntity);
@@ -89,7 +89,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Team> CreateTeam(Team team)
         {
             var teamEntity = _teamMapper.MapToEntity(team);
-            teamEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
+            teamEntity.CreationDate = DateTime.UtcNow;
 
             var createdTeamEntity = await _teamRepository.CreateAsync(teamEntity);
 
@@ -101,7 +101,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Team> CreateTeamWithCustomer(Team team, Guid userId)
         {
             var teamEntity = _teamMapper.MapToEntity(team);
-            teamEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
+            teamEntity.CreationDate = DateTime.UtcNow;
 
             using var transaction = new TransactionScope(
                 TransactionScopeOption.Required, 
@@ -138,22 +138,20 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task RemoveTeam(Guid id)
         {
-            using (var scope = new TransactionScope
-                (
-                    TransactionScopeOption.Required, 
-                    new TransactionOptions
-                    {
-                        IsolationLevel = IsolationLevel.Serializable,
-                    },
-                    TransactionScopeAsyncFlowOption.Enabled
-                )
-            )
-            {
-                await _teamRepository.DeleteAsync(x => x.Id == id);
-                await _teamUserRepository.DeleteAsync(x => x.TeamId == id);
+            using var scope = new TransactionScope
+            (
+                TransactionScopeOption.Required, 
+                new TransactionOptions
+                {
+                    IsolationLevel = IsolationLevel.Serializable,
+                },
+                TransactionScopeAsyncFlowOption.Enabled
+            );
+            
+            await _teamRepository.DeleteAsync(x => x.Id == id);
+            await _teamUserRepository.DeleteAsync(x => x.TeamId == id);
                 
-                scope.Complete();
-            }
+            scope.Complete();
         }
     }
 }

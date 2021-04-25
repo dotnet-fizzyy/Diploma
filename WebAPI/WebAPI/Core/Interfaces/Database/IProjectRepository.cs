@@ -10,5 +10,7 @@ namespace WebAPI.Core.Interfaces.Database
         Task<List<Project>> GetProjectsByUserId(Guid userId);
 
         Task<List<Project>> GetProjectWithTeamsByWorkSpaceIdAsync(Guid workSpaceId);
+
+        Task<List<Project>> GetProjectsByCollectionOfTeamIds(IEnumerable<Team> teams);
     }
 }

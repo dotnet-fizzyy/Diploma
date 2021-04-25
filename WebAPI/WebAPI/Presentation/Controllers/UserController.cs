@@ -53,7 +53,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var userClaims = _claimsReader.GetUserClaims(User);
             
-            var user = await _userService.GetUserByToken(userClaims.UserId);
+            var user = await _userService.GetFullUser(userClaims.UserId);
 
             return user;
         }

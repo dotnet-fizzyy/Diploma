@@ -9,8 +9,6 @@ namespace WebAPI.Models.Models
         
         public DateTime CreationDate { get; set; }
         
-        public Guid? TeamId { get; set; }
-        
         public Guid? WorkSpaceId { get; set; }
         
         public string UserName { get; set; }

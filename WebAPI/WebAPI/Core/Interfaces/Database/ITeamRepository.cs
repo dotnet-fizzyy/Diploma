@@ -7,6 +7,6 @@ namespace WebAPI.Core.Interfaces.Database
 {
     public interface ITeamRepository : IBaseCrudRepository<Team>
     {
-        Task<IEnumerable<Team>> GetUserTeams(Guid userId);
+        Task<List<Team>> GetUserTeams(Guid userId);
     }
 }

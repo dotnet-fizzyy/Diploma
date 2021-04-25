@@ -22,8 +22,6 @@ namespace WebAPI.Infrastructure.Postgres
         
         public DbSet<Team> Teams { get; set; }
         
-        public DbSet<TeamUser> TeamUser { get; set; }
-        
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)

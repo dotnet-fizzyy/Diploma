@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
@@ -55,12 +56,11 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<Sprint> GetSprint(Guid sprintId)
         {
-            var sprintEntity = await _sprintRepository
-                .SearchForSingleItemAsync(x => x.Id == sprintId);
+            var sprintEntity = await _sprintRepository.SearchForSingleItemAsync(x => x.Id == sprintId);
 
             if (sprintEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find sprint with provided id");
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(sprintId)));
             }
 
             var sprintModel = _sprintMapper.MapToModel(sprintEntity);
@@ -78,7 +78,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (sprintEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find sprint with provided id");
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(sprintId)));
             }
 
             var sprintFullModel = _sprintMapper.MapToFullModel(sprintEntity);
@@ -89,7 +89,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Sprint> CreateSprint(Sprint sprint)
         {
             var sprintEntity = _sprintMapper.MapToEntity(sprint);
-            sprintEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
+            sprintEntity.CreationDate = DateTime.UtcNow;
 
             var createdSprintEntity = await _sprintRepository.CreateAsync(sprintEntity);
 
@@ -111,22 +111,20 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task RemoveSprint(Guid sprintId)
         {
-            using (var scope = new TransactionScope
-                (
-                    TransactionScopeOption.Required, 
-                    new TransactionOptions
-                    {
-                        IsolationLevel = IsolationLevel.Serializable,
-                    },
-                    TransactionScopeAsyncFlowOption.Enabled
-                )
-            )
-            {
-                await _storyRepository.DeleteAsync(x => x.SprintId == sprintId);
-                await _sprintRepository.DeleteAsync(x => x.Id == sprintId);
+            using var scope = new TransactionScope
+            (
+                TransactionScopeOption.Required, 
+                new TransactionOptions
+                {
+                    IsolationLevel = IsolationLevel.Serializable,
+                },
+                TransactionScopeAsyncFlowOption.Enabled
+            );
+            
+            await _storyRepository.DeleteAsync(x => x.SprintId == sprintId);
+            await _sprintRepository.DeleteAsync(x => x.Id == sprintId);
                 
-                scope.Complete();
-            }
+            scope.Complete();
         }
     }
 }

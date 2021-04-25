@@ -47,7 +47,7 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<FullUser> GetUserByToken(Guid id)
+        public async Task<FullUser> GetFullUser(Guid id)
         {
             var userFullModel = await _userProvider.GetFullUser(id);
             

@@ -10,11 +10,11 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
         {
             builder.HasKey(x => new { x.TeamId, x.UserId });
             builder
-                .HasOne<Team>()
+                .HasOne(x => x.Team)
                 .WithMany(e => e.TeamUsers)
                 .HasForeignKey(x => x.TeamId);
             builder
-                .HasOne<User>()
+                .HasOne(x => x.User)
                 .WithMany(e => e.TeamUsers)
                 .HasForeignKey(x => x.UserId);
         }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Core.Entities;
@@ -11,11 +12,17 @@ namespace WebAPI.Infrastructure.Postgres.Repository
     {
         public TeamRepository(DatabaseContext databaseContext) : base(databaseContext) { }
         
-        public async Task<IEnumerable<Team>> GetUserTeams(Guid userId)
+        public async Task<List<Team>> GetUserTeams(Guid userId)
         {
-            var userTeams = await _dbContext.Teams.Include(x => x.TeamUsers).ThenInclude(x => x.Team).ToListAsync();
+            var user = await _dbContext.Users
+                .AsNoTracking()
+                .Include(x => x.TeamUsers)
+                .ThenInclude(x => x.Team)
+                .FirstOrDefaultAsync(x => x.Id == userId);
 
-            return userTeams;
+            return user.TeamUsers
+                .Select(x => x.Team)
+                .ToList();
         }
     }
 }

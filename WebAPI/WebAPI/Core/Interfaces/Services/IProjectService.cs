@@ -17,8 +17,6 @@ namespace WebAPI.Core.Interfaces.Services
         Task<Project> GetProject(Guid projectId);
 
         Task<FullProjectDescription> GetFullProjectDescription(Guid projectId);
-        
-        Task<FullProject> GetFullProject(Guid projectId);
 
         Task<Project> AddProject(Project project);
 

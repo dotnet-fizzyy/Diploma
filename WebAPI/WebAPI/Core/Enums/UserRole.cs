@@ -2,7 +2,7 @@ namespace WebAPI.Core.Enums
 {
     public enum UserRole
     {
-        ProductOwner,
+        ProductOwner = 1,
         TeamMaster,
         Lead,
         Engineer

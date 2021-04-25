@@ -19,18 +19,5 @@ namespace WebAPI.ApplicationLogic.Handlers
                 CreationDate = DateTime.Now,
             };
         }
-
-        public static StoryHistory GetStoryHistoryForUpdate(Guid userId, Story story)
-        {
-            return new StoryHistory
-            {
-                StoryHistoryAction = StoryHistoryAction.Update,
-                UserId = userId,
-                CurrentValue = string.Empty,
-                PreviousValue = string.Empty,
-                FieldName = string.Empty,
-                StoryId = story.Id,
-            };
-        }
     }
 }

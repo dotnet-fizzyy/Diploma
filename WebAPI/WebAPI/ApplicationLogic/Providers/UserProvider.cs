@@ -66,13 +66,13 @@ namespace WebAPI.ApplicationLogic.Providers
 
         private async Task<FullUser> GetUser(User userEntity)
         {
-            IEnumerable<Team> teamEntities = null;
+            ICollection<Team> teamEntities = null;
             IEnumerable<Project> projectEntities = null;
             
             if (userEntity.TeamUsers.Any())
             {
                 teamEntities = await _teamRepository.GetUserTeams(userEntity.Id);
-                projectEntities = await _projectRepository.SearchForMultipleItemsAsync(x => teamEntities.Any(t => t.ProjectId == x.Id));
+                projectEntities = await _projectRepository.GetProjectsByCollectionOfTeamIds(teamEntities);
             }
 
             var userFullModel = _userMapper.MapToFullModel(userEntity, projectEntities, teamEntities);

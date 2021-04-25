@@ -2,7 +2,7 @@ namespace WebAPI.Models.Enums
 {
     public enum ColumnType
     {
-        ToDo,
+        ToDo = 1,
         InProgress,
         InReview,
         Testing,

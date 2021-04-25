@@ -6,7 +6,7 @@ namespace WebAPI.Models.Models
     {
         public Guid TeamId { get; set; }
         
-        public Guid? ProjectId { get; set; }
+        public Guid ProjectId { get; set; }
         
         public string TeamName { get; set; }
         

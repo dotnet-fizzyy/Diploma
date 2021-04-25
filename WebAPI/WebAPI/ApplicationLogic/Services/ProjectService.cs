@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Aggregators;
@@ -53,18 +54,6 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<CollectionResponse<FullProject>> GetCustomerProjects(Guid userId)
-        {
-            var projectEntities = await _projectRepository.GetProjectsByUserId(userId);
-            
-            var collectionResponse = new CollectionResponse<FullProject>
-            {
-                Items = projectEntities.Select(_projectMapper.MapToFullModel).ToList()
-            };
-            
-            return collectionResponse;
-        }
-
         public async Task<CollectionResponse<Project>> GetUserProjects(UserClaims user)
         {
             List<Core.Entities.Project> projectEntities;
@@ -72,9 +61,7 @@ namespace WebAPI.ApplicationLogic.Services
             switch (user.UserRole)
             {
                 case UserRole.ProductOwner:
-                    projectEntities =
-                        await _projectRepository.SearchForMultipleItemsAsync(
-                            x => x.WorkSpaceId == user.UserId);
+                    projectEntities = await _projectRepository.SearchForMultipleItemsAsync(x => x.WorkSpaceId == user.UserId);
                     break;
                 default:
                     projectEntities = await _projectRepository.GetProjectsByUserId(user.UserId);
@@ -103,13 +90,11 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<Project> GetProject(Guid projectId)
         {
-            var projectEntity = await _projectRepository.SearchForSingleItemAsync(
-                x => x.Id == projectId
-            );
+            var projectEntity = await _projectRepository.SearchForSingleItemAsync(x => x.Id == projectId);
 
             if (projectEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find project with provided id");
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(projectId)));
             }
 
             var projectModel = _projectMapper.MapToModel(projectEntity);
@@ -120,13 +105,11 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<FullProjectDescription> GetFullProjectDescription(Guid projectId)
         {
             //Receive project description
-            var projectEntity = await _projectRepository.SearchForSingleItemAsync(
-                x => x.Id == projectId
-            );
+            var projectEntity = await _projectRepository.SearchForSingleItemAsync(x => x.Id == projectId);
 
             if (projectEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find project with provided id");
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(projectId)));
             }
 
             //Receive latest and actual epic for project
@@ -166,27 +149,10 @@ namespace WebAPI.ApplicationLogic.Services
             return fullProjectDescription;
         }
 
-        public async Task<FullProject> GetFullProject(Guid projectId)
-        {
-            var projectEntity = await _projectRepository.SearchForSingleItemAsync(
-                x => x.Id == projectId,
-                x => x.Teams
-            );
-
-            if (projectEntity == null)
-            {
-                return null;
-            }
-
-            var projectModel = _projectMapper.MapToFullModel(projectEntity);
-
-            return projectModel;
-        }
-
         public async Task<Project> AddProject(Project project)
         {
             var projectEntity = _projectMapper.MapToEntity(project);
-            projectEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
+            projectEntity.CreationDate = DateTime.UtcNow;
 
             var createdProject = await _projectRepository.CreateAsync(projectEntity);
 
@@ -208,23 +174,21 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task RemoveProject(Guid projectId)
         {
-            using (var scope = new TransactionScope
-                (
-                    TransactionScopeOption.Required, 
-                    new TransactionOptions
-                    {
-                        IsolationLevel = IsolationLevel.Serializable,
-                    },
-                    TransactionScopeAsyncFlowOption.Enabled
-                )
-            )
-            {
-                await _teamRepository.DeleteAsync(x => x.ProjectId == projectId);
-                await _epicRepository.DeleteAsync(x => x.ProjectId == projectId);
-                await _projectRepository.DeleteAsync(x => x.Id == projectId);
+            using var scope = new TransactionScope
+            (
+                TransactionScopeOption.Required, 
+                new TransactionOptions
+                {
+                    IsolationLevel = IsolationLevel.Serializable,
+                },
+                TransactionScopeAsyncFlowOption.Enabled
+            );
+            
+            await _teamRepository.DeleteAsync(x => x.ProjectId == projectId);
+            await _epicRepository.DeleteAsync(x => x.ProjectId == projectId);
+            await _projectRepository.DeleteAsync(x => x.Id == projectId);
                 
-                scope.Complete();
-            }
+            scope.Complete();
         }
     }
 }

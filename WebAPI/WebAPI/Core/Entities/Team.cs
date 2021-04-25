@@ -10,7 +10,7 @@ namespace WebAPI.Core.Entities
             TeamUsers = new List<TeamUser>();
         }
 
-        public Guid? ProjectId { get; set; }
+        public Guid ProjectId { get; set; }
 
         public string TeamName { get; set; }
         

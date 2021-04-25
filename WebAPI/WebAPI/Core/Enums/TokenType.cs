@@ -2,7 +2,7 @@ namespace WebAPI.Core.Enums
 {
     public enum TokenType
     {
-        Access,
+        Access = 1,
         Refresh
     }
 }

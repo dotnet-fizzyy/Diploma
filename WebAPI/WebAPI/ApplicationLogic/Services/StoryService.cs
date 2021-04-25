@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 using WebAPI.ApplicationLogic.Handlers;
+using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
@@ -58,7 +59,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (storyEntities.Count == 0)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "No stories found with provided sprint id");
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntitiesMessage(nameof(sprintId)));
             }
             
             var collectionResponse = new CollectionResponse<Story>
@@ -83,12 +84,11 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<CollectionResponse<StoryHistory>> GetStoryHistory(Guid storyId)
         {
-            var storyHistoryEntities =
-                await _storyHistoryRepository.SearchForMultipleItemsAsync(x => x.StoryId == storyId);
+            var storyHistoryEntities = await _storyHistoryRepository.SearchForMultipleItemsAsync(x => x.StoryId == storyId);
 
             if (storyHistoryEntities.Count == 0)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find story history records for provided story id");
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntitiesMessage(nameof(storyId)));
             }
             
             var collectionResponse = new CollectionResponse<StoryHistory>
@@ -104,12 +104,11 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<Story> GetStory(Guid storyId)
         {
-            var storyEntity =
-                await _storyRepository.SearchForSingleItemAsync(story => story.Id == storyId);
+            var storyEntity = await _storyRepository.SearchForSingleItemAsync(story => story.Id == storyId);
 
             if (storyEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find story with provided id");
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(storyId)));
             }
             
             var storyModel = _storyMapper.MapToModel(storyEntity);
@@ -127,7 +126,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (storyEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find story with provided id");
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(storyId)));
             }
             
             var storyFullModel = _storyMapper.MapToFullModel(storyEntity);
@@ -140,9 +139,7 @@ namespace WebAPI.ApplicationLogic.Services
             var storyEntity = _storyMapper.MapToEntity(story);
 
             var createdStoryEntity = await _storyRepository.CreateAsync(storyEntity);
-            await _storyHistoryRepository.CreateAsync(
-                StoryHistoryGenerator.GetStoryHistoryForCreation(userId, createdStoryEntity.Id)
-                );
+            await _storyHistoryRepository.CreateAsync(StoryHistoryGenerator.GetStoryHistoryForCreation(userId, createdStoryEntity.Id));
             
             var storyModel = _storyMapper.MapToModel(createdStoryEntity);
             
@@ -152,7 +149,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Story> UpdateStory(Story story)
         {
             var storyEntity = _storyMapper.MapToEntity(story);
-            storyEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
+            storyEntity.CreationDate = DateTime.UtcNow;
 
             var updatedStoryEntity = await _storyRepository.UpdateItemAsync(storyEntity);
 
@@ -197,22 +194,20 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task RemoveStory(Guid id)
         {
-            using (var scope = new TransactionScope
-                (
-                    TransactionScopeOption.Required,
-                    new TransactionOptions
-                    {
-                        IsolationLevel = IsolationLevel.Serializable,
-                    },
-                    TransactionScopeAsyncFlowOption.Enabled
-                )
-            )
-            {
-                await _storyHistoryRepository.DeleteAsync(x => x.StoryId == id);
-                await _storyRepository.DeleteAsync(x => x.Id == id);
+            using var scope = new TransactionScope
+            (
+                TransactionScopeOption.Required,
+                new TransactionOptions
+                {
+                    IsolationLevel = IsolationLevel.Serializable,
+                },
+                TransactionScopeAsyncFlowOption.Enabled
+            );
+            
+            await _storyHistoryRepository.DeleteAsync(x => x.StoryId == id);
+            await _storyRepository.DeleteAsync(x => x.Id == id);
 
-                scope.Complete();
-            }
+            scope.Complete();
         }
     }
 }
