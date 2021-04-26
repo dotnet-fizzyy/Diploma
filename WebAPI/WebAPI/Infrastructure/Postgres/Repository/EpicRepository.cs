@@ -18,7 +18,9 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         public async Task<List<Epic>> GetEpicsByEpicNameTermAsync(string term, int limit, Guid workSpaceId)
         {
             var query =
-                from epics in _dbContext.Epics.Where(x => EF.Functions.Like(x.EpicName, $"%{term}%")).AsNoTracking()
+                from epics in _dbContext.Epics
+                    .Where(x => EF.Functions.Like(x.EpicName, $"%{term}%"))
+                    .AsNoTracking()
                     .Take(limit)
                 join projects in _dbContext.Projects on epics.ProjectId equals projects.Id
                 where projects.WorkSpaceId == workSpaceId

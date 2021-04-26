@@ -39,7 +39,7 @@ namespace WebAPI.ApplicationLogic.Providers
             var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == userId, x => x.TeamUsers);
             if (userEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find user with provided id");
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(userId)));
             }
 
             var fullUser = await GetUser(userEntity);
