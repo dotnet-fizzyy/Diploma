@@ -18,9 +18,9 @@ export function getProjectNames(state: IState): ISelectedItem[] {
 }
 
 export function getSelectProject(state: IState): IProject {
-    return state.project.currentProject;
+    return state.project.selectedProject;
 }
 
 export function getSelectProjectId(state: IState): string {
-    return state.project.currentProject ? state.project.currentProject.projectId : '';
+    return state.project.selectedProject ? state.project.selectedProject.projectId : '';
 }

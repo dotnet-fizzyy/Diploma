@@ -7,8 +7,8 @@ export function getTeams(state: IState): ITeam[] {
 }
 
 export function getUserNames(state: IState): ISelectedItem[] {
-    return state.teams.currentTeam
-        ? state.teams.currentTeam.users.map((user) => {
+    return state.teams.selectedTeam
+        ? state.teams.selectedTeam.users.map((user) => {
               return {
                   key: user.userId,
                   value: user.userName,
@@ -18,9 +18,9 @@ export function getUserNames(state: IState): ISelectedItem[] {
 }
 
 export function getSelectedTeam(state: IState): ITeam {
-    return state.teams.currentTeam;
+    return state.teams.selectedTeam;
 }
 
 export function getSelectedTeamId(state: IState): string {
-    return state.teams.currentTeam ? state.teams.currentTeam.teamId : '';
+    return state.teams.selectedTeam ? state.teams.selectedTeam.teamId : '';
 }

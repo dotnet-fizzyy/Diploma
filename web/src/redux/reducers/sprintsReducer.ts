@@ -3,7 +3,7 @@ import { ISprintsState } from '../store/state';
 
 const initialState: ISprintsState = {
     sprints: [],
-    currentSprint: null,
+    selectedSprint: null,
 };
 
 export default function sprintsReducer(state = initialState, action: SprintActions.SprintsActionTypes) {
@@ -30,7 +30,7 @@ function handleAddSprints(state: ISprintsState, action: SprintActions.IAddSprint
 function handleSetSelectedSprint(state: ISprintsState, action: SprintActions.ISetSelectedSprint): ISprintsState {
     return {
         ...state,
-        currentSprint: state.sprints.find((x) => x.sprintId === action.payload),
+        selectedSprint: state.sprints.find((x) => x.sprintId === action.payload),
     };
 }
 

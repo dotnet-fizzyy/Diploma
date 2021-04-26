@@ -1,4 +1,3 @@
-import { SpinnerComponent } from '../../types';
 import { IEpic } from '../../types/epicTypes';
 import { ModalOptions, ModalTypes } from '../../types/modalTypes';
 import { IProject } from '../../types/projectTypes';
@@ -15,7 +14,6 @@ export interface IState {
     sidebar: ISidebarState;
     sprints: ISprintsState;
     teams: ITeamState;
-    requestProcessor: IRequestProcessorState;
     modal: IModalState;
     epics: IEpicsState;
     workspace: IWorkSpaceState;
@@ -48,22 +46,17 @@ export interface ISidebarState {
 export interface ITeamState {
     teams: ITeam[];
     simpleItems: ITeamListItem[];
-    currentTeam: ITeam | null;
+    selectedTeam?: ITeam;
 }
 
 export interface IProjectState {
     projects: IProject[];
-    currentProject: IProject;
+    selectedProject: IProject;
 }
 
 export interface ISprintsState {
     sprints: ISprint[];
-    currentSprint: ISprint | null | undefined;
-}
-
-export interface IRequestProcessorState {
-    component: SpinnerComponent | null;
-    isVisible: boolean;
+    selectedSprint?: ISprint;
 }
 
 export interface IModalState {
@@ -74,7 +67,7 @@ export interface IModalState {
 
 export interface IEpicsState {
     epics: IEpic[];
-    currentEpic: IEpic;
+    selectedEpic: IEpic;
 }
 
 export interface IWorkSpaceState {

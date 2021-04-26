@@ -3,7 +3,7 @@ import { IEpicsState } from '../store/state';
 
 const initialState: IEpicsState = {
     epics: [],
-    currentEpic: null,
+    selectedEpic: null,
 };
 
 export default function epicReducer(state = initialState, action: epicActions.EpicActionTypes) {
@@ -39,13 +39,13 @@ function handleSetEpics(state: IEpicsState, action: epicActions.IGetEpicsSuccess
 function handleSetCurrentEpic(state: IEpicsState, action: epicActions.ISetSelectedEpic): IEpicsState {
     return {
         ...state,
-        currentEpic: action.payload,
+        selectedEpic: action.payload,
     };
 }
 
 function handleSetCurrentEpicById(state: IEpicsState, action: epicActions.ISetSelectedEpicById): IEpicsState {
     return {
         ...state,
-        currentEpic: state.epics.find((x) => x.epicId === action.payload),
+        selectedEpic: state.epics.find((x) => x.epicId === action.payload),
     };
 }

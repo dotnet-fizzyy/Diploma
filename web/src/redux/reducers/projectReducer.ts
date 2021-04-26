@@ -3,7 +3,7 @@ import { IProjectState } from '../store/state';
 
 const initialState: IProjectState = {
     projects: [],
-    currentProject: null,
+    selectedProject: null,
 };
 
 export default function projectsReducer(state = initialState, action: projectActions.ProjectActionTypes) {
@@ -41,7 +41,7 @@ function handleSetProjects(state: IProjectState, action: projectActions.ISetProj
 function handleSetCurrentProject(state: IProjectState, action: projectActions.ISetCurrentProject): IProjectState {
     return {
         ...state,
-        currentProject: action.payload,
+        selectedProject: action.payload,
     };
 }
 
@@ -51,6 +51,6 @@ function handleSetCurrentProjectById(
 ): IProjectState {
     return {
         ...state,
-        currentProject: state.projects.find((x) => x.projectId === action.payload),
+        selectedProject: state.projects.find((x) => x.projectId === action.payload),
     };
 }

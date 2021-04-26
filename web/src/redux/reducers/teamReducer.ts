@@ -5,7 +5,7 @@ import { ITeamState } from '../store/state';
 const initialState: ITeamState = {
     teams: [],
     simpleItems: [],
-    currentTeam: null,
+    selectedTeam: null,
 };
 
 export default function teamsReducer(state = initialState, action: TeamActions.TeamActionsType) {
@@ -38,23 +38,23 @@ function handleCreateTeamSuccess(state: ITeamState, action: TeamActions.ICreateT
 function handleSetSelectedTeam(state: ITeamState, action: TeamActions.ISetSelectedTeam): ITeamState {
     return {
         ...state,
-        currentTeam: action.payload,
+        selectedTeam: action.payload,
     };
 }
 
 function handleSetSelectedTeamById(state: ITeamState, action: TeamActions.ISetSelectedTeamById): ITeamState {
     return {
         ...state,
-        currentTeam: state.teams.find((x) => x.teamId === action.payload),
+        selectedTeam: state.teams.find((x) => x.teamId === action.payload),
     };
 }
 
 function handleCreateUserSuccess(state: ITeamState, action: UserActions.ICreateUserSuccess): ITeamState {
     return {
         ...state,
-        currentTeam: {
-            ...state.currentTeam,
-            users: state.currentTeam.users.concat(action.payload),
+        selectedTeam: {
+            ...state.selectedTeam,
+            users: state.selectedTeam.users.concat(action.payload),
         },
     };
 }
@@ -72,9 +72,9 @@ function handleUpdateUserActivityStatus(
 ): ITeamState {
     return {
         ...state,
-        currentTeam: {
-            ...state.currentTeam,
-            users: state.currentTeam.users.map((x) => {
+        selectedTeam: {
+            ...state.selectedTeam,
+            users: state.selectedTeam.users.map((x) => {
                 return x.userId === action.payload ? { ...x, isActive: !x.isActive } : x;
             }),
         },

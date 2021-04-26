@@ -5,7 +5,6 @@ import createSagaMiddleware from 'redux-saga';
 import epicReducer from '../reducers/epicsReducer';
 import modalReducer from '../reducers/modalReducer';
 import projectsReducer from '../reducers/projectReducer';
-import requestProcessorReducer from '../reducers/requestProcessorReducer';
 import sidebarReducer from '../reducers/sidebarReducer';
 import sprintsReducer from '../reducers/sprintsReducer';
 import storiesReducer from '../reducers/storiesReducer';
@@ -23,7 +22,6 @@ const reducers = {
     stories: storiesReducer,
     sidebar: sidebarReducer,
     modal: modalReducer,
-    requestProcessor: requestProcessorReducer,
     workspace: workSpaceReducer,
 };
 

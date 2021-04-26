@@ -16,9 +16,9 @@ export function getEpicsNames(state: IState): ISelectedItem[] {
 }
 
 export function getCurrentEpic(state: IState): IEpic {
-    return state.epics.currentEpic;
+    return state.epics.selectedEpic;
 }
 
 export function getSelectedEpicId(state: IState): string {
-    return state.epics.currentEpic ? state.epics.currentEpic.epicId : '';
+    return state.epics.selectedEpic ? state.epics.selectedEpic.epicId : '';
 }

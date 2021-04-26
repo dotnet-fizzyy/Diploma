@@ -18,5 +18,5 @@ export function getSprintsNames(state: IState): ISelectedItem[] {
 }
 
 export function getCurrentSprint(state: IState): ISprint {
-    return state.sprints.currentSprint;
+    return state.sprints.selectedSprint;
 }
