@@ -21,9 +21,6 @@ const useStyles = makeStyles(() =>
             color: '#959898',
             fontWeight: 500,
         },
-        tabWithoutMargin: {
-            marginLeft: 0,
-        },
         dropdown: {
             marginLeft: '20px',
         },

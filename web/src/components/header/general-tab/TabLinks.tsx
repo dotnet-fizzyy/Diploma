@@ -1,7 +1,24 @@
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { TabLinkItems, TabLinkOptions } from '../../../constants';
 import { IUserProject, IUserTeam } from '../../../types/userTypes';
 import SelectTab, { ISelectTabItem } from './SelectTab';
+
+const useStyles = makeStyles(() =>
+    createStyles({
+        text: {
+            textDecoration: 'none',
+            fontFamily: 'Poppins, sans-serif',
+            color: '#212624',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            marginLeft: '20px',
+            '&:hover': {
+                cursor: 'pointer',
+            },
+        },
+    })
+);
 
 export interface ITabLinks {
     teams: IUserTeam[];
@@ -13,6 +30,7 @@ export interface ITabLinks {
 }
 
 const TabLinks = (props: ITabLinks) => {
+    const classes = useStyles();
     const { teams, projects, selectedTeamId, selectedProjectId, onChangeTeam, onChangeProject } = props;
 
     const projectItems: ISelectTabItem[] = projects.map((x) => ({ key: x.projectId, value: x.projectName }));
@@ -41,11 +59,29 @@ const TabLinks = (props: ITabLinks) => {
         return x;
     });
 
+    const getSelectTab = (
+        items: ISelectTabItem[],
+        onChange: (e: any) => void,
+        isRoute: boolean,
+        selectedValue: string,
+        label: string
+    ): React.ReactNode => {
+        if (!items && !items.length) {
+            return <span className={classes.text}>{label}</span>;
+        }
+
+        if (items && items.length === 1) {
+            return <span className={classes.text}>{items[0].value}</span>;
+        }
+
+        return <SelectTab value={selectedValue} items={items} onChange={onChange} isRoute={isRoute} />;
+    };
+
     return (
         <>
             <SelectTab value={defaultItemsTab[0].key} items={defaultItemsTab} isRoute={true} />
-            <SelectTab value={selectedProjectId} items={projectItems} onChange={onChangeProject} isRoute={false} />
-            <SelectTab value={selectedTeamId} items={teamItems} onChange={onChangeTeam} isRoute={false} />
+            {getSelectTab(projectItems, onChangeProject, false, selectedProjectId, 'Project')}
+            {getSelectTab(teamItems, onChangeTeam, false, selectedTeamId, 'Team')}
         </>
     );
 };
