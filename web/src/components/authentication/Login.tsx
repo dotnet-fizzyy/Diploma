@@ -1,4 +1,3 @@
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
@@ -78,14 +77,13 @@ const useStyles = makeStyles(() =>
 
 export interface ILoginPageProps {
     wasAttemptToLogIn: boolean;
-    isSpinnerVisible: boolean;
     validateField: (value: string) => void;
     onSubmitLogIn: (values: ILoginForm) => void;
 }
 
 const LoginPage = (props: ILoginPageProps) => {
     const classes = useStyles();
-    const { isSpinnerVisible, validateField, wasAttemptToLogIn, onSubmitLogIn } = props;
+    const { validateField, wasAttemptToLogIn, onSubmitLogIn } = props;
 
     return (
         <Formik initialValues={InitialLoginFormValues} onSubmit={onSubmitLogIn}>
@@ -113,8 +111,8 @@ const LoginPage = (props: ILoginPageProps) => {
                                     component={FormTextField}
                                 />
                             </div>
-                            {isSpinnerVisible && <CircularProgress className={classes.spinner} />}
-                            {wasAttemptToLogIn && !isSpinnerVisible && (
+                            {/*{isSpinnerVisible && <CircularProgress className={classes.spinner} />}*/}
+                            {wasAttemptToLogIn && (
                                 <span className={classes.errorMessage}>Unable to login with following credentials</span>
                             )}
                             <ForwardLink

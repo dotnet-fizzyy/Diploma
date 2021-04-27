@@ -8,6 +8,8 @@ const initialState: IUserState = {
     refreshToken: '',
     user: null,
     isLoading: false,
+    selectedTeam: '',
+    selectedProject: '',
 };
 
 export default function userReducer(state = initialState, action: UserActions.CurrentUserActionTypes) {
@@ -30,6 +32,10 @@ export default function userReducer(state = initialState, action: UserActions.Cu
             return handleHideCustomerSuccessfulRegistration(state);
         case UserActions.UserActions.UPDATE_AVATAR_SUCCESS:
             return handleUpdateAvatarLink(state, action);
+        case UserActions.UserActions.CHANGE_USER_PROJECT:
+            return handleChangeUserProject(state, action);
+        case UserActions.UserActions.CHANGE_USER_TEAM:
+            return handleChangeUserTeam(state, action);
         default:
             return state;
     }
@@ -84,6 +90,9 @@ function handleGetUser(
             ...state.user,
             ...action.payload,
         },
+        selectedProject:
+            action.payload.projects && action.payload.projects.length ? action.payload.projects[0].projectId : '',
+        selectedTeam: action.payload.teams && action.payload.teams.length ? action.payload.teams[0].teamId : '',
         isLoading: false,
     };
 }
@@ -102,5 +111,19 @@ function handleUpdateAvatarLink(state: IUserState, action: UserActions.IUpdateAv
             ...state.user,
             avatarLink: action.payload,
         },
+    };
+}
+
+function handleChangeUserProject(state: IUserState, action: UserActions.IChangeUserProject): IUserState {
+    return {
+        ...state,
+        selectedProject: action.payload,
+    };
+}
+
+function handleChangeUserTeam(state: IUserState, action: UserActions.IChangeUserTeam): IUserState {
+    return {
+        ...state,
+        selectedTeam: action.payload,
     };
 }

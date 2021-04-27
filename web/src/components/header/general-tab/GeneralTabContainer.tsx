@@ -4,9 +4,9 @@ import { useHistory } from 'react-router-dom';
 import { SignInUrl } from '../../../constants/routeConstants';
 import { openModal } from '../../../redux/actions/modalActions';
 import { blurStoryTitleTerm, setStoryTitleTermRequest } from '../../../redux/actions/storiesActions';
-import { logOutUser } from '../../../redux/actions/userActions';
+import { changeUserProject, changeUserTeam, logOutUser } from '../../../redux/actions/userActions';
 import { getSearchResults, getStoryTitleTerm } from '../../../redux/selectors/storiesSelectors';
-import { getUser } from '../../../redux/selectors/userSelectors';
+import { getUser, getUserSelectedProjectId, getUserSelectedTeamId } from '../../../redux/selectors/userSelectors';
 import { ModalTypes } from '../../../types/modalTypes';
 import { IStory } from '../../../types/storyTypes';
 import { IFullUser } from '../../../types/userTypes';
@@ -18,32 +18,42 @@ const GeneralTabContainer = () => {
     const user: IFullUser = useSelector(getUser);
     const searchTerm: string = useSelector(getStoryTitleTerm);
     const searchResults: IStory[] = useSelector(getSearchResults);
+    const selectedTeamId: string = useSelector(getUserSelectedTeamId);
+    const selectedProjectId: string = useSelector(getUserSelectedProjectId);
 
     const [anchor, setAnchor] = useState<null | HTMLElement>(null);
 
-    const onChangeSearchTerm = (value: string) => {
+    const onChangeSearchTerm = (value: string): void => {
         dispatch(setStoryTitleTermRequest(value));
     };
 
-    const onBlur = () => {
+    const onBlur = (): void => {
         dispatch(blurStoryTitleTerm());
     };
 
-    const onClickDisplayMenu = (event: React.MouseEvent<HTMLElement>) => {
+    const onClickDisplayMenu = (event: React.MouseEvent<HTMLElement>): void => {
         setAnchor(event.currentTarget);
     };
 
-    const onClickCloseMenu = () => {
+    const onClickCloseMenu = (): void => {
         setAnchor(null);
     };
 
-    const onClickOpenProfile = () => {
+    const onClickOpenProfile = (): void => {
         dispatch(openModal(ModalTypes.USER_SELF));
     };
 
-    const onClickLogOut = () => {
+    const onClickLogOut = (): void => {
         dispatch(logOutUser());
         history.push(SignInUrl);
+    };
+
+    const onChangeTeam = (e: any): void => {
+        dispatch(changeUserTeam(e.target.value));
+    };
+
+    const onChangeProject = (e: any): void => {
+        dispatch(changeUserProject(e.target.value));
     };
 
     const generalTabProps: IGeneralTabProps = {
@@ -51,11 +61,15 @@ const GeneralTabContainer = () => {
         anchor,
         searchTerm,
         searchResults,
+        selectedTeamId,
+        selectedProjectId,
         onClickDisplayMenu,
         onClickCloseMenu,
         onClickLogOut,
         onClickOpenProfile,
         onChangeSearchTerm,
+        onChangeTeam,
+        onChangeProject,
         onBlur,
     };
 

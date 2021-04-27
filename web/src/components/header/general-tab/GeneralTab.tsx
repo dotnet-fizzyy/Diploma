@@ -45,11 +45,15 @@ export interface IGeneralTabProps {
     searchTerm: string;
     anchor: HTMLElement;
     searchResults: IStory[];
+    selectedProjectId: string;
+    selectedTeamId: string;
     onClickDisplayMenu: (event: React.MouseEvent<HTMLElement>) => void;
     onChangeSearchTerm: (value: string) => void;
     onClickCloseMenu: () => void;
     onClickOpenProfile: () => void;
     onClickLogOut: () => void;
+    onChangeTeam: (e: any) => void;
+    onChangeProject: (e: any) => void;
     onBlur: () => void;
 }
 
@@ -60,11 +64,15 @@ const GeneralTab = (props: IGeneralTabProps) => {
         user,
         searchTerm,
         searchResults,
+        selectedProjectId,
+        selectedTeamId,
         onClickDisplayMenu,
         onClickCloseMenu,
         onClickOpenProfile,
         onClickLogOut,
         onChangeSearchTerm,
+        onChangeTeam,
+        onChangeProject,
         onBlur,
     } = props;
 
@@ -85,7 +93,14 @@ const GeneralTab = (props: IGeneralTabProps) => {
                         />
                     </div>
                     <div className={classes.mainTabsContainer}>
-                        <TabLinks teams={user.teams} projects={user.projects} />
+                        <TabLinks
+                            teams={user.teams}
+                            projects={user.projects}
+                            onChangeProject={onChangeProject}
+                            onChangeTeam={onChangeTeam}
+                            selectedProjectId={selectedProjectId}
+                            selectedTeamId={selectedTeamId}
+                        />
                     </div>
                     <TabMenu
                         anchor={anchor}

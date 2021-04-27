@@ -1,3 +1,4 @@
+import { ISelectTabItem } from '../components/header/general-tab/SelectTab';
 import { ILoginForm, IProfilePasswordUpdateForm, IRegistrationForm } from '../types/formTypes';
 
 export const BaseRegexExpression: RegExp = /^[- a-zA-Z0-9]*$/;
@@ -7,6 +8,37 @@ export const RefreshTokenLocalStorageField: string = 'refresh_token';
 export const DateFormat: string = 'DD/MM/YYYY';
 export const PasswordsAreNotSameErrorMessage: string = 'Passwords are not equal';
 export const UnspecifiedValue = 'Unspecified';
+
+export enum TabLinkOptions {
+    WORKSPACE = 'Workspace',
+    BOARD = 'Board',
+    PROJECT = 'Project',
+    TEAM = 'Team',
+    CHARTS = 'Charts',
+}
+
+export const TabLinkItems: ISelectTabItem[] = [
+    {
+        key: TabLinkOptions.WORKSPACE,
+        value: TabLinkOptions.WORKSPACE,
+    },
+    {
+        key: TabLinkOptions.BOARD,
+        value: TabLinkOptions.BOARD,
+    },
+    {
+        key: TabLinkOptions.PROJECT,
+        value: TabLinkOptions.PROJECT,
+    },
+    {
+        key: TabLinkOptions.TEAM,
+        value: TabLinkOptions.TEAM,
+    },
+    {
+        key: TabLinkOptions.CHARTS,
+        value: TabLinkOptions.CHARTS,
+    },
+];
 
 export const LoginFormConstants = {
     name: 'name',

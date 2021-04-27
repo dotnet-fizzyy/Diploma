@@ -26,6 +26,8 @@ export interface IUserState {
     refreshToken: string;
     user?: IFullUser;
     isLoading: boolean;
+    selectedTeam?: string;
+    selectedProject?: string;
 }
 
 export interface IStoryState {

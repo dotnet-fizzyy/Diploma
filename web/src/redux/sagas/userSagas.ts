@@ -111,7 +111,7 @@ function* updatePassword(action: IUpdatePasswordRequest) {
 
 function* updateProfileSettings(action: IUpdateProfileSettingsRequest) {
     try {
-        const user: IUser = yield call(UserApi.updateUser, action.payload);
+        const user: IFullUser = yield call(UserApi.updateUser, action.payload);
 
         yield put(updateProfileSettingsSuccess(user));
     } catch (error) {

@@ -88,7 +88,6 @@ const useStyles = makeStyles(() =>
 
 export interface ISidebarProps {
     hasStoryChanged: boolean;
-    isSpinnerVisible: boolean;
     story: IStory;
     team: ISelectedItem[];
     sprints: ISelectedItem[];
@@ -105,7 +104,6 @@ export interface ISidebarProps {
 const Sidebar = (props: ISidebarProps) => {
     const classes = useStyles();
     const {
-        isSpinnerVisible,
         hasStoryChanged,
         story: {
             storyId,
@@ -134,7 +132,7 @@ const Sidebar = (props: ISidebarProps) => {
 
     return (
         <div className={classes.root}>
-            {isSpinnerVisible && (
+            {false && (
                 <div className={classes.spinnerContainer}>
                     <CircularProgress color="primary" />
                 </div>

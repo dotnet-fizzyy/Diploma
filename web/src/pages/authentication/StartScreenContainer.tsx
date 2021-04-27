@@ -7,7 +7,6 @@ import { BaseRegexExpression } from '../../constants';
 import * as routeConstants from '../../constants/routeConstants';
 import * as requestProcessorActions from '../../redux/actions/requestProcessorActions';
 import * as currentUserActions from '../../redux/actions/userActions';
-import * as requestProcessorSelectors from '../../redux/selectors/requestProcessorSelectors';
 import * as currentUserSelectors from '../../redux/selectors/userSelectors';
 import { SpinnerComponent } from '../../types';
 import { ILoginForm, IRegistrationForm } from '../../types/formTypes';
@@ -27,7 +26,6 @@ const StartScreenContainer = () => {
     const isAuthenticationSuccessful = useSelector(currentUserSelectors.getIsAuthenticationSuccessful);
     const wasUserCreated = useSelector(currentUserSelectors.getWasCustomerCreated);
     const user = useSelector(currentUserSelectors.getUser);
-    const isSpinnerVisible = useSelector(requestProcessorSelectors.getIsSpinnerVisible);
 
     const [arePasswordsSame, setSamePasswords] = useState<boolean>(true);
     const [wasAttemptToLogIn, setWasAttemptToLogIn] = useState<boolean>(false);
@@ -58,7 +56,6 @@ const StartScreenContainer = () => {
     };
 
     const loginProps: ILoginPageProps = {
-        isSpinnerVisible,
         wasAttemptToLogIn: wasAttemptToLogIn && !isAuthenticationSuccessful,
         validateField,
         onSubmitLogIn,
@@ -66,7 +63,6 @@ const StartScreenContainer = () => {
 
     const registrationProps: IRegistrationPageProps = {
         wasUserCreated,
-        isSpinnerVisible,
         customError: !arePasswordsSame ? 'Provided passwords are different' : '',
         validateField,
         validatePassword,

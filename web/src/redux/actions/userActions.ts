@@ -29,6 +29,8 @@ export const UserActions = {
     CHANGE_USER_ACTIVITY_STATUS_REQUEST: 'CHANGE_USER_ACTIVITY_STATUS_REQUEST',
     CHANGE_USER_ACTIVITY_STATUS_SUCCESS: 'CHANGE_USER_ACTIVITY_STATUS_SUCCESS',
     CHANGE_USER_ACTIVITY_STATUS_FAILURE: 'CHANGE_USER_ACTIVITY_STATUS_FAILURE',
+    CHANGE_USER_PROJECT: 'CHANGE_USER_PROJECT',
+    CHANGE_USER_TEAM: 'CHANGE_USER_TEAM',
 };
 
 /*
@@ -80,7 +82,7 @@ export interface ICreateUserFailure {
 
 export interface IAddUser {
     type: typeof UserActions.ADD_USER;
-    payload: IUser;
+    payload: IFullUser;
 }
 
 export interface ILogOutUser {
@@ -144,7 +146,7 @@ export interface IUpdateProfileSettingsRequest {
 
 export interface IUpdateProfileSettingsSuccess {
     type: typeof UserActions.UPDATE_PROFILE_SETTINGS_SUCCESS;
-    payload: IUser;
+    payload: IFullUser;
 }
 
 export interface IUpdateProfileSettingsFailure {
@@ -168,6 +170,16 @@ export interface IChangeUserActivityStatusSuccess {
 export interface IChangeUserActivityStatusFailure {
     type: typeof UserActions.CHANGE_USER_ACTIVITY_STATUS_FAILURE;
     payload: Error;
+}
+
+export interface IChangeUserTeam {
+    type: typeof UserActions.CHANGE_USER_TEAM;
+    payload: string;
+}
+
+export interface IChangeUserProject {
+    type: typeof UserActions.CHANGE_USER_TEAM;
+    payload: string;
 }
 
 /*
@@ -242,7 +254,7 @@ export function createUserFailure(error: Error): ICreateUserFailure {
     };
 }
 
-export function addUser(user: IUser): IAddUser {
+export function addUser(user: IFullUser): IAddUser {
     return {
         type: UserActions.ADD_USER,
         payload: user,
@@ -335,7 +347,7 @@ export function updateProfileSettingsRequest(user: IUser): IUpdateProfileSetting
     };
 }
 
-export function updateProfileSettingsSuccess(user: IUser): IUpdateProfileSettingsSuccess {
+export function updateProfileSettingsSuccess(user: IFullUser): IUpdateProfileSettingsSuccess {
     return {
         type: UserActions.UPDATE_PROFILE_SETTINGS_SUCCESS,
         payload: user,
@@ -373,6 +385,19 @@ export function changeUserActivityStatusFailure(error: Error): IChangeUserActivi
     };
 }
 
+export function changeUserProject(projectId: string): IChangeUserProject {
+    return {
+        type: UserActions.CHANGE_USER_PROJECT,
+        payload: projectId,
+    };
+}
+
+export function changeUserTeam(teamId: string): IChangeUserTeam {
+    return {
+        type: UserActions.CHANGE_USER_TEAM,
+        payload: teamId,
+    };
+}
 export type CurrentUserActionTypes = IAddUser &
     IAuthenticationSuccess &
     IAuthenticationFailure &
@@ -388,4 +413,6 @@ export type CurrentUserActionTypes = IAddUser &
     IUpdateProfileSettingsRequest &
     IUpdateProfileSettingsSuccess &
     IUpdateProfileSettingsFailure &
-    IChangeUserActivityStatusSuccess;
+    IChangeUserActivityStatusSuccess &
+    IChangeUserProject &
+    IChangeUserTeam;

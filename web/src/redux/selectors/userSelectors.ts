@@ -24,3 +24,11 @@ export function getWasCustomerCreated(state: IState): boolean {
 export function getIsUserLoading(state: IState): boolean {
     return state.currentUser.isLoading;
 }
+
+export function getUserSelectedProjectId(state: IState): string {
+    return state.currentUser.selectedProject;
+}
+
+export function getUserSelectedTeamId(state: IState): string {
+    return state.currentUser.selectedTeam;
+}

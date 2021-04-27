@@ -1,4 +1,3 @@
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
@@ -85,7 +84,6 @@ const useStyles = makeStyles(() =>
 
 export interface IRegistrationPageProps {
     wasUserCreated: boolean;
-    isSpinnerVisible: boolean;
     customError?: string;
     validateField: (value: string) => void;
     validateEmail: (value: string) => void;
@@ -95,15 +93,7 @@ export interface IRegistrationPageProps {
 
 const RegistrationPage = (props: IRegistrationPageProps) => {
     const classes = useStyles();
-    const {
-        isSpinnerVisible,
-        customError,
-        wasUserCreated,
-        validatePassword,
-        validateField,
-        validateEmail,
-        onSubmitRegistration,
-    } = props;
+    const { customError, wasUserCreated, validatePassword, validateField, validateEmail, onSubmitRegistration } = props;
 
     return (
         <Formik
@@ -155,7 +145,7 @@ const RegistrationPage = (props: IRegistrationPageProps) => {
                                     customError={customError}
                                 />
                             </div>
-                            {isSpinnerVisible && <CircularProgress className={classes.spinner} />}
+                            {/*{isSpinnerVisible && <CircularProgress className={classes.spinner} />}*/}
                             <ForwardLink
                                 mainLabel="Do you have account?"
                                 link={routeConstants.LoginScreenRoute}
