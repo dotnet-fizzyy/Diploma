@@ -19,6 +19,8 @@ export const ProjectActions = {
     UPDATE_PROJECT_REQUEST: 'UPDATE_PROJECT_REQUEST',
     UPDATE_PROJECT_SUCCESS: 'UPDATE_PROJECT_SUCCESS',
     UPDATE_PROJECT_FAILURE: 'UPDATE_PROJECT_FAILURE',
+    GET_BOARD_INFO_REQUEST: 'GET_BOARD_INFO_REQUEST',
+    GET_BOARD_INFO_FAILURE: 'GET_BOARD_INFO_FAILURE',
 };
 
 /*
@@ -110,6 +112,19 @@ export interface IUpdateProjectSuccess {
 
 export interface IUpdateProjectFailure {
     type: typeof ProjectActions.UPDATE_PROJECT_FAILURE;
+    payload: Error;
+}
+
+export interface IGetBoardInfoRequest {
+    type: typeof ProjectActions.GET_BOARD_INFO_REQUEST;
+    payload: {
+        projectId: string;
+        teamId: string;
+    };
+}
+
+export interface IGetBoardInfoFailure {
+    type: typeof ProjectActions.GET_BOARD_INFO_FAILURE;
     payload: Error;
 }
 
@@ -241,9 +256,19 @@ export function updateProjectFailure(error: Error): IUpdateProjectFailure {
     };
 }
 
-export type ProjectActionTypes = IGetUserProjectsSuccess &
-    IGetUserProjectPageSuccess &
-    ISetProjects &
-    ISetSelectedProject &
-    ISetCurrentProjectById &
-    IUpdateProjectSuccess;
+export function getBoardInfoRequest(projectId: string, teamId: string): IGetBoardInfoRequest {
+    return {
+        type: ProjectActions.GET_BOARD_INFO_REQUEST,
+        payload: {
+            projectId,
+            teamId,
+        },
+    };
+}
+
+export function getBoardInfoFailure(error: Error): IGetBoardInfoFailure {
+    return {
+        type: ProjectActions.GET_BOARD_INFO_FAILURE,
+        payload: error,
+    };
+}

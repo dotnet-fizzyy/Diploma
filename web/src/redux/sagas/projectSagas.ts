@@ -1,20 +1,25 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import ProjectApi from '../../api/projectApi';
-import { IProject, IProjectPage } from '../../types/projectTypes';
-import { addEpics } from '../actions/epicActions';
+import { IBoardPage, IProject, IProjectPage } from '../../types/projectTypes';
+import { addEpics, addSimpleEpics } from '../actions/epicActions';
 import {
     createProjectFailure,
     createProjectSuccess,
+    getBoardInfoFailure,
     getProjectFailure,
     getProjectSuccess,
     getUserProjectPageFailure,
     getUserProjectPageSuccess,
+    setSelectedProject,
     ICreateProjectRequest,
+    IGetBoardInfoRequest,
     IGetProjectRequest,
     IGetUserProjectPageRequest,
     ProjectActions,
 } from '../actions/projectActions';
-import { addTeamSimpleItems } from '../actions/teamActions';
+import { addSprints } from '../actions/sprintsActions';
+import { addStories } from '../actions/storiesActions';
+import { addTeamSimpleItems, setSelectedTeam } from '../actions/teamActions';
 
 function* getUserProjectPage(action: IGetUserProjectPageRequest) {
     try {
@@ -50,8 +55,30 @@ function* createProject(action: ICreateProjectRequest) {
     }
 }
 
+function* getBoardInfo(action: IGetBoardInfoRequest) {
+    try {
+        const { projectId, teamId } = action.payload;
+        const { project, stories, sprints, team, epics }: IBoardPage = yield call(
+            ProjectApi.getBoardPage,
+            projectId,
+            teamId
+        );
+
+        yield all([
+            put(setSelectedProject(project)),
+            put(setSelectedTeam(team)),
+            put(addSimpleEpics(epics)),
+            put(addSprints(sprints)),
+            put(addStories(stories)),
+        ]);
+    } catch (error) {
+        yield put(getBoardInfoFailure(error));
+    }
+}
+
 export default function* rootStoriesSaga() {
     yield takeLatest(ProjectActions.GET_USER_PROJECT_PAGE_REQUEST, getUserProjectPage);
     yield takeLatest(ProjectActions.CREATE_PROJECT_REQUEST, createProject);
     yield takeLatest(ProjectActions.GET_PROJECT_REQUEST, getProject);
+    yield takeLatest(ProjectActions.GET_BOARD_INFO_REQUEST, getBoardInfo);
 }

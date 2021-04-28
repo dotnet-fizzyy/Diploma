@@ -1,26 +1,20 @@
-import { all, call, debounce, delay, put, select, takeLatest } from 'redux-saga/effects';
-import ProjectApi from '../../api/projectApi';
+import { call, debounce, delay, put, select, takeLatest } from 'redux-saga/effects';
 import SprintApi from '../../api/sprintApi';
 import StoryApi from '../../api/storyApi';
 import { debouncePeriod } from '../../constants/storyConstants';
 import { IEpic } from '../../types/epicTypes';
-import { IBoardPage, IProject } from '../../types/projectTypes';
+import { IProject } from '../../types/projectTypes';
 import { IFullSprint, ISprint } from '../../types/sprintTypes';
 import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
 import { IUser } from '../../types/userTypes';
 import { mapFullSprintToSprint } from '../../utils/epicHelper';
 import { createRequestBodyForColumnMovement, createStoryUpdatePartsFromStory } from '../../utils/storyHelper';
-import { addSimpleEpics } from '../actions/epicActions';
 import * as epicActions from '../actions/epicActions';
 import * as modalActions from '../actions/modalActions';
-import { setSelectedProject } from '../actions/projectActions';
 import * as requestProcessorActions from '../actions/requestProcessorActions';
 import * as sidebarActions from '../actions/sidebarActions';
-import { addSprints } from '../actions/sprintsActions';
 import * as sprintsActions from '../actions/sprintsActions';
-import { getBoardInfoFailure, storyActionAddStories } from '../actions/storiesActions';
 import * as storyActions from '../actions/storiesActions';
-import { setSelectedTeam } from '../actions/teamActions';
 import * as epicSelectors from '../selectors/epicsSelectors';
 import * as projectSelectors from '../selectors/projectSelectors';
 import * as storySelectors from '../selectors/storiesSelectors';
@@ -149,7 +143,7 @@ function* changeEpic(action: storyActions.IChangeEpicRequest) {
         const stories: IStory[] = sprintsFromCurrentEpic
             .map((x) => x.stories)
             .reduce((accumulator, stories) => accumulator.concat(stories), []);
-        yield put(storyActions.storyActionAddStories(stories));
+        yield put(storyActions.addStories(stories));
     } catch (error) {
         yield put(storyActions.changeEpicFailure(error));
     }
@@ -170,27 +164,6 @@ function* sortStories(action: storyActions.ISortStoriesRequest) {
     }
 }
 
-function* handleBoardRequestProcessing(action: storyActions.IGetBoardInfoRequest) {
-    try {
-        const { projectId, teamId } = action.payload;
-        const { project, stories, sprints, team, epics }: IBoardPage = yield call(
-            ProjectApi.getBoardPage,
-            projectId,
-            teamId
-        );
-
-        yield all([
-            put(setSelectedProject(project)),
-            put(setSelectedTeam(team)),
-            put(addSimpleEpics(epics)),
-            put(addSprints(sprints)),
-            put(storyActionAddStories(stories)),
-        ]);
-    } catch (error) {
-        yield put(getBoardInfoFailure(error));
-    }
-}
-
 function* storyChangeStatusRequest(action: storyActions.IUpdateStoryStatusRequest) {}
 
 export default function* rootStoriesSaga() {
@@ -204,7 +177,6 @@ export default function* rootStoriesSaga() {
     yield takeLatest(storyActions.StoryActions.STORY_UPDATE_CHANGES_REQUEST, updateStoryChanges);
     yield takeLatest(storyActions.StoryActions.CHANGE_EPIC_REQUEST, changeEpic);
     yield takeLatest(storyActions.StoryActions.SORT_STORIES_REQUEST, sortStories);
-    yield takeLatest(storyActions.StoryActions.GET_BOARD_INFO_REQUEST, handleBoardRequestProcessing);
     yield takeLatest(storyActions.StoryActions.STORY_CHANGE_STATUS_REQUEST, storyChangeStatusRequest);
     yield debounce(debouncePeriod, storyActions.StoryActions.SET_STORY_TITLE_TERM_REQUEST, searchForStoriesByTitleTerm);
 }

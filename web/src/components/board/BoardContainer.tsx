@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import * as sidebarActions from '../../redux/actions/sidebarActions';
-import * as storyActions from '../../redux/actions/storiesActions';
-import * as sidebarSelectors from '../../redux/selectors/sidebarSelectors';
+import { getBoardInfoRequest } from '../../redux/actions/projectActions';
+import { sidebarHandleVisibility } from '../../redux/actions/sidebarActions';
+import { storyActionDragStart, storyDragAndDropHandle } from '../../redux/actions/storiesActions';
+import { getSidebarVisibility } from '../../redux/selectors/sidebarSelectors';
 import { IStoryDragAndDrop } from '../../types/storyTypes';
 import { getColumnKeyValuePair } from '../../utils/columnHelper';
 import { getQueryParameter } from '../../utils/routeHelper';
@@ -13,21 +14,21 @@ const BoardContainer = () => {
     const dispatch = useDispatch();
     const location = useLocation();
 
-    const isSidebarVisible = useSelector(sidebarSelectors.getSidebarVisibility);
+    const isSidebarVisible = useSelector(getSidebarVisibility);
     const columns = getColumnKeyValuePair();
 
     const onCloseSidebar = () => {
-        dispatch(sidebarActions.sidebarHandleVisibility(false));
+        dispatch(sidebarHandleVisibility(false));
     };
 
     const onDragStart = () => {
-        dispatch(storyActions.storyActionDragStart());
+        dispatch(storyActionDragStart());
     };
 
     const onDragEnd = (result: any) => {
         if (result.destination) {
             dispatch(
-                storyActions.storyDragAndDropHandle({
+                storyDragAndDropHandle({
                     storyId: result.draggableId,
                     columnTypeOrigin: result.source.droppableId,
                     columnTypeDestination: result.destination.droppableId,
@@ -40,7 +41,7 @@ const BoardContainer = () => {
         const projectId: string = getQueryParameter(location.search, 'projectId');
         const teamId: string = getQueryParameter(location.search, 'teamId');
 
-        dispatch(storyActions.getBoardInfoRequest(projectId, teamId));
+        dispatch(getBoardInfoRequest(projectId, teamId));
     }, [dispatch, location.search]);
 
     const props: IBoardProps = {

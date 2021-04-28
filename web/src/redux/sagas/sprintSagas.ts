@@ -39,7 +39,7 @@ function* getSprintsFromEpic() {
     const stories: IStory[] = sprintsFromCurrentEpic
         .map((x) => x.stories)
         .reduce((accumulator, stories) => accumulator.concat(stories), []);
-    yield put(storyActions.storyActionAddStories(stories));
+    yield put(storyActions.addStories(stories));
 }
 
 export default function* rootSprintsSaga() {

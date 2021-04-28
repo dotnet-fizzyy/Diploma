@@ -42,9 +42,6 @@ export const StoryActions = {
     SORT_STORIES_SUCCESS: 'SORT_STORIES_SUCCESS',
     SORT_STORIES_FAILURE: 'SORT_STORIES_FAILURE',
     CHANGE_SORT_TYPE: 'CHANGE_SORT_TYPE',
-    GET_BOARD_INFO_REQUEST: 'GET_BOARD_INFO_REQUEST',
-    GET_BOARD_INFO_SUCCESS: 'GET_BOARD_INFO_SUCCESS',
-    GET_BOARD_INFO_FAILURE: 'GET_BOARD_INFO_FAILURE',
     STORY_CHANGE_STATUS_REQUEST: 'STORY_CHANGE_STATUS_REQUEST',
     STORY_CHANGE_STATUS_SUCCESS: 'STORY_CHANGE_STATUS_SUCCESS',
     STORY_CHANGE_STATUS_FAILURE: 'STORY_CHANGE_STATUS_FAILURE',
@@ -249,19 +246,6 @@ export interface IGetStoriesFromEpicFailure {
     payload: Error;
 }
 
-export interface IGetBoardInfoRequest {
-    type: typeof StoryActions.GET_BOARD_INFO_REQUEST;
-    payload: {
-        projectId: string;
-        teamId: string;
-    };
-}
-
-export interface IGetBoardInfoFailure {
-    type: typeof StoryActions.GET_BOARD_INFO_FAILURE;
-    payload: Error;
-}
-
 export interface IUpdateStoryStatusRequest {
     type: typeof StoryActions.STORY_CHANGE_STATUS_REQUEST;
     payload: IStory;
@@ -278,7 +262,7 @@ export interface IUpdateStoryStatusFailure {
 }
 
 //actions
-export function storyActionAddStories(stories: IStory[]): IAddStories {
+export function addStories(stories: IStory[]): IAddStories {
     return {
         type: StoryActions.ADD_STORIES,
         payload: stories,
@@ -558,23 +542,6 @@ export function getStoriesFromEpicFailure(error: Error): IGetStoriesFromEpicFail
     };
 }
 
-export function getBoardInfoRequest(projectId: string, teamId: string): IGetBoardInfoRequest {
-    return {
-        type: StoryActions.GET_BOARD_INFO_REQUEST,
-        payload: {
-            projectId,
-            teamId,
-        },
-    };
-}
-
-export function getBoardInfoFailure(error: Error): IGetBoardInfoFailure {
-    return {
-        type: StoryActions.GET_BOARD_INFO_REQUEST,
-        payload: error,
-    };
-}
-
 export function handleUpdateStoryStatusRequest(story: IStory): IUpdateStoryStatusRequest {
     return {
         type: StoryActions.STORY_CHANGE_STATUS_REQUEST,
@@ -595,9 +562,3 @@ export function handleUpdateStoryStatusFailure(error: Error): IUpdateStoryStatus
         payload: error,
     };
 }
-
-export type StoriesActionTypes = ISetStoryTitleTermSuccess &
-    IUpdateStoryChangesSuccess &
-    IStoryDragStart &
-    ICreateStorySuccess &
-    IRefreshStoriesSuccess;
