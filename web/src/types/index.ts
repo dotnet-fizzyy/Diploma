@@ -1,6 +1,3 @@
-import { IEpic } from './epicTypes';
-import { IProject } from './projectTypes';
-import { ISprint } from './sprintTypes';
 import { IFullUser } from './userTypes';
 
 export enum SpinnerComponent {
@@ -13,12 +10,6 @@ export enum SpinnerComponent {
 export enum TokenType {
     ACCESS = 'Access',
     REFRESH = 'Refresh',
-}
-
-export interface IFullProjectDescription {
-    project: IProject;
-    epic: IEpic;
-    sprints: ISprint[];
 }
 
 export interface AuthenticationResponse {

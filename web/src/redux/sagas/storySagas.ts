@@ -1,27 +1,28 @@
-import { call, debounce, delay, put, select, take, takeLatest } from 'redux-saga/effects';
+import { all, call, debounce, delay, put, select, takeLatest } from 'redux-saga/effects';
+import ProjectApi from '../../api/projectApi';
 import SprintApi from '../../api/sprintApi';
 import StoryApi from '../../api/storyApi';
 import { debouncePeriod } from '../../constants/storyConstants';
 import { IEpic } from '../../types/epicTypes';
-import { IProject } from '../../types/projectTypes';
+import { IBoardPage, IProject } from '../../types/projectTypes';
 import { IFullSprint, ISprint } from '../../types/sprintTypes';
 import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
-import { ITeam } from '../../types/teamTypes';
 import { IUser } from '../../types/userTypes';
-import { findCurrentEpic, mapFullSprintToSprint } from '../../utils/epicHelper';
+import { mapFullSprintToSprint } from '../../utils/epicHelper';
 import { createRequestBodyForColumnMovement, createStoryUpdatePartsFromStory } from '../../utils/storyHelper';
+import { addSimpleEpics } from '../actions/epicActions';
 import * as epicActions from '../actions/epicActions';
 import * as modalActions from '../actions/modalActions';
-import * as projectActions from '../actions/projectActions';
 import * as requestProcessorActions from '../actions/requestProcessorActions';
 import * as sidebarActions from '../actions/sidebarActions';
+import { addSprints } from '../actions/sprintsActions';
 import * as sprintsActions from '../actions/sprintsActions';
+import { getBoardInfoFailure, storyActionAddStories } from '../actions/storiesActions';
 import * as storyActions from '../actions/storiesActions';
-import * as teamActions from '../actions/teamActions';
+import { setSelectedTeam } from '../actions/teamActions';
 import * as epicSelectors from '../selectors/epicsSelectors';
 import * as projectSelectors from '../selectors/projectSelectors';
 import * as storySelectors from '../selectors/storiesSelectors';
-import * as teamSelectors from '../selectors/teamSelectors';
 import * as currentUserSelectors from '../selectors/userSelectors';
 
 function* refreshData() {
@@ -168,24 +169,20 @@ function* sortStories(action: storyActions.ISortStoriesRequest) {
     }
 }
 
-function* handleBoardRequestProcessing(action: storyActions.IHandleBoardRequestProcessing) {
-    yield put(projectActions.getProjectRequest(action.payload));
-    yield take(projectActions.ProjectActions.GET_PROJECT_SUCCESS);
+function* handleBoardRequestProcessing(action: storyActions.IGetBoardInfoRequest) {
+    try {
+        const { projectId, teamId } = action.payload;
+        const boardDescription: IBoardPage = yield call(ProjectApi.getBoardPage, projectId, teamId);
 
-    // yield put(teamActions.getUserTeamsRequest());
-    // yield take(teamActions.TeamActions.GET_USER_TEAMS_SUCCESS);
-
-    const teams: ITeam[] = yield select(teamSelectors.getTeams);
-    yield put(teamActions.setSelectedTeam(teams[0]));
-
-    yield put(epicActions.getEpicsRequest(action.payload));
-    yield take(epicActions.EpicActions.GET_EPICS_SUCCESS);
-
-    const epics: IEpic[] = yield select(epicSelectors.getEpics);
-    const currentEpic: IEpic = findCurrentEpic(epics);
-
-    yield put(epicActions.setSelectedEpic(currentEpic));
-    yield put(sprintsActions.getFullSprintsFromEpicRequest());
+        yield all([
+            put(setSelectedTeam(boardDescription.team)),
+            put(addSimpleEpics(boardDescription.epics)),
+            put(addSprints(boardDescription.sprints)),
+            put(storyActionAddStories(boardDescription.stories)),
+        ]);
+    } catch (error) {
+        yield put(getBoardInfoFailure(error));
+    }
 }
 
 function* storyChangeStatusRequest(action: storyActions.IUpdateStoryStatusRequest) {}
@@ -201,7 +198,7 @@ export default function* rootStoriesSaga() {
     yield takeLatest(storyActions.StoryActions.STORY_UPDATE_CHANGES_REQUEST, updateStoryChanges);
     yield takeLatest(storyActions.StoryActions.CHANGE_EPIC_REQUEST, changeEpic);
     yield takeLatest(storyActions.StoryActions.SORT_STORIES_REQUEST, sortStories);
-    yield takeLatest(storyActions.StoryActions.HANDLE_BOARD_REQUEST_PROCESSING, handleBoardRequestProcessing);
+    yield takeLatest(storyActions.StoryActions.GET_BOARD_INFO_REQUEST, handleBoardRequestProcessing);
     yield takeLatest(storyActions.StoryActions.STORY_CHANGE_STATUS_REQUEST, storyChangeStatusRequest);
     yield debounce(debouncePeriod, storyActions.StoryActions.SET_STORY_TITLE_TERM_REQUEST, searchForStoriesByTitleTerm);
 }

@@ -1,5 +1,5 @@
-import { IProjectListItem } from './projectTypes';
-import { ITeamListItem } from './teamTypes';
+import { IProjectSimpleModel } from './projectTypes';
+import { ITeamSimpleModel } from './teamTypes';
 import { IUserListItem } from './userTypes';
 
 export interface IWorkSpace {
@@ -10,8 +10,8 @@ export interface IWorkSpace {
 }
 
 export interface IWorkSpaceTableItem {
-    project: IProjectListItem;
-    teams: ITeamListItem[];
+    project: IProjectSimpleModel;
+    teams: ITeamSimpleModel[];
     customer: IUserListItem;
 }
 
@@ -19,8 +19,8 @@ export interface IWorkSpaceTable {
     items: IWorkSpaceTableItem[];
 }
 
-export interface IWorkSpacePageProject extends IProjectListItem {
-    teams: ITeamListItem[];
+export interface IWorkSpacePageProject extends IProjectSimpleModel {
+    teams: ITeamSimpleModel[];
 }
 
 export interface IWorkSpacePage {

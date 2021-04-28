@@ -23,13 +23,13 @@ const CustomRouterContainer = () => {
     }, [dispatch, user]);
 
     useEffect(() => {
-        setInitialPath(location.pathname);
+        setInitialPath(location.pathname + location.search);
         // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
         if (initialPath && user && user.userId) {
-            const isLoginPage: boolean = initialPath === LoginScreenRoute;
+            const isLoginPage: boolean = initialPath.split('?')[0] === LoginScreenRoute;
 
             history.push(isLoginPage ? DefaultRoute : initialPath);
         }

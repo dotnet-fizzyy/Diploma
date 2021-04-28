@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { IProjectListItem } from '../../types/projectTypes';
-import { ITeamListItem } from '../../types/teamTypes';
+import { IProjectSimpleModel } from '../../types/projectTypes';
+import { ITeamSimpleModel } from '../../types/teamTypes';
 import Button from '../common/Button';
 import MainLabel, { LabelType } from '../common/MainLabel';
 
@@ -44,7 +44,7 @@ const useStyles = makeStyles(() =>
 
 export interface IWorkSpaceListProps {
     label: string;
-    listItems: (ITeamListItem | IProjectListItem)[];
+    listItems: (ITeamSimpleModel | IProjectSimpleModel)[];
     onClickViewProject: (projectId: string) => void;
     onClickViewTeam: (teamId: string) => void;
     onClickCreate: () => void;
@@ -54,7 +54,7 @@ const WorkSpaceList = (props: IWorkSpaceListProps) => {
     const classes = useStyles();
     const { label, listItems, onClickCreate } = props;
 
-    const getProjectItem = ({ projectId, projectName }: IProjectListItem): React.ReactNode => {
+    const getProjectItem = ({ projectId, projectName }: IProjectSimpleModel): React.ReactNode => {
         const onClickViewProject = (): void => {
             props.onClickViewProject(projectId);
         };
@@ -69,7 +69,7 @@ const WorkSpaceList = (props: IWorkSpaceListProps) => {
         );
     };
 
-    const getTeamItem = ({ teamId, teamName }: ITeamListItem): React.ReactNode => {
+    const getTeamItem = ({ teamId, teamName }: ITeamSimpleModel): React.ReactNode => {
         const onClickViewTeam = (): void => {
             props.onClickViewTeam(teamId);
         };
@@ -94,7 +94,7 @@ const WorkSpaceList = (props: IWorkSpaceListProps) => {
             </div>
             <div className={classes.list}>
                 {listItems && listItems.length
-                    ? listItems.map((item: IProjectListItem | ITeamListItem) =>
+                    ? listItems.map((item: IProjectSimpleModel | ITeamSimpleModel) =>
                           'teamId' in item ? getTeamItem(item) : getProjectItem(item)
                       )
                     : null}

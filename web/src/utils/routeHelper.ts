@@ -35,3 +35,9 @@ export class CustomerRouteGuard extends BaseRouteGuard {
         return isValid && this._user.userRole === UserRole.ProductOwner;
     }
 }
+
+export function getQueryParameter(search: string, key:string): string {
+    const params = new URLSearchParams(search);
+
+    return params.get(key);
+}

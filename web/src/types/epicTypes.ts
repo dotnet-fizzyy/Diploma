@@ -7,11 +7,9 @@ export interface IEpic {
     epicDescription: string;
 }
 
-export interface IEpicFormTypes {
-    epicId?: string;
-    projectId: string;
+export interface IEpicSimpleModel {
+    epicId: string;
     epicName: string;
     startDate: Date;
     endDate: Date;
-    epicDescription: string;
 }

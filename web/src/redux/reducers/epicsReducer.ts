@@ -1,51 +1,68 @@
-import * as epicActions from '../actions/epicActions';
+import {
+    EpicActions,
+    IAddSimpleEpics,
+    ICreateEpicSuccess,
+    IGetEpicsSuccess,
+    ISetSelectedEpic,
+    ISetSelectedEpicById,
+} from '../actions/epicActions';
 import { IEpicsState } from '../store/state';
 
 const initialState: IEpicsState = {
     epics: [],
+    simpleItems: [],
     selectedEpic: null,
 };
 
-export default function epicReducer(state = initialState, action: epicActions.EpicActionTypes) {
+export default function epicReducer(state = initialState, action) {
     switch (action.type) {
-        case epicActions.EpicActions.CREATE_EPIC_SUCCESS:
+        case EpicActions.CREATE_EPIC_SUCCESS:
             return handleCreateEpicSuccess(state, action);
-        case epicActions.EpicActions.GET_EPICS_SUCCESS:
-        case epicActions.EpicActions.ADD_EPICS:
+        case EpicActions.GET_EPICS_SUCCESS:
+        case EpicActions.ADD_EPICS:
             return handleSetEpics(state, action);
-        case epicActions.EpicActions.SET_SELECTED_EPIC:
+        case EpicActions.SET_SELECTED_EPIC:
             return handleSetCurrentEpic(state, action);
-        case epicActions.EpicActions.SET_SELECTED_EPIC_BY_ID:
+        case EpicActions.SET_SELECTED_EPIC_BY_ID:
             return handleSetCurrentEpicById(state, action);
+        case EpicActions.ADD_SIMPLE_EPICS:
+            return handleAddSimpleEpics(state, action);
         default:
             return state;
     }
 }
 
-function handleCreateEpicSuccess(state: IEpicsState, action: epicActions.ICreateEpicSuccess): IEpicsState {
+function handleCreateEpicSuccess(state: IEpicsState, action: ICreateEpicSuccess): IEpicsState {
     return {
         ...state,
         epics: [...state.epics, action.payload],
     };
 }
 
-function handleSetEpics(state: IEpicsState, action: epicActions.IGetEpicsSuccess): IEpicsState {
+function handleSetEpics(state: IEpicsState, action: IGetEpicsSuccess): IEpicsState {
     return {
         ...state,
         epics: action.payload,
     };
 }
 
-function handleSetCurrentEpic(state: IEpicsState, action: epicActions.ISetSelectedEpic): IEpicsState {
+function handleSetCurrentEpic(state: IEpicsState, action: ISetSelectedEpic): IEpicsState {
     return {
         ...state,
         selectedEpic: action.payload,
     };
 }
 
-function handleSetCurrentEpicById(state: IEpicsState, action: epicActions.ISetSelectedEpicById): IEpicsState {
+function handleSetCurrentEpicById(state: IEpicsState, action: ISetSelectedEpicById): IEpicsState {
     return {
         ...state,
         selectedEpic: state.epics.find((x) => x.epicId === action.payload),
+    };
+}
+
+function handleAddSimpleEpics(state: IEpicsState, action: IAddSimpleEpics): IEpicsState {
+    return {
+        ...state,
+        simpleItems: action.payload,
     };
 }

@@ -1,4 +1,4 @@
-import { IEpic } from '../../types/epicTypes';
+import { IEpic, IEpicSimpleModel } from '../../types/epicTypes';
 
 export const EpicActions = {
     CREATE_EPIC_REQUEST: 'CREATE_EPIC_REQUEST',
@@ -10,6 +10,7 @@ export const EpicActions = {
     SET_SELECTED_EPIC: 'SET_SELECTED_EPIC',
     SET_SELECTED_EPIC_BY_ID: 'SET_SELECTED_EPIC_BY_ID',
     ADD_EPICS: 'ADD_EPICS',
+    ADD_SIMPLE_EPICS: 'ADD_SIMPLE_EPICS',
 };
 
 /*
@@ -58,6 +59,11 @@ export interface ISetSelectedEpicById {
 export interface IAddEpics {
     type: typeof EpicActions.ADD_EPICS;
     payload: IEpic[];
+}
+
+export interface IAddSimpleEpics {
+    type: typeof EpicActions.ADD_SIMPLE_EPICS;
+    payload: IEpicSimpleModel[];
 }
 
 /*
@@ -126,4 +132,9 @@ export function addEpics(epics: IEpic[]): IAddEpics {
     };
 }
 
-export type EpicActionTypes = ICreateEpicSuccess & IGetEpicsRequest & IGetEpicsSuccess & ISetSelectedEpic & IAddEpics;
+export function addSimpleEpics(epics: IEpicSimpleModel[]): IAddSimpleEpics {
+    return {
+        type: EpicActions.ADD_SIMPLE_EPICS,
+        payload: epics,
+    };
+}

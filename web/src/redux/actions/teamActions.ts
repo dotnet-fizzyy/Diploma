@@ -1,4 +1,4 @@
-import { ITeam, ITeamListItem } from '../../types/teamTypes';
+import { ITeam, ITeamSimpleModel } from '../../types/teamTypes';
 
 export const TeamActions = {
     GET_USER_TEAM_PAGE_REQUEST: 'GET_USER_TEAM_PAGE_REQUEST',
@@ -57,7 +57,7 @@ export interface ISetSelectedTeamById {
 
 export interface IAddTeamSimpleItems {
     type: typeof TeamActions.ADD_TEAM_SIMPLE_ITEMS;
-    payload: ITeamListItem[];
+    payload: ITeamSimpleModel[];
 }
 
 /*
@@ -119,7 +119,7 @@ export function setSelectedTeamById(teamId: string): ISetSelectedTeamById {
     };
 }
 
-export function addTeamSimpleItems(items: ITeamListItem[]): IAddTeamSimpleItems {
+export function addTeamSimpleItems(items: ITeamSimpleModel[]): IAddTeamSimpleItems {
     return {
         type: TeamActions.ADD_TEAM_SIMPLE_ITEMS,
         payload: items,

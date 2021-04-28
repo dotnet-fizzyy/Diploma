@@ -1,5 +1,7 @@
-import { IEpic } from './epicTypes';
-import { ITeam, ITeamListItem } from './teamTypes';
+import { IEpic, IEpicSimpleModel } from './epicTypes';
+import { ISprint } from './sprintTypes';
+import { IStory } from './storyTypes';
+import { ITeam, ITeamSimpleModel } from './teamTypes';
 
 interface IBaseProject {
     projectId?: string;
@@ -15,10 +17,17 @@ export interface IProject extends IBaseProject {
     creationDate?: Date;
 }
 
-export interface IProjectListItem extends IBaseProject {}
+export interface IProjectSimpleModel extends IBaseProject {}
 
 export interface IProjectPage {
     project: IProject;
-    teams: ITeamListItem[];
+    teams: ITeamSimpleModel[];
     epics: IEpic[];
+}
+
+export interface IBoardPage {
+    team: ITeam;
+    epics: IEpicSimpleModel[];
+    sprints: ISprint[];
+    stories: IStory[];
 }

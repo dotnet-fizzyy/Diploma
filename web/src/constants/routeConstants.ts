@@ -1,7 +1,7 @@
 //UI routes
 export const DefaultRoute = '/';
 export const FullViewStoryRoute = '/full-view/:storyId';
-export const ProjectBoardRoute = '/board/:projectId';
+export const ProjectBoardRoute = '/board';
 export const LoginScreenRoute = '/start/login';
 export const RegistrationScreenRoute = '/start/registration';
 export const ViewStoryHistoryRoute = '/history/:storyId';
@@ -30,6 +30,7 @@ const PageUrls = {
     getTeamPage: `${PageBaseUrl}/team`,
     getWorkSpacePage: `${PageBaseUrl}/workspace`,
     getProjectPage: `${PageBaseUrl}/project`,
+    getBoardPage: `${PageBaseUrl}/board`,
 };
 
 const UserBaseUrl = `${BaseUrl}/user`;
@@ -70,6 +71,7 @@ export const ProjectUrls = {
     getProjectPage: PageUrls.getProjectPage,
     createProject: ProjectBaseUrl,
     getProject: ProjectBaseUrl,
+    getBoardPage: PageUrls.getBoardPage,
 };
 
 const TeamBaseUrl = `${BaseUrl}/team`;

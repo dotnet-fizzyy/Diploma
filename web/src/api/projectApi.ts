@@ -1,7 +1,11 @@
 import { AxiosResponse } from 'axios';
 import { ProjectUrls } from '../constants/routeConstants';
+import { mapToEpicSimpleModel } from '../mappers/epicMapper';
 import { mapToProjectModel, mapToProjectPageModel } from '../mappers/projectMapper';
-import { IProject, IProjectPage } from '../types/projectTypes';
+import { mapToSprintModel } from '../mappers/sprintMappers';
+import { mapToStoryModel } from '../mappers/storyMappers';
+import { mapToTeamModel } from '../mappers/teamMapper';
+import { IBoardPage, IProject, IProjectPage } from '../types/projectTypes';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class ProjectApi {
@@ -19,6 +23,14 @@ export default class ProjectApi {
         return mapToProjectModel(response.data);
     }
 
+    public static async getBoardPage(projectId: string, teamId: string): Promise<any> {
+        const response: AxiosResponse<IBoardPage> = await AxiosBaseApi.axiosGet(
+            `${ProjectUrls.getBoardPage}?projectId=${projectId}&teamId=${teamId}`
+        );
+
+        return ProjectApi.mapToBoardPageData(response.data);
+    }
+
     public static async createProject(project: IProject): Promise<IProject> {
         const mappedProject = {
             projectName: project.projectName,
@@ -34,5 +46,14 @@ export default class ProjectApi {
         );
 
         return mapToProjectModel(response.data);
+    }
+
+    private static mapToBoardPageData(data: any): IBoardPage {
+        return {
+            team: mapToTeamModel(data.team),
+            epics: data.epics && data.epics.length ? data.epics.map(mapToEpicSimpleModel) : [],
+            sprints: data.sprints && data.sprints.length ? data.sprints.map(mapToSprintModel) : [],
+            stories: data.stories && data.stories.length ? data.stories.map(mapToStoryModel) : [],
+        };
     }
 }

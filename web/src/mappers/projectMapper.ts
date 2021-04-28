@@ -1,4 +1,4 @@
-import { IProject, IProjectListItem, IProjectPage } from '../types/projectTypes';
+import { IProject, IProjectSimpleModel, IProjectPage } from '../types/projectTypes';
 import { mapToEpicModel } from './epicMapper';
 import { mapToSimpleTeamModel } from './teamMapper';
 
@@ -14,7 +14,7 @@ export function mapToProjectModel(data: any): IProject {
     };
 }
 
-export function mapToSimpleProjectModel(data: any): IProjectListItem {
+export function mapToSimpleProjectModel(data: any): IProjectSimpleModel {
     return {
         projectId: data.projectId,
         projectName: data.projectName,

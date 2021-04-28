@@ -1,4 +1,4 @@
-import { ITeam, ITeamListItem } from '../types/teamTypes';
+import { ITeam, ITeamSimpleModel } from '../types/teamTypes';
 import { IUser, UserPosition, UserRole } from '../types/userTypes';
 
 export const mockedTeam: ITeam = {
@@ -46,7 +46,7 @@ export const mockedTeam: ITeam = {
     ],
 };
 
-export const mockedTeamList: ITeamListItem[] = [
+export const mockedTeamList: ITeamSimpleModel[] = [
     {
         teamId: '12345',
         teamName: 'team1',

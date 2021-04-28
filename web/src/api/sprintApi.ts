@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { SprintUrls } from '../constants/routeConstants';
+import { mapToSprintModel } from '../mappers/sprintMappers';
 import { ICollectionResponse } from '../types';
 import { IFullSprint, ISprint } from '../types/sprintTypes';
 import AxiosBaseApi from './axiosBaseApi';
@@ -23,16 +24,6 @@ export default class SprintApi {
 
         const response: AxiosResponse<ISprint> = await AxiosBaseApi.axiosPost(SprintUrls.createSprint, mappedSprint);
 
-        return SprintApi.mapToModel(response.data);
-    }
-
-    private static mapToModel(data: any): ISprint {
-        return {
-            sprintId: data.sprint,
-            epicId: data.epicId,
-            sprintName: data.sprintName,
-            startDate: data.startDate,
-            endDate: data.endDate,
-        };
+        return mapToSprintModel(response.data);
     }
 }

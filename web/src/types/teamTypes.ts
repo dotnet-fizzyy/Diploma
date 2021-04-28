@@ -14,7 +14,7 @@ export interface ITeam extends IBaseTeam {
     membersCount: number;
 }
 
-export interface ITeamListItem extends IBaseTeam {}
+export interface ITeamSimpleModel extends IBaseTeam {}
 
 export interface ITeamPage {
     workSpace: IWorkSpace;

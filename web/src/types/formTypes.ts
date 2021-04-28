@@ -35,3 +35,12 @@ export interface IProfilePasswordUpdateForm {
     newPassword: string;
     repeatedPassword: string;
 }
+
+export interface IEpicFormTypes {
+    epicId?: string;
+    projectId: string;
+    epicName: string;
+    startDate: Date;
+    endDate: Date;
+    epicDescription: string;
+}

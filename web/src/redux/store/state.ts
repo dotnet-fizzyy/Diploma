@@ -1,9 +1,9 @@
-import { IEpic } from '../../types/epicTypes';
+import { IEpic, IEpicSimpleModel } from '../../types/epicTypes';
 import { ModalOptions, ModalTypes } from '../../types/modalTypes';
 import { IProject } from '../../types/projectTypes';
 import { ISprint } from '../../types/sprintTypes';
 import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
-import { ITeam, ITeamListItem } from '../../types/teamTypes';
+import { ITeam, ITeamSimpleModel } from '../../types/teamTypes';
 import { IFullUser } from '../../types/userTypes';
 import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
 
@@ -47,7 +47,7 @@ export interface ISidebarState {
 
 export interface ITeamState {
     teams: ITeam[];
-    simpleItems: ITeamListItem[];
+    simpleItems: ITeamSimpleModel[];
     selectedTeam?: ITeam;
 }
 
@@ -69,7 +69,8 @@ export interface IModalState {
 
 export interface IEpicsState {
     epics: IEpic[];
-    selectedEpic: IEpic;
+    simpleItems: IEpicSimpleModel[];
+    selectedEpic?: IEpic;
 }
 
 export interface IWorkSpaceState {

@@ -42,7 +42,9 @@ export const StoryActions = {
     SORT_STORIES_SUCCESS: 'SORT_STORIES_SUCCESS',
     SORT_STORIES_FAILURE: 'SORT_STORIES_FAILURE',
     CHANGE_SORT_TYPE: 'CHANGE_SORT_TYPE',
-    HANDLE_BOARD_REQUEST_PROCESSING: 'HANDLE_BOARD_REQUEST_PROCESSING',
+    GET_BOARD_INFO_REQUEST: 'GET_BOARD_INFO_REQUEST',
+    GET_BOARD_INFO_SUCCESS: 'GET_BOARD_INFO_SUCCESS',
+    GET_BOARD_INFO_FAILURE: 'GET_BOARD_INFO_FAILURE',
     STORY_CHANGE_STATUS_REQUEST: 'STORY_CHANGE_STATUS_REQUEST',
     STORY_CHANGE_STATUS_SUCCESS: 'STORY_CHANGE_STATUS_SUCCESS',
     STORY_CHANGE_STATUS_FAILURE: 'STORY_CHANGE_STATUS_FAILURE',
@@ -247,9 +249,17 @@ export interface IGetStoriesFromEpicFailure {
     payload: Error;
 }
 
-export interface IHandleBoardRequestProcessing {
-    type: typeof StoryActions.HANDLE_BOARD_REQUEST_PROCESSING;
-    payload: string;
+export interface IGetBoardInfoRequest {
+    type: typeof StoryActions.GET_BOARD_INFO_REQUEST;
+    payload: {
+        projectId: string;
+        teamId: string;
+    };
+}
+
+export interface IGetBoardInfoFailure {
+    type: typeof StoryActions.GET_BOARD_INFO_FAILURE;
+    payload: Error;
 }
 
 export interface IUpdateStoryStatusRequest {
@@ -548,10 +558,20 @@ export function getStoriesFromEpicFailure(error: Error): IGetStoriesFromEpicFail
     };
 }
 
-export function handleBoardRequestProcessing(projectId: string): IHandleBoardRequestProcessing {
+export function getBoardInfoRequest(projectId: string, teamId: string): IGetBoardInfoRequest {
     return {
-        type: StoryActions.HANDLE_BOARD_REQUEST_PROCESSING,
-        payload: projectId,
+        type: StoryActions.GET_BOARD_INFO_REQUEST,
+        payload: {
+            projectId,
+            teamId,
+        },
+    };
+}
+
+export function getBoardInfoFailure(error: Error): IGetBoardInfoFailure {
+    return {
+        type: StoryActions.GET_BOARD_INFO_REQUEST,
+        payload: error,
     };
 }
 

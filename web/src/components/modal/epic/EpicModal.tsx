@@ -2,7 +2,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { EpicFields, EpicInitialState } from '../../../constants/epicConstants';
-import { IEpicFormTypes } from '../../../types/epicTypes';
+import { IEpicFormTypes } from '../../../types/formTypes';
 import Button from '../../common/Button';
 import FormDatePicker from '../../common/FormDatePicker';
 import FormTextArea from '../../common/FormTextArea';
