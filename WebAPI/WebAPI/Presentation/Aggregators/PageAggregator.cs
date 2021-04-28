@@ -59,10 +59,11 @@ namespace WebAPI.Presentation.Aggregators
             return storyHistoryCollection;
         }
 
-        public BoardPage CreateBoardPageModel(Team team, IList<Epic> epics, IList<Sprint> sprints)
+        public BoardPage CreateBoardPageModel(Team team, Project project, IList<Epic> epics, IList<Sprint> sprints)
         {
             var boardPage = new BoardPage
             {
+                Project = _projectMapper.MapToModel(project),
                 Team = _teamMapper.MapToFullModel(team),
                 Epics = epics.Select(_epicMapper.MapToSimpleModel).ToList(),
                 Sprints = sprints.Select(_sprintMapper.MapToModel).ToList(),

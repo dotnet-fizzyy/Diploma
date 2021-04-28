@@ -50,6 +50,7 @@ export default class ProjectApi {
 
     private static mapToBoardPageData(data: any): IBoardPage {
         return {
+            project: mapToProjectModel(data.project),
             team: mapToTeamModel(data.team),
             epics: data.epics && data.epics.length ? data.epics.map(mapToEpicSimpleModel) : [],
             sprints: data.sprints && data.sprints.length ? data.sprints.map(mapToSprintModel) : [],

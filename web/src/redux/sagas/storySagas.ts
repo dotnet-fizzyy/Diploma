@@ -13,6 +13,7 @@ import { createRequestBodyForColumnMovement, createStoryUpdatePartsFromStory } f
 import { addSimpleEpics } from '../actions/epicActions';
 import * as epicActions from '../actions/epicActions';
 import * as modalActions from '../actions/modalActions';
+import { setSelectedProject } from '../actions/projectActions';
 import * as requestProcessorActions from '../actions/requestProcessorActions';
 import * as sidebarActions from '../actions/sidebarActions';
 import { addSprints } from '../actions/sprintsActions';
@@ -172,13 +173,18 @@ function* sortStories(action: storyActions.ISortStoriesRequest) {
 function* handleBoardRequestProcessing(action: storyActions.IGetBoardInfoRequest) {
     try {
         const { projectId, teamId } = action.payload;
-        const boardDescription: IBoardPage = yield call(ProjectApi.getBoardPage, projectId, teamId);
+        const { project, stories, sprints, team, epics }: IBoardPage = yield call(
+            ProjectApi.getBoardPage,
+            projectId,
+            teamId
+        );
 
         yield all([
-            put(setSelectedTeam(boardDescription.team)),
-            put(addSimpleEpics(boardDescription.epics)),
-            put(addSprints(boardDescription.sprints)),
-            put(storyActionAddStories(boardDescription.stories)),
+            put(setSelectedProject(project)),
+            put(setSelectedTeam(team)),
+            put(addSimpleEpics(epics)),
+            put(addSprints(sprints)),
+            put(storyActionAddStories(stories)),
         ]);
     } catch (error) {
         yield put(getBoardInfoFailure(error));

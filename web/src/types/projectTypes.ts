@@ -26,6 +26,7 @@ export interface IProjectPage {
 }
 
 export interface IBoardPage {
+    project: IProject;
     team: ITeam;
     epics: IEpicSimpleModel[];
     sprints: ISprint[];

@@ -77,7 +77,8 @@ namespace WebAPI.ApplicationLogic.Services
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, MissingTeamExceptionMessage);
             }
-                
+
+            var project = await _projectRepository.SearchForSingleItemAsync(x => x.Id == projectId);
             var epics = await _epicRepository.SearchForMultipleItemsAsync(x => x.ProjectId == projectId, y => y.CreationDate, OrderType.Desc);
             if (epics == null || !epics.Any())
             {
@@ -87,7 +88,7 @@ namespace WebAPI.ApplicationLogic.Services
             
             var sprints = await _sprintRepository.GetFullSprintsByEpicId(latestEpic.Id);
 
-            var boardPage = _pageAggregator.CreateBoardPageModel(team, epics, sprints);
+            var boardPage = _pageAggregator.CreateBoardPageModel(team, project, epics, sprints);
             
             return boardPage;
         }

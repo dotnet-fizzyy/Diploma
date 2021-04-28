@@ -11,7 +11,7 @@ namespace WebAPI.Core.Interfaces.Aggregators
         
         CollectionResponse<WebAPI.Models.Models.StoryHistory> CreateStoryHistoryItems(IList<StoryHistory> storyHistories);
 
-        BoardPage CreateBoardPageModel(Team team, IList<Epic> epics, IList<Sprint> sprints);
+        BoardPage CreateBoardPageModel(Team team, Project project, IList<Epic> epics, IList<Sprint> sprints);
         
         TeamPage CreateTeamPageModel(WorkSpace workSpace, Team team);
         

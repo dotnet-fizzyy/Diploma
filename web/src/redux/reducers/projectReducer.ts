@@ -13,7 +13,7 @@ export default function projectsReducer(state = initialState, action: projectAct
         case projectActions.ProjectActions.SET_PROJECTS:
         case projectActions.ProjectActions.GET_USER_PROJECTS_SUCCESS:
             return handleSetProjects(state, action);
-        case projectActions.ProjectActions.SET_CURRENT_PROJECT:
+        case projectActions.ProjectActions.SET_SELECTED_PROJECT:
         case projectActions.ProjectActions.GET_PROJECT_SUCCESS:
         case projectActions.ProjectActions.GET_USER_PROJECT_PAGE_SUCCESS:
             return handleSetCurrentProject(state, action);
@@ -38,7 +38,7 @@ function handleSetProjects(state: IProjectState, action: projectActions.ISetProj
     };
 }
 
-function handleSetCurrentProject(state: IProjectState, action: projectActions.ISetCurrentProject): IProjectState {
+function handleSetCurrentProject(state: IProjectState, action: projectActions.ISetSelectedProject): IProjectState {
     return {
         ...state,
         selectedProject: action.payload,

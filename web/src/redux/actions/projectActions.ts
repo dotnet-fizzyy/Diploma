@@ -11,7 +11,7 @@ export const ProjectActions = {
     CREATE_PROJECT_SUCCESS: 'CREATE_PROJECT_SUCCESS',
     CREATE_PROJECT_FAILURE: 'CREATE_PROJECT_FAILURE',
     SET_PROJECTS: 'SET_PROJECTS',
-    SET_CURRENT_PROJECT: 'SET_CURRENT_PROJECT',
+    SET_SELECTED_PROJECT: 'SET_SELECTED_PROJECT',
     SET_CURRENT_PROJECT_BY_ID: 'SET_CURRENT_PROJECT_BY_ID',
     GET_PROJECT_REQUEST: 'GET_PROJECT_REQUEST',
     GET_PROJECT_SUCCESS: 'GET_PROJECT_SUCCESS',
@@ -73,8 +73,8 @@ export interface ISetProjects {
     payload: IProject[];
 }
 
-export interface ISetCurrentProject {
-    type: typeof ProjectActions.SET_CURRENT_PROJECT;
+export interface ISetSelectedProject {
+    type: typeof ProjectActions.SET_SELECTED_PROJECT;
     payload: IProject;
 }
 
@@ -185,9 +185,9 @@ export function setProjects(projects: IProject[]): ISetProjects {
     };
 }
 
-export function setCurrentProject(project: IProject): ISetCurrentProject {
+export function setSelectedProject(project: IProject): ISetSelectedProject {
     return {
-        type: ProjectActions.SET_CURRENT_PROJECT,
+        type: ProjectActions.SET_SELECTED_PROJECT,
         payload: project,
     };
 }
@@ -244,6 +244,6 @@ export function updateProjectFailure(error: Error): IUpdateProjectFailure {
 export type ProjectActionTypes = IGetUserProjectsSuccess &
     IGetUserProjectPageSuccess &
     ISetProjects &
-    ISetCurrentProject &
+    ISetSelectedProject &
     ISetCurrentProjectById &
     IUpdateProjectSuccess;
