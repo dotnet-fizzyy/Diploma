@@ -68,18 +68,36 @@ const useStyles = makeStyles(() =>
 
 export interface IStoryHeaderProps {
     children: React.ReactNode;
+    recordVersion: number;
     storyId: string;
     isDefect: boolean;
     isReady: boolean;
     isBlocked: boolean;
     onSelectStory: (storyId: string) => void;
-    onMakeStoryReady: (storyId: string) => void;
+    onMakeStoryReady: (storyId: string, recordVersion: number) => void;
     onMakeStoryBlocked: (storyId: string) => void;
 }
 
 const StoryHeader = (props: IStoryHeaderProps) => {
     const classes = useStyles();
-    const { children, storyId, isReady, isBlocked, onSelectStory, onMakeStoryReady, onMakeStoryBlocked } = props;
+    const {
+        children,
+        storyId,
+        recordVersion,
+        isReady,
+        isBlocked,
+        onSelectStory,
+        onMakeStoryReady,
+        onMakeStoryBlocked,
+    } = props;
+
+    const onClickMakeStoryReady = (): void => {
+        onMakeStoryReady(storyId, recordVersion);
+    };
+
+    const onClickMakeStoryBlocked = (): void => {
+        onMakeStoryBlocked(storyId);
+    };
 
     return (
         <div className={classes.header}>
@@ -91,13 +109,13 @@ const StoryHeader = (props: IStoryHeaderProps) => {
                     className={classnames(classes.iconReady, {
                         [classes.isReady]: isReady,
                     })}
-                    onClick={() => onMakeStoryReady(storyId)}
+                    onClick={onClickMakeStoryReady}
                 />
                 <BlockOutlinedIcon
                     className={classnames(classes.iconBlock, {
                         [classes.isBlocked]: isBlocked,
                     })}
-                    onClick={() => onMakeStoryBlocked(storyId)}
+                    onClick={onClickMakeStoryBlocked}
                 />
                 {children}
             </div>

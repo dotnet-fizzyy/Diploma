@@ -5,7 +5,6 @@ import { IFullUser, IUser } from '../../types/userTypes';
 import { clearCredentialsFromLocalStorage, setCredentialsToLocalStorage } from '../../utils';
 import { createRequestBodyForUserUpdateLink } from '../../utils/userHelper';
 import { closeModal } from '../actions/modalActions';
-import { hideSpinner } from '../actions/requestProcessorActions';
 import {
     addUser,
     authenticationFailure,
@@ -38,12 +37,10 @@ function* authenticateUser(action: IAuthenticationRequest) {
     try {
         const authResponse: AuthenticationResponse = yield call(UserApi.authenticate, action.payload);
         yield put(authenticationSuccess(authResponse));
-        yield put(hideSpinner());
 
         setCredentialsToLocalStorage(authResponse.accessToken.value, authResponse.refreshToken.value);
     } catch (error) {
         yield put(authenticationFailure(error));
-        yield put(hideSpinner());
     }
 }
 
@@ -51,10 +48,8 @@ function* createCustomer(action: IRegistrationRequest) {
     try {
         yield call(UserApi.createCustomer, action.payload);
         yield put(registrationSuccess());
-        yield put(hideSpinner());
     } catch (error) {
         yield put(registrationFailure(error));
-        yield put(hideSpinner());
     }
 }
 

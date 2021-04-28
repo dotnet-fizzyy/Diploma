@@ -55,8 +55,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         {
             _dbContext.Stories.Attach(story);
 
-            //Need update with more effective way
-            if (string.Equals(story.BlockReason, string.Empty, StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrEmpty(story.BlockReason))
             {
                 _dbContext.Entry(story).Property(x => x.BlockReason).IsModified = true;
                 _dbContext.Entry(story).Property(x => x.IsBlocked).IsModified = true;

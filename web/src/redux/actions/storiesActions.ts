@@ -15,7 +15,9 @@ export const StoryActions = {
     CREATE_STORY_SUCCESS: 'CREATE_STORY_SUCCESS',
     CREATE_STORY_FAILURE: 'CREATE_STORY_FAILURE',
     MAKE_STORY_BLOCKED: 'MAKE_STORY_BLOCKED',
-    MAKE_STORY_READY: 'MAKE_STORY_READY',
+    MAKE_STORY_READY_REQUEST: 'MAKE_STORY_READY_REQUEST',
+    MAKE_STORY_READY_SUCCESS: 'MAKE_STORY_READY_SUCCESS',
+    MAKE_STORY_READY_FAILURE: 'MAKE_STORY_READY_FAILURE',
     STORY_DRAG_START: 'STORY_DRAG_START',
     STORY_HANDLE_DRAG_AND_DROP: 'STORY_HANDLE_DRAG_AND_DROP',
     STORY_UPDATE_COLUMN_REQUEST: 'STORY_UPDATE_COLUMN_REQUEST',
@@ -42,9 +44,6 @@ export const StoryActions = {
     SORT_STORIES_SUCCESS: 'SORT_STORIES_SUCCESS',
     SORT_STORIES_FAILURE: 'SORT_STORIES_FAILURE',
     CHANGE_SORT_TYPE: 'CHANGE_SORT_TYPE',
-    STORY_CHANGE_STATUS_REQUEST: 'STORY_CHANGE_STATUS_REQUEST',
-    STORY_CHANGE_STATUS_SUCCESS: 'STORY_CHANGE_STATUS_SUCCESS',
-    STORY_CHANGE_STATUS_FAILURE: 'STORY_CHANGE_STATUS_FAILURE',
 };
 
 //interfaces
@@ -101,8 +100,21 @@ export interface IMakeStoryBlocked {
     payload: string;
 }
 
-export interface IMakeStoryReady {
-    type: typeof StoryActions.MAKE_STORY_READY;
+export interface IMakeStoryReadyRequest {
+    type: typeof StoryActions.MAKE_STORY_READY_REQUEST;
+    payload: {
+        storyId: string;
+        recordVersion: number;
+    };
+}
+
+export interface IMakeStoryReadySuccess {
+    type: typeof StoryActions.MAKE_STORY_READY_SUCCESS;
+    payload: IStory;
+}
+
+export interface IMakeStoryReadyFailure {
+    type: typeof StoryActions.MAKE_STORY_READY_FAILURE;
     payload: string;
 }
 
@@ -246,21 +258,6 @@ export interface IGetStoriesFromEpicFailure {
     payload: Error;
 }
 
-export interface IUpdateStoryStatusRequest {
-    type: typeof StoryActions.STORY_CHANGE_STATUS_REQUEST;
-    payload: IStory;
-}
-
-export interface IUpdateStoryStatusSuccess {
-    type: typeof StoryActions.STORY_CHANGE_STATUS_SUCCESS;
-    payload: IStory;
-}
-
-export interface IUpdateStoryStatusFailure {
-    type: typeof StoryActions.STORY_CHANGE_STATUS_FAILURE;
-    payload: Error;
-}
-
 //actions
 export function addStories(stories: IStory[]): IAddStories {
     return {
@@ -330,16 +327,33 @@ export function getGeneralInfoSuccess(): IGetGeneralInfoSuccess {
     };
 }
 
-export function storyActionMakeStoryBlocked(storyId: string): IMakeStoryBlocked {
+export function makeStoryBlocked(storyId: string): IMakeStoryBlocked {
     return {
         type: StoryActions.MAKE_STORY_BLOCKED,
         payload: storyId,
     };
 }
 
-export function storyActionMakeStoryReady(storyId: string): IMakeStoryReady {
+export function makeStoryReadyRequest(storyId: string, recordVersion: number): IMakeStoryReadyRequest {
     return {
-        type: StoryActions.MAKE_STORY_READY,
+        type: StoryActions.MAKE_STORY_READY_REQUEST,
+        payload: {
+            storyId,
+            recordVersion,
+        },
+    };
+}
+
+export function makeStoryReadySuccess(story: IStory): IMakeStoryReadySuccess {
+    return {
+        type: StoryActions.MAKE_STORY_READY_SUCCESS,
+        payload: story,
+    };
+}
+
+export function makeStoryReadyFailure(storyId: string): IMakeStoryReadyFailure {
+    return {
+        type: StoryActions.MAKE_STORY_READY_FAILURE,
         payload: storyId,
     };
 }
@@ -538,27 +552,6 @@ export function getStoriesFromEpicSuccess(stories: IStory[]): IGetStoriesFromEpi
 export function getStoriesFromEpicFailure(error: Error): IGetStoriesFromEpicFailure {
     return {
         type: StoryActions.GET_STORIES_FROM_EPIC_FAILURE,
-        payload: error,
-    };
-}
-
-export function handleUpdateStoryStatusRequest(story: IStory): IUpdateStoryStatusRequest {
-    return {
-        type: StoryActions.STORY_CHANGE_STATUS_REQUEST,
-        payload: story,
-    };
-}
-
-export function handleUpdateStoryStatusSuccess(story: IStory): IUpdateStoryStatusRequest {
-    return {
-        type: StoryActions.STORY_CHANGE_STATUS_SUCCESS,
-        payload: story,
-    };
-}
-
-export function handleUpdateStoryStatusFailure(error: Error): IUpdateStoryStatusFailure {
-    return {
-        type: StoryActions.STORY_CHANGE_STATUS_FAILURE,
         payload: error,
     };
 }

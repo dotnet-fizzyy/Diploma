@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as requestProcessorActions from '../../redux/actions/requestProcessorActions';
 import * as sidebarActions from '../../redux/actions/sidebarActions';
 import * as storiesActions from '../../redux/actions/storiesActions';
 import * as sprintSelectors from '../../redux/selectors/sprintsSelectors';
 import * as storySelectors from '../../redux/selectors/storiesSelectors';
 import * as teamSelectors from '../../redux/selectors/teamSelectors';
-import { SpinnerComponent } from '../../types';
 import { IStory } from '../../types/storyTypes';
 import {
     areStoriesEqual,
@@ -31,7 +29,6 @@ const SidebarContainer = () => {
     };
 
     const onClickConfirmChanges = () => {
-        dispatch(requestProcessorActions.launchSpinner(SpinnerComponent.SIDEBAR));
         dispatch(storiesActions.storyUpdateChangesRequest(updatedStory));
     };
 

@@ -238,14 +238,14 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> ChangeStoryStatus([FromBody, BindRequired] JsonPatchDocument<Story> storyPatch)
+        public async Task<ActionResult<Story>> ChangeStoryStatus([FromBody, BindRequired] JsonPatchDocument<Story> storyPatch)
         {
             var storyModel = new Story();
             storyPatch.ApplyTo(storyModel, ModelState);
 
-            await _storyService.ChangeStoryStatusAsync(storyModel);
+            var story = await _storyService.ChangeStoryStatusAsync(storyModel);
             
-            return NoContent();
+            return story;
         }
         
         /// <summary>

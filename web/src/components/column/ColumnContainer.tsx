@@ -26,11 +26,11 @@ const ColumnContainer = (props: IColumnContainerProps) => {
     };
 
     const onMakeStoryBlocked = (storyId: string) => {
-        dispatch(storyActions.storyActionMakeStoryBlocked(storyId));
+        dispatch(storyActions.makeStoryBlocked(storyId));
     };
 
-    const onMakeStoryReady = (storyId: string) => {
-        dispatch(storyActions.storyActionMakeStoryReady(storyId));
+    const onMakeStoryReady = (storyId: string, recordVersion: number) => {
+        dispatch(storyActions.makeStoryReadyRequest(storyId, recordVersion));
     };
 
     const columnProps: IColumnProps = {

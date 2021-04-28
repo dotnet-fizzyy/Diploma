@@ -64,6 +64,7 @@ export const StoryUrls = {
     termSearch: `${StoryBaseUrl}/term`,
     sortStories: `${StoryBaseUrl}/sort`,
     storyHistory: `${StoryBaseUrl}/history`,
+    changeStatus: `${StoryBaseUrl}/change-status`,
 };
 
 const ProjectBaseUrl = `${BaseUrl}/project`;

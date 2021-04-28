@@ -83,7 +83,7 @@ export interface IStoryProps {
     team: ITeam;
     onSelectStory: (storyId: string) => void;
     onMakeStoryBlocked: (storyId: string) => void;
-    onMakeStoryReady: (storyId: string) => void;
+    onMakeStoryReady: (storyId: string, recordVersion: number) => void;
 }
 
 const Story = (props: IStoryProps) => {
@@ -104,6 +104,7 @@ const Story = (props: IStoryProps) => {
                     {...provided.draggableProps}
                 >
                     <StoryHeader
+                        recordVersion={story.recordVersion}
                         storyId={story.storyId}
                         isDefect={story.isDefect}
                         isReady={story.isReady}

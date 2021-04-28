@@ -142,3 +142,23 @@ export function createRequestBodyForBlockedState(story: IStory): IJsonPatchBody[
         },
     ];
 }
+
+export function createRequestBodyForReadyStory(storyId: string, recordVersion: number): IJsonPatchBody[] {
+    return [
+        {
+            op: 'add',
+            path: '/storyId',
+            value: storyId,
+        },
+        {
+            op: 'add',
+            path: '/isReady',
+            value: 'true',
+        },
+        {
+            op: 'add',
+            path: '/recordVersion',
+            value: recordVersion.toString(),
+        },
+    ];
+}

@@ -1,12 +1,5 @@
 import { IFullUser } from './userTypes';
 
-export enum SpinnerComponent {
-    LOGIN = 'LOGIN',
-    REGISTRATION = 'REGISTRATION',
-    SIDEBAR = 'SIDEBAR',
-    STORY_HISTORY = 'STORY_HISTORY',
-}
-
 export enum TokenType {
     ACCESS = 'Access',
     REFRESH = 'Refresh',

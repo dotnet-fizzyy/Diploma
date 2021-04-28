@@ -34,8 +34,6 @@ export default function storiesReducer(state = initialState, action: any) {
             return handleCreateStory(state, action);
         case storyActions.StoryActions.MAKE_STORY_BLOCKED:
             return handleMakeStoryBlocked(state, action);
-        case storyActions.StoryActions.MAKE_STORY_READY:
-            return handleMakeStoryReady(state, action);
         case storyActions.StoryActions.STORY_DRAG_START:
             return handleStoryDragStart(state, action);
         case storyActions.StoryActions.UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION:
@@ -58,7 +56,8 @@ export default function storiesReducer(state = initialState, action: any) {
             return handleChangeSortType(state, action);
         case storyActions.StoryActions.STORY_UPDATE_CHANGES_SUCCESS:
         case storyActions.StoryActions.STORY_UPDATE_COLUMN_SUCCESS:
-            return handleUpdateStoryColumn(state, action);
+        case storyActions.StoryActions.MAKE_STORY_READY_SUCCESS:
+            return handleUpdateStory(state, action);
         default:
             return state;
     }
@@ -112,26 +111,6 @@ function handleMakeStoryBlocked(state: IStoryState, action: storyActions.IMakeSt
                               ...story,
                               isReady: false,
                               isBlocked: !story.isBlocked,
-                          }
-                        : story;
-                }),
-            };
-        }),
-    };
-}
-
-function handleMakeStoryReady(state: IStoryState, action: storyActions.IMakeStoryBlocked): IStoryState {
-    return {
-        ...state,
-        columns: state.columns.map((column) => {
-            return {
-                ...column,
-                value: column.value.map((story) => {
-                    return story.storyId === action.payload
-                        ? {
-                              ...story,
-                              isBlocked: false,
-                              isReady: !story.isReady,
                           }
                         : story;
                 }),
@@ -227,7 +206,7 @@ function handleChangeSortType(state: IStoryState, action: storyActions.IChangeSo
     };
 }
 
-function handleUpdateStoryColumn(state: IStoryState, action: storyActions.IUpdateStoryColumnSuccess): IStoryState {
+function handleUpdateStory(state: IStoryState, action: storyActions.IUpdateStoryColumnSuccess): IStoryState {
     return {
         ...state,
         selectedStory: action.payload,

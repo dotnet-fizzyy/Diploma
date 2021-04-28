@@ -57,7 +57,7 @@ namespace WebAPI.ApplicationLogic.Services
                     OrderType.Asc
                     );
 
-            if (storyEntities.Count == 0)
+            if (!storyEntities.Any())
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntitiesMessage(nameof(sprintId)));
             }
@@ -86,7 +86,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var storyHistoryEntities = await _storyHistoryRepository.SearchForMultipleItemsAsync(x => x.StoryId == storyId);
 
-            if (storyHistoryEntities.Count == 0)
+            if (!storyHistoryEntities.Any())
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntitiesMessage(nameof(storyId)));
             }
@@ -163,19 +163,23 @@ namespace WebAPI.ApplicationLogic.Services
             var storyEntity = _storyMapper.MapToEntity(story);
 
             await _storyRepository.UpdateStoryColumn(storyEntity);
-            var foundStoryEntity =
-                await _storyRepository.SearchForSingleItemAsync(x => x.Id == storyEntity.Id);
+            var foundStoryEntity = await _storyRepository.SearchForSingleItemAsync(x => x.Id == storyEntity.Id);
             
             var updatedStoryModel = _storyMapper.MapToModel(foundStoryEntity);
             
             return updatedStoryModel;
         }
 
-        public async Task ChangeStoryStatusAsync(Story story)
+        public async Task<Story> ChangeStoryStatusAsync(Story story)
         {
             var storyEntity = _storyMapper.MapToEntity(story);
 
             await _storyRepository.ChangeStoryStatus(storyEntity);
+            var updatedStoryEntity = await _storyRepository.SearchForSingleItemAsync(x => x.Id == story.StoryId);
+            
+            var updatedStoryModel = _storyMapper.MapToModel(updatedStoryEntity);
+
+            return updatedStoryModel;
         }
 
         public async Task<Story> UpdatePartsOfStoryAsync(StoryUpdate storyUpdate, Guid userId)

@@ -5,10 +5,8 @@ import { ILoginPageProps } from '../../components/authentication/Login';
 import { IRegistrationPageProps } from '../../components/authentication/Registration';
 import { BaseRegexExpression } from '../../constants';
 import * as routeConstants from '../../constants/routeConstants';
-import * as requestProcessorActions from '../../redux/actions/requestProcessorActions';
 import * as currentUserActions from '../../redux/actions/userActions';
 import * as currentUserSelectors from '../../redux/selectors/userSelectors';
-import { SpinnerComponent } from '../../types';
 import { ILoginForm, IRegistrationForm } from '../../types/formTypes';
 import { StartPageTypes } from '../../types/pageTypes';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../utils/formHelper';
@@ -39,7 +37,6 @@ const StartScreenContainer = () => {
 
     const onSubmitLogIn = (values: ILoginForm) => {
         setWasAttemptToLogIn(true);
-        dispatch(requestProcessorActions.launchSpinner(SpinnerComponent.LOGIN));
         dispatch(currentUserActions.authenticationRequest(values.name, values.password));
     };
 
@@ -51,7 +48,6 @@ const StartScreenContainer = () => {
         }
 
         setSamePasswords(true);
-        dispatch(requestProcessorActions.launchSpinner(SpinnerComponent.REGISTRATION));
         dispatch(currentUserActions.registrationRequest(values.name, values.password, values.email));
     };
 

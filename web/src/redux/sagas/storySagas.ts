@@ -2,47 +2,88 @@ import { call, debounce, delay, put, select, takeLatest } from 'redux-saga/effec
 import SprintApi from '../../api/sprintApi';
 import StoryApi from '../../api/storyApi';
 import { debouncePeriod } from '../../constants/storyConstants';
+import { IJsonPatchBody } from '../../types';
 import { IEpic } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';
 import { IFullSprint, ISprint } from '../../types/sprintTypes';
 import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
 import { IUser } from '../../types/userTypes';
 import { mapFullSprintToSprint } from '../../utils/epicHelper';
-import { createRequestBodyForColumnMovement, createStoryUpdatePartsFromStory } from '../../utils/storyHelper';
-import * as epicActions from '../actions/epicActions';
-import * as modalActions from '../actions/modalActions';
-import * as requestProcessorActions from '../actions/requestProcessorActions';
-import * as sidebarActions from '../actions/sidebarActions';
-import * as sprintsActions from '../actions/sprintsActions';
-import * as storyActions from '../actions/storiesActions';
-import * as epicSelectors from '../selectors/epicsSelectors';
-import * as projectSelectors from '../selectors/projectSelectors';
-import * as storySelectors from '../selectors/storiesSelectors';
-import * as currentUserSelectors from '../selectors/userSelectors';
+import {
+    createRequestBodyForColumnMovement,
+    createRequestBodyForReadyStory,
+    createStoryUpdatePartsFromStory,
+} from '../../utils/storyHelper';
+import { setSelectedEpicById } from '../actions/epicActions';
+import { closeModal } from '../actions/modalActions';
+import { sidebarHandleVisibility, ISidebarHandleVisibility, SidebarActions } from '../actions/sidebarActions';
+import { addSprints } from '../actions/sprintsActions';
+import {
+    addStories,
+    attemptToBlockStory,
+    changeEpicFailure,
+    changeSortType,
+    createStoryFailure,
+    createStorySuccess,
+    declineStoryBlock as declineStoryBlockAction,
+    getStoryHistoryFailure,
+    getStoryHistorySuccess,
+    makeStoryReadyFailure,
+    makeStoryReadySuccess,
+    refreshStoriesFailure,
+    refreshStoriesRequest,
+    setStoryTitleTermFailure,
+    setStoryTitleTermSuccess,
+    sortStoriesFailure,
+    sortStoriesSuccess,
+    storyActionSelectStory,
+    storyDragFinish,
+    storyUpdateChangesFailure,
+    storyUpdateChangesSuccess,
+    updateStoriesAfterDragAndDropAction,
+    updateStoryColumnFailure,
+    updateStoryColumnRequest,
+    updateStoryColumnSuccess,
+    IChangeEpicRequest,
+    ICreateStoryRequest,
+    IGetStoryHistoryRequest,
+    IMakeStoryBlocked,
+    IMakeStoryReadyRequest,
+    ISetStoryTitleTermRequest,
+    ISortStoriesRequest,
+    IStoryHandleDragAndDrop,
+    IUpdateStoryChangesRequest,
+    IUpdateStoryColumnRequest,
+    StoryActions,
+} from '../actions/storiesActions';
+import { getCurrentEpic } from '../selectors/epicsSelectors';
+import { getSelectProject } from '../selectors/projectSelectors';
+import { getColumns, getSelectedStory, getWasStoryBlocked } from '../selectors/storiesSelectors';
+import { getUser } from '../selectors/userSelectors';
 
 function* refreshData() {
     try {
         yield delay(100000);
 
-        yield put(storyActions.refreshStoriesRequest());
+        yield put(refreshStoriesRequest());
     } catch (error) {
-        yield put(storyActions.refreshStoriesFailure(error));
+        yield put(refreshStoriesFailure(error));
     }
 }
 
-function* createStory(action: storyActions.ICreateStoryRequest) {
+function* createStory(action: ICreateStoryRequest) {
     try {
         const createdStory: IStory = yield call(StoryApi.createStory, action.payload);
 
-        yield put(storyActions.createStorySuccess(createdStory));
-        yield put(modalActions.closeModal());
+        yield put(createStorySuccess(createdStory));
+        yield put(closeModal());
     } catch (error) {
-        yield put(storyActions.createStoryFailure(error));
+        yield put(createStoryFailure(error));
     }
 }
 
-function* dragAndDropHandler(action: storyActions.IStoryHandleDragAndDrop) {
-    const columns: IStoryColumns[] = yield select(storySelectors.getColumns);
+function* dragAndDropHandler(action: IStoryHandleDragAndDrop) {
+    const columns: IStoryColumns[] = yield select(getColumns);
     if (action.payload.columnTypeDestination !== action.payload.columnTypeOrigin) {
         let movableStory = columns
             .map((column) => column.value)
@@ -62,121 +103,129 @@ function* dragAndDropHandler(action: storyActions.IStoryHandleDragAndDrop) {
             return column;
         });
 
-        yield put(storyActions.updateStoriesAfterDragAndDropAction(updatedColumns));
-        yield put(storyActions.updateStoryColumnRequest(movableStory));
+        yield put(updateStoriesAfterDragAndDropAction(updatedColumns));
+        yield put(updateStoryColumnRequest(movableStory));
     }
 
-    yield put(storyActions.storyDragFinish());
+    yield put(storyDragFinish());
 }
 
-function* updateStoryColumn(action: storyActions.IUpdateStoryColumnRequest) {
+function* updateStoryColumn(action: IUpdateStoryColumnRequest) {
     try {
         const jsonPatchDocument = createRequestBodyForColumnMovement(action.payload);
         const updatedStory: IStory = yield call(StoryApi.changeStoryColumn, jsonPatchDocument);
 
-        yield put(storyActions.updateStoryColumnSuccess(updatedStory));
+        yield put(updateStoryColumnSuccess(updatedStory));
     } catch (error) {
-        yield put(storyActions.updateStoryColumnFailure(error));
+        yield put(updateStoryColumnFailure(error));
     }
 }
 
-function* blockStory(action: storyActions.IMakeStoryBlocked) {
-    yield put(sidebarActions.sidebarHandleVisibility(true));
-    yield put(storyActions.attemptToBlockStory());
-    yield put(storyActions.storyActionSelectStory(action.payload));
+function* blockStory(action: IMakeStoryBlocked) {
+    yield put(sidebarHandleVisibility(true));
+    yield put(attemptToBlockStory());
+    yield put(storyActionSelectStory(action.payload));
 }
 
-function* declineStoryBlock(action: sidebarActions.ISidebarHandleVisibility) {
-    const wasStorySelected: boolean = yield select(storySelectors.getWasStoryBlocked);
-    const selectedStory: IStory = yield select(storySelectors.getSelectedStory);
+function* declineStoryBlock(action: ISidebarHandleVisibility) {
+    const wasStorySelected: boolean = yield select(getWasStoryBlocked);
+    const selectedStory: IStory = yield select(getSelectedStory);
 
     if (!action.payload && wasStorySelected) {
-        yield put(storyActions.declineStoryBlock(selectedStory.storyId));
+        yield put(declineStoryBlockAction(selectedStory.storyId));
     }
 }
 
-function* searchForStoriesByTitleTerm(action: storyActions.ISetStoryTitleTermRequest) {
+function* searchForStoriesByTitleTerm(action: ISetStoryTitleTermRequest) {
     try {
-        const currentProject: IProject = yield select(projectSelectors.getSelectProject);
+        const currentProject: IProject = yield select(getSelectProject);
         const stories: IStory[] = yield call(StoryApi.getStoriesByTerm, action.payload, currentProject.projectId);
 
-        yield put(storyActions.setStoryTitleTermSuccess(stories));
+        yield put(setStoryTitleTermSuccess(stories));
     } catch (error) {
-        yield put(storyActions.setStoryTitleTermFailure(error));
+        yield put(setStoryTitleTermFailure(error));
     }
 }
 
-function* getStoryHistory(action: storyActions.IGetStoryHistoryRequest) {
+function* getStoryHistory(action: IGetStoryHistoryRequest) {
     try {
         const storyHistory: IStoryHistory[] = yield call(StoryApi.getStoryHistory, action.payload);
 
-        yield put(storyActions.getStoryHistorySuccess(storyHistory));
+        yield put(getStoryHistorySuccess(storyHistory));
     } catch (error) {
-        yield put(storyActions.getStoryHistoryFailure(error));
+        yield put(getStoryHistoryFailure(error));
     }
 }
 
-function* updateStoryChanges(action: storyActions.IUpdateStoryChangesRequest) {
+function* updateStoryChanges(action: IUpdateStoryChangesRequest) {
     try {
-        const selectedStory: IStory = yield select(storySelectors.getSelectedStory);
-        const currentUser: IUser = yield select(currentUserSelectors.getUser);
+        const selectedStory: IStory = yield select(getSelectedStory);
+        const currentUser: IUser = yield select(getUser);
 
         const storyParts = createStoryUpdatePartsFromStory(selectedStory, action.payload, currentUser.userId);
         const updatedStory = yield call(StoryApi.updateStory, storyParts);
 
-        yield put(storyActions.storyUpdateChangesSuccess(updatedStory));
+        yield put(storyUpdateChangesSuccess(updatedStory));
     } catch (error) {
-        yield put(storyActions.storyUpdateChangesFailure(error));
+        yield put(storyUpdateChangesFailure(error));
     }
-
-    yield put(requestProcessorActions.hideSpinner());
 }
 
-function* changeEpic(action: storyActions.IChangeEpicRequest) {
+function* changeEpic(action: IChangeEpicRequest) {
     try {
-        yield put(epicActions.setSelectedEpicById(action.payload));
+        yield put(setSelectedEpicById(action.payload));
         const sprintsFromCurrentEpic: IFullSprint[] = yield call(SprintApi.getSprintsFromEpic, action.payload);
 
         const sprints: ISprint[] = sprintsFromCurrentEpic.map((x) => mapFullSprintToSprint(x));
-        yield put(sprintsActions.addSprints(sprints));
+        yield put(addSprints(sprints));
 
         const stories: IStory[] = sprintsFromCurrentEpic
             .map((x) => x.stories)
             .reduce((accumulator, stories) => accumulator.concat(stories), []);
-        yield put(storyActions.addStories(stories));
+        yield put(addStories(stories));
     } catch (error) {
-        yield put(storyActions.changeEpicFailure(error));
+        yield put(changeEpicFailure(error));
     }
 }
 
-function* sortStories(action: storyActions.ISortStoriesRequest) {
+function* sortStories(action: ISortStoriesRequest) {
     try {
-        yield put(storyActions.changeSortType(action.payload));
+        yield put(changeSortType(action.payload));
 
-        const epic: IEpic = yield select(epicSelectors.getCurrentEpic);
+        const epic: IEpic = yield select(getCurrentEpic);
         const sort = action.payload.split(' ').join('');
 
         const sortedStories: IStory[] = yield call(StoryApi.sortStories, sort, epic.epicId);
 
-        yield put(storyActions.sortStoriesSuccess(sortedStories));
+        yield put(sortStoriesSuccess(sortedStories));
     } catch (error) {
-        yield put(storyActions.sortStoriesFailure(error));
+        yield put(sortStoriesFailure(error));
     }
 }
 
-function* storyChangeStatusRequest(action: storyActions.IUpdateStoryStatusRequest) {}
+function* makeStoryReady(action: IMakeStoryReadyRequest) {
+    try {
+        const { storyId, recordVersion } = action.payload;
+        const body: IJsonPatchBody[] = createRequestBodyForReadyStory(storyId, recordVersion);
+
+        const story: IStory = yield call(StoryApi.makeStoryReady, body);
+        yield put(makeStoryReadySuccess(story));
+    } catch (error) {
+        yield put(makeStoryReadyFailure(error));
+    }
+}
 
 export default function* rootStoriesSaga() {
-    yield takeLatest(storyActions.StoryActions.REFRESH_STORIES_REQUEST, refreshData);
-    yield takeLatest(storyActions.StoryActions.CREATE_STORY_REQUEST, createStory);
-    yield takeLatest(storyActions.StoryActions.STORY_HANDLE_DRAG_AND_DROP, dragAndDropHandler);
-    yield takeLatest(storyActions.StoryActions.STORY_UPDATE_COLUMN_REQUEST, updateStoryColumn);
-    yield takeLatest(storyActions.StoryActions.MAKE_STORY_BLOCKED, blockStory);
-    yield takeLatest(sidebarActions.SidebarActions.SIDEBAR_HANDLE_VISIBILITY, declineStoryBlock);
-    yield takeLatest(storyActions.StoryActions.GET_STORY_HISTORY_REQUEST, getStoryHistory);
-    yield takeLatest(storyActions.StoryActions.STORY_UPDATE_CHANGES_REQUEST, updateStoryChanges);
-    yield takeLatest(storyActions.StoryActions.CHANGE_EPIC_REQUEST, changeEpic);
-    yield takeLatest(storyActions.StoryActions.SORT_STORIES_REQUEST, sortStories);
-    yield takeLatest(storyActions.StoryActions.STORY_CHANGE_STATUS_REQUEST, storyChangeStatusRequest);
-    yield debounce(debouncePeriod, storyActions.StoryActions.SET_STORY_TITLE_TERM_REQUEST, searchForStoriesByTitleTerm);
+    yield takeLatest(StoryActions.REFRESH_STORIES_REQUEST, refreshData);
+    yield takeLatest(StoryActions.CREATE_STORY_REQUEST, createStory);
+    yield takeLatest(StoryActions.STORY_HANDLE_DRAG_AND_DROP, dragAndDropHandler);
+    yield takeLatest(StoryActions.STORY_UPDATE_COLUMN_REQUEST, updateStoryColumn);
+    yield takeLatest(StoryActions.MAKE_STORY_BLOCKED, blockStory);
+    yield takeLatest(SidebarActions.SIDEBAR_HANDLE_VISIBILITY, declineStoryBlock);
+    yield takeLatest(StoryActions.GET_STORY_HISTORY_REQUEST, getStoryHistory);
+    yield takeLatest(StoryActions.STORY_UPDATE_CHANGES_REQUEST, updateStoryChanges);
+    yield takeLatest(StoryActions.CHANGE_EPIC_REQUEST, changeEpic);
+    yield takeLatest(StoryActions.SORT_STORIES_REQUEST, sortStories);
+    yield takeLatest(StoryActions.MAKE_STORY_READY_REQUEST, makeStoryReady);
+    yield debounce(debouncePeriod, StoryActions.SET_STORY_TITLE_TERM_REQUEST, searchForStoriesByTitleTerm);
 }

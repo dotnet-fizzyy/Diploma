@@ -64,4 +64,10 @@ export default class StoryApi {
 
         return response.data.items.map(mapToStoryHistoryModel);
     }
+
+    public static async makeStoryReady(body: IJsonPatchBody[]): Promise<IStory> {
+        const response: AxiosResponse<IStory> = await AxiosBaseApi.axiosPatch(StoryUrls.changeStatus, body);
+
+        return mapToStoryModel(response.data);
+    }
 }
