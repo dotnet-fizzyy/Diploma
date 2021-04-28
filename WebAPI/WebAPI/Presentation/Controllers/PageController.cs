@@ -43,8 +43,8 @@ namespace WebAPI.Presentation.Controllers
         }
 
         [HttpGet]
-        [Route("board/project/id/{projectId}/team/id/{teamId}")]
-        public async Task<ActionResult<BoardPage>> GetBoardPageData(Guid projectId, Guid teamId)
+        [Route("board")]
+        public async Task<ActionResult<BoardPage>> GetBoardPageData([FromQuery]Guid projectId, [FromQuery]Guid teamId)
         {
             var user = _claimsReader.GetUserClaims(User);
 

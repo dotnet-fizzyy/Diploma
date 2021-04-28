@@ -27,7 +27,8 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly IPageAggregator _pageAggregator;
 
         private const string MissingEpicsExceptionMessage = "No any epics found with provided project id";
-        
+        private const string MissingTeamExceptionMessage = "No any team found with provided team and user ids";
+
         public PageService(
             IProjectRepository projectRepository, 
             IWorkSpaceRepository workSpaceRepository,
@@ -71,6 +72,12 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<BoardPage> GetBoardPageDataAsync(Guid projectId, Guid teamId, Guid userId)
         {
+            var team = await _teamRepository.GetUserTeamById(teamId, userId);
+            if (team == null)
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, MissingTeamExceptionMessage);
+            }
+                
             var epics = await _epicRepository.SearchForMultipleItemsAsync(x => x.ProjectId == projectId, y => y.CreationDate, OrderType.Desc);
             if (epics == null || !epics.Any())
             {
@@ -79,8 +86,6 @@ namespace WebAPI.ApplicationLogic.Services
             var latestEpic = epics.First();
             
             var sprints = await _sprintRepository.GetFullSprintsByEpicId(latestEpic.Id);
-
-            var team = await _teamRepository.SearchForSingleItemAsync(x => x.Id == teamId, include => include.TeamUsers);
 
             var boardPage = _pageAggregator.CreateBoardPageModel(team, epics, sprints);
             

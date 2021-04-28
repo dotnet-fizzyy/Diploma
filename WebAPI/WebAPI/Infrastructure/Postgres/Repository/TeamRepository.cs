@@ -11,7 +11,18 @@ namespace WebAPI.Infrastructure.Postgres.Repository
     public class TeamRepository : BaseCrudRepository<DatabaseContext, Team>, ITeamRepository
     {
         public TeamRepository(DatabaseContext databaseContext) : base(databaseContext) { }
-        
+
+        public async Task<Team> GetUserTeamById(Guid teamId, Guid userId)
+        {
+            var team = await _dbContext.Teams
+                    .AsNoTracking()
+                    .Include(x => x.TeamUsers)
+                    .ThenInclude(x => x.User)
+                    .FirstOrDefaultAsync(x => x.Id == teamId && x.TeamUsers.Select(e => e.User).Any(e => e.Id == userId));
+
+            return team;
+        }
+
         public async Task<List<Team>> GetUserTeams(Guid userId)
         {
             var user = await _dbContext.Users
