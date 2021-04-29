@@ -4,7 +4,7 @@ import React from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { ISelectedItem } from '../../types/storyTypes';
 import ColumnContainer from '../column/ColumnContainer';
-import InfoTabContainer from '../header/board-info-tab/InfoTabContainer';
+import BoardTabContainer from '../header/board-tab/BoardTabContainer';
 import SidebarContainer from '../sidebar/SidebarContainer';
 
 const useStyles = makeStyles(() =>
@@ -37,7 +37,7 @@ const Board = (props: IBoardProps) => {
 
     return (
         <div className={classes.root}>
-            <InfoTabContainer />
+            <BoardTabContainer />
             <div className={classes.body}>
                 <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
                     {columns.map((column) => (

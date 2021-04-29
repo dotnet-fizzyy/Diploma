@@ -56,7 +56,7 @@ import {
     IUpdateStoryColumnRequest,
     StoryActions,
 } from '../actions/storiesActions';
-import { getCurrentEpic } from '../selectors/epicsSelectors';
+import { getSelectedEpic } from '../selectors/epicsSelectors';
 import { getSelectProject } from '../selectors/projectSelectors';
 import { getColumns, getSelectedStory, getWasStoryBlocked } from '../selectors/storiesSelectors';
 import { getUser } from '../selectors/userSelectors';
@@ -192,7 +192,7 @@ function* sortStories(action: ISortStoriesRequest) {
     try {
         yield put(changeSortType(action.payload));
 
-        const epic: IEpic = yield select(getCurrentEpic);
+        const epic: IEpic = yield select(getSelectedEpic);
         const sort = action.payload.split(' ').join('');
 
         const sortedStories: IStory[] = yield call(StoryApi.sortStories, sort, epic.epicId);

@@ -7,7 +7,7 @@ import Charts, { IChartsProps } from './Charts';
 
 const ChartsContainer = () => {
     const sprints = useSelector(sprintSelectors.getSprints);
-    const epic = useSelector(epicsSelectors.getCurrentEpic);
+    const epic = useSelector(epicsSelectors.getSelectedEpic);
     const stories = useSelector(storiesSelectors.getAllStories);
 
     const chartsProps: IChartsProps = {

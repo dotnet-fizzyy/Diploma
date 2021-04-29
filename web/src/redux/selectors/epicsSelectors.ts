@@ -1,4 +1,4 @@
-import { IEpic } from '../../types/epicTypes';
+import { IEpic, IEpicSimpleModel } from '../../types/epicTypes';
 import { ISelectedItem } from '../../types/storyTypes';
 import { IState } from '../store/state';
 
@@ -7,7 +7,7 @@ export function getEpics(state: IState): IEpic[] {
 }
 
 export function getEpicsNames(state: IState): ISelectedItem[] {
-    return state.epics.epics.map((x) => {
+    return state.epics.simpleItems.map((x) => {
         return {
             key: x.epicId,
             value: x.epicName,
@@ -15,10 +15,14 @@ export function getEpicsNames(state: IState): ISelectedItem[] {
     });
 }
 
-export function getCurrentEpic(state: IState): IEpic {
-    return state.epics.selectedEpic;
+export function getSelectedEpic(state: IState): IEpic {
+    return state.epics.epics.find((x) => x.epicId === state.epics.selectedEpicId);
+}
+
+export function getSelectEpicSimpleModel(state: IState): IEpicSimpleModel {
+    return state.epics.simpleItems.find((x) => x.epicId === state.epics.selectedEpicId);
 }
 
 export function getSelectedEpicId(state: IState): string {
-    return state.epics.selectedEpic ? state.epics.selectedEpic.epicId : '';
+    return state.epics.selectedEpicId;
 }

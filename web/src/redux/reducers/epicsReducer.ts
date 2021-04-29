@@ -11,7 +11,7 @@ import { IEpicsState } from '../store/state';
 const initialState: IEpicsState = {
     epics: [],
     simpleItems: [],
-    selectedEpic: null,
+    selectedEpicId: null,
 };
 
 export default function epicReducer(state = initialState, action) {
@@ -49,14 +49,14 @@ function handleSetEpics(state: IEpicsState, action: IGetEpicsSuccess): IEpicsSta
 function handleSetCurrentEpic(state: IEpicsState, action: ISetSelectedEpic): IEpicsState {
     return {
         ...state,
-        selectedEpic: action.payload,
+        selectedEpicId: action.payload.epicId,
     };
 }
 
 function handleSetCurrentEpicById(state: IEpicsState, action: ISetSelectedEpicById): IEpicsState {
     return {
         ...state,
-        selectedEpic: state.epics.find((x) => x.epicId === action.payload),
+        selectedEpicId: state.epics.find((x) => x.epicId === action.payload).epicId,
     };
 }
 
@@ -64,5 +64,6 @@ function handleAddSimpleEpics(state: IEpicsState, action: IAddSimpleEpics): IEpi
     return {
         ...state,
         simpleItems: action.payload,
+        selectedEpicId: action.payload && action.payload.length ? action.payload[0].epicId : '',
     };
 }

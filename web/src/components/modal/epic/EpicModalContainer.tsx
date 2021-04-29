@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { EpicInitialState } from '../../../constants/epicConstants';
 import * as epicActions from '../../../redux/actions/epicActions';
-import { getCurrentEpic } from '../../../redux/selectors/epicsSelectors';
+import { getSelectedEpic } from '../../../redux/selectors/epicsSelectors';
 import { getModalOption } from '../../../redux/selectors/modalSelectors';
 import { getSelectProject } from '../../../redux/selectors/projectSelectors';
 import { IEpic } from '../../../types/epicTypes';
@@ -16,7 +16,7 @@ const EpicModalContainer = () => {
     const dispatch = useDispatch();
     const project: IProject = useSelector(getSelectProject);
     const modalOption: ModalOptions = useSelector(getModalOption);
-    const selectedEpic: IEpic = useSelector(getCurrentEpic);
+    const selectedEpic: IEpic = useSelector(getSelectedEpic);
 
     const isUpdate: boolean = modalOption === ModalOptions.EPIC_UPDATE;
     const initialValues: IEpicFormTypes = isUpdate

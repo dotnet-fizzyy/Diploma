@@ -70,7 +70,7 @@ export interface IModalState {
 export interface IEpicsState {
     epics: IEpic[];
     simpleItems: IEpicSimpleModel[];
-    selectedEpic?: IEpic;
+    selectedEpicId?: string;
 }
 
 export interface IWorkSpaceState {
