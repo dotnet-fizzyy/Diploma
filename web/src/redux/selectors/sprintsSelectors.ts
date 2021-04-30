@@ -7,16 +7,27 @@ export function getSprints(state: IState): ISprint[] {
 }
 
 export function getSprintsNames(state: IState): ISelectedItem[] {
-    return state.sprints.sprints
-        ? state.sprints.sprints.map((project) => {
+    return state.sprints.sprints && state.sprints.sprints.length
+        ? state.sprints.sprints.map((sprint) => {
               return {
-                  key: project.sprintId,
-                  value: project.sprintName,
+                  key: sprint.sprintId,
+                  value: sprint.sprintName,
               } as ISelectedItem;
           })
         : [];
 }
 
-export function getCurrentSprint(state: IState): ISprint {
-    return state.sprints.selectedSprint;
+export function getSprintNamesForBoard(state: IState): ISelectedItem[] {
+    const sprints: ISelectedItem[] = getSprintsNames(state);
+    sprints.unshift({ key: '', value: 'All' });
+
+    return sprints;
+}
+
+export function getSelectedSprint(state: IState): ISprint {
+    return state.sprints.sprints.find((x) => x.sprintId === state.sprints.selectedSprintId);
+}
+
+export function getSelectedSprintId(state: IState): string {
+    return state.sprints.selectedSprintId;
 }

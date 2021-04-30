@@ -8,10 +8,6 @@ import { getFirstNameLetter } from '../../../utils';
 
 const useStyles = makeStyles(() =>
     createStyles({
-        root: {
-            display: 'flex',
-            flexDirection: 'row',
-        },
         addUserButton: {
             borderRadius: '50%',
             width: '43px',
@@ -38,11 +34,13 @@ const TeamMembers = (props: ITeamMembersProps) => {
     const { userId, team, onClickCreateUser } = props;
 
     return (
-        <div className={classes.root}>
-            <div className={classes.addUserButton} onClick={onClickCreateUser}>
-                <Add />
-            </div>
-            <AvatarGroup max={3}>
+        <>
+            <Tooltip title="Add new team member">
+                <div className={classes.addUserButton} onClick={onClickCreateUser}>
+                    <Add />
+                </div>
+            </Tooltip>
+            <AvatarGroup max={5} spacing="small">
                 {team &&
                     team.users &&
                     team.users.map((x, index) => {
@@ -53,7 +51,7 @@ const TeamMembers = (props: ITeamMembersProps) => {
                         ) : null;
                     })}
             </AvatarGroup>
-        </div>
+        </>
     );
 };
 

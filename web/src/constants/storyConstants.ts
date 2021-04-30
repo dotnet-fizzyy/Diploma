@@ -39,7 +39,7 @@ export enum storyFields {
 export const initialStory: IStory = {
     [storyFields.blockReason]: '',
     [storyFields.columnType]: ColumnIds.ToDo,
-    [storyFields.creationDate]: new Date().toLocaleDateString(),
+    [storyFields.creationDate]: new Date(),
     [storyFields.description]: '',
     [storyFields.estimate]: 1,
     [storyFields.isBlocked]: false,

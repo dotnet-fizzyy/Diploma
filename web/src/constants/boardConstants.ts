@@ -8,7 +8,7 @@ export const ColumnIds = {
 };
 
 export const ColumnNames = {
-    [ColumnIds.ToDo]: 'To-Do',
+    [ColumnIds.ToDo]: 'To Do',
     [ColumnIds.InProgress]: 'In Progress',
     [ColumnIds.InReview]: 'In Review',
     [ColumnIds.Testing]: 'Testing',

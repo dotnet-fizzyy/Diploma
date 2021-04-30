@@ -5,7 +5,7 @@ import { ISelectedItem } from '../../../types/storyTypes';
 import { ITeam } from '../../../types/teamTypes';
 import Button from '../../common/Button';
 import BoardTabDropdown from './BoardTabDropdown';
-import ProjectDisplay from './ProjectDisplay';
+import EpicDisplay from './EpicDisplay';
 import TeamMembers from './TeamMembers';
 
 const useStyles = makeStyles(() =>
@@ -19,6 +19,7 @@ const useStyles = makeStyles(() =>
             height: 'inherit',
             display: 'flex',
             flexDirection: 'row',
+            alignItems: 'center',
         },
         buttonsContainer: {
             display: 'inherit',
@@ -60,8 +61,9 @@ const useStyles = makeStyles(() =>
 export interface IBoardTabProps {
     userId: string;
     team: ITeam;
-    projectName: string;
+    selectedSprintId: string;
     sortFields: ISelectedItem[];
+    sprints: ISelectedItem[];
     selectedEpicId: string;
     epics: ISelectedItem[];
     sortType: string;
@@ -74,11 +76,12 @@ export interface IBoardTabProps {
 const BoardTab = (props: IBoardTabProps) => {
     const classes = useStyles();
     const {
-        projectName,
         team,
         userId,
         selectedEpicId,
+        selectedSprintId,
         epics,
+        sprints,
         sortFields,
         sortType,
         onChangeSortType,
@@ -90,20 +93,26 @@ const BoardTab = (props: IBoardTabProps) => {
     return (
         <div className={classes.root}>
             <div className={classes.tabContainer}>
-                <ProjectDisplay projectName={projectName} />
-                <div className={classes.buttonsContainer}>
-                    {selectedEpicId && (
-                        <div className={classes.epicsContainer}>
-                            <BoardTabDropdown value={selectedEpicId} items={epics} onChangeEvent={onChangeEpic} />
-                        </div>
-                    )}
-                    <TeamMembers team={team} userId={userId} onClickCreateUser={onClickCreateUser} />
-                    <div className={classes.selectContainer}>
-                        <BoardTabDropdown value={sortType} items={sortFields} onChangeEvent={onChangeSortType} />
-                    </div>
-                    <div className={classes.buttonContainer}>
-                        <Button startIcon={<AddIcon />} onClick={onClickAddStory} label="Add task" disabled={false} />
-                    </div>
+                <EpicDisplay selectedEpicId={selectedEpicId} epics={epics} onChangeEpic={onChangeEpic} />
+                <TeamMembers team={team} userId={userId} onClickCreateUser={onClickCreateUser} />
+                <div className={classes.selectContainer}>
+                    <BoardTabDropdown
+                        value={sortType}
+                        items={sortFields}
+                        onChangeEvent={onChangeSortType}
+                        isOutlined={true}
+                    />
+                </div>
+                <div className={classes.selectContainer}>
+                    <BoardTabDropdown
+                        value={selectedSprintId}
+                        items={sprints}
+                        onChangeEvent={onChangeSortType}
+                        isOutlined={true}
+                    />
+                </div>
+                <div className={classes.buttonContainer}>
+                    <Button startIcon={<AddIcon />} onClick={onClickAddStory} label="Add task" disabled={false} />
                 </div>
             </div>
         </div>

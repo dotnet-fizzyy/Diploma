@@ -11,7 +11,7 @@ import { IEpicsState } from '../store/state';
 const initialState: IEpicsState = {
     epics: [],
     simpleItems: [],
-    selectedEpicId: null,
+    selectedEpicId: '',
 };
 
 export default function epicReducer(state = initialState, action) {

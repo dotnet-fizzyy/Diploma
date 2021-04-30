@@ -23,7 +23,7 @@ const useStyles = makeStyles(() =>
                 fontFamily: 'Poppins',
                 fontSize: '22px',
                 color: '#242126',
-                fontWeight: 'bolder',
+                fontWeight: 600,
                 marginLeft: '15px',
             },
         },
@@ -32,6 +32,9 @@ const useStyles = makeStyles(() =>
         },
         storiesContainer: {
             marginTop: '15px',
+            '&:first-child': {
+                marginTop: '5px',
+            },
         },
     })
 );

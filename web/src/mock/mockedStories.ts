@@ -3,7 +3,7 @@ import { IStory, Priority } from '../types/storyTypes';
 const mockedStory_1: IStory = {
     blockReason: '',
     columnType: 'todo',
-    creationDate: '13.10.2020',
+    creationDate: new Date(),
     description: 'Some kind of description there',
     estimate: 5,
     isDefect: false,
@@ -21,7 +21,7 @@ const mockedStory_1: IStory = {
 const mockedStory_2: IStory = {
     blockReason: '',
     columnType: 'progress',
-    creationDate: '11.09.2020',
+    creationDate: new Date(),
     description: '',
     estimate: 3,
     isDefect: true,
@@ -39,7 +39,7 @@ const mockedStory_2: IStory = {
 const mockedStory_3: IStory = {
     blockReason: 'Just block for test',
     columnType: 'progress',
-    creationDate: '10.10.2020',
+    creationDate: new Date(),
     description: '',
     estimate: 1,
     isDefect: false,
@@ -57,7 +57,7 @@ const mockedStory_3: IStory = {
 const mockedStory_4: IStory = {
     blockReason: '',
     columnType: 'review',
-    creationDate: '19.09.2020',
+    creationDate: new Date(),
     description: 'Original description too',
     estimate: 3,
     isDefect: false,

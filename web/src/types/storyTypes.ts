@@ -9,7 +9,7 @@ export interface IStory {
     isReady: boolean;
     isBlocked: boolean;
     blockReason: string;
-    creationDate: string;
+    creationDate: Date;
     userId: string;
     sprintId: string;
     storyPriority: Priority;

@@ -3,23 +3,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '../../../redux/actions/modalActions';
 import { changeEpicRequest, sortStoriesRequest } from '../../../redux/actions/storiesActions';
 import { getEpicsNames, getSelectedEpicId } from '../../../redux/selectors/epicsSelectors';
-import { getSelectProject } from '../../../redux/selectors/projectSelectors';
+import { getSelectedSprintId, getSprintNamesForBoard } from '../../../redux/selectors/sprintsSelectors';
 import { getSortType } from '../../../redux/selectors/storiesSelectors';
 import { getSelectedTeam } from '../../../redux/selectors/teamSelectors';
 import { getUser } from '../../../redux/selectors/userSelectors';
 import { ModalTypes } from '../../../types/modalTypes';
+import { ISelectedItem } from '../../../types/storyTypes';
+import { ITeam } from '../../../types/teamTypes';
+import { IUser } from '../../../types/userTypes';
 import { createSortFields } from '../../../utils/storyHelper';
 import BoardTab, { IBoardTabProps } from './BoardTab';
 
 const BoardTabContainer = () => {
     const dispatch = useDispatch();
-    const team = useSelector(getSelectedTeam);
-    const user = useSelector(getUser);
-    const selectedEpicId = useSelector(getSelectedEpicId);
-    const epics = useSelector(getEpicsNames);
-    const project = useSelector(getSelectProject);
-    const sortType = useSelector(getSortType);
-    const sortFields = createSortFields();
+    const team: ITeam = useSelector(getSelectedTeam);
+    const user: IUser = useSelector(getUser);
+    const selectedEpicId: string = useSelector(getSelectedEpicId);
+    const epics: ISelectedItem[] = useSelector(getEpicsNames);
+    const selectedSprintId: string = useSelector(getSelectedSprintId);
+    const sprints: ISelectedItem[] = useSelector(getSprintNamesForBoard);
+    const sortType: string = useSelector(getSortType);
+    const sortFields: ISelectedItem[] = createSortFields();
 
     const onChangeEpic = (value: string): void => {
         dispatch(changeEpicRequest(value));
@@ -39,10 +43,11 @@ const BoardTabContainer = () => {
 
     const infoTabProps: IBoardTabProps = {
         team,
-        projectName: project && project.projectName,
         userId: user && user.userId,
         selectedEpicId,
+        selectedSprintId,
         epics,
+        sprints,
         sortFields,
         sortType,
         onChangeSortType,

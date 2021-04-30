@@ -19,17 +19,19 @@ const useStyles = makeStyles(() =>
             flexDirection: 'column',
             backgroundColor: 'white',
             border: '1px solid #AFC1C4',
-            borderColor: 'rgba(175, 193, 196, 0.5)',
+            borderColor: 'rgba(175, 193, 196, 0.2)',
         },
         body: {
             minHeight: '120px',
-            borderTop: '2px solid #EDEFF3',
             borderBottom: '2px solid #EDEFF3',
             margin: '0 15px',
-            padding: '5px 0',
+            paddingBottom: '5px',
             display: 'flex',
             justifyContent: 'space-between',
             flexDirection: 'column',
+            '&:hover': {
+                cursor: 'pointer',
+            },
         },
         bodyTitle: {
             fontSize: '18px',
@@ -50,7 +52,7 @@ const useStyles = makeStyles(() =>
             fontSize: '24px',
             color: 'black',
             marginRight: '15px',
-            marginTop: '5px',
+            marginTop: '3px',
         },
         isBlocked: {
             backgroundColor: 'red',
@@ -95,6 +97,10 @@ const Story = (props: IStoryProps) => {
             ? team.users.find((x) => x.userId === story.userId).userName
             : 'No owner';
 
+    const onClickSelectStory = (): void => {
+        onSelectStory(story.storyId);
+    };
+
     return (
         <Draggable draggableId={story.storyId} index={index}>
             {(provided, snapshot) => (
@@ -106,10 +112,10 @@ const Story = (props: IStoryProps) => {
                     <StoryHeader
                         recordVersion={story.recordVersion}
                         storyId={story.storyId}
+                        creationDate={story.creationDate}
                         isDefect={story.isDefect}
                         isReady={story.isReady}
                         isBlocked={story.isBlocked}
-                        onSelectStory={onSelectStory}
                         onMakeStoryReady={onMakeStoryReady}
                         onMakeStoryBlocked={onMakeStoryBlocked}
                     >
@@ -117,7 +123,7 @@ const Story = (props: IStoryProps) => {
                             <MoreVertIcon className={classes.iconVert} />
                         </div>
                     </StoryHeader>
-                    <div className={classes.body}>
+                    <div className={classes.body} onClick={onClickSelectStory}>
                         <span className={classes.bodyTitle}>{story.title}</span>
                         <div className={classes.card}>
                             <StoryPriorityCard priority={story.storyPriority} />

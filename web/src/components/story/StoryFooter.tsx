@@ -1,14 +1,16 @@
+import { Avatar } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import classnames from 'classnames';
 import React from 'react';
+import { getFirstNameLetter } from '../../utils';
 
 const useStyles = makeStyles(() =>
     createStyles({
         footer: {
-            height: '40px',
+            minHeight: '40px',
             display: 'flex',
             fontFamily: 'Poppins',
+            fontWeight: 500,
             color: '#242624',
             justifyContent: 'center',
             alignItems: 'center',
@@ -17,7 +19,9 @@ const useStyles = makeStyles(() =>
             },
         },
         iconUser: {
-            fontSize: '26px',
+            fontSize: '14px',
+            width: '22px',
+            height: '22px',
         },
         currentStoryStatus: {
             borderBottomLeftRadius: '4px',
@@ -50,12 +54,14 @@ export interface IStoryFooterProps {
 
 const StoryFooter = (props: IStoryFooterProps) => {
     const classes = useStyles();
-    const { userName, isBlocked, isReady } = props;
+    const { userName, avatarLink, isBlocked, isReady } = props;
 
     return (
         <React.Fragment>
             <div className={classes.footer}>
-                <AccountCircleIcon className={classes.iconUser} />
+                <Avatar src={avatarLink} className={classes.iconUser}>
+                    {getFirstNameLetter(userName)}
+                </Avatar>
                 <span>{userName}</span>
             </div>
             {(isReady || isBlocked) && (

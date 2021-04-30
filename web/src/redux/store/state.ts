@@ -58,7 +58,7 @@ export interface IProjectState {
 
 export interface ISprintsState {
     sprints: ISprint[];
-    selectedSprint?: ISprint;
+    selectedSprintId?: string;
 }
 
 export interface IModalState {
