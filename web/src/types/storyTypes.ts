@@ -1,19 +1,19 @@
 export interface IStory {
-    storyId: string;
+    storyId?: string;
     title: string;
     description: string;
     notes: string;
+    recordVersion?: number;
     columnType: string;
     estimate: number;
     isDefect: boolean;
     isReady: boolean;
     isBlocked: boolean;
     blockReason: string;
-    creationDate: Date;
-    userId: string;
+    creationDate?: Date;
+    userId?: string;
     sprintId: string;
     storyPriority: Priority;
-    recordVersion: number;
 }
 
 export interface ISelectedItem {

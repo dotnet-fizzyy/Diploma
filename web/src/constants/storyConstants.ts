@@ -1,4 +1,5 @@
-import { IStory, Priority } from '../types/storyTypes';
+import { IStoryFormTypes } from '../types/formTypes';
+import { Priority } from '../types/storyTypes';
 import { ColumnIds } from './boardConstants';
 
 export const debouncePeriod: number = 1000;
@@ -6,7 +7,7 @@ export const debouncePeriod: number = 1000;
 export enum StoryActions {
     CREATE = 'Create',
     UPDATE = 'Update',
-    REMOVE = 'REMOVE',
+    REMOVE = 'Remove',
 }
 
 export const StoryEstimation = {
@@ -36,7 +37,7 @@ export enum storyFields {
     recordVersion = 'recordVersion',
 }
 
-export const initialStory: IStory = {
+export const initialStory: IStoryFormTypes = {
     [storyFields.blockReason]: '',
     [storyFields.columnType]: ColumnIds.ToDo,
     [storyFields.creationDate]: new Date(),

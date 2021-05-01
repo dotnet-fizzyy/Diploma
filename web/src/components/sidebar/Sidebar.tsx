@@ -1,17 +1,21 @@
-import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import HistoryIcon from '@material-ui/icons/History';
 import classnames from 'classnames';
+import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { storyFields } from '../../constants/storyConstants';
-import { ISelectedItem, IStory } from '../../types/storyTypes';
+import { IStoryFormTypes } from '../../types/formTypes';
+import { ISelectedItem } from '../../types/storyTypes';
+import { areStoriesEqual } from '../../utils/storyHelper';
+import Button, { ButtonVariant } from '../common/Button';
+import FormDropdown from '../common/FormDropdown';
+import FormTextArea from '../common/FormTextArea';
+import FormTextField from '../common/FormTextField';
 import StoryConfirmChanges from './story-description/StoryConfirmChanges';
-import StoryDropdownMenu from './story-description/StoryDropdownMenu';
 import StoryStatus from './story-description/StoryStatus';
-import StoryTextField from './story-description/StoryTextField';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -36,20 +40,8 @@ const useStyles = makeStyles(() =>
         isModalVisible: {
             paddingBottom: '120px',
         },
-        nameContainer: {
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            marginTop: '30px',
-        },
         sectionContainer: {
-            marginTop: '30px',
-        },
-        rootSelectStyle: {
-            width: '100%',
-        },
-        multiLineTextField: {
-            width: '100%',
+            marginTop: '20px',
         },
         spinnerContainer: {
             position: 'absolute',
@@ -61,22 +53,13 @@ const useStyles = makeStyles(() =>
             alignItems: 'center',
             zIndex: 5,
         },
-        link: {
-            textDecoration: 'none',
-        },
-        historyButton: {
+        buttonsContainer: {
             margin: '20px 0 0 20px',
-            backgroundColor: '#75BAF7',
-            color: '#FFF',
-            boxShadow: 'none',
-            transition: 'unset',
-            fontFamily: 'Roboto, sans-serif',
-            textTransform: 'capitalize',
-            border: 'none',
-            '&:hover': {
-                backgroundColor: '#E8F4FF',
-                color: '#75BAF7',
-                boxShadow: 'none',
+            display: 'flex',
+            flexDirection: 'row',
+            '& button': {
+                width: 'max-content',
+                marginRight: '10px',
             },
         },
         icon: {
@@ -87,37 +70,28 @@ const useStyles = makeStyles(() =>
 );
 
 export interface ISidebarProps {
-    hasStoryChanged: boolean;
-    story: IStory;
+    isReady: boolean;
+    isBlocked: boolean;
     team: ISelectedItem[];
     sprints: ISelectedItem[];
     storyPriorities: ISelectedItem[];
     storyEstimates: ISelectedItem[];
+    initialValues: IStoryFormTypes;
     onCloseTab: () => void;
     onSetStoryBlocked: () => void;
     onSetStoryReady: () => void;
     onClickCancelChanges: () => void;
-    onClickConfirmChanges: () => void;
-    onChangeTextField: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
+    onClickRemoveStory: () => void;
+    onClickViewStoryHistory: () => void;
+    onSubmitChanges: (values: IStoryFormTypes) => void;
 }
 
 const Sidebar = (props: ISidebarProps) => {
     const classes = useStyles();
     const {
-        hasStoryChanged,
-        story: {
-            storyId,
-            title,
-            userId,
-            estimate,
-            description,
-            notes,
-            sprintId,
-            isReady,
-            isBlocked,
-            blockReason,
-            storyPriority,
-        },
+        isReady,
+        isBlocked,
+        initialValues,
         team,
         storyEstimates,
         sprints,
@@ -125,107 +99,130 @@ const Sidebar = (props: ISidebarProps) => {
         onCloseTab,
         onSetStoryReady,
         onSetStoryBlocked,
-        onClickConfirmChanges,
         onClickCancelChanges,
-        onChangeTextField,
+        onClickRemoveStory,
+        onClickViewStoryHistory,
+        onSubmitChanges,
     } = props;
 
     return (
-        <div className={classes.root}>
-            {false && (
-                <div className={classes.spinnerContainer}>
-                    <CircularProgress color="primary" />
-                </div>
-            )}
-            <CloseIcon className={classes.closeSidebarIcon} onClick={onCloseTab} />
-            <Link className={classes.link} to={`/history/${storyId}`} target="_blank" rel="noopener noreferrer">
-                <Button className={classes.historyButton} variant="outlined">
-                    <HistoryIcon className={classes.icon} /> View History
-                </Button>
-            </Link>
-            <div
-                className={classnames(classes.body, {
-                    [classes.isModalVisible]: hasStoryChanged,
-                })}
-            >
-                <StoryTextField
-                    name={storyFields.title}
-                    value={title}
-                    title={'Story name'}
-                    onChangeValue={onChangeTextField}
-                />
+        <Formik initialValues={initialValues} onSubmit={onSubmitChanges}>
+            {({ touched, values, initialValues, resetForm }) => {
+                const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
+                const storiesEquality =
+                    areStoriesEqual(initialValues, values) &&
+                    initialValues.isBlocked === isBlocked &&
+                    initialValues.isReady === isReady;
+                console.log(isAnyFieldTouched);
 
-                <StoryStatus
-                    isBlocked={isBlocked}
-                    isReady={isReady}
-                    blockReason={blockReason}
-                    name={storyFields.blockReason}
-                    onSetStoryReady={onSetStoryReady}
-                    onSetStoryBlocked={onSetStoryBlocked}
-                    onChangeValue={onChangeTextField}
-                />
+                const onClickResetValues = () => {
+                    resetForm();
+                    onClickCancelChanges();
+                };
 
-                <StoryDropdownMenu
-                    id={userId}
-                    name={storyFields.userId}
-                    disabled={false}
-                    title={'Owner'}
-                    items={team}
-                    onChangeItem={onChangeTextField}
-                />
+                return (
+                    <div className={classes.root}>
+                        <Form>
+                            {false && (
+                                <div className={classes.spinnerContainer}>
+                                    <CircularProgress color="primary" />
+                                </div>
+                            )}
+                            <CloseIcon className={classes.closeSidebarIcon} onClick={onCloseTab} />
+                            <div className={classes.buttonsContainer}>
+                                <Button
+                                    startIcon={<HistoryIcon className={classes.icon} />}
+                                    disabled={false}
+                                    label="View History"
+                                    isSmall={true}
+                                    onClick={onClickViewStoryHistory}
+                                />
+                                <Button
+                                    startIcon={<DeleteOutlineIcon className={classes.icon} />}
+                                    disabled={false}
+                                    label="Remove story"
+                                    isSmall={true}
+                                    buttonVariant={ButtonVariant.DANGER}
+                                    onClick={onClickRemoveStory}
+                                />
+                            </div>
+                            <div
+                                className={classnames(classes.body, {
+                                    [classes.isModalVisible]: !storiesEquality,
+                                })}
+                            >
+                                <div className={classes.sectionContainer}>
+                                    <Field name={storyFields.title} label="Story name" component={FormTextField} />
+                                </div>
+                                <div className={classes.sectionContainer}>
+                                    <StoryStatus
+                                        isBlocked={isBlocked}
+                                        isReady={isReady}
+                                        onSetStoryReady={onSetStoryReady}
+                                        onSetStoryBlocked={onSetStoryBlocked}
+                                    />
+                                </div>
+                                <div className={classes.sectionContainer}>
+                                    <Field
+                                        name={storyFields.userId}
+                                        disabled={false}
+                                        label="Story Owner"
+                                        items={team}
+                                        component={FormDropdown}
+                                    />
+                                </div>
+                                <div className={classes.sectionContainer}>
+                                    <Field
+                                        name={storyFields.storyPriority}
+                                        disabled={false}
+                                        label="Priority"
+                                        items={storyPriorities}
+                                        component={FormDropdown}
+                                    />
+                                </div>
+                                <div className={classes.sectionContainer}>
+                                    <Field
+                                        name={storyFields.sprintId}
+                                        disabled={false}
+                                        label="Sprint"
+                                        items={sprints}
+                                        component={FormDropdown}
+                                    />
+                                </div>
+                                <div className={classes.sectionContainer}>
+                                    <Field
+                                        name={storyFields.estimate}
+                                        disabled={false}
+                                        label="Estimate"
+                                        items={storyEstimates}
+                                        component={FormDropdown}
+                                    />
+                                </div>
 
-                <StoryDropdownMenu
-                    id={storyPriority}
-                    name={storyFields.storyPriority}
-                    disabled={false}
-                    title={'Priority'}
-                    items={storyPriorities}
-                    onChangeItem={onChangeTextField}
-                />
+                                <div className={classes.sectionContainer}>
+                                    <Field
+                                        name={storyFields.description}
+                                        label="Description"
+                                        component={FormTextArea}
+                                        minHeight="130px"
+                                    />
+                                </div>
 
-                <StoryDropdownMenu
-                    id={sprintId}
-                    name={storyFields.sprintId}
-                    disabled={false}
-                    title={'Sprint'}
-                    items={sprints}
-                    onChangeItem={onChangeTextField}
-                />
-
-                <div className={classes.sectionContainer}>
-                    <StoryDropdownMenu
-                        id={estimate.toString()}
-                        name={storyFields.estimate}
-                        disabled={false}
-                        title={'Estimate'}
-                        items={storyEstimates}
-                        onChangeItem={onChangeTextField}
-                    />
-                </div>
-
-                <StoryTextField
-                    value={description}
-                    name={storyFields.description}
-                    title={'Description'}
-                    onChangeValue={onChangeTextField}
-                    isTextArea={true}
-                />
-
-                <StoryTextField
-                    name={storyFields.notes}
-                    value={notes}
-                    title={'Notes'}
-                    onChangeValue={onChangeTextField}
-                    isTextArea={true}
-                />
-            </div>
-            {hasStoryChanged && (
-                <StoryConfirmChanges
-                    onClickCancelChanges={onClickCancelChanges}
-                    onClickConfirmChanges={onClickConfirmChanges}
-                />
-            )}
-        </div>
+                                <div className={classes.sectionContainer}>
+                                    <Field
+                                        name={storyFields.notes}
+                                        label="Notes"
+                                        component={FormTextArea}
+                                        minHeight="130px"
+                                    />
+                                </div>
+                            </div>
+                            {!storiesEquality && <StoryConfirmChanges onClickCancelChanges={onClickResetValues} />}
+                        </Form>
+                    </div>
+                );
+            }}
+        </Formik>
     );
 };
 

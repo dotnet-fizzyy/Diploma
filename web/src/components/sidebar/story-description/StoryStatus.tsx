@@ -1,9 +1,12 @@
-import { Button, TextField } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import BlockOutlinedIcon from '@material-ui/icons/BlockOutlined';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import classnames from 'classnames';
+import { Field } from 'formik';
 import React from 'react';
+import { storyFields } from '../../../constants/storyConstants';
+import FormTextField from '../../common/FormTextField';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -16,9 +19,10 @@ const useStyles = makeStyles(() =>
         button: {
             flexGrow: 1,
             flexBasis: 0,
-            height: '45px',
+            height: '40px',
             fontSize: '18px',
             fontFamily: 'Roboto',
+            fontWeight: 500,
         },
         readyButton: {
             borderBottomLeftRadius: '5px',
@@ -30,6 +34,9 @@ const useStyles = makeStyles(() =>
                 backgroundColor: '#a2ffa0',
                 color: 'green',
                 borderColor: '#a2ffa0',
+            },
+            '& svg': {
+                color: 'green',
             },
         },
         acceptedButton: {
@@ -52,6 +59,9 @@ const useStyles = makeStyles(() =>
                 color: 'red',
                 borderColor: '#ffbdb9',
             },
+            '& svg': {
+                color: 'red',
+            },
         },
         blockedButton: {
             backgroundColor: '#ffbdb9',
@@ -60,8 +70,10 @@ const useStyles = makeStyles(() =>
         },
         title: {
             fontFamily: 'Poppins',
-            fontSize: '20px',
-            marginBottom: '7px',
+            fontSize: '18px',
+            marginBottom: '4px',
+            color: 'rgb(117, 186, 247)',
+            fontWeight: 600,
         },
     })
 );
@@ -69,23 +81,20 @@ const useStyles = makeStyles(() =>
 export interface IStoryStatusProps {
     isBlocked: boolean;
     isReady: boolean;
-    blockReason: string;
-    name: string;
     onSetStoryReady: () => void;
     onSetStoryBlocked: () => void;
-    onChangeValue: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const StoryStatus = (props: IStoryStatusProps) => {
     const classes = useStyles();
-    const { isBlocked, isReady, blockReason, name, onSetStoryReady, onSetStoryBlocked, onChangeValue } = props;
+    const { isBlocked, isReady, onSetStoryReady, onSetStoryBlocked } = props;
 
     return (
         <div className={classes.sectionContainer}>
-            <p className={classes.title}>Status</p>
+            <span className={classes.title}>Status</span>
             <div className={classes.buttonContainer}>
                 <Button
-                    className={classnames(classes.button, { [classes.acceptedButton]: isReady })}
+                    className={classnames(classes.button, classes.readyButton, { [classes.acceptedButton]: isReady })}
                     startIcon={<CheckCircleOutlinedIcon />}
                     onClick={onSetStoryReady}
                     variant="outlined"
@@ -103,14 +112,7 @@ const StoryStatus = (props: IStoryStatusProps) => {
             </div>
             {isBlocked && (
                 <div>
-                    <p className={classes.title}>Block Reason:</p>
-                    <TextField
-                        className={classes.blockTextField}
-                        name={name}
-                        value={blockReason}
-                        onChange={onChangeValue}
-                        variant="outlined"
-                    />
+                    <Field name={storyFields.blockReason} label="Block Reason" component={FormTextField} />
                 </div>
             )}
         </div>

@@ -1,7 +1,6 @@
-import { Button } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
 import React from 'react';
+import Button, { ButtonVariant } from '../../common/Button';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -59,30 +58,22 @@ const useStyles = makeStyles(() =>
 
 export interface IStoryConfirmChangesProps {
     onClickCancelChanges: () => void;
-    onClickConfirmChanges: () => void;
 }
 
 const StoryConfirmChanges = (props: IStoryConfirmChangesProps) => {
     const classes = useStyles();
-    const { onClickCancelChanges, onClickConfirmChanges } = props;
+    const { onClickCancelChanges } = props;
 
     return (
         <div className={classes.root}>
             <div className={classes.body}>
+                <Button label="Save" buttonVariant={ButtonVariant.DEFAULT} type="submit" disabled={false} />
                 <Button
-                    className={classnames(classes.button, classes.saveButton)}
-                    variant="outlined"
-                    onClick={onClickConfirmChanges}
-                >
-                    Save
-                </Button>
-                <Button
-                    className={classnames(classes.button, classes.cancelButton)}
-                    variant="outlined"
+                    buttonVariant={ButtonVariant.DEFAULT}
+                    label="Cancel"
                     onClick={onClickCancelChanges}
-                >
-                    Cancel
-                </Button>
+                    disabled={false}
+                />
             </div>
         </div>
     );

@@ -1,3 +1,5 @@
+import { Priority } from './storyTypes';
+
 export interface ILoginForm {
     name: string;
     password: string;
@@ -43,4 +45,22 @@ export interface IEpicFormTypes {
     startDate: Date;
     endDate: Date;
     epicDescription: string;
+}
+
+export interface IStoryFormTypes {
+    storyId?: string;
+    title: string;
+    description: string;
+    notes: string;
+    recordVersion?: number;
+    columnType: string;
+    estimate: number;
+    isDefect: boolean;
+    isReady: boolean;
+    isBlocked: boolean;
+    blockReason: string;
+    creationDate?: Date;
+    userId?: string;
+    sprintId: string;
+    storyPriority: Priority;
 }

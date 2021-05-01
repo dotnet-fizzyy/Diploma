@@ -12,15 +12,17 @@ const useStyles = makeStyles(() =>
     createStyles({
         root: {
             width: '100%',
-            height: '40px',
+            height: ({ isSmall }: IButtonProps) => (isSmall ? '34px' : '40px'),
             fontFamily: 'Poppins',
             fontWeight: 600,
-            fontSize: '16px',
+            fontSize: ({ isSmall }: IButtonProps) => (isSmall ? '14px' : '16px'),
             textTransform: 'capitalize',
             color: ({ buttonVariant }: IButtonProps) => {
                 switch (buttonVariant) {
                     case ButtonVariant.SUCCESS:
                         return 'green';
+                    case ButtonVariant.DANGER:
+                        return 'red';
                     case ButtonVariant.DEFAULT:
                     default:
                         return '#FFF';
@@ -30,6 +32,8 @@ const useStyles = makeStyles(() =>
                 switch (buttonVariant) {
                     case ButtonVariant.SUCCESS:
                         return '#a2ffa0';
+                    case ButtonVariant.DANGER:
+                        return '#ffbdb9';
                     case ButtonVariant.DEFAULT:
                     default:
                         return '#75BAF7';
@@ -68,6 +72,7 @@ export interface IButtonProps {
     type?: string;
     startIcon?: React.ReactNode;
     buttonVariant?: ButtonVariant;
+    isSmall?: boolean;
 }
 
 const Button = (props: IButtonProps) => {
