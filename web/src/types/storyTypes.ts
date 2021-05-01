@@ -6,7 +6,6 @@ export interface IStory {
     recordVersion?: number;
     columnType: string;
     estimate: number;
-    isDefect: boolean;
     isReady: boolean;
     isBlocked: boolean;
     blockReason: string;

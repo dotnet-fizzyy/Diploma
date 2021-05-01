@@ -72,7 +72,6 @@ export interface IStoryHeaderProps {
     recordVersion: number;
     creationDate: Date;
     storyId: string;
-    isDefect: boolean;
     isReady: boolean;
     isBlocked: boolean;
     onMakeStoryReady: (storyId: string, isReady: boolean, recordVersion: number) => void;

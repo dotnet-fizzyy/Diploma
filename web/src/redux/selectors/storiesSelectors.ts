@@ -14,7 +14,10 @@ export const getAllStories = (state: IState): IStory[] => {
 };
 
 export function getSelectedStory(state: IState): IStory {
-    return state.stories.selectedStory;
+    return state.stories.columns
+        .map((x) => x.value)
+        .reduce((acc, x) => acc.concat(x), [])
+        .find((x) => x.storyId === state.stories.selectedStoryId);
 }
 
 export function getStoryTitleTerm(state: IState): string {

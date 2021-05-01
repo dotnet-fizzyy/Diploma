@@ -6,7 +6,7 @@ import { IJsonPatchBody } from '../../types';
 import { IEpic } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';
 import { IFullSprint, ISprint } from '../../types/sprintTypes';
-import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
+import { IStory, IStoryColumns, IStoryHistory, IStoryUpdate } from '../../types/storyTypes';
 import { IUser } from '../../types/userTypes';
 import { mapFullSprintToSprint } from '../../utils/epicHelper';
 import {
@@ -162,8 +162,12 @@ function* updateStoryChanges(action: IUpdateStoryChangesRequest) {
         const selectedStory: IStory = yield select(getSelectedStory);
         const currentUser: IUser = yield select(getUser);
 
-        const storyParts = createStoryUpdatePartsFromStory(selectedStory, action.payload, currentUser.userId);
-        const updatedStory = yield call(StoryApi.updateStory, storyParts);
+        const storyParts: IStoryUpdate = createStoryUpdatePartsFromStory(
+            selectedStory,
+            action.payload,
+            currentUser.userId
+        );
+        const updatedStory: IStory = yield call(StoryApi.updateStory, storyParts);
 
         yield put(storyUpdateChangesSuccess(updatedStory));
     } catch (error) {

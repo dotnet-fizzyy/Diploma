@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../constants';
-import { sidebarHandleVisibility } from '../../redux/actions/sidebarActions';
+import { sidebarHandleVisibility, sidebarSetLoadingStatus } from '../../redux/actions/sidebarActions';
+import { storyUpdateChangesRequest } from '../../redux/actions/storiesActions';
 import { getSidebarIsLoading } from '../../redux/selectors/sidebarSelectors';
 import { getSprintsNames } from '../../redux/selectors/sprintsSelectors';
 import { getSelectedStory } from '../../redux/selectors/storiesSelectors';
@@ -50,7 +51,14 @@ const SidebarContainer = () => {
     };
 
     const onSubmitChanges = (values: IStoryFormTypes): void => {
-        console.warn(values);
+        const updatedStory: IStory = {
+            ...values,
+            isReady,
+            isBlocked,
+        };
+
+        dispatch(sidebarSetLoadingStatus(true));
+        dispatch(storyUpdateChangesRequest(updatedStory));
     };
 
     const validateStoryTitle = (value: string) =>

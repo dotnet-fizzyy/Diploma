@@ -8,7 +8,6 @@ export function mapToStoryModel(data): IStory {
         estimate: data.estimate,
         isBlocked: data.isBlocked,
         blockReason: data.blockReason,
-        isDefect: data.isDefect,
         isReady: data.isReady,
         notes: data.notes,
         storyPriority: data.storyPriority,

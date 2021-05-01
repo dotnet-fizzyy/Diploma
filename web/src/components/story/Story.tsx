@@ -113,7 +113,6 @@ const Story = (props: IStoryProps) => {
                         recordVersion={story.recordVersion}
                         storyId={story.storyId}
                         creationDate={story.creationDate}
-                        isDefect={story.isDefect}
                         isReady={story.isReady}
                         isBlocked={story.isBlocked}
                         onMakeStoryReady={onMakeStoryReady}

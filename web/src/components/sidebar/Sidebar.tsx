@@ -114,9 +114,8 @@ const Sidebar = (props: ISidebarProps) => {
     } = props;
 
     return (
-        <Formik initialValues={initialValues} onSubmit={onSubmitChanges}>
-            {({ touched, isValid, values, initialValues, resetForm }) => {
-                const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
+        <Formik initialValues={initialValues} onSubmit={onSubmitChanges} enableReinitialize={true}>
+            {({ isValid, values, initialValues, resetForm }) => {
                 const storiesEquality =
                     areStoriesEqual(initialValues, values) &&
                     initialValues.isBlocked === isBlocked &&
@@ -230,10 +229,7 @@ const Sidebar = (props: ISidebarProps) => {
                                 </div>
                             </div>
                             {!storiesEquality && (
-                                <StoryConfirmChanges
-                                    disabled={!isAnyFieldTouched || (isAnyFieldTouched && !isValid)}
-                                    onClickCancelChanges={onClickResetValues}
-                                />
+                                <StoryConfirmChanges disabled={!isValid} onClickCancelChanges={onClickResetValues} />
                             )}
                         </Form>
                     </div>

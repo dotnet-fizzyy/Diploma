@@ -1,5 +1,5 @@
 import { ColumnIds } from '../../constants/boardConstants';
-import { IStoryColumns, SortFields } from '../../types/storyTypes';
+import { IStory, IStoryColumns, SortFields } from '../../types/storyTypes';
 import * as storyActions from '../actions/storiesActions';
 import { IStoryState } from '../store/state';
 
@@ -14,7 +14,7 @@ const initialColumnState: IStoryColumns[] = [
 
 const initialState: IStoryState = {
     columns: initialColumnState,
-    selectedStory: null,
+    selectedStoryId: '',
     wasStoryBlocked: false,
     storyTitleTerm: '',
     searchResult: [],
@@ -90,12 +90,14 @@ function handleCreateStory(state: IStoryState, action: storyActions.ICreateStory
 }
 
 function handleSelectStory(state: IStoryState, action: storyActions.ISelectStory): IStoryState {
+    const selectedStory: IStory = state.columns
+        .map((column) => column.value)
+        .reduce((accumulator, story) => accumulator.concat(story), [])
+        .find((story) => story.storyId === action.payload);
+
     return {
         ...state,
-        selectedStory: state.columns
-            .map((column) => column.value)
-            .reduce((accumulator, story) => accumulator.concat(story), [])
-            .find((story) => story.storyId === action.payload),
+        selectedStoryId: selectedStory ? selectedStory.storyId : '',
     };
 }
 
@@ -209,7 +211,6 @@ function handleChangeSortType(state: IStoryState, action: storyActions.IChangeSo
 function handleUpdateStory(state: IStoryState, action: storyActions.IUpdateStoryColumnSuccess): IStoryState {
     return {
         ...state,
-        selectedStory: action.payload,
         columns: state.columns.map((column) => {
             return {
                 ...column,

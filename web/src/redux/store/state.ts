@@ -32,7 +32,7 @@ export interface IUserState {
 
 export interface IStoryState {
     columns: IStoryColumns[];
-    selectedStory: IStory | null | undefined;
+    selectedStoryId: string;
     wasStoryBlocked: boolean;
     storyTitleTerm: string;
     searchResult: IStory[];

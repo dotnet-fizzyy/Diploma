@@ -1,4 +1,5 @@
 import { ISidebarHandleVisibility, ISidebarSetLoadingStatus, SidebarActions } from '../actions/sidebarActions';
+import { StoryActions } from '../actions/storiesActions';
 import { ISidebarState } from '../store/state';
 
 const initialState: ISidebarState = {
@@ -12,6 +13,9 @@ export default function sidebarReducer(state = initialState, action) {
             return handleSidebarVisibility(state, action);
         case SidebarActions.SIDEBAR_SET_LOADING_STATUS:
             return handleSetLoadingStatus(state, action);
+        case StoryActions.STORY_UPDATE_CHANGES_SUCCESS:
+        case StoryActions.STORY_UPDATE_CHANGES_FAILURE:
+            return handleDisableLoadingStatusOnError(state);
         default:
             return state;
     }
@@ -28,5 +32,12 @@ function handleSetLoadingStatus(state: ISidebarState, action: ISidebarSetLoading
     return {
         ...state,
         isLoading: action.payload,
+    };
+}
+
+function handleDisableLoadingStatusOnError(state: ISidebarState): ISidebarState {
+    return {
+        ...state,
+        isLoading: false,
     };
 }
