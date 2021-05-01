@@ -33,14 +33,13 @@
     "start": "react-scripts start",
     "build": "\"./node_modules/.bin/tsc\"",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint-staged": "react-scripts lint-staged"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": [
+    "*.{ts,tsx}": [
       "tslint -c tslint.yaml --fix --project .",
       "git add"
     ]
@@ -62,9 +61,10 @@
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-router-dom": "^5.1.6",
     "@types/recharts": "^1.8.18",
-    "tslint": "^6.1.3",
+    "husky": "^6.0.0",
+    "lint-staged": "^10.5.4",
     "prettier": "^2.1.2",
-    "husky": "^4.3.0",
+    "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
     "tslint-etc": "^1.13.7",
     "tslint-plugin-prettier": "^2.3.0",
