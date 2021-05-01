@@ -75,7 +75,7 @@ export interface IStoryHeaderProps {
     isDefect: boolean;
     isReady: boolean;
     isBlocked: boolean;
-    onMakeStoryReady: (storyId: string, recordVersion: number) => void;
+    onMakeStoryReady: (storyId: string, isReady: boolean, recordVersion: number) => void;
     onMakeStoryBlocked: (storyId: string) => void;
 }
 
@@ -93,7 +93,7 @@ const StoryHeader = (props: IStoryHeaderProps) => {
     } = props;
 
     const onClickMakeStoryReady = (): void => {
-        onMakeStoryReady(storyId, recordVersion);
+        onMakeStoryReady(storyId, isReady, recordVersion);
     };
 
     const onClickMakeStoryBlocked = (): void => {

@@ -104,6 +104,7 @@ export interface IMakeStoryReadyRequest {
     type: typeof StoryActions.MAKE_STORY_READY_REQUEST;
     payload: {
         storyId: string;
+        isReady: boolean;
         recordVersion: number;
     };
 }
@@ -334,11 +335,16 @@ export function makeStoryBlocked(storyId: string): IMakeStoryBlocked {
     };
 }
 
-export function makeStoryReadyRequest(storyId: string, recordVersion: number): IMakeStoryReadyRequest {
+export function makeStoryReadyRequest(
+    storyId: string,
+    isReady: boolean,
+    recordVersion: number
+): IMakeStoryReadyRequest {
     return {
         type: StoryActions.MAKE_STORY_READY_REQUEST,
         payload: {
             storyId,
+            isReady,
             recordVersion,
         },
     };

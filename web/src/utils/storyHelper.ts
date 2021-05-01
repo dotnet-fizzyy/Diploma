@@ -143,7 +143,11 @@ export function createRequestBodyForBlockedState(story: IStory): IJsonPatchBody[
     ];
 }
 
-export function createRequestBodyForReadyStory(storyId: string, recordVersion: number): IJsonPatchBody[] {
+export function createRequestBodyForReadyStory(
+    storyId: string,
+    isReady: boolean,
+    recordVersion: number
+): IJsonPatchBody[] {
     return [
         {
             op: 'add',
@@ -153,7 +157,7 @@ export function createRequestBodyForReadyStory(storyId: string, recordVersion: n
         {
             op: 'add',
             path: '/isReady',
-            value: 'true',
+            value: `${!isReady}`,
         },
         {
             op: 'add',

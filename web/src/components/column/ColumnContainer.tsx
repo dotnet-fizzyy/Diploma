@@ -29,8 +29,8 @@ const ColumnContainer = (props: IColumnContainerProps) => {
         dispatch(storyActions.makeStoryBlocked(storyId));
     };
 
-    const onMakeStoryReady = (storyId: string, recordVersion: number) => {
-        dispatch(storyActions.makeStoryReadyRequest(storyId, recordVersion));
+    const onMakeStoryReady = (storyId: string, isReady: boolean, recordVersion: number) => {
+        dispatch(storyActions.makeStoryReadyRequest(storyId, isReady, recordVersion));
     };
 
     const columnProps: IColumnProps = {

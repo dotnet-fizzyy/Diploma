@@ -85,7 +85,7 @@ export interface IStoryProps {
     team: ITeam;
     onSelectStory: (storyId: string) => void;
     onMakeStoryBlocked: (storyId: string) => void;
-    onMakeStoryReady: (storyId: string, recordVersion: number) => void;
+    onMakeStoryReady: (storyId: string, isReady: boolean, recordVersion: number) => void;
 }
 
 const Story = (props: IStoryProps) => {

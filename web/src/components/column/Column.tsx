@@ -46,7 +46,7 @@ export interface IColumnProps {
     isDragging: boolean;
     onSelectStory: (storyId: string) => void;
     onMakeStoryBlocked: (storyId: string) => void;
-    onMakeStoryReady: (storyId: string, recordVersion: number) => void;
+    onMakeStoryReady: (storyId: string, isReady: boolean, recordVersion: number) => void;
 }
 
 const Column = (props: IColumnProps) => {

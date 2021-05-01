@@ -205,8 +205,8 @@ function* sortStories(action: ISortStoriesRequest) {
 
 function* makeStoryReady(action: IMakeStoryReadyRequest) {
     try {
-        const { storyId, recordVersion } = action.payload;
-        const body: IJsonPatchBody[] = createRequestBodyForReadyStory(storyId, recordVersion);
+        const { storyId, isReady, recordVersion } = action.payload;
+        const body: IJsonPatchBody[] = createRequestBodyForReadyStory(storyId, isReady, recordVersion);
 
         const story: IStory = yield call(StoryApi.makeStoryReady, body);
         yield put(makeStoryReadySuccess(story));
