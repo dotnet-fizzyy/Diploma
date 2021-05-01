@@ -43,6 +43,7 @@ export interface IStoryState {
 
 export interface ISidebarState {
     isVisible: boolean;
+    isLoading: boolean;
 }
 
 export interface ITeamState {

@@ -14,7 +14,8 @@ export function areStoriesEqual(story: IStory, updatedStory: IStory): boolean {
         story.description === updatedStory.description &&
         story.estimate === updatedStory.estimate &&
         story.isDefect === updatedStory.isDefect &&
-        story.storyPriority === updatedStory.storyPriority
+        story.storyPriority === updatedStory.storyPriority &&
+        story.notes === updatedStory.notes
     );
 }
 

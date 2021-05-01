@@ -20,60 +20,35 @@ const useStyles = makeStyles(() =>
             display: 'flex',
             justifyContent: 'space-around',
         },
-        button: {
-            height: '45px',
-            width: '150px',
-            border: 'none',
-            fontFamily: 'Poppins, sans-serif',
-            fontSize: '18px',
-            textTransform: 'capitalize',
-            boxShadow: 'none',
-            transition: 'unset',
-        },
-        saveButton: {
-            color: '#FFF',
-            backgroundColor: '#75BAF7',
-            boxShadow: 'none',
-            transition: 'unset',
-            '&:hover': {
-                backgroundColor: '#E8F4FF',
-                color: '#75BAF7',
-                boxShadow: 'none',
-            },
-        },
-        cancelButton: {
-            color: '#75BAF7',
-            backgroundColor: '#FFF',
-            boxShadow: 'none',
-            transition: 'unset',
-            border: '1px solid lightgrey',
-            '&:hover': {
-                backgroundColor: '#E8F4FF',
-                boxShadow: 'none',
-                border: 'none',
-            },
+        buttonContainer: {
+            width: '120px',
         },
     })
 );
 
 export interface IStoryConfirmChangesProps {
+    disabled: boolean;
     onClickCancelChanges: () => void;
 }
 
 const StoryConfirmChanges = (props: IStoryConfirmChangesProps) => {
     const classes = useStyles();
-    const { onClickCancelChanges } = props;
+    const { disabled, onClickCancelChanges } = props;
 
     return (
         <div className={classes.root}>
             <div className={classes.body}>
-                <Button label="Save" buttonVariant={ButtonVariant.DEFAULT} type="submit" disabled={false} />
-                <Button
-                    buttonVariant={ButtonVariant.DEFAULT}
-                    label="Cancel"
-                    onClick={onClickCancelChanges}
-                    disabled={false}
-                />
+                <div className={classes.buttonContainer}>
+                    <Button label="Save" buttonVariant={ButtonVariant.DEFAULT} type="submit" disabled={disabled} />
+                </div>
+                <div className={classes.buttonContainer}>
+                    <Button
+                        buttonVariant={ButtonVariant.SECONDARY}
+                        label="Cancel"
+                        onClick={onClickCancelChanges}
+                        disabled={false}
+                    />
+                </div>
             </div>
         </div>
     );

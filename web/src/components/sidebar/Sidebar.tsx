@@ -1,6 +1,7 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import HistoryIcon from '@material-ui/icons/History';
 import classnames from 'classnames';
 import { Field, Form, Formik } from 'formik';
@@ -15,7 +16,6 @@ import FormTextArea from '../common/FormTextArea';
 import FormTextField from '../common/FormTextField';
 import StoryConfirmChanges from './story-description/StoryConfirmChanges';
 import StoryStatus from './story-description/StoryStatus';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -47,7 +47,7 @@ const useStyles = makeStyles(() =>
             position: 'absolute',
             width: '100%',
             height: '100vh',
-            backgroundColor: 'rgba(0, 0, 0, 0.4)',
+            backgroundColor: 'rgba(255, 255, 255, 0.5)',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -66,13 +66,18 @@ const useStyles = makeStyles(() =>
             fontSize: '18px',
             marginRight: '3px',
         },
+        spinner: {
+            marginBottom: '100px',
+            color: '#75BAF7',
+        },
     })
 );
 
 export interface ISidebarProps {
     isReady: boolean;
     isBlocked: boolean;
-    team: ISelectedItem[];
+    isLoading: boolean;
+    users: ISelectedItem[];
     sprints: ISelectedItem[];
     storyPriorities: ISelectedItem[];
     storyEstimates: ISelectedItem[];
@@ -84,6 +89,7 @@ export interface ISidebarProps {
     onClickRemoveStory: () => void;
     onClickViewStoryHistory: () => void;
     onSubmitChanges: (values: IStoryFormTypes) => void;
+    validateStoryTitle: (value: string) => void;
 }
 
 const Sidebar = (props: ISidebarProps) => {
@@ -91,8 +97,9 @@ const Sidebar = (props: ISidebarProps) => {
     const {
         isReady,
         isBlocked,
+        isLoading,
         initialValues,
-        team,
+        users,
         storyEstimates,
         sprints,
         storyPriorities,
@@ -103,17 +110,17 @@ const Sidebar = (props: ISidebarProps) => {
         onClickRemoveStory,
         onClickViewStoryHistory,
         onSubmitChanges,
+        validateStoryTitle,
     } = props;
 
     return (
         <Formik initialValues={initialValues} onSubmit={onSubmitChanges}>
-            {({ touched, values, initialValues, resetForm }) => {
+            {({ touched, isValid, values, initialValues, resetForm }) => {
                 const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
                 const storiesEquality =
                     areStoriesEqual(initialValues, values) &&
                     initialValues.isBlocked === isBlocked &&
                     initialValues.isReady === isReady;
-                console.log(isAnyFieldTouched);
 
                 const onClickResetValues = () => {
                     resetForm();
@@ -122,12 +129,12 @@ const Sidebar = (props: ISidebarProps) => {
 
                 return (
                     <div className={classes.root}>
+                        {isLoading && (
+                            <div className={classes.spinnerContainer}>
+                                <CircularProgress color="primary" className={classes.spinner} size={60} />
+                            </div>
+                        )}
                         <Form>
-                            {false && (
-                                <div className={classes.spinnerContainer}>
-                                    <CircularProgress color="primary" />
-                                </div>
-                            )}
                             <CloseIcon className={classes.closeSidebarIcon} onClick={onCloseTab} />
                             <div className={classes.buttonsContainer}>
                                 <Button
@@ -152,7 +159,12 @@ const Sidebar = (props: ISidebarProps) => {
                                 })}
                             >
                                 <div className={classes.sectionContainer}>
-                                    <Field name={storyFields.title} label="Story name" component={FormTextField} />
+                                    <Field
+                                        name={storyFields.title}
+                                        label="Story name"
+                                        component={FormTextField}
+                                        validate={validateStoryTitle}
+                                    />
                                 </div>
                                 <div className={classes.sectionContainer}>
                                     <StoryStatus
@@ -167,7 +179,7 @@ const Sidebar = (props: ISidebarProps) => {
                                         name={storyFields.userId}
                                         disabled={false}
                                         label="Story Owner"
-                                        items={team}
+                                        items={users}
                                         component={FormDropdown}
                                     />
                                 </div>
@@ -217,7 +229,12 @@ const Sidebar = (props: ISidebarProps) => {
                                     />
                                 </div>
                             </div>
-                            {!storiesEquality && <StoryConfirmChanges onClickCancelChanges={onClickResetValues} />}
+                            {!storiesEquality && (
+                                <StoryConfirmChanges
+                                    disabled={!isAnyFieldTouched || (isAnyFieldTouched && !isValid)}
+                                    onClickCancelChanges={onClickResetValues}
+                                />
+                            )}
                         </Form>
                     </div>
                 );

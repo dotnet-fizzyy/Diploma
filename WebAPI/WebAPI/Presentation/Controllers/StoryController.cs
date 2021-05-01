@@ -247,6 +247,17 @@ namespace WebAPI.Presentation.Controllers
             
             return story;
         }
+
+        [HttpDelete]
+        [Route("soft/id/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> RemoveStorySoft(Guid id)
+        {
+            await _storyService.RemoveStorySoftAsync(id);
+            
+            return NoContent();
+        }
         
         /// <summary>
         /// Remove story with provided id

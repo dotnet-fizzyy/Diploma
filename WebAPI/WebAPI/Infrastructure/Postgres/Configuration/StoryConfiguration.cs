@@ -1,4 +1,3 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WebAPI.Core.Entities;
@@ -28,6 +27,7 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
                 .HasColumnType("xid")
                 .ValueGeneratedOnAddOrUpdate()
                 .IsConcurrencyToken();
+            builder.HasQueryFilter(x => !x.IsDeleted);
             builder.HasIndex(x => x.Title);
             builder.HasIndex(x => x.SprintId);
             builder.HasIndex(x => x.ColumnType);

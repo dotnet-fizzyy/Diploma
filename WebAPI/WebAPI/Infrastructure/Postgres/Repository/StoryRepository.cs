@@ -67,5 +67,15 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task RemoveStorySoftAsync(Guid id)
+        {
+            var story = new Story { Id = id, IsDeleted = true };
+
+            _dbContext.Entry(story);
+            _dbContext.Entry(story).Property(x => x.IsDeleted).IsModified = true;
+
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

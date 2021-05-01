@@ -1,26 +1,31 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as sidebarActions from '../../redux/actions/sidebarActions';
-import * as sprintSelectors from '../../redux/selectors/sprintsSelectors';
-import * as storySelectors from '../../redux/selectors/storiesSelectors';
-import * as teamSelectors from '../../redux/selectors/teamSelectors';
+import { BaseRegexExpression } from '../../constants';
+import { sidebarHandleVisibility } from '../../redux/actions/sidebarActions';
+import { getSidebarIsLoading } from '../../redux/selectors/sidebarSelectors';
+import { getSprintsNames } from '../../redux/selectors/sprintsSelectors';
+import { getSelectedStory } from '../../redux/selectors/storiesSelectors';
+import { getUserNames } from '../../redux/selectors/teamSelectors';
 import { IStoryFormTypes } from '../../types/formTypes';
+import { ISelectedItem, IStory } from '../../types/storyTypes';
+import { InputFormFieldValidator } from '../../utils/formHelper';
 import { createStoryEstimationDropdownItems, createStoryPriorityDropdownItems } from '../../utils/storyHelper';
 import Sidebar, { ISidebarProps } from './Sidebar';
 
 const SidebarContainer = () => {
     const dispatch = useDispatch();
-    const story = useSelector(storySelectors.getSelectedStory);
-    const team = useSelector(teamSelectors.getUserNames);
-    const sprints = useSelector(sprintSelectors.getSprintsNames);
-    const storyPriorities = createStoryPriorityDropdownItems();
-    const storyEstimates = createStoryEstimationDropdownItems();
+    const story: IStory = useSelector(getSelectedStory);
+    const users: ISelectedItem[] = useSelector(getUserNames);
+    const sprints: ISelectedItem[] = useSelector(getSprintsNames);
+    const isLoading: boolean = useSelector(getSidebarIsLoading);
+    const storyPriorities: ISelectedItem[] = createStoryPriorityDropdownItems();
+    const storyEstimates: ISelectedItem[] = createStoryEstimationDropdownItems();
 
     const [isBlocked, setIsBlocked] = useState<boolean>(story.isBlocked);
     const [isReady, setIsReady] = useState<boolean>(story.isReady);
 
     const onCloseTab = (): void => {
-        dispatch(sidebarActions.sidebarHandleVisibility(false));
+        dispatch(sidebarHandleVisibility(false));
     };
 
     const onClickCancelChanges = (): void => {
@@ -48,10 +53,14 @@ const SidebarContainer = () => {
         console.warn(values);
     };
 
+    const validateStoryTitle = (value: string) =>
+        new InputFormFieldValidator(value, 3, 100, true, BaseRegexExpression).validate();
+
     const sidebarProps: ISidebarProps = {
         isBlocked,
         isReady,
-        team,
+        isLoading,
+        users,
         sprints,
         storyPriorities,
         storyEstimates,
@@ -63,6 +72,7 @@ const SidebarContainer = () => {
         onSubmitChanges,
         onClickRemoveStory,
         onClickViewStoryHistory,
+        validateStoryTitle,
     };
 
     return <Sidebar {...sidebarProps} />;

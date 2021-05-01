@@ -196,6 +196,11 @@ namespace WebAPI.ApplicationLogic.Services
             return storyModel;
         }
 
+        public async Task RemoveStorySoftAsync(Guid id)
+        {
+            await _storyRepository.RemoveStorySoftAsync(id);
+        }
+
         public async Task RemoveStoryAsync(Guid id)
         {
             using var scope = new TransactionScope

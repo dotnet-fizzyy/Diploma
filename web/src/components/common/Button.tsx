@@ -4,6 +4,7 @@ import React from 'react';
 
 export enum ButtonVariant {
     DEFAULT = 'DEFAULT',
+    SECONDARY = 'SECONDARY',
     SUCCESS = 'SUCCESS',
     DANGER = 'DANGER',
 }
@@ -17,10 +18,23 @@ const useStyles = makeStyles(() =>
             fontWeight: 600,
             fontSize: ({ isSmall }: IButtonProps) => (isSmall ? '14px' : '16px'),
             textTransform: 'capitalize',
+            border: ({ buttonVariant }: IButtonProps) => {
+                switch (buttonVariant) {
+                    case ButtonVariant.SECONDARY:
+                        return '1px solid #75BAF7';
+                    case ButtonVariant.SUCCESS:
+                    case ButtonVariant.DANGER:
+                    case ButtonVariant.DEFAULT:
+                    default:
+                        return null;
+                }
+            },
             color: ({ buttonVariant }: IButtonProps) => {
                 switch (buttonVariant) {
                     case ButtonVariant.SUCCESS:
                         return 'green';
+                    case ButtonVariant.SECONDARY:
+                        return '#75BAF7';
                     case ButtonVariant.DANGER:
                         return 'red';
                     case ButtonVariant.DEFAULT:
@@ -32,6 +46,8 @@ const useStyles = makeStyles(() =>
                 switch (buttonVariant) {
                     case ButtonVariant.SUCCESS:
                         return '#a2ffa0';
+                    case ButtonVariant.SECONDARY:
+                        return '#FFF';
                     case ButtonVariant.DANGER:
                         return '#ffbdb9';
                     case ButtonVariant.DEFAULT:

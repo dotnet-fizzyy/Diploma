@@ -14,5 +14,7 @@ namespace WebAPI.Core.Interfaces.Database
         Task UpdateStoryColumn(Story story);
         
         Task ChangeStoryStatus(Story story);
+
+        Task RemoveStorySoftAsync(Guid id);
     }
 }

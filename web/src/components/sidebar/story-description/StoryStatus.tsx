@@ -91,7 +91,7 @@ const StoryStatus = (props: IStoryStatusProps) => {
 
     return (
         <div className={classes.sectionContainer}>
-            <span className={classes.title}>Status</span>
+            <span className={classes.title}>Status:</span>
             <div className={classes.buttonContainer}>
                 <Button
                     className={classnames(classes.button, classes.readyButton, { [classes.acceptedButton]: isReady })}
