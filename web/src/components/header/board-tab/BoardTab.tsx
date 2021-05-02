@@ -69,6 +69,7 @@ export interface IBoardTabProps {
     sortType: string;
     onChangeEpic: (value: string) => void;
     onChangeSortType: (e) => void;
+    onChangeSprint: (e) => void;
     onClickAddStory: () => void;
     onClickCreateUser: () => void;
 }
@@ -87,6 +88,7 @@ const BoardTab = (props: IBoardTabProps) => {
         onChangeSortType,
         onClickAddStory,
         onChangeEpic,
+        onChangeSprint,
         onClickCreateUser,
     } = props;
 
@@ -107,7 +109,7 @@ const BoardTab = (props: IBoardTabProps) => {
                     <BoardTabDropdown
                         value={selectedSprintId}
                         items={sprints}
-                        onChangeEvent={onChangeSortType}
+                        onChangeEvent={onChangeSprint}
                         isOutlined={true}
                     />
                 </div>

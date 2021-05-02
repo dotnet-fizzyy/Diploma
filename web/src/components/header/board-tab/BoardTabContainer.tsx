@@ -33,6 +33,10 @@ const BoardTabContainer = () => {
         dispatch(sortStoriesRequest(e.target.value));
     };
 
+    const onChangeSprint = (e): void => {
+        console.log(e.target.value);
+    };
+
     const onClickAddStory = (): void => {
         dispatch(openModal(ModalTypes.STORY));
     };
@@ -53,6 +57,7 @@ const BoardTabContainer = () => {
         onChangeSortType,
         onClickAddStory,
         onChangeEpic,
+        onChangeSprint,
         onClickCreateUser,
     };
 
