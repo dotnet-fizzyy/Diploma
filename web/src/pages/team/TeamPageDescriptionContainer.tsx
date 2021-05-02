@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { openModal } from '../../redux/actions/modalActions';
 import { changeUserActivityStatusRequest } from '../../redux/actions/userActions';
-import { ModalOptions, ModalTypes } from '../../types/modalTypes';
 import { ITeam } from '../../types/teamTypes';
 import TeamPageDescription, { ITeamPageDescriptionProps } from './TeamPageDescription';
 

@@ -69,3 +69,8 @@ export const InitialProfileUpdatePassword: IProfilePasswordUpdateForm = {
     newPassword: '',
     repeatedPassword: '',
 };
+
+export enum StartPageTypes {
+    LOGIN = 'LOGIN',
+    REGISTRATION = 'REGISTRATION',
+}

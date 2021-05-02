@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../../constants';
+import { ModalOptions } from '../../../../constants/modalConstants';
 import { CustomerInitialState, UserInitialState } from '../../../../constants/userConstants';
 import { createUserRequest } from '../../../../redux/actions/userActions';
 import { getModalOption } from '../../../../redux/selectors/modalSelectors';
 import { getSelectedTeamId } from '../../../../redux/selectors/teamSelectors';
 import { getWorkSpaceId } from '../../../../redux/selectors/workSpaceSelectors';
-import { ModalOptions } from '../../../../types/modalTypes';
 import { IUser } from '../../../../types/userTypes';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formHelper';
 import { createUserPositionDropdownItems, createUserRoleDropdownItems } from '../../../../utils/userHelper';

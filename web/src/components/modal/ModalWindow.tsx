@@ -1,7 +1,7 @@
 import { Modal } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { ModalTypes } from '../../types/modalTypes';
+import { ModalTypes } from '../../constants/modalConstants';
 import EpicModalContainer from './epic/EpicModalContainer';
 import ProjectModalContainer from './project/ProjectModalContainer';
 import SprintModalContainer from './sprint/SprintModalContainer';

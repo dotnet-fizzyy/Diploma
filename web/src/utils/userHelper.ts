@@ -1,6 +1,6 @@
+import { UserPosition, UserRole } from '../constants/userConstants';
 import { IJsonPatchBody } from '../types';
 import { ISelectedItem } from '../types/storyTypes';
-import { UserPosition, UserRole } from '../types/userTypes';
 
 export function createUserRoleDropdownItems(): ISelectedItem[] {
     return Object.entries(UserRole).map((x) => {

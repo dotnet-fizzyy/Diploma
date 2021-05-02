@@ -1,4 +1,4 @@
-import { ModalOptions, ModalTypes } from '../../types/modalTypes';
+import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 
 export const ModalActions = {
     OPEN_MODAL: 'OPEN_MODAL',

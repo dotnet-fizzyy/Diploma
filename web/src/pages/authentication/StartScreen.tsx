@@ -2,7 +2,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import LoginPage, { ILoginPageProps } from '../../components/authentication/Login';
 import RegistrationPage, { IRegistrationPageProps } from '../../components/authentication/Registration';
-import { StartPageTypes } from '../../types/pageTypes';
+import { StartPageTypes } from '../../constants';
 
 const useStyles = makeStyles(() =>
     createStyles({

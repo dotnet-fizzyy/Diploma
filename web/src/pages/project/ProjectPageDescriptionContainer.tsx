@@ -1,13 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { setSelectedEpicById } from '../../redux/actions/epicActions';
 import { openModal } from '../../redux/actions/modalActions';
 import { getSprintsFromEpicRequest } from '../../redux/actions/sprintsActions';
 import { getEpics } from '../../redux/selectors/epicsSelectors';
 import { getSprints } from '../../redux/selectors/sprintsSelectors';
 import { IEpic } from '../../types/epicTypes';
-import { ModalOptions, ModalTypes } from '../../types/modalTypes';
 import { IProject } from '../../types/projectTypes';
 import { ISprint } from '../../types/sprintTypes';
 import ProjectPageDescription, { IProjectPageDescriptionProps } from './ProjectPageDescription';

@@ -3,12 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import { ILoginPageProps } from '../../components/authentication/Login';
 import { IRegistrationPageProps } from '../../components/authentication/Registration';
-import { BaseRegexExpression } from '../../constants';
+import { BaseRegexExpression, StartPageTypes } from '../../constants';
 import * as routeConstants from '../../constants/routeConstants';
 import * as currentUserActions from '../../redux/actions/userActions';
 import * as currentUserSelectors from '../../redux/selectors/userSelectors';
 import { ILoginForm, IRegistrationForm } from '../../types/formTypes';
-import { StartPageTypes } from '../../types/pageTypes';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../utils/formHelper';
 import StartScreen, { IStartScreenProps } from './StartScreen';
 

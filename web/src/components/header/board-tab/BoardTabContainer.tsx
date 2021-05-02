@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ModalTypes } from '../../../constants/modalConstants';
 import { openModal } from '../../../redux/actions/modalActions';
 import { changeEpicRequest, sortStoriesRequest } from '../../../redux/actions/storiesActions';
 import { getEpicsNames, getSelectedEpicId } from '../../../redux/selectors/epicsSelectors';
@@ -7,7 +8,6 @@ import { getSelectedSprintId, getSprintNamesForBoard } from '../../../redux/sele
 import { getSortType } from '../../../redux/selectors/storiesSelectors';
 import { getSelectedTeam } from '../../../redux/selectors/teamSelectors';
 import { getUser } from '../../../redux/selectors/userSelectors';
-import { ModalTypes } from '../../../types/modalTypes';
 import { ISelectedItem } from '../../../types/storyTypes';
 import { ITeam } from '../../../types/teamTypes';
 import { IUser } from '../../../types/userTypes';

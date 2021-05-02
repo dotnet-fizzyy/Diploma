@@ -1,4 +1,5 @@
-import { IUser, UserRole } from '../types/userTypes';
+import { UserRole } from '../constants/userConstants';
+import { IUser } from '../types/userTypes';
 
 abstract class BaseRouteGuard {
     protected readonly _user: IUser;
@@ -36,7 +37,7 @@ export class CustomerRouteGuard extends BaseRouteGuard {
     }
 }
 
-export function getQueryParameter(search: string, key:string): string {
+export function getQueryParameter(search: string, key: string): string {
     const params = new URLSearchParams(search);
 
     return params.get(key);

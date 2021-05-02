@@ -1,4 +1,5 @@
-import { IUser, IUserListItem, UserPosition, UserRole } from '../types/userTypes';
+import { UserPosition, UserRole } from '../constants/userConstants';
+import { IUser, IUserListItem } from '../types/userTypes';
 
 export const mockedUser: IUser = {
     userId: '12345',

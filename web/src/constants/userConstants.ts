@@ -1,4 +1,4 @@
-import { IUser, UserPosition, UserRole } from '../types/userTypes';
+import { IUser } from '../types/userTypes';
 
 export const UserInitialState: IUser = {
     avatarLink: '',
@@ -40,3 +40,18 @@ export const passwordUpdateFields = {
     newPassword: 'newPassword',
     repeatedPassword: 'repeatedPassword',
 };
+
+export enum UserRole {
+    ProductOwner = 'Product Owner',
+    TeamMaster = 'Team Master',
+    Lead = 'Lead',
+    Engineer = 'Engineer',
+}
+
+export enum UserPosition {
+    Developer = 'Developer',
+    Qa = 'Qa',
+    DevOps = 'DevOps',
+    Architecture = 'Architecture',
+    Customer = 'Customer',
+}

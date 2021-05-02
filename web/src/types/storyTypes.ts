@@ -1,4 +1,5 @@
-import { UserPosition } from './userTypes';
+import { Priority } from '../constants/storyConstants';
+import { UserPosition } from '../constants/userConstants';
 
 export interface IStory {
     storyId?: string;
@@ -42,31 +43,6 @@ export interface IStoryHistory {
     currentValue: string;
     userId: string;
     creationDate: Date;
-}
-
-export enum Priority {
-    LOW = 'Low',
-    MEDIUM = 'Medium',
-    HIGH = 'High',
-}
-
-export const SortFieldsNames = {
-    PRIORITY: 'PRIORITY',
-    NAME: 'NAME',
-    ESTIMATE: 'ESTIMATE',
-    CREATION_DATE: 'CREATION_DATE',
-};
-
-export const SortFields = {
-    [SortFieldsNames.PRIORITY]: 'Priority',
-    [SortFieldsNames.NAME]: 'Name',
-    [SortFieldsNames.ESTIMATE]: 'Estimate',
-    [SortFieldsNames.CREATION_DATE]: 'Creation Date',
-};
-
-export enum SortDirection {
-    ASC = 'ASC',
-    DESC = 'DESC',
 }
 
 export interface IStoryUpdate {

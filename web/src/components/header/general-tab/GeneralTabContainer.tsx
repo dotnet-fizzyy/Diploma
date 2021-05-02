@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { ModalTypes } from '../../../constants/modalConstants';
 import { SignInUrl } from '../../../constants/routeConstants';
 import { openModal } from '../../../redux/actions/modalActions';
 import { blurStoryTitleTerm, setStoryTitleTermRequest } from '../../../redux/actions/storiesActions';
 import { changeUserProject, changeUserTeam, logOutUser } from '../../../redux/actions/userActions';
 import { getSearchResults, getStoryTitleTerm } from '../../../redux/selectors/storiesSelectors';
 import { getUser, getUserSelectedProjectId, getUserSelectedTeamId } from '../../../redux/selectors/userSelectors';
-import { ModalTypes } from '../../../types/modalTypes';
 import { IStory } from '../../../types/storyTypes';
 import { IFullUser } from '../../../types/userTypes';
 import GeneralTab, { IGeneralTabProps } from './GeneralTab';

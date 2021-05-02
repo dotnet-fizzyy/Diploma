@@ -1,4 +1,5 @@
-import { IStory, IStoryColumns, IStoryHistory, SortDirection } from '../../types/storyTypes';
+import { SortDirection } from '../../constants/storyConstants';
+import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
 import { IState } from '../store/state';
 
 export function getColumns(state: IState): IStoryColumns[] {

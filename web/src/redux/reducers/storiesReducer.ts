@@ -1,5 +1,6 @@
 import { ColumnIds } from '../../constants/boardConstants';
-import { IStory, IStoryColumns, SortDirection, SortFields } from '../../types/storyTypes';
+import { SortDirection, SortFields } from '../../constants/storyConstants';
+import { IStory, IStoryColumns } from '../../types/storyTypes';
 import * as storyActions from '../actions/storiesActions';
 import { IStoryState } from '../store/state';
 

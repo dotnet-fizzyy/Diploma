@@ -1,11 +1,11 @@
 import { call, debounce, delay, put, select, takeLatest } from 'redux-saga/effects';
 import SprintApi from '../../api/sprintApi';
 import StoryApi from '../../api/storyApi';
-import { debouncePeriod } from '../../constants/storyConstants';
+import { debouncePeriod, SortFieldsNames } from '../../constants/storyConstants';
 import { IJsonPatchBody } from '../../types';
 import { IProject } from '../../types/projectTypes';
 import { IFullSprint, ISprint } from '../../types/sprintTypes';
-import { IStory, IStoryColumns, IStoryHistory, IStoryUpdate, SortFieldsNames } from '../../types/storyTypes';
+import { IStory, IStoryColumns, IStoryHistory, IStoryUpdate } from '../../types/storyTypes';
 import { IUser } from '../../types/userTypes';
 import { mapFullSprintToSprint } from '../../utils/epicHelper';
 import {

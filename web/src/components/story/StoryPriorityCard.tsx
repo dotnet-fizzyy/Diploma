@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import React from 'react';
-import { Priority } from '../../types/storyTypes';
+import { Priority } from '../../constants/storyConstants';
 
 const useStyles = makeStyles(() =>
     createStyles({

@@ -1,5 +1,5 @@
-import { Priority } from './storyTypes';
-import { UserPosition } from './userTypes';
+import { Priority } from '../constants/storyConstants';
+import { UserPosition } from '../constants/userConstants';
 
 export interface ILoginForm {
     name: string;

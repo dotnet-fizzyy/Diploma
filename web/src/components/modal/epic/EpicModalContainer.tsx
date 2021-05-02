@@ -1,13 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { EpicInitialState } from '../../../constants/epicConstants';
+import { ModalOptions } from '../../../constants/modalConstants';
 import * as epicActions from '../../../redux/actions/epicActions';
 import { getSelectedEpic } from '../../../redux/selectors/epicsSelectors';
 import { getModalOption } from '../../../redux/selectors/modalSelectors';
 import { getSelectProject } from '../../../redux/selectors/projectSelectors';
 import { IEpic } from '../../../types/epicTypes';
 import { IEpicFormTypes } from '../../../types/formTypes';
-import { ModalOptions } from '../../../types/modalTypes';
 import { IProject } from '../../../types/projectTypes';
 import { InputFormFieldValidator } from '../../../utils/formHelper';
 import EpicModal, { IEpicCreationProps } from './EpicModal';

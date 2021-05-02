@@ -1,8 +1,9 @@
+import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
+import { SortDirection } from '../../constants/storyConstants';
 import { IEpic, IEpicSimpleModel } from '../../types/epicTypes';
-import { ModalOptions, ModalTypes } from '../../types/modalTypes';
 import { IProject } from '../../types/projectTypes';
 import { ISprint } from '../../types/sprintTypes';
-import { IStory, IStoryColumns, IStoryHistory, SortDirection } from '../../types/storyTypes';
+import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
 import { ITeam, ITeamSimpleModel } from '../../types/teamTypes';
 import { IFullUser } from '../../types/userTypes';
 import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';

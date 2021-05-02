@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../constants';
+import { ModalOptions } from '../../../constants/modalConstants';
 import { initialTeamState } from '../../../constants/teamConstants';
 import * as teamActions from '../../../redux/actions/teamActions';
 import { getModalOption } from '../../../redux/selectors/modalSelectors';
 import * as projectSelectors from '../../../redux/selectors/projectSelectors';
 import { getSelectProjectId } from '../../../redux/selectors/projectSelectors';
-import { ModalOptions } from '../../../types/modalTypes';
 import { ISelectedItem } from '../../../types/storyTypes';
 import { ITeam } from '../../../types/teamTypes';
 import { InputFormFieldValidator } from '../../../utils/formHelper';

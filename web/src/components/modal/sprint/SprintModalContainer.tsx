@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ModalOptions } from '../../../constants/modalConstants';
 import { createSprintRequest } from '../../../redux/actions/sprintsActions';
 import { getSelectedEpicId } from '../../../redux/selectors/epicsSelectors';
 import { getModalOption } from '../../../redux/selectors/modalSelectors';
-import { ModalOptions } from '../../../types/modalTypes';
 import { ISprint } from '../../../types/sprintTypes';
 import { InputFormFieldValidator } from '../../../utils/formHelper';
 import SprintModal, { ISprintCreationProps } from './SprintModal';
