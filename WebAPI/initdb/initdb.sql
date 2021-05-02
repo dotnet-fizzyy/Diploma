@@ -378,3 +378,18 @@ BEGIN
     VALUES ('20210425102343_RemoveNullableTeamProjectId', '3.1.9');
     END IF;
 END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210502085917_AddStoryRequiredRole') THEN
+    ALTER TABLE "Stories" ADD "RequiredPosition" integer NOT NULL DEFAULT 0;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210502085917_AddStoryRequiredRole') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20210502085917_AddStoryRequiredRole', '3.1.9');
+    END IF;
+END $$;
