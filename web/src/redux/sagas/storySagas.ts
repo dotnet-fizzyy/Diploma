@@ -3,10 +3,9 @@ import SprintApi from '../../api/sprintApi';
 import StoryApi from '../../api/storyApi';
 import { debouncePeriod } from '../../constants/storyConstants';
 import { IJsonPatchBody } from '../../types';
-import { IEpic } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';
 import { IFullSprint, ISprint } from '../../types/sprintTypes';
-import { IStory, IStoryColumns, IStoryHistory, IStoryUpdate } from '../../types/storyTypes';
+import { IStory, IStoryColumns, IStoryHistory, IStoryUpdate, SortFieldsNames } from '../../types/storyTypes';
 import { IUser } from '../../types/userTypes';
 import { mapFullSprintToSprint } from '../../utils/epicHelper';
 import {
@@ -56,9 +55,14 @@ import {
     IUpdateStoryColumnRequest,
     StoryActions,
 } from '../actions/storiesActions';
-import { getSelectedEpic } from '../selectors/epicsSelectors';
 import { getSelectProject } from '../selectors/projectSelectors';
-import { getColumns, getSelectedStory, getWasStoryBlocked } from '../selectors/storiesSelectors';
+import {
+    getAllStoryIds,
+    getColumns,
+    getSelectedStory,
+    getSortDirection,
+    getWasStoryBlocked,
+} from '../selectors/storiesSelectors';
 import { getUser } from '../selectors/userSelectors';
 
 function* refreshData() {
@@ -194,12 +198,16 @@ function* changeEpic(action: IChangeEpicRequest) {
 
 function* sortStories(action: ISortStoriesRequest) {
     try {
-        yield put(changeSortType(action.payload));
+        const sortType: string = SortFieldsNames[action.payload];
+        yield put(changeSortType(sortType));
 
-        const epic: IEpic = yield select(getSelectedEpic);
-        const sort = action.payload.split(' ').join('');
+        const storyIds: string[] = yield select(getAllStoryIds);
+        const sortDirection: string = yield select(getSortDirection);
+        let queryString: string = `sortType=${sortType}&orderType=${sortDirection}&storyIds=${storyIds.join(
+            '&storyIds='
+        )}`;
 
-        const sortedStories: IStory[] = yield call(StoryApi.sortStories, sort, epic.epicId);
+        const sortedStories: IStory[] = yield call(StoryApi.sortStories, queryString);
 
         yield put(sortStoriesSuccess(sortedStories));
     } catch (error) {

@@ -49,9 +49,9 @@ export default class StoryApi {
         return response.data.items.map(mapToStoryModel);
     }
 
-    public static async sortStories(sortType: string, epicId: string): Promise<IStory[]> {
+    public static async sortStories(queryParams: string): Promise<IStory[]> {
         const response: AxiosResponse<ICollectionResponse<IStory>> = await AxiosBaseApi.axiosGet(
-            StoryUrls.sortStories + `?epicId=${epicId}&sortType=${sortType}&orderType=ASC`
+            `${StoryUrls.sortStories}?${queryParams}`
         );
 
         return response.data.items.map(mapToStoryModel);

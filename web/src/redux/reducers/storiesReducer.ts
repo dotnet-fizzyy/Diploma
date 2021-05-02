@@ -1,5 +1,5 @@
 import { ColumnIds } from '../../constants/boardConstants';
-import { IStory, IStoryColumns, SortFields } from '../../types/storyTypes';
+import { IStory, IStoryColumns, SortDirection, SortFields } from '../../types/storyTypes';
 import * as storyActions from '../actions/storiesActions';
 import { IStoryState } from '../store/state';
 
@@ -21,6 +21,7 @@ const initialState: IStoryState = {
     storyHistory: [],
     isDragging: false,
     sortType: SortFields.PRIORITY.toUpperCase(),
+    sortDirection: SortDirection.ASC,
 };
 
 export default function storiesReducer(state = initialState, action: any) {

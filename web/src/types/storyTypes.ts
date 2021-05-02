@@ -50,12 +50,24 @@ export enum Priority {
     HIGH = 'High',
 }
 
-export const SortFields = {
-    PRIORITY: 'Priority',
-    NAME: 'Name',
-    ESTIMATE: 'Estimate',
-    CREATION_DATE: 'Creation Date',
+export const SortFieldsNames = {
+    PRIORITY: 'PRIORITY',
+    NAME: 'NAME',
+    ESTIMATE: 'ESTIMATE',
+    CREATION_DATE: 'CREATION_DATE',
 };
+
+export const SortFields = {
+    [SortFieldsNames.PRIORITY]: 'Priority',
+    [SortFieldsNames.NAME]: 'Name',
+    [SortFieldsNames.ESTIMATE]: 'Estimate',
+    [SortFieldsNames.CREATION_DATE]: 'Creation Date',
+};
+
+export enum SortDirection {
+    ASC = 'ASC',
+    DESC = 'DESC',
+}
 
 export interface IStoryUpdate {
     story: IStory;

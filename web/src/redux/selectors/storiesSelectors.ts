@@ -1,4 +1,4 @@
-import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
+import { IStory, IStoryColumns, IStoryHistory, SortDirection } from '../../types/storyTypes';
 import { IState } from '../store/state';
 
 export function getColumns(state: IState): IStoryColumns[] {
@@ -12,6 +12,10 @@ export const getStoriesForColumn = (columnId: string) => (state: IState): IStory
 export const getAllStories = (state: IState): IStory[] => {
     return state.stories.columns.map((x) => x.value).reduce((acc, x) => acc.concat(x), []);
 };
+
+export function getAllStoryIds(state: IState): string[] {
+    return getAllStories(state).map((x) => x.storyId);
+}
 
 export function getSelectedStory(state: IState): IStory {
     return state.stories.columns
@@ -42,4 +46,8 @@ export function getIsDragging(state: IState): boolean {
 
 export function getSortType(state: IState): string {
     return state.stories.sortType;
+}
+
+export function getSortDirection(state: IState): SortDirection {
+    return state.stories.sortDirection;
 }
