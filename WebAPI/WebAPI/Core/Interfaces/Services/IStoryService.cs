@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using WebAPI.Core.Enums;
 using WebAPI.Models.Models;
 using WebAPI.Models.Models.Result;
 
@@ -9,13 +10,11 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<CollectionResponse<Story>> GetStoriesAsync();
 
-        Task<CollectionResponse<Story>> GetStoriesByTitleTermAsync(string term, int limit, Guid projectId);
-
-        Task<CollectionResponse<StoryHistory>> GetStoryHistoryAsync(Guid storyId);
-
         Task<CollectionResponse<Story>> GetStoriesFromSprintAsync(Guid sprintId);
         
         Task<CollectionResponse<Story>> GetStoriesFromEpicAsync(Guid epicId);
+
+        Task<CollectionResponse<Story>> SortStories(Guid[] storyIds, string sortType, OrderType orderType);
         
         Task<Story> GetStoryByIdAsync(Guid storyId);
 

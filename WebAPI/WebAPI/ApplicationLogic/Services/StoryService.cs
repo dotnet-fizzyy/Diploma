@@ -46,37 +46,6 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<CollectionResponse<Story>> GetStoriesByTitleTermAsync(string term, int limit, Guid userId)
-        {
-            var storyEntities = await _storyRepository.GetStoriesByTitleTerm(term, limit, userId);
-
-            var storyModels = new CollectionResponse<Story>
-            {
-                Items = storyEntities.Select(_storyMapper.MapToModel).ToList()
-            };
-
-            return storyModels;
-        }
-
-        public async Task<CollectionResponse<StoryHistory>> GetStoryHistoryAsync(Guid storyId)
-        {
-            var storyHistoryEntities = await _storyHistoryRepository.SearchForMultipleItemsAsync(x => x.StoryId == storyId);
-            if (!storyHistoryEntities.Any())
-            {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntitiesMessage(nameof(storyId)));
-            }
-            
-            var collectionResponse = new CollectionResponse<StoryHistory>
-            {
-                Items = storyHistoryEntities
-                    .Select(_storyHistoryMapper.MapToModel)
-                    .OrderBy(x => x.CreationDate)
-                    .ToList(),
-            };
-
-            return collectionResponse;
-        }
-        
         public async Task<CollectionResponse<Story>> GetStoriesFromEpicAsync(Guid epicId)
         {
             var storyEntities = await _storyRepository.GetStoriesByEpicId(epicId);
@@ -92,7 +61,26 @@ namespace WebAPI.ApplicationLogic.Services
 
             return collectionResponse;
         }
-        
+
+        public async Task<CollectionResponse<Story>> SortStories(Guid[] storyIds, string sortType, OrderType orderType)
+        {
+            var storyEntities = await _storyRepository.SearchForMultipleItemsAsync(x => storyIds.Any(s => s == x.Id));
+            if (!storyEntities.Any())
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntitiesMessage(nameof(storyIds)));
+            }
+
+            var storyModels = storyEntities.Select(_storyMapper.MapToModel).ToList();
+            storyModels = StoryHandler.SortStoriesByCriteria(storyModels, sortType, orderType);
+            
+            var collectionResponse = new CollectionResponse<Story>
+            {
+                Items = storyModels
+            };
+
+            return collectionResponse;
+        }
+
         public async Task<CollectionResponse<Story>> GetStoriesFromSprintAsync(Guid sprintId)
         {
             var storyEntities = await _storyRepository.SearchForMultipleItemsAsync(x => x.SprintId == sprintId);

@@ -52,27 +52,5 @@ namespace WebAPI.UnitTests.Validators
             result.ShouldHaveValidationErrorFor(x => x.StartDate);
             result.ShouldHaveValidationErrorFor(x => x.EndDate);
         }
-        
-        [Fact]
-        public void ShouldValidateIncorrectProjectCustomer()
-        {
-            //Arrange
-            _projectValidator = new ProjectValidator();
-
-            var project = new Project
-            {
-                ProjectName = "Name",
-                StartDate = DateTime.UtcNow,
-                EndDate = DateTime.UtcNow,
-                WorkSpaceId = Guid.Empty
-            };
-            
-            //Act
-            var result = _projectValidator.TestValidate(project);
-            
-            //Assert
-            Assert.False(result.IsValid);
-            result.ShouldHaveValidationErrorFor(x => x.WorkSpaceId).WithErrorMessage("Project requires customer id");
-        }
     }
 }

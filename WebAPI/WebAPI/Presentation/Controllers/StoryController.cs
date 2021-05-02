@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Enums;
-using WebAPI.Core.Interfaces.Handlers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models;
@@ -22,13 +21,11 @@ namespace WebAPI.Presentation.Controllers
     public class StoryController : ControllerBase
     {
         private readonly IStoryService _storyService;
-        private readonly IStorySortingAndFiltering _storySortingAndFiltering;
         private readonly IClaimsReader _claimsReader;
 
-        public StoryController(IStoryService storyService, IStorySortingAndFiltering storySortingAndFiltering, IClaimsReader claimsReader)
+        public StoryController(IStoryService storyService, IClaimsReader claimsReader)
         {
             _storyService = storyService;
-            _storySortingAndFiltering = storySortingAndFiltering;
             _claimsReader = claimsReader;
         }
 
@@ -57,13 +54,13 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CollectionResponse<Story>>> SortStories(
-            [FromQuery, BindRequired] Guid epicId,
+            [FromQuery, BindRequired] Guid[] storyIds,
             [FromQuery, BindRequired] string sortType,
             [FromQuery, BindRequired] OrderType orderType
             )
         {
-            var sortedStories = await _storySortingAndFiltering.SortStoriesByCriteria(
-                epicId,
+            var sortedStories = await _storyService.SortStories(
+                storyIds,
                 sortType,
                 orderType
             );
@@ -86,22 +83,6 @@ namespace WebAPI.Presentation.Controllers
         public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesFormSprint(Guid sprintId) => 
             await _storyService.GetStoriesFromSprintAsync(sprintId);
 
-        /// <summary>
-        /// Receive available for user stories that name matches term
-        /// </summary>
-        /// <response code="200">Received available for user stories that name matches term</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpGet]
-        [Route("term")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesByTerm(
-            [FromQuery, BindRequired] string term,
-            [FromQuery, BindRequired] int limit,
-            [FromQuery, BindRequired] Guid projectId
-        ) => 
-            await _storyService.GetStoriesByTitleTermAsync(term, limit, projectId);
-        
         /// <summary>
         /// Receive story with provided id
         /// </summary>
@@ -129,20 +110,6 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<FullStory>> GetFullStoryDescription(Guid id) => 
             await _storyService.GetFullStoryDescriptionAsync(id);
-
-        /// <summary>
-        /// Receive all story history records with provided story id
-        /// </summary>
-        /// <response code="200">Received all story history records with provided story id</response>
-        /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find story history records with provided story id</response>
-        [HttpGet]
-        [Route("history/id/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CollectionResponse<StoryHistory>>> GetStoryHistory(Guid id) => 
-            await _storyService.GetStoryHistoryAsync(id);
 
         /// <summary>
         /// Create story with provided model properties
