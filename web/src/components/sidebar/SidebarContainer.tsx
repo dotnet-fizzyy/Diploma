@@ -6,7 +6,7 @@ import { storyUpdateChangesRequest } from '../../redux/actions/storiesActions';
 import { getSidebarIsLoading } from '../../redux/selectors/sidebarSelectors';
 import { getSprintsNames } from '../../redux/selectors/sprintsSelectors';
 import { getSelectedStory } from '../../redux/selectors/storiesSelectors';
-import { getUserNames } from '../../redux/selectors/teamSelectors';
+import { getUserNamesForBoard } from '../../redux/selectors/teamSelectors';
 import { IStoryFormTypes } from '../../types/formTypes';
 import { ISelectedItem, IStory } from '../../types/storyTypes';
 import { InputFormFieldValidator } from '../../utils/formHelper';
@@ -16,7 +16,7 @@ import Sidebar, { ISidebarProps } from './Sidebar';
 const SidebarContainer = () => {
     const dispatch = useDispatch();
     const story: IStory = useSelector(getSelectedStory);
-    const users: ISelectedItem[] = useSelector(getUserNames);
+    const users: ISelectedItem[] = useSelector(getUserNamesForBoard);
     const sprints: ISelectedItem[] = useSelector(getSprintsNames);
     const isLoading: boolean = useSelector(getSidebarIsLoading);
     const storyPriorities: ISelectedItem[] = createStoryPriorityDropdownItems();

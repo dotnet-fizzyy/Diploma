@@ -15,7 +15,8 @@ export function mapToStoryModel(data): IStory {
         sprintId: data.sprintId,
         title: data.title,
         userId: data.userId,
-        creationDate: data.creationDate,
+        creationDate: new Date(data.creationDate),
+        requiredPosition: data.requiredPosition,
     };
 }
 
@@ -24,7 +25,7 @@ export function mapToStoryHistoryModel(data): IStoryHistory {
         storyHistoryId: data.storyHistoryId,
         userId: data.userId,
         storyHistoryAction: data.storyHistoryAction,
-        creationDate: data.creationDate,
+        creationDate: new Date(data.creationDate),
         currentValue: data.currentValue,
         previousValue: data.previousValue,
         fieldName: data.fieldName,

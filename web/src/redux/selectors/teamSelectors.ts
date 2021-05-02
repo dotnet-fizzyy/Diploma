@@ -1,5 +1,6 @@
 import { ISelectedItem } from '../../types/storyTypes';
 import { ITeam } from '../../types/teamTypes';
+import { IUser } from '../../types/userTypes';
 import { IState } from '../store/state';
 
 export function getTeams(state: IState): ITeam[] {
@@ -15,6 +16,17 @@ export function getUserNames(state: IState): ISelectedItem[] {
               } as ISelectedItem;
           })
         : [];
+}
+
+export function getUserNamesForBoard(state: IState): ISelectedItem[] {
+    const users: ISelectedItem[] = getUserNames(state);
+    users.unshift({ key: '', value: 'No owner' } as ISelectedItem);
+
+    return users;
+}
+
+export function getTeamUsers(state: IState): IUser[] {
+    return state.teams.selectedTeam ? state.teams.selectedTeam.users : [];
 }
 
 export function getSelectedTeam(state: IState): ITeam {

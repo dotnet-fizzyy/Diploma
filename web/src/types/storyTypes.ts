@@ -1,3 +1,5 @@
+import { UserPosition } from './userTypes';
+
 export interface IStory {
     storyId?: string;
     title: string;
@@ -13,6 +15,7 @@ export interface IStory {
     userId?: string;
     sprintId: string;
     storyPriority: Priority;
+    requiredPosition: UserPosition;
 }
 
 export interface ISelectedItem {

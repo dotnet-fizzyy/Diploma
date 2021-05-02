@@ -1,4 +1,5 @@
 import { IStory, Priority } from '../types/storyTypes';
+import { UserPosition } from '../types/userTypes';
 
 const mockedStory_1: IStory = {
     blockReason: '',
@@ -15,6 +16,7 @@ const mockedStory_1: IStory = {
     userId: '',
     storyPriority: Priority.LOW,
     recordVersion: 515,
+    requiredPosition: UserPosition.Developer,
 };
 
 const mockedStory_2: IStory = {
@@ -32,6 +34,7 @@ const mockedStory_2: IStory = {
     userId: '',
     storyPriority: Priority.HIGH,
     recordVersion: 521,
+    requiredPosition: UserPosition.Architecture,
 };
 
 const mockedStory_3: IStory = {
@@ -49,6 +52,7 @@ const mockedStory_3: IStory = {
     userId: '',
     storyPriority: Priority.MEDIUM,
     recordVersion: 124,
+    requiredPosition: UserPosition.Qa,
 };
 
 const mockedStory_4: IStory = {
@@ -66,6 +70,7 @@ const mockedStory_4: IStory = {
     userId: '',
     storyPriority: Priority.LOW,
     recordVersion: 915,
+    requiredPosition: UserPosition.DevOps,
 };
 
 const mockedStories = [mockedStory_1, mockedStory_2, mockedStory_3, mockedStory_4];

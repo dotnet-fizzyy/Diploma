@@ -24,10 +24,6 @@ export function getSprintNamesForBoard(state: IState): ISelectedItem[] {
     return sprints;
 }
 
-export function getSelectedSprint(state: IState): ISprint {
-    return state.sprints.sprints.find((x) => x.sprintId === state.sprints.selectedSprintId);
-}
-
 export function getSelectedSprintId(state: IState): string {
     return state.sprints.selectedSprintId;
 }

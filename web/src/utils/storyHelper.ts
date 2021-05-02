@@ -1,5 +1,7 @@
-import { StoryEstimation } from '../constants/storyConstants';
+import { initialStory, StoryEstimation } from '../constants/storyConstants';
 import { IJsonPatchBody } from '../types';
+import { IStoryFormTypes } from '../types/formTypes';
+import { ISprint } from '../types/sprintTypes';
 import { ISelectedItem, IStory, IStoryUpdate, IStoryUpdatePart, Priority, SortFields } from '../types/storyTypes';
 
 export function areStoriesEqual(story: IStory, updatedStory: IStory): boolean {
@@ -46,12 +48,10 @@ export function createStoryUpdatePartsFromStory(
 }
 
 export function createStoryEstimationDropdownItems(): ISelectedItem[] {
-    return Object.values(StoryEstimation).map((pr) => {
-        return {
-            key: pr.toString(),
-            value: pr.toString(),
-        } as ISelectedItem;
-    });
+    return Object.values(StoryEstimation).map((pr) => ({
+        key: pr.toString(),
+        value: pr.toString(),
+    }));
 }
 
 export function createStoryPriorityDropdownItems(): ISelectedItem[] {
@@ -163,4 +163,27 @@ export function createRequestBodyForReadyStory(
             value: recordVersion.toString(),
         },
     ];
+}
+
+export function getSprintNames(sprints: ISprint[]): ISelectedItem[] {
+    return sprints && sprints.length
+        ? sprints.map((sprint) => {
+              return {
+                  key: sprint.sprintId,
+                  value: sprint.sprintName,
+              } as ISelectedItem;
+          })
+        : [];
+}
+
+export function getInitialValuesWithLatestSprintIdForStory(sprints: ISprint[]): IStoryFormTypes {
+    const lastSprintId: string =
+        sprints && sprints.length
+            ? sprints.sort((a: any, b: any) => a.startDate - b.endDate).reverse()[0].sprintId
+            : '';
+
+    return {
+        ...initialStory,
+        sprintId: lastSprintId,
+    };
 }

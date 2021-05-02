@@ -1,5 +1,6 @@
 import { IStoryFormTypes } from '../types/formTypes';
 import { Priority } from '../types/storyTypes';
+import { UserPosition } from '../types/userTypes';
 import { ColumnIds } from './boardConstants';
 
 export const debouncePeriod: number = 1000;
@@ -34,6 +35,7 @@ export enum storyFields {
     title = 'title',
     userId = 'userId',
     recordVersion = 'recordVersion',
+    requiredPosition = 'requiredPosition',
 }
 
 export const initialStory: IStoryFormTypes = {
@@ -41,7 +43,7 @@ export const initialStory: IStoryFormTypes = {
     [storyFields.columnType]: ColumnIds.ToDo,
     [storyFields.creationDate]: new Date(),
     [storyFields.description]: '',
-    [storyFields.estimate]: 1,
+    [storyFields.estimate]: StoryEstimation.ONE_POINT,
     [storyFields.isBlocked]: false,
     [storyFields.isReady]: false,
     [storyFields.notes]: '',
@@ -51,4 +53,5 @@ export const initialStory: IStoryFormTypes = {
     [storyFields.title]: '',
     [storyFields.userId]: '',
     [storyFields.recordVersion]: 0,
+    [storyFields.requiredPosition]: UserPosition.Developer,
 };

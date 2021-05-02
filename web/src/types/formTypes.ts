@@ -1,4 +1,5 @@
 import { Priority } from './storyTypes';
+import { UserPosition } from './userTypes';
 
 export interface ILoginForm {
     name: string;
@@ -62,4 +63,5 @@ export interface IStoryFormTypes {
     userId?: string;
     sprintId: string;
     storyPriority: Priority;
+    requiredPosition: UserPosition;
 }

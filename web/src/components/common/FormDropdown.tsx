@@ -65,7 +65,14 @@ const FormDropdown = (props: IFormDropdownProps & FieldProps) => {
     return (
         <div className={classes.root}>
             {label && <FormInputLabel isPrimaryTitle={false} label={`${label}:`} />}
-            <Select {...field} variant="outlined" disabled={disabled} onChange={onChange} className={classes.dropdown}>
+            <Select
+                {...field}
+                variant="outlined"
+                displayEmpty={true}
+                disabled={disabled}
+                onChange={onChange}
+                className={classes.dropdown}
+            >
                 {items && items.length
                     ? items.map((x) => (
                           <MenuItem key={x.key} value={x.key}>
