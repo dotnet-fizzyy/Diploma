@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using WebAPI.ApplicationLogic.Handlers;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
@@ -80,7 +81,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<User> CreateCustomerAsync(SignUpUser user)
         {
-            var customerEntity = CreateCustomerEntity(user);
+            var customerEntity = UserHandler.CreateCustomerEntity(user);
             
             var createdUserModel = await CreateUser(customerEntity);
             
@@ -166,19 +167,6 @@ namespace WebAPI.ApplicationLogic.Services
             var userModel = _userMapper.MapToModel(createdUserEntity);
 
             return userModel;
-        }
-        
-        private static Core.Entities.User CreateCustomerEntity(SignUpUser user)
-        {
-            return new Core.Entities.User
-            {
-                UserName = user.UserName,
-                Password = user.Password,
-                Email = user.Email,
-                UserPosition = UserPosition.Customer,
-                UserRole = UserRole.ProductOwner,
-                IsActive = true
-            };
         }
     }
 }

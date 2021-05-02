@@ -27,7 +27,6 @@ namespace WebAPI.ApplicationLogic.Handlers
             OrderType orderType)
         {
             var epicStories = await _storyRepository.GetStoriesByEpicId(epicId);
-
             if (epicStories.Count == 0)
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find stories with provided epic id");

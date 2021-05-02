@@ -45,23 +45,6 @@ namespace WebAPI.Presentation.Controllers
             => await _storyService.GetStoriesAsync();
 
         /// <summary>
-        /// Receive stories in particular range matches params criteria
-        /// </summary>
-        /// <response code="200">Received stories in particular range matches params criteria</response>
-        /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find stories with provided sprint id</response>
-        [HttpGet]
-        [Route("range")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesByRange(
-            [FromQuery, BindRequired] Guid sprintId,
-            [FromQuery, BindRequired] int limit,
-            [FromQuery, BindRequired] int offset
-        ) => await _storyService.GetStoriesByRangeAsync(sprintId, limit, offset);
-
-        /// <summary>
         /// Sort stories in particular order from epic by params criteria
         /// </summary>
         /// <response code="200">Sorted stories in particular order from epic by params criteria</response>
@@ -71,6 +54,7 @@ namespace WebAPI.Presentation.Controllers
         [Route("sort")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CollectionResponse<Story>>> SortStories(
             [FromQuery, BindRequired] Guid epicId,
@@ -87,6 +71,21 @@ namespace WebAPI.Presentation.Controllers
             return sortedStories;
         }
 
+        [HttpGet]
+        [Route("epic/id/{epicId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesFormEpic(Guid epicId) => 
+            await _storyService.GetStoriesFromEpicAsync(epicId);
+        
+        
+        [HttpGet]
+        [Route("sprint/id/{sprintId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesFormSprint(Guid sprintId) => 
+            await _storyService.GetStoriesFromSprintAsync(sprintId);
+
         /// <summary>
         /// Receive available for user stories that name matches term
         /// </summary>
@@ -96,11 +95,12 @@ namespace WebAPI.Presentation.Controllers
         [Route("term")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CollectionResponse<Story>>> GetFullStoriesByTerm(
+        public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesByTerm(
             [FromQuery, BindRequired] string term,
             [FromQuery, BindRequired] int limit,
             [FromQuery, BindRequired] Guid projectId
-        ) => await _storyService.GetFullStoriesByTitleTermAsync(term, limit, projectId);
+        ) => 
+            await _storyService.GetStoriesByTitleTermAsync(term, limit, projectId);
         
         /// <summary>
         /// Receive story with provided id
@@ -113,12 +113,8 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Story>> GetStory(Guid id)
-        {
-            var story = await _storyService.GetStoryByIdAsync(id);
-
-            return story;
-        }
+        public async Task<ActionResult<Story>> GetStory(Guid id) =>
+            await _storyService.GetStoryByIdAsync(id);
 
         /// <summary>
         /// Receive story full description with provided id
@@ -131,12 +127,8 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<FullStory>> GetFullStoryDescription(Guid id)
-        {
-            var storyFullDescription = await _storyService.GetFullStoryDescriptionAsync(id);
-
-            return storyFullDescription;
-        }
+        public async Task<ActionResult<FullStory>> GetFullStoryDescription(Guid id) => 
+            await _storyService.GetFullStoryDescriptionAsync(id);
 
         /// <summary>
         /// Receive all story history records with provided story id
@@ -149,13 +141,9 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CollectionResponse<StoryHistory>>> GetStoryHistory(Guid id)
-        {
-            var storyHistory = await _storyService.GetStoryHistoryAsync(id);
+        public async Task<ActionResult<CollectionResponse<StoryHistory>>> GetStoryHistory(Guid id) => 
+            await _storyService.GetStoryHistoryAsync(id);
 
-            return storyHistory;
-        }
-        
         /// <summary>
         /// Create story with provided model properties
         /// </summary>

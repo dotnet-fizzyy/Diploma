@@ -46,31 +46,7 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<CollectionResponse<Story>> GetStoriesByRangeAsync(Guid sprintId, int limit, int offset)
-        {
-            var storyEntities =
-                await _storyRepository.SearchForMultipleItemsAsync(
-                    x => x.SprintId == sprintId,
-                    limit,
-                    offset,
-                    x => x.Id,
-                    OrderType.Asc
-                    );
-
-            if (!storyEntities.Any())
-            {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntitiesMessage(nameof(sprintId)));
-            }
-            
-            var collectionResponse = new CollectionResponse<Story>
-            {
-                Items = storyEntities.Select(_storyMapper.MapToModel).ToList()
-            };
-
-            return collectionResponse;
-        }
-
-        public async Task<CollectionResponse<Story>> GetFullStoriesByTitleTermAsync(string term, int limit, Guid userId)
+        public async Task<CollectionResponse<Story>> GetStoriesByTitleTermAsync(string term, int limit, Guid userId)
         {
             var storyEntities = await _storyRepository.GetStoriesByTitleTerm(term, limit, userId);
 
@@ -85,7 +61,6 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<CollectionResponse<StoryHistory>> GetStoryHistoryAsync(Guid storyId)
         {
             var storyHistoryEntities = await _storyHistoryRepository.SearchForMultipleItemsAsync(x => x.StoryId == storyId);
-
             if (!storyHistoryEntities.Any())
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntitiesMessage(nameof(storyId)));
@@ -97,6 +72,38 @@ namespace WebAPI.ApplicationLogic.Services
                     .Select(_storyHistoryMapper.MapToModel)
                     .OrderBy(x => x.CreationDate)
                     .ToList(),
+            };
+
+            return collectionResponse;
+        }
+        
+        public async Task<CollectionResponse<Story>> GetStoriesFromEpicAsync(Guid epicId)
+        {
+            var storyEntities = await _storyRepository.GetStoriesByEpicId(epicId);
+            if (!storyEntities.Any())
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntitiesMessage(nameof(epicId)));
+            }
+
+            var collectionResponse = new CollectionResponse<Story>
+            {
+                Items = storyEntities.Select(_storyMapper.MapToModel).ToList()
+            };
+
+            return collectionResponse;
+        }
+        
+        public async Task<CollectionResponse<Story>> GetStoriesFromSprintAsync(Guid sprintId)
+        {
+            var storyEntities = await _storyRepository.SearchForMultipleItemsAsync(x => x.SprintId == sprintId);
+            if (!storyEntities.Any())
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntitiesMessage(nameof(sprintId)));
+            }
+            
+            var collectionResponse = new CollectionResponse<Story>
+            {
+                Items = storyEntities.Select(_storyMapper.MapToModel).ToList()
             };
 
             return collectionResponse;

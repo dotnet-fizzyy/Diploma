@@ -8,12 +8,14 @@ namespace WebAPI.Core.Interfaces.Services
     public interface IStoryService
     {
         Task<CollectionResponse<Story>> GetStoriesAsync();
-        
-        Task<CollectionResponse<Story>> GetStoriesByRangeAsync(Guid sprintId, int limit, int offset);
 
-        Task<CollectionResponse<Story>> GetFullStoriesByTitleTermAsync(string term, int limit, Guid projectId);
+        Task<CollectionResponse<Story>> GetStoriesByTitleTermAsync(string term, int limit, Guid projectId);
 
         Task<CollectionResponse<StoryHistory>> GetStoryHistoryAsync(Guid storyId);
+
+        Task<CollectionResponse<Story>> GetStoriesFromSprintAsync(Guid sprintId);
+        
+        Task<CollectionResponse<Story>> GetStoriesFromEpicAsync(Guid epicId);
         
         Task<Story> GetStoryByIdAsync(Guid storyId);
 
