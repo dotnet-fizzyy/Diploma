@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -62,20 +63,28 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<CollectionResponse<Story>> SortStories(Guid[] storyIds, string sortType, OrderType orderType)
+        public async Task<CollectionResponse<Story>> SortStories(Guid epicId, Guid? sprintId, string sortType, OrderType orderType)
         {
-            var storyEntities = await _storyRepository.SearchForMultipleItemsAsync(x => storyIds.Any(s => s == x.Id));
+            List<Core.Entities.Story> storyEntities;
+            if (sprintId.HasValue)
+            {
+                storyEntities = await _storyRepository.SearchForMultipleItemsAsync(x => sprintId == x.SprintId);
+            }
+            else
+            {
+                storyEntities = await _storyRepository.GetStoriesByEpicId(epicId);
+            }
+            
             if (!storyEntities.Any())
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntitiesMessage(nameof(storyIds)));
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntitiesMessage($"{nameof(epicId)} and ${nameof(sprintId)}"));
             }
 
-            var storyModels = storyEntities.Select(_storyMapper.MapToModel).ToList();
-            storyModels = StoryHandler.SortStoriesByCriteria(storyModels, sortType, orderType);
+            storyEntities = StoryHandler.SortStoriesByCriteria(storyEntities, sortType, orderType);
             
             var collectionResponse = new CollectionResponse<Story>
             {
-                Items = storyModels
+                Items = storyEntities.Select(_storyMapper.MapToModel).ToList()
             };
 
             return collectionResponse;

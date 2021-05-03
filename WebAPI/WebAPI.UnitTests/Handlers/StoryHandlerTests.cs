@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using WebAPI.ApplicationLogic.Handlers;
 using WebAPI.Core.Constants;
+using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
-using WebAPI.Models.Models;
 using Xunit;
 
 namespace WebAPI.UnitTests.Handlers
@@ -108,15 +108,15 @@ namespace WebAPI.UnitTests.Handlers
             {
                 new Story
                 {
-                    StoryPriority = Models.Enums.StoryPriority.High
+                    StoryPriority = StoryPriority.High
                 },
                 new Story
                 {
-                    StoryPriority = Models.Enums.StoryPriority.Low
+                    StoryPriority = StoryPriority.Low
                 },
                 new Story
                 {
-                    StoryPriority = Models.Enums.StoryPriority.Medium
+                    StoryPriority = StoryPriority.Medium
                 }
             };
             
@@ -124,15 +124,15 @@ namespace WebAPI.UnitTests.Handlers
             {
                 new Story
                 {
-                    StoryPriority = Models.Enums.StoryPriority.Low
+                    StoryPriority = StoryPriority.Low
                 },
                 new Story
                 {
-                    StoryPriority = Models.Enums.StoryPriority.Medium
+                    StoryPriority = StoryPriority.Medium
                 },
                 new Story
                 {
-                    StoryPriority = Models.Enums.StoryPriority.High
+                    StoryPriority = StoryPriority.High
                 }
             };
             
@@ -153,15 +153,15 @@ namespace WebAPI.UnitTests.Handlers
             {
                 new Story
                 {
-                    StoryPriority = Models.Enums.StoryPriority.High
+                    StoryPriority = StoryPriority.High
                 },
                 new Story
                 {
-                    StoryPriority = Models.Enums.StoryPriority.Low
+                    StoryPriority = StoryPriority.Low
                 },
                 new Story
                 {
-                    StoryPriority = Models.Enums.StoryPriority.Medium
+                    StoryPriority = StoryPriority.Medium
                 }
             };
             
@@ -169,15 +169,15 @@ namespace WebAPI.UnitTests.Handlers
             {
                 new Story
                 {
-                    StoryPriority = Models.Enums.StoryPriority.High
+                    StoryPriority = StoryPriority.High
                 },
                 new Story
                 {
-                    StoryPriority = Models.Enums.StoryPriority.Medium
+                    StoryPriority = StoryPriority.Medium
                 },
                 new Story
                 {
-                    StoryPriority = Models.Enums.StoryPriority.Low
+                    StoryPriority = StoryPriority.Low
                 }
             };
             
