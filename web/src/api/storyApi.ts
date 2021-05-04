@@ -3,7 +3,7 @@ import { ColumnIds } from '../constants/boardConstants';
 import { StoryUrls } from '../constants/routeConstants';
 import { mapToStoryHistoryModel, mapToStoryModel } from '../mappers/storyMappers';
 import { ICollectionResponse, IJsonPatchBody } from '../types';
-import { IStory, IStoryHistory, IStoryUpdate } from '../types/storyTypes';
+import { IStory, IStoryHistory } from '../types/storyTypes';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class StoryApi {
@@ -35,7 +35,7 @@ export default class StoryApi {
         return mapToStoryModel(response.data);
     }
 
-    public static async updateStory(storyUpdate: IStoryUpdate): Promise<IStory> {
+    public static async updateStory(storyUpdate: IStory): Promise<IStory> {
         const response: AxiosResponse<IStory> = await AxiosBaseApi.axiosPut(StoryUrls.partUpdate, storyUpdate);
 
         return mapToStoryModel(response.data);
@@ -59,7 +59,7 @@ export default class StoryApi {
 
     public static async getStoryHistory(storyId: string): Promise<IStoryHistory[]> {
         const response: AxiosResponse<ICollectionResponse<IStoryHistory>> = await AxiosBaseApi.axiosGet(
-            StoryUrls.storyHistory + storyId
+            `${StoryUrls.storyHistory}/${storyId}`
         );
 
         return response.data.items.map(mapToStoryHistoryModel);

@@ -54,7 +54,7 @@ export default function storiesReducer(state = initialState, action: any) {
             return handleDeclineStoryBlock(state, action);
         case storyActions.StoryActions.GET_STORY_HISTORY_SUCCESS:
             return handleGetStoryHistorySuccess(state, action);
-        case storyActions.StoryActions.CHANGE_SORT_TYPE:
+        case storyActions.StoryActions.SORT_STORIES_REQUEST:
             return handleChangeSortType(state, action);
         case storyActions.StoryActions.STORY_UPDATE_CHANGES_SUCCESS:
         case storyActions.StoryActions.STORY_UPDATE_COLUMN_SUCCESS:
@@ -203,7 +203,7 @@ function handleGetStoryHistorySuccess(state: IStoryState, action: storyActions.I
     };
 }
 
-function handleChangeSortType(state: IStoryState, action: storyActions.IChangeSortType): IStoryState {
+function handleChangeSortType(state: IStoryState, action: storyActions.ISortStoriesRequest): IStoryState {
     return {
         ...state,
         sortType: action.payload,

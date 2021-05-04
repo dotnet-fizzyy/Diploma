@@ -11,7 +11,7 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<SearchResult> GetSearchResultsAsync(string term, Guid workSpaceId);
         
-        Task<CollectionResponse<StoryHistory>> GetStoryHistoryDataAsync(Guid storyId);
+        Task<CollectionResponse<StoryHistory>> GetStoryHistoryDataAsync(Guid storyId, Guid userId);
 
         Task<BoardPage> GetBoardPageDataAsync(Guid projectId, Guid teamId, Guid userId);
         

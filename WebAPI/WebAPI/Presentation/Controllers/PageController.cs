@@ -57,7 +57,9 @@ namespace WebAPI.Presentation.Controllers
         [Route("story-history/story/id/{storyId}")]
         public async Task<ActionResult<CollectionResponse<StoryHistory>>> GetStoryHistoryPageIndex(Guid storyId)
         {
-            var storyHistory = await _pageService.GetStoryHistoryDataAsync(storyId);
+            var user = _claimsReader.GetUserClaims(User);
+            
+            var storyHistory = await _pageService.GetStoryHistoryDataAsync(storyId, user.UserId);
             
             return storyHistory;
         }

@@ -153,11 +153,11 @@ namespace WebAPI.Presentation.Controllers
         [Route("part-update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<Story>> UpdatePartsOfStory([FromBody, BindRequired] StoryUpdate storyUpdate)
+        public async Task<ActionResult<Story>> UpdatePartsOfStory([FromBody, BindRequired] Story story)
         {
             var user = _claimsReader.GetUserClaims(User);
             
-            var updatedStory = await _storyService.UpdatePartsOfStoryAsync(storyUpdate, user.UserId);
+            var updatedStory = await _storyService.UpdatePartsOfStoryAsync(story, user.UserId);
 
             return updatedStory;
         }

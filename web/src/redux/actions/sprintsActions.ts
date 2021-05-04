@@ -145,9 +145,3 @@ export function getFullSprintsFromEpicFailure(error: Error): IGetFullSprintsFrom
         payload: error,
     };
 }
-
-export type SprintsActionTypes = IGetFullSprintsFromEpicSuccess &
-    IGetSprintsFromEpicSuccess &
-    IAddSprints &
-    ISetSelectedSprint &
-    ICreateSprintSuccess;

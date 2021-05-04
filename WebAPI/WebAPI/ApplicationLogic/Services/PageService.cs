@@ -62,7 +62,7 @@ namespace WebAPI.ApplicationLogic.Services
             return searchResults;
         }
 
-        public async Task<CollectionResponse<StoryHistory>> GetStoryHistoryDataAsync(Guid storyId)
+        public async Task<CollectionResponse<StoryHistory>> GetStoryHistoryDataAsync(Guid storyId, Guid userId)
         {
             var storyHistoryEntities = await _storyHistoryRepository.SearchForMultipleItemsAsync(x => x.StoryId == storyId);
 

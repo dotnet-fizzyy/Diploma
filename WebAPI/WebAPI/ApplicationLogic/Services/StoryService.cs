@@ -7,6 +7,7 @@ using WebAPI.ApplicationLogic.Handlers;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
+using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
@@ -20,19 +21,19 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly IStoryRepository _storyRepository;
         private readonly IStoryMapper _storyMapper;
         private readonly IStoryHistoryRepository _storyHistoryRepository;
-        private readonly IStoryHistoryMapper _storyHistoryMapper;
+        private readonly IStoryAggregator _storyAggregator;
 
         public StoryService(
             IStoryRepository storyRepository, 
             IStoryMapper storyMapper, 
             IStoryHistoryRepository storyHistoryRepository,
-            IStoryHistoryMapper storyHistoryMapper
+            IStoryAggregator storyAggregator
         )
         {
             _storyRepository = storyRepository;
             _storyMapper = storyMapper;
             _storyHistoryRepository = storyHistoryRepository;
-            _storyHistoryMapper = storyHistoryMapper;
+            _storyAggregator = storyAggregator;
         }
 
         public async Task<CollectionResponse<Story>> GetStoriesAsync()
@@ -186,14 +187,31 @@ namespace WebAPI.ApplicationLogic.Services
             return updatedStoryModel;
         }
 
-        public async Task<Story> UpdatePartsOfStoryAsync(StoryUpdate storyUpdate, Guid userId)
+        public async Task<Story> UpdatePartsOfStoryAsync(Story storyUpdate, Guid userId)
         {
-            var storyHistoryItems = _storyHistoryMapper.MapToStoryEntityParts(storyUpdate, userId);
-            var storyEntity = _storyMapper.MapToEntity(storyUpdate.Story);
-
-            await _storyHistoryRepository.CreateAsync(storyHistoryItems);
-
+            using var scope = new TransactionScope
+            (
+                TransactionScopeOption.Required,
+                new TransactionOptions
+                {
+                    IsolationLevel = IsolationLevel.Serializable,
+                },
+                TransactionScopeAsyncFlowOption.Enabled
+            );
+            
+            var storyEntity = await _storyRepository.SearchForSingleItemAsync(x => x.Id == storyUpdate.StoryId);
+            if (storyEntity == null)
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(storyUpdate.StoryId)));
+            }
+            
+            var storyUpdateEntity = _storyMapper.MapToEntity(storyUpdate);
+            var storyHistoryUpdates = _storyAggregator.CreateStoryFromUpdateParts(storyEntity, storyUpdateEntity, userId);
+            
+            await _storyHistoryRepository.CreateAsync(storyHistoryUpdates);
             var updatedStory = await _storyRepository.UpdateItemAsync(storyEntity);
+    
+            scope.Complete();
 
             var storyModel = _storyMapper.MapToModel(updatedStory);
             

@@ -1,10 +1,11 @@
-using WebAPI.Models.Models;
-using Story = WebAPI.Core.Entities.Story;
+using System;
+using System.Collections.Generic;
+using WebAPI.Core.Entities;
 
 namespace WebAPI.Core.Interfaces.Aggregators
 {
     public interface IStoryAggregator
     {
-        Story CreateStoryFromUpdateParts(StoryUpdate storyUpdate);
+        List<StoryHistory> CreateStoryFromUpdateParts(Story storyEntity, Story storyEntityUpdate, Guid userId);
     }
 }

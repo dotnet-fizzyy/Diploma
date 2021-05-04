@@ -6,6 +6,7 @@ import {
     ISetSelectedEpic,
     ISetSelectedEpicById,
 } from '../actions/epicActions';
+import { IChangeEpicRequest, StoryActions } from '../actions/storiesActions';
 import { IEpicsState } from '../store/state';
 
 const initialState: IEpicsState = {
@@ -24,7 +25,9 @@ export default function epicReducer(state = initialState, action) {
         case EpicActions.SET_SELECTED_EPIC:
             return handleSetCurrentEpic(state, action);
         case EpicActions.SET_SELECTED_EPIC_BY_ID:
-            return handleSetCurrentEpicById(state, action);
+            return handleSetSelectedEpicById(state, action);
+        case StoryActions.CHANGE_EPIC_REQUEST:
+            return handleSetSelectedEpicFromSimpleModelsById(state, action);
         case EpicActions.ADD_SIMPLE_EPICS:
             return handleAddSimpleEpics(state, action);
         default:
@@ -53,10 +56,21 @@ function handleSetCurrentEpic(state: IEpicsState, action: ISetSelectedEpic): IEp
     };
 }
 
-function handleSetCurrentEpicById(state: IEpicsState, action: ISetSelectedEpicById): IEpicsState {
+function handleSetSelectedEpicById(state: IEpicsState, action: ISetSelectedEpicById): IEpicsState {
     return {
         ...state,
-        selectedEpicId: state.epics.find((x) => x.epicId === action.payload).epicId,
+        selectedEpicId: state.epics.some((x) => x.epicId === action.payload)
+            ? state.epics.find((x) => x.epicId === action.payload).epicId
+            : '',
+    };
+}
+
+function handleSetSelectedEpicFromSimpleModelsById(state: IEpicsState, action: IChangeEpicRequest): IEpicsState {
+    return {
+        ...state,
+        selectedEpicId: state.simpleItems.some((x) => x.epicId === action.payload)
+            ? state.simpleItems.find((x) => x.epicId === action.payload).epicId
+            : '',
     };
 }
 

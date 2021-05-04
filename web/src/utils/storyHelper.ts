@@ -2,7 +2,7 @@ import { initialStory, Priority, SortFields, StoryEstimation } from '../constant
 import { IJsonPatchBody } from '../types';
 import { IStoryFormTypes } from '../types/formTypes';
 import { ISprint } from '../types/sprintTypes';
-import { ISelectedItem, IStory, IStoryUpdate, IStoryUpdatePart } from '../types/storyTypes';
+import { ISelectedItem, IStory } from '../types/storyTypes';
 
 export function areStoriesEqual(story: IStory, updatedStory: IStory): boolean {
     return (
@@ -16,35 +16,6 @@ export function areStoriesEqual(story: IStory, updatedStory: IStory): boolean {
         story.storyPriority === updatedStory.storyPriority &&
         story.notes === updatedStory.notes
     );
-}
-
-export function createStoryUpdatePartsFromStory(
-    defaultStory: IStory,
-    updatedStory: IStory,
-    userId: string
-): IStoryUpdate {
-    let parts = [];
-
-    const defaultStoryArray = Object.entries(defaultStory);
-    const updatedStoryArray = Object.entries(updatedStory);
-
-    defaultStoryArray.forEach((def) => {
-        const fieldFromUpdated = updatedStoryArray.find((up) => up[0] === def[0]);
-
-        if (fieldFromUpdated[1] !== def[1]) {
-            parts.push({
-                field: def[0],
-                newValue: fieldFromUpdated[1],
-                previousValue: def[1],
-                userId,
-            } as IStoryUpdatePart);
-        }
-    });
-
-    return {
-        story: updatedStory,
-        parts,
-    };
 }
 
 export function createStoryEstimationDropdownItems(): ISelectedItem[] {

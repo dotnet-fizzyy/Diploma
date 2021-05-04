@@ -44,9 +44,14 @@ export const StoryActions = {
     SORT_STORIES_SUCCESS: 'SORT_STORIES_SUCCESS',
     SORT_STORIES_FAILURE: 'SORT_STORIES_FAILURE',
     CHANGE_SORT_TYPE: 'CHANGE_SORT_TYPE',
+    CHANGE_STORIES_SPRINT_REQUEST: 'CHANGE_STORIES_SPRINT_REQUEST',
+    CHANGE_STORIES_SPRINT_SUCCESS: 'CHANGE_STORIES_SPRINT_SUCCESS',
+    CHANGE_STORIES_SPRINT_FAILURE: 'CHANGE_STORIES_SPRINT_FAILURE',
 };
 
-//interfaces
+/*
+Interfaces
+ */
 export interface IAddStories {
     type: typeof StoryActions.ADD_STORIES;
     payload: IStory[];
@@ -259,7 +264,19 @@ export interface IGetStoriesFromEpicFailure {
     payload: Error;
 }
 
-//actions
+export interface IChangeStorySprintRequest {
+    type: typeof StoryActions.CHANGE_STORIES_SPRINT_REQUEST;
+    payload: string;
+}
+
+export interface IChangeStorySprintFailure {
+    type: typeof StoryActions.CHANGE_STORIES_SPRINT_FAILURE;
+    payload: Error;
+}
+
+/*
+Actions
+ */
 export function addStories(stories: IStory[]): IAddStories {
     return {
         type: StoryActions.ADD_STORIES,
@@ -558,6 +575,20 @@ export function getStoriesFromEpicSuccess(stories: IStory[]): IGetStoriesFromEpi
 export function getStoriesFromEpicFailure(error: Error): IGetStoriesFromEpicFailure {
     return {
         type: StoryActions.GET_STORIES_FROM_EPIC_FAILURE,
+        payload: error,
+    };
+}
+
+export function changeStorySprintRequest(sprintId: string): IChangeStorySprintRequest {
+    return {
+        type: StoryActions.CHANGE_STORIES_SPRINT_REQUEST,
+        payload: sprintId,
+    };
+}
+
+export function changeStorySprintFailure(error: Error): IChangeStorySprintFailure {
+    return {
+        type: StoryActions.CHANGE_STORIES_SPRINT_FAILURE,
         payload: error,
     };
 }

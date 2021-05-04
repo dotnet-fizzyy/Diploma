@@ -67,7 +67,7 @@ export interface IBoardTabProps {
     selectedEpicId: string;
     epics: ISelectedItem[];
     sortType: string;
-    onChangeEpic: (value: string) => void;
+    onChangeEpic: (e) => void;
     onChangeSortType: (e) => void;
     onChangeSprint: (e) => void;
     onClickAddStory: () => void;

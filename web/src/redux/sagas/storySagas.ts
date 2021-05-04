@@ -1,22 +1,15 @@
-import { call, debounce, delay, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, debounce, delay, put, select, takeLatest } from 'redux-saga/effects';
 import SprintApi from '../../api/sprintApi';
 import StoryApi from '../../api/storyApi';
 import { debouncePeriod, SortFieldsNames } from '../../constants/storyConstants';
 import { IJsonPatchBody } from '../../types';
 import { IProject } from '../../types/projectTypes';
 import { IFullSprint, ISprint } from '../../types/sprintTypes';
-import { IStory, IStoryColumns, IStoryHistory, IStoryUpdate } from '../../types/storyTypes';
-import { IUser } from '../../types/userTypes';
+import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
 import { mapFullSprintToSprint } from '../../utils/epicHelper';
-import {
-    createRequestBodyForColumnMovement,
-    createRequestBodyForReadyStory,
-    createStoryUpdatePartsFromStory,
-} from '../../utils/storyHelper';
-import { setSelectedEpicById } from '../actions/epicActions';
-import { closeModal } from '../actions/modalActions';
+import { createRequestBodyForColumnMovement, createRequestBodyForReadyStory } from '../../utils/storyHelper';
 import { sidebarHandleVisibility, ISidebarHandleVisibility, SidebarActions } from '../actions/sidebarActions';
-import { addSprints } from '../actions/sprintsActions';
+import { addSprints, setSelectedSprint } from '../actions/sprintsActions';
 import {
     addStories,
     attemptToBlockStory,
@@ -49,21 +42,21 @@ import {
     IMakeStoryBlocked,
     IMakeStoryReadyRequest,
     ISetStoryTitleTermRequest,
-    ISortStoriesRequest,
     IStoryHandleDragAndDrop,
     IUpdateStoryChangesRequest,
     IUpdateStoryColumnRequest,
     StoryActions,
 } from '../actions/storiesActions';
+import { getSelectedEpicId } from '../selectors/epicsSelectors';
 import { getSelectProject } from '../selectors/projectSelectors';
+import { getSelectedSprintId } from '../selectors/sprintsSelectors';
 import {
-    getAllStoryIds,
     getColumns,
     getSelectedStory,
     getSortDirection,
+    getSortType,
     getWasStoryBlocked,
 } from '../selectors/storiesSelectors';
-import { getUser } from '../selectors/userSelectors';
 
 function* refreshData() {
     try {
@@ -80,7 +73,6 @@ function* createStory(action: ICreateStoryRequest) {
         const createdStory: IStory = yield call(StoryApi.createStory, action.payload);
 
         yield put(createStorySuccess(createdStory));
-        yield put(closeModal());
     } catch (error) {
         yield put(createStoryFailure(error));
     }
@@ -163,15 +155,7 @@ function* getStoryHistory(action: IGetStoryHistoryRequest) {
 
 function* updateStoryChanges(action: IUpdateStoryChangesRequest) {
     try {
-        const selectedStory: IStory = yield select(getSelectedStory);
-        const currentUser: IUser = yield select(getUser);
-
-        const storyParts: IStoryUpdate = createStoryUpdatePartsFromStory(
-            selectedStory,
-            action.payload,
-            currentUser.userId
-        );
-        const updatedStory: IStory = yield call(StoryApi.updateStory, storyParts);
+        const updatedStory: IStory = yield call(StoryApi.updateStory, action.payload);
 
         yield put(storyUpdateChangesSuccess(updatedStory));
     } catch (error) {
@@ -181,31 +165,33 @@ function* updateStoryChanges(action: IUpdateStoryChangesRequest) {
 
 function* changeEpic(action: IChangeEpicRequest) {
     try {
-        yield put(setSelectedEpicById(action.payload));
         const sprintsFromCurrentEpic: IFullSprint[] = yield call(SprintApi.getSprintsFromEpic, action.payload);
 
-        const sprints: ISprint[] = sprintsFromCurrentEpic.map((x) => mapFullSprintToSprint(x));
-        yield put(addSprints(sprints));
-
+        const sprints: ISprint[] = sprintsFromCurrentEpic.map(mapFullSprintToSprint);
         const stories: IStory[] = sprintsFromCurrentEpic
             .map((x) => x.stories)
             .reduce((accumulator, stories) => accumulator.concat(stories), []);
-        yield put(addStories(stories));
+
+        yield all([
+            put(addSprints(sprints)),
+            put(addStories(stories)),
+            put(changeSortType(SortFieldsNames.PRIORITY)),
+            put(setSelectedSprint('')),
+        ]);
     } catch (error) {
         yield put(changeEpicFailure(error));
     }
 }
 
-function* sortStories(action: ISortStoriesRequest) {
+function* sortStories() {
     try {
-        const sortType: string = SortFieldsNames[action.payload];
-        yield put(changeSortType(sortType));
-
-        const storyIds: string[] = yield select(getAllStoryIds);
+        const epicId: string = yield select(getSelectedEpicId);
+        const sprintId: string = yield select(getSelectedSprintId);
+        const sortType: string = yield select(getSortType);
         const sortDirection: string = yield select(getSortDirection);
-        let queryString: string = `sortType=${sortType}&orderType=${sortDirection}&storyIds=${storyIds.join(
-            '&storyIds='
-        )}`;
+        const queryString: string = `epicId=${epicId}&sortType=${sortType}&orderType=${sortDirection}${
+            sprintId ? `&sprintId=${sprintId}` : ''
+        }`;
 
         const sortedStories: IStory[] = yield call(StoryApi.sortStories, queryString);
 
@@ -237,7 +223,7 @@ export default function* rootStoriesSaga() {
     yield takeLatest(StoryActions.GET_STORY_HISTORY_REQUEST, getStoryHistory);
     yield takeLatest(StoryActions.STORY_UPDATE_CHANGES_REQUEST, updateStoryChanges);
     yield takeLatest(StoryActions.CHANGE_EPIC_REQUEST, changeEpic);
-    yield takeLatest(StoryActions.SORT_STORIES_REQUEST, sortStories);
+    yield takeLatest([StoryActions.SORT_STORIES_REQUEST, StoryActions.CHANGE_STORIES_SPRINT_REQUEST], sortStories);
     yield takeLatest(StoryActions.MAKE_STORY_READY_REQUEST, makeStoryReady);
     yield debounce(debouncePeriod, StoryActions.SET_STORY_TITLE_TERM_REQUEST, searchForStoriesByTitleTerm);
 }

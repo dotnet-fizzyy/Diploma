@@ -31,6 +31,7 @@ const PageUrls = {
     getWorkSpacePage: `${PageBaseUrl}/workspace`,
     getProjectPage: `${PageBaseUrl}/project`,
     getBoardPage: `${PageBaseUrl}/board`,
+    getStoryHistory: `${PageBaseUrl}/story-history/story/id`,
 };
 
 const UserBaseUrl = `${BaseUrl}/user`;
@@ -63,7 +64,7 @@ export const StoryUrls = {
     partUpdate: `${StoryBaseUrl}/part-update`,
     termSearch: `${StoryBaseUrl}/term`,
     sortStories: `${StoryBaseUrl}/sort`,
-    storyHistory: `${StoryBaseUrl}/history`,
+    storyHistory: PageUrls.getStoryHistory,
     changeStatus: `${StoryBaseUrl}/change-status`,
 };
 

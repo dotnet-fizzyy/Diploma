@@ -44,15 +44,3 @@ export interface IStoryHistory {
     userId: string;
     creationDate: Date;
 }
-
-export interface IStoryUpdate {
-    story: IStory;
-    parts: IStoryUpdatePart[];
-}
-
-export interface IStoryUpdatePart {
-    field: string;
-    newValue: string;
-    previousValue: string;
-    userId: string;
-}

@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Interfaces.Mappers;
-using WebAPI.Models.Models;
-using StoryHistory = WebAPI.Core.Entities.StoryHistory;
 
 namespace WebAPI.Presentation.Mappers
 {
@@ -50,29 +47,6 @@ namespace WebAPI.Presentation.Mappers
             };
 
             return storyHistoryModel;
-        }
-
-        public List<StoryHistory> MapToStoryEntityParts(StoryUpdate storyUpdate, Guid userId)
-        {
-            var storyHistories = new List<StoryHistory>();
-
-            if (storyUpdate == null)
-            {
-                return storyHistories;
-            }
-
-            storyHistories.AddRange(storyUpdate.Parts.Select(part => new StoryHistory
-            {
-                StoryId = storyUpdate.Story.StoryId,
-                UserId = userId,
-                StoryHistoryAction = StoryHistoryAction.Update,
-                FieldName = part.Field,
-                PreviousValue = part.PreviousValue,
-                CurrentValue = part.NewValue,
-                CreationDate = DateTime.Now,
-            }));
-
-            return storyHistories;
         }
     }
 }

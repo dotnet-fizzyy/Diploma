@@ -1,6 +1,7 @@
 import * as modalActions from '../actions/modalActions';
 import { ProjectActions } from '../actions/projectActions';
 import { SprintActions } from '../actions/sprintsActions';
+import { StoryActions } from '../actions/storiesActions';
 import { UserActions } from '../actions/userActions';
 import { WorkSpaceActions } from '../actions/workSpaceActions';
 import { IModalState } from '../store/state';
@@ -21,6 +22,7 @@ export default function modalReducer(state = initialState, action: modalActions.
         case WorkSpaceActions.CREATE_WORKSPACE_SUCCESS:
         case WorkSpaceActions.UPDATE_WORKSPACE_SUCCESS:
         case SprintActions.CREATE_SPRINT_SUCCESS:
+        case StoryActions.CREATE_STORY_SUCCESS:
             return handleCloseModal(state);
         default:
             return state;

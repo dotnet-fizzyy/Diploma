@@ -21,6 +21,7 @@ namespace WebAPI.Core.Constants
         public const string IsReady = "Ready";
         public const string IsBlocked = "Blocked";
         public const string BlockReason = "Block reason";
+        public const string RequiredPosition = "Required position";
     }
 
     public static class Search

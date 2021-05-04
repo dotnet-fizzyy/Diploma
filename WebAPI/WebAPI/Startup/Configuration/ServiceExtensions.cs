@@ -86,7 +86,6 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<IValidator<Epic>, EpicValidator>();
             services.AddTransient<IValidator<Sprint>, SprintValidator>();
             services.AddTransient<IValidator<Project>, ProjectValidator>();
-            services.AddTransient<IValidator<StoryUpdate>, StoryUpdateValidator>();
             services.AddTransient<IValidator<WorkSpace>, WorkSpaceValidator>();
         }
     }

@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ModalTypes } from '../../../constants/modalConstants';
 import { openModal } from '../../../redux/actions/modalActions';
-import { changeEpicRequest, sortStoriesRequest } from '../../../redux/actions/storiesActions';
+import { changeEpicRequest, changeStorySprintRequest, sortStoriesRequest } from '../../../redux/actions/storiesActions';
 import { getEpicsNames, getSelectedEpicId } from '../../../redux/selectors/epicsSelectors';
 import { getSelectedSprintId, getSprintNamesForBoard } from '../../../redux/selectors/sprintsSelectors';
 import { getSortType } from '../../../redux/selectors/storiesSelectors';
@@ -25,8 +25,8 @@ const BoardTabContainer = () => {
     const sortType: string = useSelector(getSortType);
     const sortFields: ISelectedItem[] = createSortFields();
 
-    const onChangeEpic = (value: string): void => {
-        dispatch(changeEpicRequest(value));
+    const onChangeEpic = (e): void => {
+        dispatch(changeEpicRequest(e.target.value));
     };
 
     const onChangeSortType = (e): void => {
@@ -34,7 +34,7 @@ const BoardTabContainer = () => {
     };
 
     const onChangeSprint = (e): void => {
-        console.log(e.target.value);
+        dispatch(changeStorySprintRequest(e.target.value));
     };
 
     const onClickAddStory = (): void => {
