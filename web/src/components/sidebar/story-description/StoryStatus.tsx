@@ -13,9 +13,6 @@ const useStyles = makeStyles(() =>
         sectionContainer: {
             marginTop: '20px',
         },
-        blockTextField: {
-            width: '100%',
-        },
         button: {
             flexGrow: 1,
             flexBasis: 0,
@@ -111,7 +108,7 @@ const StoryStatus = (props: IStoryStatusProps) => {
                 </Button>
             </div>
             {isBlocked && (
-                <div>
+                <div className={classes.sectionContainer}>
                     <Field name={storyFields.blockReason} label="Block Reason" component={FormTextField} />
                 </div>
             )}

@@ -7,9 +7,12 @@ import classnames from 'classnames';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { storyFields } from '../../constants/storyConstants';
+import { UserPosition } from '../../constants/userConstants';
 import { IStoryFormTypes } from '../../types/formTypes';
 import { ISelectedItem } from '../../types/storyTypes';
+import { IUser } from '../../types/userTypes';
 import { areStoriesEqual } from '../../utils/storyHelper';
+import { createAvailableUsersDropdownItems } from '../../utils/userHelper';
 import Button, { ButtonVariant } from '../common/Button';
 import FormDropdown from '../common/FormDropdown';
 import FormTextArea from '../common/FormTextArea';
@@ -77,9 +80,10 @@ export interface ISidebarProps {
     isReady: boolean;
     isBlocked: boolean;
     isLoading: boolean;
-    users: ISelectedItem[];
+    users: IUser[];
     sprints: ISelectedItem[];
     storyPriorities: ISelectedItem[];
+    requiredPositions: ISelectedItem[];
     storyEstimates: ISelectedItem[];
     initialValues: IStoryFormTypes;
     onCloseTab: () => void;
@@ -102,6 +106,7 @@ const Sidebar = (props: ISidebarProps) => {
         users,
         storyEstimates,
         sprints,
+        requiredPositions,
         storyPriorities,
         onCloseTab,
         onSetStoryReady,
@@ -125,6 +130,15 @@ const Sidebar = (props: ISidebarProps) => {
                     resetForm();
                     onClickCancelChanges();
                 };
+
+                const usersWithRoles: ISelectedItem[] = createAvailableUsersDropdownItems(
+                    UserPosition[values.requiredPosition],
+                    users
+                );
+
+                if (!usersWithRoles.some((x) => x.key === values.userId)) {
+                    values.userId = '';
+                }
 
                 return (
                     <div className={classes.root}>
@@ -175,10 +189,19 @@ const Sidebar = (props: ISidebarProps) => {
                                 </div>
                                 <div className={classes.sectionContainer}>
                                     <Field
+                                        name={storyFields.requiredPosition}
+                                        disabled={false}
+                                        label="Required Position"
+                                        items={requiredPositions}
+                                        component={FormDropdown}
+                                    />
+                                </div>
+                                <div className={classes.sectionContainer}>
+                                    <Field
                                         name={storyFields.userId}
                                         disabled={false}
                                         label="Story Owner"
-                                        items={users}
+                                        items={usersWithRoles}
                                         component={FormDropdown}
                                     />
                                 </div>

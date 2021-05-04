@@ -2,9 +2,11 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { storyFields } from '../../../constants/storyConstants';
+import { UserPosition } from '../../../constants/userConstants';
 import { IStoryFormTypes } from '../../../types/formTypes';
 import { ISelectedItem } from '../../../types/storyTypes';
 import { IUser } from '../../../types/userTypes';
+import { createAvailableUsersDropdownItems } from '../../../utils/userHelper';
 import Button from '../../common/Button';
 import FormDropdown from '../../common/FormDropdown';
 import FormTextArea from '../../common/FormTextArea';
@@ -76,13 +78,14 @@ const StoryModal = (props: IStoryCreationProps) => {
             {({ isValid, touched, values }) => {
                 const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
 
-                const usersWithRoles: ISelectedItem[] = teamMembers.reduce(
-                    (acc, x) =>
-                        x.userPosition === values.requiredPosition
-                            ? [...acc, { key: x.userId, value: x.userName } as ISelectedItem]
-                            : acc,
-                    [{ key: '', value: 'No Owner' } as ISelectedItem]
+                const usersWithRoles: ISelectedItem[] = createAvailableUsersDropdownItems(
+                    UserPosition[values.requiredPosition],
+                    teamMembers
                 );
+
+                if (!usersWithRoles.some((x) => x.key === values.userId)) {
+                    values.userId = '';
+                }
 
                 return (
                     <div className={classes.root}>
@@ -111,7 +114,7 @@ const StoryModal = (props: IStoryCreationProps) => {
                                     component={FormTextArea}
                                     name={storyFields.notes}
                                     label="Notes"
-                                    placeholder="Add notes for description your task if it is neccessary"
+                                    placeholder="Add notes for description your task if it is necessary"
                                     minHeight="115px"
                                 />
                             </div>
