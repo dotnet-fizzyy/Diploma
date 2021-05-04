@@ -1,9 +1,7 @@
-namespace WebAPI.Models.Models
+namespace WebAPI.Models.Models.Models
 {
     public class Token
     {
-        public Token() { }
-
         public Token(string type, string value)
         {
             Type = type;

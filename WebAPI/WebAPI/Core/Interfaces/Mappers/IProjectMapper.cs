@@ -1,3 +1,4 @@
+using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Simple;
 
@@ -5,9 +6,9 @@ namespace WebAPI.Core.Interfaces.Mappers
 {
     public interface IProjectMapper
     {
-        Entities.Project MapToEntity(WebAPI.Models.Models.Project project);
+        Entities.Project MapToEntity(Project project);
         
-        WebAPI.Models.Models.Project MapToModel(Entities.Project project);
+        Project MapToModel(Entities.Project project);
         
         FullProject MapToFullModel(Entities.Project project);
 

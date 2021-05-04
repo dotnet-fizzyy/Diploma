@@ -6,8 +6,8 @@ using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
-using WebAPI.Models.Models;
 using WebAPI.Models.Models.Authentication;
+using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Constants;
 

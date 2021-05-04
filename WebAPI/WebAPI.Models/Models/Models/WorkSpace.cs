@@ -1,6 +1,6 @@
 using System;
 
-namespace WebAPI.Models.Models
+namespace WebAPI.Models.Models.Models
 {
     public class WorkSpace
     {

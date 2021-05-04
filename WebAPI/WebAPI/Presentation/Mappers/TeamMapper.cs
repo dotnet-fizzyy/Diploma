@@ -15,7 +15,7 @@ namespace WebAPI.Presentation.Mappers
             _userMapper = userMapper;
         }
         
-        public Team MapToEntity(Models.Models.Team team)
+        public Team MapToEntity(Models.Models.Models.Team team)
         {
             if (team == null)
             {
@@ -34,14 +34,14 @@ namespace WebAPI.Presentation.Mappers
             return teamEntity;
         }
 
-        public Models.Models.Team MapToModel(Team team)
+        public Models.Models.Models.Team MapToModel(Team team)
         {
             if (team == null)
             {
-                return new Models.Models.Team();
+                return new Models.Models.Models.Team();
             }
             
-            var teamModel = new Models.Models.Team
+            var teamModel = new Models.Models.Models.Team
             {
                 TeamId = team.Id,
                 ProjectId = team.ProjectId,

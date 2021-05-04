@@ -1,7 +1,7 @@
 using System;
 using WebAPI.Models.Enums;
 
-namespace WebAPI.Models.Models
+namespace WebAPI.Models.Models.Models
 {
     public class User
     {

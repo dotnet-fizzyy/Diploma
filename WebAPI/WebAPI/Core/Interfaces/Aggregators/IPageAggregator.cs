@@ -9,7 +9,7 @@ namespace WebAPI.Core.Interfaces.Aggregators
     {
         SearchResult CreateSearchResultsByTerm(IList<Story> stories, IList<Epic> epics, IList<Sprint> sprints);
         
-        CollectionResponse<WebAPI.Models.Models.StoryHistory> CreateStoryHistoryItems(IList<StoryHistory> storyHistories);
+        CollectionResponse<WebAPI.Models.Models.Models.StoryHistory> CreateStoryHistoryItems(IList<StoryHistory> storyHistories);
 
         BoardPage CreateBoardPageModel(Team team, Project project, IList<Epic> epics, IList<Sprint> sprints);
         

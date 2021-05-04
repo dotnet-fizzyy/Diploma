@@ -1,9 +1,11 @@
+using WebAPI.Models.Models.Models;
+
 namespace WebAPI.Core.Interfaces.Mappers
 {
     public interface IStoryHistoryMapper
     {
-        Entities.StoryHistory MapToEntity(WebAPI.Models.Models.StoryHistory storyHistory);
+        Entities.StoryHistory MapToEntity(StoryHistory storyHistory);
         
-        WebAPI.Models.Models.StoryHistory MapToModel(Entities.StoryHistory storyHistory);
+        StoryHistory MapToModel(Entities.StoryHistory storyHistory);
     }
 }

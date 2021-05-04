@@ -1,5 +1,6 @@
 using System;
 using WebAPI.Models.Models;
+using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Mappers;
 using Xunit;
 
@@ -49,7 +50,7 @@ namespace WebAPI.UnitTests.Mappers
                 IsActive = true
             };
 
-            var userModel = new Models.Models.User
+            var userModel = new User
             {
                 UserId = userId,
                 UserName = "SomeUser",
@@ -96,7 +97,7 @@ namespace WebAPI.UnitTests.Mappers
                 IsActive = false
             };
 
-            var userModel = new Models.Models.User
+            var userModel = new User
             {
                 UserId = userId,
                 UserName = "SomeUser2",

@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Core.Interfaces.Utilities;
-using WebAPI.Models.Models;
+using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Filters;
 
@@ -19,12 +18,10 @@ namespace WebAPI.Presentation.Controllers
     public class ProjectController : ControllerBase
     {
         private readonly IProjectService _projectService;
-        private readonly IClaimsReader _claimsReader;
 
-        public ProjectController(IProjectService projectService, IClaimsReader claimsReader)
+        public ProjectController(IProjectService projectService)
         {
             _projectService = projectService;
-            _claimsReader = claimsReader;
         }
         
         /// <summary>

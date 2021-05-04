@@ -1,6 +1,6 @@
 using System;
 
-namespace WebAPI.Models.Models
+namespace WebAPI.Models.Models.Models
 {
     public class RefreshToken
     {
@@ -9,7 +9,5 @@ namespace WebAPI.Models.Models
         public Guid UserId { get; set; }
         
         public string Value { get; set; }
-        
-        public bool IsActive { get; set; }
     }
 }

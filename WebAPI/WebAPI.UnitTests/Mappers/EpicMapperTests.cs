@@ -31,7 +31,7 @@ namespace WebAPI.UnitTests.Mappers
             //Arrange
             var sprintMapper = A.Fake<ISprintMapper>();
 
-            Models.Models.Epic epicModel = null;
+            Models.Models.Models.Epic epicModel = null;
             
             //Act
             var epicMapper = new EpicMapper(sprintMapper);
@@ -59,7 +59,7 @@ namespace WebAPI.UnitTests.Mappers
                 EndDate = new DateTime(2020, 11, 22),
             };
             
-            var epicModel = new Models.Models.Epic
+            var epicModel = new Models.Models.Models.Epic
             {
                 EpicId = epicId,
                 EpicName = "TestName",
@@ -98,7 +98,7 @@ namespace WebAPI.UnitTests.Mappers
                 EndDate = new DateTime(2020, 10, 22),
             };
             
-            var epicModel = new Models.Models.Epic
+            var epicModel = new Models.Models.Models.Epic
             {
                 EpicId = epicId,
                 EpicName = "Name",

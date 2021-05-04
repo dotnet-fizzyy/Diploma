@@ -30,11 +30,11 @@ namespace WebAPI.UnitTests.Services
                 new User()
             };
 
-            var userModels = new CollectionResponse<Models.Models.User>
+            var userModels = new CollectionResponse<Models.Models.Models.User>
             {
-                Items = new List<Models.Models.User>
+                Items = new List<Models.Models.Models.User>
                 {
-                    new Models.Models.User()
+                    new Models.Models.Models.User()
                 }
             };
             
@@ -72,7 +72,7 @@ namespace WebAPI.UnitTests.Services
                 Id = userId
             };
 
-            var userModel = new Models.Models.User
+            var userModel = new Models.Models.Models.User
             {
                 UserId = userId
             };

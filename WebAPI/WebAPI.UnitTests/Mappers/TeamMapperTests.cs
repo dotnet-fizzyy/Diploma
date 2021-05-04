@@ -46,7 +46,7 @@ namespace WebAPI.UnitTests.Mappers
             
             var teamId = new Guid();
 
-            var teamModel = new Models.Models.Team
+            var teamModel = new Models.Models.Models.Team
             {
                 TeamId = teamId,
                 TeamName = "TeamName",
@@ -89,7 +89,7 @@ namespace WebAPI.UnitTests.Mappers
                 TeamUsers = new List<TeamUser>(),
             };
             
-            var teamModel = new Models.Models.Team
+            var teamModel = new Models.Models.Models.Team
             {
                 TeamId = teamId,
                 TeamName = "Team",

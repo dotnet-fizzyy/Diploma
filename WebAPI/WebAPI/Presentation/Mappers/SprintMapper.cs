@@ -14,7 +14,7 @@ namespace WebAPI.Presentation.Mappers
             _storyMapper = storyMapper;
         }
         
-        public Sprint MapToEntity(Models.Models.Sprint sprint)
+        public Sprint MapToEntity(Models.Models.Models.Sprint sprint)
         {
             if (sprint == null)
             {
@@ -33,14 +33,14 @@ namespace WebAPI.Presentation.Mappers
             return sprintEntity;
         }
 
-        public Models.Models.Sprint MapToModel(Sprint sprint)
+        public Models.Models.Models.Sprint MapToModel(Sprint sprint)
         {
             if (sprint == null)
             {
-                return new Models.Models.Sprint();
+                return new Models.Models.Models.Sprint();
             }
             
-            var sprintEntity = new Models.Models.Sprint
+            var sprintEntity = new Models.Models.Models.Sprint
             {
                 SprintId = sprint.Id,
                 SprintName = sprint.SprintName,

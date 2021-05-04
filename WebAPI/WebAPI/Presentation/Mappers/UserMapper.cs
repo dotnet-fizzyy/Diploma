@@ -10,7 +10,7 @@ namespace WebAPI.Presentation.Mappers
 {
     public class UserMapper : IUserMapper
     {
-        public User MapToEntity(Models.Models.User user)
+        public User MapToEntity(Models.Models.Models.User user)
         {
             if (user == null)
             {
@@ -34,14 +34,14 @@ namespace WebAPI.Presentation.Mappers
             return userEntity;
         }
 
-        public Models.Models.User MapToModel(User user)
+        public Models.Models.Models.User MapToModel(User user)
         {
             if (user == null)
             {
-                return new Models.Models.User();
+                return new Models.Models.Models.User();
             }
             
-            var userModel = new Models.Models.User();
+            var userModel = new Models.Models.Models.User();
             MapBaseModelProperties(userModel, user);
             
             return userModel;
@@ -91,7 +91,7 @@ namespace WebAPI.Presentation.Mappers
             return fullUser;
         }
         
-        private static void MapBaseModelProperties(Models.Models.User userModel, User userEntity)
+        private static void MapBaseModelProperties(Models.Models.Models.User userModel, User userEntity)
         {
             userModel.UserId = userEntity.Id;
             userModel.UserName = userEntity.UserName;

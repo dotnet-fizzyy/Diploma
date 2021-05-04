@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Models.Models;
 using WebAPI.Models.Models.Authentication;
+using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 
 namespace WebAPI.Presentation.Controllers

@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using WebAPI.Core.Models;
-using WebAPI.Models.Models;
+using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Pages;
 using WebAPI.Models.Models.Result;
 

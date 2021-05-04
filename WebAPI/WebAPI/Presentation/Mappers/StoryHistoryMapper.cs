@@ -7,7 +7,7 @@ namespace WebAPI.Presentation.Mappers
 {
     public class StoryHistoryMapper : IStoryHistoryMapper
     {
-        public StoryHistory MapToEntity(Models.Models.StoryHistory storyHistory)
+        public StoryHistory MapToEntity(Models.Models.Models.StoryHistory storyHistory)
         {
             if (storyHistory == null)
             {
@@ -28,14 +28,14 @@ namespace WebAPI.Presentation.Mappers
             return storyHistoryEntity;
         }
 
-        public Models.Models.StoryHistory MapToModel(StoryHistory storyHistory)
+        public Models.Models.Models.StoryHistory MapToModel(StoryHistory storyHistory)
         {
             if (storyHistory == null)
             {
-                return new Models.Models.StoryHistory();
+                return new Models.Models.Models.StoryHistory();
             }
             
-            var storyHistoryModel = new Models.Models.StoryHistory
+            var storyHistoryModel = new Models.Models.Models.StoryHistory
             {
                 StoryHistoryId = storyHistory.Id,
                 StoryHistoryAction = Enum.Parse<Models.Enums.StoryHistoryAction>(storyHistory.StoryHistoryAction.ToString(), true),

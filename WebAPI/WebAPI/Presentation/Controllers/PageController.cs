@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
-using WebAPI.Models.Models;
+using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Pages;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Filters;

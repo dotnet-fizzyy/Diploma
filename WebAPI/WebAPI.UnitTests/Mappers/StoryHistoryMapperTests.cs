@@ -49,7 +49,7 @@ namespace WebAPI.UnitTests.Mappers
                 UserId = userId
             };
             
-            var storyHistoryModel = new Models.Models.StoryHistory
+            var storyHistoryModel = new Models.Models.Models.StoryHistory
             {
                 StoryHistoryId = storyHistoryId,
                 StoryHistoryAction = Models.Enums.StoryHistoryAction.Add,
@@ -91,7 +91,7 @@ namespace WebAPI.UnitTests.Mappers
                 UserId = userId
             };
             
-            var storyHistoryModel = new Models.Models.StoryHistory
+            var storyHistoryModel = new Models.Models.Models.StoryHistory
             {
                 StoryHistoryId = storyHistoryId,
                 StoryHistoryAction = Models.Enums.StoryHistoryAction.Update,

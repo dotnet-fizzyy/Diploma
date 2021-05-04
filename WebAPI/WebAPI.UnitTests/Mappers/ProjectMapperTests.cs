@@ -58,7 +58,7 @@ namespace WebAPI.UnitTests.Mappers
                 WorkSpaceId = new Guid("1b7572ee-eb5b-4094-bd5e-e2191090c444")
             };
 
-            var projectModel = new Models.Models.Project
+            var projectModel = new Models.Models.Models.Project
             {
                 ProjectId = projectId,
                 ProjectName = "Name",
@@ -100,7 +100,7 @@ namespace WebAPI.UnitTests.Mappers
                 WorkSpaceId = new Guid("1b7572ee-eb5b-4094-bd5e-e2191090c444")
             };
 
-            var projectModel = new Models.Models.Project
+            var projectModel = new Models.Models.Models.Project
             {
                 ProjectId = projectId,
                 ProjectName = "SomeName",

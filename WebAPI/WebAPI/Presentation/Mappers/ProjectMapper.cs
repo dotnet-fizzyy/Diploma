@@ -17,7 +17,7 @@ namespace WebAPI.Presentation.Mappers
             _epicMapper = epicMapper;
         }
         
-        public Project MapToEntity(Models.Models.Project project)
+        public Project MapToEntity(Models.Models.Models.Project project)
         {
             if (project == null)
             {
@@ -38,14 +38,14 @@ namespace WebAPI.Presentation.Mappers
             return projectEntity;
         }
 
-        public Models.Models.Project MapToModel(Project project)
+        public Models.Models.Models.Project MapToModel(Project project)
         {
             if (project == null)
             {
-                return new Models.Models.Project();
+                return new Models.Models.Models.Project();
             }
             
-            var projectModel = new Models.Models.Project
+            var projectModel = new Models.Models.Models.Project
             {
                 ProjectId = project.Id,
                 ProjectDescription = project.ProjectDescription,

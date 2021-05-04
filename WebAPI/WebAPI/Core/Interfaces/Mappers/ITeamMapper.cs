@@ -1,3 +1,4 @@
+using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Simple;
 
@@ -5,9 +6,9 @@ namespace WebAPI.Core.Interfaces.Mappers
 {
     public interface ITeamMapper
     {
-        Entities.Team MapToEntity(WebAPI.Models.Models.Team team);
+        Entities.Team MapToEntity(Team team);
         
-        WebAPI.Models.Models.Team MapToModel(Entities.Team team);
+        Team MapToModel(Entities.Team team);
         
         FullTeam MapToFullModel(Entities.Team team);
 

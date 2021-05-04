@@ -13,6 +13,7 @@ using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Infrastructure.Postgres.Repository;
 using WebAPI.Models.Models;
 using WebAPI.Models.Models.Authentication;
+using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Aggregators;
 using WebAPI.Presentation.Filters;
 using WebAPI.Presentation.Mappers;

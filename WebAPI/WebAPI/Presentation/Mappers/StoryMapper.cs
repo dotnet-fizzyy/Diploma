@@ -16,7 +16,7 @@ namespace WebAPI.Presentation.Mappers
             _storyHistoryMapper = storyHistoryMapper;
         }
         
-        public Story MapToEntity(Models.Models.Story story)
+        public Story MapToEntity(Models.Models.Models.Story story)
         {
             if (story == null)
             {
@@ -46,14 +46,14 @@ namespace WebAPI.Presentation.Mappers
             return storyEntity;
         }
 
-        public Models.Models.Story MapToModel(Story story)
+        public Models.Models.Models.Story MapToModel(Story story)
         {
             if (story == null)
             {
-                return new Models.Models.Story();
+                return new Models.Models.Models.Story();
             }
             
-            var storyModel = new Models.Models.Story
+            var storyModel = new Models.Models.Models.Story
             {
                 StoryId = story.Id,
                 UserId = story.UserId,

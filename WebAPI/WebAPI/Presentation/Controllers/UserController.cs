@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
-using WebAPI.Models.Models;
 using WebAPI.Models.Models.Authentication;
+using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Filters;
 

@@ -43,7 +43,7 @@ namespace WebAPI.UnitTests.Mappers
                 Value = "RefreshToken"
             };
 
-            var refreshTokenModel = new Models.Models.RefreshToken
+            var refreshTokenModel = new Models.Models.Models.RefreshToken
             {
                 RefreshTokenId = refreshTokenId,
                 UserId = userId,
@@ -67,7 +67,7 @@ namespace WebAPI.UnitTests.Mappers
             var userId = new Guid();
             var refreshTokenId = new Guid();
             
-            var refreshTokenModel = new Models.Models.RefreshToken
+            var refreshTokenModel = new Models.Models.Models.RefreshToken
             {
                 RefreshTokenId = refreshTokenId,
                 UserId = userId,

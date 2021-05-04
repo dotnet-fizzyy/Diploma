@@ -10,7 +10,7 @@ using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Models;
-using WebAPI.Models.Models;
+using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Pages;
 using WebAPI.Models.Models.Result;
 

@@ -1,9 +1,11 @@
+using WebAPI.Models.Models.Models;
+
 namespace WebAPI.Core.Interfaces.Mappers
 {
     public interface IWorkSpaceMapper
     {
-        WebAPI.Models.Models.WorkSpace MapToModel(Entities.WorkSpace entity);
+        WorkSpace MapToModel(Entities.WorkSpace entity);
         
-        Entities.WorkSpace MapToEntity(WebAPI.Models.Models.WorkSpace model);
+        Entities.WorkSpace MapToEntity(WorkSpace model);
     }
 }

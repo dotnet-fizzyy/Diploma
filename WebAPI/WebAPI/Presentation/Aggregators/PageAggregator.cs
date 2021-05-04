@@ -49,9 +49,9 @@ namespace WebAPI.Presentation.Aggregators
             return searchResults;
         }
 
-        public CollectionResponse<WebAPI.Models.Models.StoryHistory> CreateStoryHistoryItems(IList<StoryHistory> storyHistories)
+        public CollectionResponse<Models.Models.Models.StoryHistory> CreateStoryHistoryItems(IList<StoryHistory> storyHistories)
         {
-            var storyHistoryCollection = new CollectionResponse<WebAPI.Models.Models.StoryHistory>
+            var storyHistoryCollection = new CollectionResponse<Models.Models.Models.StoryHistory>
             {
                 Items = storyHistories.Select(_storyHistoryMapper.MapToModel).ToList()
             };

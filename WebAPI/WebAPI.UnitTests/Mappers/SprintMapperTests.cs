@@ -55,7 +55,7 @@ namespace WebAPI.UnitTests.Mappers
                 EpicId = epicId,
             };
 
-            var sprintModel = new Models.Models.Sprint
+            var sprintModel = new Models.Models.Models.Sprint
             {
                 SprintId = sprintId,
                 SprintName = "SprintName",
@@ -85,7 +85,7 @@ namespace WebAPI.UnitTests.Mappers
             var sprintId = new Guid();
             var epicId = new Guid();
             
-            var sprintModel = new Models.Models.Sprint
+            var sprintModel = new Models.Models.Models.Sprint
             {
                 SprintId = sprintId,
                 SprintName = "Sprint",

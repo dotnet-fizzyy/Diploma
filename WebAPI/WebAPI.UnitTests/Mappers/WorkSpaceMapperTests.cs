@@ -35,7 +35,7 @@ namespace WebAPI.UnitTests.Mappers
             var workSpaceId = new Guid();
             
             //Arrange
-            var epicModel = new Models.Models.WorkSpace
+            var epicModel = new Models.Models.Models.WorkSpace
             {
                 WorkSpaceId = workSpaceId,
                 WorkSpaceName = "Name",
@@ -69,7 +69,7 @@ namespace WebAPI.UnitTests.Mappers
             var workSpaceId = new Guid();
             
             //Arrange
-            var epicModel = new Models.Models.WorkSpace
+            var epicModel = new Models.Models.Models.WorkSpace
             {
                 WorkSpaceId = workSpaceId,
                 WorkSpaceName = "Name",

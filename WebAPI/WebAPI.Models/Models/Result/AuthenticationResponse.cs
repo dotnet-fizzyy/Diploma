@@ -1,3 +1,5 @@
+using WebAPI.Models.Models.Models;
+
 namespace WebAPI.Models.Models.Result
 {
     public class AuthenticationResponse

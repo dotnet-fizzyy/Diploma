@@ -1,6 +1,5 @@
-using System;
 using FluentValidation;
-using WebAPI.Models.Models;
+using WebAPI.Models.Models.Models;
 
 namespace WebAPI.Presentation.Validators
 {

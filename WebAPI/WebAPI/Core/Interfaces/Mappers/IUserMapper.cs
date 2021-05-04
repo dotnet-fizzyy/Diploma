@@ -1,13 +1,14 @@
 using System.Collections.Generic;
+using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 
 namespace WebAPI.Core.Interfaces.Mappers
 {
     public interface IUserMapper
     {
-        Entities.User MapToEntity(WebAPI.Models.Models.User user);
+        Entities.User MapToEntity(User user);
         
-        WebAPI.Models.Models.User MapToModel(Entities.User user);
+        User MapToModel(Entities.User user);
         
         Entities.User MapToEntity(WebAPI.Models.Models.Authentication.SignUpUser user);
         

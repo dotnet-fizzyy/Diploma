@@ -5,7 +5,7 @@ namespace WebAPI.Presentation.Mappers
 {
     public class RefreshTokenMapper : IRefreshTokenMapper
     {
-        public RefreshToken MapToEntity(Models.Models.RefreshToken refreshToken)
+        public RefreshToken MapToEntity(Models.Models.Models.RefreshToken refreshToken)
         {
             if (refreshToken == null)
             {
@@ -22,14 +22,14 @@ namespace WebAPI.Presentation.Mappers
             return entityRefreshToken;
         }
 
-        public Models.Models.RefreshToken MapToModel(RefreshToken refreshToken)
+        public Models.Models.Models.RefreshToken MapToModel(RefreshToken refreshToken)
         {
             if (refreshToken == null)
             {
-                return new Models.Models.RefreshToken();
+                return new Models.Models.Models.RefreshToken();
             }
             
-            var modelRefreshToken = new Models.Models.RefreshToken
+            var modelRefreshToken = new Models.Models.Models.RefreshToken
             {
                 RefreshTokenId = refreshToken.Id,
                 UserId = refreshToken.UserId,
@@ -39,7 +39,7 @@ namespace WebAPI.Presentation.Mappers
             return modelRefreshToken;
         }
         
-        public RefreshToken MapToEntityOnSave(Models.Models.RefreshToken refreshToken)
+        public RefreshToken MapToEntityOnSave(Models.Models.Models.RefreshToken refreshToken)
         {
             if (refreshToken == null)
             {

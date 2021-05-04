@@ -12,7 +12,7 @@ using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Authentication;
 using WebAPI.Models.Models.Result;
-using WebAPI.Models.Models;
+using WebAPI.Models.Models.Models;
 
 namespace WebAPI.ApplicationLogic.Services
 {

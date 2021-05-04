@@ -7,7 +7,6 @@ using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Aggregators;
 using Xunit;
-using Epic = WebAPI.Core.Entities.Epic;
 
 namespace WebAPI.UnitTests.Aggregators
 {
@@ -139,7 +138,7 @@ namespace WebAPI.UnitTests.Aggregators
                 Teams = teamEntities,
             };
 
-            var epicModel = new Models.Models.Epic
+            var epicModel = new Models.Models.Models.Epic
             {
                 EpicId = epicId,
                 EpicDescription = "Some epic description",
@@ -176,7 +175,7 @@ namespace WebAPI.UnitTests.Aggregators
                 }
             };
             
-            var projectModel = new Models.Models.Project
+            var projectModel = new Models.Models.Models.Project
             {
                 ProjectId = projectId,
                 ProjectName = "Project",

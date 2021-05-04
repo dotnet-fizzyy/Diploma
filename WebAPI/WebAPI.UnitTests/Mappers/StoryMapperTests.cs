@@ -67,7 +67,7 @@ namespace WebAPI.UnitTests.Mappers
                 CreationDate = new DateTime(2020, 11, 11)
             };
 
-            var storyModel = new Models.Models.Story
+            var storyModel = new Models.Models.Models.Story
             {
                 StoryId = storyId,
                 StoryPriority = Models.Enums.StoryPriority.Low,
@@ -136,7 +136,7 @@ namespace WebAPI.UnitTests.Mappers
                 CreationDate = new DateTime(2020, 11, 11)
             };
 
-            var storyModel = new Models.Models.Story
+            var storyModel = new Models.Models.Models.Story
             {
                 StoryId = storyId,
                 StoryPriority = Models.Enums.StoryPriority.High,
