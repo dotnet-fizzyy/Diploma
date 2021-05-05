@@ -12,9 +12,9 @@ namespace WebAPI.ApplicationLogic.Utilities
 {
     public class TokenGenerator : ITokenGenerator
     {
-        public string GenerateAccessToken(AppSettings appSettings, Guid userId, string userRole)
+        public string GenerateAccessToken(AppSettings appSettings, Guid userId, string userName, string userRole)
         {
-            var claims = GetClaims(userId, userRole);
+            var claims = GetClaims(userId, userName, userRole);
 
             var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appSettings.Token.SigningKey));
             
@@ -50,19 +50,18 @@ namespace WebAPI.ApplicationLogic.Utilities
             return DateTime.Now > jwtSecurityToken.ValidTo;
         }
 
-        private static ClaimsIdentity GetClaims(Guid userId, string userRole)
+        private static ClaimsIdentity GetClaims(Guid userId, string userName, string userRole)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userId.ToString()),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, userRole)
+                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+                new Claim(ClaimTypes.Role, userRole),
+                new Claim(ClaimTypes.Name, userName),
             };
             
             var claimsIdentity = new ClaimsIdentity(
                 claims, 
-                "Token", 
-                ClaimsIdentity.DefaultNameClaimType, 
-                ClaimsIdentity.DefaultRoleClaimType
+                "Token"
             );
 
             return claimsIdentity;

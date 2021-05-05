@@ -7,8 +7,8 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface ITokenService
     {
-        Task<AuthenticationResponse> AuthenticateUser(SignInUser user);
+        Task<AuthenticationUserResultModel> AuthenticateUser(SignInUser user);
 
-        Task<Core.Entities.User> GetRefreshTokenByUserId(string refreshToken, Guid userId);
+        Task<AuthenticationResultModel> UpdateTokens(string refreshToken, Guid userId, string userName, string userRole);
     }
 }

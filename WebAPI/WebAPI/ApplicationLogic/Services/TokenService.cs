@@ -1,6 +1,9 @@
 using System;
 using System.Threading.Tasks;
+using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Configuration;
+using WebAPI.Core.Enums;
+using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Providers;
@@ -15,7 +18,6 @@ namespace WebAPI.ApplicationLogic.Services
 {
     public class TokenService : ITokenService
     {
-        private readonly IUserRepository _userRepository;
         private readonly IUserProvider _userProvider;
         private readonly ITokenGenerator _tokenGenerator;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
@@ -23,7 +25,6 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly AppSettings _appSettings;
 
         public TokenService(
-            IUserRepository userRepository,
             IUserProvider userProvider,
             ITokenGenerator tokenGenerator,
             IRefreshTokenRepository refreshTokenRepository,
@@ -31,7 +32,6 @@ namespace WebAPI.ApplicationLogic.Services
             AppSettings appSettings
             )
         {
-            _userRepository = userRepository;
             _userProvider = userProvider;
             _appSettings = appSettings;
             _refreshTokenRepository = refreshTokenRepository;
@@ -40,27 +40,26 @@ namespace WebAPI.ApplicationLogic.Services
         }
         
 
-        public async Task<AuthenticationResponse> AuthenticateUser(SignInUser user)
+        public async Task<AuthenticationUserResultModel> AuthenticateUser(SignInUser user)
         {
             //Authenticate user (find in db)
             var fullUserModel = await _userProvider.GetFullUser(user);
 
             //Generate tokens if record is valid
-            var accessToken = _tokenGenerator.GenerateAccessToken(_appSettings, fullUserModel.UserId, fullUserModel.UserRole.ToString());
+            var accessToken = _tokenGenerator.GenerateAccessToken(_appSettings, fullUserModel.UserId, fullUserModel.UserName, fullUserModel.UserRole.ToString());
 
             string refreshToken = null;
             if (_appSettings.Token.EnableRefreshTokenVerification)
             {
                 refreshToken = _tokenGenerator.GenerateRefreshToken();
 
-                var refreshTokenEntity =
-                    _refreshTokenAggregator.GenerateRefreshTokenEntityOnSave(fullUserModel.UserId, refreshToken);
+                var refreshTokenEntity = _refreshTokenAggregator.GenerateRefreshTokenEntityOnSave(fullUserModel.UserId, refreshToken);
                 refreshTokenEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
                 
                 await _refreshTokenRepository.CreateAsync(refreshTokenEntity);
             }
 
-            var tokenPair = new AuthenticationResponse
+            var tokenPair = new AuthenticationUserResultModel
             {
                 AccessToken = new Token(TokenTypes.Access, accessToken),
                 RefreshToken = new Token(TokenTypes.Refresh, refreshToken),
@@ -70,19 +69,26 @@ namespace WebAPI.ApplicationLogic.Services
             return tokenPair;
         }
 
-        public async Task<Core.Entities.User> GetRefreshTokenByUserId(string refreshToken, Guid userId)
+        public async Task<AuthenticationResultModel> UpdateTokens(string refreshToken, Guid userId, string userName, string userRole)
         {
-            var refreshTokenEntity = await _refreshTokenRepository.SearchForSingleItemAsync(
-                x => x.UserId == userId && x.Value == refreshToken);
-
+            var refreshTokenEntity = await _refreshTokenRepository.SearchForSingleItemAsync(x => x.UserId == userId && x.Value == refreshToken);
             if (refreshTokenEntity == null)
             {
-                return null;
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage($"refresh token and {nameof(userId)}"));
             }
+            
+            var accessToken = _tokenGenerator.GenerateAccessToken(_appSettings, userId, userName, userRole);
+            
+            refreshTokenEntity.Value = _tokenGenerator.GenerateRefreshToken();
+            var updatedRefreshToken = await _refreshTokenRepository.UpdateItemAsync(refreshTokenEntity);
+            
+            var tokenPair = new AuthenticationResultModel
+            {
+                AccessToken = new Token(TokenTypes.Access, accessToken),
+                RefreshToken = new Token(TokenTypes.Refresh, updatedRefreshToken.Value)
+            };
 
-            var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == userId);
-
-            return userEntity;
+            return tokenPair;
         }
     }
 }

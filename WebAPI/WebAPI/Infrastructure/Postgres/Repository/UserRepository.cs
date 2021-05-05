@@ -13,8 +13,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 
         public async Task<User> AuthenticateUser(User user)
         {
-            return await _dbContext.Users
-                .FirstOrDefaultAsync(x => x.UserName == user.UserName && x.Password == user.Password);
+            return await _dbContext.Users.FirstOrDefaultAsync(x => x.UserName == user.UserName && x.Password == user.Password);
         }
 
         public async Task UpdateUserAvatarLinkAsync(User user)

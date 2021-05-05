@@ -1,34 +1,27 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Primitives;
 using WebAPI.Core.Configuration;
-using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
+using WebAPI.Presentation.Constants;
 
 namespace WebAPI.Presentation.Filters
 {
     public class UserAuthorizationFilter : IAuthorizationFilter
     {
         private readonly ITokenGenerator _tokenGenerator;
-        private readonly ITokenService _tokenService;
         private readonly AppSettings _appSettings;
 
         public UserAuthorizationFilter(
-            ITokenGenerator tokenGenerator, 
-            ITokenService tokenService, 
+            ITokenGenerator tokenGenerator,
             AppSettings appSettings
             )
         {
             _tokenGenerator = tokenGenerator;
-            _tokenService = tokenService;
             _appSettings = appSettings;
         }
         
-        public async void OnAuthorization(AuthorizationFilterContext context)
+        public void OnAuthorization(AuthorizationFilterContext context)
         {
             if (!_appSettings.Token.EnableRefreshTokenVerification)
             {
@@ -39,33 +32,16 @@ namespace WebAPI.Presentation.Filters
             var httpContext = context.HttpContext;
 
             //Check for token existing
-            var tokenValue = httpContext.Request.Headers["Authorization"].ToString();
+            var tokenValue = httpContext.Request.Headers[RequestHeaders.AuthorizationHeader].ToString();
             var accessToken = tokenValue.Split(' ').Last();
-            var refreshToken = httpContext.Request.Headers["Refresh-token"];
-
-            if (refreshToken.Count == 0)
-            {
-                context.Result = new UnauthorizedResult();
-                return;
-            }
 
             //Check token for expiration
             var isExpired = _tokenGenerator.ValidateExpirationTime(accessToken);
 
             if (isExpired)
             {
-                return;
+                context.Result = new UnauthorizedResult();
             }
-
-            var userId = httpContext.User.Claims.First(x => x.Type == ClaimTypes.Name).Value;
-
-            //Update response with new access token
-            var userEntity = await _tokenService.GetRefreshTokenByUserId(accessToken, new Guid(userId));
-            var newAccessToken = _tokenGenerator.GenerateAccessToken(_appSettings, userEntity.Id, userEntity.UserRole.ToString());
-
-            httpContext.Response.Headers.Add(
-                new KeyValuePair<string, StringValues>("Authorization", $"Bearer {newAccessToken}")
-            );
         }
     }
 }

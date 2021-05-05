@@ -6,13 +6,9 @@ namespace WebAPI.Presentation.Constants
         public const string Refresh = "Refresh";
     }
 
-    public static class AuthorizationPolicies
-    {
-        public const string RefreshToken = nameof(RefreshToken);
-    }
-
     public static class RequestHeaders
     {
-        public const string UserHeader = "x-end-user";
+        public const string AuthorizationHeader = "Authorization";
+        public const string RefreshTokenHeader = "X-Refresh-Token";
     }
 }
