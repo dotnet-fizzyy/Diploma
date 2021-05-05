@@ -41,6 +41,13 @@ namespace WebAPI.Presentation.Filters
             if (isExpired)
             {
                 context.Result = new UnauthorizedResult();
+                return;
+            }
+
+            var refreshToken = httpContext.Request.Headers[RequestHeaders.RefreshTokenHeader];
+            if (!refreshToken.Any())
+            {
+                context.Result = new UnauthorizedResult();
             }
         }
     }
