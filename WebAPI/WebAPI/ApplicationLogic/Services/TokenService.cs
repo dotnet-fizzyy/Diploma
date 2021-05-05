@@ -52,10 +52,8 @@ namespace WebAPI.ApplicationLogic.Services
             if (_appSettings.Token.EnableRefreshTokenVerification)
             {
                 refreshToken = _tokenGenerator.GenerateRefreshToken();
-
-                var refreshTokenEntity = _refreshTokenAggregator.GenerateRefreshTokenEntityOnSave(fullUserModel.UserId, refreshToken);
-                refreshTokenEntity.CreationDate = DateTime.UtcNow.ToUniversalTime();
-                
+                var refreshTokenEntity = _refreshTokenAggregator.GenerateRefreshTokenEntityOnSave(fullUserModel.UserId, refreshToken, _appSettings.Token.LifeTime);
+               
                 await _refreshTokenRepository.CreateAsync(refreshTokenEntity);
             }
 
@@ -71,7 +69,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<AuthenticationResultModel> UpdateTokens(string refreshToken, Guid userId, string userName, string userRole)
         {
-            var refreshTokenEntity = await _refreshTokenRepository.SearchForSingleItemAsync(x => x.UserId == userId && x.Value == refreshToken);
+            var refreshTokenEntity = await _refreshTokenRepository.SearchForSingleItemAsync(x => x.UserId == userId && x.Value == refreshToken && x.ExpirationDate > DateTime.UtcNow);
             if (refreshTokenEntity == null)
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage($"refresh token and {nameof(userId)}"));

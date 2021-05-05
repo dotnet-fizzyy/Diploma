@@ -5,6 +5,6 @@ namespace WebAPI.Core.Interfaces.Aggregators
 {
     public interface IRefreshTokenAggregator
     {
-        RefreshToken GenerateRefreshTokenEntityOnSave(Guid userId, string token);
+        RefreshToken GenerateRefreshTokenEntityOnSave(Guid userId, string token, double tokenLifeTime);
     }
 }
