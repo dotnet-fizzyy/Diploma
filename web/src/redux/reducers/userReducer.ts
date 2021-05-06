@@ -4,8 +4,6 @@ import { IUserState } from '../store/state';
 const initialState: IUserState = {
     isAuthenticationSuccessful: false,
     wasCustomerCreated: false,
-    accessToken: '',
-    refreshToken: '',
     user: null,
     isLoading: false,
     selectedTeam: '',
@@ -36,6 +34,8 @@ export default function userReducer(state = initialState, action: UserActions.Cu
             return handleChangeUserProject(state, action);
         case UserActions.UserActions.CHANGE_USER_TEAM:
             return handleChangeUserTeam(state, action);
+        case UserActions.UserActions.LOGOUT_USER:
+            return handleUserLogOut();
         default:
             return state;
     }
@@ -60,9 +60,10 @@ function handleAuthenticationSuccess(state: IUserState, action: UserActions.IAut
         ...state,
         isAuthenticationSuccessful: true,
         isLoading: false,
-        accessToken: action.payload.accessToken.value,
-        refreshToken: action.payload.refreshToken.value,
-        user: action.payload.user,
+        user: action.payload,
+        selectedTeam:
+            action.payload.projects && action.payload.projects.length ? action.payload.projects[0].projectId : '',
+        selectedProject: action.payload.teams && action.payload.teams.length ? action.payload.teams[0].teamId : '',
     };
 }
 
@@ -126,4 +127,8 @@ function handleChangeUserTeam(state: IUserState, action: UserActions.IChangeUser
         ...state,
         selectedTeam: action.payload,
     };
+}
+
+function handleUserLogOut(): IUserState {
+    return initialState;
 }

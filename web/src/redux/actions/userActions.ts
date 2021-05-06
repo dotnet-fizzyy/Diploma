@@ -1,4 +1,3 @@
-import { AuthenticationResponse } from '../../types';
 import { IAuthenticationUser, IFullUser, IUpdateUserPassword, IUser } from '../../types/userTypes';
 
 export const UserActions = {
@@ -43,7 +42,7 @@ export interface IAuthenticationRequest {
 
 export interface IAuthenticationSuccess {
     type: typeof UserActions.AUTHENTICATION_SUCCESS;
-    payload: AuthenticationResponse;
+    payload: IFullUser;
 }
 
 export interface IAuthenticationFailure {
@@ -219,10 +218,10 @@ export function authenticationRequest(userName: string, password: string): IAuth
     };
 }
 
-export function authenticationSuccess(authResponse: AuthenticationResponse): IAuthenticationSuccess {
+export function authenticationSuccess(user: IFullUser): IAuthenticationSuccess {
     return {
         type: UserActions.AUTHENTICATION_SUCCESS,
-        payload: authResponse,
+        payload: user,
     };
 }
 

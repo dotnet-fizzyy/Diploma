@@ -2,11 +2,10 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import UserApi from '../../api/userApi';
 import { AuthenticationResponse, IJsonPatchBody } from '../../types';
 import { IFullUser, IUser } from '../../types/userTypes';
-import { clearCredentialsFromLocalStorage, setCredentialsToLocalStorage } from '../../utils';
+import { setCredentialsToLocalStorage } from '../../utils';
 import { createRequestBodyForUserUpdateLink } from '../../utils/userHelper';
 import { closeModal } from '../actions/modalActions';
 import {
-    addUser,
     authenticationFailure,
     authenticationSuccess,
     changeUserActivityStatusFailure,
@@ -36,7 +35,7 @@ import {
 function* authenticateUser(action: IAuthenticationRequest) {
     try {
         const authResponse: AuthenticationResponse = yield call(UserApi.authenticate, action.payload);
-        yield put(authenticationSuccess(authResponse));
+        yield put(authenticationSuccess(authResponse.user));
 
         setCredentialsToLocalStorage(authResponse.accessToken.value, authResponse.refreshToken.value);
     } catch (error) {
@@ -51,12 +50,6 @@ function* createCustomer(action: IRegistrationRequest) {
     } catch (error) {
         yield put(registrationFailure(error));
     }
-}
-
-function* logOutUser() {
-    clearCredentialsFromLocalStorage();
-
-    yield put(addUser(null));
 }
 
 function* verifyUser() {
@@ -129,7 +122,6 @@ function* changeUserActivityStatus(action: IChangeUserActivityStatusRequest) {
 export default function* rootCurrentUserSaga() {
     yield takeLatest(UserActions.AUTHENTICATION_REQUEST, authenticateUser);
     yield takeLatest(UserActions.REGISTRATION_REQUEST, createCustomer);
-    yield takeLatest(UserActions.LOGOUT_USER, logOutUser);
     yield takeLatest(UserActions.VERIFY_USER_REQUEST, verifyUser);
     yield takeLatest(UserActions.CREATE_USER_REQUEST, createUser);
     yield takeLatest(UserActions.UPDATE_AVATAR_REQUEST, updateAvatarLink);

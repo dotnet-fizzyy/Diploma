@@ -23,8 +23,6 @@ export interface IState {
 export interface IUserState {
     isAuthenticationSuccessful: boolean;
     wasCustomerCreated: boolean;
-    accessToken: string;
-    refreshToken: string;
     user?: IFullUser;
     isLoading: boolean;
     selectedTeam?: string;
