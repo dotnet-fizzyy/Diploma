@@ -7,7 +7,7 @@ namespace WebAPI.Models.Models.Models
     {
         public Guid StoryHistoryId { get; set; }
         
-        public Guid UserId { get; set; }
+        public string UserName { get; set; }
         
         public StoryHistoryAction StoryHistoryAction { get; set; }
         

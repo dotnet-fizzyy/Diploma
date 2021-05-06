@@ -42,16 +42,16 @@ Users
 */
 /* 
 Password is using SHA256 hashing algorythm
-A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3 - 123
-865736A1C30A82DC67ABA820360A01B1D9D0DA5643234CD07C4D60B06EB530C5 - 321
-9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08 - test
+3C9909AFEC25354D551DAE21590BB26E38D53F2173B8D3DC3EEE4C047E7AB1C1EB8B85103E3BE7BA613B31BB5C9C36214DC9F14A42FD7A2FDB84856BCA5C44C2 - 123
+3043AA4A83B0934982956A90828140CB834869135B5F294938865DE12E036DE440A330E1E8529BEC15DDD59F18D1161A97BFEC110D2622680F2C714A737D7061 - 321
+EE26B0DD4AF7E749AA1A8EE3C10AE9923F618980772E473F8819A5D4940E0DB27AC185F8A0E1D5F84F88BC887FD67B143732C304CC5FA9AD8E6F57F50028A8FF - test
 */
 INSERT INTO public."Users" ("UserId", "UserName", "Password", "UserRole", "UserPosition", "IsActive", "Email", "AvatarLink", "CreationDate", "WorkSpaceId") VALUES
-('dab0e95f-3906-4ea8-9e45-dcdf12182788', 'Dmitry Yaniuk', 'A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3', 1, 6, true, 'test_email@mail.com', NULL, timezone('utc', now()), 'a6146fae-f27c-410d-aec8-70c566e30afa'),
-('6269201e-e569-4d73-9d91-da36ccfa4e15', 'Oleg Ryazin', '865736A1C30A82DC67ABA820360A01B1D9D0DA5643234CD07C4D60B06EB530C5', 4, 3, true, 'oleg.email@mail.com', NULL, timezone('utc', now()), 'a6146fae-f27c-410d-aec8-70c566e30afa'),
-('82aec964-ea06-4d64-86fc-109253352d35', 'Igor Zolotnik', '865736A1C30A82DC67ABA820360A01B1D9D0DA5643234CD07C4D60B06EB530C5', 4, 4, true, 'igor.email@mail.com', NULL, timezone('utc', now()), 'a6146fae-f27c-410d-aec8-70c566e30afa'),
-('a4494730-1826-4cb6-bb5b-8bf11292ae1e', 'Ulasevich Nikolai', '9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08', 4, 2, true, 'nikolai.email@mail.com', NULL, timezone('utc', now()), 'a6146fae-f27c-410d-aec8-70c566e30afa'),
-('86d2a87a-64f0-478e-a795-72df8b14f5bc', 'Mitsenko Alexei', 'A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3', 4, 5, true, 'alexei.email@mail.com', NULL, timezone('utc', now()), 'a6146fae-f27c-410d-aec8-70c566e30afa');
+('dab0e95f-3906-4ea8-9e45-dcdf12182788', 'Dmitry Yaniuk', '3C9909AFEC25354D551DAE21590BB26E38D53F2173B8D3DC3EEE4C047E7AB1C1EB8B85103E3BE7BA613B31BB5C9C36214DC9F14A42FD7A2FDB84856BCA5C44C2', 1, 6, true, 'test_email@mail.com', NULL, timezone('utc', now()), 'a6146fae-f27c-410d-aec8-70c566e30afa'),
+('6269201e-e569-4d73-9d91-da36ccfa4e15', 'Oleg Ryazin', '3043AA4A83B0934982956A90828140CB834869135B5F294938865DE12E036DE440A330E1E8529BEC15DDD59F18D1161A97BFEC110D2622680F2C714A737D7061', 4, 3, true, 'oleg.email@mail.com', NULL, timezone('utc', now()), 'a6146fae-f27c-410d-aec8-70c566e30afa'),
+('82aec964-ea06-4d64-86fc-109253352d35', 'Igor Zolotnik', '3043AA4A83B0934982956A90828140CB834869135B5F294938865DE12E036DE440A330E1E8529BEC15DDD59F18D1161A97BFEC110D2622680F2C714A737D7061', 4, 4, true, 'igor.email@mail.com', NULL, timezone('utc', now()), 'a6146fae-f27c-410d-aec8-70c566e30afa'),
+('a4494730-1826-4cb6-bb5b-8bf11292ae1e', 'Ulasevich Nikolai', 'EE26B0DD4AF7E749AA1A8EE3C10AE9923F618980772E473F8819A5D4940E0DB27AC185F8A0E1D5F84F88BC887FD67B143732C304CC5FA9AD8E6F57F50028A8FF', 4, 2, true, 'nikolai.email@mail.com', NULL, timezone('utc', now()), 'a6146fae-f27c-410d-aec8-70c566e30afa'),
+('86d2a87a-64f0-478e-a795-72df8b14f5bc', 'Mitsenko Alexei', '3C9909AFEC25354D551DAE21590BB26E38D53F2173B8D3DC3EEE4C047E7AB1C1EB8B85103E3BE7BA613B31BB5C9C36214DC9F14A42FD7A2FDB84856BCA5C44C2', 4, 5, true, 'alexei.email@mail.com', NULL, timezone('utc', now()), 'a6146fae-f27c-410d-aec8-70c566e30afa');
 
 /*
 TeamUsers
@@ -75,8 +75,8 @@ INSERT INTO public."Stories" ("StoryId", "SprintId", "UserId", "Title", "Descrip
 /*
 StoryHistories
 */
-INSERT INTO public."StoryHistories" ("StoryHistoryId", "CreationDate", "StoryHistoryAction", "FieldName", "PreviousValue", "CurrentValue", "UserId", "StoryId") VALUES
-('b8e88a03-e235-453b-8aa1-9b4ec5947136', timezone('utc', now()), 1, '', '', '', 'dab0e95f-3906-4ea8-9e45-dcdf12182788', '5af14402-7acf-49f7-96c7-e91da2b624a6'),
-('1e64654a-97fb-441f-9932-1c7074c47d7c', timezone('utc', now()), 1, '', '', '', 'dab0e95f-3906-4ea8-9e45-dcdf12182788', 'f88aaa7a-b469-4dd0-ae53-76676b928d59'),
-('568a7549-c586-40e1-b631-902e2ac94341', timezone('utc', now()), 1, '', '', '', 'dab0e95f-3906-4ea8-9e45-dcdf12182788', '04c3f7d8-b67a-4b5a-ae70-3637636eee64'),
-('78c8579e-0daf-4efb-9bfb-4a86da82c60f', timezone('utc', now()), 1, '', '', '', 'dab0e95f-3906-4ea8-9e45-dcdf12182788', 'b5d92f92-a994-40b0-b761-0d69f9a778ef');
+INSERT INTO public."StoryHistories" ("StoryHistoryId", "CreationDate", "StoryHistoryAction", "FieldName", "PreviousValue", "CurrentValue", "UserName", "StoryId") VALUES
+('b8e88a03-e235-453b-8aa1-9b4ec5947136', timezone('utc', now()), 1, '', '', '', 'Dmitry Yaniuk', '5af14402-7acf-49f7-96c7-e91da2b624a6'),
+('1e64654a-97fb-441f-9932-1c7074c47d7c', timezone('utc', now()), 1, '', '', '', 'Dmitry Yaniuk', 'f88aaa7a-b469-4dd0-ae53-76676b928d59'),
+('568a7549-c586-40e1-b631-902e2ac94341', timezone('utc', now()), 1, '', '', '', 'Dmitry Yaniuk', '04c3f7d8-b67a-4b5a-ae70-3637636eee64'),
+('78c8579e-0daf-4efb-9bfb-4a86da82c60f', timezone('utc', now()), 1, '', '', '', 'Dmitry Yaniuk', 'b5d92f92-a994-40b0-b761-0d69f9a778ef');

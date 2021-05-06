@@ -21,7 +21,7 @@ namespace WebAPI.Presentation.Mappers
                 PreviousValue = storyHistory.PreviousValue,
                 CurrentValue = storyHistory.CurrentValue,
                 FieldName = storyHistory.FieldName,
-                UserId = storyHistory.UserId,
+                UserName = storyHistory.UserName,
                 CreationDate = DateTime.Now,
             };
 
@@ -42,7 +42,7 @@ namespace WebAPI.Presentation.Mappers
                 PreviousValue = storyHistory.PreviousValue,
                 CurrentValue = storyHistory.CurrentValue,
                 FieldName = storyHistory.FieldName,
-                UserId = storyHistory.UserId,
+                UserName = storyHistory.UserName,
                 CreationDate = storyHistory.CreationDate,
             };
 

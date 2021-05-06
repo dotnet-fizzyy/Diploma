@@ -139,12 +139,12 @@ namespace WebAPI.ApplicationLogic.Services
             return storyFullModel;
         }
 
-        public async Task<Story> CreateStoryAsync(Story story, Guid userId)
+        public async Task<Story> CreateStoryAsync(Story story, string userName)
         {
             var storyEntity = _storyMapper.MapToEntity(story);
 
             var createdStoryEntity = await _storyRepository.CreateAsync(storyEntity);
-            await _storyHistoryRepository.CreateAsync(StoryHistoryGenerator.GetStoryHistoryForCreation(userId, createdStoryEntity.Id));
+            await _storyHistoryRepository.CreateAsync(StoryHistoryGenerator.GetStoryHistoryForCreation(userName, createdStoryEntity.Id));
             
             var storyModel = _storyMapper.MapToModel(createdStoryEntity);
             
@@ -187,7 +187,7 @@ namespace WebAPI.ApplicationLogic.Services
             return updatedStoryModel;
         }
 
-        public async Task<Story> UpdatePartsOfStoryAsync(Story storyUpdate, Guid userId)
+        public async Task<Story> UpdatePartsOfStoryAsync(Story storyUpdate, string userName)
         {
             using var scope = new TransactionScope
             (
@@ -206,7 +206,7 @@ namespace WebAPI.ApplicationLogic.Services
             }
             
             var storyUpdateEntity = _storyMapper.MapToEntity(storyUpdate);
-            var storyHistoryUpdates = _storyAggregator.CreateStoryFromUpdateParts(storyEntity, storyUpdateEntity, userId);
+            var storyHistoryUpdates = _storyAggregator.CreateStoryFromUpdateParts(storyEntity, storyUpdateEntity, userName);
             
             await _storyHistoryRepository.CreateAsync(storyHistoryUpdates);
             var updatedStory = await _storyRepository.UpdateItemAsync(storyEntity);

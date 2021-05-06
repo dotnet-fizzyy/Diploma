@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 
 namespace WebAPI.ApplicationLogic.Utilities
@@ -9,7 +8,7 @@ namespace WebAPI.ApplicationLogic.Utilities
         {
             var bytes = Encoding.UTF8.GetBytes(password);
             
-            using (var hash = System.Security.Cryptography.SHA256.Create())
+            using (var hash = System.Security.Cryptography.SHA512.Create())
             {
                 var hashedInputBytes = hash.ComputeHash(bytes);
 
@@ -20,16 +19,6 @@ namespace WebAPI.ApplicationLogic.Utilities
                     hashedInputStringBuilder.Append(hashByte.ToString("X2"));
                 return hashedInputStringBuilder.ToString();
             }
-        }
-
-        public static bool VerifyPasswords(string password, string hashPassword)
-        {
-            var hashOfInput = CreateHashPassword(password);
-
-            // Create a StringComparer an compare the hashes.
-            var comparer = StringComparer.OrdinalIgnoreCase;
-
-            return 0 == comparer.Compare(hashOfInput, hashPassword);
         }
     }
 }

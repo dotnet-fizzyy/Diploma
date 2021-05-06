@@ -17,8 +17,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         
         public async Task DeleteStorySoft(Guid storyId)
         {
-            var story =
-                await _databaseContext.Stories.SingleOrDefaultAsync(x => x.Id == storyId);
+            var story = await _databaseContext.Stories.SingleOrDefaultAsync(x => x.Id == storyId);
 
             if (story != null)
             {

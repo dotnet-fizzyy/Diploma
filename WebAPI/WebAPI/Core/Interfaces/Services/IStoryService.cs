@@ -20,7 +20,7 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<FullStory> GetFullStoryDescriptionAsync(Guid storyId);
 
-        Task<Story> CreateStoryAsync(Story story, Guid userId);
+        Task<Story> CreateStoryAsync(Story story, string userName);
 
         Task<Story> UpdateStoryAsync(Story story);
 
@@ -28,7 +28,7 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<Story> ChangeStoryStatusAsync(Story story);
 
-        Task<Story> UpdatePartsOfStoryAsync(Story story, Guid userId);
+        Task<Story> UpdatePartsOfStoryAsync(Story story, string userName);
 
         Task RemoveStorySoftAsync(Guid id);
         

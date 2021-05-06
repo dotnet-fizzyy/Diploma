@@ -6,12 +6,12 @@ namespace WebAPI.ApplicationLogic.Handlers
 {
     public static class StoryHistoryGenerator
     {
-        public static StoryHistory GetStoryHistoryForCreation(Guid userId, Guid storyId)
+        public static StoryHistory GetStoryHistoryForCreation(string userName, Guid storyId)
         {
             return new StoryHistory
             {
                 StoryHistoryAction = StoryHistoryAction.Add,
-                UserId = userId,
+                UserName = userName,
                 CurrentValue = string.Empty,
                 PreviousValue = string.Empty,
                 FieldName = string.Empty,

@@ -13,7 +13,7 @@ namespace WebAPI.Core.Entities
         
         public string CurrentValue { get; set; }
 
-        public Guid UserId { get; set; }
+        public string UserName { get; set; }
         
         public Guid StoryId { get; set; }
     }

@@ -36,8 +36,7 @@ namespace WebAPI.UnitTests.Mappers
             //Arrange
             var storyHistoryId = new Guid();
             var storyId = new Guid();
-            var userId = new Guid();
-            
+
             var storyHistoryEntity = new StoryHistory
             {
                 Id = storyHistoryId,
@@ -46,7 +45,7 @@ namespace WebAPI.UnitTests.Mappers
                 CurrentValue = "Current",
                 PreviousValue = string.Empty,
                 FieldName = "Field",
-                UserId = userId
+                UserName = "UserName"
             };
             
             var storyHistoryModel = new Models.Models.Models.StoryHistory
@@ -56,7 +55,7 @@ namespace WebAPI.UnitTests.Mappers
                 CurrentValue = "Current",
                 PreviousValue = string.Empty,
                 FieldName = "Field",
-                UserId = userId,
+                UserName = "UserName"
             };
 
             //Act
@@ -66,7 +65,7 @@ namespace WebAPI.UnitTests.Mappers
             //Assert
             Assert.Equal(storyHistoryModel.StoryHistoryId, mappedResult.StoryHistoryId);
             Assert.Equal(storyHistoryModel.StoryHistoryAction.ToString(), mappedResult.StoryHistoryAction.ToString());
-            Assert.Equal(storyHistoryModel.UserId, mappedResult.UserId);
+            Assert.Equal(storyHistoryModel.UserName, mappedResult.UserName);
             Assert.Equal(storyHistoryModel.CurrentValue, mappedResult.CurrentValue);
             Assert.Equal(storyHistoryModel.FieldName, mappedResult.FieldName);
             Assert.Equal(storyHistoryModel.PreviousValue, mappedResult.PreviousValue);
@@ -88,7 +87,7 @@ namespace WebAPI.UnitTests.Mappers
                 CurrentValue = "Some value",
                 PreviousValue = string.Empty,
                 FieldName = "Some Field",
-                UserId = userId
+                UserName = "UserName"
             };
             
             var storyHistoryModel = new Models.Models.Models.StoryHistory
@@ -98,7 +97,7 @@ namespace WebAPI.UnitTests.Mappers
                 CurrentValue = "Some value",
                 PreviousValue = string.Empty,
                 FieldName = "Some Field",
-                UserId = userId,
+                UserName = "UserName"
             };
 
             //Act
@@ -108,7 +107,7 @@ namespace WebAPI.UnitTests.Mappers
             //Assert
             Assert.Equal(storyHistoryModel.StoryHistoryId, mappedResult.StoryHistoryId);
             Assert.Equal(storyHistoryModel.StoryHistoryAction.ToString(), mappedResult.StoryHistoryAction.ToString());
-            Assert.Equal(storyHistoryModel.UserId, mappedResult.UserId);
+            Assert.Equal(storyHistoryModel.UserName, mappedResult.UserName);
             Assert.Equal(storyHistoryModel.CurrentValue, mappedResult.CurrentValue);
             Assert.Equal(storyHistoryModel.FieldName, mappedResult.FieldName);
             Assert.Equal(storyHistoryModel.PreviousValue, mappedResult.PreviousValue);

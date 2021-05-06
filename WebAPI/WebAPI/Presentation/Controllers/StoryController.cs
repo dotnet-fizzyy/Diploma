@@ -128,7 +128,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = _claimsReader.GetUserClaims(User);
             
-            var createdStory = await _storyService.CreateStoryAsync(story, user.UserId);
+            var createdStory = await _storyService.CreateStoryAsync(story, user.UserName);
 
             return CreatedAtAction(nameof(CreateStory), createdStory);
         }
@@ -157,7 +157,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = _claimsReader.GetUserClaims(User);
             
-            var updatedStory = await _storyService.UpdatePartsOfStoryAsync(story, user.UserId);
+            var updatedStory = await _storyService.UpdatePartsOfStoryAsync(story, user.UserName);
 
             return updatedStory;
         }
