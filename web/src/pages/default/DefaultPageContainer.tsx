@@ -1,19 +1,20 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import * as routeConstants from '../../constants/routeConstants';
-import * as projectActions from '../../redux/actions/projectActions';
-import * as projectSelectors from '../../redux/selectors/projectSelectors';
-import * as teamSelectors from '../../redux/selectors/teamSelectors';
-import * as currentUserSelectors from '../../redux/selectors/userSelectors';
+import { ModalTypes } from '../../constants/modalConstants';
+import { openModal } from '../../redux/actions/modalActions';
+import { getUserProjectsRequest } from '../../redux/actions/projectActions';
+import { getProjects } from '../../redux/selectors/projectSelectors';
+import { getTeams } from '../../redux/selectors/teamSelectors';
+import { getUser } from '../../redux/selectors/userSelectors';
 import DefaultPage, { IMainPageProps } from './DefaultPage';
 
 const DefaultPageContainer = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const teams = useSelector(teamSelectors.getTeams);
-    const projects = useSelector(projectSelectors.getProjects);
-    const user = useSelector(currentUserSelectors.getUser);
+    const teams = useSelector(getTeams);
+    const projects = useSelector(getProjects);
+    const user = useSelector(getUser);
 
     const onSelectTeam = (value: string) => {
         history.push(`/team/${value}`);
@@ -28,12 +29,12 @@ const DefaultPageContainer = () => {
     };
 
     const onClickCreateWorkSpace = () => {
-        history.push(routeConstants.WorkspaceViewerRoute);
+        dispatch(openModal(ModalTypes.WORKSPACE));
     };
 
     useEffect(() => {
         if (!teams.length && !projects.length) {
-            dispatch(projectActions.getUserProjectsRequest());
+            dispatch(getUserProjectsRequest());
         }
     }, [dispatch, teams.length, projects.length]);
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { ModalTypes } from '../../../constants/modalConstants';
-import { SignInUrl } from '../../../constants/routeConstants';
+import { LoginScreenRoute } from '../../../constants/routeConstants';
 import { openModal } from '../../../redux/actions/modalActions';
 import { blurStoryTitleTerm, setStoryTitleTermRequest } from '../../../redux/actions/storiesActions';
 import { changeUserProject, changeUserTeam, logOutUser } from '../../../redux/actions/userActions';
@@ -10,6 +10,7 @@ import { getSearchResults, getStoryTitleTerm } from '../../../redux/selectors/st
 import { getUser, getUserSelectedProjectId, getUserSelectedTeamId } from '../../../redux/selectors/userSelectors';
 import { IStory } from '../../../types/storyTypes';
 import { IFullUser } from '../../../types/userTypes';
+import { clearCredentialsFromLocalStorage } from '../../../utils';
 import GeneralTab, { IGeneralTabProps } from './GeneralTab';
 
 const GeneralTabContainer = () => {
@@ -44,8 +45,10 @@ const GeneralTabContainer = () => {
     };
 
     const onClickLogOut = (): void => {
+        history.push(LoginScreenRoute);
+
         dispatch(logOutUser());
-        history.push(SignInUrl);
+        clearCredentialsFromLocalStorage();
     };
 
     const onChangeTeam = (e: any): void => {
