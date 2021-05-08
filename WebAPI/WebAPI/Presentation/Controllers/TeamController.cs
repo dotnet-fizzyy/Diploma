@@ -24,16 +24,7 @@ namespace WebAPI.Presentation.Controllers
             _teamService = teamService;
             _claimsReader = claimsReader;
         }
-
-        /// <summary>
-        /// Receive all teams
-        /// </summary>
-        /// <response code="200">Receiving all teams</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpGet]
-        [Route("all")]
-        public async Task<ActionResult<CollectionResponse<Team>>> GetAllTeams() => await _teamService.GetAllTeamsAsync();
-
+        
         /// <summary>
         /// Receive all teams that belong to user
         /// </summary>

@@ -7,8 +7,6 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface ISprintService
     {
-        Task<CollectionResponse<Sprint>> GetALlSprintsAsync();
-
         Task<CollectionResponse<FullSprint>> GetAllSprintsFromEpicAsync(Guid epicId, Guid userId);
         
         Task<Sprint> GetSprintByIdAsync(Guid sprintId);

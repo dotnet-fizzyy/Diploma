@@ -7,8 +7,6 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface IProjectService
     {
-        Task<CollectionResponse<Project>> GetAllProjectsAsync();
-
         Task<Project> GetProjectAsync(Guid projectId);
 
         Task<FullProjectDescription> GetFullProjectDescriptionAsync(Guid projectId);

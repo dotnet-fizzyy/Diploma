@@ -39,18 +39,6 @@ namespace WebAPI.ApplicationLogic.Services
             _projectMapper = projectMapper;
             _fullProjectDescriptionAggregator = fullProjectDescriptionAggregator;
         }
-        
-        public async Task<CollectionResponse<Project>> GetAllProjectsAsync()
-        {
-            var projectEntities = await _projectRepository.SearchForMultipleItemsAsync();
-
-            var collectionResponse = new CollectionResponse<Project>
-            {
-                Items = projectEntities.Select(_projectMapper.MapToModel).ToList()
-            };
-            
-            return collectionResponse;
-        }
 
         public async Task<Project> GetProjectAsync(Guid projectId)
         {

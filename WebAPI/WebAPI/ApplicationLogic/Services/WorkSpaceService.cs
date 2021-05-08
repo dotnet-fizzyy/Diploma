@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 using WebAPI.ApplicationLogic.Utilities;
@@ -9,7 +8,6 @@ using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
-using WebAPI.Models.Models.Result;
 
 namespace WebAPI.ApplicationLogic.Services
 {
@@ -24,19 +22,6 @@ namespace WebAPI.ApplicationLogic.Services
             _workSpaceRepository = workSpaceRepository;
             _workSpaceMapper = workSpaceMapper;
             _userRepository = userRepository;
-        }
-
-
-        public async Task<CollectionResponse<WorkSpace>> GetAllWorkSpacesAsync()
-        {
-            var workSpaceEntities = await _workSpaceRepository.SearchForMultipleItemsAsync();
-
-            var collectionResponse = new CollectionResponse<WorkSpace>
-            {
-                Items = workSpaceEntities.Select(_workSpaceMapper.MapToModel).ToList()
-            };
-
-            return collectionResponse;
         }
 
         public async Task<WorkSpace> GetWorkSpaceByIdAsync(Guid workSpaceId)

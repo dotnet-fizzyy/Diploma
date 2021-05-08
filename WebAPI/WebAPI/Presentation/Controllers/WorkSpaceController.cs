@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models.Models;
-using WebAPI.Models.Models.Result;
 
 namespace WebAPI.Presentation.Controllers
 {
@@ -23,18 +22,6 @@ namespace WebAPI.Presentation.Controllers
             _workSpaceService = workSpaceService;
             _claimsReader = claimsReader;
         }
-
-        /// <summary>
-        /// Receive all workspaces
-        /// </summary>
-        /// <response code="200">Receiving all users</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpGet]
-        [Route("all")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CollectionResponse<WorkSpace>>> GetAllWorkSpaces() =>
-            await _workSpaceService.GetAllWorkSpacesAsync();
 
         /// <summary>
         /// Receive workspace by provided id

@@ -27,18 +27,6 @@ namespace WebAPI.ApplicationLogic.Services
             _teamMapper = teamMapper;
         }
 
-        public async Task<CollectionResponse<Team>> GetAllTeamsAsync()
-        {
-            var teamEntities = await _teamRepository.SearchForMultipleItemsAsync();
-            
-            var collectionResponse = new CollectionResponse<Team>
-            {
-                Items = teamEntities.Select(_teamMapper.MapToModel).ToList()
-            };
-
-            return collectionResponse;
-        }
-
         public async Task<CollectionResponse<FullTeam>> GetUserTeamsAsync(Guid userId)
         {
             var teamEntities = await _teamRepository.GetUserTeams(userId);

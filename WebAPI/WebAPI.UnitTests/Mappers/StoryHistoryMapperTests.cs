@@ -77,7 +77,6 @@ namespace WebAPI.UnitTests.Mappers
             //Arrange
             var storyHistoryId = new Guid();
             var storyId = new Guid();
-            var userId = new Guid();
             
             var storyHistoryEntity = new StoryHistory
             {

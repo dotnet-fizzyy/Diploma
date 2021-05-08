@@ -26,16 +26,6 @@ namespace WebAPI.Presentation.Controllers
         }
         
         /// <summary>
-        /// Receive all available sprints
-        /// </summary>
-        /// <response code="200">Receiving all sprints</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpGet]
-        [Route("all")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<CollectionResponse<Sprint>>> GetAllSprints() => await _sprintService.GetALlSprintsAsync();
-
-        /// <summary>
         /// Receive all sprints with description from epic by provided epic id
         /// </summary>
         /// <response code="200">Receiving all sprints from epic by provided epic id</response>

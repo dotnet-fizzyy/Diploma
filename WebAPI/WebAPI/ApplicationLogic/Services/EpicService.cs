@@ -30,18 +30,6 @@ namespace WebAPI.ApplicationLogic.Services
             _epicMapper = epicMapper;
         }
 
-        public async Task<CollectionResponse<Epic>> GetEpicsAsync()
-        {
-            var epicEntities = await _epicRepository.SearchForMultipleItemsAsync();
-
-            var collectionResponse = new CollectionResponse<Epic>
-            {
-                Items = epicEntities.Select(_epicMapper.MapToModel).ToList()
-            };
-
-            return collectionResponse;
-        }
-
         public async Task<CollectionResponse<Epic>> GetEpicsFromProjectAsync(Guid projectId)
         {
             var epicEntities = await _epicRepository.SearchForMultipleItemsAsync(x => x.ProjectId == projectId);

@@ -8,8 +8,6 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface IStoryService
     {
-        Task<CollectionResponse<Story>> GetStoriesAsync();
-
         Task<CollectionResponse<Story>> GetStoriesFromSprintAsync(Guid sprintId);
         
         Task<CollectionResponse<Story>> GetStoriesFromEpicAsync(Guid epicId);

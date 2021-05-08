@@ -8,8 +8,6 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface IUserService
     {
-        Task<CollectionResponse<User>> GetAllUsersAsync();
-
         Task<FullUser> GetFullUserAsync(Guid id);
         
         Task<User> GetUserByIdAsync(Guid id);

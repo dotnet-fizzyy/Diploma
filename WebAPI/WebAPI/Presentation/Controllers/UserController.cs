@@ -28,16 +28,6 @@ namespace WebAPI.Presentation.Controllers
         }
 
         /// <summary>
-        /// Receive all users projects
-        /// </summary>
-        /// <response code="200">Receiving all users</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpGet]
-        [Route("all")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<CollectionResponse<User>>> GetAllUsers() => await _userService.GetAllUsersAsync();
-
-        /// <summary>
         /// Receive user by access token
         /// </summary>
         /// <response code="200">Receiving user by access token</response>

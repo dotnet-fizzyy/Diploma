@@ -7,8 +7,6 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface ITeamService
     {
-        Task<CollectionResponse<Team>> GetAllTeamsAsync();
-
         Task<CollectionResponse<FullTeam>> GetUserTeamsAsync(Guid userId);
 
         Task<Team> GetTeamByIdAsync(Guid teamId);

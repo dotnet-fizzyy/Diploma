@@ -23,17 +23,6 @@ namespace WebAPI.Presentation.Controllers
         }
         
         /// <summary>
-        /// Receive all available epics
-        /// </summary>
-        /// <response code="200">Receiving all epics</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpGet]
-        [Route("all")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CollectionResponse<Epic>>> GetEpics() => await _epicService.GetEpicsAsync();
-        
-        /// <summary>
         /// Receive epic by provided id
         /// </summary>
         /// <response code="200">Found epic by provided id</response>

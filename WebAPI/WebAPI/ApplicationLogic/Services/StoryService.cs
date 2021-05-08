@@ -40,18 +40,6 @@ namespace WebAPI.ApplicationLogic.Services
             _storyAggregator = storyAggregator;
         }
 
-        public async Task<CollectionResponse<Story>> GetStoriesAsync()
-        {
-            var storyEntities = await _storyRepository.SearchForMultipleItemsAsync();
-
-            var collectionResponse = new CollectionResponse<Story>
-            {
-                Items = storyEntities.Select(_storyMapper.MapToModel).ToList()
-            };
-
-            return collectionResponse;
-        }
-
         public async Task<CollectionResponse<Story>> GetStoriesFromEpicAsync(Guid epicId)
         {
             var storyEntities = await _storyRepository.GetStoriesByEpicId(epicId);

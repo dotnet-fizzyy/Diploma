@@ -26,19 +26,7 @@ namespace WebAPI.Presentation.Controllers
             _storyService = storyService;
             _claimsReader = claimsReader;
         }
-
-        /// <summary>
-        /// Receive all stories
-        /// </summary>
-        /// <response code="200">Receiving all stories</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpGet]
-        [Route("all")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CollectionResponse<Story>>> GetAllStories() =>
-            await _storyService.GetStoriesAsync();
-
+        
         /// <summary>
         /// Sort stories in particular order from epic by params criteria
         /// </summary>

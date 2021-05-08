@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 using WebAPI.ApplicationLogic.Handlers;
@@ -36,18 +35,6 @@ namespace WebAPI.ApplicationLogic.Services
             _userMapper = userMapper;
         }
         
-        public async Task<CollectionResponse<User>> GetAllUsersAsync()
-        {
-            var userEntities = await _userRepository.SearchForMultipleItemsAsync();
-
-            var collectionResponse = new CollectionResponse<User>
-            {
-                Items = userEntities.Select(_userMapper.MapToModel).ToList()
-            };
-
-            return collectionResponse;
-        }
-
         public async Task<FullUser> GetFullUserAsync(Guid id)
         {
             var userFullModel = await _userProvider.GetFullUser(id);
