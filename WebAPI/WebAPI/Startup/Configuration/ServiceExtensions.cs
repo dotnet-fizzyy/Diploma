@@ -11,11 +11,9 @@ using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Infrastructure.Postgres.Repository;
-using WebAPI.Models.Models;
 using WebAPI.Models.Models.Authentication;
 using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Aggregators;
-using WebAPI.Presentation.Filters;
 using WebAPI.Presentation.Mappers;
 using WebAPI.Presentation.Validators;
 
@@ -74,10 +72,7 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<IStoryAggregator, StoryAggregator>();
             services.AddTransient<IRefreshTokenAggregator, RefreshTokenAggregator>();
             services.AddTransient<IPageAggregator, PageAggregator>();
-            
-            //Filters
-            services.AddTransient<UserAuthorizationFilter>();
-            
+
             //Validators
             services.AddTransient<IValidator<SignUpUser>, SignUpUserValidator>();
             services.AddTransient<IValidator<SignInUser>, SignInUserValidator>();

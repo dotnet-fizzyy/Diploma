@@ -8,14 +8,12 @@ using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Filters;
 
 namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("api/team")]
-    [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class TeamController : ControllerBase
     {
         private readonly ITeamService _teamService;

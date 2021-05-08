@@ -7,14 +7,12 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Filters;
 
 namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("api/epic")]
-    [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class EpicController : ControllerBase
     {
         private readonly IEpicService _epicService;

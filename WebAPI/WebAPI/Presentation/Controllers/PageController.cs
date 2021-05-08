@@ -5,14 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models.Pages;
-using WebAPI.Presentation.Filters;
 
 namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("api/page")]
-    [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class PageController : ControllerBase
     {
         private readonly IPageService _pageService;

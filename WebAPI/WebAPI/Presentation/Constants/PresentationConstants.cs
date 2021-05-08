@@ -8,7 +8,6 @@ namespace WebAPI.Presentation.Constants
 
     public static class RequestHeaders
     {
-        public const string AuthorizationHeader = "Authorization";
         public const string RefreshTokenHeader = "X-Refresh-Token";
     }
 }

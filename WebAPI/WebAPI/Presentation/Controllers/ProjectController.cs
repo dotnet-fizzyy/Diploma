@@ -7,14 +7,12 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Filters;
 
 namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("api/project")]
-    [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class ProjectController : ControllerBase
     {
         private readonly IProjectService _projectService;

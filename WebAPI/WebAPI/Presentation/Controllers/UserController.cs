@@ -10,14 +10,12 @@ using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models.Authentication;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Filters;
 
 namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("api/user")]
-    [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;

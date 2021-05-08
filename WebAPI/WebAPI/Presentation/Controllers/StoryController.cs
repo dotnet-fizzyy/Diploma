@@ -10,14 +10,12 @@ using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Filters;
 
 namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("api/story")]
-    [ServiceFilter(typeof(UserAuthorizationFilter))]
     public class StoryController : ControllerBase
     {
         private readonly IStoryService _storyService;
