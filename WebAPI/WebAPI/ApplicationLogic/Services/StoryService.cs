@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using WebAPI.ApplicationLogic.Handlers;
 using WebAPI.ApplicationLogic.Utilities;
+using WebAPI.Core.Constants;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Aggregators;
@@ -19,20 +20,23 @@ namespace WebAPI.ApplicationLogic.Services
     public class StoryService : IStoryService
     {
         private readonly IStoryRepository _storyRepository;
-        private readonly IStoryMapper _storyMapper;
+        private readonly ISprintRepository _sprintRepository;        
         private readonly IStoryHistoryRepository _storyHistoryRepository;
+        private readonly IStoryMapper _storyMapper;
         private readonly IStoryAggregator _storyAggregator;
 
         public StoryService(
             IStoryRepository storyRepository, 
-            IStoryMapper storyMapper, 
+            ISprintRepository sprintRepository,
             IStoryHistoryRepository storyHistoryRepository,
+            IStoryMapper storyMapper, 
             IStoryAggregator storyAggregator
         )
         {
             _storyRepository = storyRepository;
-            _storyMapper = storyMapper;
+            _sprintRepository = sprintRepository;
             _storyHistoryRepository = storyHistoryRepository;
+            _storyMapper = storyMapper;
             _storyAggregator = storyAggregator;
         }
 
@@ -163,26 +167,101 @@ namespace WebAPI.ApplicationLogic.Services
             return storyModel;
         }
 
-        public async Task<Story> UpdateStoryColumnAsync(Story story)
+        public async Task<Story> UpdateStoryColumnAsync(Story story, string userName)
         {
-            var storyEntity = _storyMapper.MapToEntity(story);
-
-            await _storyRepository.UpdateStoryColumn(storyEntity);
-            var foundStoryEntity = await _storyRepository.SearchForSingleItemAsync(x => x.Id == storyEntity.Id);
+            var mappedStoryEntity = _storyMapper.MapToEntity(story);
             
-            var updatedStoryModel = _storyMapper.MapToModel(foundStoryEntity);
+            using var scope = new TransactionScope
+            (
+                TransactionScopeOption.Required,
+                new TransactionOptions
+                {
+                    IsolationLevel = IsolationLevel.Serializable,
+                },
+                TransactionScopeAsyncFlowOption.Enabled
+            );
+
+            var existingStoryEntity = await _storyRepository.SearchForSingleItemAsync(x => x.Id == story.StoryId);
+            if (existingStoryEntity == null)
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(story.StoryId)));
+            }
+            
+            await _storyRepository.UpdateStoryColumn(mappedStoryEntity); 
+            await _storyHistoryRepository.CreateAsync(StoryHistoryGenerator.GetStoryHistoryForUpdate(
+                userName, 
+                mappedStoryEntity.Id, 
+                StoryFields.ColumnType, 
+                existingStoryEntity.ColumnType.ToString(), 
+                mappedStoryEntity.ColumnType.ToString())
+            );
+
+            scope.Complete();
+
+            existingStoryEntity.ColumnType = mappedStoryEntity.ColumnType;
+            var updatedStoryModel = _storyMapper.MapToModel(existingStoryEntity);
             
             return updatedStoryModel;
         }
 
-        public async Task<Story> ChangeStoryStatusAsync(Story story)
+        public async Task<Story> ChangeStoryStatusAsync(Story story, string userName)
         {
             var storyEntity = _storyMapper.MapToEntity(story);
 
-            await _storyRepository.ChangeStoryStatus(storyEntity);
-            var updatedStoryEntity = await _storyRepository.SearchForSingleItemAsync(x => x.Id == story.StoryId);
+            using var scope = new TransactionScope
+            (
+                TransactionScopeOption.Required,
+                new TransactionOptions
+                {
+                    IsolationLevel = IsolationLevel.Serializable,
+                },
+                TransactionScopeAsyncFlowOption.Enabled
+            );
             
-            var updatedStoryModel = _storyMapper.MapToModel(updatedStoryEntity);
+            var existingStoryEntity = await _storyRepository.SearchForSingleItemAsync(x => x.Id == story.StoryId);
+            if (existingStoryEntity == null)
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(story.StoryId)));
+            }
+
+            await _storyRepository.ChangeStoryStatus(storyEntity);
+
+            if (!string.IsNullOrEmpty(story.BlockReason))
+            {
+                await _storyHistoryRepository.CreateAsync(new []{
+                    StoryHistoryGenerator.GetStoryHistoryForUpdate(
+                    userName, 
+                    storyEntity.Id, 
+                    StoryFields.IsBlocked, 
+                    existingStoryEntity.IsBlocked.ToString(), 
+                    storyEntity.IsBlocked.ToString()),
+                    StoryHistoryGenerator.GetStoryHistoryForUpdate(
+                        userName, 
+                        storyEntity.Id, 
+                        StoryFields.BlockReason, 
+                        existingStoryEntity.BlockReason, 
+                        storyEntity.BlockReason)
+                });
+
+                existingStoryEntity.IsBlocked = storyEntity.IsBlocked;
+                existingStoryEntity.BlockReason = storyEntity.BlockReason;
+            }
+            else
+            {
+                await _storyHistoryRepository.CreateAsync(StoryHistoryGenerator.GetStoryHistoryForUpdate(
+                    userName, 
+                    storyEntity.Id, 
+                    StoryFields.IsReady, 
+                    existingStoryEntity.IsReady.ToString(), 
+                    storyEntity.IsReady.ToString())
+                );
+                
+                existingStoryEntity.IsReady = storyEntity.IsReady;
+            }
+
+            scope.Complete();
+
+            var updatedStoryModel = _storyMapper.MapToModel(existingStoryEntity);
 
             return updatedStoryModel;
         }
@@ -206,10 +285,17 @@ namespace WebAPI.ApplicationLogic.Services
             }
             
             var storyUpdateEntity = _storyMapper.MapToEntity(storyUpdate);
-            var storyHistoryUpdates = _storyAggregator.CreateStoryFromUpdateParts(storyEntity, storyUpdateEntity, userName);
+
+            List<Core.Entities.Sprint> sprints = null;
+            if (storyEntity.SprintId != storyUpdateEntity.SprintId)
+            {
+                sprints = await _sprintRepository.SearchForMultipleItemsAsync(x => x.Id == storyEntity.SprintId || x.Id == storyUpdateEntity.SprintId);
+            }
+            
+            var storyHistoryUpdates = _storyAggregator.CreateStoryFromUpdateParts(storyEntity, storyUpdateEntity, userName, sprints);
             
             await _storyHistoryRepository.CreateAsync(storyHistoryUpdates);
-            var updatedStory = await _storyRepository.UpdateItemAsync(storyEntity);
+            var updatedStory = await _storyRepository.UpdateItemAsync(storyUpdateEntity);
     
             scope.Complete();
 

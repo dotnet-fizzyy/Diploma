@@ -178,7 +178,9 @@ namespace WebAPI.Presentation.Controllers
             var storyModel = new Story();
             storyPatch.ApplyTo(storyModel, ModelState);
 
-            var updatedStory = await _storyService.UpdateStoryColumnAsync(storyModel);
+            var user = _claimsReader.GetUserClaims(User);
+            
+            var updatedStory = await _storyService.UpdateStoryColumnAsync(storyModel, user.UserName);
             
             return updatedStory;
         }
@@ -199,7 +201,9 @@ namespace WebAPI.Presentation.Controllers
             var storyModel = new Story();
             storyPatch.ApplyTo(storyModel, ModelState);
 
-            var story = await _storyService.ChangeStoryStatusAsync(storyModel);
+            var user = _claimsReader.GetUserClaims(User);
+            
+            var story = await _storyService.ChangeStoryStatusAsync(storyModel, user.UserName);
             
             return story;
         }

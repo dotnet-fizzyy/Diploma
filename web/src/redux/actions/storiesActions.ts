@@ -1,4 +1,4 @@
-import { IStory, IStoryColumns, IStoryDragAndDrop, IStoryHistory } from '../../types/storyTypes';
+import { IFullStory, IStory, IStoryColumns, IStoryDragAndDrop } from '../../types/storyTypes';
 
 export const StoryActions = {
     GET_GENERAL_INFO_REQUEST: 'GET_GENERAL_INFO_REQUEST',
@@ -192,7 +192,7 @@ export interface IGetStoryHistoryRequest {
 
 export interface IGetStoryHistorySuccess {
     type: typeof StoryActions.GET_GENERAL_INFO_SUCCESS;
-    payload: IStoryHistory[];
+    payload: IFullStory;
 }
 
 export interface IGetStoryHistoryFailure {
@@ -475,10 +475,10 @@ export function getStoryHistoryRequest(storyId: string): IGetStoryHistoryRequest
     };
 }
 
-export function getStoryHistorySuccess(storyHistories: IStoryHistory[]): IGetStoryHistorySuccess {
+export function getStoryHistorySuccess(fullStory: IFullStory): IGetStoryHistorySuccess {
     return {
         type: StoryActions.GET_STORY_HISTORY_SUCCESS,
-        payload: storyHistories,
+        payload: fullStory,
     };
 }
 

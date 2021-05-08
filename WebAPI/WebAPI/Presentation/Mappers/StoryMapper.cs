@@ -101,7 +101,7 @@ namespace WebAPI.Presentation.Mappers
                 ColumnType = Enum.Parse<Models.Enums.ColumnType>(story.ColumnType.ToString()),
                 IsDeleted = story.IsDeleted,
                 RecordVersion = story.RecordVersion,
-                StoryHistories = story.StoryHistories.Select(_storyHistoryMapper.MapToModel).ToList(),
+                StoryHistories = story.StoryHistories.Select(_storyHistoryMapper.MapToModel).OrderByDescending(x => x.CreationDate).ToList(),
             };
 
             return fullStoryModel;

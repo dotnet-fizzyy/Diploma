@@ -52,12 +52,12 @@ const StoryHistory = (props: IStoryHistoryProps) => {
             <div className={classes.item}>
                 {isFirst ? (
                     <span>
-                        <b>{getUserName(storyHistory.userId)}</b> has created this story at{' '}
+                        <b>{getUserName(storyHistory.userName)}</b> has created this story at{' '}
                         {moment(storyHistory.creationDate).format('yyyy-MM-DD')}
                     </span>
                 ) : (
                     <span>
-                        <b>{getUserName(storyHistory.userId)}</b> has updated <b>{storyHistory.fieldName}</b> from{' '}
+                        <b>{getUserName(storyHistory.userName)}</b> has updated <b>{storyHistory.fieldName}</b> from{' '}
                         <b>{storyHistory.previousValue}</b> to <b>{storyHistory.currentValue}</b> at{' '}
                         {moment(storyHistory.creationDate).format('yyyy-MM-DD')}
                     </span>

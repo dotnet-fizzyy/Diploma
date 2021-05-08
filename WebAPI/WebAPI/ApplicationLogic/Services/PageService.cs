@@ -10,9 +10,7 @@ using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Models;
-using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Pages;
-using WebAPI.Models.Models.Result;
 
 namespace WebAPI.ApplicationLogic.Services
 {
@@ -23,7 +21,6 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly IEpicRepository _epicRepository;
         private readonly ITeamRepository _teamRepository;
         private readonly ISprintRepository _sprintRepository;
-        private readonly IStoryHistoryRepository _storyHistoryRepository;
         private readonly IStoryRepository _storyRepository;
         private readonly IPageAggregator _pageAggregator;
 
@@ -36,7 +33,6 @@ namespace WebAPI.ApplicationLogic.Services
             IEpicRepository epicRepository,
             ITeamRepository teamRepository,
             ISprintRepository sprintRepository,
-            IStoryHistoryRepository storyHistoryRepository,
             IStoryRepository storyRepository,
             IPageAggregator pageAggregator
             )
@@ -46,7 +42,6 @@ namespace WebAPI.ApplicationLogic.Services
             _epicRepository = epicRepository;
             _teamRepository = teamRepository;
             _sprintRepository = sprintRepository;
-            _storyHistoryRepository = storyHistoryRepository;
             _storyRepository = storyRepository;
             _pageAggregator = pageAggregator;
         }
@@ -60,15 +55,6 @@ namespace WebAPI.ApplicationLogic.Services
             var searchResults = _pageAggregator.CreateSearchResultsByTerm(storyEntities, epicEntities, sprintEntities);
             
             return searchResults;
-        }
-
-        public async Task<CollectionResponse<StoryHistory>> GetStoryHistoryDataAsync(Guid storyId, Guid userId)
-        {
-            var storyHistoryEntities = await _storyHistoryRepository.SearchForMultipleItemsAsync(x => x.StoryId == storyId);
-
-            var storyHistoryCollection = _pageAggregator.CreateStoryHistoryItems(storyHistoryEntities);
-            
-            return storyHistoryCollection;
         }
 
         public async Task<BoardPage> GetBoardPageDataAsync(Guid projectId, Guid teamId, Guid userId)
@@ -130,8 +116,7 @@ namespace WebAPI.ApplicationLogic.Services
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(user.UserId)));
             }
 
-            var projects =
-                await _projectRepository.GetProjectWithTeamsByWorkSpaceIdAsync(workSpace.Id);
+            var projects = await _projectRepository.GetProjectWithTeamsByWorkSpaceIdAsync(workSpace.Id);
 
             var projectWorkSpaceData = _pageAggregator.CreateWorkSpacePageModel(workSpace, projects);
             

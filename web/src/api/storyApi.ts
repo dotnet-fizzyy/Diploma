@@ -1,9 +1,9 @@
 import { AxiosResponse } from 'axios';
 import { ColumnIds } from '../constants/boardConstants';
 import { StoryUrls } from '../constants/routeConstants';
-import { mapToStoryHistoryModel, mapToStoryModel } from '../mappers/storyMappers';
+import { mapToFullStory, mapToStoryModel } from '../mappers/storyMappers';
 import { ICollectionResponse, IJsonPatchBody } from '../types';
-import { IStory, IStoryHistory } from '../types/storyTypes';
+import { IFullStory, IStory } from '../types/storyTypes';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class StoryApi {
@@ -57,12 +57,10 @@ export default class StoryApi {
         return response.data.items.map(mapToStoryModel);
     }
 
-    public static async getStoryHistory(storyId: string): Promise<IStoryHistory[]> {
-        const response: AxiosResponse<ICollectionResponse<IStoryHistory>> = await AxiosBaseApi.axiosGet(
-            `${StoryUrls.storyHistory}/${storyId}`
-        );
+    public static async getStoryHistory(storyId: string): Promise<IFullStory> {
+        const response: AxiosResponse<IFullStory> = await AxiosBaseApi.axiosGet(`${StoryUrls.storyHistory}/${storyId}`);
 
-        return response.data.items.map(mapToStoryHistoryModel);
+        return mapToFullStory(response.data);
     }
 
     public static async makeStoryReady(body: IJsonPatchBody[]): Promise<IStory> {

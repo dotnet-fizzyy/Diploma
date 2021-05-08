@@ -5,7 +5,7 @@ import { debouncePeriod, SortFieldsNames } from '../../constants/storyConstants'
 import { IJsonPatchBody } from '../../types';
 import { IProject } from '../../types/projectTypes';
 import { IFullSprint, ISprint } from '../../types/sprintTypes';
-import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
+import { IFullStory, IStory, IStoryColumns } from '../../types/storyTypes';
 import { mapFullSprintToSprint } from '../../utils/epicHelper';
 import { createRequestBodyForColumnMovement, createRequestBodyForReadyStory } from '../../utils/storyHelper';
 import { sidebarHandleVisibility, ISidebarHandleVisibility, SidebarActions } from '../actions/sidebarActions';
@@ -145,9 +145,9 @@ function* searchForStoriesByTitleTerm(action: ISetStoryTitleTermRequest) {
 
 function* getStoryHistory(action: IGetStoryHistoryRequest) {
     try {
-        const storyHistory: IStoryHistory[] = yield call(StoryApi.getStoryHistory, action.payload);
+        const fullStory: IFullStory = yield call(StoryApi.getStoryHistory, action.payload);
 
-        yield put(getStoryHistorySuccess(storyHistory));
+        yield put(getStoryHistorySuccess(fullStory));
     } catch (error) {
         yield put(getStoryHistoryFailure(error));
     }

@@ -14,10 +14,6 @@ export const getAllStories = (state: IState): IStory[] => {
     return state.stories.columns.map((x) => x.value).reduce((acc, x) => acc.concat(x), []);
 };
 
-export function getAllStoryIds(state: IState): string[] {
-    return getAllStories(state).map((x) => x.storyId);
-}
-
 export function getSelectedStory(state: IState): IStory {
     return state.stories.columns
         .map((x) => x.value)
@@ -34,11 +30,7 @@ export function getWasStoryBlocked(state: IState): boolean {
 }
 
 export function getStoryHistory(state: IState): IStoryHistory[] {
-    return state.stories.storyHistory;
-}
-
-export function getSearchResults(state: IState): IStory[] {
-    return state.stories.searchResult;
+    return state.stories.storyHistory.items;
 }
 
 export function getIsDragging(state: IState): boolean {

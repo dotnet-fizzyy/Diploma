@@ -19,5 +19,19 @@ namespace WebAPI.ApplicationLogic.Handlers
                 CreationDate = DateTime.Now,
             };
         }
+        
+        public static StoryHistory GetStoryHistoryForUpdate(string userName, Guid storyId, string fieldName, string prevValue, string newValue)
+        {
+            return new StoryHistory
+            {
+                StoryHistoryAction = StoryHistoryAction.Update,
+                UserName = userName,
+                CurrentValue = newValue,
+                PreviousValue = prevValue,
+                FieldName = fieldName,
+                StoryId = storyId,
+                CreationDate = DateTime.Now,
+            };
+        }
     }
 }

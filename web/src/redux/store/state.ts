@@ -34,11 +34,15 @@ export interface IStoryState {
     selectedStoryId: string;
     wasStoryBlocked: boolean;
     storyTitleTerm: string;
-    searchResult: IStory[];
-    storyHistory: IStoryHistory[];
+    storyHistory: IStoryHistoryState;
     isDragging: boolean;
     sortType: string;
     sortDirection: SortDirection;
+}
+
+export interface IStoryHistoryState {
+    story: IStory;
+    items: IStoryHistory[];
 }
 
 export interface ISidebarState {

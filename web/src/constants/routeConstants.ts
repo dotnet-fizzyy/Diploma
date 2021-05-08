@@ -25,16 +25,23 @@ export const getCloudStorageUrl = (cloudinaryId: string): string =>
 export const SignInUrl = `${BaseUrl}/auth/sign-in`;
 export const SignUpUrl = `${BaseUrl}/auth/sign-up`;
 
+const UserBaseUrl = `${BaseUrl}/user`;
+const SprintBaseUrl = `${BaseUrl}/sprint`;
+const EpicBaseUrl = `${BaseUrl}/epic`;
+const StoryBaseUrl = `${BaseUrl}/story`;
+const ProjectBaseUrl = `${BaseUrl}/project`;
+const TeamBaseUrl = `${BaseUrl}/team`;
+const WorkSpaceBaseUrl = `${BaseUrl}/workspace`;
+
 const PageBaseUrl = `${BaseUrl}/page`;
 const PageUrls = {
     getTeamPage: `${PageBaseUrl}/team`,
     getWorkSpacePage: `${PageBaseUrl}/workspace`,
     getProjectPage: `${PageBaseUrl}/project`,
     getBoardPage: `${PageBaseUrl}/board`,
-    getStoryHistory: `${PageBaseUrl}/story-history/story/id`,
+    getStoryHistory: `${StoryBaseUrl}/full/id`,
 };
 
-const UserBaseUrl = `${BaseUrl}/user`;
 export const UserUrls = {
     getUserByToken: UserBaseUrl,
     createUser: UserBaseUrl,
@@ -44,19 +51,16 @@ export const UserUrls = {
     changeStatus: `${UserBaseUrl}/activity`,
 };
 
-const SprintBaseUrl = `${BaseUrl}/sprint`;
 export const SprintUrls = {
     createSprint: SprintBaseUrl,
     getEpicSprints: `${SprintBaseUrl}/epic/id`,
 };
 
-const EpicBaseUrl = `${BaseUrl}/epic`;
 export const EpicUrls = {
     createEpic: EpicBaseUrl,
     getProjectPage: PageUrls.getProjectPage,
 };
 
-const StoryBaseUrl = `${BaseUrl}/story`;
 export const StoryUrls = {
     createStory: StoryBaseUrl,
     updateStory: StoryBaseUrl,
@@ -68,7 +72,6 @@ export const StoryUrls = {
     changeStatus: `${StoryBaseUrl}/change-status`,
 };
 
-const ProjectBaseUrl = `${BaseUrl}/project`;
 export const ProjectUrls = {
     getProjectPage: PageUrls.getProjectPage,
     createProject: ProjectBaseUrl,
@@ -76,13 +79,11 @@ export const ProjectUrls = {
     getBoardPage: PageUrls.getBoardPage,
 };
 
-const TeamBaseUrl = `${BaseUrl}/team`;
 export const TeamUrls = {
     getUserTeamPage: PageUrls.getTeamPage,
     createTeam: TeamBaseUrl,
 };
 
-const WorkSpaceBaseUrl = `${BaseUrl}/workspace`;
 export const WorkSpaceUrls = {
     workSpacePage: PageUrls.getWorkSpacePage,
     updateWorkSpace: WorkSpaceBaseUrl,

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { DefaultRoute, LoginScreenRoute } from '../../constants/routeConstants';
-import * as currentUserActions from '../../redux/actions/userActions';
-import * as currentUserSelectors from '../../redux/selectors/userSelectors';
+import { verifyUserRequest } from '../../redux/actions/userActions';
+import { getIsUserLoading, getUser } from '../../redux/selectors/userSelectors';
 import { IUser } from '../../types/userTypes';
 import CustomRouter, { ICustomRouterProps } from './CustomRouter';
 
@@ -13,17 +13,18 @@ const CustomRouterContainer = () => {
     const history = useHistory();
 
     const [initialPath, setInitialPath] = useState<string>('');
-    const user: IUser = useSelector(currentUserSelectors.getUser);
-    const isLoading: boolean = useSelector(currentUserSelectors.getIsUserLoading);
+    const user: IUser = useSelector(getUser);
+    const isLoading: boolean = useSelector(getIsUserLoading);
 
     useEffect(() => {
         if (!(user && user.userId)) {
-            dispatch(currentUserActions.verifyUserRequest());
+            dispatch(verifyUserRequest());
         }
-    }, [dispatch, user]);
+        // eslint-disable-next-line
+    }, []);
 
     useEffect(() => {
-        setInitialPath(location.pathname + location.search);
+        setInitialPath(location.pathname.concat(location.search));
         // eslint-disable-next-line
     }, []);
 

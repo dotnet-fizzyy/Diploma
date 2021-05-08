@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
-using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Pages;
-using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Filters;
 
 namespace WebAPI.Presentation.Controllers
@@ -52,18 +50,7 @@ namespace WebAPI.Presentation.Controllers
             
             return projectBoardData;
         }
-        
-        [HttpGet]
-        [Route("story-history/story/id/{storyId}")]
-        public async Task<ActionResult<CollectionResponse<StoryHistory>>> GetStoryHistoryPageIndex(Guid storyId)
-        {
-            var user = _claimsReader.GetUserClaims(User);
-            
-            var storyHistory = await _pageService.GetStoryHistoryDataAsync(storyId, user.UserId);
-            
-            return storyHistory;
-        }
-        
+
         [HttpGet]
         [Route("project/{projectId}")]
         public async Task<ActionResult<ProjectPage>> GetProjectPageIndex(Guid projectId)

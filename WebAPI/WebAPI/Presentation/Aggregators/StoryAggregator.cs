@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WebAPI.Core.Constants;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
@@ -9,7 +10,7 @@ namespace WebAPI.Presentation.Aggregators
 {
     public class StoryAggregator : IStoryAggregator
     {
-        public List<StoryHistory> CreateStoryFromUpdateParts(Story storyEntity, Story storyEntityUpdate, string userName)
+        public List<StoryHistory> CreateStoryFromUpdateParts(Story storyEntity, Story storyEntityUpdate, string userName, IList<Sprint> sprints)
         {
             var storyHistory = new List<StoryHistory>();
 
@@ -53,9 +54,16 @@ namespace WebAPI.Presentation.Aggregators
                 storyHistory.Add(CreateStoryHistory(storyEntity.Id, userName, StoryFields.BlockReason, storyEntity.BlockReason, storyEntityUpdate.BlockReason));
             }
 
-            if (storyEntity.SprintId != storyEntityUpdate.SprintId)
+            if (storyEntity.SprintId != storyEntityUpdate.SprintId && sprints.Any())
             {
-                storyHistory.Add(CreateStoryHistory(storyEntity.Id, userName, StoryFields.Sprint, storyEntity.SprintId?.ToString(), storyEntityUpdate.SprintId?.ToString()));
+                storyHistory.Add(CreateStoryHistory(
+                    storyEntity.Id, 
+                    userName, 
+                    StoryFields.Sprint, 
+                    sprints.First(x => x.Id == storyEntity.SprintId).SprintName, 
+                    sprints.First(x => x.Id == storyEntityUpdate.SprintId).SprintName
+                    )
+                );
             }
             
             if (storyEntity.UserId != storyEntityUpdate.UserId)

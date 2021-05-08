@@ -6,7 +6,7 @@ import { LoginScreenRoute } from '../../../constants/routeConstants';
 import { openModal } from '../../../redux/actions/modalActions';
 import { blurStoryTitleTerm, setStoryTitleTermRequest } from '../../../redux/actions/storiesActions';
 import { changeUserProject, changeUserTeam, logOutUser } from '../../../redux/actions/userActions';
-import { getSearchResults, getStoryTitleTerm } from '../../../redux/selectors/storiesSelectors';
+import { getStoryTitleTerm } from '../../../redux/selectors/storiesSelectors';
 import { getUser, getUserSelectedProjectId, getUserSelectedTeamId } from '../../../redux/selectors/userSelectors';
 import { IStory } from '../../../types/storyTypes';
 import { IFullUser } from '../../../types/userTypes';
@@ -18,7 +18,7 @@ const GeneralTabContainer = () => {
     const history = useHistory();
     const user: IFullUser = useSelector(getUser);
     const searchTerm: string = useSelector(getStoryTitleTerm);
-    const searchResults: IStory[] = useSelector(getSearchResults);
+    const searchResults: IStory[] = [];
     const selectedTeamId: string = useSelector(getUserSelectedTeamId);
     const selectedProjectId: string = useSelector(getUserSelectedProjectId);
 

@@ -19,6 +19,10 @@ export interface IStory {
     requiredPosition: UserPosition;
 }
 
+export interface IFullStory extends IStory {
+    storyHistory: IStoryHistory[];
+}
+
 export interface ISelectedItem {
     key: string;
     value: string;
@@ -35,12 +39,18 @@ export interface IStoryColumns {
     value: IStory[];
 }
 
+export enum StoryHistoryAction {
+    Add = 'Add',
+    Update = 'Update',
+    Remove = 'Remove',
+}
+
 export interface IStoryHistory {
     storyHistoryId: string;
-    storyHistoryAction: string;
+    storyHistoryAction: StoryHistoryAction;
     fieldName: string;
     previousValue: string;
     currentValue: string;
-    userId: string;
+    userName: string;
     creationDate: Date;
 }

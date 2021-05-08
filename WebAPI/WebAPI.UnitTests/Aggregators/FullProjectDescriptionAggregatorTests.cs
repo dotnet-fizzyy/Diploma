@@ -49,9 +49,6 @@ namespace WebAPI.UnitTests.Aggregators
                 }
             };
 
-            Epic epicEntity = null;
-            Project projectEntity = null;
-
             var projectAggregator = new FullProjectDescriptionAggregator(
                 projectMapper,
                 epicMapper,
@@ -61,8 +58,8 @@ namespace WebAPI.UnitTests.Aggregators
 
             var fullProjectDescription =
                 projectAggregator.AggregateFullProjectDescription(
-                    projectEntity, 
-                    epicEntity, 
+                    null, 
+                    null, 
                     sprintEntities, 
                     teamEntities
                 );
@@ -70,9 +67,9 @@ namespace WebAPI.UnitTests.Aggregators
             //Assert
             Assert.NotNull(fullProjectDescription);
             
-            A.CallTo(() => projectMapper.MapToModel(projectEntity))
+            A.CallTo(() => projectMapper.MapToModel(null))
                 .MustNotHaveHappened();
-            A.CallTo(() => epicMapper.MapToModel(epicEntity))
+            A.CallTo(() => epicMapper.MapToModel(null))
                 .MustNotHaveHappened();
             A.CallTo(() => sprintMapper.MapToFullModel(sprintEntities.First()))
                 .MustNotHaveHappened();

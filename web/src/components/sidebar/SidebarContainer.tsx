@@ -58,6 +58,9 @@ const SidebarContainer = () => {
             ...values,
             isReady,
             isBlocked,
+            title: values.title.trim(),
+            notes: values.notes.trim(),
+            description: values.description.trim(),
         };
 
         dispatch(sidebarSetLoadingStatus(true));
@@ -76,7 +79,7 @@ const SidebarContainer = () => {
         storyPriorities,
         storyEstimates,
         requiredPositions,
-        initialValues: { ...story },
+        initialValues: { ...story, blockReason: story.blockReason || '' },
         onCloseTab,
         onSetStoryBlocked,
         onSetStoryReady,
