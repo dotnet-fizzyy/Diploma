@@ -21,7 +21,7 @@ namespace WebAPI.ApplicationLogic.Utilities
                 throw new UserFriendlyException(ErrorStatus.INVALID_DATA, "Missing user id or role");
             }
 
-            var userClaims = new UserClaims(Guid.Parse(userId),  userName,(UserRole)Enum.Parse(typeof(UserRole), userRole));
+            var userClaims = new UserClaims(Guid.Parse(userId), userName, (WebAPI.Models.Enums.UserRole)Enum.Parse(typeof(WebAPI.Models.Enums.UserRole), userRole));
             
             return userClaims;
         }

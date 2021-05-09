@@ -47,7 +47,7 @@ namespace WebAPI.ApplicationLogic.Utilities
             var tokenSecurityHandler = new JwtSecurityTokenHandler();
             var jwtSecurityToken = tokenSecurityHandler.ReadJwtToken(token);
 
-            return DateTime.Now > jwtSecurityToken.ValidTo;
+            return DateTime.UtcNow > jwtSecurityToken.ValidTo;
         }
 
         private static ClaimsIdentity GetClaims(Guid userId, string userName, string userRole)

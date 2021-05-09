@@ -1,5 +1,5 @@
 using System;
-using WebAPI.Core.Enums;
+using WebAPI.Models.Enums;
 
 namespace WebAPI.Core.Models
 {
