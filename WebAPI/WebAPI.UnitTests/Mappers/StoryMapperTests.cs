@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
 using FakeItEasy;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Interfaces.Mappers;
+using WebAPI.Models.Models.Result;
+using WebAPI.Models.Models.Simple;
 using WebAPI.Presentation.Mappers;
 using Xunit;
 
@@ -16,8 +19,9 @@ namespace WebAPI.UnitTests.Mappers
             //Arrange
             var storyHistoryMapper = A.Fake<IStoryHistoryMapper>();
 
-            //Act
             var storyMapper = new StoryMapper(storyHistoryMapper);
+            
+            //Act
             var mappedResult = storyMapper.MapToModel(null);
 
             //Assert
@@ -30,8 +34,9 @@ namespace WebAPI.UnitTests.Mappers
             //Arrange
             var storyHistoryMapper = A.Fake<IStoryHistoryMapper>();
 
-            //Act
             var storyMapper = new StoryMapper(storyHistoryMapper);
+            
+            //Act
             var mappedResult = storyMapper. MapToEntity(null);
 
             //Assert
@@ -44,27 +49,37 @@ namespace WebAPI.UnitTests.Mappers
             //Arrange
             var storyHistoryMapper = A.Fake<IStoryHistoryMapper>();
 
-            var storyId = new Guid();
-            var userId = new Guid();
-            var sprintId = new Guid();
+            var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
+            var userId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
+            var sprintId = new Guid("1111238f-0000-0000-7777-ab79b8805555");
+            const int estimate = 3;
+            const int recordVersion = 555;
+            const string notes = "Notes";
+            const string title = "Title";
+            const string description = "Description";
+            const bool isReady = false;
+            const bool isDeleted = false;
+            const bool isBlocked = true;
+            const string blockReason = "Reason";
+            var creationDate = DateTime.UtcNow;
             
             var storyEntity = new Story
             {
                 Id = storyId,
                 StoryPriority = StoryPriority.Low,
                 ColumnType = ColumnType.InProgress,
-                Estimate = 3,
-                Notes = "Notes",
-                Title = "Title",
-                RecordVersion = 1234,
-                IsDeleted = false,
-                IsReady = false,
-                IsBlocked = true,
-                BlockReason = "Some reason",
+                Estimate = estimate,
+                Notes = notes,
+                Title = title,
+                RecordVersion = recordVersion,
+                IsDeleted = isDeleted,
+                IsReady = isReady,
+                IsBlocked = isBlocked,
+                BlockReason = blockReason,
                 UserId = userId,
                 SprintId = sprintId,
-                Description = "Description",
-                CreationDate = new DateTime(2020, 11, 11)
+                Description = description,
+                CreationDate = creationDate
             };
 
             var storyModel = new Models.Models.Models.Story
@@ -72,18 +87,18 @@ namespace WebAPI.UnitTests.Mappers
                 StoryId = storyId,
                 StoryPriority = Models.Enums.StoryPriority.Low,
                 ColumnType = Models.Enums.ColumnType.InProgress,
-                Estimate = 3,
-                Notes = "Notes",
-                Title = "Title",
-                RecordVersion = 1234,
-                IsDeleted = false,
-                IsReady = false,
-                IsBlocked = true,
-                BlockReason = "Some reason",
+                Estimate = estimate,
+                Notes = notes,
+                Title = title,
+                RecordVersion = recordVersion,
+                IsDeleted = isDeleted,
+                IsReady = isReady,
+                IsBlocked = isBlocked,
+                BlockReason = blockReason,
                 UserId = userId,
                 SprintId = sprintId,
-                Description = "Description",
-                CreationDate = new DateTime(2020, 11, 11)
+                Description = description,
+                CreationDate = creationDate
             };
             
             //Act
@@ -91,20 +106,7 @@ namespace WebAPI.UnitTests.Mappers
             var mappedResult = storyMapper.MapToModel(storyEntity);
 
             //Assert
-            Assert.Equal(storyModel.StoryId, mappedResult.StoryId);
-            Assert.Equal(storyModel.UserId, mappedResult.UserId);
-            Assert.Equal(storyModel.SprintId, mappedResult.SprintId);
-            Assert.Equal(storyModel.Title, mappedResult.Title);
-            Assert.Equal(storyModel.Description, mappedResult.Description);
-            Assert.Equal(storyModel.StoryPriority.ToString(), mappedResult.StoryPriority.ToString());
-            Assert.Equal(storyModel.ColumnType.ToString(), mappedResult.ColumnType.ToString());
-            Assert.Equal(storyModel.CreationDate, mappedResult.CreationDate);
-            Assert.Equal(storyModel.IsDeleted, mappedResult.IsDeleted);
-            Assert.Equal(storyModel.IsBlocked, mappedResult.IsBlocked);
-            Assert.Equal(storyModel.IsReady, mappedResult.IsReady);
-            Assert.Equal(storyModel.Notes, mappedResult.Notes);
-            Assert.Equal(storyModel.Estimate, mappedResult.Estimate);
-            Assert.Equal(storyModel.RecordVersion, mappedResult.RecordVersion);
+            AssertStoryModelProperties(storyModel, mappedResult);
         }
         
         [Fact]
@@ -113,50 +115,63 @@ namespace WebAPI.UnitTests.Mappers
             //Arrange
             var storyHistoryMapper = A.Fake<IStoryHistoryMapper>();
 
-            var storyId = new Guid();
-            var userId = new Guid();
-            var sprintId = new Guid();
+            var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
+            var userId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
+            var sprintId = new Guid("1111238f-0000-0000-7777-ab79b8805555");
+            const int estimate = 3;
+            const int recordVersion = 555;
+            const string notes = "Notes";
+            const string title = "Title";
+            const string description = "Description";
+            const bool isReady = false;
+            const bool isDeleted = false;
+            const bool isBlocked = true;
+            const string blockReason = "Reason";
+            var creationDate = DateTime.UtcNow;
             
             var storyEntity = new Story
             {
                 Id = storyId,
-                StoryPriority = StoryPriority.High,
-                ColumnType = ColumnType.InReview,
-                Estimate = 5,
-                Notes = "Too many notes",
-                Title = "Title",
-                RecordVersion = 12345,
-                IsDeleted = false,
-                IsReady = false,
-                IsBlocked = true,
-                BlockReason = "Some reason",
+                StoryPriority = StoryPriority.Low,
+                ColumnType = ColumnType.InProgress,
+                Estimate = estimate,
+                Notes = notes,
+                Title = title,
+                RecordVersion = recordVersion,
+                IsDeleted = isDeleted,
+                IsReady = isReady,
+                IsBlocked = isBlocked,
+                BlockReason = blockReason,
                 UserId = userId,
                 SprintId = sprintId,
-                Description = "Description",
-                CreationDate = new DateTime(2020, 11, 11)
+                Description = description,
+                RequiredPosition = UserPosition.Developer,
+                CreationDate = creationDate
             };
 
             var storyModel = new Models.Models.Models.Story
             {
                 StoryId = storyId,
-                StoryPriority = Models.Enums.StoryPriority.High,
-                ColumnType = Models.Enums.ColumnType.InReview,
-                Estimate = 5,
-                Notes = "Too many notes",
-                Title = "Title",
-                RecordVersion = 12345,
-                IsDeleted = false,
-                IsReady = false,
-                IsBlocked = true,
-                BlockReason = "Some reason",
+                StoryPriority = Models.Enums.StoryPriority.Low,
+                ColumnType = Models.Enums.ColumnType.InProgress,
+                Estimate = estimate,
+                Notes = notes,
+                Title = title,
+                RecordVersion = recordVersion,
+                IsDeleted = isDeleted,
+                IsReady = isReady,
+                IsBlocked = isBlocked,
+                BlockReason = blockReason,
                 UserId = userId,
                 SprintId = sprintId,
-                Description = "Description",
-                CreationDate = new DateTime(2020, 11, 11)
+                Description = description,
+                RequiredPosition = Models.Enums.UserPosition.Developer,
+                CreationDate = creationDate
             };
             
-            //Act
             var storyMapper = new StoryMapper(storyHistoryMapper);
+            
+            //Act
             var mappedResult = storyMapper.MapToEntity(storyModel);
 
             //Assert
@@ -167,6 +182,7 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(storyEntity.Description, mappedResult.Description);
             Assert.Equal(storyEntity.StoryPriority.ToString(), mappedResult.StoryPriority.ToString());
             Assert.Equal(storyEntity.ColumnType.ToString(), mappedResult.ColumnType.ToString());
+            Assert.Equal(storyEntity.RequiredPosition.ToString(), mappedResult.RequiredPosition.ToString());
             Assert.Equal(storyEntity.CreationDate, mappedResult.CreationDate);
             Assert.Equal(storyEntity.IsDeleted, mappedResult.IsDeleted);
             Assert.Equal(storyEntity.IsBlocked, mappedResult.IsBlocked);
@@ -174,6 +190,187 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(storyEntity.Notes, mappedResult.Notes);
             Assert.Equal(storyEntity.Estimate, mappedResult.Estimate);
             Assert.Equal(storyEntity.RecordVersion, mappedResult.RecordVersion);
+        }
+
+        [Fact]
+        public void ShouldMapEntityToFullStory()
+        {
+            //Arrange
+            var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
+            var userId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
+            var sprintId = new Guid("1111238f-0000-0000-7777-ab79b8805555");
+            const int estimate = 3;
+            const int recordVersion = 555;
+            const string notes = "Notes";
+            const string title = "Title";
+            const string description = "Description";
+            const bool isReady = false;
+            const bool isDeleted = false;
+            const bool isBlocked = true;
+            const string blockReason = "Reason";
+            var creationDate = DateTime.UtcNow;
+
+            var storyHistoryId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
+            
+            var storyEntity = new Story
+            {
+                Id = storyId,
+                StoryPriority = StoryPriority.Low,
+                ColumnType = ColumnType.InProgress,
+                Estimate = estimate,
+                Notes = notes,
+                Title = title,
+                RecordVersion = recordVersion,
+                IsDeleted = isDeleted,
+                IsReady = isReady,
+                IsBlocked = isBlocked,
+                BlockReason = blockReason,
+                UserId = userId,
+                SprintId = sprintId,
+                Description = description,
+                RequiredPosition = UserPosition.Developer,
+                CreationDate = creationDate,
+                StoryHistories = new List<StoryHistory>
+                {
+                    new StoryHistory
+                    {
+                        Id = storyHistoryId,
+                        StoryId = storyId
+                    }
+                }
+            };
+
+            var storyModel = new FullStory
+            {
+                StoryId = storyId,
+                StoryPriority = Models.Enums.StoryPriority.Low,
+                ColumnType = Models.Enums.ColumnType.InProgress,
+                Estimate = estimate,
+                Notes = notes,
+                Title = title,
+                RecordVersion = recordVersion,
+                IsDeleted = isDeleted,
+                IsReady = isReady,
+                IsBlocked = isBlocked,
+                BlockReason = blockReason,
+                UserId = userId,
+                SprintId = sprintId,
+                Description = description,
+                RequiredPosition = Models.Enums.UserPosition.Developer,
+                CreationDate = creationDate,
+                StoryHistories = new List<Models.Models.Models.StoryHistory>
+                {
+                    new Models.Models.Models.StoryHistory
+                    {
+                        StoryHistoryId = storyHistoryId,
+                        StoryId = storyId
+                    }
+                },
+            };
+            
+            //Act
+            var storyMapper = new StoryMapper(new StoryHistoryMapper());
+            var mappedResult = storyMapper.MapToFullModel(storyEntity);
+
+            //Assert
+            AssertStoryModelProperties(storyModel, mappedResult);
+            
+            Assert.Equal(storyModel.StoryHistories.Count, storyModel.StoryHistories.Count);
+            Assert.Equal(storyModel.StoryHistories[0].StoryHistoryId, storyModel.StoryHistories[0].StoryHistoryId);
+            Assert.Equal(storyModel.StoryHistories[0].StoryId, storyModel.StoryHistories[0].StoryId);
+        }
+
+        [Fact]
+        public void ShouldMapEntityToSimpleModel()
+        {
+            //Arrange
+            var storyHistoryMapper = A.Fake<IStoryHistoryMapper>();
+            
+            var storyMapper = new StoryMapper(storyHistoryMapper);
+            
+            var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
+            var userId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
+            var sprintId = new Guid("1111238f-0000-0000-7777-ab79b8805555");
+            const int estimate = 3;
+            const int recordVersion = 555;
+            const string notes = "Notes";
+            const string title = "Title";
+            const string description = "Description";
+            const bool isReady = false;
+            const bool isDeleted = false;
+            const bool isBlocked = true;
+            const string blockReason = "Reason";
+            var creationDate = DateTime.UtcNow;
+            
+            var storyEntity = new Story
+            {
+                Id = storyId,
+                StoryPriority = StoryPriority.Low,
+                ColumnType = ColumnType.InProgress,
+                Estimate = estimate,
+                Notes = notes,
+                Title = title,
+                RecordVersion = recordVersion,
+                IsDeleted = isDeleted,
+                IsReady = isReady,
+                IsBlocked = isBlocked,
+                BlockReason = blockReason,
+                UserId = userId,
+                SprintId = sprintId,
+                Description = description,
+                RequiredPosition = UserPosition.Developer,
+                CreationDate = creationDate
+            };
+
+            var expectedModel = new StorySimpleModel
+            {
+                StoryId = storyId,
+                SprintId = sprintId,
+                RecordVersion = recordVersion,
+                Title = title
+            };
+            
+            //Act
+            var result = storyMapper.MapToSimpleModel(storyEntity);
+
+            //Assert
+            Assert.Equal(expectedModel.StoryId, result.StoryId);
+            Assert.Equal(expectedModel.SprintId, result.SprintId);
+            Assert.Equal(expectedModel.Title, result.Title);
+            Assert.Equal(expectedModel.RecordVersion, result.RecordVersion);
+        }
+        
+        [Fact]
+        public void ShouldReturnEmptyModelForNullEntityOnMapToSimpleModel()
+        {
+            //Arrange
+            var storyHistoryMapper = A.Fake<IStoryHistoryMapper>();
+            
+            var storyMapper = new StoryMapper(storyHistoryMapper);
+
+            //Act
+            var result = storyMapper.MapToSimpleModel(null);
+
+            //Assert
+            Assert.NotNull(result);
+        }
+
+        private static void AssertStoryModelProperties(Models.Models.Models.Story storyModel, Models.Models.Models.Story result)
+        {
+            Assert.Equal(storyModel.StoryId, result.StoryId);
+            Assert.Equal(storyModel.UserId, result.UserId);
+            Assert.Equal(storyModel.SprintId, result.SprintId);
+            Assert.Equal(storyModel.Title, result.Title);
+            Assert.Equal(storyModel.Description, result.Description);
+            Assert.Equal(storyModel.StoryPriority.ToString(), result.StoryPriority.ToString());
+            Assert.Equal(storyModel.ColumnType.ToString(), result.ColumnType.ToString());
+            Assert.Equal(storyModel.CreationDate, result.CreationDate);
+            Assert.Equal(storyModel.IsDeleted, result.IsDeleted);
+            Assert.Equal(storyModel.IsBlocked, result.IsBlocked);
+            Assert.Equal(storyModel.IsReady, result.IsReady);
+            Assert.Equal(storyModel.Notes, result.Notes);
+            Assert.Equal(storyModel.Estimate, result.Estimate);
+            Assert.Equal(storyModel.RecordVersion, result.RecordVersion);
         }
     }
 }

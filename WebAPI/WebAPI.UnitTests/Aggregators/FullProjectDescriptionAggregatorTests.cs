@@ -154,7 +154,6 @@ namespace WebAPI.UnitTests.Aggregators
                         SprintName = "AwesomeSprint",
                         StartDate = new DateTime(2020, 10, 1),
                         EndDate = new DateTime(2020, 10, 30),
-                        Progress = 100,
                     }
                 }
             };

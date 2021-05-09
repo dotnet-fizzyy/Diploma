@@ -1,4 +1,5 @@
 using System;
+using WebAPI.Core.Constants;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 using WebAPI.Presentation.Mappers;
@@ -11,8 +12,10 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyModelOnNullEntity()
         {
-            //Arrange & Act
+            //Arrange
             var storyHistoryMapper = new StoryHistoryMapper();
+            
+            //Act
             var mappedResult = storyHistoryMapper.MapToModel(null);
 
             //Assert
@@ -22,8 +25,10 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyEntityOnNullModel()
         {
-            //Arrange & Act
+            //Arrange
             var storyHistoryMapper = new StoryHistoryMapper();
+            
+            //Act
             var mappedResult = storyHistoryMapper.MapToEntity(null);
 
             //Assert
@@ -34,36 +39,43 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldMapEntityToModel()
         {
             //Arrange
-            var storyHistoryId = new Guid();
-            var storyId = new Guid();
-
+            var storyHistoryId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
+            var storyId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
+            const string fieldName = StoryFields.Title;
+            const string newValue = "NewValue";
+            const string oldValue = "OldValue";
+            const string userName = "UserName";
+            
             var storyHistoryEntity = new StoryHistory
             {
                 Id = storyHistoryId,
                 StoryHistoryAction = StoryHistoryAction.Add,
                 StoryId = storyId,
-                CurrentValue = "Current",
-                PreviousValue = string.Empty,
-                FieldName = "Field",
-                UserName = "UserName"
+                CurrentValue = newValue,
+                PreviousValue = oldValue,
+                FieldName = fieldName,
+                UserName = userName
             };
             
             var storyHistoryModel = new Models.Models.Models.StoryHistory
             {
                 StoryHistoryId = storyHistoryId,
                 StoryHistoryAction = Models.Enums.StoryHistoryAction.Add,
-                CurrentValue = "Current",
-                PreviousValue = string.Empty,
-                FieldName = "Field",
-                UserName = "UserName"
+                StoryId = storyId,
+                CurrentValue = newValue,
+                PreviousValue = oldValue,
+                FieldName = fieldName,
+                UserName = userName
             };
 
-            //Act
             var storyHistoryMapper = new StoryHistoryMapper();
+            
+            //Act
             var mappedResult = storyHistoryMapper.MapToModel(storyHistoryEntity);
 
             //Assert
             Assert.Equal(storyHistoryModel.StoryHistoryId, mappedResult.StoryHistoryId);
+            Assert.Equal(storyHistoryModel.StoryId, mappedResult.StoryId);
             Assert.Equal(storyHistoryModel.StoryHistoryAction.ToString(), mappedResult.StoryHistoryAction.ToString());
             Assert.Equal(storyHistoryModel.UserName, mappedResult.UserName);
             Assert.Equal(storyHistoryModel.CurrentValue, mappedResult.CurrentValue);
@@ -75,41 +87,48 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldMapModelToEntity()
         {
             //Arrange
-            var storyHistoryId = new Guid();
-            var storyId = new Guid();
-            
+            var storyHistoryId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
+            var storyId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
+            const string fieldName = StoryFields.Title;
+            const string newValue = "NewValue";
+            const string oldValue = "OldValue";
+            const string userName = "UserName";
+
+            var storyHistoryModel = new Models.Models.Models.StoryHistory
+            {
+                StoryHistoryId = storyHistoryId,
+                StoryHistoryAction = Models.Enums.StoryHistoryAction.Update,
+                StoryId = storyId,
+                CurrentValue = newValue,
+                PreviousValue = oldValue,
+                FieldName = fieldName,
+                UserName = userName
+            };
+
             var storyHistoryEntity = new StoryHistory
             {
                 Id = storyHistoryId,
                 StoryHistoryAction = StoryHistoryAction.Update,
                 StoryId = storyId,
-                CurrentValue = "Some value",
-                PreviousValue = string.Empty,
-                FieldName = "Some Field",
-                UserName = "UserName"
+                CurrentValue = newValue,
+                PreviousValue = oldValue,
+                FieldName = fieldName,
+                UserName = userName
             };
             
-            var storyHistoryModel = new Models.Models.Models.StoryHistory
-            {
-                StoryHistoryId = storyHistoryId,
-                StoryHistoryAction = Models.Enums.StoryHistoryAction.Update,
-                CurrentValue = "Some value",
-                PreviousValue = string.Empty,
-                FieldName = "Some Field",
-                UserName = "UserName"
-            };
-
-            //Act
             var storyHistoryMapper = new StoryHistoryMapper();
-            var mappedResult = storyHistoryMapper.MapToModel(storyHistoryEntity);
+            
+            //Act
+            var mappedResult = storyHistoryMapper.MapToEntity(storyHistoryModel);
 
             //Assert
-            Assert.Equal(storyHistoryModel.StoryHistoryId, mappedResult.StoryHistoryId);
-            Assert.Equal(storyHistoryModel.StoryHistoryAction.ToString(), mappedResult.StoryHistoryAction.ToString());
-            Assert.Equal(storyHistoryModel.UserName, mappedResult.UserName);
-            Assert.Equal(storyHistoryModel.CurrentValue, mappedResult.CurrentValue);
-            Assert.Equal(storyHistoryModel.FieldName, mappedResult.FieldName);
-            Assert.Equal(storyHistoryModel.PreviousValue, mappedResult.PreviousValue);
+            Assert.Equal(storyHistoryEntity.Id, mappedResult.Id);
+            Assert.Equal(storyHistoryEntity.StoryId, mappedResult.StoryId);
+            Assert.Equal(storyHistoryEntity.StoryHistoryAction.ToString(), mappedResult.StoryHistoryAction.ToString());
+            Assert.Equal(storyHistoryEntity.UserName, mappedResult.UserName);
+            Assert.Equal(storyHistoryEntity.CurrentValue, mappedResult.CurrentValue);
+            Assert.Equal(storyHistoryEntity.FieldName, mappedResult.FieldName);
+            Assert.Equal(storyHistoryEntity.PreviousValue, mappedResult.PreviousValue);
         }
     }
 }

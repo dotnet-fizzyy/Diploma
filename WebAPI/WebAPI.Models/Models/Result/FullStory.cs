@@ -5,11 +5,6 @@ namespace WebAPI.Models.Models.Result
 {
     public class FullStory : Story
     {
-        public FullStory()
-        {
-            StoryHistories = new List<StoryHistory>();    
-        }
-
-        public ICollection<StoryHistory> StoryHistories { get; set; }
+        public IList<StoryHistory> StoryHistories { get; set; } = new List<StoryHistory>();
     }
 }

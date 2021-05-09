@@ -5,14 +5,8 @@ namespace WebAPI.Models.Models.Result
 {
     public class FullProject : Project
     {
-        public FullProject()
-        {
-            Epics = new List<Epic>();
-            Teams = new List<Team>();
-        }
-        
-        public ICollection<Epic> Epics { get; set; } 
-        
-        public ICollection<Team> Teams { get; set; }
+        public IList<Epic> Epics { get; set; } = new List<Epic>();
+
+        public IList<Team> Teams { get; set; } = new List<Team>();
     }
 }

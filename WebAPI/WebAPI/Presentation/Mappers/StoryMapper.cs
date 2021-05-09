@@ -109,7 +109,6 @@ namespace WebAPI.Presentation.Mappers
 
         public StorySimpleModel MapToSimpleModel(Story story)
         {
-
             if (story == null)
             {
                 return new StorySimpleModel();

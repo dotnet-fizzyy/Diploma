@@ -1,5 +1,4 @@
 using System;
-using WebAPI.Models.Models;
 using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Mappers;
 using Xunit;
@@ -11,8 +10,10 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyModelOnNullEntity()
         {
-            //Arrange & Act
+            //Arrange
             var userMapper = new UserMapper();
+            
+            //Act
             var mappedResult = userMapper.MapToModel(null);
             
             //Assert
@@ -22,8 +23,10 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyEntityOnNullModel()
         {
-            //Arrange & Act
+            //Arrange
             var userMapper = new UserMapper();
+            
+            //Act
             var mappedResult = userMapper.MapToEntity((User)null);
             
             //Assert
@@ -34,37 +37,43 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldMapUserEntityToModel()
         {
             //Arrange
-            var userId = new Guid();
-            var workSpaceId = new Guid();
+            var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
+            var workSpaceId = new Guid("1113238f-87e6-4e86-93fc-ab79b8804111");
+            const string userName = "SomeUser"; 
+            const string avatarLink = "AvatarLink"; 
+            const string email = "test@mail.com"; 
+            var creationDate = DateTime.UtcNow;
+            const bool isActive = true;
             
             var userEntity = new Core.Entities.User
             {
                 Id = userId,
-                UserName = "SomeUser",
+                UserName = userName,
                 UserPosition = Core.Enums.UserPosition.Developer,
                 UserRole = Core.Enums.UserRole.Engineer,
                 WorkSpaceId = workSpaceId,
-                AvatarLink = "avatarLink",
-                Email = "test@mail.com",
-                CreationDate = new DateTime(2021, 3, 1),
-                IsActive = true
+                AvatarLink = avatarLink,
+                Email = email,
+                CreationDate = creationDate,
+                IsActive = isActive
             };
 
             var userModel = new User
             {
                 UserId = userId,
-                UserName = "SomeUser",
+                UserName = userName,
                 UserPosition = Models.Enums.UserPosition.Developer,
                 UserRole = Models.Enums.UserRole.Engineer,
                 WorkSpaceId = workSpaceId,
-                AvatarLink = "avatarLink",
-                Email = "test@mail.com",
-                CreationDate = new DateTime(2021, 3, 1),
-                IsActive = true
+                AvatarLink = avatarLink,
+                Email = email,
+                CreationDate = creationDate,
+                IsActive = isActive
             };
             
-            //Act
             var userMapper = new UserMapper();
+            
+            //Act
             var mappedResult = userMapper.MapToModel(userEntity);
 
             //Assert
@@ -75,43 +84,50 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(userModel.AvatarLink, mappedResult.AvatarLink);
             Assert.Equal(userModel.Email, mappedResult.Email);
             Assert.Equal(userModel.IsActive, mappedResult.IsActive);
+            Assert.Equal(userModel.CreationDate, mappedResult.CreationDate);
         }
         
         [Fact]
         public void ShouldMapUserModelToEntity()
         {
             //Arrange
-            var userId = new Guid();
-            var workSpaceId = new Guid();
+            var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
+            var workSpaceId = new Guid("1113238f-87e6-4e86-93fc-ab79b8804111");
+            const string userName = "SomeUser"; 
+            const string avatarLink = "AvatarLink"; 
+            const string email = "test@mail.com"; 
+            var creationDate = DateTime.UtcNow;
+            const bool isActive = true;
             
             var userEntity = new Core.Entities.User
             {
                 Id = userId,
-                UserName = "SomeUser2",
+                UserName = userName,
                 UserPosition = Core.Enums.UserPosition.Developer,
                 UserRole = Core.Enums.UserRole.Engineer,
                 WorkSpaceId = workSpaceId,
-                AvatarLink = "avatarLink123_321",
-                Email = "testTest@mail.com",
-                CreationDate = new DateTime(2021, 3, 1),
-                IsActive = false
+                AvatarLink = avatarLink,
+                Email = email,
+                CreationDate = creationDate,
+                IsActive = isActive
             };
 
             var userModel = new User
             {
                 UserId = userId,
-                UserName = "SomeUser2",
+                UserName = userName,
                 UserPosition = Models.Enums.UserPosition.Developer,
                 UserRole = Models.Enums.UserRole.Engineer,
                 WorkSpaceId = workSpaceId,
-                AvatarLink = "avatarLink123_321",
-                Email = "testTest@mail.com",
-                CreationDate = new DateTime(2021, 3, 1),
-                IsActive = false
+                AvatarLink = avatarLink,
+                Email = email,
+                CreationDate = creationDate,
+                IsActive = isActive
             };
             
-            //Act
             var userMapper = new UserMapper();
+            
+            //Act
             var mappedResult = userMapper.MapToEntity(userModel);
 
             //Assert
@@ -122,6 +138,7 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(userEntity.AvatarLink, mappedResult.AvatarLink);
             Assert.Equal(userEntity.Email, mappedResult.Email);
             Assert.Equal(userEntity.IsActive, mappedResult.IsActive);
+            Assert.Equal(userModel.CreationDate, mappedResult.CreationDate);
             
         }
     }

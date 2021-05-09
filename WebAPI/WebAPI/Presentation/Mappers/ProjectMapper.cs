@@ -44,17 +44,10 @@ namespace WebAPI.Presentation.Mappers
             {
                 return new Models.Models.Models.Project();
             }
+
+            var projectModel = new Models.Models.Models.Project();
             
-            var projectModel = new Models.Models.Models.Project
-            {
-                ProjectId = project.Id,
-                ProjectDescription = project.ProjectDescription,
-                ProjectName = project.ProjectName,
-                StartDate = project.StartDate,
-                EndDate = project.EndDate,
-                WorkSpaceId = project.WorkSpaceId,
-                CreationDate = project.CreationDate,
-            };
+            MapEntityPropertiesToModel(projectModel, project);
 
             return projectModel;
         }
@@ -65,20 +58,13 @@ namespace WebAPI.Presentation.Mappers
             {
                 return new FullProject();
             }
-            
-            var projectFullModel = new FullProject
-            {
-                ProjectId = project.Id,
-                ProjectDescription = project.ProjectDescription,
-                ProjectName = project.ProjectName,
-                StartDate = project.StartDate,
-                EndDate = project.EndDate,
-                WorkSpaceId = project.WorkSpaceId,
-                CreationDate = project.CreationDate,
-                Teams = project.Teams.Select(_teamMapper.MapToModel).ToList(),
-                Epics = project.Epics.Select(_epicMapper.MapToModel).ToList(),
-            };
 
+            var projectFullModel = new FullProject();
+
+            MapEntityPropertiesToModel(projectFullModel, project);
+            projectFullModel.Teams = project.Teams.Select(_teamMapper.MapToModel).ToList();
+            projectFullModel.Epics = project.Epics.Select(_epicMapper.MapToModel).ToList();
+            
             return projectFullModel;
         }
 
@@ -96,6 +82,18 @@ namespace WebAPI.Presentation.Mappers
             };
 
             return simpleModel;
+        }
+
+
+        private static void MapEntityPropertiesToModel(Models.Models.Models.Project model, Project entity)
+        {
+            model.ProjectId = entity.Id;
+            model.ProjectDescription = entity.ProjectDescription;
+            model.ProjectName = entity.ProjectName;
+            model.StartDate = entity.StartDate;
+            model.EndDate = entity.EndDate;
+            model.WorkSpaceId = entity.WorkSpaceId;
+            model.CreationDate = entity.CreationDate;
         }
     }
 }

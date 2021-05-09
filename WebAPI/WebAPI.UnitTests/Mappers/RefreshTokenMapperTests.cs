@@ -10,8 +10,10 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyModelOnNullEntity()
         {
-            //Arrange & Act
+            //Arrange
             var refreshTokenMapper = new RefreshTokenMapper();
+            
+            //Act
             var mappedResult = refreshTokenMapper.MapToModel(null);
 
             //Assert
@@ -21,8 +23,10 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyEntityOnNullModel()
         {
-            //Arrange & Act
+            //Arrange
             var refreshTokenMapper = new RefreshTokenMapper();
+            
+            //Act
             var mappedResult = refreshTokenMapper.MapToEntity(null);
 
             //Assert
@@ -33,25 +37,27 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldMapEntityToModel()
         {
             //Arrange
-            var userId = new Guid();
-            var refreshTokenId = new Guid();
+            var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
+            var refreshTokenId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
+            const string refreshTokenValue = "RefreshToken";
             
             var refreshTokenEntity = new RefreshToken
             {
                 Id = refreshTokenId,
                 UserId = userId,
-                Value = "RefreshToken"
+                Value = refreshTokenValue
             };
 
             var refreshTokenModel = new Models.Models.Models.RefreshToken
             {
                 RefreshTokenId = refreshTokenId,
                 UserId = userId,
-                Value = "RefreshToken"
+                Value = refreshTokenValue
             };
             
-            //Act
             var refreshTokenMapper = new RefreshTokenMapper();
+            
+            //Act
             var mappedResult = refreshTokenMapper.MapToModel(refreshTokenEntity);
 
             //Assert
@@ -64,21 +70,22 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldMapModelToEntity()
         {
             //Arrange
-            var userId = new Guid();
-            var refreshTokenId = new Guid();
+            var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
+            var refreshTokenId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
+            const string refreshTokenValue = "RefreshToken";
             
             var refreshTokenModel = new Models.Models.Models.RefreshToken
             {
                 RefreshTokenId = refreshTokenId,
                 UserId = userId,
-                Value = "RefreshTokenValue"
+                Value = refreshTokenValue
             };
             
             var refreshTokenEntity = new RefreshToken
             {
                 Id = refreshTokenId,
                 UserId = userId,
-                Value = "RefreshTokenValue"
+                Value = refreshTokenValue
             };
 
             //Act
