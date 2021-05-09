@@ -7,5 +7,7 @@ namespace WebAPI.Models.Models.Simple
         public Guid TeamId { get; set; }
         
         public string TeamName { get; set; }
+        
+        public Guid ProjectId { get; set; }
     }
 }

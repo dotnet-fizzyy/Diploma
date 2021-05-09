@@ -143,18 +143,21 @@ namespace WebAPI.UnitTests.Mappers
             var teamMapper = new TeamMapper(new UserMapper());
             
             var teamId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
+            var projectId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
             const string teamName = "TeamName";
             
             var teamEntity = new Team
             {
                 Id = teamId,
                 TeamName = teamName,
+                ProjectId = projectId
             };
 
             var expectedModel = new TeamSimpleModel
             {
                 TeamId = teamId,
                 TeamName = teamName,
+                ProjectId = projectId
             };
             
             //Act
@@ -163,6 +166,7 @@ namespace WebAPI.UnitTests.Mappers
             //Assert
             Assert.Equal(expectedModel.TeamId, result.TeamId);
             Assert.Equal(expectedModel.TeamName, result.TeamName);
+            Assert.Equal(expectedModel.ProjectId, result.ProjectId);
         }
     }
 }
