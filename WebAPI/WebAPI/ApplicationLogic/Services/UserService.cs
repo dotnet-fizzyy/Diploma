@@ -45,7 +45,6 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<User> GetUserByIdAsync(Guid id)
         {
             var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == id);
-
             if (userEntity == null)
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find user with provided id");
@@ -59,7 +58,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<User> CreateUserWithTeamAsync(User user, Guid teamId)
         {
             var userEntity = _userMapper.MapToEntity(user);
-            userEntity.TeamUsers.Add(new Core.Entities.TeamUser { TeamId = teamId});
+            userEntity.TeamUsers.Add(new Core.Entities.TeamUser { TeamId = teamId });
             
             var createdUserModel = await CreateUser(userEntity);
             
@@ -101,7 +100,6 @@ namespace WebAPI.ApplicationLogic.Services
             var newHashedPassword = PasswordHashing.CreateHashPassword(passwordUpdate.NewPassword);
             
             var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == userId && x.Password == oldHashedPassword);
-
             if (userEntity == null)
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find user with provided id and password");
