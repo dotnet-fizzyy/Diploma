@@ -30,68 +30,69 @@ namespace WebAPI.Presentation.Mappers
                 EpicDescription = epic.EpicDescription,
                 StartDate = epic.StartDate,
                 EndDate = epic.EndDate,
+                CreationDate = epic.CreationDate
             };
 
             return entityEpic;
         }
 
-        public Models.Models.Models.Epic MapToModel(Epic epic)
+        public Models.Models.Models.Epic MapToModel(Epic epicEntity)
         {
-            if (epic == null)
+            if (epicEntity == null)
             {
                 return new Models.Models.Models.Epic();
             }
+
+            var epicModel = new Models.Models.Models.Epic();
             
-            var epicModel = new Models.Models.Models.Epic
-            {
-                EpicId = epic.Id,
-                ProjectId = epic.ProjectId,
-                EpicName = epic.EpicName,
-                EpicDescription = epic.EpicDescription,
-                StartDate = epic.StartDate,
-                EndDate = epic.EndDate,
-            };
+            MapEpicEntityToModel(epicModel, epicEntity);
 
             return epicModel;
         }
 
-        public FullEpic MapToFullModel(Epic epic)
+        public FullEpic MapToFullModel(Epic epicEntity)
         {
-            if (epic == null)
+            if (epicEntity == null)
             {
                 return new FullEpic();
             }
+
+            var epicModel = new FullEpic();
             
-            var epicModel = new FullEpic
-            {
-                EpicId = epic.Id,
-                ProjectId = epic.ProjectId,
-                EpicName = epic.EpicName,
-                EpicDescription = epic.EpicDescription,
-                StartDate = epic.StartDate,
-                EndDate = epic.EndDate,
-                Sprints = epic.Sprints.Select(_sprintMapper.MapToModel).ToList(),
-            };
+            MapEpicEntityToModel(epicModel, epicEntity);
+            epicModel.Sprints = epicEntity.Sprints.Select(_sprintMapper.MapToModel).ToList();
 
             return epicModel;
         }
 
-        public EpicSimpleModel MapToSimpleModel(Epic epic)
+        public EpicSimpleModel MapToSimpleModel(Epic epicEntity)
         {
-            if (epic == null)
+            if (epicEntity == null)
             {
                 return new EpicSimpleModel();
             }
 
             var epicSimpleModel = new EpicSimpleModel
             {
-                EpicId = epic.Id,
-                EpicName = epic.EpicName,
-                StartDate = epic.StartDate,
-                EndDate = epic.EndDate,
+                EpicId = epicEntity.Id,
+                EpicName = epicEntity.EpicName,
+                StartDate = epicEntity.StartDate,
+                EndDate = epicEntity.EndDate
             };
 
             return epicSimpleModel;
+        }
+
+
+        private static void MapEpicEntityToModel(Models.Models.Models.Epic model, Epic entity)
+        {
+            model.EpicId = entity.Id;
+            model.ProjectId = entity.ProjectId;
+            model.EpicName = entity.EpicName;
+            model.EpicDescription = entity.EpicDescription;
+            model.StartDate = entity.StartDate;
+            model.EndDate = entity.EndDate;
+            model.CreationDate = entity.CreationDate;
         }
     }
 }

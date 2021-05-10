@@ -10,10 +10,12 @@ namespace WebAPI.Models.Models.Models
         
         public string EpicName { get; set; }
         
+        public string EpicDescription { get; set; }
+        
         public DateTime StartDate { get; set; }
         
         public DateTime EndDate { get; set; }
         
-        public string EpicDescription { get; set; }
+        public DateTime CreationDate { get; set; }
     }
 }

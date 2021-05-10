@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
@@ -16,17 +15,14 @@ namespace WebAPI.ApplicationLogic.Services
     public class EpicService : IEpicService
     {
         private readonly IEpicRepository _epicRepository;
-        private readonly ISprintRepository _sprintRepository;
         private readonly IEpicMapper _epicMapper;
 
         public EpicService(
             IEpicRepository epicRepository,
-            ISprintRepository sprintRepository,
             IEpicMapper epicMapper
             )
         {
             _epicRepository = epicRepository;
-            _sprintRepository = sprintRepository;
             _epicMapper = epicMapper;
         }
 
@@ -44,9 +40,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<Epic> GetEpicByIdAsync(Guid epicId)
         {
-            var epicEntity =
-                await _epicRepository.SearchForSingleItemAsync(x => x.Id == epicId);
-
+            var epicEntity = await _epicRepository.SearchForSingleItemAsync(x => x.Id == epicId);
             if (epicEntity == null)
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(epicId)));
@@ -59,12 +53,10 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<FullEpic> GetFullEpicDescriptionAsync(Guid epicId)
         {
-            var epicEntity =
-                await _epicRepository.SearchForSingleItemAsync(
+            var epicEntity = await _epicRepository.SearchForSingleItemAsync(
                     x => x.Id == epicId, 
                     includes => includes.Sprints
                     );
-
             if (epicEntity == null)
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(epicId)));
@@ -100,19 +92,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task RemoveEpicAsync(Guid epicId)
         {
-            using var scope = new TransactionScope
-            (
-                TransactionScopeOption.Required, 
-                new TransactionOptions
-                {
-                    IsolationLevel = IsolationLevel.Serializable,
-                },
-                TransactionScopeAsyncFlowOption.Enabled
-            );
-            await _sprintRepository.DeleteAsync(x => x.EpicId == epicId);
             await _epicRepository.DeleteAsync(x => x.Id == epicId);
-                
-            scope.Complete();
         }
     }
 }

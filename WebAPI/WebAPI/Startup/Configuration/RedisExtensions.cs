@@ -9,21 +9,24 @@ namespace WebAPI.Startup.Configuration
     {
         public static void RegisterRedis(this IServiceCollection services, RedisSettings redisSettings)
         {
-            var redisConfiguration = new RedisConfiguration
+            if (redisSettings.EnableRedis)
             {
-                ConnectTimeout = redisSettings.ConnectionTimeOut,
-                PoolSize = redisSettings.PoolSize,
-                Hosts = new[]
+                var redisConfiguration = new RedisConfiguration
                 {
-                    new RedisHost
+                    ConnectTimeout = redisSettings.ConnectionTimeOut,
+                    PoolSize = redisSettings.PoolSize,
+                    Hosts = new[]
                     {
-                        Host = redisSettings.Host,
-                        Port = redisSettings.Port,
+                        new RedisHost
+                        {
+                            Host = redisSettings.Host,
+                            Port = redisSettings.Port,
+                        }
                     }
-                }
-            };
+                };
 
-            services.AddStackExchangeRedisExtensions<NewtonsoftSerializer>(redisConfiguration);
+                services.AddStackExchangeRedisExtensions<NewtonsoftSerializer>(redisConfiguration);
+            }
         }
     }
 }

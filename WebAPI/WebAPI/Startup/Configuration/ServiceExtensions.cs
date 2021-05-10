@@ -54,7 +54,6 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<ITeamService, TeamService>();
             services.AddTransient<IProjectService, ProjectService>();
             services.AddTransient<ISprintService, SprintService>();
-            services.AddTransient<IRefreshTokenService, RefreshTokenService>();
             services.AddTransient<IEpicService, EpicService>();
             services.AddTransient<ITokenGenerator, TokenGenerator>();
             services.AddTransient<IPageService, PageService>();

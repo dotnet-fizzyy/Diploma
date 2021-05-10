@@ -27,7 +27,6 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<WorkSpace> GetWorkSpaceByIdAsync(Guid workSpaceId)
         {
             var workSpaceEntity = await _workSpaceRepository.SearchForSingleItemAsync(x => x.Id == workSpaceId);
-
             if (workSpaceEntity == null)
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(workSpaceId)));
@@ -41,7 +40,6 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<WorkSpace> GetUserWorkSpaceAsync(Guid userId)
         {
             var userWorkSpaceEntity = await _workSpaceRepository.GetUserWorkSpaceAsync(userId);
-            
             if (userWorkSpaceEntity == null)
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(userId)));
@@ -100,6 +98,7 @@ namespace WebAPI.ApplicationLogic.Services
             await _workSpaceRepository.DeleteAsync(x => x.Id == workSpaceId);
         }
 
+        
         private async Task<WorkSpace> CreateWorkSpace(WorkSpace workSpace)
         {
             var workSpaceEntity = _workSpaceMapper.MapToEntity(workSpace);

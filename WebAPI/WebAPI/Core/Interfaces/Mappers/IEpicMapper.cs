@@ -8,10 +8,10 @@ namespace WebAPI.Core.Interfaces.Mappers
     {
         WebAPI.Core.Entities.Epic MapToEntity(Epic epic);
         
-        Epic MapToModel(WebAPI.Core.Entities.Epic epic);
+        Epic MapToModel(WebAPI.Core.Entities.Epic epicEntity);
         
-        FullEpic MapToFullModel(WebAPI.Core.Entities.Epic epic);
+        FullEpic MapToFullModel(WebAPI.Core.Entities.Epic epicEntity);
 
-        EpicSimpleModel MapToSimpleModel(Entities.Epic epic);
+        EpicSimpleModel MapToSimpleModel(Entities.Epic epicEntity);
     }
 }
