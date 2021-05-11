@@ -8,7 +8,5 @@ namespace WebAPI.Core.Interfaces.Utilities
         string GenerateAccessToken(AppSettings appSettings, Guid userId, string userName, string userRole);
 
         string GenerateRefreshToken();
-
-        bool ValidateExpirationTime(string token);
     }
 }

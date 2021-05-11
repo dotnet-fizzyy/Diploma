@@ -42,14 +42,6 @@ namespace WebAPI.ApplicationLogic.Utilities
             }
         }
 
-        public bool ValidateExpirationTime(string token)
-        {
-            var tokenSecurityHandler = new JwtSecurityTokenHandler();
-            var jwtSecurityToken = tokenSecurityHandler.ReadJwtToken(token);
-
-            return DateTime.UtcNow > jwtSecurityToken.ValidTo;
-        }
-
         private static ClaimsIdentity GetClaims(Guid userId, string userName, string userRole)
         {
             var claims = new List<Claim>

@@ -24,11 +24,11 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly IFullProjectDescriptionAggregator _fullProjectDescriptionAggregator;
 
         public ProjectService(
-            IProjectMapper projectMapper, 
-            ITeamRepository teamRepository, 
+            IProjectRepository projectRepository,
             IEpicRepository epicRepository, 
             ISprintRepository sprintRepository,
-            IProjectRepository projectRepository,
+            ITeamRepository teamRepository, 
+            IProjectMapper projectMapper, 
             IFullProjectDescriptionAggregator fullProjectDescriptionAggregator
             )
         {
@@ -43,7 +43,6 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Project> GetProjectAsync(Guid projectId)
         {
             var projectEntity = await _projectRepository.SearchForSingleItemAsync(x => x.Id == projectId);
-
             if (projectEntity == null)
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(projectId)));
@@ -58,7 +57,6 @@ namespace WebAPI.ApplicationLogic.Services
         {
             //Receive project description
             var projectEntity = await _projectRepository.SearchForSingleItemAsync(x => x.Id == projectId);
-
             if (projectEntity == null)
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(projectId)));
@@ -80,22 +78,20 @@ namespace WebAPI.ApplicationLogic.Services
             }
             
             //Receive sprints for teams
-            var epicSprints =
-                await _sprintRepository.SearchForMultipleItemsAsync(
+            var epicSprints = await _sprintRepository.SearchForMultipleItemsAsync(
                     x => x.EpicId == projectEpicEntity.Id,
                     x => x.StartDate,
                     OrderType.Desc
-                    );
+                );
             
             //Receive teams working on it
             var projectTeams =  await _teamRepository.SearchForMultipleItemsAsync(x => x.ProjectId == projectId);
-
             var fullProjectDescription = _fullProjectDescriptionAggregator.AggregateFullProjectDescription(
                 projectEntity,
                 projectEpicEntity,
                 epicSprints,
                 projectTeams
-                );
+            );
             
             return fullProjectDescription;
         }
@@ -135,8 +131,6 @@ namespace WebAPI.ApplicationLogic.Services
                 TransactionScopeAsyncFlowOption.Enabled
             );
             
-            await _teamRepository.DeleteAsync(x => x.ProjectId == projectId);
-            await _epicRepository.DeleteAsync(x => x.ProjectId == projectId);
             await _projectRepository.DeleteAsync(x => x.Id == projectId);
                 
             scope.Complete();

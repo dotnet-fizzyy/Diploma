@@ -1,22 +1,11 @@
-using System.Linq;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Mappers;
-using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Simple;
 
 namespace WebAPI.Presentation.Mappers
 {
     public class ProjectMapper : IProjectMapper
     {
-        private readonly ITeamMapper _teamMapper;
-        private readonly IEpicMapper _epicMapper;
-        
-        public ProjectMapper(ITeamMapper teamMapper, IEpicMapper epicMapper)
-        {
-            _teamMapper = teamMapper;
-            _epicMapper = epicMapper;
-        }
-        
         public Project MapToEntity(Models.Models.Models.Project project)
         {
             if (project == null)
@@ -50,22 +39,6 @@ namespace WebAPI.Presentation.Mappers
             MapBaseEntityToModel(projectModel, project);
 
             return projectModel;
-        }
-
-        public FullProject MapToFullModel(Project project)
-        {
-            if (project == null)
-            {
-                return new FullProject();
-            }
-
-            var projectFullModel = new FullProject();
-
-            MapBaseEntityToModel(projectFullModel, project);
-            projectFullModel.Teams = project.Teams.Select(_teamMapper.MapToModel).ToList();
-            projectFullModel.Epics = project.Epics.Select(_epicMapper.MapToModel).ToList();
-            
-            return projectFullModel;
         }
 
         public ProjectSimpleModel MapToSimpleModel(Project project)

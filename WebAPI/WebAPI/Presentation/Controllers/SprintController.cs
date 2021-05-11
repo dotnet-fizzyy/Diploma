@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 
@@ -17,12 +16,10 @@ namespace WebAPI.Presentation.Controllers
     public class SprintController : ControllerBase
     {
         private readonly ISprintService _sprintService;
-        private readonly IClaimsReader _claimsReader;
         
-        public SprintController(ISprintService sprintService, IClaimsReader claimsReader)
+        public SprintController(ISprintService sprintService)
         {
             _sprintService = sprintService;
-            _claimsReader = claimsReader;
         }
         
         /// <summary>
@@ -38,9 +35,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CollectionResponse<FullSprint>>> GetAllSprintsFromEpic(Guid epicId)
         {
-            var user = _claimsReader.GetUserClaims(User);
-            
-            var boardResponse = await _sprintService.GetAllSprintsFromEpicAsync(epicId, user.UserId);
+            var boardResponse = await _sprintService.GetAllSprintsFromEpicAsync(epicId);
 
             return boardResponse;
         }

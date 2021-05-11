@@ -20,8 +20,6 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<Story> CreateStoryAsync(Story story, string userName);
 
-        Task<Story> UpdateStoryAsync(Story story);
-
         Task<Story> UpdateStoryColumnAsync(Story story, string userName);
 
         Task<Story> ChangeStoryStatusAsync(Story story,  string userName);

@@ -69,21 +69,26 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<AuthenticationResultModel> UpdateTokens(string refreshToken, Guid userId, string userName, string userRole)
         {
-            var refreshTokenEntity = await _refreshTokenRepository.SearchForSingleItemAsync(x => x.UserId == userId && x.Value == refreshToken && x.ExpirationDate > DateTime.UtcNow);
-            if (refreshTokenEntity == null)
-            {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage($"refresh token and {nameof(userId)}"));
-            }
-            
             var accessToken = _tokenGenerator.GenerateAccessToken(_appSettings, userId, userName, userRole);
-            
-            refreshTokenEntity.Value = _tokenGenerator.GenerateRefreshToken();
-            var updatedRefreshToken = await _refreshTokenRepository.UpdateItemAsync(refreshTokenEntity);
+
+            Core.Entities.RefreshToken updatedRefreshToken = null;
+            if (_appSettings.Token.EnableRefreshTokenVerification)
+            {
+                var refreshTokenEntity = await _refreshTokenRepository.SearchForSingleItemAsync(x => x.UserId == userId && x.Value == refreshToken && x.ExpirationDate > DateTime.UtcNow);
+                if (refreshTokenEntity == null)
+                {
+                    throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage($"refresh token and {nameof(userId)}"));
+                }
+                
+                refreshTokenEntity.Value = _tokenGenerator.GenerateRefreshToken();
+                
+                updatedRefreshToken = await _refreshTokenRepository.UpdateItemAsync(refreshTokenEntity);
+            }
             
             var tokenPair = new AuthenticationResultModel
             {
                 AccessToken = new Token(TokenTypes.Access, accessToken),
-                RefreshToken = new Token(TokenTypes.Refresh, updatedRefreshToken.Value)
+                RefreshToken = new Token(TokenTypes.Refresh, updatedRefreshToken?.Value)
             };
 
             return tokenPair;

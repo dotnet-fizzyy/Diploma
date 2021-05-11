@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
@@ -16,21 +15,18 @@ namespace WebAPI.ApplicationLogic.Services
     public class SprintService : ISprintService
     {
         private readonly ISprintRepository _sprintRepository;
-        private readonly IStoryRepository _storyRepository;
         private readonly ISprintMapper _sprintMapper;
 
         public SprintService(
-            ISprintRepository sprintRepository, 
-            IStoryRepository storyRepository, 
+            ISprintRepository sprintRepository,
             ISprintMapper sprintMapper
             )
         {
             _sprintRepository = sprintRepository;
-            _storyRepository = storyRepository;
             _sprintMapper = sprintMapper;
         }
 
-        public async Task<CollectionResponse<FullSprint>> GetAllSprintsFromEpicAsync(Guid epicId, Guid userId)
+        public async Task<CollectionResponse<FullSprint>> GetAllSprintsFromEpicAsync(Guid epicId)
         {
             var sprintEntities = await _sprintRepository.GetFullSprintsByEpicId(epicId);
            
@@ -99,20 +95,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task RemoveSprintAsync(Guid sprintId)
         {
-            using var scope = new TransactionScope
-            (
-                TransactionScopeOption.Required, 
-                new TransactionOptions
-                {
-                    IsolationLevel = IsolationLevel.Serializable,
-                },
-                TransactionScopeAsyncFlowOption.Enabled
-            );
-            
-            await _storyRepository.DeleteAsync(x => x.SprintId == sprintId);
             await _sprintRepository.DeleteAsync(x => x.Id == sprintId);
-                
-            scope.Complete();
         }
     }
 }

@@ -62,7 +62,7 @@ namespace WebAPI.Presentation.Controllers
         [Route("token-renew")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<AuthenticationResultModel>> UpdateAccessToken([FromHeader(Name = RequestHeaders.RefreshTokenHeader), BindRequired] string refreshToken)
+        public async Task<ActionResult<AuthenticationResultModel>> UpdateAccessToken([FromHeader(Name = RequestHeaders.RefreshTokenHeader)] string refreshToken)
         {
             var user = _claimsReader.GetUserClaims(User);
             

@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
@@ -42,7 +41,6 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Team> GetTeamByIdAsync(Guid teamId)
         {
             var teamEntity = await _teamRepository.SearchForSingleItemAsync(x => x.Id == teamId);
-
             if (teamEntity == null)
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(teamId)));
@@ -56,7 +54,6 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<FullTeam> GetFullTeamDescriptionAsync(Guid teamId)
         {
             var teamEntity = await _teamRepository.GetTeamWithUsers(teamId);
-
             if (teamEntity == null)
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(teamId)));
@@ -99,19 +96,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task RemoveTeamAsync(Guid id)
         {
-            using var scope = new TransactionScope
-            (
-                TransactionScopeOption.Required, 
-                new TransactionOptions
-                {
-                    IsolationLevel = IsolationLevel.Serializable,
-                },
-                TransactionScopeAsyncFlowOption.Enabled
-            );
-            
             await _teamRepository.DeleteAsync(x => x.Id == id);
-                
-            scope.Complete();
         }
 
 

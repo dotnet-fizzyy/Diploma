@@ -120,17 +120,6 @@ namespace WebAPI.Presentation.Controllers
         }
 
         /// <summary>
-        /// Update story with provided model properties
-        /// </summary>
-        /// <response code="200">Updated story with provided model properties</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpPut]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<Story>> UpdateStory([FromBody, BindRequired] Story story) => 
-            await _storyService.UpdateStoryAsync(story);
-
-        /// <summary>
         /// Update story and write updates to story history with provided model properties
         /// </summary>
         /// <response code="200">Updated story and wrote updates to story history with provided model properties</response>

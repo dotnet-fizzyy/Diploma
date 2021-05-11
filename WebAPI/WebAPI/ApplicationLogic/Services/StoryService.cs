@@ -43,10 +43,6 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<CollectionResponse<Story>> GetStoriesFromEpicAsync(Guid epicId)
         {
             var storyEntities = await _storyRepository.GetStoriesByEpicId(epicId);
-            if (!storyEntities.Any())
-            {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntitiesMessage(nameof(epicId)));
-            }
 
             var collectionResponse = new CollectionResponse<Story>
             {
@@ -86,11 +82,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<CollectionResponse<Story>> GetStoriesFromSprintAsync(Guid sprintId)
         {
             var storyEntities = await _storyRepository.SearchForMultipleItemsAsync(x => x.SprintId == sprintId);
-            if (!storyEntities.Any())
-            {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntitiesMessage(nameof(sprintId)));
-            }
-            
+
             var collectionResponse = new CollectionResponse<Story>
             {
                 Items = storyEntities.Select(_storyMapper.MapToModel).ToList()
@@ -115,11 +107,10 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<FullStory> GetFullStoryDescriptionAsync(Guid storyId)
         {
-            var storyEntity =
-                await _storyRepository.SearchForSingleItemAsync(
+            var storyEntity = await _storyRepository.SearchForSingleItemAsync(
                     story => story.Id == storyId,
                 include => include.StoryHistories
-                    );
+                );
 
             if (storyEntity == null)
             {
@@ -133,24 +124,23 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<Story> CreateStoryAsync(Story story, string userName)
         {
+            using var tr = new TransactionScope(
+                TransactionScopeOption.Required, 
+                new TransactionOptions
+                {
+                    IsolationLevel = IsolationLevel.Serializable
+                }, 
+                TransactionScopeAsyncFlowOption.Enabled
+            );
+            
             var storyEntity = _storyMapper.MapToEntity(story);
 
             var createdStoryEntity = await _storyRepository.CreateAsync(storyEntity);
             await _storyHistoryRepository.CreateAsync(StoryHistoryGenerator.GetStoryHistoryForCreation(userName, createdStoryEntity.Id));
             
-            var storyModel = _storyMapper.MapToModel(createdStoryEntity);
+            tr.Complete();
             
-            return storyModel;
-        }
-
-        public async Task<Story> UpdateStoryAsync(Story story)
-        {
-            var storyEntity = _storyMapper.MapToEntity(story);
-            storyEntity.CreationDate = DateTime.UtcNow;
-
-            var updatedStoryEntity = await _storyRepository.UpdateItemAsync(storyEntity);
-
-            var storyModel = _storyMapper.MapToModel(updatedStoryEntity);
+            var storyModel = _storyMapper.MapToModel(createdStoryEntity);
             
             return storyModel;
         }
@@ -294,7 +284,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task RemoveStorySoftAsync(Guid id)
         {
-            await _storyRepository.RemoveStorySoftAsync(id);
+            await _storyRepository.DeleteStorySoftAsync(id);
         }
 
         public async Task RemoveStoryAsync(Guid id)
