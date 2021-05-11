@@ -7,8 +7,8 @@ namespace WebAPI.Core.Interfaces.Mappers
     {
         WebAPI.Core.Entities.Sprint MapToEntity(Sprint sprint);
         
-        Sprint MapToModel(WebAPI.Core.Entities.Sprint sprint);
+        Sprint MapToModel(WebAPI.Core.Entities.Sprint sprintEntity);
         
-        FullSprint MapToFullModel(WebAPI.Core.Entities.Sprint sprint);
+        FullSprint MapToFullModel(WebAPI.Core.Entities.Sprint sprintEntity);
     }
 }

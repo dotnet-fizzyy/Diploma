@@ -8,9 +8,9 @@ namespace WebAPI.Core.Interfaces.Mappers
     {
         Entities.Team MapToEntity(Team team);
         
-        Team MapToModel(Entities.Team team);
+        Team MapToModel(Entities.Team teamEntity);
         
-        FullTeam MapToFullModel(Entities.Team team);
+        FullTeam MapToFullModel(Entities.Team teamEntity);
 
         TeamSimpleModel MapToSimpleModel(Entities.Team team);
     }

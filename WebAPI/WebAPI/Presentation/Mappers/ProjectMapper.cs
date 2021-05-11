@@ -47,7 +47,7 @@ namespace WebAPI.Presentation.Mappers
 
             var projectModel = new Models.Models.Models.Project();
             
-            MapEntityPropertiesToModel(projectModel, project);
+            MapBaseEntityToModel(projectModel, project);
 
             return projectModel;
         }
@@ -61,7 +61,7 @@ namespace WebAPI.Presentation.Mappers
 
             var projectFullModel = new FullProject();
 
-            MapEntityPropertiesToModel(projectFullModel, project);
+            MapBaseEntityToModel(projectFullModel, project);
             projectFullModel.Teams = project.Teams.Select(_teamMapper.MapToModel).ToList();
             projectFullModel.Epics = project.Epics.Select(_epicMapper.MapToModel).ToList();
             
@@ -85,7 +85,7 @@ namespace WebAPI.Presentation.Mappers
         }
 
 
-        private static void MapEntityPropertiesToModel(Models.Models.Models.Project model, Project entity)
+        private static void MapBaseEntityToModel(Models.Models.Models.Project model, Project entity)
         {
             model.ProjectId = entity.Id;
             model.ProjectDescription = entity.ProjectDescription;

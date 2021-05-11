@@ -42,7 +42,8 @@ namespace WebAPI.Presentation.Mappers
             }
             
             var userModel = new Models.Models.Models.User();
-            MapBaseModelProperties(userModel, user);
+            
+            MapBaseEntityToModel(userModel, user);
             
             return userModel;
         }
@@ -83,15 +84,15 @@ namespace WebAPI.Presentation.Mappers
         public FullUser MapToFullModel(User user, IEnumerable<Project> projects, IEnumerable<Team> teams)
         {
             var fullUser = new FullUser();
-            MapBaseModelProperties(fullUser, user);
-
+            
+            MapBaseEntityToModel(fullUser, user);
             fullUser.Projects = projects != null ? projects.Select(MapToUserProject).ToList() : new List<UserProject>();
             fullUser.Teams = teams != null ? teams.Select(MapToUserTeam).ToList() : new List<UserTeam>();
             
             return fullUser;
         }
         
-        private static void MapBaseModelProperties(Models.Models.Models.User userModel, User userEntity)
+        private static void MapBaseEntityToModel(Models.Models.Models.User userModel, User userEntity)
         {
             userModel.UserId = userEntity.Id;
             userModel.UserName = userEntity.UserName;
@@ -105,6 +106,7 @@ namespace WebAPI.Presentation.Mappers
             userModel.UserPosition = Enum.Parse<Models.Enums.UserPosition>(userEntity.UserPosition.ToString(), true);
         }
 
+        
         private static UserTeam MapToUserTeam(Team team) => 
             new UserTeam
             {

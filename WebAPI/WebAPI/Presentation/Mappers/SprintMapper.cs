@@ -28,48 +28,49 @@ namespace WebAPI.Presentation.Mappers
                 SprintName = sprint.SprintName,
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,
+                CreationDate = sprint.CreationDate
             };
 
             return sprintEntity;
         }
 
-        public Models.Models.Models.Sprint MapToModel(Sprint sprint)
+        public Models.Models.Models.Sprint MapToModel(Sprint sprintEntity)
         {
-            if (sprint == null)
+            if (sprintEntity == null)
             {
                 return new Models.Models.Models.Sprint();
             }
-            
-            var sprintEntity = new Models.Models.Models.Sprint
-            {
-                SprintId = sprint.Id,
-                SprintName = sprint.SprintName,
-                StartDate = sprint.StartDate,
-                EndDate = sprint.EndDate,
-                EpicId = sprint.EpicId,
-            };
 
-            return sprintEntity;
+            var sprintModel = new Models.Models.Models.Sprint();
+            
+            MapBaseEntityToModel(sprintModel, sprintEntity);
+            
+            return sprintModel;
         }
 
-        public FullSprint MapToFullModel(Sprint sprint)
+        public FullSprint MapToFullModel(Sprint sprintEntity)
         {
-            if (sprint == null)
+            if (sprintEntity == null)
             {
                 return new FullSprint();
             }
+
+            var sprintFullModel = new FullSprint();
             
-            var sprintFullModel = new FullSprint
-            {
-                SprintId = sprint.Id,
-                EpicId = sprint.EpicId,
-                SprintName = sprint.SprintName,
-                StartDate = sprint.StartDate,
-                EndDate = sprint.EndDate,
-                Stories = sprint.Stories.Select(_storyMapper.MapToModel).ToList(),
-            };
+            MapBaseEntityToModel(sprintFullModel, sprintEntity);
+            sprintFullModel.Stories = sprintEntity.Stories.Select(_storyMapper.MapToModel).ToList();
 
             return sprintFullModel;
+        }
+
+        private static void MapBaseEntityToModel(Models.Models.Models.Sprint model, Sprint entity)
+        {
+            model.SprintId = entity.Id;
+            model.EpicId = entity.EpicId;
+            model.SprintName = entity.SprintName;
+            model.StartDate = entity.StartDate;
+            model.EndDate = entity.EndDate;
+            model.CreationDate = entity.CreationDate;
         }
     }
 }

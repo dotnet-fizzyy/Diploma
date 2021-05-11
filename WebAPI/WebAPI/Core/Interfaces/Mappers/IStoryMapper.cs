@@ -8,9 +8,9 @@ namespace WebAPI.Core.Interfaces.Mappers
     {
         Entities.Story MapToEntity(Story story);
         
-        Story MapToModel(Entities.Story story);
+        Story MapToModel(Entities.Story storyEntity);
         
-        FullStory MapToFullModel(Entities.Story story);
+        FullStory MapToFullModel(Entities.Story storyEntity);
 
         StorySimpleModel MapToSimpleModel(Entities.Story story);
     }

@@ -45,7 +45,7 @@ namespace WebAPI.Presentation.Mappers
 
             var epicModel = new Models.Models.Models.Epic();
             
-            MapEpicEntityToModel(epicModel, epicEntity);
+            MapBaseEntityToModel(epicModel, epicEntity);
 
             return epicModel;
         }
@@ -59,7 +59,7 @@ namespace WebAPI.Presentation.Mappers
 
             var epicModel = new FullEpic();
             
-            MapEpicEntityToModel(epicModel, epicEntity);
+            MapBaseEntityToModel(epicModel, epicEntity);
             epicModel.Sprints = epicEntity.Sprints.Select(_sprintMapper.MapToModel).ToList();
 
             return epicModel;
@@ -84,7 +84,7 @@ namespace WebAPI.Presentation.Mappers
         }
 
 
-        private static void MapEpicEntityToModel(Models.Models.Models.Epic model, Epic entity)
+        private static void MapBaseEntityToModel(Models.Models.Models.Epic model, Epic entity)
         {
             model.EpicId = entity.Id;
             model.ProjectId = entity.ProjectId;

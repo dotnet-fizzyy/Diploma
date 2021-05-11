@@ -11,6 +11,7 @@ namespace WebAPI.Presentation.Mappers
     public class StoryMapper : IStoryMapper
     {
         private readonly IStoryHistoryMapper _storyHistoryMapper;
+        
         public StoryMapper(IStoryHistoryMapper storyHistoryMapper)
         {
             _storyHistoryMapper = storyHistoryMapper;
@@ -46,63 +47,34 @@ namespace WebAPI.Presentation.Mappers
             return storyEntity;
         }
 
-        public Models.Models.Models.Story MapToModel(Story story)
+        public Models.Models.Models.Story MapToModel(Story storyEntity)
         {
-            if (story == null)
+            if (storyEntity == null)
             {
                 return new Models.Models.Models.Story();
             }
+
+            var storyModel = new Models.Models.Models.Story();
             
-            var storyModel = new Models.Models.Models.Story
-            {
-                StoryId = story.Id,
-                UserId = story.UserId,
-                SprintId = story.SprintId,
-                Description = story.Description,
-                Estimate = story.Estimate,
-                Notes = story.Notes,
-                Title = story.Title,
-                IsReady = story.IsReady,
-                IsBlocked = story.IsBlocked,
-                BlockReason = story.BlockReason,
-                CreationDate = story.CreationDate,
-                StoryPriority = Enum.Parse<Models.Enums.StoryPriority>(story.StoryPriority.ToString()),
-                RequiredPosition = Enum.Parse<Models.Enums.UserPosition>(story.RequiredPosition.ToString()),
-                ColumnType = Enum.Parse<Models.Enums.ColumnType>(story.ColumnType.ToString()),
-                IsDeleted = story.IsDeleted,
-                RecordVersion = story.RecordVersion,
-            };
+            MapBaseEntityToModel(storyModel, storyEntity);
 
             return storyModel;
         }
 
-        public FullStory MapToFullModel(Story story)
+        public FullStory MapToFullModel(Story storyEntity)
         {
-            if (story == null)
+            if (storyEntity == null)
             {
                 return new FullStory();
             }
+
+            var fullStoryModel = new FullStory();
             
-            var fullStoryModel = new FullStory
-            {
-                StoryId = story.Id,
-                UserId = story.UserId,
-                SprintId = story.SprintId,
-                Description = story.Description,
-                Estimate = story.Estimate,
-                Notes = story.Notes,
-                Title = story.Title,
-                IsReady = story.IsReady,
-                IsBlocked = story.IsBlocked,
-                BlockReason = story.BlockReason,
-                CreationDate = story.CreationDate,
-                RequiredPosition = Enum.Parse<Models.Enums.UserPosition>(story.RequiredPosition.ToString()),
-                StoryPriority = Enum.Parse<Models.Enums.StoryPriority>(story.StoryPriority.ToString()),
-                ColumnType = Enum.Parse<Models.Enums.ColumnType>(story.ColumnType.ToString()),
-                IsDeleted = story.IsDeleted,
-                RecordVersion = story.RecordVersion,
-                StoryHistories = story.StoryHistories.Select(_storyHistoryMapper.MapToModel).OrderByDescending(x => x.CreationDate).ToList(),
-            };
+            MapBaseEntityToModel(fullStoryModel, storyEntity);
+            fullStoryModel.StoryHistories = storyEntity.StoryHistories
+                .Select(_storyHistoryMapper.MapToModel)
+                .OrderByDescending(x => x.CreationDate)
+                .ToList();
 
             return fullStoryModel;
         }
@@ -123,6 +95,26 @@ namespace WebAPI.Presentation.Mappers
             };
 
             return userSimpleModel;
+        }
+
+
+        private static void MapBaseEntityToModel(Models.Models.Models.Story model, Story entity)
+        {
+            model.StoryId = entity.Id;
+            model.UserId = entity.UserId;
+            model.SprintId = entity.SprintId;
+            model.Description = entity.Description;
+            model.Estimate = entity.Estimate;
+            model.Notes = entity.Notes;
+            model.Title = entity.Title;
+            model.IsReady = entity.IsReady;
+            model.IsBlocked = entity.IsBlocked;
+            model.BlockReason = entity.BlockReason;
+            model.CreationDate = entity.CreationDate;
+            model.RecordVersion = entity.RecordVersion;
+            model.StoryPriority = Enum.Parse<Models.Enums.StoryPriority>(entity.StoryPriority.ToString());
+            model.RequiredPosition = Enum.Parse<Models.Enums.UserPosition>(entity.RequiredPosition.ToString());
+            model.ColumnType = Enum.Parse<Models.Enums.ColumnType>(entity.ColumnType.ToString());
         }
     }
 }

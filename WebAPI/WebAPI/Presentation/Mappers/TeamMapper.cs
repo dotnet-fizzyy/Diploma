@@ -34,42 +34,31 @@ namespace WebAPI.Presentation.Mappers
             return teamEntity;
         }
 
-        public Models.Models.Models.Team MapToModel(Team team)
+        public Models.Models.Models.Team MapToModel(Team teamEntity)
         {
-            if (team == null)
+            if (teamEntity == null)
             {
                 return new Models.Models.Models.Team();
             }
+
+            var teamModel = new Models.Models.Models.Team();
             
-            var teamModel = new Models.Models.Models.Team
-            {
-                TeamId = team.Id,
-                ProjectId = team.ProjectId,
-                TeamName = team.TeamName,
-                Location = team.Location,
-                MembersCount = team.MembersCount,
-                CreationDate = team.CreationDate
-            };
+            MapBaseEntityToModel(teamModel, teamEntity);
 
             return teamModel;
         }
 
-        public FullTeam MapToFullModel(Team team)
+        public FullTeam MapToFullModel(Team teamEntity)
         {
-            if (team == null)
+            if (teamEntity == null)
             {
                 return new FullTeam();
             }
+
+            var fullTeamModel = new FullTeam();
             
-            var fullTeamModel = new FullTeam
-            {
-                TeamId = team.Id,
-                TeamName = team.TeamName,
-                Location = team.Location,
-                ProjectId = team.ProjectId,
-                CreationDate = team.CreationDate,
-                Users = team.TeamUsers.Select(x => _userMapper.MapToModel(x.User)).ToList()
-            };
+            MapBaseEntityToModel(fullTeamModel, teamEntity);
+            fullTeamModel.Users = teamEntity.TeamUsers.Select(x => _userMapper.MapToModel(x.User)).ToList();
 
             return fullTeamModel;
         }
@@ -89,6 +78,17 @@ namespace WebAPI.Presentation.Mappers
             };
 
             return simpleTeamModel;
+        }
+
+
+        private static void MapBaseEntityToModel(Models.Models.Models.Team model, Team entity)
+        {
+            model.TeamId = entity.Id;
+            model.ProjectId = entity.ProjectId;
+            model.TeamName = entity.TeamName;
+            model.Location = entity.Location;
+            model.MembersCount = entity.MembersCount;
+            model.CreationDate = entity.CreationDate;
         }
     }
 }
