@@ -16,6 +16,8 @@ namespace WebAPI.Models.Models.Result
         public Guid TeamId { get; set; }
         
         public string TeamName { get; set; }
+        
+        public Guid ProjectId { get; set; }
     }
 
     public class UserProject

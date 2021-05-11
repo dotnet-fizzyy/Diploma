@@ -112,6 +112,7 @@ namespace WebAPI.Presentation.Mappers
             {
                 TeamId = team.Id,
                 TeamName = team.TeamName,
+                ProjectId = team.ProjectId
             };
         
         private static UserProject MapToUserProject(Project project) => 
