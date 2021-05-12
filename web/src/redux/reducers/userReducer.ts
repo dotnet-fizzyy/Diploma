@@ -85,15 +85,19 @@ function handleGetUser(
     state: IUserState,
     action: UserActions.IAddUser | UserActions.IUpdateProfileSettingsSuccess | UserActions.IVerifyUserSuccess
 ): IUserState {
+    const projectExistence: boolean = !!(action.payload.projects && action.payload.projects.length);
+
     return {
         ...state,
         user: {
             ...state.user,
             ...action.payload,
         },
-        selectedProject:
-            action.payload.projects && action.payload.projects.length ? action.payload.projects[0].projectId : '',
-        selectedTeam: action.payload.teams && action.payload.teams.length ? action.payload.teams[0].teamId : '',
+        selectedProject: projectExistence ? action.payload.projects[0].projectId : '',
+        selectedTeam:
+            projectExistence && action.payload.teams && action.payload.teams.length
+                ? action.payload.teams.find((x) => x.projectId === action.payload.projects[0].projectId).teamId
+                : '',
         isLoading: false,
     };
 }
