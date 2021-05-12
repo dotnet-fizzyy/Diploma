@@ -38,12 +38,13 @@ function mapToUserTeam(data: any): IUserTeam {
     return {
         teamId: data.teamId,
         teamName: data.teamName,
-    }
+        projectId: data.projectId,
+    };
 }
 
 function mapToUserProject(data: any): IUserProject {
     return {
         projectId: data.projectId,
         projectName: data.projectName,
-    }
+    };
 }

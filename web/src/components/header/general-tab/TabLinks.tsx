@@ -34,7 +34,10 @@ const TabLinks = (props: ITabLinks) => {
     const { teams, projects, selectedTeamId, selectedProjectId, onChangeTeam, onChangeProject } = props;
 
     const projectItems: ISelectTabItem[] = projects.map((x) => ({ key: x.projectId, value: x.projectName }));
-    const teamItems: ISelectTabItem[] = teams.map((x) => ({ key: x.teamId, value: x.teamName }));
+    const teamItems: ISelectTabItem[] = teams.reduce(
+        (acc, x) => (x.projectId === selectedProjectId ? [...acc, { key: x.teamId, value: x.teamName }] : acc),
+        []
+    );
     const defaultItemsTab: ISelectTabItem[] = TabLinkItems.map((x) => {
         switch (x.key) {
             case TabLinkOptions.WORKSPACE:

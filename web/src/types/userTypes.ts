@@ -22,6 +22,7 @@ export interface IFullUser extends IUser {
 export interface IUserTeam {
     teamId: string;
     teamName: string;
+    projectId: string;
 }
 
 export interface IUserProject {
