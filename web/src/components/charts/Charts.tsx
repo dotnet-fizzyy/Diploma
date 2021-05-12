@@ -1,7 +1,5 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
-import { ColumnIds } from '../../constants/boardConstants';
 import { IEpic } from '../../types/epicTypes';
 import { ISprint } from '../../types/sprintTypes';
 import { IStory } from '../../types/storyTypes';
@@ -41,7 +39,7 @@ export interface IChartsProps {
 
 const Charts = (props: IChartsProps) => {
     const classes = useStyles();
-    const { epic, sprints, stories } = props;
+    const { epic, sprints } = props;
 
     return (
         <div className={classes.root}>
@@ -49,39 +47,19 @@ const Charts = (props: IChartsProps) => {
                 <span className={classes.header}>Epic: {epic.epicName}</span>
                 {sprints && sprints.length
                     ? sprints.map((sprint) => {
-                          const storiesForSprint = stories.filter((x) => x.sprintId === sprint.sprintId);
-                          const blockedStories = storiesForSprint.filter((x) => x.isBlocked);
-                          const acceptedStories = storiesForSprint.filter((x) => x.columnType === ColumnIds.Confirmed);
-                          const prodStories = storiesForSprint.filter((x) => x.columnType === ColumnIds.OnProd);
-
-                          const data = [
-                              {
-                                  name: 'Confirmed',
-                                  accepted: acceptedStories.length,
-                              },
-                              {
-                                  name: 'Blocked',
-                                  blocked: blockedStories.length,
-                              },
-                              {
-                                  name: 'Released',
-                                  released: prodStories.length,
-                              },
-                          ];
-
                           return (
                               <React.Fragment key={sprint.sprintId}>
                                   <span className={classes.sprintHeader}>Sprint: {sprint.sprintName}</span>
-                                  <BarChart width={600} height={500} data={data} style={{ height: '540px' }}>
-                                      <CartesianGrid strokeDasharray="3 3" />
-                                      <XAxis dataKey="name" />
-                                      <YAxis />
-                                      <Tooltip />
-                                      <Legend />
-                                      <Bar dataKey="accepted" fill="#a2ffa0" />
-                                      <Bar dataKey="blocked" fill="#FF3838" />
-                                      <Bar dataKey="released" fill="#82ca9d" />
-                                  </BarChart>
+                                  {/*<BarChart width={600} height={500} data={data} style={{ height: '540px' }}>*/}
+                                  {/*    <CartesianGrid strokeDasharray="3 3" />*/}
+                                  {/*    <XAxis dataKey="name" />*/}
+                                  {/*    <YAxis />*/}
+                                  {/*    <Tooltip />*/}
+                                  {/*    <Legend />*/}
+                                  {/*    <Bar dataKey="accepted" fill="#a2ffa0" />*/}
+                                  {/*    <Bar dataKey="blocked" fill="#FF3838" />*/}
+                                  {/*    <Bar dataKey="released" fill="#82ca9d" />*/}
+                                  {/*</BarChart>*/}
                               </React.Fragment>
                           );
                       })
