@@ -1,3 +1,5 @@
+import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import logger from 'redux-logger';
@@ -13,6 +15,8 @@ import userReducer from '../reducers/userReducer';
 import workSpaceReducer from '../reducers/workSpaceReducer';
 import rootSaga from '../sagas';
 
+export const history = createBrowserHistory();
+
 const reducers = {
     currentUser: userReducer,
     project: projectsReducer,
@@ -23,6 +27,7 @@ const reducers = {
     sidebar: sidebarReducer,
     modal: modalReducer,
     workspace: workSpaceReducer,
+    router: connectRouter(history),
 };
 
 const rootReducer = combineReducers({
@@ -34,7 +39,7 @@ let store = null;
 export const getStore = () => {
     const sagaMiddleware = createSagaMiddleware();
 
-    const middlewares = [sagaMiddleware, logger];
+    const middlewares = [sagaMiddleware, routerMiddleware(history), logger];
     const enhancers = [applyMiddleware(...middlewares)];
 
     store = createStore(rootReducer, composeWithDevTools(...enhancers));
