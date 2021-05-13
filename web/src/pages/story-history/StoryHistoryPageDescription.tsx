@@ -10,6 +10,7 @@ import {
     getStoryHistoryActionTextForBooleanValues,
     getStoryHistoryUpdateAction,
 } from '../../utils/storyHistoryHelper';
+import StoryHistoryCharts from './StoryHistoryCharts';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -85,6 +86,8 @@ const StoryHistoryPageDescription = (props: IStoryHistoryPageDescriptionProps) =
     return (
         <div className={classes.root}>
             <MainLabel title="Story History" variant={LabelType.PRIMARY} />
+            <StoryHistoryCharts storyHistoryItems={storyHistoryItems} />
+            <MainLabel title="Changes" variant={LabelType.SECONDARY} />
             <div className={classes.body}>
                 {storyHistoryItems && storyHistoryItems.length ? storyHistoryItems.map(getStoryHistoryItem) : null}
             </div>
