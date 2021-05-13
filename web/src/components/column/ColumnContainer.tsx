@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { SidebarTypes } from '../../constants';
 import * as sidebarActions from '../../redux/actions/sidebarActions';
 import * as storyActions from '../../redux/actions/storiesActions';
 import * as storiesSelectors from '../../redux/selectors/storiesSelectors';
@@ -22,7 +23,7 @@ const ColumnContainer = (props: IColumnContainerProps) => {
 
     const onSelectStory = (storyId: string) => {
         dispatch(storyActions.storyActionSelectStory(storyId));
-        dispatch(sidebarActions.sidebarHandleVisibility(true));
+        dispatch(sidebarActions.sidebarHandleVisibility(SidebarTypes.STORY_DESCRIPTION, true));
     };
 
     const onMakeStoryBlocked = (storyId: string) => {

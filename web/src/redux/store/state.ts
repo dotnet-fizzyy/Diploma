@@ -1,3 +1,4 @@
+import { SidebarTypes } from '../../constants';
 import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { SortDirection } from '../../constants/storyConstants';
 import { IEpic, IEpicSimpleModel } from '../../types/epicTypes';
@@ -48,6 +49,7 @@ export interface IStoryHistoryState {
 export interface ISidebarState {
     isVisible: boolean;
     isLoading: boolean;
+    type?: SidebarTypes;
 }
 
 export interface ITeamState {

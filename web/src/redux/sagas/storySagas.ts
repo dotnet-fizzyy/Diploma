@@ -1,6 +1,7 @@
 import { all, call, debounce, delay, put, select, takeLatest } from 'redux-saga/effects';
 import SprintApi from '../../api/sprintApi';
 import StoryApi from '../../api/storyApi';
+import { SidebarTypes } from '../../constants';
 import { debouncePeriod, SortFieldsNames } from '../../constants/storyConstants';
 import { IJsonPatchBody } from '../../types';
 import { IProject } from '../../types/projectTypes';
@@ -118,7 +119,7 @@ function* updateStoryColumn(action: IUpdateStoryColumnRequest) {
 }
 
 function* blockStory(action: IMakeStoryBlocked) {
-    yield put(sidebarHandleVisibility(true));
+    yield put(sidebarHandleVisibility(SidebarTypes.STORY_DESCRIPTION, true));
     yield put(attemptToBlockStory());
     yield put(storyActionSelectStory(action.payload));
 }

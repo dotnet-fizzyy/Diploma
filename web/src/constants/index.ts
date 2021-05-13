@@ -74,3 +74,8 @@ export enum StartPageTypes {
     LOGIN = 'LOGIN',
     REGISTRATION = 'REGISTRATION',
 }
+
+export enum SidebarTypes {
+    STORY_DESCRIPTION = 'STORY_DESCRIPTION',
+    STORY_REMOVE = 'STORY_REMOVE',
+}

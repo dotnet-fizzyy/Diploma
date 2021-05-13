@@ -18,7 +18,7 @@ const BoardContainer = () => {
     const columns = getColumnKeyValuePair();
 
     const onCloseSidebar = () => {
-        dispatch(sidebarHandleVisibility(false));
+        dispatch(sidebarHandleVisibility(null, false));
     };
 
     const onDragStart = () => {
