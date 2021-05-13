@@ -100,7 +100,7 @@ namespace WebAPI.UnitTests.Services
                 UserName = signUpModel.UserName,
                 Email = signUpModel.Email,
                 UserPosition = Core.Enums.UserPosition.Customer,
-                UserRole = Core.Enums.UserRole.ProductOwner,
+                UserRole = Core.Enums.UserRole.Manager,
                 CreationDate = DateTime.UtcNow
             };
             
@@ -108,7 +108,7 @@ namespace WebAPI.UnitTests.Services
             {
                 UserName = "UserName",
                 UserPosition = UserPosition.Customer,
-                UserRole = UserRole.ProductOwner,
+                UserRole = UserRole.Manager,
                 CreationDate = DateTime.UtcNow
             };
             

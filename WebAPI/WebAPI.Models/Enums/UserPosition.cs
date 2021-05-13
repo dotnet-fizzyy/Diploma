@@ -2,7 +2,8 @@ namespace WebAPI.Models.Enums
 {
     public enum UserPosition
     {
-        Manager = 1,
+        ProjectManager = 1,
+        TeamLead,
         Developer,
         Qa,
         DevOps,

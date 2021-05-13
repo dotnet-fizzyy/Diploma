@@ -14,7 +14,7 @@ namespace WebAPI.ApplicationLogic.Handlers
                 Password = user.Password,
                 Email = user.Email,
                 UserPosition = UserPosition.Customer,
-                UserRole = UserRole.ProductOwner,
+                UserRole = UserRole.Manager,
                 IsActive = true
             };
         }
