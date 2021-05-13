@@ -54,7 +54,9 @@ export function createRequestBodyForUserChangeStatus(userId: string, isActive: b
 export function createAvailableUsersDropdownItems(requiredPosition: UserPosition, users: IUser[]): ISelectedItem[] {
     return users.reduce(
         (acc, x) =>
-            x.userPosition === requiredPosition ? [...acc, { key: x.userId, value: x.userName } as ISelectedItem] : acc,
+            x.userPosition && UserPosition[x.userPosition] === requiredPosition
+                ? [...acc, { key: x.userId, value: x.userName } as ISelectedItem]
+                : acc,
         [{ key: '', value: 'No Owner' } as ISelectedItem]
     );
 }

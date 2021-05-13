@@ -1,3 +1,5 @@
+BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+
 /*
 WorkSpace
 */
@@ -62,16 +64,17 @@ INSERT INTO public."TeamUser" ("TeamId", "UserId") VALUES
 ('e4686ee7-4123-4a83-a33b-112e17049d51', '6269201e-e569-4d73-9d91-da36ccfa4e15'),
 ('e4686ee7-4123-4a83-a33b-112e17049d51', '82aec964-ea06-4d64-86fc-109253352d35'),
 ('e4686ee7-4123-4a83-a33b-112e17049d51', 'a4494730-1826-4cb6-bb5b-8bf11292ae1e'),
-('e4686ee7-4123-4a83-a33b-112e17049d51', '86d2a87a-64f0-478e-a795-72df8b14f5bc');
+('e4686ee7-4123-4a83-a33b-112e17049d51', '86d2a87a-64f0-478e-a795-72df8b14f5bc'),
+('e4686ee7-4123-4a83-a33b-112e17049d51', '778eeb57-9b21-4392-864c-fd0f011a4eed');
 
 /*
 Stories
 */
 INSERT INTO public."Stories" ("StoryId", "SprintId", "UserId", "Title", "Description", "Notes", "ColumnType", "StoryPriority",  "RequiredPosition", "Estimate", "IsReady", "IsBlocked", "BlockReason", "CreationDate", "IsDeleted") VALUES
 ('5af14402-7acf-49f7-96c7-e91da2b624a6', '77cafbf4-24db-48dc-b649-a4566a11b704', NULL, 'Story Title', 'Some description for story', '-', 2, 1, 2, 1, false, false, null,  timezone('utc', now()), false),
-('f88aaa7a-b469-4dd0-ae53-76676b928d59', '77cafbf4-24db-48dc-b649-a4566a11b704', '6269201e-e569-4d73-9d91-da36ccfa4e15', 'New Story Title', 'Some new description for story', '-', 1, 2, 3, 3, false, false, null,  timezone('utc', now()), false),
+('f88aaa7a-b469-4dd0-ae53-76676b928d59', '77cafbf4-24db-48dc-b649-a4566a11b704', '6269201e-e569-4d73-9d91-da36ccfa4e15', 'New Story Title', 'Some new description for story', '-', 1, 2, 7, 3, false, false, null,  timezone('utc', now()), false),
 ('04c3f7d8-b67a-4b5a-ae70-3637636eee64', '77cafbf4-24db-48dc-b649-a4566a11b704', NULL, 'New Story Title', 'Some new description for story', '-', 1, 1, 2, 2, false, true, 'Test Block',  timezone('utc', now()), false),
-('b5d92f92-a994-40b0-b761-0d69f9a778ef', '77cafbf4-24db-48dc-b649-a4566a11b704', 'a4494730-1826-4cb6-bb5b-8bf11292ae1e', 'Story Title for Kolya', 'Awesome description for story', 'Notes', 3, 2, 2, 5, true, false, NULL, timezone('utc', now()), false);
+('b5d92f92-a994-40b0-b761-0d69f9a778ef', '77cafbf4-24db-48dc-b649-a4566a11b704', 'a4494730-1826-4cb6-bb5b-8bf11292ae1e', 'Story Title for Kolya', 'Awesome description for story', 'Notes', 3, 2, 5, 5, true, false, NULL, timezone('utc', now()), false);
 
 /*
 StoryHistories
@@ -81,3 +84,5 @@ INSERT INTO public."StoryHistories" ("StoryHistoryId", "CreationDate", "StoryHis
 ('1e64654a-97fb-441f-9932-1c7074c47d7c', timezone('utc', now()), 1, '', '', '', 'Dmitry Yaniuk', 'f88aaa7a-b469-4dd0-ae53-76676b928d59'),
 ('568a7549-c586-40e1-b631-902e2ac94341', timezone('utc', now()), 1, '', '', '', 'Dmitry Yaniuk', '04c3f7d8-b67a-4b5a-ae70-3637636eee64'),
 ('78c8579e-0daf-4efb-9bfb-4a86da82c60f', timezone('utc', now()), 1, '', '', '', 'Dmitry Yaniuk', 'b5d92f92-a994-40b0-b761-0d69f9a778ef');
+
+COMMIT;
