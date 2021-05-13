@@ -32,8 +32,8 @@ export const mockedTeam: ITeam = {
             email: 'test3@mail.com',
             userName: 'Dima Yaniuk',
             avatarLink: '',
-            userPosition: UserPosition.Developer,
-            userRole: UserRole.Lead,
+            userPosition: UserPosition.Lead,
+            userRole: UserRole.Engineer,
         } as IUser,
         {
             userId: 'Kolya',
@@ -42,7 +42,7 @@ export const mockedTeam: ITeam = {
             userName: 'Nikolai Ulasevich',
             avatarLink: '',
             userPosition: UserPosition.Architecture,
-            userRole: UserRole.Engineer,
+            userRole: UserRole.Manager,
         } as IUser,
     ],
 };

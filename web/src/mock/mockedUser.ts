@@ -8,7 +8,7 @@ export const mockedUser: IUser = {
     userName: 'Dima Yaniuk',
     avatarLink: '',
     userPosition: UserPosition.Developer,
-    userRole: UserRole.Lead,
+    userRole: UserRole.Engineer,
     teamId: '',
 };
 
@@ -40,8 +40,8 @@ export const mockedUsers: IUser[] = [
         email: 'test4@mail.com',
         userName: 'Nikolai Ulasevich',
         avatarLink: '',
-        userPosition: UserPosition.Developer,
-        userRole: UserRole.TeamMaster,
+        userPosition: UserPosition.ProjectManager,
+        userRole: UserRole.Manager,
         teamId: '',
     },
 ];

@@ -33,7 +33,7 @@ export class CustomerRouteGuard extends BaseRouteGuard {
     public validate(): boolean {
         const isValid: boolean = super.baseValidation();
 
-        return isValid && this._user.userRole === UserRole.ProductOwner;
+        return isValid && this._user.userRole === UserRole.Manager;
     }
 }
 

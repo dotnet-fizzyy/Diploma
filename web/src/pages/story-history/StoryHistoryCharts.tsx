@@ -29,7 +29,7 @@ const StoryHistoryCharts = (props: IStoryHistoryChartsProps) => {
             ...x,
             creationDate: moment(x.creationDate).format(DateFormat),
         }));
-    const uniqueDateLabels = Array.from(new Set(mappedDataByDates.map((x) => x.creationDate)));
+    const uniqueDateLabels: string[] = Array.from(new Set(mappedDataByDates.map((x) => x.creationDate)));
 
     const chartsData: ILineChartConfigTypes = {
         labels: uniqueDateLabels,

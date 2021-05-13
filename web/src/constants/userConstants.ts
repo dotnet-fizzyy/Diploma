@@ -42,13 +42,13 @@ export const passwordUpdateFields = {
 };
 
 export enum UserRole {
-    ProductOwner = 'Product Owner',
-    TeamMaster = 'Team Master',
-    Lead = 'Lead',
+    Manager = 'Manager',
     Engineer = 'Engineer',
 }
 
 export enum UserPosition {
+    ProjectManager = 'Project Manager',
+    Lead = 'Lead',
     Developer = 'Developer',
     Qa = 'Qa',
     DevOps = 'DevOps',
