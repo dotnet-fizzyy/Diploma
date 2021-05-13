@@ -1,4 +1,3 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WebAPI.Core.Entities;
@@ -18,6 +17,7 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
                 .HasForeignKey(x => x.EpicId)
                 .OnDelete(DeleteBehavior.SetNull);
             builder.HasIndex(x => x.EpicId);
+            builder.HasQueryFilter(x => !x.IsDeleted);
         }
     }
 }

@@ -21,6 +21,8 @@ namespace WebAPI.Core.Entities
         
         public Guid WorkSpaceId { get; set; }
         
+        public bool IsDeleted { get; set; }
+        
         public IList<Epic> Epics { get; set; }
         
         public IList<Team> Teams { get; set; }

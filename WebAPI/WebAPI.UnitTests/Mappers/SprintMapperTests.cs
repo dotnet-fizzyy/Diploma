@@ -52,6 +52,7 @@ namespace WebAPI.UnitTests.Mappers
             const string sprintName = "SprintName";
             var startDate = DateTime.UtcNow;
             var endDate = DateTime.UtcNow.AddDays(2);
+            const bool isDeleted = true;
             
             var sprintEntity = new Sprint
             {
@@ -60,6 +61,7 @@ namespace WebAPI.UnitTests.Mappers
                 StartDate = startDate,
                 EndDate = endDate,
                 EpicId = epicId,
+                IsDeleted = isDeleted
             };
 
             var sprintModel = new Models.Models.Models.Sprint
@@ -69,6 +71,7 @@ namespace WebAPI.UnitTests.Mappers
                 StartDate = startDate,
                 EndDate = endDate,
                 EpicId = epicId,
+                IsDeleted = isDeleted
             };
             
             var sprintMapper = new SprintMapper(storyMapper);
@@ -190,6 +193,7 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(expectedModel.StartDate, mappedResult.StartDate);
             Assert.Equal(expectedModel.EndDate, mappedResult.EndDate);
             Assert.Equal(expectedModel.EpicId, mappedResult.EpicId);
+            Assert.Equal(expectedModel.IsDeleted, mappedResult.IsDeleted);
         }
     }
 }

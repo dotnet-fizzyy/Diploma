@@ -17,5 +17,7 @@ namespace WebAPI.Models.Models.Models
         public DateTime CreationDate { get; set; }
         
         public Guid WorkSpaceId { get; set; }
+        
+        public bool IsDeleted { get; set; }
     }
 }

@@ -29,6 +29,7 @@ namespace WebAPI.Presentation.Mappers
                 TeamName = team.TeamName,
                 Location = team.Location,
                 CreationDate = team.CreationDate,
+                IsDeleted = team.IsDeleted,
             };
 
             return teamEntity;
@@ -89,6 +90,7 @@ namespace WebAPI.Presentation.Mappers
             model.Location = entity.Location;
             model.MembersCount = entity.MembersCount;
             model.CreationDate = entity.CreationDate;
+            model.IsDeleted = entity.IsDeleted;
         }
     }
 }

@@ -30,7 +30,8 @@ namespace WebAPI.Presentation.Mappers
                 EpicDescription = epic.EpicDescription,
                 StartDate = epic.StartDate,
                 EndDate = epic.EndDate,
-                CreationDate = epic.CreationDate
+                CreationDate = epic.CreationDate,
+                IsDeleted = epic.IsDeleted
             };
 
             return entityEpic;
@@ -93,6 +94,7 @@ namespace WebAPI.Presentation.Mappers
             model.StartDate = entity.StartDate;
             model.EndDate = entity.EndDate;
             model.CreationDate = entity.CreationDate;
+            model.IsDeleted = entity.IsDeleted;
         }
     }
 }

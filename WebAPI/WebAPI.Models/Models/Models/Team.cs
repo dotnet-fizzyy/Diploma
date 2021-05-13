@@ -14,6 +14,8 @@ namespace WebAPI.Models.Models.Models
 
         public DateTime CreationDate { get; set; }
         
+        public bool IsDeleted { get; set; }
+        
         public virtual int MembersCount { get; set; }
     }
 }

@@ -28,7 +28,8 @@ namespace WebAPI.Presentation.Mappers
                 SprintName = sprint.SprintName,
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,
-                CreationDate = sprint.CreationDate
+                CreationDate = sprint.CreationDate,
+                IsDeleted = sprint.IsDeleted,
             };
 
             return sprintEntity;
@@ -71,6 +72,7 @@ namespace WebAPI.Presentation.Mappers
             model.StartDate = entity.StartDate;
             model.EndDate = entity.EndDate;
             model.CreationDate = entity.CreationDate;
+           model.IsDeleted = entity.IsDeleted;
         }
     }
 }

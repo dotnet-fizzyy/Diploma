@@ -415,3 +415,39 @@ BEGIN
     VALUES ('20210506182216_UpdateStoryHistoryUserName', '3.1.9');
     END IF;
 END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210513175159_AddDeleteField') THEN
+    ALTER TABLE "Teams" ADD "IsDeleted" boolean NOT NULL DEFAULT FALSE;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210513175159_AddDeleteField') THEN
+    ALTER TABLE "Sprints" ADD "IsDeleted" boolean NOT NULL DEFAULT FALSE;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210513175159_AddDeleteField') THEN
+    ALTER TABLE "Projects" ADD "IsDeleted" boolean NOT NULL DEFAULT FALSE;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210513175159_AddDeleteField') THEN
+    ALTER TABLE "Epics" ADD "IsDeleted" boolean NOT NULL DEFAULT FALSE;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210513175159_AddDeleteField') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20210513175159_AddDeleteField', '3.1.9');
+    END IF;
+END $$;

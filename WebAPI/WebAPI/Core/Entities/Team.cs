@@ -15,6 +15,8 @@ namespace WebAPI.Core.Entities
         public string TeamName { get; set; }
         
         public string Location { get; set; }
+
+        public bool IsDeleted { get; set; }
         
         public int MembersCount => TeamUsers.Count;
 

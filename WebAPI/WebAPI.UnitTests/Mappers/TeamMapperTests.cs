@@ -46,6 +46,7 @@ namespace WebAPI.UnitTests.Mappers
             const string teamName = "TeamName";
             const string location = "Minsk";
             var creationDate = DateTime.UtcNow;
+            const bool isDeleted = true;
 
             var teamModel = new Models.Models.Models.Team
             {
@@ -55,6 +56,7 @@ namespace WebAPI.UnitTests.Mappers
                 Location = location,
                 MembersCount = 0,
                 CreationDate = creationDate,
+                IsDeleted = isDeleted,
             };
             
             var teamEntity = new Team
@@ -65,6 +67,7 @@ namespace WebAPI.UnitTests.Mappers
                 Location = location,
                 TeamUsers = new List<TeamUser>(),
                 CreationDate = creationDate,
+                IsDeleted = isDeleted,
             };
             
             //Act
@@ -77,6 +80,7 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(teamEntity.Location, mappedResult.Location);
             Assert.Equal(teamEntity.MembersCount, mappedResult.MembersCount);
             Assert.Equal(teamEntity.CreationDate, mappedResult.CreationDate);
+            Assert.Equal(teamEntity.IsDeleted, mappedResult.IsDeleted);
         }
         
         [Fact]
@@ -121,6 +125,7 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(teamModel.Location, mappedResult.Location);
             Assert.Equal(teamModel.MembersCount, mappedResult.MembersCount);
             Assert.Equal(teamModel.CreationDate, mappedResult.CreationDate);
+            Assert.Equal(teamModel.IsDeleted, mappedResult.IsDeleted);
         }
 
         [Fact]

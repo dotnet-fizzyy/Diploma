@@ -18,6 +18,8 @@ namespace WebAPI.Core.Entities
         
         public DateTime EndDate { get; set; }
         
+        public bool IsDeleted { get; set; }
+        
         public IList<Story> Stories { get; set; }
     }
 }

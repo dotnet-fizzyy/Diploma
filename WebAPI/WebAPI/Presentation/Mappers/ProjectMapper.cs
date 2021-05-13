@@ -22,6 +22,7 @@ namespace WebAPI.Presentation.Mappers
                 EndDate = project.EndDate,
                 WorkSpaceId = project.WorkSpaceId,
                 CreationDate = project.CreationDate,
+                IsDeleted = project.IsDeleted
             };
 
             return projectEntity;
@@ -67,6 +68,7 @@ namespace WebAPI.Presentation.Mappers
             model.EndDate = entity.EndDate;
             model.WorkSpaceId = entity.WorkSpaceId;
             model.CreationDate = entity.CreationDate;
+            model.IsDeleted = entity.IsDeleted;
         }
     }
 }

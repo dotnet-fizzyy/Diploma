@@ -52,6 +52,7 @@ namespace WebAPI.UnitTests.Mappers
             const string epicDescription = "EpicDescription";
             var startDate = DateTime.UtcNow.Date;
             var endDate = DateTime.UtcNow.Date.AddDays(2);
+            const bool isDeleted = true;
             
             var epicEntity = new Epic
             {
@@ -60,7 +61,8 @@ namespace WebAPI.UnitTests.Mappers
                 EpicDescription = epicDescription,
                 ProjectId = projectId,
                 StartDate = startDate,
-                EndDate = endDate
+                EndDate = endDate,
+                IsDeleted = isDeleted
             };
             
             var epicModel = new Models.Models.Models.Epic
@@ -70,7 +72,8 @@ namespace WebAPI.UnitTests.Mappers
                 EpicDescription = epicDescription,
                 ProjectId = projectId,
                 StartDate = startDate,
-                EndDate = endDate
+                EndDate = endDate,
+                IsDeleted = isDeleted
             };
             
             //Act
@@ -84,6 +87,7 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(epicModel.ProjectId, mappedResult.ProjectId);
             Assert.Equal(epicModel.StartDate, mappedResult.StartDate);
             Assert.Equal(epicModel.EndDate, mappedResult.EndDate);
+            Assert.Equal(epicModel.IsDeleted, mappedResult.IsDeleted);
         }
         
         [Fact]
@@ -98,6 +102,7 @@ namespace WebAPI.UnitTests.Mappers
             const string epicDescription = "EpicDescription";
             var startDate = DateTime.UtcNow.Date;
             var endDate = DateTime.UtcNow.Date.AddDays(2);
+            const bool isDeleted = true;
 
             var epicEntity = new Epic
             {
@@ -106,7 +111,8 @@ namespace WebAPI.UnitTests.Mappers
                 EpicDescription = epicDescription,
                 ProjectId = projectId,
                 StartDate = startDate,
-                EndDate = endDate
+                EndDate = endDate,
+                IsDeleted = isDeleted
             };
             
             var epicModel = new Models.Models.Models.Epic
@@ -116,7 +122,8 @@ namespace WebAPI.UnitTests.Mappers
                 EpicDescription = epicDescription,
                 ProjectId = projectId,
                 StartDate = startDate,
-                EndDate = endDate
+                EndDate = endDate,
+                IsDeleted = isDeleted
             };
             
             var epicMapper = new EpicMapper(sprintMapper);
@@ -131,6 +138,7 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(epicEntity.ProjectId, mappedResult.ProjectId);
             Assert.Equal(epicEntity.StartDate, mappedResult.StartDate);
             Assert.Equal(epicEntity.EndDate, mappedResult.EndDate);
+            Assert.Equal(epicEntity.IsDeleted, mappedResult.IsDeleted);
         }
 
         [Fact]
@@ -173,7 +181,7 @@ namespace WebAPI.UnitTests.Mappers
                 EpicId = epicId,
                 EpicName = epicName,
                 StartDate = startDate,
-                EndDate = endDate
+                EndDate = endDate,
             };
 
             var epicMapper = new EpicMapper(sprintMapper);

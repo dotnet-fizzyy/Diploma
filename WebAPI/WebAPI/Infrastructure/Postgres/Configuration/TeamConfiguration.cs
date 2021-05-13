@@ -1,4 +1,3 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WebAPI.Core.Entities;
@@ -19,6 +18,7 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
                 .OnDelete(DeleteBehavior.SetNull)
                 .IsRequired(false);
             builder.HasIndex(x => x.ProjectId);
+            builder.HasQueryFilter(x => !x.IsDeleted);
         }
     }
 }

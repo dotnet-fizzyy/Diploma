@@ -17,5 +17,7 @@ namespace WebAPI.Models.Models.Models
         public DateTime EndDate { get; set; }
         
         public DateTime CreationDate { get; set; }
+        
+        public bool IsDeleted { get; set; }
     }
 }

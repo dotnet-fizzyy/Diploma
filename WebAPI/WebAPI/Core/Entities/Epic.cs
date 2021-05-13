@@ -20,6 +20,8 @@ namespace WebAPI.Core.Entities
         
         public string EpicDescription { get; set; }
 
+        public bool IsDeleted { get; set; }
+        
         public IList<Sprint> Sprints { get; set; }
     }
 }
