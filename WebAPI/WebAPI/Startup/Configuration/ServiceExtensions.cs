@@ -11,6 +11,7 @@ using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Infrastructure.Postgres.Repository;
+using WebAPI.Infrastructure.Redis;
 using WebAPI.Models.Models.Authentication;
 using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Aggregators;
@@ -36,6 +37,7 @@ namespace WebAPI.Startup.Configuration
             services.AddTransient<IStoryHistoryRepository, StoryHistoryRepository>();
             services.AddTransient<IStoryRepository, StoryRepository>();
             services.AddTransient<IWorkSpaceRepository, WorkSpaceRepository>();
+            services.AddTransient<IRedisContext, RedisContext>();
             
             //Mappers
             services.AddTransient<IStoryMapper, StoryMapper>();

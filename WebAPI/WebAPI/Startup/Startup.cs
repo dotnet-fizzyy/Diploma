@@ -32,6 +32,7 @@ namespace WebAPI.Startup
             {
                 Database = databaseSettings,
                 Token = tokenSettings,
+                Redis = redisSettings
             };
 
             services.AddControllers().AddNewtonsoftJson(options =>

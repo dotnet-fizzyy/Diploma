@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.ApplicationLogic.Utilities;
+using WebAPI.Core.Configuration;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
@@ -19,23 +20,38 @@ namespace WebAPI.ApplicationLogic.Providers
         private readonly IUserRepository _userRepository;
         private readonly ITeamRepository _teamRepository;
         private readonly IProjectRepository _projectRepository;
+        private readonly IRedisContext _redisContext;
         private readonly IUserMapper _userMapper;
+        private readonly AppSettings _appSettings;
 
         public UserProvider(
             IUserRepository userRepository, 
             ITeamRepository teamRepository, 
             IProjectRepository projectRepository,
-            IUserMapper userMapper
+            IRedisContext redisContext,
+            IUserMapper userMapper,
+            AppSettings appSettings
             )
         {
             _projectRepository = projectRepository;
             _teamRepository = teamRepository;
             _userRepository = userRepository;
+            _redisContext = redisContext;
             _userMapper = userMapper;
+            _appSettings = appSettings;
         }
         
         public async Task<FullUser> GetFullUser(Guid userId)
         {
+            if (_appSettings.Redis.EnableRedis)
+            {
+                var user = await _redisContext.Get<FullUser>(RedisUtilities.CreateRedisKeyForUser(userId));
+                if (user != null)
+                {
+                    return user;
+                }
+            }
+            
             var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == userId, x => x.TeamUsers);
             if (userEntity == null)
             {
@@ -43,6 +59,12 @@ namespace WebAPI.ApplicationLogic.Providers
             }
 
             var fullUser = await GetUser(userEntity);
+
+            if (_appSettings.Redis.EnableRedis)
+            {
+                var userKey = RedisUtilities.CreateRedisKeyForUser(userId);
+                await _redisContext.Set(userKey, fullUser, TimeSpan.FromHours(1));
+            }
 
             return fullUser;
         }
