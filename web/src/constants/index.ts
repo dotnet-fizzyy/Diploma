@@ -3,6 +3,7 @@ import { ILoginForm, IProfilePasswordUpdateForm, IRegistrationForm } from '../ty
 
 export const BaseRegexExpression: RegExp = /^[- a-zA-Z0-9]*$/;
 export const EmailRegexExpression: RegExp = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+export const GuidRegexExpression: RegExp = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 export const AccessTokenLocalStorageField: string = 'access_token';
 export const RefreshTokenLocalStorageField: string = 'refresh_token';
 export const DateFormat: string = 'DD/MM/YYYY';

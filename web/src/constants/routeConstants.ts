@@ -1,13 +1,15 @@
 //UI routes
+const routeGuidStringRegex: string = '[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}';
+
 export const DefaultRoute = '/';
-export const FullViewStoryRoute = '/full-view/:storyId';
+export const FullViewStoryRoute = `/full-view/:storyId(${routeGuidStringRegex})`;
 export const ProjectBoardRoute = '/board';
 export const LoginScreenRoute = '/start/login';
 export const RegistrationScreenRoute = '/start/registration';
-export const ViewStoryHistoryRoute = '/history/:storyId';
+export const ViewStoryHistoryRoute = `/history/:storyId(${routeGuidStringRegex})`;
 export const WorkspaceViewerRoute = '/workspace';
-export const TeamManagementRoute = '/team/:teamId';
-export const ProjectManagementRoute = '/project/:projectId';
+export const TeamManagementRoute = `/team/:teamId(${routeGuidStringRegex})`;
+export const ProjectManagementRoute = `/project/:projectId(${routeGuidStringRegex})`;
 export const EpicChartsRoute = '/charts';
 export const NoMatchRoute = '*';
 

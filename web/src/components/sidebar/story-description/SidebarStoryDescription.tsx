@@ -25,15 +25,6 @@ const useStyles = makeStyles(() =>
             width: '100%',
             height: '100%',
         },
-        closeSidebarIcon: {
-            position: 'absolute',
-            fontSize: '30px',
-            top: '0.5%',
-            right: '0.5%',
-            '&:hover': {
-                cursor: 'pointer',
-            },
-        },
         isModalVisible: {
             paddingBottom: '120px',
         },

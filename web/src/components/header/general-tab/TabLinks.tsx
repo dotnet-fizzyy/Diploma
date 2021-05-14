@@ -1,5 +1,6 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { TabLinkItems, TabLinkOptions } from '../../../constants';
 import { IUserProject, IUserTeam } from '../../../types/userTypes';
 import SelectTab, { ISelectTabItem } from './SelectTab';
@@ -67,14 +68,19 @@ const TabLinks = (props: ITabLinks) => {
         onChange: (e: any) => void,
         isRoute: boolean,
         selectedValue: string,
-        label: string
+        label: string,
+        link: string
     ): React.ReactNode => {
         if (!items && !items.length) {
             return <span className={classes.text}>{label}</span>;
         }
 
         if (items && items.length === 1) {
-            return <span className={classes.text}>{items[0].value}</span>;
+            return (
+                <Link to={{ pathname: link }} className={classes.text}>
+                    {items[0].value}
+                </Link>
+            );
         }
 
         return <SelectTab value={selectedValue} items={items} onChange={onChange} isRoute={isRoute} />;
@@ -83,8 +89,15 @@ const TabLinks = (props: ITabLinks) => {
     return (
         <>
             <SelectTab value={defaultItemsTab[0].key} items={defaultItemsTab} isRoute={true} />
-            {getSelectTab(projectItems, onChangeProject, false, selectedProjectId, 'Project')}
-            {getSelectTab(teamItems, onChangeTeam, false, selectedTeamId, 'Team')}
+            {getSelectTab(
+                projectItems,
+                onChangeProject,
+                false,
+                selectedProjectId,
+                'Project',
+                `/project/${selectedProjectId}`
+            )}
+            {getSelectTab(teamItems, onChangeTeam, false, selectedTeamId, 'Team', `/team/${selectedTeamId}`)}
         </>
     );
 };

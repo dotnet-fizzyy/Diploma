@@ -1,4 +1,4 @@
-import { AccessTokenLocalStorageField, RefreshTokenLocalStorageField } from '../constants';
+import { AccessTokenLocalStorageField, GuidRegexExpression, RefreshTokenLocalStorageField } from '../constants';
 
 export function setCredentialsToLocalStorage(accessToken: string, refreshToken: string): void {
     localStorage.setItem(AccessTokenLocalStorageField, accessToken);
@@ -13,3 +13,5 @@ export function clearCredentialsFromLocalStorage(): void {
 export function getFirstNameLetter(userName: string): string {
     return userName ? userName.slice(0, 1) : '';
 }
+
+export const validateGuid = (value: string): boolean => GuidRegexExpression.test(value);

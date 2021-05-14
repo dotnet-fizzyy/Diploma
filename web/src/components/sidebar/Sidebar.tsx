@@ -8,9 +8,8 @@ import SidebarStoryRemoveContainer from './story-remove/SidebarStoryRemoveContai
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
-            minWidth: '450px',
-            width: '100%',
-            minHeight: '100%',
+            width: '450px',
+            height: '100%',
             position: 'relative',
         },
         closeSidebarIcon: {
@@ -23,7 +22,9 @@ const useStyles = makeStyles(() =>
             },
         },
         body: {
+            height: 'inherit',
             padding: '20px',
+            boxSizing: 'border-box',
         },
     })
 );

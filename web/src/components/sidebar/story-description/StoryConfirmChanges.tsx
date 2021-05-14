@@ -7,6 +7,7 @@ const useStyles = makeStyles(() =>
         root: {
             position: 'fixed',
             bottom: 0,
+            right: 0,
             maxWidth: '450px',
             width: '100%',
             height: '80px',
@@ -39,7 +40,7 @@ const StoryConfirmChanges = (props: IStoryConfirmChangesProps) => {
         <div className={classes.root}>
             <div className={classes.body}>
                 <div className={classes.buttonContainer}>
-                    <Button label="Save" buttonVariant={ButtonVariant.DEFAULT} type="submit" disabled={disabled} />
+                    <Button label="Save" buttonVariant={ButtonVariant.PRIMARY} type="submit" disabled={disabled} />
                 </div>
                 <div className={classes.buttonContainer}>
                     <Button

@@ -3,7 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
 export enum ButtonVariant {
-    DEFAULT = 'DEFAULT',
+    PRIMARY = 'PRIMARY',
     SECONDARY = 'SECONDARY',
     SUCCESS = 'SUCCESS',
     DANGER = 'DANGER',
@@ -24,7 +24,7 @@ const useStyles = makeStyles(() =>
                         return '1px solid #75BAF7';
                     case ButtonVariant.SUCCESS:
                     case ButtonVariant.DANGER:
-                    case ButtonVariant.DEFAULT:
+                    case ButtonVariant.PRIMARY:
                     default:
                         return null;
                 }
@@ -37,7 +37,7 @@ const useStyles = makeStyles(() =>
                         return '#75BAF7';
                     case ButtonVariant.DANGER:
                         return 'red';
-                    case ButtonVariant.DEFAULT:
+                    case ButtonVariant.PRIMARY:
                     default:
                         return '#FFF';
                 }
@@ -50,7 +50,7 @@ const useStyles = makeStyles(() =>
                         return '#FFF';
                     case ButtonVariant.DANGER:
                         return '#ffbdb9';
-                    case ButtonVariant.DEFAULT:
+                    case ButtonVariant.PRIMARY:
                     default:
                         return '#75BAF7';
                 }
@@ -60,14 +60,14 @@ const useStyles = makeStyles(() =>
             '&:hover': {
                 color: ({ buttonVariant }: IButtonProps) => {
                     switch (buttonVariant) {
-                        case ButtonVariant.DEFAULT:
+                        case ButtonVariant.PRIMARY:
                         default:
                             return '#FFF';
                     }
                 },
                 backgroundColor: ({ buttonVariant }: IButtonProps) => {
                     switch (buttonVariant) {
-                        case ButtonVariant.DEFAULT:
+                        case ButtonVariant.PRIMARY:
                         default:
                             return '#E8F4FF';
                     }

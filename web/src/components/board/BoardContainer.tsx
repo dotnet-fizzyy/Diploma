@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { getBoardInfoRequest } from '../../redux/actions/projectActions';
 import { sidebarHandleVisibility } from '../../redux/actions/sidebarActions';
 import { storyActionDragStart, storyDragAndDropHandle } from '../../redux/actions/storiesActions';
 import { getSidebarVisibility } from '../../redux/selectors/sidebarSelectors';
 import { IStoryDragAndDrop } from '../../types/storyTypes';
+import { validateGuid } from '../../utils';
 import { getColumnKeyValuePair } from '../../utils/columnHelper';
 import { getQueryParameter } from '../../utils/routeHelper';
 import Board, { IBoardProps } from './Board';
@@ -13,6 +14,7 @@ import Board, { IBoardProps } from './Board';
 const BoardContainer = () => {
     const dispatch = useDispatch();
     const location = useLocation();
+    const history = useHistory();
 
     const isSidebarVisible = useSelector(getSidebarVisibility);
     const columns = getColumnKeyValuePair();
@@ -41,8 +43,12 @@ const BoardContainer = () => {
         const projectId: string = getQueryParameter(location.search, 'projectId');
         const teamId: string = getQueryParameter(location.search, 'teamId');
 
+        if (!validateGuid(projectId) || !validateGuid(teamId)) {
+            history.push('/invalid-board');
+        }
+
         dispatch(getBoardInfoRequest(projectId, teamId));
-    }, [dispatch, location.search]);
+    }, [dispatch, history, location.search]);
 
     const props: IBoardProps = {
         columns,
