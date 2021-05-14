@@ -32,7 +32,6 @@ const StoryModalContainer = () => {
         const story: IStory = {
             ...values,
         };
-
         dispatch(createStoryRequest(story));
     };
 

@@ -47,6 +47,9 @@ export const StoryActions = {
     CHANGE_STORIES_SPRINT_REQUEST: 'CHANGE_STORIES_SPRINT_REQUEST',
     CHANGE_STORIES_SPRINT_SUCCESS: 'CHANGE_STORIES_SPRINT_SUCCESS',
     CHANGE_STORIES_SPRINT_FAILURE: 'CHANGE_STORIES_SPRINT_FAILURE',
+    REMOVE_STORY_REQUEST: 'REMOVE_STORY_REQUEST',
+    REMOVE_STORY_SUCCESS: 'REMOVE_STORY_SUCCESS',
+    REMOVE_STORY_FAILURE: 'REMOVE_STORY_FAILURE',
 };
 
 /*
@@ -271,6 +274,21 @@ export interface IChangeStorySprintRequest {
 
 export interface IChangeStorySprintFailure {
     type: typeof StoryActions.CHANGE_STORIES_SPRINT_FAILURE;
+    payload: Error;
+}
+
+export interface IRemoveStoryRequest {
+    type: typeof StoryActions.REMOVE_STORY_REQUEST;
+    payload: string;
+}
+
+export interface IRemoveStorySuccess {
+    type: typeof StoryActions.REMOVE_STORY_SUCCESS;
+    payload: string;
+}
+
+export interface IRemoveStoryFailure {
+    type: typeof StoryActions.REMOVE_STORY_FAILURE;
     payload: Error;
 }
 
@@ -589,6 +607,27 @@ export function changeStorySprintRequest(sprintId: string): IChangeStorySprintRe
 export function changeStorySprintFailure(error: Error): IChangeStorySprintFailure {
     return {
         type: StoryActions.CHANGE_STORIES_SPRINT_FAILURE,
+        payload: error,
+    };
+}
+
+export function removeStoryRequest(storyId: string): IRemoveStoryRequest {
+    return {
+        type: StoryActions.REMOVE_STORY_REQUEST,
+        payload: storyId,
+    };
+}
+
+export function removeStorySuccess(storyId: string): IRemoveStorySuccess {
+    return {
+        type: StoryActions.REMOVE_STORY_SUCCESS,
+        payload: storyId,
+    };
+}
+
+export function removeStoryFailure(error: Error): IRemoveStoryFailure {
+    return {
+        type: StoryActions.REMOVE_STORY_FAILURE,
         payload: error,
     };
 }

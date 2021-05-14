@@ -1,4 +1,3 @@
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import HistoryIcon from '@material-ui/icons/History';
@@ -31,16 +30,6 @@ const useStyles = makeStyles(() =>
         sectionContainer: {
             marginTop: '20px',
         },
-        spinnerContainer: {
-            position: 'absolute',
-            width: '100%',
-            height: '100vh',
-            backgroundColor: 'rgba(255, 255, 255, 0.5)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 5,
-        },
         buttonsContainer: {
             display: 'flex',
             flexDirection: 'row',
@@ -52,10 +41,6 @@ const useStyles = makeStyles(() =>
         icon: {
             fontSize: '18px',
             marginRight: '3px',
-        },
-        spinner: {
-            marginBottom: '100px',
-            color: '#75BAF7',
         },
     })
 );
@@ -84,7 +69,6 @@ const SidebarStoryDescription = (props: ISidebarStoryDescription) => {
     const {
         isReady,
         isBlocked,
-        isLoading,
         initialValues,
         users,
         storyEstimates,
@@ -124,11 +108,6 @@ const SidebarStoryDescription = (props: ISidebarStoryDescription) => {
 
                 return (
                     <div className={classes.root}>
-                        {isLoading && (
-                            <div className={classes.spinnerContainer}>
-                                <CircularProgress color="primary" className={classes.spinner} size={60} />
-                            </div>
-                        )}
                         <Form>
                             <div className={classes.buttonsContainer}>
                                 <Button

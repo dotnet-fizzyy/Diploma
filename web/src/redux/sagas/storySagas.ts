@@ -9,7 +9,12 @@ import { IFullSprint, ISprint } from '../../types/sprintTypes';
 import { IFullStory, IStory, IStoryColumns } from '../../types/storyTypes';
 import { mapFullSprintToSprint } from '../../utils/epicHelper';
 import { createRequestBodyForColumnMovement, createRequestBodyForReadyStory } from '../../utils/storyHelper';
-import { sidebarHandleVisibility, ISidebarHandleVisibility, SidebarActions } from '../actions/sidebarActions';
+import {
+    sidebarHandleVisibility,
+    sidebarSetLoadingStatus,
+    ISidebarHandleVisibility,
+    SidebarActions,
+} from '../actions/sidebarActions';
 import { addSprints, setSelectedSprint } from '../actions/sprintsActions';
 import {
     addStories,
@@ -25,6 +30,8 @@ import {
     makeStoryReadySuccess,
     refreshStoriesFailure,
     refreshStoriesRequest,
+    removeStoryFailure,
+    removeStorySuccess,
     setStoryTitleTermFailure,
     setStoryTitleTermSuccess,
     sortStoriesFailure,
@@ -42,6 +49,7 @@ import {
     IGetStoryHistoryRequest,
     IMakeStoryBlocked,
     IMakeStoryReadyRequest,
+    IRemoveStoryRequest,
     ISetStoryTitleTermRequest,
     IStoryHandleDragAndDrop,
     IUpdateStoryChangesRequest,
@@ -214,6 +222,20 @@ function* makeStoryReady(action: IMakeStoryReadyRequest) {
     }
 }
 
+function* removeStoryRequest(action: IRemoveStoryRequest) {
+    try {
+        yield put(sidebarSetLoadingStatus(true));
+
+        yield call(StoryApi.removeStory, action.payload);
+
+        yield put(removeStorySuccess(action.payload));
+    } catch (error) {
+        yield put(removeStoryFailure(error));
+    }
+
+    yield put(sidebarSetLoadingStatus(false));
+}
+
 export default function* rootStoriesSaga() {
     yield takeLatest(StoryActions.REFRESH_STORIES_REQUEST, refreshData);
     yield takeLatest(StoryActions.CREATE_STORY_REQUEST, createStory);
@@ -226,5 +248,6 @@ export default function* rootStoriesSaga() {
     yield takeLatest(StoryActions.CHANGE_EPIC_REQUEST, changeEpic);
     yield takeLatest([StoryActions.SORT_STORIES_REQUEST, StoryActions.CHANGE_STORIES_SPRINT_REQUEST], sortStories);
     yield takeLatest(StoryActions.MAKE_STORY_READY_REQUEST, makeStoryReady);
+    yield takeLatest(StoryActions.REMOVE_STORY_REQUEST, removeStoryRequest);
     yield debounce(debouncePeriod, StoryActions.SET_STORY_TITLE_TERM_REQUEST, searchForStoriesByTitleTerm);
 }

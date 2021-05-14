@@ -8,6 +8,7 @@ import {
     IDeclineStoryBlock,
     IGetStoryHistorySuccess,
     IMakeStoryBlocked,
+    IRemoveStorySuccess,
     ISelectStory,
     ISetStoryTitleTermRequest,
     ISortStoriesRequest,
@@ -58,7 +59,7 @@ export default function storiesReducer(state = initialState, action: any) {
         case StoryActions.UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION:
             return handleStoryDragAndDrop(state, action);
         case StoryActions.STORY_DRAG_FINISH:
-            return handleStoryDragFinish(state, action);
+            return handleStoryDragFinish(state);
         case StoryActions.SET_STORY_TITLE_TERM_REQUEST:
             return handleSetStoryTitleTerm(state, action);
         case StoryActions.ATTEMPT_TO_BLOCK_STORY:
@@ -73,6 +74,8 @@ export default function storiesReducer(state = initialState, action: any) {
         case StoryActions.STORY_UPDATE_COLUMN_SUCCESS:
         case StoryActions.MAKE_STORY_READY_SUCCESS:
             return handleUpdateStory(state, action);
+        case StoryActions.REMOVE_STORY_SUCCESS:
+            return handleRemoveStory(state, action);
         default:
             return state;
     }
@@ -150,7 +153,7 @@ function handleStoryDragAndDrop(state: IStoryState, action: IUpdateStoriesAfterD
     };
 }
 
-function handleStoryDragFinish(state: IStoryState, IStoryDragFinish): IStoryState {
+function handleStoryDragFinish(state: IStoryState): IStoryState {
     return {
         ...state,
         isDragging: false,
@@ -221,6 +224,18 @@ function handleUpdateStory(state: IStoryState, action: IUpdateStoryColumnSuccess
                           }
                         : story;
                 }),
+            };
+        }),
+    };
+}
+
+function handleRemoveStory(state: IStoryState, action: IRemoveStorySuccess): IStoryState {
+    return {
+        ...state,
+        columns: state.columns.map((column) => {
+            return {
+                ...column,
+                value: column.value.filter((story) => story.storyId !== action.payload),
             };
         }),
     };

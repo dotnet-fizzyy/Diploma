@@ -1,3 +1,4 @@
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import React from 'react';
@@ -26,23 +27,44 @@ const useStyles = makeStyles(() =>
             padding: '20px',
             boxSizing: 'border-box',
         },
+        spinnerContainer: {
+            position: 'absolute',
+            width: '100%',
+            height: '100vh',
+            backgroundColor: 'rgba(255, 255, 255, 0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 5,
+            right: 0,
+        },
+        spinner: {
+            marginBottom: '100px',
+            color: '#75BAF7',
+        },
     })
 );
 
 export interface ISidebarProps {
     sidebarType: SidebarTypes;
+    isLoading: boolean;
     onCloseTab: () => void;
 }
 
 const Sidebar = (props: ISidebarProps) => {
     const classes = useStyles();
-    const { sidebarType, onCloseTab } = props;
+    const { sidebarType, isLoading, onCloseTab } = props;
 
     return (
         <div className={classes.root}>
             <div className={classes.closeSidebarIcon}>
                 <CloseIcon className={classes.closeSidebarIcon} onClick={onCloseTab} />
             </div>
+            {isLoading && (
+                <div className={classes.spinnerContainer}>
+                    <CircularProgress color="primary" className={classes.spinner} size={60} />
+                </div>
+            )}
             <div className={classes.body}>
                 {(() => {
                     switch (sidebarType) {

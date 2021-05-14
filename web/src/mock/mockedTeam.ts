@@ -32,7 +32,7 @@ export const mockedTeam: ITeam = {
             email: 'test3@mail.com',
             userName: 'Dima Yaniuk',
             avatarLink: '',
-            userPosition: UserPosition.Lead,
+            userPosition: UserPosition.TeamLead,
             userRole: UserRole.Engineer,
         } as IUser,
         {

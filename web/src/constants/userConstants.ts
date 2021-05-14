@@ -48,7 +48,7 @@ export enum UserRole {
 
 export enum UserPosition {
     ProjectManager = 'Project Manager',
-    Lead = 'Lead',
+    TeamLead = 'TeamLead',
     Developer = 'Developer',
     Qa = 'Qa',
     DevOps = 'DevOps',

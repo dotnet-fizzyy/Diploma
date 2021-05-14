@@ -72,6 +72,7 @@ export const StoryUrls = {
     sortStories: `${StoryBaseUrl}/sort`,
     storyHistory: PageUrls.getStoryHistory,
     changeStatus: `${StoryBaseUrl}/change-status`,
+    removeStory: `${StoryBaseUrl}/soft/id`,
 };
 
 export const ProjectUrls = {
