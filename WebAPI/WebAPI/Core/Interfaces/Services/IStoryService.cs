@@ -26,7 +26,7 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<Story> UpdatePartsOfStoryAsync(Story story, string userName);
 
-        Task RemoveStorySoftAsync(Guid id);
+        Task RemoveStorySoftAsync(Story story);
         
         Task RemoveStoryAsync(Guid id);
     }

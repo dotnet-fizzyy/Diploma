@@ -801,17 +801,21 @@ namespace WebAPI.UnitTests.Services
             var storyAggregator = new StoryAggregator();
 
             var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, storyMapper, storyAggregator);
-            
-            var storyId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
 
-            A.CallTo(() => storyRepository.DeleteStorySoftAsync(A<Guid>._))
+            var story = new Story
+            {
+                StoryId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444"),
+                RecordVersion = 123
+            };
+            
+            A.CallTo(() => storyRepository.DeleteStorySoftAsync(A<Core.Entities.Story>._))
                 .DoesNothing();
 
             //Act
-            await storyService.RemoveStorySoftAsync(storyId);
+            await storyService.RemoveStorySoftAsync(story);
 
             //Assert
-            A.CallTo(() => storyRepository.DeleteStorySoftAsync(A<Guid>._))
+            A.CallTo(() => storyRepository.DeleteStorySoftAsync(A<Core.Entities.Story>._))
                 .MustHaveHappenedOnceExactly();
         }
         

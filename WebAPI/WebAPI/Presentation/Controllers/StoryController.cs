@@ -183,13 +183,16 @@ namespace WebAPI.Presentation.Controllers
             return story;
         }
 
-        [HttpDelete]
-        [Route("soft/id/{id}")]
+        [HttpPatch]
+        [Route("soft-remove")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> RemoveStorySoft(Guid id)
+        public async Task<IActionResult> RemoveStorySoft([FromBody] JsonPatchDocument<Story> storyPatch)
         {
-            await _storyService.RemoveStorySoftAsync(id);
+            var story = new Story();
+            storyPatch.ApplyTo(story);
+            
+            await _storyService.RemoveStorySoftAsync(story);
             
             return NoContent();
         }

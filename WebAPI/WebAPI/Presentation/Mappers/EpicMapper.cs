@@ -15,7 +15,7 @@ namespace WebAPI.Presentation.Mappers
             _sprintMapper = sprintMapper;
         }
         
-        public Epic MapToEntity(Models.Models.Models.Epic epic)
+        public Epic MapToEntity(WebAPI.Models.Models.Models.Epic epic)
         {
             if (epic == null)
             {
@@ -37,14 +37,14 @@ namespace WebAPI.Presentation.Mappers
             return entityEpic;
         }
 
-        public Models.Models.Models.Epic MapToModel(Epic epicEntity)
+        public WebAPI.Models.Models.Models.Epic MapToModel(Epic epicEntity)
         {
             if (epicEntity == null)
             {
-                return new Models.Models.Models.Epic();
+                return new WebAPI.Models.Models.Models.Epic();
             }
 
-            var epicModel = new Models.Models.Models.Epic();
+            var epicModel = new WebAPI.Models.Models.Models.Epic();
             
             MapBaseEntityToModel(epicModel, epicEntity);
 
@@ -85,7 +85,7 @@ namespace WebAPI.Presentation.Mappers
         }
 
 
-        private static void MapBaseEntityToModel(Models.Models.Models.Epic model, Epic entity)
+        private static void MapBaseEntityToModel(WebAPI.Models.Models.Models.Epic model, Epic entity)
         {
             model.EpicId = entity.Id;
             model.ProjectId = entity.ProjectId;

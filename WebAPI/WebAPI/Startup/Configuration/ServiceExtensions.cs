@@ -12,10 +12,11 @@ using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Infrastructure.Postgres.Repository;
 using WebAPI.Infrastructure.Redis;
-using WebAPI.Models.Models.Authentication;
 using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Aggregators;
 using WebAPI.Presentation.Mappers;
+using WebAPI.Presentation.Models;
+using WebAPI.Presentation.Models.Action;
 using WebAPI.Presentation.Validators;
 
 namespace WebAPI.Startup.Configuration
@@ -41,7 +42,6 @@ namespace WebAPI.Startup.Configuration
             
             //Mappers
             services.AddTransient<IStoryMapper, StoryMapper>();
-            services.AddTransient<IRefreshTokenMapper, RefreshTokenMapper>();
             services.AddTransient<IEpicMapper, EpicMapper>();
             services.AddTransient<IUserMapper, UserMapper>();
             services.AddTransient<IStoryHistoryMapper, StoryHistoryMapper>();

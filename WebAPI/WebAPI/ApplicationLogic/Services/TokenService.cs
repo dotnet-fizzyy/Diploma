@@ -9,10 +9,12 @@ using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
-using WebAPI.Models.Models.Authentication;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Constants;
+using WebAPI.Presentation.Models;
+using WebAPI.Presentation.Models.Action;
+using WebAPI.Presentation.Models.Result;
 
 namespace WebAPI.ApplicationLogic.Services
 {

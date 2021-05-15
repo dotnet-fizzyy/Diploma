@@ -9,8 +9,9 @@ using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Models.Enums;
-using WebAPI.Models.Models.Authentication;
 using WebAPI.Presentation.Mappers;
+using WebAPI.Presentation.Models;
+using WebAPI.Presentation.Models.Action;
 using Xunit;
 
 namespace WebAPI.UnitTests.Services

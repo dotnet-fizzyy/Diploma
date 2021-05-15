@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Mappers;
-using WebAPI.Models.Models.Authentication;
 using WebAPI.Models.Models.Result;
+using WebAPI.Presentation.Models;
+using WebAPI.Presentation.Models.Action;
 
 namespace WebAPI.Presentation.Mappers
 {
     public class UserMapper : IUserMapper
     {
-        public User MapToEntity(Models.Models.Models.User user)
+        public User MapToEntity(WebAPI.Models.Models.Models.User user)
         {
             if (user == null)
             {
@@ -34,14 +35,14 @@ namespace WebAPI.Presentation.Mappers
             return userEntity;
         }
 
-        public Models.Models.Models.User MapToModel(User user)
+        public WebAPI.Models.Models.Models.User MapToModel(User user)
         {
             if (user == null)
             {
-                return new Models.Models.Models.User();
+                return new WebAPI.Models.Models.Models.User();
             }
             
-            var userModel = new Models.Models.Models.User();
+            var userModel = new WebAPI.Models.Models.Models.User();
             
             MapBaseEntityToModel(userModel, user);
             
@@ -92,7 +93,7 @@ namespace WebAPI.Presentation.Mappers
             return fullUser;
         }
         
-        private static void MapBaseEntityToModel(Models.Models.Models.User userModel, User userEntity)
+        private static void MapBaseEntityToModel(WebAPI.Models.Models.Models.User userModel, User userEntity)
         {
             userModel.UserId = userEntity.Id;
             userModel.UserName = userEntity.UserName;
@@ -102,8 +103,8 @@ namespace WebAPI.Presentation.Mappers
             userModel.Email = userEntity.Email;
             userModel.CreationDate = userEntity.CreationDate;
             userModel.WorkSpaceId = userEntity.WorkSpaceId;
-            userModel.UserRole = Enum.Parse<Models.Enums.UserRole>(userEntity.UserRole.ToString(), true);
-            userModel.UserPosition = Enum.Parse<Models.Enums.UserPosition>(userEntity.UserPosition.ToString(), true);
+            userModel.UserRole = Enum.Parse<WebAPI.Models.Enums.UserRole>(userEntity.UserRole.ToString(), true);
+            userModel.UserPosition = Enum.Parse<WebAPI.Models.Enums.UserPosition>(userEntity.UserPosition.ToString(), true);
         }
 
         

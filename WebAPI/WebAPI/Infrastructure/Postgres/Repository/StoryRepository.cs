@@ -53,8 +53,8 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 
         public async Task ChangeStoryStatus(Story story)
         {
-            _dbContext.Stories.Attach(story);
-
+            _dbContext.Attach(story);
+            
             if (!string.IsNullOrEmpty(story.BlockReason))
             {
                 _dbContext.Entry(story).Property(x => x.BlockReason).IsModified = true;
@@ -68,11 +68,9 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteStorySoftAsync(Guid id)
+        public async Task DeleteStorySoftAsync(Story story)
         {
-            var story = new Story { Id = id, IsDeleted = true };
-
-            _dbContext.Entry(story);
+            _dbContext.Attach(story);
             _dbContext.Entry(story).Property(x => x.IsDeleted).IsModified = true;
 
             await _dbContext.SaveChangesAsync();

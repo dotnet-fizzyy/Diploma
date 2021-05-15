@@ -282,9 +282,11 @@ namespace WebAPI.ApplicationLogic.Services
             return storyModel;
         }
 
-        public async Task RemoveStorySoftAsync(Guid id)
+        public async Task RemoveStorySoftAsync(Story story)
         {
-            await _storyRepository.DeleteStorySoftAsync(id);
+            var storyEntity = _storyMapper.MapToEntity(story);
+            
+            await _storyRepository.DeleteStorySoftAsync(storyEntity);
         }
 
         public async Task RemoveStoryAsync(Guid id)

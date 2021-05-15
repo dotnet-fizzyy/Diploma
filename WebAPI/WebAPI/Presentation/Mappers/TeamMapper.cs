@@ -15,7 +15,7 @@ namespace WebAPI.Presentation.Mappers
             _userMapper = userMapper;
         }
         
-        public Team MapToEntity(Models.Models.Models.Team team)
+        public Team MapToEntity(WebAPI.Models.Models.Models.Team team)
         {
             if (team == null)
             {
@@ -35,14 +35,14 @@ namespace WebAPI.Presentation.Mappers
             return teamEntity;
         }
 
-        public Models.Models.Models.Team MapToModel(Team teamEntity)
+        public WebAPI.Models.Models.Models.Team MapToModel(Team teamEntity)
         {
             if (teamEntity == null)
             {
-                return new Models.Models.Models.Team();
+                return new WebAPI.Models.Models.Models.Team();
             }
 
-            var teamModel = new Models.Models.Models.Team();
+            var teamModel = new WebAPI.Models.Models.Models.Team();
             
             MapBaseEntityToModel(teamModel, teamEntity);
 
@@ -82,7 +82,7 @@ namespace WebAPI.Presentation.Mappers
         }
 
 
-        private static void MapBaseEntityToModel(Models.Models.Models.Team model, Team entity)
+        private static void MapBaseEntityToModel(WebAPI.Models.Models.Models.Team model, Team entity)
         {
             model.TeamId = entity.Id;
             model.ProjectId = entity.ProjectId;

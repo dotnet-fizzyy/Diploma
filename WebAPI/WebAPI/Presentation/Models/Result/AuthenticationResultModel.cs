@@ -1,6 +1,6 @@
 using WebAPI.Models.Models.Models;
 
-namespace WebAPI.Models.Models.Result
+namespace WebAPI.Presentation.Models.Result
 {
     public class AuthenticationResultModel
     {

@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.Validators;
-using WebAPI.Models.Models.Authentication;
+using WebAPI.Presentation.Models;
+using WebAPI.Presentation.Models.Action;
 
 namespace WebAPI.Presentation.Validators
 {

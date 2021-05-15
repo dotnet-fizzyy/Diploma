@@ -1,6 +1,7 @@
 using FluentValidation.TestHelper;
 using WebAPI.Models.Models;
-using WebAPI.Models.Models.Authentication;
+using WebAPI.Presentation.Models;
+using WebAPI.Presentation.Models.Action;
 using WebAPI.Presentation.Validators;
 using Xunit;
 

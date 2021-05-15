@@ -8,9 +8,10 @@ using WebAPI.Core.Configuration;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Models.Enums;
-using WebAPI.Models.Models.Authentication;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Aggregators;
+using WebAPI.Presentation.Models;
+using WebAPI.Presentation.Models.Action;
 using Xunit;
 
 namespace WebAPI.UnitTests.Services

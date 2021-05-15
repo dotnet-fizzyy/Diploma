@@ -6,7 +6,7 @@ namespace WebAPI.Presentation.Mappers
 {
     public class ProjectMapper : IProjectMapper
     {
-        public Project MapToEntity(Models.Models.Models.Project project)
+        public Project MapToEntity(WebAPI.Models.Models.Models.Project project)
         {
             if (project == null)
             {
@@ -28,14 +28,14 @@ namespace WebAPI.Presentation.Mappers
             return projectEntity;
         }
 
-        public Models.Models.Models.Project MapToModel(Project project)
+        public WebAPI.Models.Models.Models.Project MapToModel(Project project)
         {
             if (project == null)
             {
-                return new Models.Models.Models.Project();
+                return new WebAPI.Models.Models.Models.Project();
             }
 
-            var projectModel = new Models.Models.Models.Project();
+            var projectModel = new WebAPI.Models.Models.Models.Project();
             
             MapBaseEntityToModel(projectModel, project);
 
@@ -59,7 +59,7 @@ namespace WebAPI.Presentation.Mappers
         }
 
 
-        private static void MapBaseEntityToModel(Models.Models.Models.Project model, Project entity)
+        private static void MapBaseEntityToModel(WebAPI.Models.Models.Models.Project model, Project entity)
         {
             model.ProjectId = entity.Id;
             model.ProjectDescription = entity.ProjectDescription;

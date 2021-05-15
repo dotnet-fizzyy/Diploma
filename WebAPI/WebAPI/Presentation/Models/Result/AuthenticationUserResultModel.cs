@@ -1,4 +1,6 @@
-namespace WebAPI.Models.Models.Result
+using WebAPI.Models.Models.Result;
+
+namespace WebAPI.Presentation.Models.Result
 {
     public class AuthenticationUserResultModel : AuthenticationResultModel
     {

@@ -17,7 +17,7 @@ namespace WebAPI.Presentation.Mappers
             _storyHistoryMapper = storyHistoryMapper;
         }
         
-        public Story MapToEntity(Models.Models.Models.Story story)
+        public Story MapToEntity(WebAPI.Models.Models.Models.Story story)
         {
             if (story == null)
             {
@@ -47,14 +47,14 @@ namespace WebAPI.Presentation.Mappers
             return storyEntity;
         }
 
-        public Models.Models.Models.Story MapToModel(Story storyEntity)
+        public WebAPI.Models.Models.Models.Story MapToModel(Story storyEntity)
         {
             if (storyEntity == null)
             {
-                return new Models.Models.Models.Story();
+                return new WebAPI.Models.Models.Models.Story();
             }
 
-            var storyModel = new Models.Models.Models.Story();
+            var storyModel = new WebAPI.Models.Models.Models.Story();
             
             MapBaseEntityToModel(storyModel, storyEntity);
 
@@ -98,7 +98,7 @@ namespace WebAPI.Presentation.Mappers
         }
 
 
-        private static void MapBaseEntityToModel(Models.Models.Models.Story model, Story entity)
+        private static void MapBaseEntityToModel(WebAPI.Models.Models.Models.Story model, Story entity)
         {
             model.StoryId = entity.Id;
             model.UserId = entity.UserId;
@@ -112,9 +112,9 @@ namespace WebAPI.Presentation.Mappers
             model.BlockReason = entity.BlockReason;
             model.CreationDate = entity.CreationDate;
             model.RecordVersion = entity.RecordVersion;
-            model.StoryPriority = Enum.Parse<Models.Enums.StoryPriority>(entity.StoryPriority.ToString());
-            model.RequiredPosition = Enum.Parse<Models.Enums.UserPosition>(entity.RequiredPosition.ToString());
-            model.ColumnType = Enum.Parse<Models.Enums.ColumnType>(entity.ColumnType.ToString());
+            model.StoryPriority = Enum.Parse<WebAPI.Models.Enums.StoryPriority>(entity.StoryPriority.ToString());
+            model.RequiredPosition = Enum.Parse<WebAPI.Models.Enums.UserPosition>(entity.RequiredPosition.ToString());
+            model.ColumnType = Enum.Parse<WebAPI.Models.Enums.ColumnType>(entity.ColumnType.ToString());
         }
     }
 }

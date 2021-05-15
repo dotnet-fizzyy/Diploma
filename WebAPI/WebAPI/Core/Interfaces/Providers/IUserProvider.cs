@@ -1,7 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using WebAPI.Models.Models.Authentication;
 using WebAPI.Models.Models.Result;
+using WebAPI.Presentation.Models;
+using WebAPI.Presentation.Models.Action;
 
 namespace WebAPI.Core.Interfaces.Providers
 {

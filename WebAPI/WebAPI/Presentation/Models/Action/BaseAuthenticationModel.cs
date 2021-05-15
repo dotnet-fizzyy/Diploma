@@ -1,4 +1,4 @@
-namespace WebAPI.Models.Models.Authentication
+namespace WebAPI.Presentation.Models.Action
 {
     public abstract class BaseAuthenticationModel
     {

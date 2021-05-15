@@ -14,7 +14,7 @@ namespace WebAPI.Presentation.Mappers
             _storyMapper = storyMapper;
         }
         
-        public Sprint MapToEntity(Models.Models.Models.Sprint sprint)
+        public Sprint MapToEntity(WebAPI.Models.Models.Models.Sprint sprint)
         {
             if (sprint == null)
             {
@@ -35,14 +35,14 @@ namespace WebAPI.Presentation.Mappers
             return sprintEntity;
         }
 
-        public Models.Models.Models.Sprint MapToModel(Sprint sprintEntity)
+        public WebAPI.Models.Models.Models.Sprint MapToModel(Sprint sprintEntity)
         {
             if (sprintEntity == null)
             {
-                return new Models.Models.Models.Sprint();
+                return new WebAPI.Models.Models.Models.Sprint();
             }
 
-            var sprintModel = new Models.Models.Models.Sprint();
+            var sprintModel = new WebAPI.Models.Models.Models.Sprint();
             
             MapBaseEntityToModel(sprintModel, sprintEntity);
             
@@ -64,7 +64,7 @@ namespace WebAPI.Presentation.Mappers
             return sprintFullModel;
         }
 
-        private static void MapBaseEntityToModel(Models.Models.Models.Sprint model, Sprint entity)
+        private static void MapBaseEntityToModel(WebAPI.Models.Models.Models.Sprint model, Sprint entity)
         {
             model.SprintId = entity.Id;
             model.EpicId = entity.EpicId;
