@@ -56,14 +56,18 @@ function handleVerifyUserFailure(state: IUserState): IUserState {
 }
 
 function handleAuthenticationSuccess(state: IUserState, action: UserActions.IAuthenticationSuccess): IUserState {
+    const projectExistence: boolean = !!(action.payload.projects && action.payload.projects.length);
+
     return {
         ...state,
         isAuthenticationSuccessful: true,
         isLoading: false,
         user: action.payload,
+        selectedProject: projectExistence ? action.payload.projects[0].projectId : '',
         selectedTeam:
-            action.payload.projects && action.payload.projects.length ? action.payload.projects[0].projectId : '',
-        selectedProject: action.payload.teams && action.payload.teams.length ? action.payload.teams[0].teamId : '',
+            projectExistence && action.payload.teams && action.payload.teams.length
+                ? action.payload.teams.find((x) => x.projectId === action.payload.projects[0].projectId).teamId
+                : '',
     };
 }
 

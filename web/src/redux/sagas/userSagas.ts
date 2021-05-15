@@ -1,5 +1,7 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { push } from 'connected-react-router';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
 import UserApi from '../../api/userApi';
+import { DefaultRoute } from '../../constants/routeConstants';
 import { AuthenticationResponse, IJsonPatchBody } from '../../types';
 import { IFullUser, IUser } from '../../types/userTypes';
 import { setCredentialsToLocalStorage } from '../../utils';
@@ -29,13 +31,14 @@ import {
     IUpdateAvatarRequest,
     IUpdatePasswordRequest,
     IUpdateProfileSettingsRequest,
+    IVerifyUserRequest,
     UserActions,
 } from '../actions/userActions';
 
 function* authenticateUser(action: IAuthenticationRequest) {
     try {
         const authResponse: AuthenticationResponse = yield call(UserApi.authenticate, action.payload);
-        yield put(authenticationSuccess(authResponse.user));
+        yield all([put(authenticationSuccess(authResponse.user)), put(push(DefaultRoute))]);
 
         setCredentialsToLocalStorage(authResponse.accessToken.value, authResponse.refreshToken.value);
     } catch (error) {
@@ -52,11 +55,11 @@ function* createCustomer(action: IRegistrationRequest) {
     }
 }
 
-export function* verifyUser() {
+export function* verifyUser(action: IVerifyUserRequest) {
     try {
         const user: IFullUser = yield call(UserApi.getUserByToken);
 
-        yield put(verifyUserSuccess(user));
+        yield all([put(verifyUserSuccess(user)), put(push(action.payload))]);
     } catch (error) {
         yield put(verifyUserFailure(error));
     }

@@ -90,6 +90,7 @@ export interface ILogOutUser {
 
 export interface IVerifyUserRequest {
     type: typeof UserActions.VERIFY_USER_REQUEST;
+    payload: string;
 }
 
 export interface IVerifyUserSuccess {
@@ -266,9 +267,10 @@ export function logOutUser(): ILogOutUser {
     };
 }
 
-export function verifyUserRequest(): IVerifyUserRequest {
+export function verifyUserRequest(initRoute: string): IVerifyUserRequest {
     return {
         type: UserActions.VERIFY_USER_REQUEST,
+        payload: initRoute,
     };
 }
 

@@ -1,3 +1,4 @@
+import { RouterState } from 'connected-react-router';
 import { SidebarTypes } from '../../constants';
 import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { SortDirection } from '../../constants/storyConstants';
@@ -19,6 +20,7 @@ export interface IState {
     modal: IModalState;
     epics: IEpicsState;
     workspace: IWorkSpaceState;
+    router: RouterState;
 }
 
 export interface IUserState {
