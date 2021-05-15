@@ -52,7 +52,7 @@ function* createCustomer(action: IRegistrationRequest) {
     }
 }
 
-function* verifyUser() {
+export function* verifyUser() {
     try {
         const user: IFullUser = yield call(UserApi.getUserByToken);
 
