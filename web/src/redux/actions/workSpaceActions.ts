@@ -123,7 +123,7 @@ export function updateWorkSpaceSuccess(workSpace: IWorkSpace): IUpdateWorkSpaceS
     };
 }
 
-export function updateWorkSpaceError(error: Error): IUpdateWorkSpaceFailure {
+export function updateWorkSpaceFailure(error: Error): IUpdateWorkSpaceFailure {
     return {
         type: WorkSpaceActions.UPDATE_WORKSPACE_FAILURE,
         payload: error,

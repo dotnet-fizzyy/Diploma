@@ -8,14 +8,14 @@ import {
     createWorkSpaceSuccess,
     getUserWorkSpacePageFailure,
     getUserWorkSpacePageSuccess,
-    updateWorkSpaceError,
+    updateWorkSpaceFailure,
     updateWorkSpaceSuccess,
     ICreateWorkSpaceRequest,
     IUpdateWorkSpaceSuccess,
     WorkSpaceActions,
 } from '../actions/workSpaceActions';
 
-function* getUserWorkSpacePage() {
+export function* getUserWorkSpacePage() {
     try {
         const workSpace: IWorkSpacePage = yield call(WorkSpaceApi.getUserWorkSpace);
 
@@ -25,23 +25,23 @@ function* getUserWorkSpacePage() {
     }
 }
 
-function* createWorkSpace(action: ICreateWorkSpaceRequest) {
+export function* createWorkSpace(action: ICreateWorkSpaceRequest) {
     try {
         const createdWorkSpace: IWorkSpace = yield call(WorkSpaceApi.createWorkSpace, action.payload);
 
-        yield all([put(createWorkSpaceSuccess(createdWorkSpace)), push(WorkspaceViewerRoute)]);
+        yield all([put(createWorkSpaceSuccess(createdWorkSpace)), put(push(WorkspaceViewerRoute))]);
     } catch (error) {
         yield put(createWorkSpaceFailure(error));
     }
 }
 
-function* updateWorkSpace(action: IUpdateWorkSpaceSuccess) {
+export function* updateWorkSpace(action: IUpdateWorkSpaceSuccess) {
     try {
         const updatedWorkSpace: IWorkSpace = yield call(WorkSpaceApi.updateWorkSpace, action.payload);
 
         yield put(updateWorkSpaceSuccess(updatedWorkSpace));
     } catch (error) {
-        yield put(updateWorkSpaceError(error));
+        yield put(updateWorkSpaceFailure(error));
     }
 }
 

@@ -8,12 +8,13 @@ import {
     verifyUserRequest,
     verifyUserSuccess,
     IVerifyUserRequest,
+    UserActions,
 } from '../../redux/actions/userActions';
 import { verifyUser } from '../../redux/sagas/userSagas';
 import { IFullUser } from '../../types/userTypes';
 
 describe('User sagas tests', () => {
-    it('Should verify user successfully', () => {
+    it(`Should verify user successfully on ${UserActions.VERIFY_USER_REQUEST}`, () => {
         //Arrange
         const user: IFullUser = {
             avatarLink: '',
@@ -37,7 +38,7 @@ describe('User sagas tests', () => {
             .run();
     });
 
-    it('Should throw error on verifying user', () => {
+    it(`Should throw error on verifying user on ${UserActions.VERIFY_USER_REQUEST}`, () => {
         //Arrange
         const error = new Error('test');
 
