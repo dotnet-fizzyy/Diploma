@@ -17,9 +17,12 @@ namespace WebAPI.UnitTests.Aggregators
             const string userName = "TestUserName";
             var firstSprintId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             const string firstSprintName = "FirstSprint";
-            
             var secondSprintId = new Guid("68b9d77a-b7b9-4eb8-8221-2d349e2dffad");
             const string secondSprintName = "SecondSprint";
+            var firstUserId = new Guid("4449d77a-b7b9-4eb8-8221-2d349e2df555");
+            const string firstUserName = "FirstUser";
+            var secondUserId = new Guid("5559d77a-b7b9-4eb8-8221-2d349e2df444");
+            const string secondUserName = "SecondUser";
             
             var story = new Story
             {
@@ -27,7 +30,8 @@ namespace WebAPI.UnitTests.Aggregators
                 Description = "Desc",
                 Notes = "OldNotes",
                 IsReady = true,
-                SprintId = firstSprintId
+                SprintId = firstSprintId,
+                UserId = firstUserId
             };
 
             var updatedStory = new Story
@@ -36,7 +40,8 @@ namespace WebAPI.UnitTests.Aggregators
                 Description = "Desc",
                 Notes = "NewNotes",
                 IsReady = false,
-                SprintId = secondSprintId
+                SprintId = secondSprintId,
+                UserId = secondUserId
             };
 
             var sprints = new List<Sprint>
@@ -52,6 +57,21 @@ namespace WebAPI.UnitTests.Aggregators
                     SprintName = secondSprintName
                 }
             };
+
+            var users = new List<User>
+            {
+                new User
+                {
+                    Id = firstUserId,
+                    UserName = firstUserName
+                },
+                new User
+                {
+                    Id = secondUserId,
+                    UserName = secondUserName
+                },
+            };
+
 
             var expectedResult = new List<StoryHistory>
             {
@@ -79,12 +99,17 @@ namespace WebAPI.UnitTests.Aggregators
                     PreviousValue = firstSprintName,
                     CurrentValue = secondSprintName
                 },
+                new StoryHistory
+                {
+                    FieldName = StoryFields.User,
+                    PreviousValue = firstUserName,
+                    CurrentValue = secondUserName
+                }
             };
-            
             var storyAggregator = new StoryAggregator();
 
             //Act
-            var result = storyAggregator.CreateStoryFromUpdateParts(story, updatedStory, userName, sprints);
+            var result = storyAggregator.CreateStoryFromUpdateParts(story, updatedStory, userName, sprints, users);
 
             //Assert
             Assert.Equal(expectedResult.Count, result.Count);
@@ -109,6 +134,10 @@ namespace WebAPI.UnitTests.Aggregators
             Assert.Equal(expectedResult[3].FieldName, result[3].FieldName);
             Assert.Equal(expectedResult[3].PreviousValue, result[3].PreviousValue);
             Assert.Equal(expectedResult[3].CurrentValue, result[3].CurrentValue);
+            
+            Assert.Equal(expectedResult[4].FieldName, result[4].FieldName);
+            Assert.Equal(expectedResult[4].PreviousValue, result[4].PreviousValue);
+            Assert.Equal(expectedResult[4].CurrentValue, result[4].CurrentValue);
         }
 
         [Fact]
@@ -132,11 +161,11 @@ namespace WebAPI.UnitTests.Aggregators
                 Notes = "NewNotes",
                 IsReady = false
             };
-            
+
             var storyAggregator = new StoryAggregator();
             
             //Act
-            var result = storyAggregator.CreateStoryFromUpdateParts(story, updatedStory, userName, new List<Sprint>());
+            var result = storyAggregator.CreateStoryFromUpdateParts(story, updatedStory, userName, new List<Sprint>(), new List<User>());
             
             //Assert
             Assert.NotNull(result);

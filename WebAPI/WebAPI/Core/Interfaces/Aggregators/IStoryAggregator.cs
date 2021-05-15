@@ -5,6 +5,6 @@ namespace WebAPI.Core.Interfaces.Aggregators
 {
     public interface IStoryAggregator
     {
-        List<StoryHistory> CreateStoryFromUpdateParts(Story storyEntity, Story storyEntityUpdate, string userName, IList<Sprint> sprints);
+        List<StoryHistory> CreateStoryFromUpdateParts(Story storyEntity, Story storyEntityUpdate, string userName, IList<Sprint> sprints, IList<User> users);
     }
 }

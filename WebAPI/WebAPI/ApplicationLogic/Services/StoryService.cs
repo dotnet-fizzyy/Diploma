@@ -22,6 +22,7 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly IStoryRepository _storyRepository;
         private readonly ISprintRepository _sprintRepository;        
         private readonly IStoryHistoryRepository _storyHistoryRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IStoryMapper _storyMapper;
         private readonly IStoryAggregator _storyAggregator;
 
@@ -29,6 +30,7 @@ namespace WebAPI.ApplicationLogic.Services
             IStoryRepository storyRepository, 
             ISprintRepository sprintRepository,
             IStoryHistoryRepository storyHistoryRepository,
+            IUserRepository userRepository,
             IStoryMapper storyMapper, 
             IStoryAggregator storyAggregator
         )
@@ -36,6 +38,7 @@ namespace WebAPI.ApplicationLogic.Services
             _storyRepository = storyRepository;
             _sprintRepository = sprintRepository;
             _storyHistoryRepository = storyHistoryRepository;
+            _userRepository = userRepository;
             _storyMapper = storyMapper;
             _storyAggregator = storyAggregator;
         }
@@ -265,12 +268,26 @@ namespace WebAPI.ApplicationLogic.Services
             var storyUpdateEntity = _storyMapper.MapToEntity(storyUpdate);
 
             List<Core.Entities.Sprint> sprints = null;
+            List<Core.Entities.User> users = null;
             if (storyEntity.SprintId != storyUpdateEntity.SprintId)
             {
                 sprints = await _sprintRepository.SearchForMultipleItemsAsync(x => x.Id == storyEntity.SprintId || x.Id == storyUpdateEntity.SprintId);
+                if (!sprints.Any())
+                {
+                    throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntitiesMessage($"{nameof(storyEntity.SprintId)}s"));
+                }
+            }
+
+            if (storyEntity.UserId != storyUpdateEntity.UserId)
+            {
+                users = await _userRepository.SearchForMultipleItemsAsync(x => x.Id == storyEntity.UserId || x.Id == storyUpdateEntity.UserId);
+                if (!users.Any())
+                {
+                    throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntitiesMessage($"{nameof(storyEntity.UserId)}s"));
+                }
             }
             
-            var storyHistoryUpdates = _storyAggregator.CreateStoryFromUpdateParts(storyEntity, storyUpdateEntity, userName, sprints);
+            var storyHistoryUpdates = _storyAggregator.CreateStoryFromUpdateParts(storyEntity, storyUpdateEntity, userName, sprints, users);
             
             await _storyHistoryRepository.CreateAsync(storyHistoryUpdates);
             var updatedStory = await _storyRepository.UpdateItemAsync(storyUpdateEntity);

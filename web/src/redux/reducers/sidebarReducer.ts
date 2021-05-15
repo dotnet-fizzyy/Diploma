@@ -18,9 +18,9 @@ export default function sidebarReducer(state = initialState, action) {
         case SidebarActions.SIDEBAR_CHANGE_TYPE:
             return handleChangeType(state, action);
         case StoryActions.STORY_UPDATE_CHANGES_FAILURE:
-        case StoryActions.REMOVE_STORY_FAILURE:
-            return handleDisableLoadingStatusOnError(state);
         case StoryActions.STORY_UPDATE_CHANGES_SUCCESS:
+        case StoryActions.REMOVE_STORY_FAILURE:
+            return handleDisableLoadingStatus(state);
         case StoryActions.REMOVE_STORY_SUCCESS:
             return initialState;
         default:
@@ -45,7 +45,7 @@ function handleEnableLoadingStatusOnRequest(state: ISidebarState): ISidebarState
     };
 }
 
-function handleDisableLoadingStatusOnError(state: ISidebarState): ISidebarState {
+function handleDisableLoadingStatus(state: ISidebarState): ISidebarState {
     return {
         ...state,
         isLoading: false,

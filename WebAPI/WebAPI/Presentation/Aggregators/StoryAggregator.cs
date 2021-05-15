@@ -10,7 +10,7 @@ namespace WebAPI.Presentation.Aggregators
 {
     public class StoryAggregator : IStoryAggregator
     {
-        public List<StoryHistory> CreateStoryFromUpdateParts(Story storyEntity, Story storyEntityUpdate, string userName, IList<Sprint> sprints)
+        public List<StoryHistory> CreateStoryFromUpdateParts(Story storyEntity, Story storyEntityUpdate, string userName, IList<Sprint> sprints, IList<User> users)
         {
             var storyHistory = new List<StoryHistory>();
 
@@ -68,7 +68,14 @@ namespace WebAPI.Presentation.Aggregators
             
             if (storyEntity.UserId != storyEntityUpdate.UserId)
             {
-                storyHistory.Add(CreateStoryHistory(storyEntity.Id, userName, StoryFields.User, storyEntity.UserId?.ToString(), storyEntityUpdate.UserId?.ToString()));
+                storyHistory.Add(CreateStoryHistory(
+                    storyEntity.Id, 
+                    userName, 
+                    StoryFields.User, 
+                    users.First(x => x.Id == storyEntity.UserId).UserName, 
+                    users.First(x => x.Id == storyEntityUpdate.UserId).UserName
+                    )
+                );
             }
             
             if (storyEntity.RequiredPosition != storyEntityUpdate.RequiredPosition)

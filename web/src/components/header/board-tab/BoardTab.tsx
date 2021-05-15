@@ -97,6 +97,7 @@ const BoardTab = (props: IBoardTabProps) => {
             <div className={classes.tabContainer}>
                 <EpicDisplay selectedEpicId={selectedEpicId} epics={epics} onChangeEpic={onChangeEpic} />
                 <TeamMembers team={team} userId={userId} onClickCreateUser={onClickCreateUser} />
+                <div className={classes.selectContainer}>switch</div>
                 <div className={classes.selectContainer}>
                     <BoardTabDropdown
                         value={sortType}

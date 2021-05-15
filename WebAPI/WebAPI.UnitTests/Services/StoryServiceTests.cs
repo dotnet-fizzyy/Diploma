@@ -24,10 +24,11 @@ namespace WebAPI.UnitTests.Services
             var storyRepository = A.Fake<IStoryRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();        
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
+            var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
             var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
 
             var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var userId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
@@ -103,10 +104,11 @@ namespace WebAPI.UnitTests.Services
             var storyRepository = A.Fake<IStoryRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();        
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
+            var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
             var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
 
             var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 
@@ -127,10 +129,11 @@ namespace WebAPI.UnitTests.Services
             var storyRepository = A.Fake<IStoryRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();        
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
+            var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
             var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
 
             var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var userId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
@@ -216,10 +219,11 @@ namespace WebAPI.UnitTests.Services
             var storyRepository = A.Fake<IStoryRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();        
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
+            var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
             var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
 
             var sprintId = new Guid("1111238f-0000-0000-7777-ab79b8805555");
             
@@ -244,10 +248,11 @@ namespace WebAPI.UnitTests.Services
             var storyRepository = A.Fake<IStoryRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();        
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
+            var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
             var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
 
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
             
@@ -337,10 +342,11 @@ namespace WebAPI.UnitTests.Services
             var storyRepository = A.Fake<IStoryRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();        
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
+            var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
             var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
 
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
             
@@ -430,10 +436,11 @@ namespace WebAPI.UnitTests.Services
             var storyRepository = A.Fake<IStoryRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();        
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
+            var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
             var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
 
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
 
@@ -457,10 +464,11 @@ namespace WebAPI.UnitTests.Services
             var storyRepository = A.Fake<IStoryRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();        
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
+            var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
             var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
             
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
             
@@ -545,10 +553,11 @@ namespace WebAPI.UnitTests.Services
             var storyRepository = A.Fake<IStoryRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();        
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
+            var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
             var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
             
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
 
@@ -570,10 +579,11 @@ namespace WebAPI.UnitTests.Services
             var storyRepository = A.Fake<IStoryRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();        
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
+            var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
             var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
 
             var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var userId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
@@ -670,10 +680,11 @@ namespace WebAPI.UnitTests.Services
             var storyRepository = A.Fake<IStoryRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();        
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
+            var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
             var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
 
             var storyId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
 
@@ -695,10 +706,11 @@ namespace WebAPI.UnitTests.Services
             var storyRepository = A.Fake<IStoryRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();        
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
+            var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
             var storyAggregator = new StoryAggregator();
             
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
 
             const string userName = "UserName";
             var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
@@ -797,10 +809,11 @@ namespace WebAPI.UnitTests.Services
             var storyRepository = A.Fake<IStoryRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();        
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
+            var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
             var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
 
             var story = new Story
             {
@@ -826,10 +839,11 @@ namespace WebAPI.UnitTests.Services
             var storyRepository = A.Fake<IStoryRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();        
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
+            var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
             var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
             
             var storyId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
 

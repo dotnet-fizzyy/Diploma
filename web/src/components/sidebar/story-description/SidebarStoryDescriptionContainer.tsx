@@ -58,6 +58,7 @@ const SidebarStoryDescriptionContainer = () => {
             isBlocked,
             title: values.title.trim(),
             notes: values.notes.trim(),
+            blockReason: values.blockReason ? values.blockReason.trim() : null,
             description: values.description.trim(),
         };
 
