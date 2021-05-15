@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression, SidebarTypes } from '../../../constants';
-import { sidebarChangeType, sidebarSetLoadingStatus } from '../../../redux/actions/sidebarActions';
+import { sidebarChangeType } from '../../../redux/actions/sidebarActions';
 import { storyUpdateChangesRequest } from '../../../redux/actions/storiesActions';
 import { getSidebarIsLoading } from '../../../redux/selectors/sidebarSelectors';
 import { getSprintsNames } from '../../../redux/selectors/sprintsSelectors';
@@ -61,7 +61,6 @@ const SidebarStoryDescriptionContainer = () => {
             description: values.description.trim(),
         };
 
-        dispatch(sidebarSetLoadingStatus(true));
         dispatch(storyUpdateChangesRequest(updatedStory));
     };
 

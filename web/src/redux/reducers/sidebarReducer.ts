@@ -1,9 +1,4 @@
-import {
-    ISidebarChangeType,
-    ISidebarHandleVisibility,
-    ISidebarSetLoadingStatus,
-    SidebarActions,
-} from '../actions/sidebarActions';
+import { ISidebarChangeType, ISidebarHandleVisibility, SidebarActions } from '../actions/sidebarActions';
 import { StoryActions } from '../actions/storiesActions';
 import { ISidebarState } from '../store/state';
 
@@ -17,13 +12,17 @@ export default function sidebarReducer(state = initialState, action) {
     switch (action.type) {
         case SidebarActions.SIDEBAR_HANDLE_VISIBILITY:
             return handleSidebarVisibility(state, action);
-        case SidebarActions.SIDEBAR_SET_LOADING_STATUS:
-            return handleSetLoadingStatus(state, action);
+        case StoryActions.STORY_UPDATE_CHANGES_REQUEST:
+        case StoryActions.REMOVE_STORY_REQUEST:
+            return handleEnableLoadingStatusOnRequest(state);
         case SidebarActions.SIDEBAR_CHANGE_TYPE:
             return handleChangeType(state, action);
-        case StoryActions.STORY_UPDATE_CHANGES_SUCCESS:
         case StoryActions.STORY_UPDATE_CHANGES_FAILURE:
+        case StoryActions.REMOVE_STORY_FAILURE:
             return handleDisableLoadingStatusOnError(state);
+        case StoryActions.STORY_UPDATE_CHANGES_SUCCESS:
+        case StoryActions.REMOVE_STORY_SUCCESS:
+            return initialState;
         default:
             return state;
     }
@@ -39,10 +38,10 @@ function handleSidebarVisibility(state: ISidebarState, action: ISidebarHandleVis
     };
 }
 
-function handleSetLoadingStatus(state: ISidebarState, action: ISidebarSetLoadingStatus): ISidebarState {
+function handleEnableLoadingStatusOnRequest(state: ISidebarState): ISidebarState {
     return {
         ...state,
-        isLoading: action.payload,
+        isLoading: true,
     };
 }
 

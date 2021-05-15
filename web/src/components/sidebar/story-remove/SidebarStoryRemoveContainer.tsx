@@ -12,7 +12,7 @@ const SidebarStoryRemoveContainer = () => {
     const story: IStory = useSelector(getSelectedStory);
 
     const onClickRemoveStory = (): void => {
-        dispatch(removeStoryRequest(story.storyId));
+        dispatch(removeStoryRequest(story.storyId, story.recordVersion));
     };
 
     const onClickCancelRemove = (): void => {

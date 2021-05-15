@@ -8,13 +8,12 @@ import { IProject } from '../../types/projectTypes';
 import { IFullSprint, ISprint } from '../../types/sprintTypes';
 import { IFullStory, IStory, IStoryColumns } from '../../types/storyTypes';
 import { mapFullSprintToSprint } from '../../utils/epicHelper';
-import { createRequestBodyForColumnMovement, createRequestBodyForReadyStory } from '../../utils/storyHelper';
 import {
-    sidebarHandleVisibility,
-    sidebarSetLoadingStatus,
-    ISidebarHandleVisibility,
-    SidebarActions,
-} from '../actions/sidebarActions';
+    createRequestBodyForColumnMovement,
+    createRequestBodyForReadyStory,
+    createRequestBodyForRemoveStory,
+} from '../../utils/storyHelper';
+import { sidebarHandleVisibility, ISidebarHandleVisibility, SidebarActions } from '../actions/sidebarActions';
 import { addSprints, setSelectedSprint } from '../actions/sprintsActions';
 import {
     addStories,
@@ -224,16 +223,17 @@ function* makeStoryReady(action: IMakeStoryReadyRequest) {
 
 function* removeStoryRequest(action: IRemoveStoryRequest) {
     try {
-        yield put(sidebarSetLoadingStatus(true));
+        const body: IJsonPatchBody[] = createRequestBodyForRemoveStory(
+            action.payload.storyId,
+            action.payload.recordVersion
+        );
 
-        yield call(StoryApi.removeStory, action.payload);
+        yield call(StoryApi.removeStory, body);
 
-        yield put(removeStorySuccess(action.payload));
+        yield put(removeStorySuccess(action.payload.storyId));
     } catch (error) {
         yield put(removeStoryFailure(error));
     }
-
-    yield put(sidebarSetLoadingStatus(false));
 }
 
 export default function* rootStoriesSaga() {

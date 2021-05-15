@@ -279,7 +279,10 @@ export interface IChangeStorySprintFailure {
 
 export interface IRemoveStoryRequest {
     type: typeof StoryActions.REMOVE_STORY_REQUEST;
-    payload: string;
+    payload: {
+        storyId: string;
+        recordVersion: number;
+    };
 }
 
 export interface IRemoveStorySuccess {
@@ -611,10 +614,13 @@ export function changeStorySprintFailure(error: Error): IChangeStorySprintFailur
     };
 }
 
-export function removeStoryRequest(storyId: string): IRemoveStoryRequest {
+export function removeStoryRequest(storyId: string, recordVersion: number): IRemoveStoryRequest {
     return {
         type: StoryActions.REMOVE_STORY_REQUEST,
-        payload: storyId,
+        payload: {
+            storyId,
+            recordVersion,
+        },
     };
 }
 

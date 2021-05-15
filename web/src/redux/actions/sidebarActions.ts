@@ -2,7 +2,6 @@ import { SidebarTypes } from '../../constants';
 
 export const SidebarActions = {
     SIDEBAR_HANDLE_VISIBILITY: 'SIDEBAR_HANDLE_VISIBILITY',
-    SIDEBAR_SET_LOADING_STATUS: 'SIDEBAR_SET_LOADING_STATUS',
     SIDEBAR_CHANGE_TYPE: 'SIDEBAR_CHANGE_TYPE',
 };
 
@@ -15,11 +14,6 @@ export interface ISidebarHandleVisibility {
         type?: SidebarTypes;
         isVisible: boolean;
     };
-}
-
-export interface ISidebarSetLoadingStatus {
-    type: typeof SidebarActions.SIDEBAR_SET_LOADING_STATUS;
-    payload: boolean;
 }
 
 export interface ISidebarChangeType {
@@ -37,13 +31,6 @@ export function sidebarHandleVisibility(type: SidebarTypes | null, isVisible: bo
             type,
             isVisible,
         },
-    };
-}
-
-export function sidebarSetLoadingStatus(value: boolean): ISidebarSetLoadingStatus {
-    return {
-        type: SidebarActions.SIDEBAR_SET_LOADING_STATUS,
-        payload: value,
     };
 }
 

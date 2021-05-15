@@ -70,7 +70,7 @@ export default class StoryApi {
         return mapToStoryModel(response.data);
     }
 
-    public static async removeStory(storyId: string): Promise<void> {
-        await AxiosBaseApi.axiosDelete(`${StoryUrls.removeStory}/${storyId}`);
+    public static async removeStory(body: IJsonPatchBody[]): Promise<void> {
+        await AxiosBaseApi.axiosPatch(StoryUrls.removeStory, body);
     }
 }

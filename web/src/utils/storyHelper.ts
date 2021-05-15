@@ -87,27 +87,22 @@ export function createRequestBodyForReadyState(story: IStory): IJsonPatchBody[] 
     ];
 }
 
-export function createRequestBodyForBlockedState(story: IStory): IJsonPatchBody[] {
+export function createRequestBodyForRemoveStory(storyId: string, recordVersion: number): IJsonPatchBody[] {
     return [
         {
             op: 'add',
             path: '/storyId',
-            value: story.storyId,
+            value: storyId,
         },
         {
             op: 'add',
-            path: '/isBlocked',
-            value: story.isBlocked.toString(),
-        },
-        {
-            op: 'add',
-            path: '/blockReason',
-            value: story.blockReason,
+            path: '/isDeleted',
+            value: 'true',
         },
         {
             op: 'add',
             path: '/recordVersion',
-            value: story.recordVersion.toString(),
+            value: recordVersion.toString(),
         },
     ];
 }
