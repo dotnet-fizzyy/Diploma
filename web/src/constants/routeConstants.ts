@@ -85,6 +85,7 @@ export const ProjectUrls = {
     getProject: ProjectBaseUrl,
     getBoardPage: PageUrls.getBoardPage,
     updateProject: ProjectBaseUrl,
+    removeProject: `${ProjectBaseUrl}/soft/id`,
 };
 
 export const TeamUrls = {

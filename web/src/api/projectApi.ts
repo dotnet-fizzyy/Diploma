@@ -64,6 +64,10 @@ export default class ProjectApi {
         return mapToProjectModel(response.data);
     }
 
+    public static async removeProject(projectId: string): Promise<void> {
+        await AxiosBaseApi.axiosDelete(`${ProjectUrls.removeProject}/${projectId}`);
+    }
+
     private static mapToBoardPageData(data: any): IBoardPage {
         return {
             project: mapToProjectModel(data.project),

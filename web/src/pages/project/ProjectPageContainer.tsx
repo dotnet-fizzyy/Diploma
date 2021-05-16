@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getUserProjectPageRequest } from '../../redux/actions/projectActions';
+import { getProjectPageRequest } from '../../redux/actions/projectActions';
 import { getSelectProject } from '../../redux/selectors/projectSelectors';
 import { IProject } from '../../types/projectTypes';
 import ProjectPage, { IProjectPageProps } from './ProjectPage';
@@ -14,7 +14,7 @@ const ProjectPageContainer = () => {
 
     useEffect(() => {
         if (params && 'projectId' in params) {
-            dispatch(getUserProjectPageRequest((params as any).projectId));
+            dispatch(getProjectPageRequest((params as any).projectId));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

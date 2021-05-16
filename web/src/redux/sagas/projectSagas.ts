@@ -7,16 +7,19 @@ import {
     createProjectSuccess,
     getBoardInfoFailure,
     getProjectFailure,
+    getProjectPageFailure,
+    getProjectPageSuccess,
     getProjectSuccess,
-    getUserProjectPageFailure,
-    getUserProjectPageSuccess,
+    removeProjectFailure,
+    removeProjectSuccess,
     setSelectedProject,
     updateProjectFailure,
     updateProjectSuccess,
     ICreateProjectRequest,
     IGetBoardInfoRequest,
+    IGetProjectPageRequest,
     IGetProjectRequest,
-    IGetUserProjectPageRequest,
+    IRemoveProjectRequest,
     IUpdateProjectRequest,
     ProjectActions,
 } from '../actions/projectActions';
@@ -24,21 +27,21 @@ import { addSprints } from '../actions/sprintActions';
 import { addStories } from '../actions/storyActions';
 import { addTeamSimpleItems, setSelectedTeam } from '../actions/teamActions';
 
-function* getUserProjectPage(action: IGetUserProjectPageRequest) {
+export function* getProjectPage(action: IGetProjectPageRequest) {
     try {
         const projectPage: IProjectPage = yield call(ProjectApi.getProjectPage, action.payload);
 
         yield all([
-            put(getUserProjectPageSuccess(projectPage.project)),
+            put(getProjectPageSuccess(projectPage.project)),
             put(addTeamSimpleItems(projectPage.teams)),
             put(addEpics(projectPage.epics)),
         ]);
     } catch (error) {
-        yield put(getUserProjectPageFailure(error));
+        yield put(getProjectPageFailure(error));
     }
 }
 
-function* getProject(action: IGetProjectRequest) {
+export function* getProject(action: IGetProjectRequest) {
     try {
         const project: IProject = yield call(ProjectApi.getProject, action.payload);
 
@@ -48,7 +51,7 @@ function* getProject(action: IGetProjectRequest) {
     }
 }
 
-function* createProject(action: ICreateProjectRequest) {
+export function* createProject(action: ICreateProjectRequest) {
     try {
         const createdProject: IProject = yield call(ProjectApi.createProject, action.payload);
 
@@ -58,7 +61,7 @@ function* createProject(action: ICreateProjectRequest) {
     }
 }
 
-function* getBoardInfo(action: IGetBoardInfoRequest) {
+export function* getBoardInfo(action: IGetBoardInfoRequest) {
     try {
         const { projectId, teamId } = action.payload;
         const { project, stories, sprints, team, epics }: IBoardPage = yield call(
@@ -89,10 +92,21 @@ export function* updateProject(action: IUpdateProjectRequest) {
     }
 }
 
+export function* removeProject(action: IRemoveProjectRequest) {
+    try {
+        yield call(ProjectApi.removeProject, action.payload);
+
+        yield put(removeProjectSuccess(action.payload));
+    } catch (error) {
+        yield put(removeProjectFailure(error));
+    }
+}
+
 export default function* rootStoriesSaga() {
-    yield takeLatest(ProjectActions.GET_USER_PROJECT_PAGE_REQUEST, getUserProjectPage);
+    yield takeLatest(ProjectActions.GET_PROJECT_PAGE_REQUEST, getProjectPage);
     yield takeLatest(ProjectActions.CREATE_PROJECT_REQUEST, createProject);
     yield takeLatest(ProjectActions.GET_PROJECT_REQUEST, getProject);
     yield takeLatest(ProjectActions.GET_BOARD_INFO_REQUEST, getBoardInfo);
     yield takeLatest(ProjectActions.UPDATE_PROJECT_REQUEST, updateProject);
+    yield takeLatest(ProjectActions.REMOVE_PROJECT_REQUEST, removeProject);
 }

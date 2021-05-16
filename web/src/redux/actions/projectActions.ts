@@ -1,11 +1,10 @@
 import { IProject } from '../../types/projectTypes';
 
 export const ProjectActions = {
-    GET_USER_PROJECT_PAGE_REQUEST: 'GET_USER_PROJECT_PAGE_REQUEST',
-    GET_USER_PROJECT_PAGE_SUCCESS: 'GET_USER_PROJECT_PAGE_SUCCESS',
-    GET_USER_PROJECT_PAGE_FAILURE: 'GET_USER_PROJECT_PAGE_FAILURE',
+    GET_PROJECT_PAGE_REQUEST: 'GET_PROJECT_PAGE_REQUEST',
+    GET_PROJECT_PAGE_SUCCESS: 'GET_PROJECT_PAGE_SUCCESS',
+    GET_PROJECT_PAGE_FAILURE: 'GET_PROJECT_PAGE_FAILURE',
     GET_USER_PROJECTS_REQUEST: 'GET_USER_PROJECTS_REQUEST',
-    GET_USER_PROJECTS_SUCCESS: 'GET_USER_PROJECTS_SUCCESS',
     GET_USER_PROJECTS_FAILURE: 'GET_USER_PROJECTS_FAILURE',
     CREATE_PROJECT_REQUEST: 'CREATE_PROJECT_REQUEST',
     CREATE_PROJECT_SUCCESS: 'CREATE_PROJECT_SUCCESS',
@@ -21,33 +20,31 @@ export const ProjectActions = {
     UPDATE_PROJECT_FAILURE: 'UPDATE_PROJECT_FAILURE',
     GET_BOARD_INFO_REQUEST: 'GET_BOARD_INFO_REQUEST',
     GET_BOARD_INFO_FAILURE: 'GET_BOARD_INFO_FAILURE',
+    REMOVE_PROJECT_REQUEST: 'REMOVE_PROJECT_REQUEST',
+    REMOVE_PROJECT_SUCCESS: 'REMOVE_PROJECT_SUCCESS',
+    REMOVE_PROJECT_FAILURE: 'REMOVE_PROJECT_FAILURE',
 };
 
 /*
 Interfaces
  */
-export interface IGetUserProjectPageRequest {
-    type: typeof ProjectActions.GET_USER_PROJECT_PAGE_REQUEST;
+export interface IGetProjectPageRequest {
+    type: typeof ProjectActions.GET_PROJECT_PAGE_REQUEST;
     payload: string;
 }
 
-export interface IGetUserProjectPageSuccess {
-    type: typeof ProjectActions.GET_USER_PROJECT_PAGE_SUCCESS;
+export interface IGetProjectPageSuccess {
+    type: typeof ProjectActions.GET_PROJECT_PAGE_SUCCESS;
     payload: IProject;
 }
 
-export interface IGetUserProjectPageFailure {
-    type: typeof ProjectActions.GET_USER_PROJECT_PAGE_FAILURE;
+export interface IGetProjectPageFailure {
+    type: typeof ProjectActions.GET_PROJECT_PAGE_FAILURE;
     payload: Error;
 }
 
 export interface IGetUserProjectsRequest {
     type: typeof ProjectActions.GET_USER_PROJECTS_REQUEST;
-}
-
-export interface IGetUserProjectsSuccess {
-    type: typeof ProjectActions.GET_USER_PROJECTS_SUCCESS;
-    payload: IProject[];
 }
 
 export interface IGetUserProjectsFailure {
@@ -128,26 +125,41 @@ export interface IGetBoardInfoFailure {
     payload: Error;
 }
 
+export interface IRemoveProjectRequest {
+    type: typeof ProjectActions.REMOVE_PROJECT_REQUEST;
+    payload: string;
+}
+
+export interface IRemoveProjectSuccess {
+    type: typeof ProjectActions.REMOVE_PROJECT_SUCCESS;
+    payload: string;
+}
+
+export interface IRemoveProjectFailure {
+    type: typeof ProjectActions.REMOVE_PROJECT_FAILURE;
+    payload: Error;
+}
+
 /*
 Actions
  */
-export function getUserProjectPageRequest(projectId: string): IGetUserProjectPageRequest {
+export function getProjectPageRequest(projectId: string): IGetProjectPageRequest {
     return {
-        type: ProjectActions.GET_USER_PROJECT_PAGE_REQUEST,
+        type: ProjectActions.GET_PROJECT_PAGE_REQUEST,
         payload: projectId,
     };
 }
 
-export function getUserProjectPageSuccess(project: IProject): IGetUserProjectPageSuccess {
+export function getProjectPageSuccess(project: IProject): IGetProjectPageSuccess {
     return {
-        type: ProjectActions.GET_USER_PROJECT_PAGE_SUCCESS,
+        type: ProjectActions.GET_PROJECT_PAGE_SUCCESS,
         payload: project,
     };
 }
 
-export function getUserProjectPageFailure(error: Error): IGetUserProjectPageFailure {
+export function getProjectPageFailure(error: Error): IGetProjectPageFailure {
     return {
-        type: ProjectActions.GET_USER_PROJECT_PAGE_FAILURE,
+        type: ProjectActions.GET_PROJECT_PAGE_FAILURE,
         payload: error,
     };
 }
@@ -155,13 +167,6 @@ export function getUserProjectPageFailure(error: Error): IGetUserProjectPageFail
 export function getUserProjectsRequest(): IGetUserProjectsRequest {
     return {
         type: ProjectActions.GET_USER_PROJECTS_REQUEST,
-    };
-}
-
-export function getUserProjectsSuccess(projects: IProject[]): IGetUserProjectsSuccess {
-    return {
-        type: ProjectActions.GET_USER_PROJECTS_SUCCESS,
-        payload: projects,
     };
 }
 
@@ -269,6 +274,27 @@ export function getBoardInfoRequest(projectId: string, teamId: string): IGetBoar
 export function getBoardInfoFailure(error: Error): IGetBoardInfoFailure {
     return {
         type: ProjectActions.GET_BOARD_INFO_FAILURE,
+        payload: error,
+    };
+}
+
+export function removeProjectRequest(projectId: string): IRemoveProjectRequest {
+    return {
+        type: ProjectActions.REMOVE_PROJECT_REQUEST,
+        payload: projectId,
+    };
+}
+
+export function removeProjectSuccess(projectId: string): IRemoveProjectSuccess {
+    return {
+        type: ProjectActions.REMOVE_PROJECT_SUCCESS,
+        payload: projectId,
+    };
+}
+
+export function removeProjectFailure(error: Error): IRemoveProjectFailure {
+    return {
+        type: ProjectActions.REMOVE_PROJECT_FAILURE,
         payload: error,
     };
 }

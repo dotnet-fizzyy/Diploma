@@ -21,7 +21,7 @@ export default function projectsReducer(state = initialState, action) {
             return handleSetProjects(state, action);
         case ProjectActions.SET_SELECTED_PROJECT:
         case ProjectActions.GET_PROJECT_SUCCESS:
-        case ProjectActions.GET_USER_PROJECT_PAGE_SUCCESS:
+        case ProjectActions.GET_PROJECT_PAGE_SUCCESS:
         case ProjectActions.UPDATE_PROJECT_SUCCESS:
             return handleSetCurrentProject(state, action);
         case ProjectActions.SET_CURRENT_PROJECT_BY_ID:
