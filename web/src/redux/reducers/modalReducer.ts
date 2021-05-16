@@ -1,7 +1,7 @@
 import { IOpenModal, ModalActions, ModalActionTypes } from '../actions/modalActions';
 import { ProjectActions } from '../actions/projectActions';
-import { SprintActions } from '../actions/sprintsActions';
-import { StoryActions } from '../actions/storiesActions';
+import { SprintActions } from '../actions/sprintActions';
+import { StoryActions } from '../actions/storyActions';
 import { TeamActions } from '../actions/teamActions';
 import { UserActions } from '../actions/userActions';
 import { WorkSpaceActions } from '../actions/workSpaceActions';

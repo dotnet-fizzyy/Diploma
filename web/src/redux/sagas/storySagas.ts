@@ -14,7 +14,7 @@ import {
     createRequestBodyForRemoveStory,
 } from '../../utils/storyHelper';
 import { sidebarHandleVisibility, ISidebarHandleVisibility, SidebarActions } from '../actions/sidebarActions';
-import { addSprints, setSelectedSprint } from '../actions/sprintsActions';
+import { addSprints, setSelectedSprint } from '../actions/sprintActions';
 import {
     addStories,
     attemptToBlockStory,
@@ -54,17 +54,17 @@ import {
     IUpdateStoryChangesRequest,
     IUpdateStoryColumnRequest,
     StoryActions,
-} from '../actions/storiesActions';
-import { getSelectedEpicId } from '../selectors/epicsSelectors';
+} from '../actions/storyActions';
+import { getSelectedEpicId } from '../selectors/epicSelectors';
 import { getSelectProject } from '../selectors/projectSelectors';
-import { getSelectedSprintId } from '../selectors/sprintsSelectors';
+import { getSelectedSprintId } from '../selectors/sprintSelectors';
 import {
     getColumns,
     getSelectedStory,
     getSortDirection,
     getSortType,
     getWasStoryBlocked,
-} from '../selectors/storiesSelectors';
+} from '../selectors/storySelectors';
 
 function* refreshData() {
     try {

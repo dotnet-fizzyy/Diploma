@@ -4,10 +4,10 @@ import { IEpic } from '../../types/epicTypes';
 import { IFullSprint, ISprint } from '../../types/sprintTypes';
 import { IStory } from '../../types/storyTypes';
 import { findCurrentEpic, mapFullSprintToSprint } from '../../utils/epicHelper';
-import * as sprintsActions from '../actions/sprintsActions';
-import * as sprintActions from '../actions/sprintsActions';
-import * as storyActions from '../actions/storiesActions';
-import * as epicsSelectors from '../selectors/epicsSelectors';
+import * as sprintsActions from '../actions/sprintActions';
+import * as sprintActions from '../actions/sprintActions';
+import * as storyActions from '../actions/storyActions';
+import * as epicsSelectors from '../selectors/epicSelectors';
 
 function* getSprints(action: sprintActions.IGetSprintsFromEpicRequest) {
     try {

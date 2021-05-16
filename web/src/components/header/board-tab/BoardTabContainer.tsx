@@ -8,10 +8,10 @@ import {
     changeSortDirectionRequest,
     changeStorySprintRequest,
     sortStoriesRequest,
-} from '../../../redux/actions/storiesActions';
-import { getEpicsNames, getSelectedEpicId } from '../../../redux/selectors/epicsSelectors';
-import { getSelectedSprintId, getSprintNamesForBoard } from '../../../redux/selectors/sprintsSelectors';
-import { getSortDirection, getSortType } from '../../../redux/selectors/storiesSelectors';
+} from '../../../redux/actions/storyActions';
+import { getEpicsNames, getSelectedEpicId } from '../../../redux/selectors/epicSelectors';
+import { getSelectedSprintId, getSprintNamesForBoard } from '../../../redux/selectors/sprintSelectors';
+import { getSortDirection, getSortType } from '../../../redux/selectors/storySelectors';
 import { getSelectedTeam } from '../../../redux/selectors/teamSelectors';
 import { getUser } from '../../../redux/selectors/userSelectors';
 import { ISelectedItem } from '../../../types/storyTypes';

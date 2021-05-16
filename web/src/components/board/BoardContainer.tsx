@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { getBoardInfoRequest } from '../../redux/actions/projectActions';
 import { sidebarHandleVisibility } from '../../redux/actions/sidebarActions';
-import { storyActionDragStart, storyDragAndDropHandle } from '../../redux/actions/storiesActions';
+import { storyActionDragStart, storyDragAndDropHandle } from '../../redux/actions/storyActions';
 import { getSidebarVisibility } from '../../redux/selectors/sidebarSelectors';
 import { IStoryDragAndDrop } from '../../types/storyTypes';
 import { validateGuid } from '../../utils';

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getStoryHistoryRequest } from '../../redux/actions/storiesActions';
-import { getStoryHistory } from '../../redux/selectors/storiesSelectors';
+import { getStoryHistoryRequest } from '../../redux/actions/storyActions';
+import { getStoryHistory } from '../../redux/selectors/storySelectors';
 import { IStoryHistory } from '../../types/storyTypes';
 import StoryHistoryPage, { IStoryHistoryPageProps } from './StoryHistoryPage';
 

@@ -4,12 +4,12 @@ import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
-import epicReducer from '../reducers/epicsReducer';
+import epicReducer from '../reducers/epicReducer';
 import modalReducer from '../reducers/modalReducer';
 import projectsReducer from '../reducers/projectReducer';
 import sidebarReducer from '../reducers/sidebarReducer';
-import sprintsReducer from '../reducers/sprintsReducer';
-import storiesReducer from '../reducers/storiesReducer';
+import sprintReducer from '../reducers/sprintReducer';
+import storyReducer from '../reducers/storyReducer';
 import teamsReducer from '../reducers/teamReducer';
 import userReducer from '../reducers/userReducer';
 import workSpaceReducer from '../reducers/workSpaceReducer';
@@ -22,8 +22,8 @@ const reducers = {
     project: projectsReducer,
     teams: teamsReducer,
     epics: epicReducer,
-    sprints: sprintsReducer,
-    stories: storiesReducer,
+    sprints: sprintReducer,
+    stories: storyReducer,
     sidebar: sidebarReducer,
     modal: modalReducer,
     workspace: workSpaceReducer,

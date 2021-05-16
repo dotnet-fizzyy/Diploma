@@ -1,4 +1,4 @@
-import { IAddSprints, ICreateSprintSuccess, ISetSelectedSprint, SprintActions } from '../actions/sprintsActions';
+import { IAddSprints, ICreateSprintSuccess, ISetSelectedSprint, SprintActions } from '../actions/sprintActions';
 import { IChangeStorySprintRequest, StoryActions } from '../actions/storyActions';
 import { ISprintsState } from '../store/state';
 
@@ -7,7 +7,7 @@ const initialState: ISprintsState = {
     selectedSprintId: '',
 };
 
-export default function sprintsReducer(state = initialState, action) {
+export default function sprintReducer(state = initialState, action) {
     switch (action.type) {
         case SprintActions.GET_SPRINTS_FROM_EPIC_SUCCESS:
         case SprintActions.ADD_SPRINTS:

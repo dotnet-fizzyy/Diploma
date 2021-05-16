@@ -20,8 +20,8 @@ import {
     IUpdateProjectRequest,
     ProjectActions,
 } from '../actions/projectActions';
-import { addSprints } from '../actions/sprintsActions';
-import { addStories } from '../actions/storiesActions';
+import { addSprints } from '../actions/sprintActions';
+import { addStories } from '../actions/storyActions';
 import { addTeamSimpleItems, setSelectedTeam } from '../actions/teamActions';
 
 function* getUserProjectPage(action: IGetUserProjectPageRequest) {

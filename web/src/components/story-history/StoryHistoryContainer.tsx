@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import * as storyActions from '../../redux/actions/storiesActions';
-import * as storySelectors from '../../redux/selectors/storiesSelectors';
+import * as storyActions from '../../redux/actions/storyActions';
+import * as storySelectors from '../../redux/selectors/storySelectors';
 import * as teamSelectors from '../../redux/selectors/teamSelectors';
 import StoryHistory, { IStoryHistoryProps } from './StoryHistory';
 

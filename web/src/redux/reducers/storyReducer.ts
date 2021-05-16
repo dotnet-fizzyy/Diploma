@@ -16,7 +16,7 @@ import {
     IUpdateStoriesAfterDragAndDropAction,
     IUpdateStoryColumnSuccess,
     StoryActions,
-} from '../actions/storiesActions';
+} from '../actions/storyActions';
 import { IStoryHistoryState, IStoryState } from '../store/state';
 
 const initialColumnState: IStoryColumns[] = [
@@ -44,7 +44,7 @@ const initialState: IStoryState = {
     sortDirection: SortDirection.ASC,
 };
 
-export default function storiesReducer(state = initialState, action: any) {
+export default function storyReducer(state = initialState, action: any) {
     switch (action.type) {
         case StoryActions.ADD_STORIES:
         case StoryActions.SORT_STORIES_SUCCESS:

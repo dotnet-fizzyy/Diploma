@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../constants';
-import { createStoryRequest } from '../../../redux/actions/storiesActions';
-import { getSprints } from '../../../redux/selectors/sprintsSelectors';
+import { createStoryRequest } from '../../../redux/actions/storyActions';
+import { getSprints } from '../../../redux/selectors/sprintSelectors';
 import { getTeamUsers } from '../../../redux/selectors/teamSelectors';
 import { IStoryFormTypes } from '../../../types/formTypes';
 import { ISprint } from '../../../types/sprintTypes';

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { sidebarHandleVisibility } from '../../../redux/actions/sidebarActions';
-import { removeStoryRequest } from '../../../redux/actions/storiesActions';
-import { getSelectedStory } from '../../../redux/selectors/storiesSelectors';
+import { removeStoryRequest } from '../../../redux/actions/storyActions';
+import { getSelectedStory } from '../../../redux/selectors/storySelectors';
 import { IStory } from '../../../types/storyTypes';
 import SidebarStoryRemove, { ISidebarStoryRemoveProps } from './SidebarStoryRemove';
 
