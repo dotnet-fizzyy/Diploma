@@ -6,7 +6,7 @@ import {
     ISetSelectedEpic,
     ISetSelectedEpicById,
 } from '../actions/epicActions';
-import { IChangeEpicRequest, StoryActions } from '../actions/storiesActions';
+import { IChangeEpicRequest, StoryActions } from '../actions/storyActions';
 import { IEpicsState } from '../store/state';
 
 const initialState: IEpicsState = {

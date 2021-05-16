@@ -1,5 +1,5 @@
 import { IAddSprints, ICreateSprintSuccess, ISetSelectedSprint, SprintActions } from '../actions/sprintsActions';
-import { IChangeStorySprintRequest, StoryActions } from '../actions/storiesActions';
+import { IChangeStorySprintRequest, StoryActions } from '../actions/storyActions';
 import { ISprintsState } from '../store/state';
 
 const initialState: ISprintsState = {
