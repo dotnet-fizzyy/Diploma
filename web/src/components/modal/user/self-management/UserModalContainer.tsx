@@ -9,7 +9,7 @@ import {
 import { getUser } from '../../../../redux/selectors/userSelectors';
 import { IProfilePasswordUpdateForm, IProfileSettingsForm } from '../../../../types/formTypes';
 import { IFullUser, IUser } from '../../../../types/userTypes';
-import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formHelper';
+import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formUtils';
 import UserModal, { IUserModalProps } from './UserModal';
 
 const UserModalContainer = () => {

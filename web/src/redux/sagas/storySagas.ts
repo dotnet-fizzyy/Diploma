@@ -3,16 +3,16 @@ import SprintApi from '../../api/sprintApi';
 import StoryApi from '../../api/storyApi';
 import { SidebarTypes } from '../../constants';
 import { debouncePeriod, SortFieldsNames } from '../../constants/storyConstants';
+import { mapFullSprintToSprint } from '../../mappers/sprintMappers';
 import { IJsonPatchBody } from '../../types';
 import { IProject } from '../../types/projectTypes';
 import { IFullSprint, ISprint } from '../../types/sprintTypes';
 import { IFullStory, IStory, IStoryColumns } from '../../types/storyTypes';
-import { mapFullSprintToSprint } from '../../utils/epicHelper';
 import {
     createRequestBodyForColumnMovement,
     createRequestBodyForReadyStory,
     createRequestBodyForRemoveStory,
-} from '../../utils/storyHelper';
+} from '../../utils/storyUtils';
 import { sidebarHandleVisibility, ISidebarHandleVisibility, SidebarActions } from '../actions/sidebarActions';
 import { addSprints, setSelectedSprint } from '../actions/sprintActions';
 import {

@@ -6,7 +6,7 @@ import { UserPosition } from '../../../constants/userConstants';
 import { IStoryFormTypes } from '../../../types/formTypes';
 import { ISelectedItem } from '../../../types/storyTypes';
 import { IUser } from '../../../types/userTypes';
-import { createAvailableUsersDropdownItems } from '../../../utils/userHelper';
+import { createAvailableUsersDropdownItems } from '../../../utils/userUtils';
 import Button from '../../common/Button';
 import FormDropdown from '../../common/FormDropdown';
 import FormTextArea from '../../common/FormTextArea';

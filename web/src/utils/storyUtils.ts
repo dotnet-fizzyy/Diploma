@@ -43,10 +43,6 @@ export function createSortFields(): ISelectedItem[] {
     });
 }
 
-export function getShortIdNameForStory(storyId: string): string {
-    return 'US' + storyId.split('-')[0].toUpperCase();
-}
-
 export function createRequestBodyForColumnMovement(story: IStory): IJsonPatchBody[] {
     return [
         {

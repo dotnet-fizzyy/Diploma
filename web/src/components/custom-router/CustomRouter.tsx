@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import * as routeConstants from '../../constants/routeConstants';
 import StartScreenContainer from '../../pages/authentication/StartScreenContainer';
 import { IUser } from '../../types/userTypes';
-import { UserRouteGuard } from '../../utils/routeHelper';
+import { UserRouteGuard } from '../../utils/routeUtils';
 import { ApplicationRouting } from './ApplicationRouting';
 import LoadingScreen from './LoadingScreen';
 import RouteGuard from './RouteGuard';

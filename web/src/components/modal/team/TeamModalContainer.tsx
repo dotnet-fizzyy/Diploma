@@ -10,7 +10,7 @@ import { getSelectProjectId } from '../../../redux/selectors/projectSelectors';
 import { getSelectedTeam } from '../../../redux/selectors/teamSelectors';
 import { ISelectedItem } from '../../../types/storyTypes';
 import { ITeam } from '../../../types/teamTypes';
-import { InputFormFieldValidator } from '../../../utils/formHelper';
+import { InputFormFieldValidator } from '../../../utils/formUtils';
 import TeamModal, { ITeamModalProps } from './TeamModal';
 
 const TeamModalContainer = () => {

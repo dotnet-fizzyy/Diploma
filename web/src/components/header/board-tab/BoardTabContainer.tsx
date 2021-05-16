@@ -17,7 +17,7 @@ import { getUser } from '../../../redux/selectors/userSelectors';
 import { ISelectedItem } from '../../../types/storyTypes';
 import { ITeam } from '../../../types/teamTypes';
 import { IUser } from '../../../types/userTypes';
-import { createSortFields } from '../../../utils/storyHelper';
+import { createSortFields } from '../../../utils/storyUtils';
 import BoardTab, { IBoardTabProps } from './BoardTab';
 
 const BoardTabContainer = () => {

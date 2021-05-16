@@ -5,7 +5,7 @@ import { createSprintRequest } from '../../../redux/actions/sprintActions';
 import { getSelectedEpicId } from '../../../redux/selectors/epicSelectors';
 import { getModalOption } from '../../../redux/selectors/modalSelectors';
 import { ISprint } from '../../../types/sprintTypes';
-import { InputFormFieldValidator } from '../../../utils/formHelper';
+import { InputFormFieldValidator } from '../../../utils/formUtils';
 import SprintModal, { ISprintCreationProps } from './SprintModal';
 
 const SprintModalContainer = () => {

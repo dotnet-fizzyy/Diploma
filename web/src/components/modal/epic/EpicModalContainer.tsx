@@ -9,7 +9,7 @@ import { getSelectProject } from '../../../redux/selectors/projectSelectors';
 import { IEpic } from '../../../types/epicTypes';
 import { IEpicFormTypes } from '../../../types/formTypes';
 import { IProject } from '../../../types/projectTypes';
-import { InputFormFieldValidator } from '../../../utils/formHelper';
+import { InputFormFieldValidator } from '../../../utils/formUtils';
 import EpicModal, { IEpicCreationProps } from './EpicModal';
 
 const EpicModalContainer = () => {

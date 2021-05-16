@@ -10,9 +10,9 @@ import { getTeamUsers } from '../../../redux/selectors/teamSelectors';
 import { IStoryFormTypes } from '../../../types/formTypes';
 import { ISelectedItem, IStory } from '../../../types/storyTypes';
 import { IUser } from '../../../types/userTypes';
-import { InputFormFieldValidator } from '../../../utils/formHelper';
-import { createStoryEstimationDropdownItems, createStoryPriorityDropdownItems } from '../../../utils/storyHelper';
-import { createUserPositionDropdownItems } from '../../../utils/userHelper';
+import { InputFormFieldValidator } from '../../../utils/formUtils';
+import { createStoryEstimationDropdownItems, createStoryPriorityDropdownItems } from '../../../utils/storyUtils';
+import { createUserPositionDropdownItems } from '../../../utils/userUtils';
 import SidebarStoryDescription, { ISidebarStoryDescription } from './SidebarStoryDescription';
 
 const SidebarStoryDescriptionContainer = () => {

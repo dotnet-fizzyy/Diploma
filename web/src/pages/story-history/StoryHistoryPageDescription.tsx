@@ -9,7 +9,7 @@ import {
     getStoryHistoryActionText,
     getStoryHistoryActionTextForBooleanValues,
     getStoryHistoryUpdateAction,
-} from '../../utils/storyHistoryHelper';
+} from '../../utils/storyHistoryUtils';
 import StoryHistoryCharts from './StoryHistoryCharts';
 
 const useStyles = makeStyles(() =>

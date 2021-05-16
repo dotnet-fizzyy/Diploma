@@ -8,14 +8,14 @@ import { IStoryFormTypes } from '../../../types/formTypes';
 import { ISprint } from '../../../types/sprintTypes';
 import { ISelectedItem, IStory } from '../../../types/storyTypes';
 import { IUser } from '../../../types/userTypes';
-import { InputFormFieldValidator } from '../../../utils/formHelper';
+import { InputFormFieldValidator } from '../../../utils/formUtils';
 import {
     createStoryEstimationDropdownItems,
     createStoryPriorityDropdownItems,
     getInitialValuesWithLatestSprintIdForStory,
     getSprintNames,
-} from '../../../utils/storyHelper';
-import { createUserPositionDropdownItems } from '../../../utils/userHelper';
+} from '../../../utils/storyUtils';
+import { createUserPositionDropdownItems } from '../../../utils/userUtils';
 import StoryModal, { IStoryCreationProps } from './StoryModal';
 
 const StoryModalContainer = () => {

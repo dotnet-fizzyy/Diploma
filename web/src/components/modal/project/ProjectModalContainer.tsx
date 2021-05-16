@@ -9,7 +9,7 @@ import { getSelectProject } from '../../../redux/selectors/projectSelectors';
 import { getWorkSpaceId } from '../../../redux/selectors/workSpaceSelectors';
 import { IProjectForm } from '../../../types/formTypes';
 import { IProject } from '../../../types/projectTypes';
-import { InputFormFieldValidator } from '../../../utils/formHelper';
+import { InputFormFieldValidator } from '../../../utils/formUtils';
 import ProjectModal, { IProjectCreationProps } from './ProjectModal';
 
 const ProjectModalContainer = () => {

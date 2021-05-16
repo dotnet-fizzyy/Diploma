@@ -8,8 +8,8 @@ import { getModalOption } from '../../../../redux/selectors/modalSelectors';
 import { getSelectedTeamId } from '../../../../redux/selectors/teamSelectors';
 import { getWorkSpaceId } from '../../../../redux/selectors/workSpaceSelectors';
 import { IUser } from '../../../../types/userTypes';
-import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formHelper';
-import { createUserPositionDropdownItems, createUserRoleDropdownItems } from '../../../../utils/userHelper';
+import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formUtils';
+import { createUserPositionDropdownItems, createUserRoleDropdownItems } from '../../../../utils/userUtils';
 import UserModal, { IUserCreationProps } from './UserModal';
 
 const UserModalContainer = () => {

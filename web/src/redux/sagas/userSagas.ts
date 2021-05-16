@@ -5,7 +5,7 @@ import { DefaultRoute } from '../../constants/routeConstants';
 import { AuthenticationResponse, IJsonPatchBody } from '../../types';
 import { IFullUser, IUser } from '../../types/userTypes';
 import { setCredentialsToLocalStorage } from '../../utils';
-import { createRequestBodyForUserUpdateLink } from '../../utils/userHelper';
+import { createRequestBodyForUserUpdateLink } from '../../utils/userUtils';
 import { closeModal } from '../actions/modalActions';
 import {
     authenticationFailure,

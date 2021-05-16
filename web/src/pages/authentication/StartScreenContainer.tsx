@@ -8,7 +8,7 @@ import * as routeConstants from '../../constants/routeConstants';
 import * as currentUserActions from '../../redux/actions/userActions';
 import * as currentUserSelectors from '../../redux/selectors/userSelectors';
 import { ILoginForm, IRegistrationForm } from '../../types/formTypes';
-import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../utils/formHelper';
+import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../utils/formUtils';
 import StartScreen, { IStartScreenProps } from './StartScreen';
 
 const StartScreenContainer = () => {

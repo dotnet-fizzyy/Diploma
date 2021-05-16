@@ -3,7 +3,6 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import React from 'react';
 import { IStory } from '../../../types/storyTypes';
-import { getShortIdNameForStory } from '../../../utils/storyHelper';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -81,7 +80,7 @@ const SearchField = (props: ISearchFieldProps) => {
                                 <b>{x.title}</b>
                             </span>
                             <span className={classes.sprintName}>
-                                {getShortIdNameForStory(x.sprintId)} | {x.estimate} point
+                                {x.sprintId} | {x.estimate} point
                                 {x.estimate === 1 ? '' : 's'}
                             </span>
                         </div>
