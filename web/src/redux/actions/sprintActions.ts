@@ -9,12 +9,17 @@ export const SprintActions = {
     CREATE_SPRINT_FAILURE: 'CREATE_SPRINT_FAILURE',
     ADD_SPRINTS: 'ADD_SPRINTS',
     SET_SELECTED_SPRINT: 'SET_SELECTED_SPRINT',
-    GET_FULL_SPRINTS_FROM_EPIC_REQUEST: 'GET_FULL_SPRINTS_FROM_EPIC_REQUEST',
-    GET_FULL_SPRINTS_FROM_EPIC_SUCCESS: 'GET_FULL_SPRINTS_FROM_EPIC_SUCCESS',
-    GET_FULL_SPRINTS_FROM_EPIC_FAILURE: 'GET_FULL_SPRINTS_FROM_EPIC_FAILURE',
+    UPDATE_SPRINT_REQUEST: 'UPDATE_SPRINT_REQUEST',
+    UPDATE_SPRINT_SUCCESS: 'UPDATE_SPRINT_SUCCESS',
+    UPDATE_SPRINT_FAILURE: 'UPDATE_SPRINT_FAILURE',
+    REMOVE_SPRINT_REQUEST: 'REMOVE_SPRINT_REQUEST',
+    REMOVE_SPRINT_SUCCESS: 'REMOVE_SPRINT_SUCCESS',
+    REMOVE_SPRINT_FAILURE: 'REMOVE_SPRINT_FAILURE',
 };
 
-//interfaces
+/*
+Interfaces
+ */
 export interface IGetSprintsFromEpicRequest {
     type: typeof SprintActions.GET_SPRINTS_FROM_EPIC_REQUEST;
     payload: string;
@@ -55,21 +60,39 @@ export interface ICreateSprintFailure {
     payload: Error;
 }
 
-export interface IGetFullSprintsFromEpicRequest {
-    type: typeof SprintActions.GET_FULL_SPRINTS_FROM_EPIC_REQUEST;
+export interface IUpdateSprintRequest {
+    type: typeof SprintActions.UPDATE_SPRINT_REQUEST;
+    payload: ISprint;
 }
 
-export interface IGetFullSprintsFromEpicSuccess {
-    type: typeof SprintActions.GET_FULL_SPRINTS_FROM_EPIC_SUCCESS;
-    payload: ISprint[];
+export interface IUpdateSprintSuccess {
+    type: typeof SprintActions.UPDATE_SPRINT_SUCCESS;
+    payload: ISprint;
 }
 
-export interface IGetFullSprintsFromEpicFailure {
-    type: typeof SprintActions.GET_FULL_SPRINTS_FROM_EPIC_FAILURE;
+export interface IUpdateSprintFailure {
+    type: typeof SprintActions.UPDATE_SPRINT_FAILURE;
     payload: Error;
 }
 
-//actions
+export interface IRemoveSprintRequest {
+    type: typeof SprintActions.REMOVE_SPRINT_REQUEST;
+    payload: string;
+}
+
+export interface IRemoveSprintSuccess {
+    type: typeof SprintActions.REMOVE_SPRINT_SUCCESS;
+    payload: string;
+}
+
+export interface IRemoveSprintFailure {
+    type: typeof SprintActions.REMOVE_SPRINT_FAILURE;
+    payload: Error;
+}
+
+/*
+Actions
+ */
 export function getSprintsFromEpicRequest(epicId: string): IGetSprintsFromEpicRequest {
     return {
         type: SprintActions.GET_SPRINTS_FROM_EPIC_REQUEST,
@@ -126,22 +149,44 @@ export function createSprintFailure(error: Error): ICreateSprintFailure {
     };
 }
 
-export function getFullSprintsFromEpicRequest(): IGetFullSprintsFromEpicRequest {
+export function updateSprintRequest(sprint: ISprint): IUpdateSprintRequest {
     return {
-        type: SprintActions.GET_FULL_SPRINTS_FROM_EPIC_REQUEST,
+        type: SprintActions.UPDATE_SPRINT_REQUEST,
+        payload: sprint,
     };
 }
 
-export function getFullSprintsFromEpicSuccess(sprints: ISprint[]): IGetFullSprintsFromEpicSuccess {
+export function updateSprintSuccess(sprint: ISprint): IUpdateSprintSuccess {
     return {
-        type: SprintActions.GET_FULL_SPRINTS_FROM_EPIC_SUCCESS,
-        payload: sprints,
+        type: SprintActions.UPDATE_SPRINT_SUCCESS,
+        payload: sprint,
     };
 }
 
-export function getFullSprintsFromEpicFailure(error: Error): IGetFullSprintsFromEpicFailure {
+export function updateSprintFailure(error: Error): IUpdateSprintFailure {
     return {
-        type: SprintActions.GET_FULL_SPRINTS_FROM_EPIC_FAILURE,
+        type: SprintActions.UPDATE_SPRINT_FAILURE,
+        payload: error,
+    };
+}
+
+export function removeSprintRequest(sprintId: string): IRemoveSprintRequest {
+    return {
+        type: SprintActions.REMOVE_SPRINT_REQUEST,
+        payload: sprintId,
+    };
+}
+
+export function removeSprintSuccess(sprintId: string): IRemoveSprintSuccess {
+    return {
+        type: SprintActions.REMOVE_SPRINT_SUCCESS,
+        payload: sprintId,
+    };
+}
+
+export function removeSprintFailure(error: Error): IRemoveSprintFailure {
+    return {
+        type: SprintActions.REMOVE_SPRINT_FAILURE,
         payload: error,
     };
 }

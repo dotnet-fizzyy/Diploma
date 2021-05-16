@@ -55,7 +55,9 @@ export const UserUrls = {
 
 export const SprintUrls = {
     createSprint: SprintBaseUrl,
+    updateSprint: SprintBaseUrl,
     getEpicSprints: `${SprintBaseUrl}/epic/id`,
+    removeSprint: `${SprintBaseUrl}/id`,
 };
 
 export const EpicUrls = {

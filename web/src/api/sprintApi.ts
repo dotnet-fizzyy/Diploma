@@ -26,4 +26,23 @@ export default class SprintApi {
 
         return mapToSprintModel(response.data);
     }
+
+    public static async updateSprint(sprint: ISprint): Promise<ISprint> {
+        const mappedSprint = {
+            sprintId: sprint.sprintId,
+            sprintName: sprint.sprintName,
+            endDate: new Date(sprint.endDate),
+            startDate: new Date(sprint.startDate),
+            epicId: sprint.epicId,
+            creationDate: new Date(sprint.creationDate),
+        };
+
+        const response: AxiosResponse<ISprint> = await AxiosBaseApi.axiosPut(SprintUrls.updateSprint, mappedSprint);
+
+        return mapToSprintModel(response.data);
+    }
+
+    public static async removeSprint(sprintId: string): Promise<void> {
+        await AxiosBaseApi.axiosDelete(`${SprintUrls.createSprint}/${sprintId}`);
+    }
 }

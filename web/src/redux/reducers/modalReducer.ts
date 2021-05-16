@@ -24,6 +24,7 @@ export default function modalReducer(state = initialState, action: ModalActionTy
         case WorkSpaceActions.CREATE_WORKSPACE_SUCCESS:
         case WorkSpaceActions.UPDATE_WORKSPACE_SUCCESS:
         case SprintActions.CREATE_SPRINT_SUCCESS:
+        case SprintActions.UPDATE_SPRINT_SUCCESS:
         case StoryActions.CREATE_STORY_SUCCESS:
         case ProjectActions.UPDATE_PROJECT_SUCCESS:
         case TeamActions.CREATE_TEAM_SUCCESS:

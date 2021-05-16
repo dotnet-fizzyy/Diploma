@@ -6,6 +6,7 @@ export interface ISprint {
     sprintName: string;
     startDate: Date;
     endDate: Date;
+    creationDate?: Date;
 }
 
 export interface IFullSprint extends ISprint {
