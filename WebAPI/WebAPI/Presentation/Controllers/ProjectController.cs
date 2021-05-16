@@ -33,12 +33,8 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Project>> GetProject(Guid id)
-        {
-            var project = await _projectService.GetProjectAsync(id);
-
-            return project;
-        }
+        public async Task<ActionResult<Project>> GetProject(Guid id) =>
+            await _projectService.GetProjectAsync(id);
 
         /// <summary>
         /// Receive full project description by provided id
@@ -51,12 +47,8 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<FullProjectDescription>> GetProjectFullDescription(Guid id)
-        {
-            var fullProjectDescription = await _projectService.GetFullProjectDescriptionAsync(id);
-
-            return fullProjectDescription;
-        }
+        public async Task<ActionResult<FullProjectDescription>> GetProjectFullDescription(Guid id) =>
+            await _projectService.GetFullProjectDescriptionAsync(id);
 
         /// <summary>
         /// Create project with provided model properties
@@ -66,13 +58,9 @@ namespace WebAPI.Presentation.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<Project>> CreateProject([FromBody, BindRequired]Project project)
-        {
-            var createdProject = await _projectService.CreateProjectAsync(project);
-            
-            return CreatedAtAction(nameof(CreateProject), createdProject);
-        }
-        
+        public async Task<ActionResult<Project>> CreateProject([FromBody, BindRequired]Project project) =>
+            await _projectService.CreateProjectAsync(project);
+
         /// <summary>
         /// Update project with provided model properties
         /// </summary>
@@ -81,13 +69,9 @@ namespace WebAPI.Presentation.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> UpdateProject([FromBody, BindRequired] Project project)
-        {
-            var updatedProject = await _projectService.UpdateProjectAsync(project);
+        public async Task<ActionResult<Project>> UpdateProject([FromBody, BindRequired] Project project) =>
+            await _projectService.UpdateProjectAsync(project);
 
-            return Ok(updatedProject);
-        }
-        
         /// <summary>
         /// Remove project with provided id
         /// </summary>

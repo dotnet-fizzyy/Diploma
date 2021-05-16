@@ -11,10 +11,13 @@ import {
     getUserProjectPageFailure,
     getUserProjectPageSuccess,
     setSelectedProject,
+    updateProjectFailure,
+    updateProjectSuccess,
     ICreateProjectRequest,
     IGetBoardInfoRequest,
     IGetProjectRequest,
     IGetUserProjectPageRequest,
+    IUpdateProjectRequest,
     ProjectActions,
 } from '../actions/projectActions';
 import { addSprints } from '../actions/sprintsActions';
@@ -76,9 +79,20 @@ function* getBoardInfo(action: IGetBoardInfoRequest) {
     }
 }
 
+export function* updateProject(action: IUpdateProjectRequest) {
+    try {
+        const updatedProject: IProject = yield call(ProjectApi.updateProject, action.payload);
+
+        yield put(updateProjectSuccess(updatedProject));
+    } catch (error) {
+        yield put(updateProjectFailure(error));
+    }
+}
+
 export default function* rootStoriesSaga() {
     yield takeLatest(ProjectActions.GET_USER_PROJECT_PAGE_REQUEST, getUserProjectPage);
     yield takeLatest(ProjectActions.CREATE_PROJECT_REQUEST, createProject);
     yield takeLatest(ProjectActions.GET_PROJECT_REQUEST, getProject);
     yield takeLatest(ProjectActions.GET_BOARD_INFO_REQUEST, getBoardInfo);
+    yield takeLatest(ProjectActions.UPDATE_PROJECT_REQUEST, updateProject);
 }

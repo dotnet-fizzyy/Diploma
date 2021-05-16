@@ -10,6 +10,9 @@ export const TeamActions = {
     SET_SELECTED_TEAM: 'SET_SELECTED_TEAM',
     SET_SELECTED_TEAM_BY_ID: 'SET_SELECTED_TEAM_BY_ID',
     ADD_TEAM_SIMPLE_ITEMS: 'ADD_TEAM_SIMPLE_ITEMS',
+    UPDATE_TEAM_REQUEST: 'UPDATE_TEAM_REQUEST',
+    UPDATE_TEAM_SUCCESS: 'UPDATE_TEAM_SUCCESS',
+    UPDATE_TEAM_FAILURE: 'UPDATE_TEAM_FAILURE',
 };
 
 /*
@@ -58,6 +61,21 @@ export interface ISetSelectedTeamById {
 export interface IAddTeamSimpleItems {
     type: typeof TeamActions.ADD_TEAM_SIMPLE_ITEMS;
     payload: ITeamSimpleModel[];
+}
+
+export interface IUpdateTeamRequest {
+    type: typeof TeamActions.UPDATE_TEAM_REQUEST;
+    payload: ITeam;
+}
+
+export interface IUpdateTeamSuccess {
+    type: typeof TeamActions.UPDATE_TEAM_SUCCESS;
+    payload: ITeam;
+}
+
+export interface IUpdateTeamFailure {
+    type: typeof TeamActions.UPDATE_TEAM_FAILURE;
+    payload: Error;
 }
 
 /*
@@ -126,8 +144,23 @@ export function addTeamSimpleItems(items: ITeamSimpleModel[]): IAddTeamSimpleIte
     };
 }
 
-export type TeamActionsType = IGetUserTeamPageSuccess &
-    ISetSelectedTeam &
-    ISetSelectedTeamById &
-    ICreateTeamSuccess &
-    IAddTeamSimpleItems;
+export function updateTeamRequest(team: ITeam): IUpdateTeamRequest {
+    return {
+        type: TeamActions.UPDATE_TEAM_REQUEST,
+        payload: team,
+    };
+}
+
+export function updateTeamSuccess(team: ITeam): IUpdateTeamSuccess {
+    return {
+        type: TeamActions.UPDATE_TEAM_SUCCESS,
+        payload: team,
+    };
+}
+
+export function updateTeamFailure(error: Error): IUpdateTeamFailure {
+    return {
+        type: TeamActions.UPDATE_TEAM_FAILURE,
+        payload: error,
+    };
+}

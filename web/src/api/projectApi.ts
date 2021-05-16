@@ -48,6 +48,22 @@ export default class ProjectApi {
         return mapToProjectModel(response.data);
     }
 
+    public static async updateProject(project: IProject): Promise<IProject> {
+        const mappedProject = {
+            projectId: project.projectId,
+            projectName: project.projectName,
+            projectDescription: project.projectDescription,
+            startDate: new Date(project.startDate),
+            endDate: new Date(project.endDate),
+            workSpaceId: project.workSpaceId,
+            creationDate: new Date(project.creationDate),
+        };
+
+        const response: AxiosResponse<IProject> = await AxiosBaseApi.axiosPut(ProjectUrls.createProject, mappedProject);
+
+        return mapToProjectModel(response.data);
+    }
+
     private static mapToBoardPageData(data: any): IBoardPage {
         return {
             project: mapToProjectModel(data.project),

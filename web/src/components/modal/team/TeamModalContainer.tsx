@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../constants';
 import { ModalOptions } from '../../../constants/modalConstants';
 import { initialTeamState } from '../../../constants/teamConstants';
-import * as teamActions from '../../../redux/actions/teamActions';
+import { createTeamRequest, updateTeamRequest } from '../../../redux/actions/teamActions';
 import { getModalOption } from '../../../redux/selectors/modalSelectors';
-import * as projectSelectors from '../../../redux/selectors/projectSelectors';
+import { getProjectNames } from '../../../redux/selectors/projectSelectors';
 import { getSelectProjectId } from '../../../redux/selectors/projectSelectors';
+import { getSelectedTeam } from '../../../redux/selectors/teamSelectors';
 import { ISelectedItem } from '../../../types/storyTypes';
 import { ITeam } from '../../../types/teamTypes';
 import { InputFormFieldValidator } from '../../../utils/formHelper';
@@ -17,9 +18,11 @@ const TeamModalContainer = () => {
 
     const projectId: string = useSelector(getSelectProjectId);
     const modalOption: ModalOptions = useSelector(getModalOption);
-    const projects: ISelectedItem[] = useSelector(projectSelectors.getProjectNames);
+    const projects: ISelectedItem[] = useSelector(getProjectNames);
+    const team: ITeam = useSelector(getSelectedTeam);
+
     const isUpdate: boolean = modalOption === ModalOptions.TEAM_UPDATE;
-    const initialTeam = isUpdate ? { ...initialTeamState } : initialTeamState;
+    const initialTeam = isUpdate ? { ...team } : initialTeamState;
 
     const validateField = (value: string): string =>
         new InputFormFieldValidator(value, 1, 100, true, BaseRegexExpression).validate();
@@ -27,10 +30,14 @@ const TeamModalContainer = () => {
     const onSubmit = (values: ITeam) => {
         const team: ITeam = {
             ...values,
-            projectId,
+            projectId: isUpdate ? values.projectId : projectId,
         };
 
-        dispatch(teamActions.createTeamRequest(team));
+        if (isUpdate) {
+            dispatch(updateTeamRequest(team));
+        } else {
+            dispatch(createTeamRequest(team));
+        }
     };
 
     const teamCreationProps: ITeamModalProps = {

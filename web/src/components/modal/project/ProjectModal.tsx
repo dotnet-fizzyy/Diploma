@@ -1,8 +1,9 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { initialProjectFormValues, projectFields } from '../../../constants/projectConstants';
+import { projectFields } from '../../../constants/projectConstants';
 import { IProjectForm } from '../../../types/formTypes';
+import { IProject } from '../../../types/projectTypes';
 import Button from '../../common/Button';
 import FormDatePicker from '../../common/FormDatePicker';
 import FormTextArea from '../../common/FormTextArea';
@@ -46,17 +47,19 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IProjectCreationProps {
+    initialValues: IProject;
+    isUpdate: boolean;
     onSubmitProjectHandling: (values: IProjectForm) => void;
     validateProjectName: (value: string) => string;
 }
 
 const ProjectModal = (props: IProjectCreationProps) => {
     const classes = useStyles();
-    const { onSubmitProjectHandling, validateProjectName } = props;
+    const { initialValues, isUpdate, onSubmitProjectHandling, validateProjectName } = props;
 
     return (
         <Formik
-            initialValues={initialProjectFormValues}
+            initialValues={initialValues}
             onSubmit={onSubmitProjectHandling}
             validateOnBlur={false}
             validateOnChange={true}
@@ -67,7 +70,10 @@ const ProjectModal = (props: IProjectCreationProps) => {
                 return (
                     <Form>
                         <div className={classes.root}>
-                            <MainLabel title="Create a project" variant={LabelType.PRIMARY} />
+                            <MainLabel
+                                title={`${isUpdate ? 'Update' : 'Create new'} project`}
+                                variant={LabelType.PRIMARY}
+                            />
                             <ModalCloseButtonContainer />
                             <div className={classes.fieldContainer}>
                                 <Field
@@ -80,7 +86,9 @@ const ProjectModal = (props: IProjectCreationProps) => {
                             <div className={classes.fieldContainer}>
                                 <Field
                                     label="Project Description"
-                                    placeholder="Add full and clean description for your task"
+                                    placeholder={`${
+                                        isUpdate ? 'Update' : 'Add full and clean'
+                                    } description for your project`}
                                     minHeight="113px"
                                     name={projectFields.projectDescription}
                                     component={FormTextArea}
@@ -96,7 +104,7 @@ const ProjectModal = (props: IProjectCreationProps) => {
                                 <Button
                                     disabled={!isAnyFieldTouched || !isValid}
                                     type="submit"
-                                    label="Create Project"
+                                    label={`${isUpdate ? 'Update' : 'Create'} project`}
                                 />
                             </div>
                         </div>

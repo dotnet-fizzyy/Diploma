@@ -52,7 +52,10 @@ const WorkSpaceModal = (props: IWorkSpaceModalProps) => {
                 return (
                     <div className={classes.root}>
                         <Form>
-                            <MainLabel title="Create workspace" variant={LabelType.PRIMARY} />
+                            <MainLabel
+                                title={`${isUpdate ? 'Update' : 'Create'} Workspace`}
+                                variant={LabelType.PRIMARY}
+                            />
                             <ModalCloseButtonContainer />
                             <div className={classes.fieldContainer}>
                                 <Field
@@ -65,7 +68,9 @@ const WorkSpaceModal = (props: IWorkSpaceModalProps) => {
                             <div className={classes.fieldContainer}>
                                 <Field
                                     label="Description"
-                                    placeholder="Add full and clean description for your workspace"
+                                    placeholder={`${
+                                        isUpdate ? 'Update' : 'Add full and clean'
+                                    } description for your workspace`}
                                     minHeight="133px"
                                     name={WorkSpaceFields.workSpaceDescription}
                                     component={FormTextArea}
@@ -73,7 +78,7 @@ const WorkSpaceModal = (props: IWorkSpaceModalProps) => {
                             </div>
                             <div className={classes.buttonContainer}>
                                 <Button
-                                    disabled={!isUpdate && (!isAnyFieldTouched || (isAnyFieldTouched && !isValid))}
+                                    disabled={!isAnyFieldTouched || (isAnyFieldTouched && !isValid)}
                                     type="submit"
                                     label={`${isUpdate ? 'Update' : 'Create'} Workspace`}
                                 />

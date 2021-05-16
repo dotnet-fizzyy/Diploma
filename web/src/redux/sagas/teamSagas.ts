@@ -6,8 +6,11 @@ import {
     createTeamSuccess,
     getUserTeamPageFailure,
     getUserTeamPageSuccess,
+    updateTeamFailure,
+    updateTeamSuccess,
     ICreateTeamRequest,
     IGetUserTeamPageRequest,
+    IUpdateTeamRequest,
     TeamActions,
 } from '../actions/teamActions';
 import { addWorkSpace } from '../actions/workSpaceActions';
@@ -34,7 +37,18 @@ function* createTeam(action: ICreateTeamRequest) {
     }
 }
 
+export function* updateTeam(action: IUpdateTeamRequest) {
+    try {
+        const updatedTeam = yield call(TeamApi.updateTeam, action.payload);
+
+        yield put(updateTeamSuccess(updatedTeam));
+    } catch (error) {
+        yield put(updateTeamFailure(error));
+    }
+}
+
 export default function* rootTeamsSaga() {
     yield takeLatest(TeamActions.GET_USER_TEAM_PAGE_REQUEST, getUserTeamPage);
     yield takeLatest(TeamActions.CREATE_TEAM_REQUEST, createTeam);
+    yield takeLatest(TeamActions.UPDATE_TEAM_REQUEST, updateTeam);
 }

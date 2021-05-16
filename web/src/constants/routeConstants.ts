@@ -80,11 +80,13 @@ export const ProjectUrls = {
     createProject: ProjectBaseUrl,
     getProject: ProjectBaseUrl,
     getBoardPage: PageUrls.getBoardPage,
+    updateProject: ProjectBaseUrl,
 };
 
 export const TeamUrls = {
     getUserTeamPage: PageUrls.getTeamPage,
     createTeam: TeamBaseUrl,
+    updateTeam: TeamBaseUrl,
 };
 
 export const WorkSpaceUrls = {

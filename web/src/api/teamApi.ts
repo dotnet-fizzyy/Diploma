@@ -23,4 +23,18 @@ export default class TeamApi {
 
         return mapToTeamModel(response.data);
     }
+
+    public static async updateTeam(team: ITeam): Promise<ITeam> {
+        const mappedTeam = {
+            teamId: team.teamId,
+            teamName: team.teamName,
+            location: team.location,
+            projectId: team.projectId,
+            creationDate: new Date(team.creationDate),
+        };
+
+        const response: AxiosResponse<ITeam> = await AxiosBaseApi.axiosPut(TeamUrls.updateTeam, mappedTeam);
+
+        return mapToTeamModel(response.data);
+    }
 }

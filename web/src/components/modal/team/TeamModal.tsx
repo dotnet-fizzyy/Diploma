@@ -75,17 +75,9 @@ const TeamModal = (props: ITeamModalProps) => {
                                     validate={validateField}
                                 />
                             </div>
-                            {/*<div className={classes.fieldContainer}>*/}
-                            {/*    <Field*/}
-                            {/*        label="Project"*/}
-                            {/*        name={teamStateFields.projectId}*/}
-                            {/*        items={projects}*/}
-                            {/*        component={FormDropdown}*/}
-                            {/*    />*/}
-                            {/*</div>*/}
                             <div className={classes.buttonContainer}>
                                 <Button
-                                    label="Create team"
+                                    label={`${isUpdate ? 'Update' : 'Create '} team`}
                                     type="submit"
                                     disabled={!isUpdate && (!isAnyFieldTouched || (isAnyFieldTouched && !isValid))}
                                 />
