@@ -1,8 +1,8 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import Button from '../../components/common/Button';
 import PageHeaderTab from '../../components/header/page-header/PageHeaderTab';
 import ProjectList from '../../components/project/ProjectList';
+import ProjectTab from '../../components/project/ProjectTab';
 import { IEpic } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';
 import { ISprint } from '../../types/sprintTypes';
@@ -75,18 +75,16 @@ const ProjectPageDescription = (props: IProjectPageDescriptionProps) => {
 
     return (
         <div className={classes.root}>
+            <ProjectTab
+                onClickUpdateProjectInfo={onClickUpdateProjectInfo}
+                onClickCreateTeamInfo={onClickCreateTeamInfo}
+                onClickViewBoard={onClickViewBoard}
+            />
             <div className={classes.body}>
                 <PageHeaderTab
                     title={project.projectName}
                     descriptionItems={[{ title: 'Description', description: project.projectDescription }]}
                     creationDate={project.creationDate}
-                    options={
-                        <div className={classes.settingsHeaderPart}>
-                            <Button label="Update info" disabled={false} onClick={onClickUpdateProjectInfo} />
-                            <Button label="Add team" disabled={false} onClick={onClickCreateTeamInfo} />
-                            <Button label="View board" disabled={false} onClick={onClickViewBoard} />
-                        </div>
-                    }
                 />
                 <div className={classes.table}>
                     <ProjectList

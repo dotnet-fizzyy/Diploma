@@ -16,16 +16,8 @@ const WorkSpacePageContainer = () => {
     const isLoading: boolean = useSelector(getWorkSpaceIsLoading);
     const workSpaceProjects: IWorkSpacePageProject[] = useSelector(getWorkSpaceProjects);
 
-    const onClickCreateWorkSpace = (): void => {
-        dispatch(openModal(ModalTypes.WORKSPACE));
-    };
-
     const onClickCreateProject = (): void => {
         dispatch(openModal(ModalTypes.PROJECT));
-    };
-
-    const onClickCreateCustomer = (): void => {
-        dispatch(openModal(ModalTypes.USER_CUSTOMER, ModalOptions.CUSTOMER_CREATION));
     };
 
     const onClickUpdateWorkSpaceInfo = (): void => {
@@ -45,10 +37,8 @@ const WorkSpacePageContainer = () => {
         workSpace,
         isLoading,
         workSpaceProjects,
-        onClickCreateWorkSpace,
         onClickUpdateWorkSpaceInfo,
         onClickCreateProject,
-        onClickCreateCustomer,
         onClickViewProject,
     };
 

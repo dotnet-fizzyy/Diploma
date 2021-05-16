@@ -8,19 +8,9 @@ const useStyles = makeStyles(() =>
         root: {
             width: '100%',
             minHeight: '100%',
-            backgroundColor: '#FAFAFA',
-        },
-        mainContainer: {
-            padding: '30px',
             display: 'flex',
             flexDirection: 'column',
-        },
-        body: {
             backgroundColor: '#FAFAFA',
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'center',
-            minHeight: '100%',
         },
     })
 );
@@ -33,13 +23,7 @@ const TeamPage = (props: ITeamPageProps) => {
     const classes = useStyles();
     const { team } = props;
 
-    return (
-        <div className={classes.root}>
-            <div className={classes.mainContainer}>
-                {team && team.teamId && <TeamPageDescriptionContainer team={team} />}
-            </div>
-        </div>
-    );
+    return <div className={classes.root}>{team && team.teamId && <TeamPageDescriptionContainer team={team} />}</div>;
 };
 
 export default TeamPage;

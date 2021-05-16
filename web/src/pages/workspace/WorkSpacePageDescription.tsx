@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import Button from '../../components/common/Button';
 import PageHeaderTab from '../../components/header/page-header/PageHeaderTab';
+import WorkSpaceTab from '../../components/workspace/WorkSpaceTab';
 import WorkSpaceTable from '../../components/workspace/WorkSpaceTable';
 import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
 
@@ -34,7 +34,6 @@ export interface IWorkSpacePageDescriptionProps {
     workSpaceProjects: IWorkSpacePageProject[];
     onClickUpdateWorkSpaceInfo: () => void;
     onClickCreateProject: () => void;
-    onClickCreateCustomer: () => void;
     onClickViewProject: (projectId: string) => void;
 }
 
@@ -46,23 +45,19 @@ const WorkSpacePageDescription = (props: IWorkSpacePageDescriptionProps) => {
         onClickUpdateWorkSpaceInfo,
         onClickViewProject,
         onClickCreateProject,
-        onClickCreateCustomer,
     } = props;
 
     return (
         <div className={classes.root}>
+            <WorkSpaceTab
+                onClickUpdateWorkSpaceInfo={onClickUpdateWorkSpaceInfo}
+                onClickCreateProject={onClickCreateProject}
+            />
             <div className={classes.body}>
                 <PageHeaderTab
                     title={workSpaceName}
                     descriptionItems={[{ title: 'Description', description: workSpaceDescription }]}
                     creationDate={creationDate}
-                    options={
-                        <div className={classes.settingsHeaderPart}>
-                            <Button label="Update info" disabled={false} onClick={onClickUpdateWorkSpaceInfo} />
-                            <Button label="Create project" disabled={false} onClick={onClickCreateProject} />
-                            <Button label="Create customer" disabled={false} onClick={onClickCreateCustomer} />
-                        </div>
-                    }
                 />
                 <div className={classes.table}>
                     <WorkSpaceTable workSpaceProjects={workSpaceProjects} onClickViewProject={onClickViewProject} />

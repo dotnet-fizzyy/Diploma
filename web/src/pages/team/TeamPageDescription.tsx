@@ -4,6 +4,7 @@ import React from 'react';
 import Button from '../../components/common/Button';
 import PageHeaderTab from '../../components/header/page-header/PageHeaderTab';
 import TeamPersonCard from '../../components/team/TeamPersonCard';
+import TeamTab from '../../components/team/TeamTab';
 import { ITeam } from '../../types/teamTypes';
 
 const useStyles = makeStyles(() =>
@@ -20,12 +21,12 @@ const useStyles = makeStyles(() =>
             },
         },
         body: {
-            marginTop: '50px',
+            padding: '30px',
         },
         helperButtonsContainer: {
             display: 'flex',
             flexDirection: 'row',
-            marginBottom: '20px',
+            margin: '20px 0',
         },
         usersContainer: {
             display: 'flex',
@@ -52,17 +53,13 @@ const TeamPageDescription = (props: ITeamPageDescriptionProps) => {
 
     return (
         <div className={classes.root}>
-            <PageHeaderTab
-                title={team.teamName}
-                descriptionItems={[{ title: 'Location', description: team.location }]}
-                creationDate={team.creationDate}
-                options={
-                    <div className={classes.settingsHeaderPart}>
-                        <Button label="Update info" disabled={false} onClick={onClickUpdateTeam} />
-                    </div>
-                }
-            />
+            <TeamTab onClickUpdateTeam={onClickUpdateTeam} />
             <div className={classes.body}>
+                <PageHeaderTab
+                    title={team.teamName}
+                    descriptionItems={[{ title: 'Location', description: team.location }]}
+                    creationDate={team.creationDate}
+                />
                 <div className={classes.helperButtonsContainer}>
                     <div className={classes.addPersonButtonContainer}>
                         <Button

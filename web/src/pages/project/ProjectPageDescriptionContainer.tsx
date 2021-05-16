@@ -7,6 +7,7 @@ import { openModal } from '../../redux/actions/modalActions';
 import { getSprintsFromEpicRequest } from '../../redux/actions/sprintsActions';
 import { getEpics } from '../../redux/selectors/epicsSelectors';
 import { getSprints } from '../../redux/selectors/sprintsSelectors';
+import { getUserSelectedTeamId } from '../../redux/selectors/userSelectors';
 import { IEpic } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';
 import { ISprint } from '../../types/sprintTypes';
@@ -23,6 +24,7 @@ const ProjectPageDescriptionContainer = (props: IProjectPageDescriptionContainer
 
     const sprints: ISprint[] = useSelector(getSprints);
     const epics: IEpic[] = useSelector(getEpics);
+    const teamId: string = useSelector(getUserSelectedTeamId);
 
     const onClickUpdateProjectInfo = (): void => {
         dispatch(openModal(ModalTypes.PROJECT, ModalOptions.PROJECT_UPDATE));
@@ -46,7 +48,7 @@ const ProjectPageDescriptionContainer = (props: IProjectPageDescriptionContainer
     };
 
     const onClickViewBoard = (): void => {
-        history.push(`/board/${project.projectId}`);
+        history.push(`/board?projectId=${project.projectId}&teamId=${teamId}`);
     };
 
     const pageDescriptionProps: IProjectPageDescriptionProps = {

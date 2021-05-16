@@ -18,7 +18,7 @@ const useStyles = makeStyles(() =>
         text: {
             fontSize: '16px',
             fontFamily: 'Poppins',
-            fontWeight: 500,
+            fontWeight: 600,
             color: '#242126',
         },
     })
