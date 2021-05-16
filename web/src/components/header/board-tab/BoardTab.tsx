@@ -1,11 +1,13 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import React from 'react';
+import { SortDirection } from '../../../constants/storyConstants';
 import { ISelectedItem } from '../../../types/storyTypes';
 import { ITeam } from '../../../types/teamTypes';
 import Button from '../../common/Button';
 import BoardTabDropdown from './BoardTabDropdown';
 import EpicDisplay from './EpicDisplay';
+import SortSwitch from './SortSwitch';
 import TeamMembers from './TeamMembers';
 
 const useStyles = makeStyles(() =>
@@ -67,11 +69,13 @@ export interface IBoardTabProps {
     selectedEpicId: string;
     epics: ISelectedItem[];
     sortType: string;
+    sortDirection: SortDirection;
     onChangeEpic: (e) => void;
     onChangeSortType: (e) => void;
     onChangeSprint: (e) => void;
     onClickAddStory: () => void;
     onClickCreateUser: () => void;
+    onChangeSortDirection: (value: SortDirection) => void;
 }
 
 const BoardTab = (props: IBoardTabProps) => {
@@ -85,11 +89,13 @@ const BoardTab = (props: IBoardTabProps) => {
         sprints,
         sortFields,
         sortType,
+        sortDirection,
         onChangeSortType,
         onClickAddStory,
         onChangeEpic,
         onChangeSprint,
         onClickCreateUser,
+        onChangeSortDirection,
     } = props;
 
     return (
@@ -97,7 +103,9 @@ const BoardTab = (props: IBoardTabProps) => {
             <div className={classes.tabContainer}>
                 <EpicDisplay selectedEpicId={selectedEpicId} epics={epics} onChangeEpic={onChangeEpic} />
                 <TeamMembers team={team} userId={userId} onClickCreateUser={onClickCreateUser} />
-                <div className={classes.selectContainer}>switch</div>
+                <div className={classes.selectContainer}>
+                    <SortSwitch value={sortDirection} onChangeSortDirection={onChangeSortDirection} />
+                </div>
                 <div className={classes.selectContainer}>
                     <BoardTabDropdown
                         value={sortType}

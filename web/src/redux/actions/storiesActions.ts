@@ -1,3 +1,4 @@
+import { SortDirection } from '../../constants/storyConstants';
 import { IFullStory, IStory, IStoryColumns, IStoryDragAndDrop } from '../../types/storyTypes';
 
 export const StoryActions = {
@@ -9,7 +10,6 @@ export const StoryActions = {
     GET_STORIES_FROM_EPIC_SUCCESS: 'GET_STORIES_FROM_EPIC_SUCCESS',
     GET_STORIES_FROM_EPIC_FAILURE: 'GET_STORIES_FROM_EPIC_FAILURE',
     REFRESH_STORIES_REQUEST: 'REFRESH_STORIES_REQUEST',
-    REFRESH_STORIES_SUCCESS: 'REFRESH_STORIES_SUCCESS',
     REFRESH_STORIES_FAILURE: 'REFRESH_STORIES_FAILURE',
     CREATE_STORY_REQUEST: 'CREATE_STORY_REQUEST',
     CREATE_STORY_SUCCESS: 'CREATE_STORY_SUCCESS',
@@ -44,6 +44,7 @@ export const StoryActions = {
     SORT_STORIES_SUCCESS: 'SORT_STORIES_SUCCESS',
     SORT_STORIES_FAILURE: 'SORT_STORIES_FAILURE',
     CHANGE_SORT_TYPE: 'CHANGE_SORT_TYPE',
+    CHANGE_SORT_DIRECTION_REQUEST: 'CHANGE_SORT_DIRECTION_REQUEST',
     CHANGE_STORIES_SPRINT_REQUEST: 'CHANGE_STORIES_SPRINT_REQUEST',
     CHANGE_STORIES_SPRINT_SUCCESS: 'CHANGE_STORIES_SPRINT_SUCCESS',
     CHANGE_STORIES_SPRINT_FAILURE: 'CHANGE_STORIES_SPRINT_FAILURE',
@@ -69,11 +70,6 @@ export interface IRefreshStoriesRequest {
     type: typeof StoryActions.REFRESH_STORIES_REQUEST;
 }
 
-export interface IRefreshStoriesSuccess {
-    type: typeof StoryActions.REFRESH_STORIES_SUCCESS;
-    payload: IStory[];
-}
-
 export interface IRefreshStoriesFailure {
     type: typeof StoryActions.REFRESH_STORIES_FAILURE;
     payload: Error;
@@ -97,10 +93,6 @@ export interface ICreateStoryFailure {
 export interface IGetGeneralInfoRequest {
     type: typeof StoryActions.GET_GENERAL_INFO_REQUEST;
     payload: string;
-}
-
-export interface IGetGeneralInfoSuccess {
-    type: typeof StoryActions.GET_GENERAL_INFO_SUCCESS;
 }
 
 export interface IMakeStoryBlocked {
@@ -223,10 +215,6 @@ export interface IChangeEpicRequest {
     payload: string;
 }
 
-export interface IChangeEpicSuccess {
-    type: typeof StoryActions.CHANGE_EPIC_SUCCESS;
-}
-
 export interface IChangeEpicFailure {
     type: typeof StoryActions.CHANGE_EPIC_FAILURE;
     payload: Error;
@@ -252,14 +240,14 @@ export interface IChangeSortType {
     payload: string;
 }
 
+export interface IChangeSortDirectionRequest {
+    type: typeof StoryActions.CHANGE_SORT_DIRECTION_REQUEST;
+    payload: SortDirection;
+}
+
 export interface IGetStoriesFromEpicRequest {
     type: typeof StoryActions.GET_STORIES_FROM_EPIC_REQUEST;
     payload: string;
-}
-
-export interface IGetStoriesFromEpicSuccess {
-    type: typeof StoryActions.GET_STORIES_FROM_EPIC_SUCCESS;
-    payload: IStory[];
 }
 
 export interface IGetStoriesFromEpicFailure {
@@ -318,13 +306,6 @@ export function refreshStoriesRequest(): IRefreshStoriesRequest {
     };
 }
 
-export function refreshStoriesSuccess(stories: IStory[]): IRefreshStoriesSuccess {
-    return {
-        type: StoryActions.REFRESH_STORIES_SUCCESS,
-        payload: stories,
-    };
-}
-
 export function refreshStoriesFailure(error: Error): IRefreshStoriesFailure {
     return {
         type: StoryActions.REFRESH_STORIES_REQUEST,
@@ -357,12 +338,6 @@ export function getGeneralInfoRequest(userId: string): IGetGeneralInfoRequest {
     return {
         type: StoryActions.GET_GENERAL_INFO_REQUEST,
         payload: userId,
-    };
-}
-
-export function getGeneralInfoSuccess(): IGetGeneralInfoSuccess {
-    return {
-        type: StoryActions.GET_GENERAL_INFO_SUCCESS,
     };
 }
 
@@ -538,12 +513,6 @@ export function changeEpicRequest(epicId: string): IChangeEpicRequest {
     };
 }
 
-export function changeEpicSuccess(): IChangeEpicSuccess {
-    return {
-        type: StoryActions.CHANGE_EPIC_SUCCESS,
-    };
-}
-
 export function changeEpicFailure(error: Error): IChangeEpicFailure {
     return {
         type: StoryActions.CHANGE_EPIC_FAILURE,
@@ -579,17 +548,17 @@ export function changeSortType(value: string): IChangeSortType {
     };
 }
 
+export function changeSortDirectionRequest(value: SortDirection): IChangeSortDirectionRequest {
+    return {
+        type: StoryActions.CHANGE_SORT_DIRECTION_REQUEST,
+        payload: value,
+    };
+}
+
 export function getStoriesFromEpicRequest(epicId: string): IGetStoriesFromEpicRequest {
     return {
         type: StoryActions.GET_STORIES_FROM_EPIC_REQUEST,
         payload: epicId,
-    };
-}
-
-export function getStoriesFromEpicSuccess(stories: IStory[]): IGetStoriesFromEpicSuccess {
-    return {
-        type: StoryActions.GET_STORIES_FROM_EPIC_SUCCESS,
-        payload: stories,
     };
 }
 

@@ -1,11 +1,17 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ModalTypes } from '../../../constants/modalConstants';
+import { SortDirection } from '../../../constants/storyConstants';
 import { openModal } from '../../../redux/actions/modalActions';
-import { changeEpicRequest, changeStorySprintRequest, sortStoriesRequest } from '../../../redux/actions/storiesActions';
+import {
+    changeEpicRequest,
+    changeSortDirectionRequest,
+    changeStorySprintRequest,
+    sortStoriesRequest,
+} from '../../../redux/actions/storiesActions';
 import { getEpicsNames, getSelectedEpicId } from '../../../redux/selectors/epicsSelectors';
 import { getSelectedSprintId, getSprintNamesForBoard } from '../../../redux/selectors/sprintsSelectors';
-import { getSortType } from '../../../redux/selectors/storiesSelectors';
+import { getSortDirection, getSortType } from '../../../redux/selectors/storiesSelectors';
 import { getSelectedTeam } from '../../../redux/selectors/teamSelectors';
 import { getUser } from '../../../redux/selectors/userSelectors';
 import { ISelectedItem } from '../../../types/storyTypes';
@@ -23,6 +29,8 @@ const BoardTabContainer = () => {
     const selectedSprintId: string = useSelector(getSelectedSprintId);
     const sprints: ISelectedItem[] = useSelector(getSprintNamesForBoard);
     const sortType: string = useSelector(getSortType);
+    const sortDirection: SortDirection = useSelector(getSortDirection);
+
     const sortFields: ISelectedItem[] = createSortFields();
 
     const onChangeEpic = (e): void => {
@@ -31,6 +39,10 @@ const BoardTabContainer = () => {
 
     const onChangeSortType = (e): void => {
         dispatch(sortStoriesRequest(e.target.value));
+    };
+
+    const onChangeSortDirection = (value: SortDirection): void => {
+        dispatch(changeSortDirectionRequest(value));
     };
 
     const onChangeSprint = (e): void => {
@@ -54,11 +66,13 @@ const BoardTabContainer = () => {
         sprints,
         sortFields,
         sortType,
+        sortDirection,
         onChangeSortType,
         onClickAddStory,
         onChangeEpic,
         onChangeSprint,
         onClickCreateUser,
+        onChangeSortDirection,
     };
 
     return <BoardTab {...infoTabProps} />;

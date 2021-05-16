@@ -197,6 +197,7 @@ function* sortStories() {
         const sprintId: string = yield select(getSelectedSprintId);
         const sortType: string = yield select(getSortType);
         const sortDirection: string = yield select(getSortDirection);
+
         const queryString: string = `epicId=${epicId}&sortType=${sortType}&orderType=${sortDirection}${
             sprintId ? `&sprintId=${sprintId}` : ''
         }`;
@@ -246,7 +247,14 @@ export default function* rootStoriesSaga() {
     yield takeLatest(StoryActions.GET_STORY_HISTORY_REQUEST, getStoryHistory);
     yield takeLatest(StoryActions.STORY_UPDATE_CHANGES_REQUEST, updateStoryChanges);
     yield takeLatest(StoryActions.CHANGE_EPIC_REQUEST, changeEpic);
-    yield takeLatest([StoryActions.SORT_STORIES_REQUEST, StoryActions.CHANGE_STORIES_SPRINT_REQUEST], sortStories);
+    yield takeLatest(
+        [
+            StoryActions.SORT_STORIES_REQUEST,
+            StoryActions.CHANGE_SORT_DIRECTION_REQUEST,
+            StoryActions.CHANGE_STORIES_SPRINT_REQUEST,
+        ],
+        sortStories
+    );
     yield takeLatest(StoryActions.MAKE_STORY_READY_REQUEST, makeStoryReady);
     yield takeLatest(StoryActions.REMOVE_STORY_REQUEST, removeStoryRequest);
     yield debounce(debouncePeriod, StoryActions.SET_STORY_TITLE_TERM_REQUEST, searchForStoriesByTitleTerm);

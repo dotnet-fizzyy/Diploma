@@ -4,12 +4,6 @@ import { UserPosition } from './userConstants';
 
 export const debouncePeriod: number = 1000;
 
-export enum StoryActions {
-    CREATE = 'Create',
-    UPDATE = 'Update',
-    REMOVE = 'Remove',
-}
-
 export const StoryEstimation = {
     ONE_POINT: 1,
     TWO_POINTS: 2,

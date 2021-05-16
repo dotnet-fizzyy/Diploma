@@ -20,6 +20,7 @@ const useStyles = makeStyles(() =>
             backgroundColor: 'white',
             border: '1px solid #AFC1C4',
             borderColor: 'rgba(175, 193, 196, 0.2)',
+            minWidth: '240px',
         },
         body: {
             minHeight: '120px',

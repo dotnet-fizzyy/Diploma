@@ -4,6 +4,7 @@ import { mapFullStoryToStory } from '../../mappers/storyMappers';
 import { IStory, IStoryColumns } from '../../types/storyTypes';
 import {
     IAddStories,
+    IChangeSortDirectionRequest,
     ICreateStorySuccess,
     IDeclineStoryBlock,
     IGetStoryHistorySuccess,
@@ -69,6 +70,7 @@ export default function storiesReducer(state = initialState, action: any) {
         case StoryActions.GET_STORY_HISTORY_SUCCESS:
             return handleGetStoryHistorySuccess(state, action);
         case StoryActions.SORT_STORIES_REQUEST:
+        case StoryActions.CHANGE_SORT_TYPE:
             return handleChangeSortType(state, action);
         case StoryActions.STORY_UPDATE_CHANGES_SUCCESS:
         case StoryActions.STORY_UPDATE_COLUMN_SUCCESS:
@@ -76,6 +78,8 @@ export default function storiesReducer(state = initialState, action: any) {
             return handleUpdateStory(state, action);
         case StoryActions.REMOVE_STORY_SUCCESS:
             return handleRemoveStory(state, action);
+        case StoryActions.CHANGE_SORT_DIRECTION_REQUEST:
+            return handleChangeSortDirection(state, action);
         default:
             return state;
     }
@@ -208,6 +212,13 @@ function handleChangeSortType(state: IStoryState, action: ISortStoriesRequest): 
     return {
         ...state,
         sortType: action.payload,
+    };
+}
+
+function handleChangeSortDirection(state: IStoryState, action: IChangeSortDirectionRequest): IStoryState {
+    return {
+        ...state,
+        sortDirection: action.payload,
     };
 }
 

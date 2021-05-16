@@ -11,7 +11,7 @@ const useStyles = makeStyles(() =>
             textDecoration: 'none',
             fontFamily: 'Poppins, sans-serif',
             color: '#212624',
-            fontSize: '18px',
+            fontSize: '16px',
             fontWeight: 'bold',
             marginLeft: '20px',
             '&:hover': {
