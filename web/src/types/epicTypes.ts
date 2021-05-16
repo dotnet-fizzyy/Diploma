@@ -1,10 +1,11 @@
 export interface IEpic {
-    epicId: string;
+    epicId?: string;
     projectId: string;
     epicName: string;
     startDate: Date;
     endDate: Date;
     epicDescription: string;
+    creationDate?: Date;
 }
 
 export interface IEpicSimpleModel {

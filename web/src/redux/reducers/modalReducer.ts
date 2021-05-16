@@ -1,3 +1,4 @@
+import { EpicActions } from '../actions/epicActions';
 import { IOpenModal, ModalActions, ModalActionTypes } from '../actions/modalActions';
 import { ProjectActions } from '../actions/projectActions';
 import { SprintActions } from '../actions/sprintActions';
@@ -27,6 +28,8 @@ export default function modalReducer(state = initialState, action: ModalActionTy
         case ProjectActions.UPDATE_PROJECT_SUCCESS:
         case TeamActions.CREATE_TEAM_SUCCESS:
         case TeamActions.UPDATE_TEAM_SUCCESS:
+        case EpicActions.CREATE_EPIC_SUCCESS:
+        case EpicActions.UPDATE_EPIC_SUCCESS:
             return handleCloseModal(state);
         default:
             return state;

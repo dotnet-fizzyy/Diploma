@@ -11,6 +11,12 @@ export const EpicActions = {
     SET_SELECTED_EPIC_BY_ID: 'SET_SELECTED_EPIC_BY_ID',
     ADD_EPICS: 'ADD_EPICS',
     ADD_SIMPLE_EPICS: 'ADD_SIMPLE_EPICS',
+    UPDATE_EPIC_REQUEST: 'UPDATE_EPIC_REQUEST',
+    UPDATE_EPIC_SUCCESS: 'UPDATE_EPIC_SUCCESS',
+    UPDATE_EPIC_FAILURE: 'UPDATE_EPIC_FAILURE',
+    REMOVE_EPIC_REQUEST: 'REMOVE_EPIC_REQUEST',
+    REMOVE_EPIC_SUCCESS: 'REMOVE_EPIC_SUCCESS',
+    REMOVE_EPIC_FAILURE: 'REMOVE_EPIC_FAILURE',
 };
 
 /*
@@ -64,6 +70,36 @@ export interface IAddEpics {
 export interface IAddSimpleEpics {
     type: typeof EpicActions.ADD_SIMPLE_EPICS;
     payload: IEpicSimpleModel[];
+}
+
+export interface IUpdateEpicRequest {
+    type: typeof EpicActions.UPDATE_EPIC_REQUEST;
+    payload: IEpic;
+}
+
+export interface IUpdateEpicSuccess {
+    type: typeof EpicActions.UPDATE_EPIC_SUCCESS;
+    payload: IEpic;
+}
+
+export interface IUpdateEpicFailure {
+    type: typeof EpicActions.UPDATE_EPIC_FAILURE;
+    payload: Error;
+}
+
+export interface IRemoveEpicRequest {
+    type: typeof EpicActions.REMOVE_EPIC_REQUEST;
+    payload: string;
+}
+
+export interface IRemoveEpicSuccess {
+    type: typeof EpicActions.REMOVE_EPIC_SUCCESS;
+    payload: string;
+}
+
+export interface IRemoveEpicFailure {
+    type: typeof EpicActions.REMOVE_EPIC_FAILURE;
+    payload: Error;
 }
 
 /*
@@ -136,5 +172,47 @@ export function addSimpleEpics(epics: IEpicSimpleModel[]): IAddSimpleEpics {
     return {
         type: EpicActions.ADD_SIMPLE_EPICS,
         payload: epics,
+    };
+}
+
+export function updateEpicRequest(epic: IEpic): IUpdateEpicRequest {
+    return {
+        type: EpicActions.UPDATE_EPIC_REQUEST,
+        payload: epic,
+    };
+}
+
+export function updateEpicSuccess(epic: IEpic): IUpdateEpicSuccess {
+    return {
+        type: EpicActions.UPDATE_EPIC_SUCCESS,
+        payload: epic,
+    };
+}
+
+export function updateEpicFailure(error: Error): IUpdateEpicFailure {
+    return {
+        type: EpicActions.UPDATE_EPIC_FAILURE,
+        payload: error,
+    };
+}
+
+export function removeEpicRequest(epicId: string): IRemoveEpicRequest {
+    return {
+        type: EpicActions.REMOVE_EPIC_REQUEST,
+        payload: epicId,
+    };
+}
+
+export function removeEpicSuccess(epicId: string): IRemoveEpicSuccess {
+    return {
+        type: EpicActions.REMOVE_EPIC_SUCCESS,
+        payload: epicId,
+    };
+}
+
+export function removeEpicFailure(error: Error): IRemoveEpicFailure {
+    return {
+        type: EpicActions.REMOVE_EPIC_FAILURE,
+        payload: error,
     };
 }

@@ -61,6 +61,8 @@ export const SprintUrls = {
 export const EpicUrls = {
     createEpic: EpicBaseUrl,
     getProjectPage: PageUrls.getProjectPage,
+    updateEpic: EpicBaseUrl,
+    removeEpic: `${EpicBaseUrl}/id`,
 };
 
 export const StoryUrls = {
