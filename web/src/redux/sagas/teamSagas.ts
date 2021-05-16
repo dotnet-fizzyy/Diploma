@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
 import TeamApi from '../../api/teamApi';
 import { ITeam, ITeamPage } from '../../types/teamTypes';
 import {
@@ -15,18 +15,17 @@ import {
 } from '../actions/teamActions';
 import { addWorkSpace } from '../actions/workSpaceActions';
 
-function* getUserTeamPage(action: IGetUserTeamPageRequest) {
+export function* getUserTeamPage(action: IGetUserTeamPageRequest) {
     try {
         const teamPage: ITeamPage = yield call(TeamApi.getUserTeamPage, action.payload);
 
-        yield put(getUserTeamPageSuccess(teamPage.team));
-        yield put(addWorkSpace(teamPage.workSpace));
+        yield all([put(getUserTeamPageSuccess(teamPage.team)), put(addWorkSpace(teamPage.workSpace))]);
     } catch (error) {
         yield put(getUserTeamPageFailure(error));
     }
 }
 
-function* createTeam(action: ICreateTeamRequest) {
+export function* createTeam(action: ICreateTeamRequest) {
     try {
         let createdTeam: ITeam = yield call(TeamApi.createTeam, action.payload);
         createdTeam.users = createdTeam.users || [];

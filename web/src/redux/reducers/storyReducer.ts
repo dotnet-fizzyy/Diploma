@@ -11,7 +11,6 @@ import {
     IMakeStoryBlocked,
     IRemoveStorySuccess,
     ISelectStory,
-    ISetStoryTitleTermRequest,
     ISortStoriesRequest,
     IUpdateStoriesAfterDragAndDropAction,
     IUpdateStoryColumnSuccess,
@@ -61,8 +60,6 @@ export default function storyReducer(state = initialState, action: any) {
             return handleStoryDragAndDrop(state, action);
         case StoryActions.STORY_DRAG_FINISH:
             return handleStoryDragFinish(state);
-        case StoryActions.SET_STORY_TITLE_TERM_REQUEST:
-            return handleSetStoryTitleTerm(state, action);
         case StoryActions.ATTEMPT_TO_BLOCK_STORY:
             return handleAttemptToBlockStory(state);
         case StoryActions.DECLINE_STORY_BLOCK:
@@ -161,13 +158,6 @@ function handleStoryDragFinish(state: IStoryState): IStoryState {
     return {
         ...state,
         isDragging: false,
-    };
-}
-
-function handleSetStoryTitleTerm(state: IStoryState, action: ISetStoryTitleTermRequest): IStoryState {
-    return {
-        ...state,
-        storyTitleTerm: action.payload,
     };
 }
 
