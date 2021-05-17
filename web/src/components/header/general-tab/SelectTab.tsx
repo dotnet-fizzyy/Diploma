@@ -34,6 +34,7 @@ export interface ISelectTabItem {
     key: string;
     value: string;
     link?: string;
+    errorMessage?: string;
 }
 
 export interface ISelectTabProps {
@@ -47,13 +48,18 @@ const SelectTab = (props: ISelectTabProps) => {
     const classes = useStyles();
     const { value, items, isRoute, onChange } = props;
 
-    const getActiveOrDisabledLink = (isActive: boolean, route: string, label: string): React.ReactNode => {
+    const getActiveOrDisabledLink = (
+        isActive: boolean,
+        route: string,
+        label: string,
+        errorMessage?: string
+    ): React.ReactNode => {
         return isActive ? (
             <Link to={route} className={classes.tab}>
                 {label}
             </Link>
         ) : (
-            <Tooltip title={isRoute ? 'This item has not been created yet' : ''}>
+            <Tooltip title={isRoute ? errorMessage : ''}>
                 <span className={classnames(classes.tab, { [classes.disabledLink]: isRoute })}>{label}</span>
             </Tooltip>
         );
@@ -63,8 +69,13 @@ const SelectTab = (props: ISelectTabProps) => {
         <Select value={value} onChange={onChange} className={classes.dropdown}>
             {items && items.length
                 ? items.map((x) => (
-                      <MenuItem key={x.key} value={x.key} classes={{ gutters: classes.menuGutters }}>
-                          {getActiveOrDisabledLink(!!x.link, x.link, x.value)}
+                      <MenuItem
+                          disabled={!!x.errorMessage}
+                          key={x.key}
+                          value={x.key}
+                          classes={{ gutters: classes.menuGutters }}
+                      >
+                          {getActiveOrDisabledLink(!!x.link, x.link, x.value, x.errorMessage)}
                       </MenuItem>
                   ))
                 : null}

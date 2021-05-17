@@ -94,6 +94,8 @@ const GeneralTab = (props: IGeneralTabProps) => {
                     </div>
                     <div className={classes.mainTabsContainer}>
                         <TabLinks
+                            userRole={user.userRole}
+                            userPosition={user.userPosition}
                             teams={user.teams}
                             projects={user.projects}
                             onChangeProject={onChangeProject}

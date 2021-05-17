@@ -1,5 +1,6 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
+import DoughnutChart from '../../components/charts/DoughnutChart';
 import MainLabel, { LabelType } from '../../components/common/MainLabel';
 
 const useStyles = makeStyles(() =>
@@ -14,6 +15,9 @@ const useStyles = makeStyles(() =>
             display: 'flex',
             flexDirection: 'column',
         },
+        chartContainer: {
+            width: '500px',
+        },
     })
 );
 
@@ -26,6 +30,9 @@ const StatsPage = (props: IStatsPageProps) => {
         <div className={classes.root}>
             <div className={classes.mainContainer}>
                 <MainLabel title="Statistics" variant={LabelType.PRIMARY} />
+                <div className={classes.chartContainer}>
+                    <DoughnutChart />
+                </div>
             </div>
         </div>
     );

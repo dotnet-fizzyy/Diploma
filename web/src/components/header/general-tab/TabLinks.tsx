@@ -2,7 +2,9 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { TabLinkItems, TabLinkOptions } from '../../../constants';
+import { UserPosition, UserRole } from '../../../constants/userConstants';
 import { IUserProject, IUserTeam } from '../../../types/userTypes';
+import { isUserCustomer } from '../../../utils';
 import SelectTab, { ISelectTabItem } from './SelectTab';
 
 const useStyles = makeStyles(() =>
@@ -22,6 +24,8 @@ const useStyles = makeStyles(() =>
 );
 
 export interface ITabLinks {
+    userRole: UserRole;
+    userPosition: UserPosition;
     teams: IUserTeam[];
     projects: IUserProject[];
     selectedTeamId: string;
@@ -32,7 +36,16 @@ export interface ITabLinks {
 
 const TabLinks = (props: ITabLinks) => {
     const classes = useStyles();
-    const { teams, projects, selectedTeamId, selectedProjectId, onChangeTeam, onChangeProject } = props;
+    const {
+        teams,
+        userPosition,
+        userRole,
+        projects,
+        selectedTeamId,
+        selectedProjectId,
+        onChangeTeam,
+        onChangeProject,
+    } = props;
 
     const projectItems: ISelectTabItem[] = projects.map((x) => ({ key: x.projectId, value: x.projectName }));
     const teamItems: ISelectTabItem[] = teams.reduce(
@@ -42,7 +55,9 @@ const TabLinks = (props: ITabLinks) => {
     const defaultItemsTab: ISelectTabItem[] = TabLinkItems.map((x) => {
         switch (x.key) {
             case TabLinkOptions.WORKSPACE:
-                x.link = '/workspace';
+                const isCustomer: boolean = isUserCustomer(userRole, userPosition);
+                x.link = isCustomer ? '/workspace' : '';
+                x.errorMessage = !isCustomer ? 'This option is available only for customers' : '';
                 break;
             case TabLinkOptions.BOARD:
                 x.link = `/board?projectId=${selectedProjectId}&teamId=${selectedTeamId}`;
@@ -54,7 +69,7 @@ const TabLinks = (props: ITabLinks) => {
                 x.link = `/team/${selectedTeamId}`;
                 break;
             case TabLinkOptions.CHARTS:
-                x.link = ``;
+                x.link = `/charts?projectId=${selectedProjectId}`;
                 break;
             default:
                 break;

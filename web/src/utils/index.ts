@@ -1,4 +1,5 @@
 import { AccessTokenLocalStorageField, GuidRegexExpression, RefreshTokenLocalStorageField } from '../constants';
+import { UserPosition, UserRole } from '../constants/userConstants';
 
 export function setCredentialsToLocalStorage(accessToken: string, refreshToken: string): void {
     localStorage.setItem(AccessTokenLocalStorageField, accessToken);
@@ -15,3 +16,6 @@ export function getFirstNameLetter(userName: string): string {
 }
 
 export const validateGuid = (value: string): boolean => GuidRegexExpression.test(value);
+
+export const isUserCustomer = (userRole: UserRole, userPosition: UserPosition): boolean =>
+    userRole === UserRole.Manager && userPosition === UserPosition.Customer;
