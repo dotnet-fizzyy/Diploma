@@ -4,7 +4,6 @@ using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models.Pages;
-using WebAPI.Models.Models.Result;
 
 namespace WebAPI.Presentation.Aggregators
 {
@@ -16,7 +15,6 @@ namespace WebAPI.Presentation.Aggregators
         private readonly IEpicMapper _epicMapper;
         private readonly ISprintMapper _sprintMapper;
         private readonly IStoryMapper _storyMapper;
-        private readonly IStoryHistoryMapper _storyHistoryMapper;
 
         public PageAggregator(
             IWorkSpaceMapper workSpaceMapper, 
@@ -24,8 +22,7 @@ namespace WebAPI.Presentation.Aggregators
             IProjectMapper projectMapper, 
             IEpicMapper epicMapper,
             ISprintMapper sprintMapper,
-            IStoryMapper storyMapper,
-            IStoryHistoryMapper storyHistoryMapper
+            IStoryMapper storyMapper
             )
         {
             _workSpaceMapper = workSpaceMapper;
@@ -34,7 +31,6 @@ namespace WebAPI.Presentation.Aggregators
             _epicMapper = epicMapper;
             _sprintMapper = sprintMapper;
             _storyMapper = storyMapper;
-            _storyHistoryMapper = storyHistoryMapper;
         }
 
         public SearchResult CreateSearchResultsByTerm(IList<Story> stories, IList<Epic> epics, IList<Sprint> sprints)
@@ -47,16 +43,6 @@ namespace WebAPI.Presentation.Aggregators
             };
 
             return searchResults;
-        }
-
-        public CollectionResponse<WebAPI.Models.Models.Models.StoryHistory> CreateStoryHistoryItems(IList<StoryHistory> storyHistories)
-        {
-            var storyHistoryCollection = new CollectionResponse<WebAPI.Models.Models.Models.StoryHistory>
-            {
-                Items = storyHistories.Select(_storyHistoryMapper.MapToModel).ToList()
-            };
-
-            return storyHistoryCollection;
         }
 
         public BoardPage CreateBoardPageModel(Team team, Project project, IList<Epic> epics, IList<Sprint> sprints)
@@ -110,6 +96,19 @@ namespace WebAPI.Presentation.Aggregators
             };
 
             return workSpacePage;
+        }
+
+        public StatisticsPage CreateStatisticsPageModel(Project project, IEnumerable<Epic> epics, IList<Sprint> sprints)
+        {
+            var statisticsModel = new StatisticsPage
+            {
+                Project = _projectMapper.MapToModel(project),
+                Epics = epics.Select(_epicMapper.MapToSimpleModel).ToList(),
+                Sprints = sprints.Select(_sprintMapper.MapToModel).ToList(),
+                Stories = sprints.SelectMany(x => x.Stories, (_, story) => _storyMapper.MapToSimpleModel(story)).ToList()
+            };
+
+            return statisticsModel;
         }
     }
 }

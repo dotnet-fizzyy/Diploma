@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models.Pages;
@@ -24,13 +25,9 @@ namespace WebAPI.Presentation.Controllers
 
         [HttpGet]
         [Route("search")]
-        public async Task<ActionResult<SearchResult>> GetSearchFieldDataIndex([FromQuery]string term, [FromQuery]Guid workSpaceId)
-        {
-            var searchResult = await _pageService.GetSearchResultsAsync(term, workSpaceId);
-            
-            return searchResult;
-        }
-        
+        public async Task<ActionResult<SearchResult>> GetSearchFieldDataIndex([FromQuery, BindRequired]string term, [FromQuery, BindRequired]Guid workSpaceId)
+            => await _pageService.GetSearchResultsAsync(term, workSpaceId);
+
         [HttpGet]
         [Route("main")]
         public IActionResult GetMainPageData()
@@ -40,7 +37,7 @@ namespace WebAPI.Presentation.Controllers
 
         [HttpGet]
         [Route("board")]
-        public async Task<ActionResult<BoardPage>> GetBoardPageData([FromQuery]Guid projectId, [FromQuery]Guid teamId)
+        public async Task<ActionResult<BoardPage>> GetBoardPageData([FromQuery, BindRequired]Guid projectId, [FromQuery, BindRequired]Guid teamId)
         {
             var user = _claimsReader.GetUserClaims(User);
 
@@ -52,12 +49,8 @@ namespace WebAPI.Presentation.Controllers
         [HttpGet]
         [Route("project/{projectId}")]
         public async Task<ActionResult<ProjectPage>> GetProjectPageIndex(Guid projectId)
-        {
-            var userProject = await _pageService.GetProjectPageDataAsync(projectId);
-            
-            return userProject;
-        }
-        
+            => await _pageService.GetProjectPageDataAsync(projectId);
+
         [HttpGet]
         [Route("team/{teamId}")]
         public async Task<ActionResult<TeamPage>> GetTeamPageIndex(Guid teamId)
@@ -75,9 +68,14 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = _claimsReader.GetUserClaims(User);
 
-            var userWorkSpace = await _pageService.GetUserWorkSpacePageDataAsync(user);
+            var userWorkSpace = await _pageService.GetUserWorkSpacePageDataAsync(user.UserId);
 
             return userWorkSpace;
         }
+
+        [HttpGet]
+        [Route("stats")]
+        public async Task<ActionResult<StatisticsPage>> GetStatsPageIndex([FromQuery, BindRequired] Guid projectId)
+            => await _pageService.GetStatisticsPageDataAsync(projectId);
     }
 }

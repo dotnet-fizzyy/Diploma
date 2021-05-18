@@ -9,7 +9,6 @@ using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Core.Models;
 using WebAPI.Models.Models.Pages;
 
 namespace WebAPI.ApplicationLogic.Services
@@ -108,12 +107,12 @@ namespace WebAPI.ApplicationLogic.Services
             return projectData;
         }
 
-        public async Task<WorkSpacePage> GetUserWorkSpacePageDataAsync(UserClaims user)
+        public async Task<WorkSpacePage> GetUserWorkSpacePageDataAsync(Guid userId)
         {
-            var workSpace = await _workSpaceRepository.GetUserWorkSpaceAsync(user.UserId);
+            var workSpace = await _workSpaceRepository.GetUserWorkSpaceAsync(userId);
             if (workSpace == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(user.UserId)));
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(userId)));
             }
 
             var projects = await _projectRepository.GetProjectWithTeamsByWorkSpaceIdAsync(workSpace.Id);
@@ -121,6 +120,24 @@ namespace WebAPI.ApplicationLogic.Services
             var projectWorkSpaceData = _pageAggregator.CreateWorkSpacePageModel(workSpace, projects);
             
             return projectWorkSpaceData;
+        }
+
+        public async Task<StatisticsPage> GetStatisticsPageDataAsync(Guid projectId)
+        {
+            var project = await _projectRepository.SearchForSingleItemAsync(x => x.Id == projectId);
+            
+            var epics = await _epicRepository.SearchForMultipleItemsAsync(x => x.ProjectId == projectId, y => y.CreationDate, OrderType.Desc);
+            if (epics == null || !epics.Any())
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, MissingEpicsExceptionMessage);
+            }
+            
+            var latestEpic = epics.First();
+            var sprints = await _sprintRepository.GetFullSprintsByEpicId(latestEpic.Id);
+            
+            var statisticsPage = _pageAggregator.CreateStatisticsPageModel(project, epics, sprints);
+            
+            return statisticsPage;
         }
     }
 }

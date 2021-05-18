@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using WebAPI.Core.Models;
 using WebAPI.Models.Models.Pages;
 
 namespace WebAPI.Core.Interfaces.Services
@@ -15,6 +14,8 @@ namespace WebAPI.Core.Interfaces.Services
         
         Task<ProjectPage> GetProjectPageDataAsync(Guid projectId);
 
-        Task<WorkSpacePage> GetUserWorkSpacePageDataAsync(UserClaims user);
+        Task<WorkSpacePage> GetUserWorkSpacePageDataAsync(Guid userId);
+
+        Task<StatisticsPage> GetStatisticsPageDataAsync(Guid projectId);
     }
 }
