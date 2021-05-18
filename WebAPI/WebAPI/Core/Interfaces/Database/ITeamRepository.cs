@@ -12,5 +12,7 @@ namespace WebAPI.Core.Interfaces.Database
         Task<List<Team>> GetUserTeams(Guid userId);
 
         Task<Team> GetTeamWithUsers(Guid teamId);
+
+        Task RemoveTeamSoftAsync(Guid teamId);
     }
 }

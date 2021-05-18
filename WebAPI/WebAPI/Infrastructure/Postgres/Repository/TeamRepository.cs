@@ -46,5 +46,18 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 
             return team;
         }
+
+        public async Task RemoveTeamSoftAsync(Guid teamId)
+        {
+            var teamEntity = new Team
+            {
+                Id = teamId, 
+                IsDeleted = true
+            };
+
+            _dbContext.Entry(teamEntity).Property(x => x.IsDeleted).IsModified = true;
+            
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

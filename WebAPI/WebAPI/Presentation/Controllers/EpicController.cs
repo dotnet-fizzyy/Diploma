@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
@@ -98,6 +99,23 @@ namespace WebAPI.Presentation.Controllers
             var updatedEpic = await _epicService.UpdateEpicAsync(epic);
 
             return Ok(updatedEpic);
+        }
+        
+        /// <summary>
+        /// Soft remove epic by epicId
+        /// </summary>
+        /// <response code="204">Successful remove epic by epicId</response>
+        /// <response code="401">Failed authentication</response>
+        [HttpPatch]
+        [Route("soft-remove")]
+        public async Task<IActionResult> RemoveEpicSoft([FromBody] JsonPatchDocument<Epic> epicPatch)
+        {
+            var epic = new Epic();
+            epicPatch.ApplyTo(epic);
+            
+            await _epicService.RemoveEpicSoftAsync(epic);
+            
+            return NoContent();
         }
         
         /// <summary>

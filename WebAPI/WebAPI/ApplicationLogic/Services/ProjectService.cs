@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
@@ -119,21 +118,14 @@ namespace WebAPI.ApplicationLogic.Services
             return updatedProjectModel;
         }
 
+        public async Task RemoveProjectSoftAsync(Project project)
+        {
+            await _projectRepository.RemoveProjectSoftAsync(project.ProjectId);
+        }
+
         public async Task RemoveProjectAsync(Guid projectId)
         {
-            using var scope = new TransactionScope
-            (
-                TransactionScopeOption.Required, 
-                new TransactionOptions
-                {
-                    IsolationLevel = IsolationLevel.Serializable,
-                },
-                TransactionScopeAsyncFlowOption.Enabled
-            );
-            
             await _projectRepository.DeleteAsync(x => x.Id == projectId);
-                
-            scope.Complete();
         }
     }
 }

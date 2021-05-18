@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
@@ -126,6 +127,23 @@ namespace WebAPI.Presentation.Controllers
             return updatedTeam;
         }
 
+        /// <summary>
+        /// Soft remove team by teamId
+        /// </summary>
+        /// <response code="204">Successful soft team sprint by teamId</response>
+        /// <response code="401">Failed authentication</response>
+        [HttpPatch]
+        [Route("soft-remove")]
+        public async Task<IActionResult> RemoveTeamSoft([FromBody] JsonPatchDocument<Team> teamPatch)
+        {
+            var project = new Team();
+            teamPatch.ApplyTo(project);
+            
+            await _teamService.RemoveTeamSoftAsync(project);
+            
+            return NoContent();
+        }
+        
         /// <summary>
         /// Remove team with provided id
         /// </summary>

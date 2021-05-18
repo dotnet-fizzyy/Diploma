@@ -37,5 +37,18 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 
             return sprintEntities;
         }
+
+        public async Task RemoveSprintSoftAsync(Guid sprintId)
+        {
+            var sprintEntity = new Sprint
+            {
+                Id = sprintId,
+                IsDeleted = true
+            };
+
+            _dbContext.Entry(sprintEntity).Property(x => x.IsDeleted).IsModified = true;
+            
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

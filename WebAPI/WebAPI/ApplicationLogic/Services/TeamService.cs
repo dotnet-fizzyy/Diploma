@@ -94,6 +94,11 @@ namespace WebAPI.ApplicationLogic.Services
             return teamModel;
         }
 
+        public async Task RemoveTeamSoftAsync(Team team)
+        {
+            await _teamRepository.RemoveTeamSoftAsync(team.TeamId);
+        }
+
         public async Task RemoveTeamAsync(Guid id)
         {
             await _teamRepository.DeleteAsync(x => x.Id == id);

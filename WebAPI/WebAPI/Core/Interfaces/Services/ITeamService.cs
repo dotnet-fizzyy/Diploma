@@ -19,6 +19,8 @@ namespace WebAPI.Core.Interfaces.Services
         
         Task<Team> UpdateTeamAsync(Team team);
 
+        Task RemoveTeamSoftAsync(Team team); 
+        
         Task RemoveTeamAsync(Guid id);
     }
 }

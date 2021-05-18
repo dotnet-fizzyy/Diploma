@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
@@ -72,6 +73,23 @@ namespace WebAPI.Presentation.Controllers
         public async Task<ActionResult<Project>> UpdateProject([FromBody, BindRequired] Project project) =>
             await _projectService.UpdateProjectAsync(project);
 
+        /// <summary>
+        /// Soft remove project by projectId
+        /// </summary>
+        /// <response code="204">Successful soft remove project by projectId</response>
+        /// <response code="401">Failed authentication</response>
+        [HttpPatch]
+        [Route("soft-remove")]
+        public async Task<IActionResult> RemoveProjectSoft([FromBody] JsonPatchDocument<Project> projectPatch)
+        {
+            var project = new Project();
+            projectPatch.ApplyTo(project);
+            
+            await _projectService.RemoveProjectSoftAsync(project);
+            
+            return NoContent();
+        }
+        
         /// <summary>
         /// Remove project with provided id
         /// </summary>

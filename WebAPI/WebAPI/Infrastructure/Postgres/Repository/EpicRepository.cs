@@ -30,5 +30,18 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 
             return epicEntities;
         }
+
+        public async Task RemoveEpicSoftAsync(Guid epicId)
+        {
+            var epicEntity = new Epic
+            {
+                Id = epicId,
+                IsDeleted = true
+            };
+
+            _dbContext.Entry(epicEntity).Property(x => x.IsDeleted).IsModified = true;
+            
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

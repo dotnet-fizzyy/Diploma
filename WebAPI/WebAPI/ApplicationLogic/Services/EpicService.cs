@@ -90,6 +90,11 @@ namespace WebAPI.ApplicationLogic.Services
             return epicModel;
         }
 
+        public async Task RemoveEpicSoftAsync(Epic epic)
+        {
+            await _epicRepository.RemoveEpicSoftAsync(epic.EpicId);
+        }
+
         public async Task RemoveEpicAsync(Guid epicId)
         {
             await _epicRepository.DeleteAsync(x => x.Id == epicId);

@@ -17,6 +17,8 @@ namespace WebAPI.Core.Interfaces.Services
         
         Task<Sprint> UpdateSprintAsync(Sprint sprint);
 
+        Task RemoveSprintSoftAsync(Sprint sprint);
+        
         Task RemoveSprintAsync(Guid sprintId);
     }
 }

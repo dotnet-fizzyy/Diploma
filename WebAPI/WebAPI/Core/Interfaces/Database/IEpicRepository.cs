@@ -8,5 +8,7 @@ namespace WebAPI.Core.Interfaces.Database
     public interface IEpicRepository : IBaseCrudRepository<Epic>
     {
         Task<List<Epic>> GetEpicsByEpicNameTermAsync(string term, int limit, Guid workSpaceId);
+
+        Task RemoveEpicSoftAsync(Guid epicId);
     }
 }

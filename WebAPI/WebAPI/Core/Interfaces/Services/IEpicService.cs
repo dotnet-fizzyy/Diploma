@@ -16,6 +16,8 @@ namespace WebAPI.Core.Interfaces.Services
         Task<Epic> CreateEpicAsync(Epic epic);
 
         Task<Epic> UpdateEpicAsync(Epic epic);
+
+        Task RemoveEpicSoftAsync(Epic epic);
         
         Task RemoveEpicAsync(Guid epicId);
     }

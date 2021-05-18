@@ -93,6 +93,11 @@ namespace WebAPI.ApplicationLogic.Services
             return sprintModel;
         }
 
+        public async Task RemoveSprintSoftAsync(Sprint sprint)
+        {
+            await _sprintRepository.RemoveSprintSoftAsync(sprint.SprintId);
+        }
+
         public async Task RemoveSprintAsync(Guid sprintId)
         {
             await _sprintRepository.DeleteAsync(x => x.Id == sprintId);

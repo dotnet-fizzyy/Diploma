@@ -34,5 +34,18 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 
             return foundProjects;
         }
+
+        public async Task RemoveProjectSoftAsync(Guid projectId)
+        {
+            var projectEntity = new Project
+            {
+                Id = projectId, 
+                IsDeleted = true
+            };
+
+            _dbContext.Entry(projectEntity).Property(x => x.IsDeleted).IsModified = true;
+
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

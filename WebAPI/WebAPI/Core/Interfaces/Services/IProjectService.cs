@@ -14,7 +14,9 @@ namespace WebAPI.Core.Interfaces.Services
         Task<Project> CreateProjectAsync(Project project);
 
         Task<Project> UpdateProjectAsync(Project project);
-
+        
+        Task RemoveProjectSoftAsync(Project project);
+        
         Task RemoveProjectAsync(Guid projectId);
     }
 }

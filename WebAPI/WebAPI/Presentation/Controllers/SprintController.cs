@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
@@ -104,6 +105,23 @@ namespace WebAPI.Presentation.Controllers
             var updatedSprint = await _sprintService.UpdateSprintAsync(sprint);
 
             return Ok(updatedSprint);
+        }
+        
+        /// <summary>
+        /// Soft remove sprint by sprintId
+        /// </summary>
+        /// <response code="204">Successful soft remove sprint by sprintId</response>
+        /// <response code="401">Failed authentication</response>
+        [HttpPatch]
+        [Route("soft-remove")]
+        public async Task<IActionResult> RemoveSprintSoft([FromBody] JsonPatchDocument<Sprint> projectPatch)
+        {
+            var project = new Sprint();
+            projectPatch.ApplyTo(project);
+            
+            await _sprintService.RemoveSprintSoftAsync(project);
+            
+            return NoContent();
         }
         
         /// <summary>
