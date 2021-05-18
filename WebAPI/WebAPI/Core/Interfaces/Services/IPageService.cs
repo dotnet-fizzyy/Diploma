@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using WebAPI.Models.Models.Pages;
+using WebAPI.Presentation.Models.Pages;
 
 namespace WebAPI.Core.Interfaces.Services
 {

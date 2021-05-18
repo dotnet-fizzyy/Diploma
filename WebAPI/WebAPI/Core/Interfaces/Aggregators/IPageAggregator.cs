@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using WebAPI.Core.Entities;
-using WebAPI.Models.Models.Pages;
+using WebAPI.Presentation.Models.Pages;
 
 namespace WebAPI.Core.Interfaces.Aggregators
 {

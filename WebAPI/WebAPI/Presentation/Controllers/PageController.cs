@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
-using WebAPI.Models.Models.Pages;
+using WebAPI.Presentation.Models.Pages;
 
 namespace WebAPI.Presentation.Controllers
 {

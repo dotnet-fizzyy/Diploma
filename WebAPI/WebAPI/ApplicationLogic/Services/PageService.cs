@@ -9,7 +9,7 @@ using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Models.Models.Pages;
+using WebAPI.Presentation.Models.Pages;
 
 namespace WebAPI.ApplicationLogic.Services
 {

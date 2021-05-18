@@ -3,7 +3,7 @@ using System.Linq;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Mappers;
-using WebAPI.Models.Models.Pages;
+using WebAPI.Presentation.Models.Pages;
 
 namespace WebAPI.Presentation.Aggregators
 {

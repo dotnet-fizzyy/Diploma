@@ -3,7 +3,7 @@ using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Simple;
 
-namespace WebAPI.Models.Models.Pages
+namespace WebAPI.Presentation.Models.Pages
 {
     public class BoardPage
     {
