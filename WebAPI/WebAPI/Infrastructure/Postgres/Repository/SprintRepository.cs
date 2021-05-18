@@ -38,7 +38,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             return sprintEntities;
         }
 
-        public async Task RemoveSprintSoftAsync(Guid sprintId)
+        public async Task DeleteSoftAsync(Guid sprintId)
         {
             var sprintEntity = new Sprint
             {

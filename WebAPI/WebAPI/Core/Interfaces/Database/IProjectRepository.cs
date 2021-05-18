@@ -11,6 +11,6 @@ namespace WebAPI.Core.Interfaces.Database
 
         Task<List<Project>> GetProjectsByCollectionOfTeamIds(IEnumerable<Team> teams);
 
-        Task RemoveProjectSoftAsync(Guid projectId);
+        Task DeleteSoftAsync(Guid projectId);
     }
 }

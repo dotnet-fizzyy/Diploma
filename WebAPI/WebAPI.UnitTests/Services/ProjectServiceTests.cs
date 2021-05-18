@@ -545,6 +545,45 @@ namespace WebAPI.UnitTests.Services
         }
 
         [Fact]
+        public async Task ShouldRemoveProjectSoftAsync()
+        {
+            //Arrange
+            var projectRepository = A.Fake<IProjectRepository>();
+            var epicRepository = A.Fake<IEpicRepository>();
+            var teamRepository = A.Fake<ITeamRepository>();
+            var sprintRepository = A.Fake<ISprintRepository>();
+            var teamMapper = A.Fake<ITeamMapper>();
+            var sprintMapper = A.Fake<ISprintMapper>();
+            var epicMapper = A.Fake<IEpicMapper>();
+            
+            var projectMapper = new ProjectMapper();
+            
+            var projectService = new ProjectService(
+                projectRepository, 
+                epicRepository, 
+                sprintRepository, 
+                teamRepository, 
+                projectMapper,
+                new FullProjectDescriptionAggregator(projectMapper, epicMapper, sprintMapper, teamMapper)
+            );
+
+            var project = new Project
+            {
+                ProjectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec")
+            };
+            
+            A.CallTo(() => projectRepository.DeleteSoftAsync(A<Guid>._))
+                .DoesNothing();
+            
+            //Act
+            await projectService.RemoveProjectSoftAsync(project);
+
+            //Assert
+            A.CallTo(() => projectRepository.DeleteSoftAsync(A<Guid>._))
+                .MustHaveHappenedOnceExactly();
+        }
+        
+        [Fact]
         public async Task ShouldRemoveProjectAsync()
         {
             //Arrange

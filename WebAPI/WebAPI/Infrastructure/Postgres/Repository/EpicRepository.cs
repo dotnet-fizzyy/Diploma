@@ -31,7 +31,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             return epicEntities;
         }
 
-        public async Task RemoveEpicSoftAsync(Guid epicId)
+        public async Task DeleteSoftAsync(Guid epicId)
         {
             var epicEntity = new Epic
             {

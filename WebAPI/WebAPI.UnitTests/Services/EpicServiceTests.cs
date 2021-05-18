@@ -308,6 +308,31 @@ namespace WebAPI.UnitTests.Services
         }
         
         [Fact]
+        public async Task ShouldRemoveEpicSoftAsync()
+        {
+            //Arrange
+            var epicRepository = A.Fake<IEpicRepository>();
+            var epicMapper = new EpicMapper(new SprintMapper(new StoryMapper(new StoryHistoryMapper())));
+
+            var epicService = new EpicService(epicRepository, epicMapper);
+
+            var epic = new Epic
+            {
+                EpicId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec"),
+            };
+            
+            A.CallTo(() => epicRepository.DeleteSoftAsync(A<Guid>._))
+                .DoesNothing();
+            
+            //Act
+            await epicService.RemoveEpicSoftAsync(epic);
+
+            //Assert
+            A.CallTo(() => epicRepository.DeleteSoftAsync(A<Guid>._))
+                .MustHaveHappenedOnceExactly();
+        }
+        
+        [Fact]
         public async Task ShouldRemoveEpicAsync()
         {
             //Arrange

@@ -95,7 +95,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task RemoveSprintSoftAsync(Sprint sprint)
         {
-            await _sprintRepository.RemoveSprintSoftAsync(sprint.SprintId);
+            await _sprintRepository.DeleteSoftAsync(sprint.SprintId);
         }
 
         public async Task RemoveSprintAsync(Guid sprintId)

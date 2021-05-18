@@ -366,6 +366,31 @@ namespace WebAPI.UnitTests.Services
             A.CallTo(() => teamRepository.UpdateItemAsync(A<Core.Entities.Team>._))
                 .MustHaveHappenedOnceExactly();
         }
+
+        [Fact]
+        public async Task ShouldRemoveTeamSoftAsync()
+        {
+            //Arrange
+            var teamRepository = A.Fake<ITeamRepository>();
+            var teamMapper = new TeamMapper(new UserMapper());
+
+            var teamService = new TeamService(teamRepository, teamMapper);
+
+            var team = new Team
+            {
+                TeamId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec")
+            };
+            
+            A.CallTo(() => teamRepository.DeleteSoftAsync(A<Guid>._))
+                .DoesNothing();
+            
+            //Act
+            await teamService.RemoveTeamSoftAsync(team);
+
+            //Assert
+            A.CallTo(() => teamRepository.DeleteSoftAsync(A<Guid>._))
+                .MustHaveHappenedOnceExactly();
+        }
         
         [Fact]
         public async Task ShouldRemoveTeamAsync()

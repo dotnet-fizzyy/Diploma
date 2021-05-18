@@ -382,6 +382,31 @@ namespace WebAPI.UnitTests.Services
         }
         
         [Fact]
+        public async Task ShouldRemoveSprintSoftAsync()
+        {
+            //Arrange
+            var sprintRepository = A.Fake<ISprintRepository>();
+            var sprintMapper = new SprintMapper(new StoryMapper(new StoryHistoryMapper()));
+
+            var sprintService = new SprintService(sprintRepository, sprintMapper);
+
+            var sprint = new Sprint
+            {
+                SprintId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec"),
+            };
+            
+            A.CallTo(() => sprintRepository.DeleteSoftAsync(A<Guid>._))
+                .DoesNothing();
+            
+            //Act
+            await sprintService.RemoveSprintSoftAsync(sprint);
+
+            //Assert
+            A.CallTo(() => sprintRepository.DeleteSoftAsync(A<Guid>._))
+                .MustHaveHappenedOnceExactly();
+        }
+        
+        [Fact]
         public async Task ShouldRemoveSprintAsync()
         {
             //Arrange
@@ -391,7 +416,6 @@ namespace WebAPI.UnitTests.Services
             var sprintService = new SprintService(sprintRepository, sprintMapper);
             
             var sprintId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
-
 
             A.CallTo(() => sprintRepository.DeleteAsync(A<Expression<Func<Core.Entities.Sprint, bool>>>._))
                 .DoesNothing();

@@ -47,7 +47,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             return team;
         }
 
-        public async Task RemoveTeamSoftAsync(Guid teamId)
+        public async Task DeleteSoftAsync(Guid teamId)
         {
             var teamEntity = new Team
             {

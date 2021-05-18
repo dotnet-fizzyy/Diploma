@@ -92,7 +92,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task RemoveEpicSoftAsync(Epic epic)
         {
-            await _epicRepository.RemoveEpicSoftAsync(epic.EpicId);
+            await _epicRepository.DeleteSoftAsync(epic.EpicId);
         }
 
         public async Task RemoveEpicAsync(Guid epicId)

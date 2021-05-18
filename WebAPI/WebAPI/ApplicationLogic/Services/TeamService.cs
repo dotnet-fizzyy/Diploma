@@ -96,7 +96,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task RemoveTeamSoftAsync(Team team)
         {
-            await _teamRepository.RemoveTeamSoftAsync(team.TeamId);
+            await _teamRepository.DeleteSoftAsync(team.TeamId);
         }
 
         public async Task RemoveTeamAsync(Guid id)

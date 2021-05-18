@@ -35,7 +35,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             return foundProjects;
         }
 
-        public async Task RemoveProjectSoftAsync(Guid projectId)
+        public async Task DeleteSoftAsync(Guid projectId)
         {
             var projectEntity = new Project
             {

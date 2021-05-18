@@ -11,6 +11,6 @@ namespace WebAPI.Core.Interfaces.Database
         
         Task<List<Sprint>> GetFullSprintsByEpicId(Guid epicId);
         
-        Task RemoveSprintSoftAsync(Guid sprintId);
+        Task DeleteSoftAsync(Guid sprintId);
     }
 }

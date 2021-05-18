@@ -120,7 +120,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task RemoveProjectSoftAsync(Project project)
         {
-            await _projectRepository.RemoveProjectSoftAsync(project.ProjectId);
+            await _projectRepository.DeleteSoftAsync(project.ProjectId);
         }
 
         public async Task RemoveProjectAsync(Guid projectId)
