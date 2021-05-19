@@ -9,10 +9,12 @@ const useStyles = makeStyles(() =>
         input: {
             border: 'none',
             color: '#212624',
+            fontFamily: 'Poppins',
+            fontSize: '16px',
+            fontWeight: 500,
             '&::placeholder': {
-                fontFamily: 'Poppins',
-                fontSize: '16px',
-                fontWeight: 500,
+                color: '#AFC1C4',
+                opacity: '1 !important',
             },
         },
         searchResults: {
