@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sidebarHandleVisibility } from '../../../redux/actions/sidebarActions';
+import { SidebarTypes } from '../../../constants';
+import { sidebarChangeType } from '../../../redux/actions/sidebarActions';
 import { removeStoryRequest } from '../../../redux/actions/storyActions';
 import { getSelectedStory } from '../../../redux/selectors/storySelectors';
 import { IStory } from '../../../types/storyTypes';
@@ -16,7 +17,7 @@ const SidebarStoryRemoveContainer = () => {
     };
 
     const onClickCancelRemove = (): void => {
-        dispatch(sidebarHandleVisibility(null, false));
+        dispatch(sidebarChangeType(SidebarTypes.STORY_DESCRIPTION));
     };
 
     const sidebarStoryRemove: ISidebarStoryRemoveProps = {

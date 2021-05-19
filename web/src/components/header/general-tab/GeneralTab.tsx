@@ -1,4 +1,5 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { DefaultRoute } from '../../../constants/routeConstants';
@@ -25,8 +26,21 @@ const useStyles = makeStyles(() =>
         },
         searchResultsContainer: {
             position: 'relative',
+            width: '100%',
+            maxWidth: '400px',
+            margin: '0 auto 0 50px',
         },
-        mainTabsContainer: {},
+        mainTabsContainer: {
+            maxWidth: '400px',
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+        },
+        notificationsBell: {
+            margin: '0 40px 0 auto',
+            cursor: 'pointer',
+        },
         logo: {
             width: '65px',
             height: '44px',
@@ -103,6 +117,9 @@ const GeneralTab = (props: IGeneralTabProps) => {
                             selectedProjectId={selectedProjectId}
                             selectedTeamId={selectedTeamId}
                         />
+                    </div>
+                    <div className={classes.notificationsBell}>
+                        <NotificationsNoneIcon />
                     </div>
                     <TabMenu
                         anchor={anchor}

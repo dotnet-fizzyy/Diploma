@@ -6,16 +6,14 @@ import { IStory } from '../../../types/storyTypes';
 
 const useStyles = makeStyles(() =>
     createStyles({
-        tab: {
-            marginLeft: '50px',
-            textDecoration: 'none',
-            fontFamily: 'Poppins, sans-serif',
+        input: {
+            border: 'none',
             color: '#212624',
-            fontSize: '18px',
-            fontWeight: 'bold',
-        },
-        searchField: {
-            width: '300px',
+            '&::placeholder': {
+                fontFamily: 'Poppins',
+                fontSize: '16px',
+                fontWeight: 500,
+            },
         },
         searchResults: {
             position: 'absolute',
@@ -44,6 +42,10 @@ const useStyles = makeStyles(() =>
             marginTop: '3px',
             fontSize: '16px',
         },
+        icon: {
+            color: '#AFC1C4',
+            margin: '0 20px 0 10px',
+        },
     })
 );
 
@@ -65,12 +67,16 @@ const SearchField = (props: ISearchFieldProps) => {
     return (
         <>
             <TextField
-                className={classes.searchField}
                 placeholder="Search"
                 value={searchTerm}
                 onChange={onChange}
                 onBlur={onBlur}
-                InputProps={{ startAdornment: <SearchIcon /> }}
+                fullWidth={true}
+                InputProps={{
+                    disableUnderline: true,
+                    startAdornment: <SearchIcon className={classes.icon} />,
+                    classes: { input: classes.input },
+                }}
             />
             {!!searchResults && (
                 <div className={classes.searchResults}>
