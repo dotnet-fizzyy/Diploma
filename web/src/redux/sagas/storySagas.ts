@@ -1,11 +1,10 @@
-import { all, call, debounce, delay, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, delay, put, select, takeLatest } from 'redux-saga/effects';
 import SprintApi from '../../api/sprintApi';
 import StoryApi from '../../api/storyApi';
 import { SidebarTypes } from '../../constants';
-import { debouncePeriod, SortFieldsNames } from '../../constants/storyConstants';
+import { SortFieldsNames } from '../../constants/storyConstants';
 import { mapFullSprintToSprint } from '../../mappers/sprintMappers';
 import { IJsonPatchBody } from '../../types';
-import { IProject } from '../../types/projectTypes';
 import { IFullSprint, ISprint } from '../../types/sprintTypes';
 import { IFullStory, IStory, IStoryColumns } from '../../types/storyTypes';
 import {
@@ -31,8 +30,6 @@ import {
     refreshStoriesRequest,
     removeStoryFailure,
     removeStorySuccess,
-    setStoryTitleTermFailure,
-    setStoryTitleTermSuccess,
     sortStoriesFailure,
     sortStoriesSuccess,
     storyActionSelectStory,
@@ -49,14 +46,12 @@ import {
     IMakeStoryBlocked,
     IMakeStoryReadyRequest,
     IRemoveStoryRequest,
-    ISetStoryTitleTermRequest,
     IStoryHandleDragAndDrop,
     IUpdateStoryChangesRequest,
     IUpdateStoryColumnRequest,
     StoryActions,
 } from '../actions/storyActions';
 import { getSelectedEpicId } from '../selectors/epicSelectors';
-import { getSelectProject } from '../selectors/projectSelectors';
 import { getSelectedSprintId } from '../selectors/sprintSelectors';
 import {
     getColumns,
@@ -137,17 +132,6 @@ function* declineStoryBlock(action: ISidebarHandleVisibility) {
 
     if (!action.payload && wasStorySelected) {
         yield put(declineStoryBlockAction(selectedStory.storyId));
-    }
-}
-
-function* searchForStoriesByTitleTerm(action: ISetStoryTitleTermRequest) {
-    try {
-        const currentProject: IProject = yield select(getSelectProject);
-        const stories: IStory[] = yield call(StoryApi.getStoriesByTerm, action.payload, currentProject.projectId);
-
-        yield put(setStoryTitleTermSuccess(stories));
-    } catch (error) {
-        yield put(setStoryTitleTermFailure(error));
     }
 }
 
@@ -257,5 +241,4 @@ export default function* rootStoriesSaga() {
     );
     yield takeLatest(StoryActions.MAKE_STORY_READY_REQUEST, makeStoryReady);
     yield takeLatest(StoryActions.REMOVE_STORY_REQUEST, removeStoryRequest);
-    yield debounce(debouncePeriod, StoryActions.SET_STORY_TITLE_TERM_REQUEST, searchForStoriesByTitleTerm);
 }

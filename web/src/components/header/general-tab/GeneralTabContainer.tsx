@@ -4,10 +4,10 @@ import { useHistory } from 'react-router-dom';
 import { ModalTypes } from '../../../constants/modalConstants';
 import { LoginScreenRoute } from '../../../constants/routeConstants';
 import { openModal } from '../../../redux/actions/modalActions';
-import { blurStoryTitleTerm, setStoryTitleTermRequest } from '../../../redux/actions/storyActions';
 import { changeUserProject, changeUserTeam, logOutUser } from '../../../redux/actions/userActions';
-import { getStoryTitleTerm } from '../../../redux/selectors/storySelectors';
+import { blurSearchTitleTerm, setSearchTitleTermRequest } from '../../../redux/actions/workSpaceActions';
 import { getUser, getUserSelectedProjectId, getUserSelectedTeamId } from '../../../redux/selectors/userSelectors';
+import { getSearchTitleTerm } from '../../../redux/selectors/workSpaceSelectors';
 import { IStory } from '../../../types/storyTypes';
 import { IFullUser } from '../../../types/userTypes';
 import { clearCredentialsFromLocalStorage } from '../../../utils';
@@ -17,7 +17,7 @@ const GeneralTabContainer = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const user: IFullUser = useSelector(getUser);
-    const searchTerm: string = useSelector(getStoryTitleTerm);
+    const searchTerm: string = useSelector(getSearchTitleTerm);
     const searchResults: IStory[] = [];
     const selectedTeamId: string = useSelector(getUserSelectedTeamId);
     const selectedProjectId: string = useSelector(getUserSelectedProjectId);
@@ -25,11 +25,11 @@ const GeneralTabContainer = () => {
     const [anchor, setAnchor] = useState<null | HTMLElement>(null);
 
     const onChangeSearchTerm = (value: string): void => {
-        dispatch(setStoryTitleTermRequest(value));
+        dispatch(setSearchTitleTermRequest(value));
     };
 
     const onBlur = (): void => {
-        dispatch(blurStoryTitleTerm());
+        dispatch(blurSearchTitleTerm());
     };
 
     const onClickDisplayMenu = (event: React.MouseEvent<HTMLElement>): void => {

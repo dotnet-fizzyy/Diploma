@@ -37,7 +37,6 @@ export interface IStoryState {
     simpleItems: IStorySimpleModel[];
     selectedStoryId: string;
     wasStoryBlocked: boolean;
-    storyTitleTerm: string;
     storyHistory: IStoryHistoryState;
     isDragging: boolean;
     sortType: string;
@@ -86,5 +85,6 @@ export interface IEpicsState {
 export interface IWorkSpaceState {
     workSpace: IWorkSpace;
     projects: IWorkSpacePageProject[];
+    searchTerm?: string;
     isLoading: boolean;
 }

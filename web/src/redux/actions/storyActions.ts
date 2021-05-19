@@ -25,10 +25,6 @@ export const StoryActions = {
     STORY_UPDATE_COLUMN_FAILURE: 'STORY_UPDATE_COLUMN_FAILURE',
     STORY_DRAG_FINISH: 'STORY_DRAG_FINISH',
     UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION: 'UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION',
-    SET_STORY_TITLE_TERM_REQUEST: 'SET_STORY_TITLE_TERM_REQUEST',
-    SET_STORY_TITLE_TERM_SUCCESS: 'SET_STORY_TITLE_TERM_SUCCESS',
-    SET_STORY_TITLE_TERM_FAILURE: 'SET_STORY_TITLE_TERM_FAILURE',
-    BLUR_STORY_TITLE_TERM: 'BLUR_STORY_TITLE_TERM',
     ATTEMPT_TO_BLOCK_STORY: 'ATTEMPT_TO_BLOCK_STORY',
     DECLINE_STORY_BLOCK: 'DECLINE_STORY_BLOCK',
     GET_STORY_HISTORY_REQUEST: 'GET_STORY_HISTORY_REQUEST',
@@ -151,25 +147,6 @@ export interface IStoryDragFinish {
 export interface IUpdateStoriesAfterDragAndDropAction {
     type: typeof StoryActions.UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION;
     payload: IStoryColumns[];
-}
-
-export interface ISetStoryTitleTermRequest {
-    type: typeof StoryActions.SET_STORY_TITLE_TERM_REQUEST;
-    payload: string;
-}
-
-export interface ISetStoryTitleTermSuccess {
-    type: typeof StoryActions.SET_STORY_TITLE_TERM_SUCCESS;
-    payload: IStory[];
-}
-
-export interface ISetStoryTitleTermFailure {
-    type: typeof StoryActions.SET_STORY_TITLE_TERM_FAILURE;
-    payload: Error;
-}
-
-export interface IBlurStoryTitleTerm {
-    type: typeof StoryActions.BLUR_STORY_TITLE_TERM;
 }
 
 export interface IAttemptToBlockStory {
@@ -427,33 +404,6 @@ export function updateStoriesAfterDragAndDropAction(columns: IStoryColumns[]): I
     return {
         type: StoryActions.UPDATE_STORIES_AFTER_DRAG_AND_DROP_ACTION,
         payload: columns,
-    };
-}
-
-export function setStoryTitleTermRequest(term: string): ISetStoryTitleTermRequest {
-    return {
-        type: StoryActions.SET_STORY_TITLE_TERM_REQUEST,
-        payload: term,
-    };
-}
-
-export function setStoryTitleTermSuccess(stories: IStory[]): ISetStoryTitleTermSuccess {
-    return {
-        type: StoryActions.SET_STORY_TITLE_TERM_SUCCESS,
-        payload: stories,
-    };
-}
-
-export function setStoryTitleTermFailure(error: Error): ISetStoryTitleTermFailure {
-    return {
-        type: StoryActions.SET_STORY_TITLE_TERM_FAILURE,
-        payload: error,
-    };
-}
-
-export function blurStoryTitleTerm(): IBlurStoryTitleTerm {
-    return {
-        type: StoryActions.BLUR_STORY_TITLE_TERM,
     };
 }
 

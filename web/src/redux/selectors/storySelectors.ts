@@ -21,10 +21,6 @@ export function getSelectedStory(state: IState): IStory {
         .find((x) => x.storyId === state.stories.selectedStoryId);
 }
 
-export function getStoryTitleTerm(state: IState): string {
-    return state.stories.storyTitleTerm;
-}
-
 export function getWasStoryBlocked(state: IState): boolean {
     return state.stories.wasStoryBlocked;
 }

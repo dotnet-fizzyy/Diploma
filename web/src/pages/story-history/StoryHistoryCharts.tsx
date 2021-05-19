@@ -3,7 +3,7 @@ import moment from 'moment';
 import React from 'react';
 import LineChart from '../../components/charts/LineChart';
 import { DateFormat } from '../../constants';
-import { ILineChartConfigTypes } from '../../types/charTypes';
+import { ILineChartTypes } from '../../types/charTypes';
 import { IStoryHistory } from '../../types/storyTypes';
 
 const useStyles = makeStyles(() =>
@@ -31,7 +31,7 @@ const StoryHistoryCharts = (props: IStoryHistoryChartsProps) => {
         }));
     const uniqueDateLabels: string[] = Array.from(new Set(mappedDataByDates.map((x) => x.creationDate)));
 
-    const chartsData: ILineChartConfigTypes = {
+    const chartsData: ILineChartTypes = {
         labels: uniqueDateLabels,
         datasets: [
             {

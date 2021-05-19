@@ -28,3 +28,7 @@ export function getWorkSpaceIsLoading(state: IState): boolean {
 export function getWorkSpaceProjects(state: IState): IWorkSpacePageProject[] {
     return state.workspace.projects;
 }
+
+export function getSearchTitleTerm(state: IState): string {
+    return state.workspace.searchTerm;
+}

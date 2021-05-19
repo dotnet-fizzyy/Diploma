@@ -38,7 +38,6 @@ const initialState: IStoryState = {
     simpleItems: [],
     selectedStoryId: '',
     wasStoryBlocked: false,
-    storyTitleTerm: '',
     storyHistory: initialStoryHistoryState,
     isDragging: false,
     sortType: SortFields.PRIORITY.toUpperCase(),

@@ -6,7 +6,18 @@ export interface ILineChartDataSetTypes {
     tension: number;
 }
 
-export interface ILineChartConfigTypes {
+export interface ILineChartTypes {
     labels: string[];
     datasets: ILineChartDataSetTypes[];
+}
+
+export interface IDoughnutChartDataSetTypes {
+    label: string;
+    data: number[];
+    backgroundColor: string[];
+}
+
+export interface IDoughnutChartTypes {
+    labels: string[];
+    datasets: IDoughnutChartDataSetTypes[];
 }

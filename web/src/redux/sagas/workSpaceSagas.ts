@@ -1,19 +1,27 @@
 import { push } from 'connected-react-router';
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, debounce, put, select, takeLatest } from 'redux-saga/effects';
+import StoryApi from '../../api/storyApi';
 import WorkSpaceApi from '../../api/workSpaceApi';
 import { WorkspaceViewerRoute } from '../../constants/routeConstants';
+import { debouncePeriod } from '../../constants/storyConstants';
+import { IProject } from '../../types/projectTypes';
+import { IStory } from '../../types/storyTypes';
 import { IWorkSpace, IWorkSpacePage } from '../../types/workSpaceTypes';
 import {
     createWorkSpaceFailure,
     createWorkSpaceSuccess,
     getUserWorkSpacePageFailure,
     getUserWorkSpacePageSuccess,
+    setSearchTitleTermFailure,
+    setSearchTitleTermSuccess,
     updateWorkSpaceFailure,
     updateWorkSpaceSuccess,
     ICreateWorkSpaceRequest,
+    ISetSearchTitleTermRequest,
     IUpdateWorkSpaceSuccess,
     WorkSpaceActions,
 } from '../actions/workSpaceActions';
+import { getSelectProject } from '../selectors/projectSelectors';
 
 export function* getUserWorkSpacePage() {
     try {
@@ -45,8 +53,20 @@ export function* updateWorkSpace(action: IUpdateWorkSpaceSuccess) {
     }
 }
 
+export function* searchForStoriesByTitleTerm(action: ISetSearchTitleTermRequest) {
+    try {
+        const currentProject: IProject = yield select(getSelectProject);
+        const stories: IStory[] = yield call(StoryApi.getStoriesByTerm, action.payload, currentProject.projectId);
+
+        yield put(setSearchTitleTermSuccess(stories));
+    } catch (error) {
+        yield put(setSearchTitleTermFailure(error));
+    }
+}
+
 export default function* workSpaceSaga() {
     yield takeLatest(WorkSpaceActions.GET_USER_WORKSPACE_PAGE_REQUEST, getUserWorkSpacePage);
     yield takeLatest(WorkSpaceActions.CREATE_WORKSPACE_REQUEST, createWorkSpace);
     yield takeLatest(WorkSpaceActions.UPDATE_WORKSPACE_REQUEST, updateWorkSpace);
+    yield debounce(debouncePeriod, WorkSpaceActions.SET_SEARCH_TITLE_TERM_REQUEST, searchForStoriesByTitleTerm);
 }

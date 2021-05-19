@@ -11,6 +11,10 @@ export const WorkSpaceActions = {
     UPDATE_WORKSPACE_SUCCESS: 'UPDATE_WORKSPACE_SUCCESS',
     UPDATE_WORKSPACE_FAILURE: 'UPDATE_WORKSPACE_FAILURE',
     ADD_WORKSPACE: 'ADD_WORKSPACE',
+    SET_SEARCH_TITLE_TERM_REQUEST: 'SET_SEARCH_TITLE_TERM_REQUEST',
+    SET_SEARCH_TITLE_TERM_SUCCESS: 'SET_SEARCH_TITLE_TERM_SUCCESS',
+    SET_SEARCH_TITLE_TERM_FAILURE: 'SET_SEARCH_TITLE_TERM_FAILURE',
+    BLUR_STORY_TITLE_TERM: 'BLUR_STORY_TITLE_TERM',
 };
 
 /*
@@ -63,6 +67,25 @@ export interface IUpdateWorkSpaceFailure {
 export interface IAddWorkSpace {
     type: typeof WorkSpaceActions.ADD_WORKSPACE;
     payload: IWorkSpace;
+}
+
+export interface ISetSearchTitleTermRequest {
+    type: typeof WorkSpaceActions.SET_SEARCH_TITLE_TERM_REQUEST;
+    payload: string;
+}
+
+export interface ISetSearchTitleTermSuccess {
+    type: typeof WorkSpaceActions.SET_SEARCH_TITLE_TERM_SUCCESS;
+    payload: any;
+}
+
+export interface ISetSearchTitleTermFailure {
+    type: typeof WorkSpaceActions.SET_SEARCH_TITLE_TERM_FAILURE;
+    payload: Error;
+}
+
+export interface IBlurSearchTitleTerm {
+    type: typeof WorkSpaceActions.BLUR_STORY_TITLE_TERM;
 }
 
 /*
@@ -137,8 +160,29 @@ export function addWorkSpace(workSpace: IWorkSpace): IAddWorkSpace {
     };
 }
 
-//Types
-export type WorkSpaceActionTypes = ICreateWorkSpaceSuccess &
-    IGetUserWorkspacePageSuccess &
-    IUpdateWorkSpaceSuccess &
-    IAddWorkSpace;
+export function setSearchTitleTermRequest(term: string): ISetSearchTitleTermRequest {
+    return {
+        type: WorkSpaceActions.SET_SEARCH_TITLE_TERM_REQUEST,
+        payload: term,
+    };
+}
+
+export function setSearchTitleTermSuccess(results: any): ISetSearchTitleTermSuccess {
+    return {
+        type: WorkSpaceActions.SET_SEARCH_TITLE_TERM_SUCCESS,
+        payload: results,
+    };
+}
+
+export function setSearchTitleTermFailure(error: Error): ISetSearchTitleTermFailure {
+    return {
+        type: WorkSpaceActions.SET_SEARCH_TITLE_TERM_FAILURE,
+        payload: error,
+    };
+}
+
+export function blurSearchTitleTerm(): IBlurSearchTitleTerm {
+    return {
+        type: WorkSpaceActions.BLUR_STORY_TITLE_TERM,
+    };
+}
