@@ -11,6 +11,7 @@ import {
     IMakeStoryBlocked,
     IRemoveStorySuccess,
     ISelectStory,
+    ISetStoriesSimpleItems,
     ISortStoriesRequest,
     IUpdateStoriesAfterDragAndDropAction,
     IUpdateStoryColumnSuccess,
@@ -34,6 +35,7 @@ const initialStoryHistoryState: IStoryHistoryState = {
 
 const initialState: IStoryState = {
     columns: initialColumnState,
+    simpleItems: [],
     selectedStoryId: '',
     wasStoryBlocked: false,
     storyTitleTerm: '',
@@ -48,6 +50,8 @@ export default function storyReducer(state = initialState, action: any) {
         case StoryActions.ADD_STORIES:
         case StoryActions.SORT_STORIES_SUCCESS:
             return handleAddStories(state, action);
+        case StoryActions.SET_STORIES_SIMPLE_ITEMS:
+            return handleSetStoriesSimpleItems(state, action);
         case StoryActions.SELECT_STORY:
             return handleSelectStory(state, action);
         case StoryActions.CREATE_STORY_SUCCESS:
@@ -91,6 +95,13 @@ function handleAddStories(state: IStoryState, action: IAddStories): IStoryState 
                 value: action.payload.filter((story) => story.columnType === column.key),
             } as IStoryColumns;
         }),
+    };
+}
+
+function handleSetStoriesSimpleItems(state: IStoryState, action: ISetStoriesSimpleItems): IStoryState {
+    return {
+        ...state,
+        simpleItems: action.payload,
     };
 }
 

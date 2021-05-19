@@ -1,5 +1,5 @@
 import { SortDirection } from '../../constants/storyConstants';
-import { IFullStory, IStory, IStoryColumns, IStoryDragAndDrop } from '../../types/storyTypes';
+import { IFullStory, IStory, IStoryColumns, IStoryDragAndDrop, IStorySimpleModel } from '../../types/storyTypes';
 
 export const StoryActions = {
     GET_GENERAL_INFO_REQUEST: 'GET_GENERAL_INFO_REQUEST',
@@ -51,6 +51,7 @@ export const StoryActions = {
     REMOVE_STORY_REQUEST: 'REMOVE_STORY_REQUEST',
     REMOVE_STORY_SUCCESS: 'REMOVE_STORY_SUCCESS',
     REMOVE_STORY_FAILURE: 'REMOVE_STORY_FAILURE',
+    SET_STORIES_SIMPLE_ITEMS: 'SET_STORIES_SIMPLE_ITEMS',
 };
 
 /*
@@ -281,6 +282,11 @@ export interface IRemoveStorySuccess {
 export interface IRemoveStoryFailure {
     type: typeof StoryActions.REMOVE_STORY_FAILURE;
     payload: Error;
+}
+
+export interface ISetStoriesSimpleItems {
+    type: typeof StoryActions.SET_STORIES_SIMPLE_ITEMS;
+    payload: IStorySimpleModel[];
 }
 
 /*
@@ -604,5 +610,12 @@ export function removeStoryFailure(error: Error): IRemoveStoryFailure {
     return {
         type: StoryActions.REMOVE_STORY_FAILURE,
         payload: error,
+    };
+}
+
+export function setStorySimpleItems(stories: IStorySimpleModel[]): ISetStoriesSimpleItems {
+    return {
+        type: StoryActions.SET_STORIES_SIMPLE_ITEMS,
+        payload: stories,
     };
 }

@@ -54,3 +54,11 @@ export interface IStoryHistory {
     userName: string;
     creationDate: Date;
 }
+
+export interface IStorySimpleModel {
+    storyId: string;
+    title: string;
+    columnType: string;
+    sprintId: string;
+    recordVersion: number;
+}

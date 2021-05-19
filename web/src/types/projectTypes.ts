@@ -1,6 +1,6 @@
 import { IEpic, IEpicSimpleModel } from './epicTypes';
 import { ISprint } from './sprintTypes';
-import { IStory } from './storyTypes';
+import { IStory, IStorySimpleModel } from './storyTypes';
 import { ITeam, ITeamSimpleModel } from './teamTypes';
 
 interface IBaseProject {
@@ -31,4 +31,11 @@ export interface IBoardPage {
     epics: IEpicSimpleModel[];
     sprints: ISprint[];
     stories: IStory[];
+}
+
+export interface IStatsPage {
+    project: IProject;
+    epics: IEpicSimpleModel[];
+    sprints: ISprint[];
+    stories: IStorySimpleModel[];
 }

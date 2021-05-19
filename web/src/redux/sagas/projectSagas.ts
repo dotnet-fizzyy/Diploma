@@ -1,6 +1,6 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import ProjectApi from '../../api/projectApi';
-import { IBoardPage, IProject, IProjectPage } from '../../types/projectTypes';
+import { IBoardPage, IProject, IProjectPage, IStatsPage } from '../../types/projectTypes';
 import { addEpics, addSimpleEpics } from '../actions/epicActions';
 import {
     createProjectFailure,
@@ -9,6 +9,7 @@ import {
     getProjectFailure,
     getProjectPageFailure,
     getProjectPageSuccess,
+    getProjectStatsPageFailure,
     getProjectSuccess,
     removeProjectFailure,
     removeProjectSuccess,
@@ -19,12 +20,13 @@ import {
     IGetBoardInfoRequest,
     IGetProjectPageRequest,
     IGetProjectRequest,
+    IGetProjectStatsPageRequest,
     IRemoveProjectRequest,
     IUpdateProjectRequest,
     ProjectActions,
 } from '../actions/projectActions';
 import { addSprints } from '../actions/sprintActions';
-import { addStories } from '../actions/storyActions';
+import { addStories, setStorySimpleItems } from '../actions/storyActions';
 import { addTeamSimpleItems, setSelectedTeam } from '../actions/teamActions';
 
 export function* getProjectPage(action: IGetProjectPageRequest) {
@@ -102,6 +104,24 @@ export function* removeProject(action: IRemoveProjectRequest) {
     }
 }
 
+export function* getProjectStatsPage(action: IGetProjectStatsPageRequest) {
+    try {
+        const { project, epics, sprints, stories }: IStatsPage = yield call(
+            ProjectApi.getProjectPageStats,
+            action.payload
+        );
+
+        yield all([
+            put(setSelectedProject(project)),
+            put(addSimpleEpics(epics)),
+            put(addSprints(sprints)),
+            put(setStorySimpleItems(stories)),
+        ]);
+    } catch (error) {
+        yield put(getProjectStatsPageFailure(error));
+    }
+}
+
 export default function* rootStoriesSaga() {
     yield takeLatest(ProjectActions.GET_PROJECT_PAGE_REQUEST, getProjectPage);
     yield takeLatest(ProjectActions.CREATE_PROJECT_REQUEST, createProject);
@@ -109,4 +129,5 @@ export default function* rootStoriesSaga() {
     yield takeLatest(ProjectActions.GET_BOARD_INFO_REQUEST, getBoardInfo);
     yield takeLatest(ProjectActions.UPDATE_PROJECT_REQUEST, updateProject);
     yield takeLatest(ProjectActions.REMOVE_PROJECT_REQUEST, removeProject);
+    yield takeLatest(ProjectActions.GET_PROJECTS_STATS_PAGE_REQUEST, getProjectStatsPage);
 }

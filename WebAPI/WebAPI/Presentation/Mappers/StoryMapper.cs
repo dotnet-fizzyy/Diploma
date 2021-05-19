@@ -92,6 +92,7 @@ namespace WebAPI.Presentation.Mappers
                 Title = story.Title,
                 SprintId = story.SprintId,
                 RecordVersion = story.RecordVersion,
+                ColumnType = Enum.Parse<WebAPI.Models.Enums.ColumnType>(story.ColumnType.ToString())
             };
 
             return userSimpleModel;

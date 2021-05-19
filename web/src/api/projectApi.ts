@@ -3,9 +3,9 @@ import { ProjectUrls } from '../constants/routeConstants';
 import { mapToEpicSimpleModel } from '../mappers/epicMapper';
 import { mapToProjectModel, mapToProjectPageModel } from '../mappers/projectMapper';
 import { mapToSprintModel } from '../mappers/sprintMappers';
-import { mapToStoryModel } from '../mappers/storyMappers';
+import { mapToStoryModel, mapToStorySimpleModel } from '../mappers/storyMappers';
 import { mapToTeamModel } from '../mappers/teamMapper';
-import { IBoardPage, IProject, IProjectPage } from '../types/projectTypes';
+import { IBoardPage, IProject, IProjectPage, IStatsPage } from '../types/projectTypes';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class ProjectApi {
@@ -68,6 +68,14 @@ export default class ProjectApi {
         await AxiosBaseApi.axiosDelete(`${ProjectUrls.removeProject}/${projectId}`);
     }
 
+    public static async getProjectPageStats(projectId: string): Promise<IStatsPage> {
+        const response: AxiosResponse<IStatsPage> = await AxiosBaseApi.axiosGet(
+            `${ProjectUrls.getStatsPage}?projectId=${projectId}`
+        );
+
+        return ProjectApi.mapToStatsPageData(response.data);
+    }
+
     private static mapToBoardPageData(data: any): IBoardPage {
         return {
             project: mapToProjectModel(data.project),
@@ -75,6 +83,15 @@ export default class ProjectApi {
             epics: data.epics && data.epics.length ? data.epics.map(mapToEpicSimpleModel) : [],
             sprints: data.sprints && data.sprints.length ? data.sprints.map(mapToSprintModel) : [],
             stories: data.stories && data.stories.length ? data.stories.map(mapToStoryModel) : [],
+        };
+    }
+
+    private static mapToStatsPageData(data: any): IStatsPage {
+        return {
+            project: mapToProjectModel(data.project),
+            epics: data.epics && data.epics.length ? data.epics.map(mapToEpicSimpleModel) : [],
+            sprints: data.sprints && data.sprints.length ? data.sprints.map(mapToSprintModel) : [],
+            stories: data.stories && data.stories.length ? data.stories.map(mapToStorySimpleModel) : [],
         };
     }
 }

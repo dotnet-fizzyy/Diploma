@@ -42,6 +42,7 @@ const PageUrls = {
     getProjectPage: `${PageBaseUrl}/project`,
     getBoardPage: `${PageBaseUrl}/board`,
     getStoryHistory: `${StoryBaseUrl}/full/id`,
+    getProjectStatsPage: `${PageBaseUrl}/stats`,
 };
 
 export const UserUrls = {
@@ -86,6 +87,7 @@ export const ProjectUrls = {
     getBoardPage: PageUrls.getBoardPage,
     updateProject: ProjectBaseUrl,
     removeProject: `${ProjectBaseUrl}/soft/id`,
+    getStatsPage: PageUrls.getProjectStatsPage,
 };
 
 export const TeamUrls = {

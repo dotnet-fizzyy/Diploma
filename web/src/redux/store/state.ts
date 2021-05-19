@@ -5,7 +5,7 @@ import { SortDirection } from '../../constants/storyConstants';
 import { IEpic, IEpicSimpleModel } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';
 import { ISprint } from '../../types/sprintTypes';
-import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
+import { IStory, IStoryColumns, IStoryHistory, IStorySimpleModel } from '../../types/storyTypes';
 import { ITeam, ITeamSimpleModel } from '../../types/teamTypes';
 import { IFullUser } from '../../types/userTypes';
 import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
@@ -34,6 +34,7 @@ export interface IUserState {
 
 export interface IStoryState {
     columns: IStoryColumns[];
+    simpleItems: IStorySimpleModel[];
     selectedStoryId: string;
     wasStoryBlocked: boolean;
     storyTitleTerm: string;

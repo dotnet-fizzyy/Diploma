@@ -23,6 +23,8 @@ export const ProjectActions = {
     REMOVE_PROJECT_REQUEST: 'REMOVE_PROJECT_REQUEST',
     REMOVE_PROJECT_SUCCESS: 'REMOVE_PROJECT_SUCCESS',
     REMOVE_PROJECT_FAILURE: 'REMOVE_PROJECT_FAILURE',
+    GET_PROJECTS_STATS_PAGE_REQUEST: 'GET_PROJECTS_STATS_PAGE_REQUEST',
+    GET_PROJECTS_STATS_PAGE_FAILURE: 'GET_PROJECTS_STATS_PAGE_FAILURE',
 };
 
 /*
@@ -137,6 +139,16 @@ export interface IRemoveProjectSuccess {
 
 export interface IRemoveProjectFailure {
     type: typeof ProjectActions.REMOVE_PROJECT_FAILURE;
+    payload: Error;
+}
+
+export interface IGetProjectStatsPageRequest {
+    type: typeof ProjectActions.GET_PROJECTS_STATS_PAGE_REQUEST;
+    payload: string;
+}
+
+export interface IGetProjectStatsPageFailure {
+    type: typeof ProjectActions.GET_PROJECTS_STATS_PAGE_FAILURE;
     payload: Error;
 }
 
@@ -295,6 +307,20 @@ export function removeProjectSuccess(projectId: string): IRemoveProjectSuccess {
 export function removeProjectFailure(error: Error): IRemoveProjectFailure {
     return {
         type: ProjectActions.REMOVE_PROJECT_FAILURE,
+        payload: error,
+    };
+}
+
+export function getProjectStatsPageRequest(projectId: string): IGetProjectStatsPageRequest {
+    return {
+        type: ProjectActions.GET_PROJECTS_STATS_PAGE_REQUEST,
+        payload: projectId,
+    };
+}
+
+export function getProjectStatsPageFailure(error: Error): IGetProjectStatsPageFailure {
+    return {
+        type: ProjectActions.GET_PROJECTS_STATS_PAGE_FAILURE,
         payload: error,
     };
 }

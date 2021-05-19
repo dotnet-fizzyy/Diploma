@@ -1,4 +1,4 @@
-import { IFullStory, IStory, IStoryHistory } from '../types/storyTypes';
+import { IFullStory, IStory, IStoryHistory, IStorySimpleModel } from '../types/storyTypes';
 
 export const mapToStoryModel = (data): IStory => ({
     storyId: data.storyId,
@@ -35,3 +35,11 @@ export const mapToFullStory = (data): IFullStory => ({
 });
 
 export const mapFullStoryToStory = (fullStory: IStory): IStory => mapToStoryModel(fullStory);
+
+export const mapToStorySimpleModel = (data): IStorySimpleModel => ({
+    storyId: data.storyId,
+    title: data.title,
+    sprintId: data.sprintId,
+    columnType: data.columnType,
+    recordVersion: data.recordVersion,
+});
