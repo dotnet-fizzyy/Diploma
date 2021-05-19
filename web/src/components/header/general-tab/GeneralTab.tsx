@@ -28,7 +28,7 @@ const useStyles = makeStyles(() =>
             position: 'relative',
             width: '100%',
             maxWidth: '400px',
-            margin: '0 auto 0 50px',
+            margin: '0 auto 0 80px',
         },
         mainTabsContainer: {
             maxWidth: '400px',
