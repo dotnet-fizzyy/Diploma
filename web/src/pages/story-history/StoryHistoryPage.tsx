@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { IStoryHistory } from '../../types/storyTypes';
-import StoryHistoryPageDescription from './StoryHistoryPageDescription';
+import StoryHistoryPageDescription from '../../components/story-history/StoryHistoryPageDescription';
+import { IStory, IStoryHistory } from '../../types/storyTypes';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -25,16 +25,17 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IStoryHistoryPageProps {
+    story: IStory;
     storyHistoryItems: IStoryHistory[];
 }
 
 const StoryHistoryPage = (props: IStoryHistoryPageProps) => {
     const classes = useStyles();
-    const { storyHistoryItems } = props;
+    const { storyHistoryItems, story } = props;
 
     return (
         <div className={classes.root}>
-            <StoryHistoryPageDescription storyHistoryItems={storyHistoryItems} />
+            <StoryHistoryPageDescription storyHistoryItems={storyHistoryItems} story={story} />
         </div>
     );
 };

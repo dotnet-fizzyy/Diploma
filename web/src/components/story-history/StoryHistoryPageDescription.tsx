@@ -2,15 +2,16 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import moment from 'moment';
 import React from 'react';
-import MainLabel, { LabelType } from '../../components/common/MainLabel';
 import { DateFormat } from '../../constants';
-import { IStoryHistory, StoryHistoryAction } from '../../types/storyTypes';
+import { IStory, IStoryHistory, StoryHistoryAction } from '../../types/storyTypes';
 import {
     getStoryHistoryActionText,
     getStoryHistoryActionTextForBooleanValues,
     getStoryHistoryUpdateAction,
 } from '../../utils/storyHistoryUtils';
+import MainLabel, { LabelType } from '../common/MainLabel';
 import StoryHistoryCharts from './StoryHistoryCharts';
+import StoryHistoryShortDescription from './StoryHistoryShortDescription';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -20,10 +21,13 @@ const useStyles = makeStyles(() =>
             flexDirection: 'column',
         },
         body: {
-            marginTop: '20px',
+            display: 'flex',
+            flexDirection: 'row',
+        },
+        changesContainer: {
+            marginRight: '50px',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
         },
         text: {
             fontFamily: 'Poppins',
@@ -31,18 +35,23 @@ const useStyles = makeStyles(() =>
             fontWeight: 400,
         },
         storyHistoryItem: {
-            marginTop: '10px',
+            marginTop: '20px',
+        },
+        chartsContainer: {},
+        descPagePartLabel: {
+            marginLeft: '3px',
         },
     })
 );
 
 export interface IStoryHistoryPageDescriptionProps {
+    story: IStory;
     storyHistoryItems: IStoryHistory[];
 }
 
 const StoryHistoryPageDescription = (props: IStoryHistoryPageDescriptionProps) => {
     const classes = useStyles();
-    const { storyHistoryItems } = props;
+    const { story, storyHistoryItems } = props;
     const booleanStatuses: string[] = ['Ready', 'Blocked'];
 
     const getStoryHistoryItem = ({
@@ -86,10 +95,25 @@ const StoryHistoryPageDescription = (props: IStoryHistoryPageDescriptionProps) =
     return (
         <div className={classes.root}>
             <MainLabel title="Story History" variant={LabelType.PRIMARY} />
-            <StoryHistoryCharts storyHistoryItems={storyHistoryItems} />
-            <MainLabel title="Changes" variant={LabelType.SECONDARY} />
+            {story && (
+                <StoryHistoryShortDescription
+                    title={story.title}
+                    creationDate={story.creationDate}
+                    columnId={story.columnType}
+                    estimate={story.estimate}
+                />
+            )}
             <div className={classes.body}>
-                {storyHistoryItems && storyHistoryItems.length ? storyHistoryItems.map(getStoryHistoryItem) : null}
+                <div className={classes.changesContainer}>
+                    <MainLabel title="Changes" variant={LabelType.SECONDARY} />
+                    {storyHistoryItems && storyHistoryItems.length ? storyHistoryItems.map(getStoryHistoryItem) : null}
+                </div>
+                <div className={classes.chartsContainer}>
+                    <div className={classes.descPagePartLabel}>
+                        <MainLabel title="Timeline changes" variant={LabelType.SECONDARY} />
+                    </div>
+                    <StoryHistoryCharts storyHistoryItems={storyHistoryItems} />
+                </div>
             </div>
         </div>
     );

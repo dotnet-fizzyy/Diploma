@@ -1,10 +1,10 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import React from 'react';
-import LineChart from '../../components/charts/LineChart';
 import { DateFormat } from '../../constants';
 import { ILineChartTypes } from '../../types/charTypes';
 import { IStoryHistory } from '../../types/storyTypes';
+import LineChart from '../charts/LineChart';
 
 const useStyles = makeStyles(() =>
     createStyles({

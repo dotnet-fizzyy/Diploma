@@ -10,7 +10,6 @@ const useStyles = makeStyles(() =>
             margin: '20px 0 40px 0',
             width: '100%',
             maxWidth: '500px',
-            backgroundColor: '#FAFAFA',
             display: 'flex',
             flexDirection: 'column',
         },

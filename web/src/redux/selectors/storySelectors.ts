@@ -29,6 +29,10 @@ export function getStoryHistory(state: IState): IStoryHistory[] {
     return state.stories.storyHistory.items;
 }
 
+export function getStoryFromHistory(state: IState): IStory {
+    return state.stories.storyHistory.story;
+}
+
 export function getIsDragging(state: IState): boolean {
     return state.stories.isDragging;
 }
