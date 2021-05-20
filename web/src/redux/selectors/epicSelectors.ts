@@ -6,7 +6,7 @@ export function getEpics(state: IState): IEpic[] {
     return state.epics.epics;
 }
 
-export function getEpicsNames(state: IState): ISelectedItem[] {
+export function getEpicsDropdownItems(state: IState): ISelectedItem[] {
     return state.epics.simpleItems.map((x) => {
         return {
             key: x.epicId,
@@ -19,8 +19,12 @@ export function getSelectedEpic(state: IState): IEpic {
     return state.epics.epics.find((x) => x.epicId === state.epics.selectedEpicId);
 }
 
-export function getSelectEpicSimpleModel(state: IState): IEpicSimpleModel {
+export function getEpicSimpleModel(state: IState): IEpicSimpleModel {
     return state.epics.simpleItems.find((x) => x.epicId === state.epics.selectedEpicId);
+}
+
+export function getEpicSimpleModels(state: IState): IEpicSimpleModel[] {
+    return state.epics.simpleItems;
 }
 
 export function getSelectedEpicId(state: IState): string {

@@ -1,7 +1,8 @@
 import { withStyles } from '@material-ui/core';
 import { createStyles } from '@material-ui/core/styles';
-import { registerables, Chart } from 'chart.js';
+import { registerables, ActiveElement, Chart, ChartEvent } from 'chart.js';
 import React from 'react';
+import { IDoughnutChartTypes } from '../../types/charTypes';
 
 Chart.register(...registerables);
 
@@ -15,6 +16,7 @@ const useStyles = () =>
 
 export interface IDoughnutChartProps {
     classes: { root: string };
+    data: IDoughnutChartTypes;
 }
 
 export interface IDoughnutChartState {
@@ -23,37 +25,44 @@ export interface IDoughnutChartState {
 
 class DoughnutChart extends React.Component<IDoughnutChartProps, IDoughnutChartState> {
     private readonly chartRef: React.RefObject<HTMLCanvasElement>;
+    private chart: any;
 
     constructor(props) {
         super(props);
         this.chartRef = React.createRef();
     }
 
-    componentDidMount() {
+    componentDidUpdate(prevProps: Readonly<IDoughnutChartProps>, prevState: Readonly<IDoughnutChartState>) {
         const ctx = this.chartRef.current.getContext('2d');
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow'],
-                datasets: [
-                    {
-                        label: 'My First Dataset',
-                        data: [300, 70, 100],
-                        backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'] as any,
+        if (this.chart) {
+            this.chart.destroy();
+        }
+
+        if (prevProps.data.datasets !== this.props.data.datasets) {
+            const { onClick } = this.props.data;
+
+            this.chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: this.props.data,
+                options: {
+                    events: ['mousemove', 'click'],
+                    onHover(event: ChartEvent, elements: ActiveElement[]) {
+                        (event.native.target as any).style.cursor = elements[0] ? 'pointer' : 'default';
                     },
-                ],
-            },
-            options: {
-                plugins: {
-                    tooltip: {
-                        displayColors: false,
+                    onClick(event: ChartEvent, elements: ActiveElement[]) {
+                        elements && elements.length && onClick(elements[0].index);
                     },
-                    legend: {
-                        display: false,
+                    plugins: {
+                        tooltip: {
+                            displayColors: false,
+                        },
+                        legend: {
+                            display: false,
+                        },
                     },
                 },
-            },
-        });
+            });
+        }
     }
 
     render() {

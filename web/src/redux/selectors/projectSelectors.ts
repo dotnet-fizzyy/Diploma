@@ -17,10 +17,14 @@ export function getProjectNames(state: IState): ISelectedItem[] {
         : [];
 }
 
-export function getSelectProject(state: IState): IProject {
+export function getSelectedProject(state: IState): IProject {
     return state.project.selectedProject;
 }
 
 export function getSelectProjectId(state: IState): string {
     return state.project.selectedProject ? state.project.selectedProject.projectId : '';
+}
+
+export function getSelectProjectName(state: IState): string {
+    return state.project.selectedProject ? state.project.selectedProject.projectName : '';
 }

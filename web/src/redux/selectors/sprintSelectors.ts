@@ -17,7 +17,7 @@ export function getSprintsNames(state: IState): ISelectedItem[] {
         : [];
 }
 
-export function getSprintNamesForBoard(state: IState): ISelectedItem[] {
+export function getSprintDropdownItems(state: IState): ISelectedItem[] {
     const sprints: ISelectedItem[] = getSprintsNames(state);
     sprints.unshift({ key: '', value: 'All' });
 

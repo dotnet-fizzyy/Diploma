@@ -5,7 +5,7 @@ import { SortDirection } from '../../../constants/storyConstants';
 import { ISelectedItem } from '../../../types/storyTypes';
 import { ITeam } from '../../../types/teamTypes';
 import Button from '../../common/Button';
-import BoardTabDropdown from './BoardTabDropdown';
+import Dropdown from '../../common/Dropdown';
 import EpicDisplay from './EpicDisplay';
 import SortSwitch from './SortSwitch';
 import TeamMembers from './TeamMembers';
@@ -107,15 +107,10 @@ const BoardTab = (props: IBoardTabProps) => {
                     <SortSwitch value={sortDirection} onChangeSortDirection={onChangeSortDirection} />
                 </div>
                 <div className={classes.selectContainer}>
-                    <BoardTabDropdown
-                        value={sortType}
-                        items={sortFields}
-                        onChangeEvent={onChangeSortType}
-                        isOutlined={true}
-                    />
+                    <Dropdown value={sortType} items={sortFields} onChangeEvent={onChangeSortType} isOutlined={true} />
                 </div>
                 <div className={classes.selectContainer}>
-                    <BoardTabDropdown
+                    <Dropdown
                         value={selectedSprintId}
                         items={sprints}
                         onChangeEvent={onChangeSprint}

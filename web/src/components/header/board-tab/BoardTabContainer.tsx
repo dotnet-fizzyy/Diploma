@@ -9,8 +9,8 @@ import {
     changeStorySprintRequest,
     sortStoriesRequest,
 } from '../../../redux/actions/storyActions';
-import { getEpicsNames, getSelectedEpicId } from '../../../redux/selectors/epicSelectors';
-import { getSelectedSprintId, getSprintNamesForBoard } from '../../../redux/selectors/sprintSelectors';
+import { getEpicsDropdownItems, getSelectedEpicId } from '../../../redux/selectors/epicSelectors';
+import { getSelectedSprintId, getSprintDropdownItems } from '../../../redux/selectors/sprintSelectors';
 import { getSortDirection, getSortType } from '../../../redux/selectors/storySelectors';
 import { getSelectedTeam } from '../../../redux/selectors/teamSelectors';
 import { getUser } from '../../../redux/selectors/userSelectors';
@@ -25,9 +25,9 @@ const BoardTabContainer = () => {
     const team: ITeam = useSelector(getSelectedTeam);
     const user: IUser = useSelector(getUser);
     const selectedEpicId: string = useSelector(getSelectedEpicId);
-    const epics: ISelectedItem[] = useSelector(getEpicsNames);
+    const epics: ISelectedItem[] = useSelector(getEpicsDropdownItems);
     const selectedSprintId: string = useSelector(getSelectedSprintId);
-    const sprints: ISelectedItem[] = useSelector(getSprintNamesForBoard);
+    const sprints: ISelectedItem[] = useSelector(getSprintDropdownItems);
     const sortType: string = useSelector(getSortType);
     const sortDirection: SortDirection = useSelector(getSortDirection);
 

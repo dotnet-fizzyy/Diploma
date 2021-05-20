@@ -1,5 +1,6 @@
 import { ISelectTabItem } from '../components/header/general-tab/SelectTab';
 import { ILoginForm, IProfilePasswordUpdateForm, IRegistrationForm } from '../types/formTypes';
+import { ColumnIds } from './boardConstants';
 
 export const BaseRegexExpression: RegExp = /^[- a-zA-Z0-9]*$/;
 export const EmailRegexExpression: RegExp = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -80,3 +81,30 @@ export enum SidebarTypes {
     STORY_DESCRIPTION = 'STORY_DESCRIPTION',
     STORY_REMOVE = 'STORY_REMOVE',
 }
+
+export const doughnutChartColors: ISelectTabItem[] = [
+    {
+        key: ColumnIds.ToDo,
+        value: 'rgb(255, 99, 132)',
+    },
+    {
+        key: ColumnIds.InProgress,
+        value: 'rgb(54, 162, 235)',
+    },
+    {
+        key: ColumnIds.InReview,
+        value: 'rgb(255, 205, 86)',
+    },
+    {
+        key: ColumnIds.Testing,
+        value: 'rgb(107, 255, 102)',
+    },
+    {
+        key: ColumnIds.Confirmed,
+        value: 'rgb(153, 255, 255)',
+    },
+    {
+        key: ColumnIds.OnProd,
+        value: 'rgb(255, 153, 153)',
+    },
+];

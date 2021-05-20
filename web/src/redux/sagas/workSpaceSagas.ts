@@ -21,7 +21,7 @@ import {
     IUpdateWorkSpaceSuccess,
     WorkSpaceActions,
 } from '../actions/workSpaceActions';
-import { getSelectProject } from '../selectors/projectSelectors';
+import { getSelectedProject } from '../selectors/projectSelectors';
 
 export function* getUserWorkSpacePage() {
     try {
@@ -55,7 +55,7 @@ export function* updateWorkSpace(action: IUpdateWorkSpaceSuccess) {
 
 export function* searchForStoriesByTitleTerm(action: ISetSearchTitleTermRequest) {
     try {
-        const currentProject: IProject = yield select(getSelectProject);
+        const currentProject: IProject = yield select(getSelectedProject);
         const stories: IStory[] = yield call(StoryApi.getStoriesByTerm, action.payload, currentProject.projectId);
 
         yield put(setSearchTitleTermSuccess(stories));

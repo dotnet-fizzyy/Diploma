@@ -5,7 +5,7 @@ import { ModalOptions } from '../../../constants/modalConstants';
 import { initialProjectFormValues, ProjectLengthDescriptionMaxLength } from '../../../constants/projectConstants';
 import { createProjectRequest, updateProjectRequest } from '../../../redux/actions/projectActions';
 import { getModalOption } from '../../../redux/selectors/modalSelectors';
-import { getSelectProject } from '../../../redux/selectors/projectSelectors';
+import { getSelectedProject } from '../../../redux/selectors/projectSelectors';
 import { getWorkSpaceId } from '../../../redux/selectors/workSpaceSelectors';
 import { IProjectForm } from '../../../types/formTypes';
 import { IProject } from '../../../types/projectTypes';
@@ -16,7 +16,7 @@ const ProjectModalContainer = () => {
     const dispatch = useDispatch();
     const workSpaceId: string = useSelector(getWorkSpaceId);
     const modalOption: ModalOptions = useSelector(getModalOption);
-    const project: IProject = useSelector(getSelectProject);
+    const project: IProject = useSelector(getSelectedProject);
 
     const isUpdate: boolean = modalOption === ModalOptions.PROJECT_UPDATE;
     const initialValues: IProject = isUpdate ? project : initialProjectFormValues;

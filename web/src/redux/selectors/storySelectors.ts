@@ -1,5 +1,5 @@
 import { SortDirection } from '../../constants/storyConstants';
-import { IStory, IStoryColumns, IStoryHistory } from '../../types/storyTypes';
+import { IStory, IStoryColumns, IStoryHistory, IStorySimpleModel } from '../../types/storyTypes';
 import { IState } from '../store/state';
 
 export function getColumns(state: IState): IStoryColumns[] {
@@ -39,4 +39,8 @@ export function getSortType(state: IState): string {
 
 export function getSortDirection(state: IState): SortDirection {
     return state.stories.sortDirection;
+}
+
+export function getStorySimpleModels(state: IState): IStorySimpleModel[] {
+    return state.stories.simpleItems;
 }

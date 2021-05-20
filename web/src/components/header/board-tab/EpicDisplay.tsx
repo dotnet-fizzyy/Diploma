@@ -3,7 +3,7 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import classnames from 'classnames';
 import React from 'react';
 import { ISelectedItem } from '../../../types/storyTypes';
-import BoardTabDropdown from './BoardTabDropdown';
+import Dropdown from '../../common/Dropdown';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -48,12 +48,7 @@ export const EpicDisplay = (props: IProjectDisplayProps) => {
             <NavigateNextIcon className={classes.icon} />
             <div className={classes.dropdownContainer}>
                 {epics && epics.length && (
-                    <BoardTabDropdown
-                        value={selectedEpicId}
-                        items={epics}
-                        onChangeEvent={onChangeEpic}
-                        isOutlined={false}
-                    />
+                    <Dropdown value={selectedEpicId} items={epics} onChangeEvent={onChangeEpic} isOutlined={false} />
                 )}
             </div>
         </div>

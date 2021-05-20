@@ -1,7 +1,7 @@
 import { MenuItem, Select } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { ISelectedItem } from '../../../types/storyTypes';
+import { ISelectedItem } from '../../types/storyTypes';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -36,14 +36,14 @@ export interface IBoardTabDropdownProps {
     isOutlined: boolean;
 }
 
-const BoardTabDropdown = (props: IBoardTabDropdownProps) => {
+const Dropdown = (props: IBoardTabDropdownProps) => {
     const classes = useStyles(props);
     const { value, items, isOutlined, onChangeEvent } = props;
 
     return (
         <Select
             className={classes.root}
-            disableUnderline={!isOutlined}
+            disableUnderline={!!isOutlined}
             displayEmpty={true}
             classes={{ outlined: classes.outlined, select: classes.select }}
             variant={isOutlined ? 'outlined' : 'standard'}
@@ -60,4 +60,4 @@ const BoardTabDropdown = (props: IBoardTabDropdownProps) => {
     );
 };
 
-export default BoardTabDropdown;
+export default Dropdown;
