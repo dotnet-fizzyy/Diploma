@@ -3,6 +3,7 @@ import {
     ICreateWorkSpaceSuccess,
     IGetUserWorkspacePageSuccess,
     ISetSearchTitleTermRequest,
+    ISetSearchTitleTermSuccess,
     WorkSpaceActions,
 } from '../actions/workSpaceActions';
 import { IWorkSpaceState } from '../store/state';
@@ -16,7 +17,11 @@ const initialState: IWorkSpaceState = {
     },
     projects: [],
     isLoading: false,
-    searchTerm: '',
+    search: {
+        searchTerm: '',
+        stories: [],
+        users: [],
+    },
 };
 
 export default function workSpaceReducer(state = initialState, action): IWorkSpaceState {
@@ -34,6 +39,8 @@ export default function workSpaceReducer(state = initialState, action): IWorkSpa
             return handleGetUserWorkSpaceFailure(state);
         case WorkSpaceActions.SET_SEARCH_TITLE_TERM_REQUEST:
             return handleSetSearchTitleTerm(state, action);
+        case WorkSpaceActions.SET_SEARCH_TITLE_TERM_SUCCESS:
+            return handleSetSearchTitleSuccess(state, action);
         default:
             return state;
     }
@@ -73,6 +80,20 @@ function handleGetUserWorkSpacePage(state: IWorkSpaceState, action: IGetUserWork
 function handleSetSearchTitleTerm(state: IWorkSpaceState, action: ISetSearchTitleTermRequest): IWorkSpaceState {
     return {
         ...state,
-        searchTerm: action.payload,
+        search: {
+            ...state.search,
+            searchTerm: action.payload,
+        },
+    };
+}
+
+function handleSetSearchTitleSuccess(state: IWorkSpaceState, action: ISetSearchTitleTermSuccess): IWorkSpaceState {
+    return {
+        ...state,
+        search: {
+            ...state.search,
+            stories: action.payload.stories,
+            users: action.payload.users,
+        },
     };
 }

@@ -7,9 +7,9 @@ import { openModal } from '../../../redux/actions/modalActions';
 import { changeUserProject, changeUserTeam, logOutUser } from '../../../redux/actions/userActions';
 import { blurSearchTitleTerm, setSearchTitleTermRequest } from '../../../redux/actions/workSpaceActions';
 import { getUser, getUserSelectedProjectId, getUserSelectedTeamId } from '../../../redux/selectors/userSelectors';
-import { getSearchTitleTerm } from '../../../redux/selectors/workSpaceSelectors';
-import { IStory } from '../../../types/storyTypes';
-import { IFullUser } from '../../../types/userTypes';
+import { getSearchStories, getSearchTitleTerm, getSearchUsers } from '../../../redux/selectors/workSpaceSelectors';
+import { IStorySimpleModel } from '../../../types/storyTypes';
+import { IFullUser, IUserSimpleModel } from '../../../types/userTypes';
 import { clearCredentialsFromLocalStorage } from '../../../utils';
 import GeneralTab, { IGeneralTabProps } from './GeneralTab';
 
@@ -18,7 +18,8 @@ const GeneralTabContainer = () => {
     const history = useHistory();
     const user: IFullUser = useSelector(getUser);
     const searchTerm: string = useSelector(getSearchTitleTerm);
-    const searchResults: IStory[] = [];
+    const searchUsers: IUserSimpleModel[] = useSelector(getSearchUsers);
+    const searchStories: IStorySimpleModel[] = useSelector(getSearchStories);
     const selectedTeamId: string = useSelector(getUserSelectedTeamId);
     const selectedProjectId: string = useSelector(getUserSelectedProjectId);
 
@@ -63,7 +64,8 @@ const GeneralTabContainer = () => {
         user,
         anchor,
         searchTerm,
-        searchResults,
+        searchUsers,
+        searchStories,
         selectedTeamId,
         selectedProjectId,
         onClickDisplayMenu,

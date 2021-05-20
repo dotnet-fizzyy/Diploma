@@ -1,12 +1,9 @@
 import { push } from 'connected-react-router';
 import { all, call, debounce, put, select, takeLatest } from 'redux-saga/effects';
-import StoryApi from '../../api/storyApi';
 import WorkSpaceApi from '../../api/workSpaceApi';
 import { WorkspaceViewerRoute } from '../../constants/routeConstants';
 import { debouncePeriod } from '../../constants/storyConstants';
-import { IProject } from '../../types/projectTypes';
-import { IStory } from '../../types/storyTypes';
-import { IWorkSpace, IWorkSpacePage } from '../../types/workSpaceTypes';
+import { ISearchResults, IWorkSpace, IWorkSpacePage } from '../../types/workSpaceTypes';
 import {
     createWorkSpaceFailure,
     createWorkSpaceSuccess,
@@ -21,7 +18,7 @@ import {
     IUpdateWorkSpaceSuccess,
     WorkSpaceActions,
 } from '../actions/workSpaceActions';
-import { getSelectedProject } from '../selectors/projectSelectors';
+import { getUserTeamIds } from '../selectors/userSelectors';
 
 export function* getUserWorkSpacePage() {
     try {
@@ -53,12 +50,20 @@ export function* updateWorkSpace(action: IUpdateWorkSpaceSuccess) {
     }
 }
 
-export function* searchForStoriesByTitleTerm(action: ISetSearchTitleTermRequest) {
+export function* searchForWorkSpaceItemsByTitleTerm(action: ISetSearchTitleTermRequest) {
     try {
-        const currentProject: IProject = yield select(getSelectedProject);
-        const stories: IStory[] = yield call(StoryApi.getStoriesByTerm, action.payload, currentProject.projectId);
+        if (!action.payload) {
+            return;
+        }
 
-        yield put(setSearchTitleTermSuccess(stories));
+        const userTeamIds: string[] = yield select(getUserTeamIds);
+        const searchResults: ISearchResults = yield call(
+            WorkSpaceApi.getWorkSpaceItemsBySearchTerm,
+            action.payload,
+            userTeamIds
+        );
+
+        yield put(setSearchTitleTermSuccess(searchResults));
     } catch (error) {
         yield put(setSearchTitleTermFailure(error));
     }
@@ -68,5 +73,5 @@ export default function* workSpaceSaga() {
     yield takeLatest(WorkSpaceActions.GET_USER_WORKSPACE_PAGE_REQUEST, getUserWorkSpacePage);
     yield takeLatest(WorkSpaceActions.CREATE_WORKSPACE_REQUEST, createWorkSpace);
     yield takeLatest(WorkSpaceActions.UPDATE_WORKSPACE_REQUEST, updateWorkSpace);
-    yield debounce(debouncePeriod, WorkSpaceActions.SET_SEARCH_TITLE_TERM_REQUEST, searchForStoriesByTitleTerm);
+    yield debounce(debouncePeriod, WorkSpaceActions.SET_SEARCH_TITLE_TERM_REQUEST, searchForWorkSpaceItemsByTitleTerm);
 }

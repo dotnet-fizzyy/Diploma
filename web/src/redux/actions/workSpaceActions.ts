@@ -1,4 +1,4 @@
-import { IWorkSpace, IWorkSpacePage } from '../../types/workSpaceTypes';
+import { ISearchResults, IWorkSpace, IWorkSpacePage } from '../../types/workSpaceTypes';
 
 export const WorkSpaceActions = {
     GET_USER_WORKSPACE_PAGE_REQUEST: 'GET_USER_WORKSPACE_PAGE_REQUEST',
@@ -76,7 +76,7 @@ export interface ISetSearchTitleTermRequest {
 
 export interface ISetSearchTitleTermSuccess {
     type: typeof WorkSpaceActions.SET_SEARCH_TITLE_TERM_SUCCESS;
-    payload: any;
+    payload: ISearchResults;
 }
 
 export interface ISetSearchTitleTermFailure {
@@ -167,7 +167,7 @@ export function setSearchTitleTermRequest(term: string): ISetSearchTitleTermRequ
     };
 }
 
-export function setSearchTitleTermSuccess(results: any): ISetSearchTitleTermSuccess {
+export function setSearchTitleTermSuccess(results: ISearchResults): ISetSearchTitleTermSuccess {
     return {
         type: WorkSpaceActions.SET_SEARCH_TITLE_TERM_SUCCESS,
         payload: results,

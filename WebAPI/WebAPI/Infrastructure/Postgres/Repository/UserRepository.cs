@@ -19,7 +19,8 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             var query = 
                 from users in _dbContext.Users
                     .AsNoTracking()
-                    .Where(x => EF.Functions.Like(x.UserName, $"{searchTerm}%"))
+                    .Where(x => EF.Functions.ILike(x.UserName, $"{searchTerm}%"))
+                    .Take(limit)
                     .Include(x => x.TeamUsers)
                     .ThenInclude(x => x.Team)
                 where users.TeamUsers.Any(x => teamIds.Any(y => y == x.Team.Id))

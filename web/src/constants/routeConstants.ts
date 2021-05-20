@@ -43,6 +43,7 @@ const PageUrls = {
     getBoardPage: `${PageBaseUrl}/board`,
     getStoryHistory: `${StoryBaseUrl}/full/id`,
     getProjectStatsPage: `${PageBaseUrl}/stats`,
+    getSearchItems: `${PageBaseUrl}/search`,
 };
 
 export const UserUrls = {
@@ -101,4 +102,5 @@ export const WorkSpaceUrls = {
     updateWorkSpace: WorkSpaceBaseUrl,
     userWorkSpace: `${WorkSpaceBaseUrl}/user`,
     createWorkSpace: `${WorkSpaceBaseUrl}/user`,
+    getSearchItems: PageUrls.getSearchItems,
 };

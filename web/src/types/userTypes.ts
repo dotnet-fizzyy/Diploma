@@ -46,3 +46,10 @@ export interface IUserListItem {
     userName: string;
     avatarLink: string;
 }
+
+export interface IUserSimpleModel {
+    userId: string;
+    userName: string;
+    userRole: UserRole;
+    userPosition: UserPosition;
+}

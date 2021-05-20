@@ -24,3 +24,7 @@ export function getUserSelectedProjectId(state: IState): string {
 export function getUserSelectedTeamId(state: IState): string {
     return state.currentUser.selectedTeam;
 }
+
+export function getUserTeamIds(state: IState): string[] {
+    return state.currentUser.user.teams.map((x) => x.teamId);
+}

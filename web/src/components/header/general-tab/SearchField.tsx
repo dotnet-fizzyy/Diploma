@@ -2,7 +2,8 @@ import { TextField } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import React from 'react';
-import { IStory } from '../../../types/storyTypes';
+import { IStorySimpleModel } from '../../../types/storyTypes';
+import { IUserSimpleModel } from '../../../types/userTypes';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -53,18 +54,20 @@ const useStyles = makeStyles(() =>
 
 export interface ISearchFieldProps {
     searchTerm: string;
-    searchResults: IStory[];
+    searchUsers: IUserSimpleModel[];
+    searchStories: IStorySimpleModel[];
     onBlur: () => void;
     onChangeSearchTerm: (value: string) => void;
 }
 
 const SearchField = (props: ISearchFieldProps) => {
     const classes = useStyles();
-    const { onBlur, searchResults, searchTerm, onChangeSearchTerm } = props;
+    const { onBlur, searchUsers, searchStories, searchTerm, onChangeSearchTerm } = props;
 
     const onChange = (event: { target: { value: string } }): void => {
         onChangeSearchTerm(event.target.value);
     };
+    console.warn(searchUsers, searchStories);
 
     return (
         <>
@@ -80,21 +83,7 @@ const SearchField = (props: ISearchFieldProps) => {
                     classes: { input: classes.input },
                 }}
             />
-            {!!searchResults && (
-                <div className={classes.searchResults}>
-                    {searchResults.map((x) => (
-                        <div className={classes.resultStory} key={x.storyId}>
-                            <span>
-                                <b>{x.title}</b>
-                            </span>
-                            <span className={classes.sprintName}>
-                                {x.sprintId} | {x.estimate} point
-                                {x.estimate === 1 ? '' : 's'}
-                            </span>
-                        </div>
-                    ))}
-                </div>
-            )}
+            <div className={classes.searchResults} />
         </>
     );
 };

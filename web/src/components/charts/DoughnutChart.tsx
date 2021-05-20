@@ -34,11 +34,15 @@ class DoughnutChart extends React.Component<IDoughnutChartProps, IDoughnutChartS
 
     componentDidUpdate(prevProps: Readonly<IDoughnutChartProps>, prevState: Readonly<IDoughnutChartState>) {
         const ctx = this.chartRef.current.getContext('2d');
-        if (this.chart) {
-            this.chart.destroy();
-        }
 
-        if (prevProps.data.datasets !== this.props.data.datasets) {
+        const prevDataSets = prevProps.data.datasets[0].data;
+        const currentDataSets = this.props.data.datasets[0].data;
+
+        if (!prevDataSets.every((x, index) => x === currentDataSets[index])) {
+            if (this.chart) {
+                this.chart.destroy();
+            }
+
             const { onClick } = this.props.data;
 
             this.chart = new Chart(ctx, {

@@ -7,7 +7,7 @@ import { IProject } from '../../types/projectTypes';
 import { ISprint } from '../../types/sprintTypes';
 import { IStory, IStoryColumns, IStoryHistory, IStorySimpleModel } from '../../types/storyTypes';
 import { ITeam, ITeamSimpleModel } from '../../types/teamTypes';
-import { IFullUser } from '../../types/userTypes';
+import { IFullUser, IUserSimpleModel } from '../../types/userTypes';
 import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
 
 export interface IState {
@@ -82,9 +82,15 @@ export interface IEpicsState {
     selectedEpicId?: string;
 }
 
+export interface ISearch {
+    searchTerm: string;
+    users: IUserSimpleModel[];
+    stories: IStorySimpleModel[];
+}
+
 export interface IWorkSpaceState {
     workSpace: IWorkSpace;
     projects: IWorkSpacePageProject[];
-    searchTerm?: string;
+    search: ISearch;
     isLoading: boolean;
 }

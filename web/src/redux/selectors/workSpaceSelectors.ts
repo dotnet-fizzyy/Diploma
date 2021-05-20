@@ -1,3 +1,5 @@
+import { IStorySimpleModel } from '../../types/storyTypes';
+import { IUserSimpleModel } from '../../types/userTypes';
 import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
 import { IState } from '../store/state';
 
@@ -13,10 +15,6 @@ export function getWorkSpaceName(state: IState): string {
     return state.workspace.workSpace.workSpaceName;
 }
 
-export function getWorkSpaceDescription(state: IState): string {
-    return state.workspace.workSpace.workSpaceDescription;
-}
-
 export function getWorkSpaceDate(state: IState): Date {
     return state.workspace.workSpace.creationDate;
 }
@@ -30,5 +28,13 @@ export function getWorkSpaceProjects(state: IState): IWorkSpacePageProject[] {
 }
 
 export function getSearchTitleTerm(state: IState): string {
-    return state.workspace.searchTerm;
+    return state.workspace.search.searchTerm;
+}
+
+export function getSearchUsers(state: IState): IUserSimpleModel[] {
+    return state.workspace.search.users;
+}
+
+export function getSearchStories(state: IState): IStorySimpleModel[] {
+    return state.workspace.search.stories;
 }

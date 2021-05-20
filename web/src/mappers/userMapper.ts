@@ -1,4 +1,5 @@
-import { IFullUser, IUser, IUserListItem, IUserProject, IUserTeam } from '../types/userTypes';
+import { UserPosition, UserRole } from '../constants/userConstants';
+import { IFullUser, IUser, IUserProject, IUserSimpleModel, IUserTeam } from '../types/userTypes';
 
 export function mapToUserModel(data: any): IUser {
     return {
@@ -26,11 +27,12 @@ export function mapToFullUserModel(data: any): IFullUser {
     };
 }
 
-export function mapToSimpleUserModel(data: any): IUserListItem {
+export function mapToSimpleUserModel(data: any): IUserSimpleModel {
     return {
         userId: data.userId,
         userName: data.userName,
-        avatarLink: data.avatarLink,
+        userPosition: UserPosition[data.userPosition],
+        userRole: UserRole[data.userRole],
     };
 }
 

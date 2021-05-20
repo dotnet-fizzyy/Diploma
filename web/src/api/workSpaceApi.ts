@@ -1,7 +1,9 @@
 import { AxiosResponse } from 'axios';
 import { WorkSpaceUrls } from '../constants/routeConstants';
+import { mapToStorySimpleModel } from '../mappers/storyMappers';
+import { mapToSimpleUserModel } from '../mappers/userMapper';
 import { mapToWorkSpaceModel } from '../mappers/workSpaceMapper';
-import { IWorkSpace, IWorkSpacePage } from '../types/workSpaceTypes';
+import { ISearchResults, IWorkSpace, IWorkSpacePage } from '../types/workSpaceTypes';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class WorkSpaceApi {
@@ -32,5 +34,20 @@ export default class WorkSpaceApi {
         );
 
         return mapToWorkSpaceModel(response.data);
+    }
+
+    public static async getWorkSpaceItemsBySearchTerm(searchTerm: string, teamIds: string[]): Promise<ISearchResults> {
+        const response: AxiosResponse<ISearchResults> = await AxiosBaseApi.axiosGet(
+            `${WorkSpaceUrls.getSearchItems}?term=${searchTerm}&teamIds=${teamIds.join('&teamIds=')}`
+        );
+
+        return WorkSpaceApi.mapSearchResultItems(response.data);
+    }
+
+    private static mapSearchResultItems(data): ISearchResults {
+        return {
+            users: data.users && data.users.length ? data.users.map(mapToSimpleUserModel) : [],
+            stories: data.stories && data.stories.length ? data.stories.map(mapToStorySimpleModel) : [],
+        };
     }
 }

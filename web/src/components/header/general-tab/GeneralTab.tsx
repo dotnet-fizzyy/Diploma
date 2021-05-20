@@ -4,8 +4,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { DefaultRoute } from '../../../constants/routeConstants';
 import LogoIcon from '../../../static/Icon.svg';
-import { IStory } from '../../../types/storyTypes';
-import { IFullUser } from '../../../types/userTypes';
+import { IStorySimpleModel } from '../../../types/storyTypes';
+import { IFullUser, IUserSimpleModel } from '../../../types/userTypes';
 import SearchField from './SearchField';
 import TabLinks from './TabLinks';
 import TabMenu from './TabMenu';
@@ -58,7 +58,8 @@ export interface IGeneralTabProps {
     user: IFullUser;
     searchTerm: string;
     anchor: HTMLElement;
-    searchResults: IStory[];
+    searchUsers: IUserSimpleModel[];
+    searchStories: IStorySimpleModel[];
     selectedProjectId: string;
     selectedTeamId: string;
     onClickDisplayMenu: (event: React.MouseEvent<HTMLElement>) => void;
@@ -77,7 +78,8 @@ const GeneralTab = (props: IGeneralTabProps) => {
         anchor,
         user,
         searchTerm,
-        searchResults,
+        searchUsers,
+        searchStories,
         selectedProjectId,
         selectedTeamId,
         onClickDisplayMenu,
@@ -101,7 +103,8 @@ const GeneralTab = (props: IGeneralTabProps) => {
                     <div className={classes.searchResultsContainer}>
                         <SearchField
                             searchTerm={searchTerm}
-                            searchResults={searchResults}
+                            searchUsers={searchUsers}
+                            searchStories={searchStories}
                             onBlur={onBlur}
                             onChangeSearchTerm={onChangeSearchTerm}
                         />

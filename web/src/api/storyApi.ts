@@ -42,14 +42,6 @@ export default class StoryApi {
         return mapToStoryModel(response.data);
     }
 
-    public static async getStoriesByTerm(storyTerm: string, projectId: string): Promise<IStory[]> {
-        const response: AxiosResponse<ICollectionResponse<IStory>> = await AxiosBaseApi.axiosGet(
-            StoryUrls.termSearch + `?term=${storyTerm}&limit=${5}&projectId=${projectId}`
-        );
-
-        return response.data.items.map(mapToStoryModel);
-    }
-
     public static async sortStories(queryParams: string): Promise<IStory[]> {
         const response: AxiosResponse<ICollectionResponse<IStory>> = await AxiosBaseApi.axiosGet(
             `${StoryUrls.sortStories}?${queryParams}`
