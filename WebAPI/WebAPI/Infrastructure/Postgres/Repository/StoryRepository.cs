@@ -24,16 +24,17 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             return storiesFromEpic;
         }
 
-        public async Task<List<Story>> GetStoriesByTitleTerm(string term, int limit, Guid workSpaceId)
+        public async Task<List<Story>> GetStoriesByTitleTerm(string searchTerm, int limit, Guid[] teamIds)
         {
             var query = from stories in
                 _dbContext.Stories.Where(
-                    x => EF.Functions.Like(x.Title, $"%{term}%")
+                    x => EF.Functions.Like(x.Title, $"{searchTerm}%")
                 ).AsNoTracking().Take(limit) 
                 join sprints in _dbContext.Sprints on stories.SprintId equals sprints.Id
                 join epic in _dbContext.Epics on sprints.EpicId equals epic.Id
                 join project in _dbContext.Projects on epic.ProjectId equals project.Id
-                where project.WorkSpaceId == workSpaceId
+                join teams in _dbContext.Teams on project.Id equals teams.ProjectId
+                where teamIds.Select(x => x).Any(x => x == teams.Id)
                 select stories;
 
 

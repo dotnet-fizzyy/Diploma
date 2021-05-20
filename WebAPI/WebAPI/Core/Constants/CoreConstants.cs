@@ -26,8 +26,7 @@ namespace WebAPI.Core.Constants
 
     public static class Search
     {
-        public const int EpicsLimit = 2;
-        public const int SprintsLimit = 3;
+        public const int UsersLimit = 5;
         public const int StoriesLimit = 5;
     }
 }

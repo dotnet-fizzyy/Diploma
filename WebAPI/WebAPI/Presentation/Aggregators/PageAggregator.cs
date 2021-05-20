@@ -17,6 +17,7 @@ namespace WebAPI.Presentation.Aggregators
         private readonly IEpicMapper _epicMapper;
         private readonly ISprintMapper _sprintMapper;
         private readonly IStoryMapper _storyMapper;
+        private readonly IUserMapper _userMapper;
 
         public PageAggregator(
             IWorkSpaceMapper workSpaceMapper, 
@@ -24,7 +25,8 @@ namespace WebAPI.Presentation.Aggregators
             IProjectMapper projectMapper, 
             IEpicMapper epicMapper,
             ISprintMapper sprintMapper,
-            IStoryMapper storyMapper
+            IStoryMapper storyMapper,
+            IUserMapper userMapper
             )
         {
             _workSpaceMapper = workSpaceMapper;
@@ -33,14 +35,14 @@ namespace WebAPI.Presentation.Aggregators
             _epicMapper = epicMapper;
             _sprintMapper = sprintMapper;
             _storyMapper = storyMapper;
+            _userMapper = userMapper;
         }
 
-        public SearchResult CreateSearchResultsByTerm(IList<Story> stories, IList<Epic> epics, IList<Sprint> sprints)
+        public SearchResult CreateSearchResultsByTerm(IList<Story> stories, IList<User> users)
         {
             var searchResults = new SearchResult
             {
-                Epics = epics.Select(_epicMapper.MapToSimpleModel).ToList(),
-                Sprints = sprints.Select(_sprintMapper.MapToModel).ToList(),
+                Users = users != null ? users.Select(_userMapper.MapToSimpleModel).ToList() : new List<UserSimpleModel>(),
                 Stories = stories != null 
                     ? stories.Select(_storyMapper.MapToSimpleModel).ToList() 
                     : new List<StorySimpleModel>(),

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
+using WebAPI.Models.Models.Simple;
 using WebAPI.Presentation.Models;
 using WebAPI.Presentation.Models.Action;
 
@@ -17,5 +18,7 @@ namespace WebAPI.Core.Interfaces.Mappers
         Entities.User MapToEntity(SignInUser user);
         
         FullUser MapToFullModel(Entities.User user, IEnumerable<Entities.Project> projects, IEnumerable<Entities.Team> teams);
+
+        UserSimpleModel MapToSimpleModel(Entities.User userEntity);
     }
 }

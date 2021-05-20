@@ -4,7 +4,7 @@ using System.Linq;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Models;
+using WebAPI.Models.Models.Simple;
 using WebAPI.Presentation.Models.Action;
 
 namespace WebAPI.Presentation.Mappers
@@ -92,6 +92,25 @@ namespace WebAPI.Presentation.Mappers
             
             return fullUser;
         }
+
+        public UserSimpleModel MapToSimpleModel(User userEntity)
+        {
+            if (userEntity == null)
+            {
+                return new UserSimpleModel();
+            }
+
+            var userSimpleModel = new UserSimpleModel
+            {
+                UserId = userEntity.Id,
+                UserName = userEntity.UserName,
+                UserRole = Enum.Parse<WebAPI.Models.Enums.UserRole>(userEntity.UserRole.ToString(), true),
+                UserPosition = Enum.Parse<WebAPI.Models.Enums.UserPosition>(userEntity.UserPosition.ToString(), true),
+            };
+
+            return userSimpleModel;
+        }
+        
         
         private static void MapBaseEntityToModel(WebAPI.Models.Models.Models.User userModel, User userEntity)
         {
@@ -106,7 +125,6 @@ namespace WebAPI.Presentation.Mappers
             userModel.UserRole = Enum.Parse<WebAPI.Models.Enums.UserRole>(userEntity.UserRole.ToString(), true);
             userModel.UserPosition = Enum.Parse<WebAPI.Models.Enums.UserPosition>(userEntity.UserPosition.ToString(), true);
         }
-
         
         private static UserTeam MapToUserTeam(Team team) => 
             new UserTeam

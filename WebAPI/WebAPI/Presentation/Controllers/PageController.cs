@@ -25,9 +25,13 @@ namespace WebAPI.Presentation.Controllers
 
         [HttpGet]
         [Route("search")]
-        public async Task<ActionResult<SearchResult>> GetSearchFieldDataIndex([FromQuery, BindRequired]string term, [FromQuery, BindRequired]Guid workSpaceId)
-            => await _pageService.GetSearchResultsAsync(term, workSpaceId);
+        public async Task<ActionResult<SearchResult>> GetSearchFieldDataIndex([FromQuery, BindRequired] string term, [FromQuery] Guid[] teamIds)
+        {
+            var result = await _pageService.GetSearchResultsAsync(term, teamIds);
 
+            return result;
+        }
+        
         [HttpGet]
         [Route("main")]
         public IActionResult GetMainPageData()

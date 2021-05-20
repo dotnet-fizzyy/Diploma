@@ -21,6 +21,7 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly ITeamRepository _teamRepository;
         private readonly ISprintRepository _sprintRepository;
         private readonly IStoryRepository _storyRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IPageAggregator _pageAggregator;
 
         private const string MissingEpicsExceptionMessage = "No any epics found with provided project id";
@@ -33,6 +34,7 @@ namespace WebAPI.ApplicationLogic.Services
             ITeamRepository teamRepository,
             ISprintRepository sprintRepository,
             IStoryRepository storyRepository,
+            IUserRepository userRepository,
             IPageAggregator pageAggregator
             )
         {
@@ -42,16 +44,16 @@ namespace WebAPI.ApplicationLogic.Services
             _teamRepository = teamRepository;
             _sprintRepository = sprintRepository;
             _storyRepository = storyRepository;
+            _userRepository = userRepository;
             _pageAggregator = pageAggregator;
         }
 
-        public async Task<SearchResult> GetSearchResultsAsync(string term, Guid workSpaceId)
+        public async Task<SearchResult> GetSearchResultsAsync(string searchTerm, Guid[] teamIds)
         {
-            var epicEntities = await _epicRepository.GetEpicsByEpicNameTermAsync(term, Search.EpicsLimit, workSpaceId);
-            var sprintEntities = await _sprintRepository.GetSprintsBySprintNameTermAsync(term, Search.SprintsLimit, workSpaceId);
-            var storyEntities = await _storyRepository.GetStoriesByTitleTerm(term, Search.StoriesLimit, workSpaceId);
+            var userEntities = await _userRepository.GetUsersBySearchTermAsync(searchTerm, Search.UsersLimit, teamIds);
+            var storyEntities = await _storyRepository.GetStoriesByTitleTerm(searchTerm, Search.StoriesLimit, teamIds);
 
-            var searchResults = _pageAggregator.CreateSearchResultsByTerm(storyEntities, epicEntities, sprintEntities);
+            var searchResults = _pageAggregator.CreateSearchResultsByTerm(storyEntities, userEntities);
             
             return searchResults;
         }

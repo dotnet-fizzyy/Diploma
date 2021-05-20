@@ -6,7 +6,7 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface IPageService
     {
-        Task<SearchResult> GetSearchResultsAsync(string term, Guid workSpaceId);
+        Task<SearchResult> GetSearchResultsAsync(string searchTerm, Guid[] teamIds);
 
         Task<BoardPage> GetBoardPageDataAsync(Guid projectId, Guid teamId, Guid userId);
         
