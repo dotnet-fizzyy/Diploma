@@ -7,7 +7,12 @@ import { openModal } from '../../../redux/actions/modalActions';
 import { changeUserProject, changeUserTeam, logOutUser } from '../../../redux/actions/userActions';
 import { blurSearchTitleTerm, setSearchTitleTermRequest } from '../../../redux/actions/workSpaceActions';
 import { getUser, getUserSelectedProjectId, getUserSelectedTeamId } from '../../../redux/selectors/userSelectors';
-import { getSearchStories, getSearchTitleTerm, getSearchUsers } from '../../../redux/selectors/workSpaceSelectors';
+import {
+    getIsSearchTermSearching,
+    getSearchStories,
+    getSearchTitleTerm,
+    getSearchUsers,
+} from '../../../redux/selectors/workSpaceSelectors';
 import { IStorySimpleModel } from '../../../types/storyTypes';
 import { IFullUser, IUserSimpleModel } from '../../../types/userTypes';
 import { clearCredentialsFromLocalStorage } from '../../../utils';
@@ -22,6 +27,7 @@ const GeneralTabContainer = () => {
     const searchStories: IStorySimpleModel[] = useSelector(getSearchStories);
     const selectedTeamId: string = useSelector(getUserSelectedTeamId);
     const selectedProjectId: string = useSelector(getUserSelectedProjectId);
+    const searching: boolean = useSelector(getIsSearchTermSearching);
 
     const [anchor, setAnchor] = useState<null | HTMLElement>(null);
 
@@ -68,6 +74,7 @@ const GeneralTabContainer = () => {
         searchStories,
         selectedTeamId,
         selectedProjectId,
+        searching,
         onClickDisplayMenu,
         onClickCloseMenu,
         onClickLogOut,

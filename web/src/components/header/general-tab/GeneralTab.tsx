@@ -62,6 +62,7 @@ export interface IGeneralTabProps {
     searchStories: IStorySimpleModel[];
     selectedProjectId: string;
     selectedTeamId: string;
+    searching: boolean;
     onClickDisplayMenu: (event: React.MouseEvent<HTMLElement>) => void;
     onChangeSearchTerm: (value: string) => void;
     onClickCloseMenu: () => void;
@@ -82,6 +83,7 @@ const GeneralTab = (props: IGeneralTabProps) => {
         searchStories,
         selectedProjectId,
         selectedTeamId,
+        searching,
         onClickDisplayMenu,
         onClickCloseMenu,
         onClickOpenProfile,
@@ -102,6 +104,7 @@ const GeneralTab = (props: IGeneralTabProps) => {
                     </Link>
                     <div className={classes.searchResultsContainer}>
                         <SearchField
+                            searching={searching}
                             searchTerm={searchTerm}
                             searchUsers={searchUsers}
                             searchStories={searchStories}

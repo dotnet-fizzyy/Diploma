@@ -19,6 +19,7 @@ const initialState: IWorkSpaceState = {
     isLoading: false,
     search: {
         searchTerm: '',
+        searching: true,
         stories: [],
         users: [],
     },
@@ -41,6 +42,8 @@ export default function workSpaceReducer(state = initialState, action): IWorkSpa
             return handleSetSearchTitleTerm(state, action);
         case WorkSpaceActions.SET_SEARCH_TITLE_TERM_SUCCESS:
             return handleSetSearchTitleSuccess(state, action);
+        case WorkSpaceActions.BLUR_SEARCH_FIELD_TERM:
+            return handleBlurSearchFieldTerm(state);
         default:
             return state;
     }
@@ -83,6 +86,7 @@ function handleSetSearchTitleTerm(state: IWorkSpaceState, action: ISetSearchTitl
         search: {
             ...state.search,
             searchTerm: action.payload,
+            searching: true,
         },
     };
 }
@@ -92,8 +96,21 @@ function handleSetSearchTitleSuccess(state: IWorkSpaceState, action: ISetSearchT
         ...state,
         search: {
             ...state.search,
+            searching: false,
             stories: action.payload.stories,
             users: action.payload.users,
+        },
+    };
+}
+
+function handleBlurSearchFieldTerm(state: IWorkSpaceState): IWorkSpaceState {
+    return {
+        ...state,
+        search: {
+            ...state.search,
+            searching: false,
+            users: [],
+            stories: [],
         },
     };
 }

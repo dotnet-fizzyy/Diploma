@@ -38,3 +38,7 @@ export function getSearchUsers(state: IState): IUserSimpleModel[] {
 export function getSearchStories(state: IState): IStorySimpleModel[] {
     return state.workspace.search.stories;
 }
+
+export function getIsSearchTermSearching(state: IState): boolean {
+    return state.workspace.search.searching;
+}

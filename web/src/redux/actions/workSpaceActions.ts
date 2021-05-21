@@ -14,7 +14,7 @@ export const WorkSpaceActions = {
     SET_SEARCH_TITLE_TERM_REQUEST: 'SET_SEARCH_TITLE_TERM_REQUEST',
     SET_SEARCH_TITLE_TERM_SUCCESS: 'SET_SEARCH_TITLE_TERM_SUCCESS',
     SET_SEARCH_TITLE_TERM_FAILURE: 'SET_SEARCH_TITLE_TERM_FAILURE',
-    BLUR_STORY_TITLE_TERM: 'BLUR_STORY_TITLE_TERM',
+    BLUR_SEARCH_FIELD_TERM: 'BLUR_STORY_TITLE_TERM',
 };
 
 /*
@@ -85,7 +85,7 @@ export interface ISetSearchTitleTermFailure {
 }
 
 export interface IBlurSearchTitleTerm {
-    type: typeof WorkSpaceActions.BLUR_STORY_TITLE_TERM;
+    type: typeof WorkSpaceActions.BLUR_SEARCH_FIELD_TERM;
 }
 
 /*
@@ -183,6 +183,6 @@ export function setSearchTitleTermFailure(error: Error): ISetSearchTitleTermFail
 
 export function blurSearchTitleTerm(): IBlurSearchTitleTerm {
     return {
-        type: WorkSpaceActions.BLUR_STORY_TITLE_TERM,
+        type: WorkSpaceActions.BLUR_SEARCH_FIELD_TERM,
     };
 }

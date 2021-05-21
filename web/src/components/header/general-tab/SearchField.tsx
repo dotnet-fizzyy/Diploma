@@ -1,9 +1,10 @@
 import { TextField } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import React from 'react';
+import React, { useState } from 'react';
 import { IStorySimpleModel } from '../../../types/storyTypes';
 import { IUserSimpleModel } from '../../../types/userTypes';
+import SearchResults from './SearchResults';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -26,9 +27,6 @@ const useStyles = makeStyles(() =>
             backgroundColor: '#FFF',
             borderBottomLeftRadius: '5px',
             borderBottomRightRadius: '5px',
-            borderLeft: '1px solid lightgrey',
-            borderRight: '1px solid lightgrey',
-            borderBottom: '1px solid lightgrey',
         },
         resultStory: {
             fontFamily: 'Poppins',
@@ -56,18 +54,32 @@ export interface ISearchFieldProps {
     searchTerm: string;
     searchUsers: IUserSimpleModel[];
     searchStories: IStorySimpleModel[];
+    searching: boolean;
     onBlur: () => void;
     onChangeSearchTerm: (value: string) => void;
 }
 
 const SearchField = (props: ISearchFieldProps) => {
     const classes = useStyles();
-    const { onBlur, searchUsers, searchStories, searchTerm, onChangeSearchTerm } = props;
+    const { onBlur, searching, searchUsers, searchStories, searchTerm, onChangeSearchTerm } = props;
+
+    const [focused, setIsFocused] = useState<boolean>(false);
 
     const onChange = (event: { target: { value: string } }): void => {
         onChangeSearchTerm(event.target.value);
     };
-    console.warn(searchUsers, searchStories);
+
+    const onFocus = (): void => {
+        if (!focused) {
+            setIsFocused(true);
+            searchTerm && onChangeSearchTerm(searchTerm);
+        }
+    };
+
+    const onBlurField = (): void => {
+        onBlur();
+        setIsFocused(false);
+    };
 
     return (
         <>
@@ -75,7 +87,8 @@ const SearchField = (props: ISearchFieldProps) => {
                 placeholder="Search"
                 value={searchTerm}
                 onChange={onChange}
-                onBlur={onBlur}
+                onBlur={onBlurField}
+                onFocus={onFocus}
                 fullWidth={true}
                 InputProps={{
                     disableUnderline: true,
@@ -83,7 +96,15 @@ const SearchField = (props: ISearchFieldProps) => {
                     classes: { input: classes.input },
                 }}
             />
-            <div className={classes.searchResults} />
+            <div className={classes.searchResults}>
+                <SearchResults
+                    searching={searching}
+                    focusedField={focused}
+                    searchTerm={searchTerm}
+                    searchUsers={searchUsers}
+                    searchStories={searchStories}
+                />
+            </div>
         </>
     );
 };

@@ -84,6 +84,7 @@ export interface IEpicsState {
 
 export interface ISearch {
     searchTerm: string;
+    searching: boolean;
     users: IUserSimpleModel[];
     stories: IStorySimpleModel[];
 }
