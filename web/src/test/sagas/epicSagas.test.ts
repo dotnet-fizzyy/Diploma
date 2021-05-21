@@ -3,6 +3,7 @@ import { call } from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
 import EpicsApi from '../../api/epicsApi';
 import {
+    changeStatsEpic,
     createEpicFailure,
     createEpicRequest,
     createEpicSuccess,
@@ -13,12 +14,17 @@ import {
     updateEpicRequest,
     updateEpicSuccess,
     EpicActions,
+    IChangeStatsEpic,
     ICreateEpicRequest,
     IRemoveEpicRequest,
     IUpdateEpicRequest,
 } from '../../redux/actions/epicActions';
-import { createEpic, removeEpic, updateEpic } from '../../redux/sagas/epicSagas';
+import { changeStatsSearchItemsFailure } from '../../redux/actions/projectActions';
+import { addSprints } from '../../redux/actions/sprintActions';
+import { setStorySimpleItems } from '../../redux/actions/storyActions';
+import { changeStatsSearchItems, createEpic, removeEpic, updateEpic } from '../../redux/sagas/epicSagas';
 import { IEpic } from '../../types/epicTypes';
+import { IStatsPage } from '../../types/projectTypes';
 
 describe('Epic sagas tests', () => {
     it(`Should create epic on ${EpicActions.CREATE_EPIC_REQUEST}`, () => {
@@ -135,6 +141,38 @@ describe('Epic sagas tests', () => {
         return expectSaga(removeEpic, action)
             .provide([[call(EpicsApi.removeEpic, epicId), throwError(error)]])
             .put(removeEpicFailure(error))
+            .run();
+    });
+
+    it(`Should get stats data on ${EpicActions.CHANGE_STATS_EPIC}`, () => {
+        //Arrange
+        const epicId: string = 'epic_id';
+        const statsPage: IStatsPage = {
+            sprints: [],
+            stories: [],
+        };
+
+        const action: IChangeStatsEpic = changeStatsEpic(epicId);
+
+        //Act & Assert
+        return expectSaga(changeStatsSearchItems, action)
+            .provide([[call(EpicsApi.getStatsSearchItems, epicId), statsPage]])
+            .put(addSprints(statsPage.sprints))
+            .put(setStorySimpleItems(statsPage.stories))
+            .run();
+    });
+
+    it(`Should throw error on stats data receiving on ${EpicActions.CHANGE_STATS_EPIC}`, () => {
+        //Arrange
+        const epicId: string = 'epic_id';
+        const error = new Error('test');
+
+        const action: IChangeStatsEpic = changeStatsEpic(epicId);
+
+        //Act & Assert
+        return expectSaga(changeStatsSearchItems, action)
+            .provide([[call(EpicsApi.getStatsSearchItems, epicId), throwError(error)]])
+            .put(changeStatsSearchItemsFailure(error))
             .run();
     });
 });
