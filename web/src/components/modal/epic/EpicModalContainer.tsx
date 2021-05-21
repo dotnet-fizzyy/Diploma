@@ -4,7 +4,7 @@ import { EpicInitialState } from '../../../constants/epicConstants';
 import { ModalOptions } from '../../../constants/modalConstants';
 import * as epicActions from '../../../redux/actions/epicActions';
 import { getSelectedEpic } from '../../../redux/selectors/epicSelectors';
-import { getModalOption } from '../../../redux/selectors/modalSelectors';
+import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modalSelectors';
 import { getSelectedProject } from '../../../redux/selectors/projectSelectors';
 import { IEpic } from '../../../types/epicTypes';
 import { IEpicFormTypes } from '../../../types/formTypes';
@@ -17,6 +17,7 @@ const EpicModalContainer = () => {
     const project: IProject = useSelector(getSelectedProject);
     const modalOption: ModalOptions = useSelector(getModalOption);
     const selectedEpic: IEpic = useSelector(getSelectedEpic);
+    const isPerformingRequest: boolean = useSelector(getModalRequestPerforming);
 
     const isUpdate: boolean = modalOption === ModalOptions.EPIC_UPDATE;
     const initialValues: IEpicFormTypes = isUpdate
@@ -39,6 +40,7 @@ const EpicModalContainer = () => {
     const validateEpicName = (value: string) => new InputFormFieldValidator(value, 3, 100, true, null).validate();
 
     const epicCreationProps: IEpicCreationProps = {
+        isPerformingRequest,
         isUpdate,
         initialValues,
         validateEpicName,

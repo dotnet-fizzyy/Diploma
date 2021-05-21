@@ -12,12 +12,14 @@ import FormDropdown from '../../common/FormDropdown';
 import FormTextArea from '../../common/FormTextArea';
 import FormTextField from '../../common/FormTextField';
 import MainLabel, { LabelType } from '../../common/MainLabel';
+import ModalSpinner from '../ModalSpinner';
+import ModalCloseButtonContainer from '../close-button/ModalCloseButtonContainer';
 
 const useStyles = makeStyles(() =>
     createStyles({
-        root: {
+        root: ({ isPerformingRequest }: IStoryCreationProps) => ({
             maxWidth: '550px',
-            maxHeight: '880px',
+            maxHeight: '750px',
             width: '100%',
             height: 'max-content',
             backgroundColor: 'white',
@@ -25,8 +27,9 @@ const useStyles = makeStyles(() =>
             flexDirection: 'column',
             borderRadius: '10px',
             padding: '30px',
-            overflowY: 'scroll',
-        },
+            overflowY: isPerformingRequest ? 'hidden' : 'scroll',
+            position: 'relative',
+        }),
         fieldContainer: {
             margin: '20px 0',
         },
@@ -50,6 +53,7 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IStoryCreationProps {
+    isPerformingRequest: boolean;
     priorities: ISelectedItem[];
     teamMembers: IUser[];
     storyEstimation: ISelectedItem[];
@@ -61,8 +65,9 @@ export interface IStoryCreationProps {
 }
 
 const StoryModal = (props: IStoryCreationProps) => {
-    const classes = useStyles();
+    const classes = useStyles(props);
     const {
+        isPerformingRequest,
         priorities,
         requiredPositions,
         initialValues,
@@ -89,6 +94,8 @@ const StoryModal = (props: IStoryCreationProps) => {
 
                 return (
                     <div className={classes.root}>
+                        <ModalCloseButtonContainer />
+                        {isPerformingRequest && <ModalSpinner />}
                         <Form>
                             <MainLabel title="Create story" variant={LabelType.PRIMARY} />
                             <div className={classes.fieldContainer}>

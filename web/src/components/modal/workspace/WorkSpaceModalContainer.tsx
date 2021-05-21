@@ -4,7 +4,7 @@ import { BaseRegexExpression } from '../../../constants';
 import { ModalOptions } from '../../../constants/modalConstants';
 import { InitialWorkSpaceFormValues } from '../../../constants/workSpaceContants';
 import { createWorkSpaceRequest, updateWorkSpaceRequest } from '../../../redux/actions/workSpaceActions';
-import { getModalOption } from '../../../redux/selectors/modalSelectors';
+import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modalSelectors';
 import { getWorkSpace } from '../../../redux/selectors/workSpaceSelectors';
 import { IWorkSpaceForm } from '../../../types/formTypes';
 import { IWorkSpace } from '../../../types/workSpaceTypes';
@@ -15,6 +15,7 @@ const WorkSpaceModalContainer = () => {
     const dispatch = useDispatch();
     const modalOption: ModalOptions = useSelector(getModalOption);
     const workSpaceDescription: IWorkSpace = useSelector(getWorkSpace);
+    const isPerformingRequest: boolean = useSelector(getModalRequestPerforming);
 
     const isUpdate: boolean = modalOption === ModalOptions.WORKSPACE_UPDATE;
     const initialState: IWorkSpaceForm = isUpdate
@@ -42,6 +43,7 @@ const WorkSpaceModalContainer = () => {
         new InputFormFieldValidator(value, 3, 100, true, BaseRegexExpression).validate();
 
     const workSpaceModalProps: IWorkSpaceModalProps = {
+        isPerformingRequest,
         isUpdate,
         initialState,
         onSubmitButton,

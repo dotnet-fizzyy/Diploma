@@ -8,6 +8,7 @@ import Button from '../../../common/Button';
 import FormDropdown from '../../../common/FormDropdown';
 import FormTextField from '../../../common/FormTextField';
 import MainLabel, { LabelType } from '../../../common/MainLabel';
+import ModalSpinner from '../../ModalSpinner';
 import ModalCloseButtonContainer from '../../close-button/ModalCloseButtonContainer';
 
 const useStyles = makeStyles(() =>
@@ -39,6 +40,7 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IUserCreationProps {
+    isPerformingRequest: boolean;
     mainLabel: string;
     initialState: IUser;
     userRoles: ISelectedItem[];
@@ -52,6 +54,7 @@ export interface IUserCreationProps {
 const UserModal = (props: IUserCreationProps) => {
     const classes = useStyles();
     const {
+        isPerformingRequest,
         mainLabel,
         initialState,
         userRoles,
@@ -72,6 +75,7 @@ const UserModal = (props: IUserCreationProps) => {
                         <Form>
                             <MainLabel title={mainLabel} variant={LabelType.PRIMARY} />
                             <ModalCloseButtonContainer />
+                            {isPerformingRequest && <ModalSpinner />}
                             <div className={classes.fieldContainer}>
                                 <Field
                                     label="Name"

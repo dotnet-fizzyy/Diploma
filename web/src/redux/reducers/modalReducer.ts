@@ -10,6 +10,7 @@ import { IModalState } from '../store/state';
 
 const initialState: IModalState = {
     isOpen: false,
+    isPerformingRequest: false,
     type: null,
     option: null,
 };
@@ -18,6 +19,30 @@ export default function modalReducer(state = initialState, action: ModalActionTy
     switch (action.type) {
         case ModalActions.OPEN_MODAL:
             return handleOpenModal(state, action);
+        case UserActions.CREATE_USER_REQUEST:
+        case WorkSpaceActions.CREATE_WORKSPACE_REQUEST:
+        case WorkSpaceActions.UPDATE_WORKSPACE_REQUEST:
+        case SprintActions.CREATE_SPRINT_REQUEST:
+        case SprintActions.UPDATE_SPRINT_REQUEST:
+        case StoryActions.CREATE_STORY_REQUEST:
+        case ProjectActions.UPDATE_PROJECT_REQUEST:
+        case TeamActions.CREATE_TEAM_REQUEST:
+        case TeamActions.UPDATE_TEAM_REQUEST:
+        case EpicActions.CREATE_EPIC_REQUEST:
+        case EpicActions.UPDATE_EPIC_REQUEST:
+            return handleModalRequestProcessing(state);
+        case UserActions.CREATE_USER_FAILURE:
+        case WorkSpaceActions.CREATE_WORKSPACE_FAILURE:
+        case WorkSpaceActions.UPDATE_WORKSPACE_FAILURE:
+        case SprintActions.CREATE_SPRINT_FAILURE:
+        case SprintActions.UPDATE_SPRINT_FAILURE:
+        case StoryActions.CREATE_STORY_FAILURE:
+        case ProjectActions.UPDATE_PROJECT_FAILURE:
+        case TeamActions.CREATE_TEAM_FAILURE:
+        case TeamActions.UPDATE_TEAM_FAILURE:
+        case EpicActions.CREATE_EPIC_FAILURE:
+        case EpicActions.UPDATE_EPIC_FAILURE:
+            return handleModalRequestFailure(state);
         case ModalActions.CLOSE_MODAL:
         case UserActions.CREATE_USER_SUCCESS:
         case ProjectActions.CREATE_PROJECT_SUCCESS:
@@ -37,6 +62,20 @@ export default function modalReducer(state = initialState, action: ModalActionTy
     }
 }
 
+function handleModalRequestProcessing(state: IModalState): IModalState {
+    return {
+        ...state,
+        isPerformingRequest: true,
+    };
+}
+
+function handleModalRequestFailure(state: IModalState): IModalState {
+    return {
+        ...state,
+        isPerformingRequest: false,
+    };
+}
+
 function handleOpenModal(state: IModalState, action: IOpenModal): IModalState {
     return {
         ...state,
@@ -52,5 +91,6 @@ function handleCloseModal(state: IModalState): IModalState {
         isOpen: false,
         type: null,
         option: null,
+        isPerformingRequest: false,
     };
 }

@@ -8,6 +8,7 @@ import FormDatePicker from '../../common/FormDatePicker';
 import FormTextArea from '../../common/FormTextArea';
 import FormTextField from '../../common/FormTextField';
 import MainLabel, { LabelType } from '../../common/MainLabel';
+import ModalSpinner from '../ModalSpinner';
 import ModalCloseButtonContainer from '../close-button/ModalCloseButtonContainer';
 
 const useStyles = makeStyles(() =>
@@ -37,6 +38,7 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IEpicCreationProps {
+    isPerformingRequest: boolean;
     isUpdate: boolean;
     initialValues: IEpicFormTypes;
     validateEpicName: (value: string) => void;
@@ -45,7 +47,7 @@ export interface IEpicCreationProps {
 
 const EpicModal = (props: IEpicCreationProps) => {
     const classes = useStyles();
-    const { isUpdate, validateEpicName, onSubmitButton } = props;
+    const { isPerformingRequest, isUpdate, validateEpicName, onSubmitButton } = props;
 
     return (
         <Formik initialValues={EpicInitialState} onSubmit={onSubmitButton}>
@@ -57,6 +59,8 @@ const EpicModal = (props: IEpicCreationProps) => {
                         <Form>
                             <MainLabel title="Create new epic" variant={LabelType.PRIMARY} />
                             <ModalCloseButtonContainer />
+                            {isPerformingRequest && <ModalSpinner />}
+
                             <div className={classes.fieldContainer}>
                                 <Field
                                     label="Name"

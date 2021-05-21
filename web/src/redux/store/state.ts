@@ -74,6 +74,7 @@ export interface IModalState {
     isOpen: boolean;
     type?: ModalTypes;
     option?: ModalOptions;
+    isPerformingRequest: boolean;
 }
 
 export interface IEpicsState {

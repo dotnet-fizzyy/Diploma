@@ -12,3 +12,7 @@ export function getModalType(state: IState): ModalTypes {
 export function getModalOption(state: IState): ModalOptions {
     return state.modal.option;
 }
+
+export function getModalRequestPerforming(state: IState): boolean {
+    return state.modal.isPerformingRequest;
+}

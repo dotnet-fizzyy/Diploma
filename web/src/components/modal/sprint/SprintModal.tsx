@@ -7,6 +7,7 @@ import Button from '../../common/Button';
 import FormDatePicker from '../../common/FormDatePicker';
 import FormTextField from '../../common/FormTextField';
 import MainLabel, { LabelType } from '../../common/MainLabel';
+import ModalSpinner from '../ModalSpinner';
 import ModalCloseButtonContainer from '../close-button/ModalCloseButtonContainer';
 
 const useStyles = makeStyles(() =>
@@ -36,6 +37,7 @@ const useStyles = makeStyles(() =>
 );
 
 export interface ISprintCreationProps {
+    isPerformingRequest: boolean;
     isUpdate: boolean;
     onSubmitButton: (values: ISprint) => void;
     validateSprintName: (value: string) => string;
@@ -43,7 +45,7 @@ export interface ISprintCreationProps {
 
 const SprintModal = (props: ISprintCreationProps) => {
     const classes = useStyles();
-    const { isUpdate, onSubmitButton, validateSprintName } = props;
+    const { isPerformingRequest, isUpdate, onSubmitButton, validateSprintName } = props;
 
     return (
         <Formik
@@ -60,6 +62,7 @@ const SprintModal = (props: ISprintCreationProps) => {
                         <Form>
                             <MainLabel title="Create sprint" variant={LabelType.PRIMARY} />
                             <ModalCloseButtonContainer />
+                            {isPerformingRequest && <ModalSpinner />}
                             <div className={classes.fieldContainer}>
                                 <Field
                                     label="Name"

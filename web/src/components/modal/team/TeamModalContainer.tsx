@@ -4,7 +4,7 @@ import { BaseRegexExpression } from '../../../constants';
 import { ModalOptions } from '../../../constants/modalConstants';
 import { initialTeamState } from '../../../constants/teamConstants';
 import { createTeamRequest, updateTeamRequest } from '../../../redux/actions/teamActions';
-import { getModalOption } from '../../../redux/selectors/modalSelectors';
+import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modalSelectors';
 import { getProjectNames } from '../../../redux/selectors/projectSelectors';
 import { getSelectProjectId } from '../../../redux/selectors/projectSelectors';
 import { getSelectedTeam } from '../../../redux/selectors/teamSelectors';
@@ -20,6 +20,7 @@ const TeamModalContainer = () => {
     const modalOption: ModalOptions = useSelector(getModalOption);
     const projects: ISelectedItem[] = useSelector(getProjectNames);
     const team: ITeam = useSelector(getSelectedTeam);
+    const isPerformingRequest: boolean = useSelector(getModalRequestPerforming);
 
     const isUpdate: boolean = modalOption === ModalOptions.TEAM_UPDATE;
     const initialTeam = isUpdate ? { ...team } : initialTeamState;
@@ -44,6 +45,7 @@ const TeamModalContainer = () => {
         isUpdate,
         projects,
         initialTeam,
+        isPerformingRequest,
         validateField,
         onSubmit,
     };

@@ -6,6 +6,7 @@ import {
     updatePasswordRequest,
     updateProfileSettingsRequest,
 } from '../../../../redux/actions/userActions';
+import { getModalRequestPerforming } from '../../../../redux/selectors/modalSelectors';
 import { getUser } from '../../../../redux/selectors/userSelectors';
 import { IProfilePasswordUpdateForm, IProfileSettingsForm } from '../../../../types/formTypes';
 import { IFullUser, IUser } from '../../../../types/userTypes';
@@ -17,7 +18,9 @@ const UserModalContainer = () => {
     const fileRef = useRef<HTMLInputElement>(null);
     const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
     const [passwordsAreSame, setPasswordsAreSame] = useState<boolean>(true);
+
     const user: IFullUser = useSelector(getUser);
+    const isPerformingRequest: boolean = useSelector(getModalRequestPerforming);
 
     const initialProfileSettings: IProfileSettingsForm = {
         userName: user.userName,
@@ -70,6 +73,7 @@ const UserModalContainer = () => {
 
     const userModalProps: IUserModalProps = {
         isChangePassword,
+        isPerformingRequest,
         passwordsAreSame,
         initialProfileSettings,
         user,

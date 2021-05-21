@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../constants';
 import { createStoryRequest } from '../../../redux/actions/storyActions';
+import { getModalRequestPerforming } from '../../../redux/selectors/modalSelectors';
 import { getSprints } from '../../../redux/selectors/sprintSelectors';
 import { getTeamUsers } from '../../../redux/selectors/teamSelectors';
 import { IStoryFormTypes } from '../../../types/formTypes';
@@ -23,6 +24,7 @@ const StoryModalContainer = () => {
 
     const teamMembers: IUser[] = useSelector(getTeamUsers);
     const sprints: ISprint[] = useSelector(getSprints);
+    const isPerformingRequest: boolean = useSelector(getModalRequestPerforming);
     const priorities: ISelectedItem[] = createStoryPriorityDropdownItems();
     const storyEstimation: ISelectedItem[] = createStoryEstimationDropdownItems();
     const requiredPositions: ISelectedItem[] = createUserPositionDropdownItems();
@@ -39,6 +41,7 @@ const StoryModalContainer = () => {
         new InputFormFieldValidator(value, 3, 100, true, BaseRegexExpression).validate();
 
     const storyCreationProps: IStoryCreationProps = {
+        isPerformingRequest,
         teamMembers,
         priorities,
         sprints: getSprintNames(sprints),

@@ -4,7 +4,7 @@ import { BaseRegexExpression } from '../../../constants';
 import { ModalOptions } from '../../../constants/modalConstants';
 import { initialProjectFormValues, ProjectLengthDescriptionMaxLength } from '../../../constants/projectConstants';
 import { createProjectRequest, updateProjectRequest } from '../../../redux/actions/projectActions';
-import { getModalOption } from '../../../redux/selectors/modalSelectors';
+import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modalSelectors';
 import { getSelectedProject } from '../../../redux/selectors/projectSelectors';
 import { getWorkSpaceId } from '../../../redux/selectors/workSpaceSelectors';
 import { IProjectForm } from '../../../types/formTypes';
@@ -17,6 +17,7 @@ const ProjectModalContainer = () => {
     const workSpaceId: string = useSelector(getWorkSpaceId);
     const modalOption: ModalOptions = useSelector(getModalOption);
     const project: IProject = useSelector(getSelectedProject);
+    const isPerformingRequest: boolean = useSelector(getModalRequestPerforming);
 
     const isUpdate: boolean = modalOption === ModalOptions.PROJECT_UPDATE;
     const initialValues: IProject = isUpdate ? project : initialProjectFormValues;
@@ -44,6 +45,7 @@ const ProjectModalContainer = () => {
     const projectCreationProps: IProjectCreationProps = {
         initialValues,
         isUpdate,
+        isPerformingRequest,
         onSubmitProjectHandling,
         validateProjectName,
     };

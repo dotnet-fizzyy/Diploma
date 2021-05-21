@@ -1,4 +1,3 @@
-import { CircularProgress } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import React from 'react';
@@ -6,6 +5,7 @@ import { ColumnNames } from '../../../constants/boardConstants';
 import { UserPosition, UserRole } from '../../../constants/userConstants';
 import { IStorySimpleModel } from '../../../types/storyTypes';
 import { IUserSimpleModel } from '../../../types/userTypes';
+import Spinner from '../../common/Spinner';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -40,12 +40,13 @@ const useStyles = makeStyles(() =>
             flexDirection: 'row',
             justifyContent: 'space-between',
             cursor: 'pointer',
+            marginBottom: '5px',
+            '&:last-child': {
+                marginBottom: 0,
+            },
         },
         spinnerContainer: {
             paddingLeft: '50px',
-        },
-        spinner: {
-            color: '#75BAF7',
         },
     })
 );
@@ -71,7 +72,7 @@ const SearchResults = (props: ISearchResultsProps) => {
                 <div className={classes.body}>
                     {searching && (
                         <div className={classes.spinnerContainer}>
-                            <CircularProgress size={16} className={classes.spinner} />
+                            <Spinner size={16} />
                         </div>
                     )}
                     {!searching && storiesFound ? (

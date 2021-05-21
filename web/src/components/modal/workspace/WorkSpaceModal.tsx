@@ -7,6 +7,7 @@ import Button from '../../common/Button';
 import FormTextArea from '../../common/FormTextArea';
 import FormTextField from '../../common/FormTextField';
 import MainLabel, { LabelType } from '../../common/MainLabel';
+import ModalSpinner from '../ModalSpinner';
 import ModalCloseButtonContainer from '../close-button/ModalCloseButtonContainer';
 
 const useStyles = makeStyles(() =>
@@ -34,6 +35,7 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IWorkSpaceModalProps {
+    isPerformingRequest: boolean;
     isUpdate: boolean;
     initialState: IWorkSpaceForm;
     onSubmitButton: (values: IWorkSpaceForm) => void;
@@ -42,7 +44,7 @@ export interface IWorkSpaceModalProps {
 
 const WorkSpaceModal = (props: IWorkSpaceModalProps) => {
     const classes = useStyles();
-    const { initialState, isUpdate, onSubmitButton, validateWorkSpaceName } = props;
+    const { isPerformingRequest, initialState, isUpdate, onSubmitButton, validateWorkSpaceName } = props;
 
     return (
         <Formik initialValues={initialState} onSubmit={onSubmitButton} validateOnBlur={false} validateOnChange={true}>
@@ -51,12 +53,13 @@ const WorkSpaceModal = (props: IWorkSpaceModalProps) => {
 
                 return (
                     <div className={classes.root}>
+                        <ModalCloseButtonContainer />
+                        {isPerformingRequest && <ModalSpinner />}
                         <Form>
                             <MainLabel
                                 title={`${isUpdate ? 'Update' : 'Create'} Workspace`}
                                 variant={LabelType.PRIMARY}
                             />
-                            <ModalCloseButtonContainer />
                             <div className={classes.fieldContainer}>
                                 <Field
                                     label="Name"

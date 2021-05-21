@@ -11,6 +11,7 @@ import { getFirstNameLetter } from '../../../../utils';
 import Button from '../../../common/Button';
 import FormTextField from '../../../common/FormTextField';
 import MainLabel, { LabelType } from '../../../common/MainLabel';
+import ModalSpinner from '../../ModalSpinner';
 import ModalCloseButtonContainer from '../../close-button/ModalCloseButtonContainer';
 
 const useStyles = makeStyles(() =>
@@ -84,6 +85,7 @@ const useStyles = makeStyles(() =>
 export interface IUserModalProps {
     isChangePassword: boolean;
     passwordsAreSame: boolean;
+    isPerformingRequest: boolean;
     initialProfileSettings: IProfileSettingsForm;
     user: IFullUser;
     fileRef: RefObject<HTMLInputElement>;
@@ -100,6 +102,7 @@ export interface IUserModalProps {
 const UserModal = (props: IUserModalProps) => {
     const classes = useStyles();
     const {
+        isPerformingRequest,
         isChangePassword,
         passwordsAreSame,
         initialProfileSettings,
@@ -261,6 +264,7 @@ const UserModal = (props: IUserModalProps) => {
         <div className={classes.root}>
             <MainLabel title="Profile settings" variant={LabelType.PRIMARY} />
             <ModalCloseButtonContainer />
+            {isPerformingRequest && <ModalSpinner />}
             <div className={classes.body}>
                 <div className={classes.photoContainer}>
                     <Avatar alt="Your image" src={avatarLink} className={classes.profilePhoto}>

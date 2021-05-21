@@ -4,7 +4,7 @@ import { BaseRegexExpression } from '../../../../constants';
 import { ModalOptions } from '../../../../constants/modalConstants';
 import { CustomerInitialState, UserInitialState } from '../../../../constants/userConstants';
 import { createUserRequest } from '../../../../redux/actions/userActions';
-import { getModalOption } from '../../../../redux/selectors/modalSelectors';
+import { getModalOption, getModalRequestPerforming } from '../../../../redux/selectors/modalSelectors';
 import { getSelectedTeamId } from '../../../../redux/selectors/teamSelectors';
 import { getWorkSpaceId } from '../../../../redux/selectors/workSpaceSelectors';
 import { IUser } from '../../../../types/userTypes';
@@ -19,6 +19,8 @@ const UserModalContainer = () => {
     const modalOption = useSelector(getModalOption);
     const workSpaceId: string = useSelector(getWorkSpaceId);
     const teamId: string = useSelector(getSelectedTeamId);
+    const isPerformingRequest: boolean = useSelector(getModalRequestPerforming);
+
     const initialState = modalOption === ModalOptions.CUSTOMER_CREATION ? CustomerInitialState : UserInitialState;
     const mainLabel: string = 'Create a new team member';
 
@@ -37,6 +39,7 @@ const UserModalContainer = () => {
     const validatePassword = (value: string): string => new InputFormFieldValidator(value, 3, 16, true).validate();
 
     const userCreationProps: IUserCreationProps = {
+        isPerformingRequest,
         mainLabel,
         initialState,
         userRoles,

@@ -7,6 +7,7 @@ import { ITeam } from '../../../types/teamTypes';
 import Button from '../../common/Button';
 import FormTextField from '../../common/FormTextField';
 import MainLabel, { LabelType } from '../../common/MainLabel';
+import ModalSpinner from '../ModalSpinner';
 import ModalCloseButtonContainer from '../close-button/ModalCloseButtonContainer';
 
 const useStyles = makeStyles(() =>
@@ -35,6 +36,7 @@ const useStyles = makeStyles(() =>
 );
 
 export interface ITeamModalProps {
+    isPerformingRequest: boolean;
     isUpdate: boolean;
     projects: ISelectedItem[];
     initialTeam: ITeam;
@@ -44,7 +46,7 @@ export interface ITeamModalProps {
 
 const TeamModal = (props: ITeamModalProps) => {
     const classes = useStyles();
-    const { isUpdate, initialTeam, validateField, onSubmit } = props;
+    const { isPerformingRequest, isUpdate, initialTeam, validateField, onSubmit } = props;
 
     return (
         <Formik initialValues={initialTeam} onSubmit={onSubmit}>
@@ -53,12 +55,13 @@ const TeamModal = (props: ITeamModalProps) => {
 
                 return (
                     <div className={classes.root}>
+                        <ModalCloseButtonContainer />
+                        {isPerformingRequest && <ModalSpinner />}
                         <Form>
                             <MainLabel
                                 title={`${isUpdate ? 'Update' : 'Create new'} team`}
                                 variant={LabelType.PRIMARY}
                             />
-                            <ModalCloseButtonContainer />
                             <div className={classes.fieldContainer}>
                                 <Field
                                     label="Name"

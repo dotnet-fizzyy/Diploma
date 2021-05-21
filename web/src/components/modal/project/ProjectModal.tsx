@@ -9,6 +9,7 @@ import FormDatePicker from '../../common/FormDatePicker';
 import FormTextArea from '../../common/FormTextArea';
 import FormTextField from '../../common/FormTextField';
 import MainLabel, { LabelType } from '../../common/MainLabel';
+import ModalSpinner from '../ModalSpinner';
 import ModalCloseButtonContainer from '../close-button/ModalCloseButtonContainer';
 
 const useStyles = makeStyles(() =>
@@ -47,6 +48,7 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IProjectCreationProps {
+    isPerformingRequest: boolean;
     initialValues: IProject;
     isUpdate: boolean;
     onSubmitProjectHandling: (values: IProjectForm) => void;
@@ -55,7 +57,7 @@ export interface IProjectCreationProps {
 
 const ProjectModal = (props: IProjectCreationProps) => {
     const classes = useStyles();
-    const { initialValues, isUpdate, onSubmitProjectHandling, validateProjectName } = props;
+    const { isPerformingRequest, initialValues, isUpdate, onSubmitProjectHandling, validateProjectName } = props;
 
     return (
         <Formik
@@ -75,6 +77,7 @@ const ProjectModal = (props: IProjectCreationProps) => {
                                 variant={LabelType.PRIMARY}
                             />
                             <ModalCloseButtonContainer />
+                            {isPerformingRequest && <ModalSpinner />}
                             <div className={classes.fieldContainer}>
                                 <Field
                                     label="Name"
