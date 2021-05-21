@@ -13,6 +13,8 @@ import {
     getProjectPageRequest,
     getProjectPageSuccess,
     getProjectRequest,
+    getProjectStatsPageFailure,
+    getProjectStatsPageRequest,
     getProjectSuccess,
     removeProjectFailure,
     removeProjectRequest,
@@ -25,22 +27,24 @@ import {
     IGetBoardInfoRequest,
     IGetProjectPageRequest,
     IGetProjectRequest,
+    IGetProjectStatsPageRequest,
     IRemoveProjectRequest,
     IUpdateProjectRequest,
     ProjectActions,
 } from '../../redux/actions/projectActions';
 import { addSprints } from '../../redux/actions/sprintActions';
-import { addStories } from '../../redux/actions/storyActions';
+import { addStories, setStorySimpleItems } from '../../redux/actions/storyActions';
 import { addTeamSimpleItems, setSelectedTeam } from '../../redux/actions/teamActions';
 import {
     createProject,
     getBoardInfo,
     getProject,
     getProjectPage,
+    getProjectStatsPage,
     removeProject,
     updateProject,
 } from '../../redux/sagas/projectSagas';
-import { IBoardPage, IProject, IProjectPage } from '../../types/projectTypes';
+import { IBoardPage, IFullStatsPage, IProject, IProjectPage } from '../../types/projectTypes';
 
 describe('Project sagas tests', () => {
     it(`Should get board info for project and team on ${ProjectActions.GET_BOARD_INFO_REQUEST}`, () => {
@@ -266,6 +270,47 @@ describe('Project sagas tests', () => {
         return expectSaga(removeProject, action)
             .provide([[call(ProjectApi.removeProject, projectId), throwError(error)]])
             .put(removeProjectFailure(error))
+            .run();
+    });
+
+    it(`Should get project stats page on ${ProjectActions.GET_PROJECTS_STATS_PAGE_REQUEST}`, () => {
+        //Arrange
+        const projectId: string = 'project_id';
+        const pageData: IFullStatsPage = {
+            project: {
+                projectName: 'ProjectName',
+                projectDescription: 'ProjectDescription',
+                startDate: new Date(),
+                endDate: new Date(),
+            },
+            epics: [],
+            sprints: [],
+            stories: [],
+        };
+
+        const action: IGetProjectStatsPageRequest = getProjectStatsPageRequest(projectId);
+
+        //Act & Assert
+        return expectSaga(getProjectStatsPage, action)
+            .provide([[call(ProjectApi.getProjectPageStats, projectId), pageData]])
+            .put(setSelectedProject(pageData.project))
+            .put(addSimpleEpics(pageData.epics))
+            .put(addSprints(pageData.sprints))
+            .put(setStorySimpleItems(pageData.stories))
+            .run();
+    });
+
+    it(`Should throw error on project stats page receiving on ${ProjectActions.GET_PROJECTS_STATS_PAGE_REQUEST}`, () => {
+        //Arrange
+        const projectId: string = 'project_id';
+        const error = new Error('test');
+
+        const action: IGetProjectStatsPageRequest = getProjectStatsPageRequest(projectId);
+
+        //Act & Assert
+        return expectSaga(getProjectStatsPage, action)
+            .provide([[call(ProjectApi.getProjectPageStats, projectId), throwError(error)]])
+            .put(getProjectStatsPageFailure(error))
             .run();
     });
 });
