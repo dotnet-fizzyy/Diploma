@@ -34,6 +34,11 @@ export interface IBoardPage {
 }
 
 export interface IStatsPage {
+    sprints: ISprint[];
+    stories: IStorySimpleModel[];
+}
+
+export interface IFullStatsPage {
     project: IProject;
     epics: IEpicSimpleModel[];
     sprints: ISprint[];

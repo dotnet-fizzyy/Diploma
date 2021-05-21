@@ -128,9 +128,9 @@ namespace WebAPI.Presentation.Aggregators
             return workSpacePage;
         }
 
-        public StatisticsPage CreateStatisticsPageModel(Project project, IEnumerable<Epic> epics, IList<Sprint> sprints)
+        public FullStatisticsPage CreateStatisticsPageModel(Project project, IEnumerable<Epic> epics, IList<Sprint> sprints)
         {
-            var statisticsModel = new StatisticsPage
+            var statisticsModel = new FullStatisticsPage
             {
                 Project = project != null 
                     ? _projectMapper.MapToModel(project) 

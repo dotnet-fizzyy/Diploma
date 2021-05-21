@@ -124,7 +124,7 @@ namespace WebAPI.ApplicationLogic.Services
             return projectWorkSpaceData;
         }
 
-        public async Task<StatisticsPage> GetStatisticsPageDataAsync(Guid projectId)
+        public async Task<FullStatisticsPage> GetStatisticsPageDataAsync(Guid projectId)
         {
             var project = await _projectRepository.SearchForSingleItemAsync(x => x.Id == projectId);
             
@@ -139,6 +139,15 @@ namespace WebAPI.ApplicationLogic.Services
             
             var statisticsPage = _pageAggregator.CreateStatisticsPageModel(project, epics, sprints);
             
+            return statisticsPage;
+        }
+
+        public async Task<StatisticsPage> GetStatisticsDataForSearchItems(Guid epicId)
+        {
+            var sprints = await _sprintRepository.GetFullSprintsByEpicId(epicId);
+            
+            var statisticsPage = _pageAggregator.CreateStatisticsPageModel(null, null, sprints);
+
             return statisticsPage;
         }
     }

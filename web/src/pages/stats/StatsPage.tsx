@@ -31,11 +31,22 @@ export interface IStatsPageProps {
     stories: IStorySimpleModel[];
     onChangeEpic: (e) => void;
     onChangeSprint: (e) => void;
+    onClickChartPart: (index: number) => void;
 }
 
 const StatsPage = (props: IStatsPageProps) => {
     const classes = useStyles();
-    const { project, selectedEpicId, selectedSprintId, epics, stories, sprints, onChangeEpic, onChangeSprint } = props;
+    const {
+        project,
+        selectedEpicId,
+        selectedSprintId,
+        epics,
+        stories,
+        sprints,
+        onChangeEpic,
+        onChangeSprint,
+        onClickChartPart,
+    } = props;
 
     return (
         <div className={classes.root}>
@@ -48,7 +59,7 @@ const StatsPage = (props: IStatsPageProps) => {
                         endDate={project.endDate}
                     />
                 )}
-                <StatsPageChart stories={stories} />
+                <StatsPageChart stories={stories} onClickChartPart={onClickChartPart} />
                 <StatsFilters
                     selectedEpicId={selectedEpicId}
                     selectedSprintId={selectedSprintId}

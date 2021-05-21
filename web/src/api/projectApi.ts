@@ -5,7 +5,7 @@ import { mapToProjectModel, mapToProjectPageModel } from '../mappers/projectMapp
 import { mapToSprintModel } from '../mappers/sprintMappers';
 import { mapToStoryModel, mapToStorySimpleModel } from '../mappers/storyMappers';
 import { mapToTeamModel } from '../mappers/teamMapper';
-import { IBoardPage, IProject, IProjectPage, IStatsPage } from '../types/projectTypes';
+import { IBoardPage, IFullStatsPage, IProject, IProjectPage } from '../types/projectTypes';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class ProjectApi {
@@ -68,8 +68,8 @@ export default class ProjectApi {
         await AxiosBaseApi.axiosDelete(`${ProjectUrls.removeProject}/${projectId}`);
     }
 
-    public static async getProjectPageStats(projectId: string): Promise<IStatsPage> {
-        const response: AxiosResponse<IStatsPage> = await AxiosBaseApi.axiosGet(
+    public static async getProjectPageStats(projectId: string): Promise<IFullStatsPage> {
+        const response: AxiosResponse<IFullStatsPage> = await AxiosBaseApi.axiosGet(
             `${ProjectUrls.getStatsPage}?projectId=${projectId}`
         );
 
@@ -86,7 +86,7 @@ export default class ProjectApi {
         };
     }
 
-    private static mapToStatsPageData(data: any): IStatsPage {
+    private static mapToStatsPageData(data: any): IFullStatsPage {
         return {
             project: mapToProjectModel(data.project),
             epics: data.epics && data.epics.length ? data.epics.map(mapToEpicSimpleModel) : [],

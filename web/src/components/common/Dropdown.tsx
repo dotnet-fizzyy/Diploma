@@ -43,7 +43,7 @@ const Dropdown = (props: IBoardTabDropdownProps) => {
     return (
         <Select
             className={classes.root}
-            disableUnderline={!!isOutlined}
+            disableUnderline={true}
             displayEmpty={true}
             classes={{ outlined: classes.outlined, select: classes.select }}
             variant={isOutlined ? 'outlined' : 'standard'}

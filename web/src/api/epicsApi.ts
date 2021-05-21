@@ -1,8 +1,11 @@
 import { AxiosResponse } from 'axios';
 import { EpicUrls } from '../constants/routeConstants';
 import { mapToEpicModel } from '../mappers/epicMapper';
+import { mapToSprintModel } from '../mappers/sprintMappers';
+import { mapToStorySimpleModel } from '../mappers/storyMappers';
 import { ICollectionResponse } from '../types';
 import { IEpic } from '../types/epicTypes';
+import { IStatsPage } from '../types/projectTypes';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class EpicsApi {
@@ -46,5 +49,20 @@ export default class EpicsApi {
 
     public static async removeEpic(epicId: string): Promise<void> {
         await AxiosBaseApi.axiosDelete(`${EpicUrls.getProjectPage}/${epicId}`);
+    }
+
+    public static async getStatsSearchItems(epicId: string): Promise<IStatsPage> {
+        const response: AxiosResponse<IStatsPage> = await AxiosBaseApi.axiosGet(
+            `${EpicUrls.getStatsPageSearchItems}?epicId=${epicId}`
+        );
+
+        return EpicsApi.mapToStatsPageData(response.data);
+    }
+
+    private static mapToStatsPageData(data: any): IStatsPage {
+        return {
+            sprints: data.sprints && data.sprints.length ? data.sprints.map(mapToSprintModel) : [],
+            stories: data.stories && data.stories.length ? data.stories.map(mapToStorySimpleModel) : [],
+        };
     }
 }

@@ -15,6 +15,7 @@ export const SprintActions = {
     REMOVE_SPRINT_REQUEST: 'REMOVE_SPRINT_REQUEST',
     REMOVE_SPRINT_SUCCESS: 'REMOVE_SPRINT_SUCCESS',
     REMOVE_SPRINT_FAILURE: 'REMOVE_SPRINT_FAILURE',
+    CHANGE_STATS_SPRINT: 'CHANGE_STATS_SPRINT',
 };
 
 /*
@@ -88,6 +89,11 @@ export interface IRemoveSprintSuccess {
 export interface IRemoveSprintFailure {
     type: typeof SprintActions.REMOVE_SPRINT_FAILURE;
     payload: Error;
+}
+
+export interface IChangesStatsSprint {
+    type: typeof SprintActions.CHANGE_STATS_SPRINT;
+    payload: string;
 }
 
 /*
@@ -188,5 +194,12 @@ export function removeSprintFailure(error: Error): IRemoveSprintFailure {
     return {
         type: SprintActions.REMOVE_SPRINT_FAILURE,
         payload: error,
+    };
+}
+
+export function changeStatsSprint(sprintId: string): IChangesStatsSprint {
+    return {
+        type: SprintActions.CHANGE_STATS_SPRINT,
+        payload: sprintId,
     };
 }

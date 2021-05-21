@@ -16,11 +16,12 @@ const useStyles = makeStyles(() =>
 
 export interface IStatsPageChartProps {
     stories: IStorySimpleModel[];
+    onClickChartPart: (index: number) => void;
 }
 
 const StatsPageChart = (props: IStatsPageChartProps) => {
     const classes = useStyles();
-    const { stories } = props;
+    const { stories, onClickChartPart } = props;
 
     const storyColumns = getColumnKeyValuePair();
     const storiesCount = storyColumns.reduce(
@@ -29,7 +30,7 @@ const StatsPageChart = (props: IStatsPageChartProps) => {
     );
 
     const onClick = (value: number): void => {
-        console.warn(value);
+        onClickChartPart(value);
     };
 
     const doughnutChartData: IDoughnutChartTypes = {

@@ -42,7 +42,7 @@ const PageUrls = {
     getProjectPage: `${PageBaseUrl}/project`,
     getBoardPage: `${PageBaseUrl}/board`,
     getStoryHistory: `${StoryBaseUrl}/full/id`,
-    getProjectStatsPage: `${PageBaseUrl}/stats`,
+    getFullProjectStatsPage: `${PageBaseUrl}/full-stats`,
     getSearchItems: `${PageBaseUrl}/search`,
 };
 
@@ -67,6 +67,7 @@ export const EpicUrls = {
     getProjectPage: PageUrls.getProjectPage,
     updateEpic: EpicBaseUrl,
     removeEpic: `${EpicBaseUrl}/id`,
+    getStatsPageSearchItems: `${PageBaseUrl}/stats`,
 };
 
 export const StoryUrls = {
@@ -88,7 +89,7 @@ export const ProjectUrls = {
     getBoardPage: PageUrls.getBoardPage,
     updateProject: ProjectBaseUrl,
     removeProject: `${ProjectBaseUrl}/soft/id`,
-    getStatsPage: PageUrls.getProjectStatsPage,
+    getStatsPage: PageUrls.getFullProjectStatsPage,
 };
 
 export const TeamUrls = {

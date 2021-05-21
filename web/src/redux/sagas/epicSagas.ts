@@ -1,6 +1,7 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
 import EpicsApi from '../../api/epicsApi';
 import { IEpic } from '../../types/epicTypes';
+import { IStatsPage } from '../../types/projectTypes';
 import {
     createEpicFailure,
     createEpicSuccess,
@@ -11,11 +12,15 @@ import {
     updateEpicFailure,
     updateEpicSuccess,
     EpicActions,
+    IChangeStatsEpic,
     ICreateEpicRequest,
     IGetEpicsRequest,
     IRemoveEpicRequest,
     IUpdateEpicRequest,
 } from '../actions/epicActions';
+import { changeStatsSearchItemsFailure, changeStatsSearchItemsRequest } from '../actions/projectActions';
+import { addSprints } from '../actions/sprintActions';
+import { setStorySimpleItems } from '../actions/storyActions';
 
 export function* getEpicsRequest(action: IGetEpicsRequest) {
     try {
@@ -57,9 +62,22 @@ export function* removeEpic(action: IRemoveEpicRequest) {
     }
 }
 
+export function* changeStatsSearchItems(action: IChangeStatsEpic) {
+    try {
+        yield put(changeStatsSearchItemsRequest(action.payload));
+
+        const statsPage: IStatsPage = yield call(EpicsApi.getStatsSearchItems, action.payload);
+
+        yield all([put(addSprints(statsPage.sprints)), put(setStorySimpleItems(statsPage.stories))]);
+    } catch (error) {
+        yield put(changeStatsSearchItemsFailure(error));
+    }
+}
+
 export default function* epicsRootSaga() {
     yield takeLatest(EpicActions.GET_EPICS_REQUEST, getEpicsRequest);
     yield takeLatest(EpicActions.CREATE_EPIC_REQUEST, createEpic);
     yield takeLatest(EpicActions.UPDATE_EPIC_REQUEST, updateEpic);
     yield takeLatest(EpicActions.REMOVE_EPIC_REQUEST, removeEpic);
+    yield takeLatest(EpicActions.CHANGE_STATS_EPIC, changeStatsSearchItems);
 }

@@ -16,6 +16,8 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<WorkSpacePage> GetUserWorkSpacePageDataAsync(Guid userId);
 
-        Task<StatisticsPage> GetStatisticsPageDataAsync(Guid projectId);
+        Task<FullStatisticsPage> GetStatisticsPageDataAsync(Guid projectId);
+
+        Task<StatisticsPage> GetStatisticsDataForSearchItems(Guid epicId);
     }
 }

@@ -25,6 +25,8 @@ export const ProjectActions = {
     REMOVE_PROJECT_FAILURE: 'REMOVE_PROJECT_FAILURE',
     GET_PROJECTS_STATS_PAGE_REQUEST: 'GET_PROJECTS_STATS_PAGE_REQUEST',
     GET_PROJECTS_STATS_PAGE_FAILURE: 'GET_PROJECTS_STATS_PAGE_FAILURE',
+    CHANGE_STATS_SEARCH_ITEMS_REQUEST: 'CHANGE_STATS_SEARCH_ITEMS_REQUEST',
+    CHANGE_STATS_SEARCH_ITEMS_FAILURE: 'CHANGE_STATS_SEARCH_ITEMS_FAILURE',
 };
 
 /*
@@ -149,6 +151,16 @@ export interface IGetProjectStatsPageRequest {
 
 export interface IGetProjectStatsPageFailure {
     type: typeof ProjectActions.GET_PROJECTS_STATS_PAGE_FAILURE;
+    payload: Error;
+}
+
+export interface IChangeStatsSearchItemsRequest {
+    type: typeof ProjectActions.CHANGE_STATS_SEARCH_ITEMS_REQUEST;
+    payload: string;
+}
+
+export interface IChangeStatsSearchItemsFailure {
+    type: typeof ProjectActions.CHANGE_STATS_SEARCH_ITEMS_FAILURE;
     payload: Error;
 }
 
@@ -321,6 +333,20 @@ export function getProjectStatsPageRequest(projectId: string): IGetProjectStatsP
 export function getProjectStatsPageFailure(error: Error): IGetProjectStatsPageFailure {
     return {
         type: ProjectActions.GET_PROJECTS_STATS_PAGE_FAILURE,
+        payload: error,
+    };
+}
+
+export function changeStatsSearchItemsRequest(epicId: string): IChangeStatsSearchItemsRequest {
+    return {
+        type: ProjectActions.CHANGE_STATS_SEARCH_ITEMS_REQUEST,
+        payload: epicId,
+    };
+}
+
+export function changeStatsSearchItemsFailure(error: Error): IChangeStatsSearchItemsFailure {
+    return {
+        type: ProjectActions.CHANGE_STATS_SEARCH_ITEMS_FAILURE,
         payload: error,
     };
 }

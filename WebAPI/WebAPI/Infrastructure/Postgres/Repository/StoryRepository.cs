@@ -15,9 +15,9 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         public async Task<List<Story>> GetStoriesByEpicId(Guid epicId)
         {
             var query = from sprints in _dbContext.Sprints
-                join stories in _dbContext.Stories
-                    on sprints.Id equals stories.SprintId
-                    where sprints.EpicId == epicId select stories;
+                join stories in _dbContext.Stories on sprints.Id equals stories.SprintId
+                where sprints.EpicId == epicId 
+                select stories;
 
             var storiesFromEpic = await query.ToListAsync();
             

@@ -1,6 +1,6 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import ProjectApi from '../../api/projectApi';
-import { IBoardPage, IProject, IProjectPage, IStatsPage } from '../../types/projectTypes';
+import { IBoardPage, IFullStatsPage, IProject, IProjectPage } from '../../types/projectTypes';
 import { addEpics, addSimpleEpics } from '../actions/epicActions';
 import {
     createProjectFailure,
@@ -106,7 +106,7 @@ export function* removeProject(action: IRemoveProjectRequest) {
 
 export function* getProjectStatsPage(action: IGetProjectStatsPageRequest) {
     try {
-        const { project, epics, sprints, stories }: IStatsPage = yield call(
+        const { project, epics, sprints, stories }: IFullStatsPage = yield call(
             ProjectApi.getProjectPageStats,
             action.payload
         );

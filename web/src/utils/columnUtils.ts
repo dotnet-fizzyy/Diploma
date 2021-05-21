@@ -9,3 +9,7 @@ export function getColumnKeyValuePair(): ISelectedItem[] {
         } as ISelectedItem;
     });
 }
+
+export function getColumnKeys(): string[] {
+    return Object.entries(ColumnNames).map(([key, value]) => key);
+}

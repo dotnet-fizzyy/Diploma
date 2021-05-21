@@ -17,6 +17,7 @@ export const EpicActions = {
     REMOVE_EPIC_REQUEST: 'REMOVE_EPIC_REQUEST',
     REMOVE_EPIC_SUCCESS: 'REMOVE_EPIC_SUCCESS',
     REMOVE_EPIC_FAILURE: 'REMOVE_EPIC_FAILURE',
+    CHANGE_STATS_EPIC: 'CHANGE_STATS_EPIC',
 };
 
 /*
@@ -100,6 +101,11 @@ export interface IRemoveEpicSuccess {
 export interface IRemoveEpicFailure {
     type: typeof EpicActions.REMOVE_EPIC_FAILURE;
     payload: Error;
+}
+
+export interface IChangeStatsEpic {
+    type: typeof EpicActions.CHANGE_STATS_EPIC;
+    payload: string;
 }
 
 /*
@@ -214,5 +220,12 @@ export function removeEpicFailure(error: Error): IRemoveEpicFailure {
     return {
         type: EpicActions.REMOVE_EPIC_FAILURE,
         payload: error,
+    };
+}
+
+export function changeStatsEpic(epicId: string): IChangeStatsEpic {
+    return {
+        type: EpicActions.CHANGE_STATS_EPIC,
+        payload: epicId,
     };
 }

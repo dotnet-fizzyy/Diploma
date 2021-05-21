@@ -6,10 +6,6 @@ namespace WebAPI.Presentation.Models.Pages
 {
     public class StatisticsPage
     {
-        public Project Project { get; set; }
-
-        public IList<EpicSimpleModel> Epics { get; set; }
-        
         public IList<Sprint> Sprints { get; set; } = new List<Sprint>();
 
         public IList<StorySimpleModel> Stories { get; set; } = new List<StorySimpleModel>();

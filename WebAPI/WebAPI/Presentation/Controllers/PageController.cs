@@ -78,8 +78,13 @@ namespace WebAPI.Presentation.Controllers
         }
 
         [HttpGet]
-        [Route("stats")]
-        public async Task<ActionResult<StatisticsPage>> GetStatsPageIndex([FromQuery, BindRequired] Guid projectId)
+        [Route("full-stats")]
+        public async Task<ActionResult<FullStatisticsPage>> GetStatisticsPageIndex([FromQuery, BindRequired] Guid projectId)
             => await _pageService.GetStatisticsPageDataAsync(projectId);
+
+        [HttpGet]
+        [Route("stats")]
+        public async Task<ActionResult<StatisticsPage>> GetStatisticsSearch([FromQuery, BindRequired] Guid epicId)
+            => await _pageService.GetStatisticsDataForSearchItems(epicId);
     }
 }

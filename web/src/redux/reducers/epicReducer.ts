@@ -1,6 +1,7 @@
 import {
     EpicActions,
     IAddSimpleEpics,
+    IChangeStatsEpic,
     ICreateEpicSuccess,
     IGetEpicsSuccess,
     ISetSelectedEpic,
@@ -30,6 +31,8 @@ export default function epicReducer(state = initialState, action) {
             return handleSetSelectedEpicFromSimpleModelsById(state, action);
         case EpicActions.ADD_SIMPLE_EPICS:
             return handleAddSimpleEpics(state, action);
+        case EpicActions.CHANGE_STATS_EPIC:
+            return handleChangeSelectedEpic(state, action);
         default:
             return state;
     }
@@ -79,5 +82,12 @@ function handleAddSimpleEpics(state: IEpicsState, action: IAddSimpleEpics): IEpi
         ...state,
         simpleItems: action.payload,
         selectedEpicId: action.payload && action.payload.length ? action.payload[0].epicId : '',
+    };
+}
+
+function handleChangeSelectedEpic(state: IEpicsState, action: IChangeStatsEpic): IEpicsState {
+    return {
+        ...state,
+        selectedEpicId: action.payload,
     };
 }
