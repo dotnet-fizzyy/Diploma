@@ -21,7 +21,7 @@ const useStyles = makeStyles(() =>
             alignItems: 'center',
         },
         buttonContainer: {
-            width: '180px',
+            width: '150px',
             marginRight: '20px',
         },
         projectUpdateButton: {

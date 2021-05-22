@@ -6,6 +6,7 @@ import moment from 'moment';
 import React from 'react';
 import { DateFormat } from '../../constants';
 import { IEpic } from '../../types/epicTypes';
+import { ISprint } from '../../types/sprintTypes';
 import ProjectEpicDetailsContainer from './ProjectEpicDetailsContainer';
 
 const useStyles = makeStyles(() =>
@@ -45,12 +46,14 @@ const useStyles = makeStyles(() =>
 export interface IProjectEpicExpansionPanelProps {
     selectedEpicId: string;
     epic: IEpic;
+    sprints: ISprint[];
     onClickSelectEpic: (epicId: string) => void;
+    onClickCreateSprint: () => void;
 }
 
 const ProjectEpicExpansionPanel = (props: IProjectEpicExpansionPanelProps) => {
     const classes = useStyles();
-    const { selectedEpicId, epic, onClickSelectEpic } = props;
+    const { selectedEpicId, sprints, epic, onClickSelectEpic, onClickCreateSprint } = props;
 
     const onChange = (event: React.ChangeEvent<{}>, expanded: boolean) => {
         onClickSelectEpic(expanded ? epic.epicId : '');
@@ -68,10 +71,10 @@ const ProjectEpicExpansionPanel = (props: IProjectEpicExpansionPanelProps) => {
                 </span>
             </AccordionSummary>
             <AccordionDetails classes={{ root: classes.accordionSummaryRoot }}>
-                <ProjectEpicDetailsContainer epic={epic} />
+                <ProjectEpicDetailsContainer epic={epic} sprints={sprints} onClickCreateSprint={onClickCreateSprint} />
             </AccordionDetails>
         </Accordion>
     );
 };
 
-export default ProjectEpicExpansionPanel;
+export default React.memo(ProjectEpicExpansionPanel);

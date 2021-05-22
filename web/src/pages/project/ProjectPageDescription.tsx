@@ -74,14 +74,14 @@ const ProjectPageDescription = (props: IProjectPageDescriptionProps) => {
     const classes = useStyles();
     const {
         epics,
-        //sprints,
+        sprints,
         project,
         selectedEpicId,
         onClickUpdateProjectInfo,
         onClickCreateTeamInfo,
         onClickViewBoard,
         onClickCreateEpic,
-        //onClickCreateSprint,
+        onClickCreateSprint,
         onClickSelectEpic,
     } = props;
 
@@ -105,19 +105,15 @@ const ProjectPageDescription = (props: IProjectPageDescriptionProps) => {
                     <MainLabel title="Epics" variant={LabelType.SECONDARY} />
                 </div>
                 <div className={classes.table}>
-                    {/*<ProjectList*/}
-                    {/*    label="Epics"*/}
-                    {/*    listItems={epics}*/}
-                    {/*    onClickSelectEpic={onClickSelectEpic}*/}
-                    {/*    onClickCreate={onClickCreateEpic}*/}
-                    {/*/>*/}
                     {epics && epics.length
                         ? epics.map((x) => (
                               <div key={x.epicId} className={classes.epicPanelContainer}>
                                   <ProjectEpicExpansionPanel
+                                      epic={x}
+                                      sprints={sprints}
                                       selectedEpicId={selectedEpicId}
                                       onClickSelectEpic={onClickSelectEpic}
-                                      epic={x}
+                                      onClickCreateSprint={onClickCreateSprint}
                                   />
                               </div>
                           ))

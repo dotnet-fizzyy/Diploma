@@ -1,10 +1,15 @@
 import { Tab, Tabs } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import AddIcon from '@material-ui/icons/Add';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import UpdateIcon from '@material-ui/icons/Update';
+import classnames from 'classnames';
 import React from 'react';
 import Button, { ButtonVariant } from '../../components/common/Button';
 import { IEpic } from '../../types/epicTypes';
+import { ISprint } from '../../types/sprintTypes';
+import EpicsTab from './EpicsTab';
+import SprintsTab from './SprintsTab';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -40,6 +45,10 @@ const useStyles = makeStyles(() =>
             width: '150px',
             marginLeft: '20px',
         },
+        tab: {
+            width: '140px',
+            minWidth: '140px',
+        },
     })
 );
 
@@ -49,14 +58,16 @@ export enum TabValues {
 }
 
 export interface IProjectEpicDetailsProps {
+    sprints: ISprint[];
     selectedTab: string;
     epic: IEpic;
     onChangeTab: (event: React.ChangeEvent<{}>, newValue: string) => void;
+    onClickCreateSprint: () => void;
 }
 
 const ProjectEpicDetails = (props: IProjectEpicDetailsProps) => {
     const classes = useStyles();
-    const { selectedTab, epic, onChangeTab } = props;
+    const { selectedTab, epic, sprints, onChangeTab, onClickCreateSprint } = props;
 
     return (
         <div className={classes.root}>
@@ -66,22 +77,41 @@ const ProjectEpicDetails = (props: IProjectEpicDetailsProps) => {
                 onChange={onChangeTab}
                 indicatorColor="primary"
             >
-                <Tab classes={{ root: classes.text }} value={TabValues.GENERAL_INFO} label="General Info" />
-                <Tab classes={{ root: classes.text }} value={TabValues.SPRINTS} label="Sprints" />
+                <Tab
+                    disableTouchRipple={true}
+                    classes={{ root: classnames(classes.text, classes.tab) }}
+                    value={TabValues.GENERAL_INFO}
+                    label="General Info"
+                />
+                <Tab
+                    disableTouchRipple={true}
+                    classes={{ root: classnames(classes.text, classes.tab) }}
+                    value={TabValues.SPRINTS}
+                    label="Sprints"
+                />
             </Tabs>
             <div className={classes.tabPanelBody}>
                 {(() => {
                     switch (selectedTab) {
                         case TabValues.GENERAL_INFO:
-                            return <span>{epic.epicName}</span>;
+                            return <EpicsTab epic={epic} />;
                         case TabValues.SPRINTS:
-                            return <span>{epic.epicId}</span>;
+                            return <SprintsTab sprints={sprints} />;
                         default:
                             return null;
                     }
                 })()}
             </div>
             <div className={classes.tabPanelFooter}>
+                <div className={classes.buttonContainer}>
+                    <Button
+                        startIcon={<AddIcon />}
+                        label="Add Sprint"
+                        disabled={false}
+                        buttonVariant={ButtonVariant.PRIMARY}
+                        onClick={onClickCreateSprint}
+                    />
+                </div>
                 <div className={classes.buttonContainer}>
                     <Button
                         startIcon={<UpdateIcon />}

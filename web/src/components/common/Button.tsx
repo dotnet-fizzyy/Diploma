@@ -82,7 +82,7 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IButtonProps {
-    label: string;
+    label?: string;
     disabled: boolean;
     onClick?: () => void;
     type?: string;
