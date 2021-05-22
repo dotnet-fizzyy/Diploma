@@ -1,8 +1,5 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
-import moment from 'moment';
 import React from 'react';
-import { DateFormat } from '../../../constants';
 import MainLabel, { LabelType } from '../../common/MainLabel';
 
 const useStyles = makeStyles(() =>
@@ -17,24 +14,22 @@ const useStyles = makeStyles(() =>
             flexShrink: 0,
         },
         descriptionContainer: {
-            marginTop: '20px',
-            display: 'flex',
-            flexDirection: 'column',
+            marginTop: '10px',
+            '&:last-child': {
+                marginTop: '3px',
+            },
         },
         text: {
             fontFamily: 'Poppins',
             fontSize: '16px',
             color: '#242126',
         },
-        descriptionLabel: {
-            fontWeight: 'bold',
-        },
         descriptionText: {
             marginTop: '5px',
+            fontWeight: 'bold',
         },
-        creationDate: {
-            marginLeft: '30px',
-            fontSize: '14px',
+        shortLabelDesc: {
+            marginTop: '20px',
         },
     })
 );
@@ -47,31 +42,30 @@ export interface IPageHeaderTabDescription {
 export interface IPageHeaderTab {
     title: string;
     descriptionItems: IPageHeaderTabDescription[];
-    creationDate: Date;
-    options?: React.ReactNode;
 }
 
 const PageHeaderTab = (props: IPageHeaderTab) => {
     const classes = useStyles();
-    const { options, title, creationDate, descriptionItems } = props;
-
-    const getDescription = (item: IPageHeaderTabDescription, index: number): React.ReactNode => (
-        <div key={index} className={classes.descriptionContainer}>
-            <span className={classnames(classes.text, classes.descriptionLabel)}>{item.title}</span>
-            <span className={classnames(classes.text, classes.descriptionText)}>{item.description || '-'}</span>
-        </div>
-    );
+    const { title, descriptionItems } = props;
 
     return (
         <div className={classes.root}>
             <div className={classes.descriptionHeaderPart}>
                 <MainLabel title={title} variant={LabelType.PRIMARY} />
-                <span className={classnames(classes.text, classes.creationDate)}>
-                    Creation date: {moment(creationDate).format(DateFormat)}
-                </span>
-                {descriptionItems && descriptionItems.length ? descriptionItems.map(getDescription) : null}
+                <div className={classes.shortLabelDesc}>
+                    <MainLabel title="Short info" variant={LabelType.SECONDARY} />
+                </div>
+                {descriptionItems && descriptionItems.length
+                    ? descriptionItems.map((item: IPageHeaderTabDescription, index: number) => (
+                          <div key={index} className={classes.descriptionContainer}>
+                              <span className={classes.text}>
+                                  {item.title}:{' '}
+                                  <span className={classes.descriptionText}>{item.description || '-'}</span>
+                              </span>
+                          </div>
+                      ))
+                    : null}
             </div>
-            {options}
         </div>
     );
 };

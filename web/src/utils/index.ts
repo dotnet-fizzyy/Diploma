@@ -17,5 +17,8 @@ export function getFirstNameLetter(userName: string): string {
 
 export const validateGuid = (value: string): boolean => GuidRegexExpression.test(value);
 
-export const isUserCustomer = (userRole: UserRole, userPosition: UserPosition): boolean =>
-    userRole === UserRole.Manager && userPosition === UserPosition.Customer;
+export const isUserCustomer = (userRole: string, userPosition: string): boolean =>
+    UserRole[userRole] === UserRole.Manager && UserPosition[userPosition] === UserPosition.Customer;
+
+export const isUserProjectManager = (userRole: string, userPosition: string): boolean =>
+    UserRole[userRole] === UserRole.Manager && UserPosition[userPosition] === UserPosition.ProjectManager;

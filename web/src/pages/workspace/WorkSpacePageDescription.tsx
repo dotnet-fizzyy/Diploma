@@ -1,8 +1,10 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import moment from 'moment';
 import React from 'react';
 import PageHeaderTab from '../../components/header/page-header/PageHeaderTab';
 import WorkSpaceTab from '../../components/workspace/WorkSpaceTab';
 import WorkSpaceTable from '../../components/workspace/WorkSpaceTable';
+import { DateFormat } from '../../constants';
 import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
 
 const useStyles = makeStyles(() =>
@@ -56,8 +58,10 @@ const WorkSpacePageDescription = (props: IWorkSpacePageDescriptionProps) => {
             <div className={classes.body}>
                 <PageHeaderTab
                     title={workSpaceName}
-                    descriptionItems={[{ title: 'Description', description: workSpaceDescription }]}
-                    creationDate={creationDate}
+                    descriptionItems={[
+                        { title: 'Description', description: workSpaceDescription },
+                        { title: 'Creation date', description: moment(creationDate).format(DateFormat) },
+                    ]}
                 />
                 <div className={classes.table}>
                     <WorkSpaceTable workSpaceProjects={workSpaceProjects} onClickViewProject={onClickViewProject} />

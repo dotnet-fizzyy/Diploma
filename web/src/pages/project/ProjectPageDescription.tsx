@@ -1,8 +1,10 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import moment from 'moment';
 import React from 'react';
 import PageHeaderTab from '../../components/header/page-header/PageHeaderTab';
 import ProjectList from '../../components/project/ProjectList';
 import ProjectTab from '../../components/project/ProjectTab';
+import { DateFormat } from '../../constants';
 import { IEpic } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';
 import { ISprint } from '../../types/sprintTypes';
@@ -83,8 +85,10 @@ const ProjectPageDescription = (props: IProjectPageDescriptionProps) => {
             <div className={classes.body}>
                 <PageHeaderTab
                     title={project.projectName}
-                    descriptionItems={[{ title: 'Description', description: project.projectDescription }]}
-                    creationDate={project.creationDate}
+                    descriptionItems={[
+                        { title: 'Description', description: project.projectDescription },
+                        { title: 'Creation date', description: moment(project.creationDate).format(DateFormat) },
+                    ]}
                 />
                 <div className={classes.table}>
                     <ProjectList

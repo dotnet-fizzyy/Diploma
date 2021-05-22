@@ -42,6 +42,10 @@ const useStyles = makeStyles(() =>
             backgroundColor: '#a2ffa0',
             color: 'green',
         },
+        footerText: {
+            fontFamily: 'Poppins',
+            fontWeight: 500,
+        },
     })
 );
 
@@ -71,7 +75,7 @@ const StoryFooter = (props: IStoryFooterProps) => {
                         [classes.currentBlocked]: isBlocked,
                     })}
                 >
-                    <span>{isReady ? 'Ready' : 'Blocked'}</span>
+                    <span className={classes.footerText}>{isReady ? 'Ready' : 'Blocked'}</span>
                 </div>
             )}
         </React.Fragment>

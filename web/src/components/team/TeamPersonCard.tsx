@@ -18,6 +18,8 @@ const useStyles = makeStyles(() =>
             maxHeight: '300px',
             backgroundColor: '#FFF',
             borderRadius: '10px',
+            border: '1px solid #AFC1C4',
+            borderColor: 'rgba(175, 193, 196, 0.2)',
         },
         body: {
             padding: '10px',
@@ -64,17 +66,24 @@ const useStyles = makeStyles(() =>
             fontSize: '16px',
             fontWeight: 600,
         },
+        activePerson: {
+            color: '#a2ffa0',
+        },
+        deactivatedPerson: {
+            color: '#ffbdb9',
+        },
     })
 );
 
 export interface ITeamPersonCardProps {
+    isEditingAllowed: boolean;
     user: IUser;
     onClickChangeStatus: (userId: string, isActive: boolean) => void;
 }
 
 const TeamPersonCard = (props: ITeamPersonCardProps) => {
     const classes = useStyles();
-    const { user, onClickChangeStatus } = props;
+    const { isEditingAllowed, user, onClickChangeStatus } = props;
 
     const onClick = (): void => {
         onClickChangeStatus(user.userId, !user.isActive);
@@ -101,7 +110,14 @@ const TeamPersonCard = (props: ITeamPersonCardProps) => {
                     </div>
                     <div className={classes.item}>
                         <span className={classnames(classes.text, classes.descriptionLabel)}>Status: </span>
-                        <span className={classes.text}>{user.isActive ? 'Active' : 'Deactivated'}</span>
+                        <span
+                            className={classnames(classes.text, {
+                                [classes.activePerson]: user.isActive,
+                                [classes.deactivatedPerson]: !user.isActive,
+                            })}
+                        >
+                            {user.isActive ? 'Active' : 'Deactivated'}
+                        </span>
                     </div>
                     <div className={classes.item}>
                         <span className={classnames(classes.text, classes.descriptionLabel)}>Position: </span>
@@ -112,12 +128,14 @@ const TeamPersonCard = (props: ITeamPersonCardProps) => {
                         <span className={classes.text}>{user.email}</span>
                     </div>
                 </div>
-                <Button
-                    label={user.isActive ? 'Deactivate' : 'Activate'}
-                    disabled={false}
-                    buttonVariant={user.isActive ? ButtonVariant.DANGER : ButtonVariant.SUCCESS}
-                    onClick={onClick}
-                />
+                {isEditingAllowed && (
+                    <Button
+                        label={user.isActive ? 'Deactivate' : 'Activate'}
+                        disabled={false}
+                        buttonVariant={user.isActive ? ButtonVariant.DANGER : ButtonVariant.SUCCESS}
+                        onClick={onClick}
+                    />
+                )}
             </div>
         </div>
     );

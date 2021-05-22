@@ -1,9 +1,11 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { openModal } from '../../redux/actions/modalActions';
 import { changeUserActivityStatusRequest } from '../../redux/actions/userActions';
+import { getUser } from '../../redux/selectors/userSelectors';
 import { ITeam } from '../../types/teamTypes';
+import { IFullUser } from '../../types/userTypes';
 import TeamPageDescription, { ITeamPageDescriptionProps } from './TeamPageDescription';
 
 export interface ITeamPageDescriptionContainerProps {
@@ -13,6 +15,8 @@ export interface ITeamPageDescriptionContainerProps {
 const TeamPageDescriptionContainer = (props: ITeamPageDescriptionContainerProps) => {
     const dispatch = useDispatch();
     const { team } = props;
+
+    const currentUser: IFullUser = useSelector(getUser);
 
     const onClickAddUser = (): void => {
         dispatch(openModal(ModalTypes.USER_CUSTOMER));
@@ -27,6 +31,8 @@ const TeamPageDescriptionContainer = (props: ITeamPageDescriptionContainerProps)
     };
 
     const teamPageDescriptionProps: ITeamPageDescriptionProps = {
+        currentUserRole: currentUser.userRole,
+        currentUserPosition: currentUser.userPosition,
         team,
         onClickAddUser,
         onClickUpdateTeam,

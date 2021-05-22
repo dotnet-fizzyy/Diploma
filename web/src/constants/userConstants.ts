@@ -1,5 +1,7 @@
 import { IUser } from '../types/userTypes';
 
+export const ManagerRoleRequiredMessage: string = 'Only manager can edit this message';
+
 export const userFields = {
     avatarLink: 'avatarLink',
     email: 'email',

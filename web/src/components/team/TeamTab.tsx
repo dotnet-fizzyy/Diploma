@@ -1,7 +1,9 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import UpdateIcon from '@material-ui/icons/Update';
 import React from 'react';
+import { ManagerRoleRequiredMessage } from '../../constants/userConstants';
 import Button from '../common/Button';
+import Tooltip from '../common/Tooltip';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -25,23 +27,26 @@ const useStyles = makeStyles(() =>
 );
 
 export interface ITeamTabProps {
+    isEditingAllowed: boolean;
     onClickUpdateTeam: () => void;
 }
 
 const TeamTab = (props: ITeamTabProps) => {
     const classes = useStyles();
-    const { onClickUpdateTeam } = props;
+    const { isEditingAllowed, onClickUpdateTeam } = props;
 
     return (
         <div className={classes.root}>
             <div className={classes.tabContainer}>
                 <div className={classes.buttonContainer}>
-                    <Button
-                        startIcon={<UpdateIcon />}
-                        label="Update info"
-                        disabled={false}
-                        onClick={onClickUpdateTeam}
-                    />
+                    <Tooltip message={isEditingAllowed ? '' : ManagerRoleRequiredMessage}>
+                        <Button
+                            startIcon={<UpdateIcon />}
+                            label="Update info"
+                            disabled={!isEditingAllowed}
+                            onClick={onClickUpdateTeam}
+                        />
+                    </Tooltip>
                 </div>
             </div>
         </div>
