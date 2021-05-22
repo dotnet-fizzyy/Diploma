@@ -5,7 +5,7 @@ import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { setSelectedEpicById } from '../../redux/actions/epicActions';
 import { openModal } from '../../redux/actions/modalActions';
 import { getSprintsFromEpicRequest } from '../../redux/actions/sprintActions';
-import { getEpics } from '../../redux/selectors/epicSelectors';
+import { getEpics, getSelectedEpicId } from '../../redux/selectors/epicSelectors';
 import { getSprints } from '../../redux/selectors/sprintSelectors';
 import { getUserSelectedTeamId } from '../../redux/selectors/userSelectors';
 import { IEpic } from '../../types/epicTypes';
@@ -25,6 +25,7 @@ const ProjectPageDescriptionContainer = (props: IProjectPageDescriptionContainer
     const sprints: ISprint[] = useSelector(getSprints);
     const epics: IEpic[] = useSelector(getEpics);
     const teamId: string = useSelector(getUserSelectedTeamId);
+    const selectedEpicId: string = useSelector(getSelectedEpicId);
 
     const onClickUpdateProjectInfo = (): void => {
         dispatch(openModal(ModalTypes.PROJECT, ModalOptions.PROJECT_UPDATE));
@@ -40,7 +41,7 @@ const ProjectPageDescriptionContainer = (props: IProjectPageDescriptionContainer
 
     const onClickSelectEpic = (epicId: string): void => {
         dispatch(setSelectedEpicById(epicId));
-        dispatch(getSprintsFromEpicRequest(epicId));
+        epicId && dispatch(getSprintsFromEpicRequest(epicId));
     };
 
     const onClickCreateSprint = (): void => {
@@ -55,6 +56,7 @@ const ProjectPageDescriptionContainer = (props: IProjectPageDescriptionContainer
         epics,
         project,
         sprints,
+        selectedEpicId,
         onClickUpdateProjectInfo,
         onClickCreateTeamInfo,
         onClickViewBoard,

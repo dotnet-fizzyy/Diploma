@@ -1,13 +1,15 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import React from 'react';
+import MainLabel, { LabelType } from '../../components/common/MainLabel';
 import PageHeaderTab from '../../components/header/page-header/PageHeaderTab';
-import ProjectList from '../../components/project/ProjectList';
+//import ProjectList from '../../components/project/ProjectList';
 import ProjectTab from '../../components/project/ProjectTab';
 import { DateFormat } from '../../constants';
 import { IEpic } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';
 import { ISprint } from '../../types/sprintTypes';
+import ProjectEpicExpansionPanel from './ProjectEpicExpansionPanel';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -19,9 +21,9 @@ const useStyles = makeStyles(() =>
             padding: '30px',
         },
         table: {
-            marginTop: '50px',
+            marginTop: '20px',
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: 'column',
         },
         collectionItem: {
             marginTop: '20px',
@@ -46,6 +48,12 @@ const useStyles = makeStyles(() =>
                 marginBottom: '10px',
             },
         },
+        epicPanelContainer: {
+            marginBottom: '20px',
+        },
+        epicsLabelContainer: {
+            margin: '20px 0',
+        },
     })
 );
 
@@ -53,6 +61,7 @@ export interface IProjectPageDescriptionProps {
     epics: IEpic[];
     sprints: ISprint[];
     project: IProject;
+    selectedEpicId: string;
     onClickUpdateProjectInfo: () => void;
     onClickCreateTeamInfo: () => void;
     onClickViewBoard: () => void;
@@ -65,13 +74,14 @@ const ProjectPageDescription = (props: IProjectPageDescriptionProps) => {
     const classes = useStyles();
     const {
         epics,
-        sprints,
+        //sprints,
         project,
+        selectedEpicId,
         onClickUpdateProjectInfo,
         onClickCreateTeamInfo,
         onClickViewBoard,
         onClickCreateEpic,
-        onClickCreateSprint,
+        //onClickCreateSprint,
         onClickSelectEpic,
     } = props;
 
@@ -81,6 +91,7 @@ const ProjectPageDescription = (props: IProjectPageDescriptionProps) => {
                 onClickUpdateProjectInfo={onClickUpdateProjectInfo}
                 onClickCreateTeamInfo={onClickCreateTeamInfo}
                 onClickViewBoard={onClickViewBoard}
+                onClickCreateEpic={onClickCreateEpic}
             />
             <div className={classes.body}>
                 <PageHeaderTab
@@ -90,14 +101,28 @@ const ProjectPageDescription = (props: IProjectPageDescriptionProps) => {
                         { title: 'Creation date', description: moment(project.creationDate).format(DateFormat) },
                     ]}
                 />
+                <div className={classes.epicsLabelContainer}>
+                    <MainLabel title="Epics" variant={LabelType.SECONDARY} />
+                </div>
                 <div className={classes.table}>
-                    <ProjectList
-                        label="Epics"
-                        listItems={epics}
-                        onClickSelectEpic={onClickSelectEpic}
-                        onClickCreate={onClickCreateEpic}
-                    />
-                    <ProjectList label="Sprints" listItems={sprints} onClickCreate={onClickCreateSprint} />
+                    {/*<ProjectList*/}
+                    {/*    label="Epics"*/}
+                    {/*    listItems={epics}*/}
+                    {/*    onClickSelectEpic={onClickSelectEpic}*/}
+                    {/*    onClickCreate={onClickCreateEpic}*/}
+                    {/*/>*/}
+                    {epics && epics.length
+                        ? epics.map((x) => (
+                              <div key={x.epicId} className={classes.epicPanelContainer}>
+                                  <ProjectEpicExpansionPanel
+                                      selectedEpicId={selectedEpicId}
+                                      onClickSelectEpic={onClickSelectEpic}
+                                      epic={x}
+                                  />
+                              </div>
+                          ))
+                        : null}
+                    {/*<ProjectList label="Sprints" listItems={sprints} onClickCreate={onClickCreateSprint} />*/}
                 </div>
             </div>
         </div>
