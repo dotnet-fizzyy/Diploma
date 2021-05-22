@@ -41,5 +41,9 @@ export const mapToStorySimpleModel = (data): IStorySimpleModel => ({
     title: data.title,
     sprintId: data.sprintId,
     columnType: data.columnType,
+    storyPriority: data.storyPriority,
     recordVersion: data.recordVersion,
+    isBlocked: data.isBlocked,
+    isReady: data.isReady,
+    estimate: data.estimate,
 });

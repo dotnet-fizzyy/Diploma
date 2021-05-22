@@ -1,6 +1,6 @@
-import { CircularProgress } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
+import Spinner from '../common/Spinner';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -26,7 +26,7 @@ const LoadingScreen = () => {
 
     return (
         <div className={classes.root}>
-            <CircularProgress size={80} />
+            <Spinner size={80} />
             <span className={classes.title}>Redirecting...</span>
         </div>
     );

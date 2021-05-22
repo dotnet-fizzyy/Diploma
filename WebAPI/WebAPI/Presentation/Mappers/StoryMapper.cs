@@ -92,7 +92,11 @@ namespace WebAPI.Presentation.Mappers
                 Title = story.Title,
                 SprintId = story.SprintId,
                 RecordVersion = story.RecordVersion,
-                ColumnType = Enum.Parse<WebAPI.Models.Enums.ColumnType>(story.ColumnType.ToString())
+                ColumnType = Enum.Parse<WebAPI.Models.Enums.ColumnType>(story.ColumnType.ToString()),
+                StoryPriority = Enum.Parse<WebAPI.Models.Enums.StoryPriority>(story.StoryPriority.ToString()),
+                IsReady = story.IsReady,
+                IsBlocked = story.IsBlocked,
+                Estimate = story.Estimate,
             };
 
             return userSimpleModel;

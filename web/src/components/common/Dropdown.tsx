@@ -7,8 +7,7 @@ const useStyles = makeStyles(() =>
     createStyles({
         root: ({ isOutlined }: IBoardTabDropdownProps) => ({
             height: '40px',
-            width: isOutlined ? '140px' : 'auto',
-            borderColor: '#AFC1C4',
+            minWidth: isOutlined ? '140px' : 'auto',
         }),
         outlined: {
             color: '#AFC1C4 !important',
@@ -21,6 +20,8 @@ const useStyles = makeStyles(() =>
             fontWeight: 600,
             color: '#242126',
             fontSize: '20px',
+            '&:before': { borderColor: '#AFC1C4' },
+            '&:after': { borderColor: '#AFC1C4' },
         },
         menuItem: {
             fontFamily: 'Poppins',

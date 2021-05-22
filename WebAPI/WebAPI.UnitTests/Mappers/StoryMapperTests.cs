@@ -327,7 +327,12 @@ namespace WebAPI.UnitTests.Mappers
                 StoryId = storyId,
                 SprintId = sprintId,
                 RecordVersion = recordVersion,
-                Title = title
+                Title = title,
+                ColumnType = Models.Enums.ColumnType.InProgress,
+                StoryPriority = Models.Enums.StoryPriority.Low,
+                Estimate = estimate,
+                IsBlocked = isBlocked,
+                IsReady = isReady,
             };
             
             //Act
@@ -337,6 +342,10 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(expectedModel.StoryId, result.StoryId);
             Assert.Equal(expectedModel.SprintId, result.SprintId);
             Assert.Equal(expectedModel.Title, result.Title);
+            Assert.Equal(expectedModel.IsBlocked, result.IsBlocked);
+            Assert.Equal(expectedModel.IsReady, result.IsReady);
+            Assert.Equal(expectedModel.ColumnType, result.ColumnType);
+            Assert.Equal(expectedModel.StoryPriority, result.StoryPriority);
             Assert.Equal(expectedModel.RecordVersion, result.RecordVersion);
         }
         

@@ -59,6 +59,10 @@ export interface IStorySimpleModel {
     storyId: string;
     title: string;
     columnType: string;
+    storyPriority: string;
+    isReady: boolean;
+    isBlocked: boolean;
+    estimate: number;
     sprintId: string;
     recordVersion: number;
 }

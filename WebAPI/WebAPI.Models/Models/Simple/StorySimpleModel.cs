@@ -11,7 +11,15 @@ namespace WebAPI.Models.Models.Simple
         
         public ColumnType ColumnType { get; set; }
         
+        public StoryPriority StoryPriority { get; set; }
+        
         public Guid? SprintId { get; set; }
+        
+        public int Estimate { get; set; }
+        
+        public bool IsReady { get; set; }
+        
+        public bool IsBlocked { get; set; }
         
         public uint RecordVersion { get; set; }
     }

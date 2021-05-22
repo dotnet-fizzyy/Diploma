@@ -1,6 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { ISelectedItem } from '../../types/storyTypes';
+import Button from '../common/Button';
 import Dropdown from '../common/Dropdown';
 import MainLabel, { LabelType } from '../common/MainLabel';
 
@@ -19,6 +20,10 @@ const useStyles = makeStyles(() =>
             display: 'flex',
             flexDirection: 'column',
         },
+        buttonContainer: {
+            display: 'flex',
+            alignItems: 'flex-end',
+        },
     })
 );
 
@@ -29,11 +34,20 @@ export interface IStatsFilters {
     sprints: ISelectedItem[];
     onChangeEvent: (e) => void;
     onChangeSprint: (e) => void;
+    onClickResetColumns: () => void;
 }
 
 const StatsFilters = (props: IStatsFilters) => {
     const classes = useStyles();
-    const { selectedEpicId, selectedSprintId, epics, sprints, onChangeEvent, onChangeSprint } = props;
+    const {
+        selectedEpicId,
+        selectedSprintId,
+        epics,
+        sprints,
+        onChangeEvent,
+        onChangeSprint,
+        onClickResetColumns,
+    } = props;
 
     return (
         <div className={classes.root}>
@@ -44,6 +58,9 @@ const StatsFilters = (props: IStatsFilters) => {
             <div className={classes.dropdownContainer}>
                 <MainLabel title="Sprints" variant={LabelType.SECONDARY} />
                 <Dropdown value={selectedSprintId} items={sprints} onChangeEvent={onChangeSprint} isOutlined={true} />
+            </div>
+            <div className={classes.buttonContainer}>
+                <Button label="Reset columns" disabled={false} onClick={onClickResetColumns} />
             </div>
         </div>
     );

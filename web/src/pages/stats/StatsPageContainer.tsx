@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { changeStatsEpic } from '../../redux/actions/epicActions';
@@ -26,6 +26,8 @@ const StatsPageContainer = () => {
     const selectedSprintId: string = useSelector(getSelectedSprintId);
     const stories: IStorySimpleModel[] = useSelector(getStorySimpleModels);
 
+    const [selectedChartColumn, setSelectedChartColumn] = useState<string>('');
+
     const onChangeEpic = (e): void => {
         dispatch(changeStatsEpic(e.target.value));
     };
@@ -37,9 +39,17 @@ const StatsPageContainer = () => {
     const onClickChartPart = (index: number): void => {
         const columnKeys: string[] = getColumnKeys();
         if (columnKeys[index]) {
-            console.warn(columnKeys[index]);
+            setSelectedChartColumn(columnKeys[index]);
         }
     };
+
+    const onClickResetColumns = (): void => {
+        setSelectedChartColumn('');
+    };
+
+    useEffect(() => {
+        setSelectedChartColumn('');
+    }, [selectedEpicId]);
 
     useEffect(() => {
         const projectId: string = getQueryParameter(location.search, 'projectId');
@@ -56,12 +66,14 @@ const StatsPageContainer = () => {
         project,
         selectedEpicId,
         selectedSprintId,
+        selectedChartColumn,
         epics,
         sprints,
         stories,
         onChangeEpic,
         onChangeSprint,
         onClickChartPart,
+        onClickResetColumns,
     };
 
     return <StatsPage {...statsPageProps} />;
