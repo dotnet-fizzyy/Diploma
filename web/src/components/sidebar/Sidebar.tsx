@@ -10,7 +10,7 @@ const useStyles = makeStyles(() =>
     createStyles({
         root: {
             width: '450px',
-            height: '100%',
+            minHeight: '100%',
             position: 'relative',
         },
         closeSidebarIcon: {
