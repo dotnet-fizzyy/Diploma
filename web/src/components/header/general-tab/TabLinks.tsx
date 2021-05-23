@@ -1,10 +1,12 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import classnames from 'classnames';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { TabLinkItems, TabLinkOptions } from '../../../constants';
 import { UserPosition, UserRole } from '../../../constants/userConstants';
 import { IUserProject, IUserTeam } from '../../../types/userTypes';
 import { isUserCustomer } from '../../../utils';
+import Tooltip from '../../common/Tooltip';
 import SelectTab, { ISelectTabItem } from './SelectTab';
 
 const useStyles = makeStyles(() =>
@@ -18,6 +20,9 @@ const useStyles = makeStyles(() =>
             '&:hover': {
                 cursor: 'pointer',
             },
+        },
+        disabledText: {
+            color: '#AFC1C4',
         },
     })
 );
@@ -85,8 +90,12 @@ const TabLinks = (props: ITabLinks) => {
         label: string,
         link: string
     ): React.ReactNode => {
-        if (!items && !items.length) {
-            return <span className={classes.text}>{label}</span>;
+        if ((!items && !items.length) || !items.some((x) => x.key === selectedValue)) {
+            return (
+                <Tooltip message="No items created yet">
+                    <span className={classnames(classes.text, classes.disabledText)}>{label}</span>
+                </Tooltip>
+            );
         }
 
         if (items && items.length === 1) {

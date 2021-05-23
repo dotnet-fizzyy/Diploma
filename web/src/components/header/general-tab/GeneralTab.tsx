@@ -31,7 +31,7 @@ const useStyles = makeStyles(() =>
             margin: '0 auto 0 80px',
         },
         mainTabsContainer: {
-            maxWidth: '400px',
+            maxWidth: '500px',
             width: '100%',
             display: 'flex',
             alignItems: 'center',

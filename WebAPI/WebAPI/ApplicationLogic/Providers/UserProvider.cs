@@ -11,7 +11,6 @@ using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Models;
 using WebAPI.Presentation.Models.Action;
 
 namespace WebAPI.ApplicationLogic.Providers
@@ -95,7 +94,9 @@ namespace WebAPI.ApplicationLogic.Providers
             if (userEntity.TeamUsers.Any())
             {
                 teamEntities = await _teamRepository.GetUserTeams(userEntity.Id);
-                projectEntities = await _projectRepository.GetProjectsByCollectionOfTeamIds(teamEntities);
+                projectEntities = userEntity.UserPosition == UserPosition.Customer 
+                    ? await _projectRepository.SearchForMultipleItemsAsync(x => x.WorkSpaceId == userEntity.WorkSpaceId)
+                    : await _projectRepository.GetProjectsByCollectionOfTeamIds(teamEntities);
             }
 
             var userFullModel = _userMapper.MapToFullModel(userEntity, projectEntities, teamEntities);

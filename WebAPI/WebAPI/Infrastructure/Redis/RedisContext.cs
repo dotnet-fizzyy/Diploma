@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using StackExchange.Redis.Extensions.Core.Abstractions;
+using WebAPI.Core.Configuration;
 using WebAPI.Core.Interfaces.Database;
 
 namespace WebAPI.Infrastructure.Redis
@@ -12,11 +13,13 @@ namespace WebAPI.Infrastructure.Redis
     {
         private readonly IRedisCacheClient _redisCacheClient;
         private readonly ILogger<RedisContext> _logger;
+        private readonly AppSettings _appSettings;
 
-        public RedisContext(IRedisCacheClient redisCacheClient, ILogger<RedisContext> logger)
+        public RedisContext(IRedisCacheClient redisCacheClient, ILogger<RedisContext> logger, AppSettings appSettings)
         {
             _redisCacheClient = redisCacheClient;
             _logger = logger;
+            _appSettings = appSettings;
         }
 
 
@@ -56,7 +59,12 @@ namespace WebAPI.Infrastructure.Redis
         
         private IDatabase Redis()
         {
-            return _redisCacheClient.GetDbFromConfiguration().Database;
+            if (_appSettings.Redis.EnableRedis)
+            {
+                return _redisCacheClient.GetDbFromConfiguration().Database;
+            }
+
+            return null;
         }
     }
 }

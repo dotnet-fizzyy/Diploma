@@ -247,7 +247,7 @@ namespace WebAPI.ApplicationLogic.Services
             return updatedStoryModel;
         }
 
-        public async Task<Story> UpdatePartsOfStoryAsync(Story storyUpdate, string userName)
+        public async Task<Story> UpdatePartsOfStoryAsync(Story storyUpdate, Guid userId)
         {
             using var scope = new TransactionScope
             (
@@ -263,6 +263,11 @@ namespace WebAPI.ApplicationLogic.Services
             if (storyEntity == null)
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(storyUpdate.StoryId)));
+            }
+            var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == userId);
+            if (userEntity == null)
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(storyUpdate.UserId)));
             }
             
             var storyUpdateEntity = _storyMapper.MapToEntity(storyUpdate);
@@ -287,7 +292,7 @@ namespace WebAPI.ApplicationLogic.Services
                 }
             }
             
-            var storyHistoryUpdates = _storyAggregator.CreateStoryFromUpdateParts(storyEntity, storyUpdateEntity, userName, sprints, users);
+            var storyHistoryUpdates = _storyAggregator.CreateStoryFromUpdateParts(storyEntity, storyUpdateEntity, userEntity.UserName, sprints, users);
             
             await _storyHistoryRepository.CreateAsync(storyHistoryUpdates);
             var updatedStory = await _storyRepository.UpdateItemAsync(storyUpdateEntity);

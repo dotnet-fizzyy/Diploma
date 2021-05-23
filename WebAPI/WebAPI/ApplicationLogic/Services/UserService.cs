@@ -11,7 +11,6 @@ using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Models;
-using WebAPI.Presentation.Models;
 using WebAPI.Presentation.Models.Action;
 
 namespace WebAPI.ApplicationLogic.Services
@@ -48,7 +47,7 @@ namespace WebAPI.ApplicationLogic.Services
             var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == id);
             if (userEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, "Unable to find user with provided id");
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id)));
             }
             
             var userModel = _userMapper.MapToModel(userEntity);
@@ -86,7 +85,14 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<User> UpdateUserAsync(User user)
         {
+            var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == user.UserId);
+            if (userEntity == null)
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(User.UserId)));
+            }
+            
             var entityUser = _userMapper.MapToEntity(user);
+            entityUser.Password = user.Password;
 
             var entityUpdatedUser = await _userRepository.UpdateItemAsync(entityUser);
 

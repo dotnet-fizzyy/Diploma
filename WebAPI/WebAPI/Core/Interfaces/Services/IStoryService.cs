@@ -24,7 +24,7 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<Story> ChangeStoryStatusAsync(Story story,  string userName);
 
-        Task<Story> UpdatePartsOfStoryAsync(Story story, string userName);
+        Task<Story> UpdatePartsOfStoryAsync(Story story, Guid userId);
 
         Task RemoveStorySoftAsync(Story story);
         

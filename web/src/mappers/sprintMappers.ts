@@ -7,6 +7,7 @@ export function mapToSprintModel(data): ISprint {
         sprintName: data.sprintName,
         startDate: data.startDate,
         endDate: data.endDate,
+        creationDate: data.creationDate,
     };
 }
 
@@ -17,5 +18,6 @@ export function mapFullSprintToSprint(fullSprint: IFullSprint): ISprint {
         sprintName: fullSprint.sprintName,
         startDate: fullSprint.startDate,
         endDate: fullSprint.endDate,
+        creationDate: fullSprint.creationDate,
     } as ISprint;
 }

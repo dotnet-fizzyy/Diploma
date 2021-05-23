@@ -38,6 +38,7 @@ export default class SprintApi {
             creationDate: new Date(sprint.creationDate),
         };
 
+        debugger;
         const response: AxiosResponse<ISprint> = await AxiosBaseApi.axiosPut(SprintUrls.updateSprint, mappedSprint);
 
         return mapToSprintModel(response.data);

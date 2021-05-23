@@ -66,6 +66,7 @@ const useStyles = makeStyles(() =>
         },
         fieldContainer: {
             margin: '20px 0 0 30px',
+            wordBreak: 'break-all',
             '&:first-child': {
                 marginTop: 0,
             },
@@ -225,9 +226,10 @@ const UserModal = (props: IUserModalProps) => {
                             <div className={classes.fieldContainer}>
                                 <span className={classnames(classes.text, classes.staticFieldLabel)}>Projects:</span>
                                 {projects && projects.length ? (
-                                    projects.map((x) => (
+                                    projects.map((x, index) => (
                                         <span key={x.projectId} className={classes.text}>
                                             {x.projectName || UnspecifiedValue}
+                                            {index !== projects.length - 1 ? ', ' : ''}
                                         </span>
                                     ))
                                 ) : (
@@ -237,9 +239,10 @@ const UserModal = (props: IUserModalProps) => {
                             <div className={classes.fieldContainer}>
                                 <span className={classnames(classes.text, classes.staticFieldLabel)}>Teams:</span>
                                 {teams && teams.length ? (
-                                    teams.map((x) => (
+                                    teams.map((x, index) => (
                                         <span key={x.teamId} className={classes.text}>
                                             {x.teamName || UnspecifiedValue}
+                                            {index !== teams.length - 1 ? ', ' : ''}
                                         </span>
                                     ))
                                 ) : (

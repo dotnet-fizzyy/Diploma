@@ -68,6 +68,7 @@ export default class UserApi {
             workSpaceId: user.workSpaceId,
             avatarLink: user.avatarLink,
             isActive: user.isActive,
+            creationDate: user.creationDate,
         };
 
         const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosPut(UserUrls.updateProfileSettings, mappedUser);
