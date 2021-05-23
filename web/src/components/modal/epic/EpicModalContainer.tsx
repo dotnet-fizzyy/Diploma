@@ -32,9 +32,14 @@ const EpicModalContainer = () => {
             ...values,
             epicId: values.epicId,
             projectId: project.projectId,
+            creationDate: selectedEpic.creationDate,
         };
 
-        dispatch(epicActions.createEpicRequest(epic));
+        if (isUpdate) {
+            dispatch(epicActions.updateEpicRequest(epic));
+        } else {
+            dispatch(epicActions.createEpicRequest(epic));
+        }
     };
 
     const validateEpicName = (value: string) => new InputFormFieldValidator(value, 3, 100, true, null).validate();

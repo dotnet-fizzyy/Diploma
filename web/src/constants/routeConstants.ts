@@ -59,14 +59,14 @@ export const SprintUrls = {
     createSprint: SprintBaseUrl,
     updateSprint: SprintBaseUrl,
     getEpicSprints: `${SprintBaseUrl}/epic/id`,
-    removeSprint: `${SprintBaseUrl}/id`,
+    removeSprint: `${SprintBaseUrl}/soft-remove`,
 };
 
 export const EpicUrls = {
     createEpic: EpicBaseUrl,
     getProjectPage: PageUrls.getProjectPage,
     updateEpic: EpicBaseUrl,
-    removeEpic: `${EpicBaseUrl}/id`,
+    removeEpic: `${EpicBaseUrl}/soft-remove`,
     getStatsPageSearchItems: `${PageBaseUrl}/stats`,
 };
 

@@ -6,6 +6,7 @@ import { mapToStorySimpleModel } from '../mappers/storyMappers';
 import { ICollectionResponse } from '../types';
 import { IEpic } from '../types/epicTypes';
 import { IStatsPage } from '../types/projectTypes';
+import { createEpicRemoveRequestBody } from '../utils';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class EpicsApi {
@@ -48,7 +49,7 @@ export default class EpicsApi {
     }
 
     public static async removeEpic(epicId: string): Promise<void> {
-        await AxiosBaseApi.axiosDelete(`${EpicUrls.getProjectPage}/${epicId}`);
+        await AxiosBaseApi.axiosPatch(EpicUrls.removeEpic, createEpicRemoveRequestBody(epicId));
     }
 
     public static async getStatsSearchItems(epicId: string): Promise<IStatsPage> {

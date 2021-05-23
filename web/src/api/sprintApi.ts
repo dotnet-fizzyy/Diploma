@@ -3,6 +3,7 @@ import { SprintUrls } from '../constants/routeConstants';
 import { mapToSprintModel } from '../mappers/sprintMappers';
 import { ICollectionResponse } from '../types';
 import { IFullSprint, ISprint } from '../types/sprintTypes';
+import { createSprintRemoveRequestBody } from '../utils';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class SprintApi {
@@ -43,6 +44,6 @@ export default class SprintApi {
     }
 
     public static async removeSprint(sprintId: string): Promise<void> {
-        await AxiosBaseApi.axiosDelete(`${SprintUrls.createSprint}/${sprintId}`);
+        await AxiosBaseApi.axiosPatch(SprintUrls.removeSprint, createSprintRemoveRequestBody(sprintId));
     }
 }

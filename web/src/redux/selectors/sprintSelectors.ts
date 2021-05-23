@@ -27,3 +27,7 @@ export function getSprintDropdownItems(state: IState): ISelectedItem[] {
 export function getSelectedSprintId(state: IState): string {
     return state.sprints.selectedSprintId;
 }
+
+export function getSelectedSprint(state: IState): ISprint {
+    return state.sprints.sprints.find((x) => x.sprintId === state.sprints.selectedSprintId);
+}

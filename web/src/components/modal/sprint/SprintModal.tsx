@@ -1,12 +1,13 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { InitialSprintState, SprintFields } from '../../../constants/sprintConstants';
+import { SprintFields } from '../../../constants/sprintConstants';
 import { ISprint } from '../../../types/sprintTypes';
 import Button from '../../common/Button';
 import FormDatePicker from '../../common/FormDatePicker';
 import FormTextField from '../../common/FormTextField';
 import MainLabel, { LabelType } from '../../common/MainLabel';
+import ModalAdditionalInfo from '../ModalAdditionalInfo';
 import ModalSpinner from '../ModalSpinner';
 import ModalCloseButtonContainer from '../close-button/ModalCloseButtonContainer';
 
@@ -37,6 +38,7 @@ const useStyles = makeStyles(() =>
 );
 
 export interface ISprintCreationProps {
+    initialValues: ISprint;
     isPerformingRequest: boolean;
     isUpdate: boolean;
     onSubmitButton: (values: ISprint) => void;
@@ -45,22 +47,20 @@ export interface ISprintCreationProps {
 
 const SprintModal = (props: ISprintCreationProps) => {
     const classes = useStyles();
-    const { isPerformingRequest, isUpdate, onSubmitButton, validateSprintName } = props;
+    const { initialValues, isPerformingRequest, isUpdate, onSubmitButton, validateSprintName } = props;
 
     return (
-        <Formik
-            initialValues={InitialSprintState}
-            onSubmit={onSubmitButton}
-            validateOnBlur={false}
-            validateOnChange={true}
-        >
+        <Formik initialValues={initialValues} onSubmit={onSubmitButton} validateOnBlur={false} validateOnChange={true}>
             {({ isValid, touched }) => {
                 const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
 
                 return (
                     <div className={classes.root}>
                         <Form>
-                            <MainLabel title="Create sprint" variant={LabelType.PRIMARY} />
+                            <MainLabel
+                                title={`${isUpdate ? 'Update' : 'Create new'} sprint`}
+                                variant={LabelType.PRIMARY}
+                            />
                             <ModalCloseButtonContainer />
                             {isPerformingRequest && <ModalSpinner />}
                             <div className={classes.fieldContainer}>
@@ -77,6 +77,11 @@ const SprintModal = (props: ISprintCreationProps) => {
                             <div className={classes.fieldContainer}>
                                 <Field label="End date" name={SprintFields.endDate} component={FormDatePicker} />
                             </div>
+                            {!isUpdate && (
+                                <div className={classes.fieldContainer}>
+                                    <ModalAdditionalInfo />
+                                </div>
+                            )}
                             <div className={classes.buttonContainer}>
                                 <Button
                                     label={`${isUpdate ? 'Update' : 'Create'} sprint`}

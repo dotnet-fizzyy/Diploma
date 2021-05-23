@@ -6,6 +6,7 @@ import {
     IGetEpicsSuccess,
     ISetSelectedEpic,
     ISetSelectedEpicById,
+    IUpdateEpicSuccess,
 } from '../actions/epicActions';
 import { IChangeEpicRequest, StoryActions } from '../actions/storyActions';
 import { IEpicsState } from '../store/state';
@@ -33,6 +34,8 @@ export default function epicReducer(state = initialState, action) {
             return handleAddSimpleEpics(state, action);
         case EpicActions.CHANGE_STATS_EPIC:
             return handleChangeSelectedEpic(state, action);
+        case EpicActions.UPDATE_EPIC_SUCCESS:
+            return handleUpdateEpicSuccess(state, action);
         default:
             return state;
     }
@@ -89,5 +92,12 @@ function handleChangeSelectedEpic(state: IEpicsState, action: IChangeStatsEpic):
     return {
         ...state,
         selectedEpicId: action.payload,
+    };
+}
+
+function handleUpdateEpicSuccess(state: IEpicsState, action: IUpdateEpicSuccess): IEpicsState {
+    return {
+        ...state,
+        epics: state.epics.map((x) => (x.epicId === action.payload.epicId ? { ...action.payload } : x)),
     };
 }

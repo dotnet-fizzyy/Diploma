@@ -7,6 +7,7 @@ import { ITeam } from '../../../types/teamTypes';
 import Button from '../../common/Button';
 import FormTextField from '../../common/FormTextField';
 import MainLabel, { LabelType } from '../../common/MainLabel';
+import ModalAdditionalInfo from '../ModalAdditionalInfo';
 import ModalSpinner from '../ModalSpinner';
 import ModalCloseButtonContainer from '../close-button/ModalCloseButtonContainer';
 
@@ -78,6 +79,11 @@ const TeamModal = (props: ITeamModalProps) => {
                                     validate={validateField}
                                 />
                             </div>
+                            {!isUpdate && (
+                                <div className={classes.fieldContainer}>
+                                    <ModalAdditionalInfo />
+                                </div>
+                            )}
                             <div className={classes.buttonContainer}>
                                 <Button
                                     label={`${isUpdate ? 'Update' : 'Create '} team`}

@@ -8,6 +8,7 @@ export function mapToEpicModel(data: any): IEpic {
         startDate: data.startDate,
         endDate: data.endDate,
         projectId: data.projectId,
+        creationDate: data.creationDate,
     };
 }
 

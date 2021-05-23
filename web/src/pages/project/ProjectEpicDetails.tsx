@@ -63,11 +63,25 @@ export interface IProjectEpicDetailsProps {
     epic: IEpic;
     onChangeTab: (event: React.ChangeEvent<{}>, newValue: string) => void;
     onClickCreateSprint: () => void;
+    onClickUpdateEpic: () => void;
+    onClickRemoveEpic: () => void;
+    onClickUpdateSprint: (sprintId: string) => void;
+    onClickRemoveSprint: (sprintId: string) => void;
 }
 
 const ProjectEpicDetails = (props: IProjectEpicDetailsProps) => {
     const classes = useStyles();
-    const { selectedTab, epic, sprints, onChangeTab, onClickCreateSprint } = props;
+    const {
+        selectedTab,
+        epic,
+        sprints,
+        onChangeTab,
+        onClickUpdateEpic,
+        onClickRemoveEpic,
+        onClickCreateSprint,
+        onClickUpdateSprint,
+        onClickRemoveSprint,
+    } = props;
 
     return (
         <div className={classes.root}>
@@ -96,7 +110,13 @@ const ProjectEpicDetails = (props: IProjectEpicDetailsProps) => {
                         case TabValues.GENERAL_INFO:
                             return <EpicsTab epic={epic} />;
                         case TabValues.SPRINTS:
-                            return <SprintsTab sprints={sprints} />;
+                            return (
+                                <SprintsTab
+                                    sprints={sprints}
+                                    onClickUpdateSprint={onClickUpdateSprint}
+                                    onClickRemoveSprint={onClickRemoveSprint}
+                                />
+                            );
                         default:
                             return null;
                     }
@@ -118,6 +138,7 @@ const ProjectEpicDetails = (props: IProjectEpicDetailsProps) => {
                         label="Update"
                         disabled={false}
                         buttonVariant={ButtonVariant.PRIMARY}
+                        onClick={onClickUpdateEpic}
                     />
                 </div>
                 <div className={classes.buttonContainer}>
@@ -126,6 +147,7 @@ const ProjectEpicDetails = (props: IProjectEpicDetailsProps) => {
                         label="Remove"
                         disabled={false}
                         buttonVariant={ButtonVariant.DANGER}
+                        onClick={onClickRemoveEpic}
                     />
                 </div>
             </div>

@@ -1,13 +1,14 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { EpicFields, EpicInitialState } from '../../../constants/epicConstants';
+import { EpicFields } from '../../../constants/epicConstants';
 import { IEpicFormTypes } from '../../../types/formTypes';
 import Button from '../../common/Button';
 import FormDatePicker from '../../common/FormDatePicker';
 import FormTextArea from '../../common/FormTextArea';
 import FormTextField from '../../common/FormTextField';
 import MainLabel, { LabelType } from '../../common/MainLabel';
+import ModalAdditionalInfo from '../ModalAdditionalInfo';
 import ModalSpinner from '../ModalSpinner';
 import ModalCloseButtonContainer from '../close-button/ModalCloseButtonContainer';
 
@@ -15,7 +16,7 @@ const useStyles = makeStyles(() =>
     createStyles({
         root: {
             maxWidth: '500px',
-            maxHeight: '590px',
+            maxHeight: '620px',
             width: '100%',
             height: 'max-content',
             backgroundColor: 'white',
@@ -47,17 +48,20 @@ export interface IEpicCreationProps {
 
 const EpicModal = (props: IEpicCreationProps) => {
     const classes = useStyles();
-    const { isPerformingRequest, isUpdate, validateEpicName, onSubmitButton } = props;
+    const { initialValues, isPerformingRequest, isUpdate, validateEpicName, onSubmitButton } = props;
 
     return (
-        <Formik initialValues={EpicInitialState} onSubmit={onSubmitButton}>
+        <Formik initialValues={initialValues} onSubmit={onSubmitButton}>
             {({ isValid, touched }) => {
                 const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
 
                 return (
                     <div className={classes.root}>
                         <Form>
-                            <MainLabel title="Create new epic" variant={LabelType.PRIMARY} />
+                            <MainLabel
+                                title={`${isUpdate ? 'Update' : 'Create new'} epic`}
+                                variant={LabelType.PRIMARY}
+                            />
                             <ModalCloseButtonContainer />
                             {isPerformingRequest && <ModalSpinner />}
 
@@ -84,6 +88,11 @@ const EpicModal = (props: IEpicCreationProps) => {
                             <div className={classes.fieldContainer}>
                                 <Field label="End Date" name={EpicFields.endDate} component={FormDatePicker} />
                             </div>
+                            {!isUpdate && (
+                                <div className={classes.fieldContainer}>
+                                    <ModalAdditionalInfo />
+                                </div>
+                            )}
                             <div className={classes.buttonContainer}>
                                 <Button
                                     disabled={!isUpdate && (!isAnyFieldTouched || (isAnyFieldTouched && !isValid))}

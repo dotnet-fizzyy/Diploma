@@ -65,11 +65,13 @@ const useStyles = makeStyles(() =>
 
 export interface ISprintsTabProps {
     sprints: ISprint[];
+    onClickUpdateSprint: (sprintId: string) => void;
+    onClickRemoveSprint: (sprintId: string) => void;
 }
 
 const SprintsTab = (props: ISprintsTabProps) => {
     const classes = useStyles();
-    const { sprints } = props;
+    const { sprints, onClickUpdateSprint, onClickRemoveSprint } = props;
 
     return (
         <div className={classes.root}>
@@ -81,10 +83,16 @@ const SprintsTab = (props: ISprintsTabProps) => {
                               <span className={classnames(classes.text, classes.descriptionText)}>
                                   {moment(x.startDate).format(DateFormat)} - {moment(x.endDate).format(DateFormat)}
                               </span>
-                              <div className={classnames(classes.buttonContainer, classes.primaryButton)}>
+                              <div
+                                  className={classnames(classes.buttonContainer, classes.primaryButton)}
+                                  onClick={() => onClickUpdateSprint(x.sprintId)}
+                              >
                                   <UpdateIcon />
                               </div>
-                              <div className={classnames(classes.buttonContainer, classes.removeButton)}>
+                              <div
+                                  className={classnames(classes.buttonContainer, classes.removeButton)}
+                                  onClick={() => onClickRemoveSprint(x.sprintId)}
+                              >
                                   <DeleteOutlineIcon />
                               </div>
                           </div>

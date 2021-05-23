@@ -12,6 +12,7 @@ import FormDropdown from '../../common/FormDropdown';
 import FormTextArea from '../../common/FormTextArea';
 import FormTextField from '../../common/FormTextField';
 import MainLabel, { LabelType } from '../../common/MainLabel';
+import ModalAdditionalInfo from '../ModalAdditionalInfo';
 import ModalSpinner from '../ModalSpinner';
 import ModalCloseButtonContainer from '../close-button/ModalCloseButtonContainer';
 
@@ -39,7 +40,7 @@ const useStyles = makeStyles(() =>
             width: '100%',
             height: '200px',
             flexWrap: 'wrap',
-            marginTop: '30px',
+            marginTop: '20px',
             justifyContent: 'space-between',
         },
         footerItem: {
@@ -47,6 +48,7 @@ const useStyles = makeStyles(() =>
             flexShrink: 0,
         },
         buttonContainer: {
+            marginTop: '30px',
             width: '140px',
         },
     })
@@ -167,6 +169,7 @@ const StoryModal = (props: IStoryCreationProps) => {
                                     />
                                 </div>
                             </div>
+                            <ModalAdditionalInfo />
                             <div className={classes.buttonContainer}>
                                 <Button
                                     disabled={!isAnyFieldTouched || (isAnyFieldTouched && !isValid)}
