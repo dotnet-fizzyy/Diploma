@@ -22,6 +22,11 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
                 .WithMany(e => e.Stories)
                 .HasForeignKey(x => x.UserId)
                 .IsRequired(false);
+            builder
+                .HasOne<Team>()
+                .WithMany(x => x.Stories)
+                .HasForeignKey(x => x.TeamId)
+                .IsRequired(false);
             builder.Property(x => x.RecordVersion)
                 .HasColumnName("xmin")
                 .HasColumnType("xid")

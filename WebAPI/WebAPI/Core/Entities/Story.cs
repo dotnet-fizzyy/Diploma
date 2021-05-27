@@ -13,6 +13,8 @@ namespace WebAPI.Core.Entities
         
         public Guid? SprintId { get; set; }
         
+        public Guid? TeamId { get; set; }
+        
         public Guid? UserId { get; set; }
         
         public string Title { get; set; }

@@ -5,11 +5,6 @@ namespace WebAPI.Core.Entities
 {
     public class Team : BaseEntity
     {
-        public Team()
-        {
-            TeamUsers = new List<TeamUser>();
-        }
-
         public Guid ProjectId { get; set; }
 
         public string TeamName { get; set; }
@@ -20,6 +15,8 @@ namespace WebAPI.Core.Entities
         
         public int MembersCount => TeamUsers.Count;
 
-        public IList<TeamUser> TeamUsers { get; set; }
+        public IList<TeamUser> TeamUsers { get; set; } =  new List<TeamUser>();
+
+        public IList<Story> Stories { get; set; } = new List<Story>();
     }
 }

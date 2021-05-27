@@ -451,3 +451,32 @@ BEGIN
     VALUES ('20210513175159_AddDeleteField', '3.1.9');
     END IF;
 END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210526194610_AddTeamIdForStory') THEN
+    ALTER TABLE "Stories" ADD "TeamId" uuid NULL;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210526194610_AddTeamIdForStory') THEN
+    CREATE INDEX "IX_Stories_TeamId" ON "Stories" ("TeamId");
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210526194610_AddTeamIdForStory') THEN
+    ALTER TABLE "Stories" ADD CONSTRAINT "FK_Stories_Teams_TeamId" FOREIGN KEY ("TeamId") REFERENCES "Teams" ("TeamId") ON DELETE RESTRICT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20210526194610_AddTeamIdForStory') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20210526194610_AddTeamIdForStory', '3.1.9');
+    END IF;
+END $$;

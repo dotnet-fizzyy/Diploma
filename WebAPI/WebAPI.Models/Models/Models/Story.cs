@@ -9,6 +9,8 @@ namespace WebAPI.Models.Models.Models
         
         public Guid? UserId { get; set; }
         
+        public Guid? TeamId { get; set; }
+        
         public Guid? SprintId { get; set; }
         
         public string Title { get; set; }

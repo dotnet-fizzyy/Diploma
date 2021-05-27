@@ -28,6 +28,7 @@ namespace WebAPI.Presentation.Mappers
             {
                 Id = story.StoryId,
                 UserId = story.UserId,
+                TeamId = story.TeamId,
                 SprintId = story.SprintId,
                 Description = story.Description,
                 Estimate = story.Estimate,
@@ -107,6 +108,7 @@ namespace WebAPI.Presentation.Mappers
         {
             model.StoryId = entity.Id;
             model.UserId = entity.UserId;
+            model.TeamId = entity.TeamId;
             model.SprintId = entity.SprintId;
             model.Description = entity.Description;
             model.Estimate = entity.Estimate;
