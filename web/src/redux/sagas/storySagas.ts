@@ -1,4 +1,4 @@
-import { all, call, delay, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, delay, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 import SprintApi from '../../api/sprintApi';
 import StoryApi from '../../api/storyApi';
 import { SidebarTypes } from '../../constants';
@@ -102,8 +102,10 @@ function* dragAndDropHandler(action: IStoryHandleDragAndDrop) {
             return column;
         });
 
-        yield put(updateStoriesAfterDragAndDropAction(updatedColumns));
-        yield put(updateStoryColumnRequest(movableStory));
+        yield all([
+            put(updateStoriesAfterDragAndDropAction(updatedColumns)),
+            put(updateStoryColumnRequest(movableStory)),
+        ]);
     }
 
     yield put(storyDragFinish());
@@ -224,7 +226,7 @@ function* removeStoryRequest(action: IRemoveStoryRequest) {
 export default function* rootStoriesSaga() {
     yield takeLatest(StoryActions.REFRESH_STORIES_REQUEST, refreshData);
     yield takeLatest(StoryActions.CREATE_STORY_REQUEST, createStory);
-    yield takeLatest(StoryActions.STORY_HANDLE_DRAG_AND_DROP, dragAndDropHandler);
+    yield takeEvery(StoryActions.STORY_HANDLE_DRAG_AND_DROP, dragAndDropHandler);
     yield takeLatest(StoryActions.STORY_UPDATE_COLUMN_REQUEST, updateStoryColumn);
     yield takeLatest(StoryActions.MAKE_STORY_BLOCKED, blockStory);
     yield takeLatest(SidebarActions.SIDEBAR_HANDLE_VISIBILITY, declineStoryBlock);

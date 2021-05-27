@@ -18,7 +18,7 @@ const useStyles = makeStyles(() =>
             padding: '30px',
         },
         table: {
-            marginTop: '50px',
+            marginTop: '20px',
         },
         settingsHeaderPart: {
             flexGrow: 0,
@@ -34,19 +34,25 @@ const useStyles = makeStyles(() =>
 export interface IWorkSpacePageDescriptionProps {
     workSpace: IWorkSpace;
     workSpaceProjects: IWorkSpacePageProject[];
+    selectedProjectId: string;
     onClickUpdateWorkSpaceInfo: () => void;
     onClickCreateProject: () => void;
     onClickViewProject: (projectId: string) => void;
+    onClickViewTeam: (teamId: string) => void;
+    onChangeSelectedProjectId: (projectId: string) => void;
 }
 
 const WorkSpacePageDescription = (props: IWorkSpacePageDescriptionProps) => {
     const classes = useStyles();
     const {
+        selectedProjectId,
         workSpace: { workSpaceName, workSpaceDescription, creationDate },
         workSpaceProjects,
         onClickUpdateWorkSpaceInfo,
         onClickViewProject,
+        onClickViewTeam,
         onClickCreateProject,
+        onChangeSelectedProjectId,
     } = props;
 
     return (
@@ -64,7 +70,13 @@ const WorkSpacePageDescription = (props: IWorkSpacePageDescriptionProps) => {
                     ]}
                 />
                 <div className={classes.table}>
-                    <WorkSpaceTable workSpaceProjects={workSpaceProjects} onClickViewProject={onClickViewProject} />
+                    <WorkSpaceTable
+                        selectedProjectId={selectedProjectId}
+                        workSpaceProjects={workSpaceProjects}
+                        onClickViewProject={onClickViewProject}
+                        onClickViewTeam={onClickViewTeam}
+                        onChangeSelectedProjectId={onChangeSelectedProjectId}
+                    />
                 </div>
             </div>
         </div>

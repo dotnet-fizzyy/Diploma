@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
@@ -16,6 +16,12 @@ const WorkSpacePageContainer = () => {
     const isLoading: boolean = useSelector(getWorkSpaceIsLoading);
     const workSpaceProjects: IWorkSpacePageProject[] = useSelector(getWorkSpaceProjects);
 
+    const [selectedProjectId, setSelectedProjectId] = useState<string>('');
+
+    const onChangeSelectedProjectId = (projectId: string): void => {
+        setSelectedProjectId(projectId);
+    };
+
     const onClickCreateProject = (): void => {
         dispatch(openModal(ModalTypes.PROJECT));
     };
@@ -28,6 +34,10 @@ const WorkSpacePageContainer = () => {
         history.push(`/project/${projectId}`);
     };
 
+    const onClickViewTeam = (teamId: string): void => {
+        history.push(`/team/${teamId}`);
+    };
+
     useEffect(() => {
         dispatch(getUserWorkSpacePageRequest());
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,9 +47,12 @@ const WorkSpacePageContainer = () => {
         workSpace,
         isLoading,
         workSpaceProjects,
+        selectedProjectId,
         onClickUpdateWorkSpaceInfo,
         onClickCreateProject,
         onClickViewProject,
+        onClickViewTeam,
+        onChangeSelectedProjectId,
     };
 
     return <WorkSpacePage {...workSpacePageProps} />;

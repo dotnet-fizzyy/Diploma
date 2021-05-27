@@ -14,6 +14,8 @@ const useStyles = makeStyles(() =>
             '& a': {
                 marginTop: '10px',
                 textDecoration: 'none',
+                color: '#75BAF7',
+                fontWeight: 500,
             },
         },
     })

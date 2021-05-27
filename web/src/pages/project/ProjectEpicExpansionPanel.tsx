@@ -1,9 +1,8 @@
-import { Accordion, AccordionDetails, AccordionSummary } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import { ExpandMore } from '@material-ui/icons';
 import classnames from 'classnames';
 import moment from 'moment';
 import React from 'react';
+import Accordion from '../../components/common/Accordion';
 import { DateFormat } from '../../constants';
 import { IEpic } from '../../types/epicTypes';
 import { ISprint } from '../../types/sprintTypes';
@@ -59,21 +58,24 @@ const ProjectEpicExpansionPanel = (props: IProjectEpicExpansionPanelProps) => {
         onClickSelectEpic(expanded ? epic.epicId : '');
     };
 
+    const getSummary = (): React.ReactNode => (
+        <>
+            <span className={classes.text}>{epic.epicName}</span>
+            <span className={classnames(classes.text, classes.descriptionText, classes.headerDates)}>
+                {moment(epic.startDate).format(DateFormat)} - {moment(epic.endDate).format(DateFormat)}
+            </span>
+        </>
+    );
+
     return (
-        <Accordion expanded={selectedEpicId === epic.epicId} onChange={onChange} className={classes.root}>
-            <AccordionSummary
-                expandIcon={<ExpandMore className={classes.expandIcon} />}
-                classes={{ root: classes.accordionDetailsRoot }}
-            >
-                <span className={classes.text}>{epic.epicName}</span>
-                <span className={classnames(classes.text, classes.descriptionText, classes.headerDates)}>
-                    {moment(epic.startDate).format(DateFormat)} - {moment(epic.endDate).format(DateFormat)}
-                </span>
-            </AccordionSummary>
-            <AccordionDetails classes={{ root: classes.accordionSummaryRoot }}>
+        <Accordion
+            expanded={selectedEpicId === epic.epicId}
+            onChange={onChange}
+            summary={getSummary()}
+            details={
                 <ProjectEpicDetailsContainer epic={epic} sprints={sprints} onClickCreateSprint={onClickCreateSprint} />
-            </AccordionDetails>
-        </Accordion>
+            }
+        />
     );
 };
 

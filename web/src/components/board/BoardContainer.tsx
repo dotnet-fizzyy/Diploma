@@ -1,22 +1,21 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
 import { getBoardInfoRequest } from '../../redux/actions/projectActions';
 import { sidebarHandleVisibility } from '../../redux/actions/sidebarActions';
 import { storyActionDragStart, storyDragAndDropHandle } from '../../redux/actions/storyActions';
 import { getSidebarVisibility } from '../../redux/selectors/sidebarSelectors';
+import { getUserSelectedProjectId, getUserSelectedTeamId } from '../../redux/selectors/userSelectors';
 import { IStoryDragAndDrop } from '../../types/storyTypes';
-import { validateGuid } from '../../utils';
 import { getColumnKeyValuePair } from '../../utils/columnUtils';
-import { getQueryParameter } from '../../utils/routeUtils';
 import Board, { IBoardProps } from './Board';
 
 const BoardContainer = () => {
     const dispatch = useDispatch();
-    const location = useLocation();
-    const history = useHistory();
 
-    const isSidebarVisible = useSelector(getSidebarVisibility);
+    const isSidebarVisible: boolean = useSelector(getSidebarVisibility);
+    const selectedProjectId: string = useSelector(getUserSelectedProjectId);
+    const selectedTeamId: string = useSelector(getUserSelectedTeamId);
+
     const columns = getColumnKeyValuePair();
 
     const onCloseSidebar = () => {
@@ -40,15 +39,8 @@ const BoardContainer = () => {
     };
 
     useEffect(() => {
-        const projectId: string = getQueryParameter(location.search, 'projectId');
-        const teamId: string = getQueryParameter(location.search, 'teamId');
-
-        if (!validateGuid(projectId) || !validateGuid(teamId)) {
-            history.push('/invalid-board');
-        }
-
-        dispatch(getBoardInfoRequest(projectId, teamId));
-    }, [dispatch, history, location.search]);
+        dispatch(getBoardInfoRequest(selectedProjectId, selectedTeamId));
+    }, [dispatch, selectedTeamId, selectedProjectId]);
 
     const props: IBoardProps = {
         columns,

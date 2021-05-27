@@ -1,97 +1,62 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
 import React from 'react';
 import { IWorkSpacePageProject } from '../../types/workSpaceTypes';
-import Button from '../common/Button';
+import MainLabel, { LabelType } from '../common/MainLabel';
+import ProjectAccordion from './ProjectAccordion';
 
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
             width: '100%',
-            height: '500px',
             overflowY: 'auto',
-        },
-        table: {
-            boxShadow: 'none',
-            backgroundColor: '#FAFAFA',
         },
         text: {
             fontFamily: 'Poppins',
             fontWeight: 400,
             fontSize: '16px',
         },
-        avatar: {
-            width: '44px',
-            height: '44px',
-            fontSize: '22px',
+        projectContainer: {
+            marginBottom: '20px',
         },
-        row: {
-            display: 'flex',
-            flexDirection: 'row',
-            marginBottom: '10px',
-        },
-        cell: {
-            flexGrow: 1,
-            flexShrink: 0,
-            flexBasis: 0,
-            margin: 'auto',
-        },
-        header: {
-            fontWeight: 600,
-        },
-        buttonContainer: {
-            margin: '0 0 0 auto',
-            width: '150px',
-        },
-        customerItemContainer: {
-            width: 'max-content',
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: 'column',
+        headerContainer: {
+            marginBottom: '20px',
         },
     })
 );
 
 export interface IWorkSpaceTableProps {
+    selectedProjectId: string;
     workSpaceProjects: IWorkSpacePageProject[];
     onClickViewProject: (projectId: string) => void;
+    onClickViewTeam: (teamId: string) => void;
+    onChangeSelectedProjectId: (projectId: string) => void;
 }
 
 const WorkSpaceTable = (props: IWorkSpaceTableProps) => {
     const classes = useStyles();
-    const { workSpaceProjects, onClickViewProject } = props;
+    const {
+        workSpaceProjects,
+        selectedProjectId,
+        onChangeSelectedProjectId,
+        onClickViewProject,
+        onClickViewTeam,
+    } = props;
 
     return (
         <div className={classes.root}>
-            <div className={classes.row}>
-                <div className={classes.cell}>
-                    <span className={classnames(classes.text, classes.header)}>Projects</span>
-                </div>
-                <div className={classes.cell}>
-                    <span className={classnames(classes.text, classes.header)}>Teams</span>
-                </div>
-                <div className={classes.cell} />
+            <div className={classes.headerContainer}>
+                <MainLabel title="Projects" variant={LabelType.SECONDARY} />
             </div>
             {workSpaceProjects && workSpaceProjects.length
-                ? workSpaceProjects.map(({ projectId, projectName, teams }) => (
-                      <div key={projectId} className={classes.row}>
-                          <div className={classes.cell}>
-                              <span className={classes.text}>{projectName}</span>
-                          </div>
-                          <div className={classes.cell}>
-                              <span className={classes.text}>
-                                  {teams && teams.length ? (
-                                      teams.map((x) => <div key={x.teamId}>{x.teamName}</div>)
-                                  ) : (
-                                      <span>-</span>
-                                  )}
-                              </span>
-                          </div>
-                          <div className={classes.cell}>
-                              <div className={classes.buttonContainer}>
-                                  <Button label="View" disabled={false} onClick={() => onClickViewProject(projectId)} />
-                              </div>
-                          </div>
+                ? workSpaceProjects.map((project) => (
+                      <div key={project.projectId} className={classes.projectContainer}>
+                          <ProjectAccordion
+                              expanded={selectedProjectId === project.projectId}
+                              project={project}
+                              onChangeSelectedProjectId={onChangeSelectedProjectId}
+                              onClickViewTeam={onClickViewTeam}
+                              onClickViewProject={onClickViewProject}
+                          />
                       </div>
                   ))
                 : null}
