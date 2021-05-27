@@ -67,14 +67,15 @@ namespace WebAPI.ApplicationLogic.Services
             }
 
             var project = await _projectRepository.SearchForSingleItemAsync(x => x.Id == projectId);
+            
             var epics = await _epicRepository.SearchForMultipleItemsAsync(x => x.ProjectId == projectId, y => y.CreationDate, OrderType.Desc);
             if (epics == null || !epics.Any())
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, MissingEpicsExceptionMessage);
+                return new BoardPage();
             }
-            var latestEpic = epics.First();
             
-            var sprints = await _sprintRepository.GetFullSprintsByEpicId(latestEpic.Id);
+            var latestEpic = epics.First();
+            var sprints = await _sprintRepository.GetFullSprintsByEpicId(latestEpic.Id, teamId);
             foreach (var sprint in sprints)
             {
                 sprint.Stories = StoryHandler.SortStoriesByCriteria(sprint.Stories, SortTypes.Priority, OrderType.Asc);

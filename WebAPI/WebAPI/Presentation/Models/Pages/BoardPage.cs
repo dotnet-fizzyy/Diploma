@@ -7,8 +7,8 @@ namespace WebAPI.Presentation.Models.Pages
 {
     public class BoardPage
     {
-        public Project Project { get; set; }
-        public FullTeam Team { get; set; }
+        public Project Project { get; set; } = new Project();
+        public FullTeam Team { get; set; } = new FullTeam();
         
         public IList<EpicSimpleModel> Epics = new List<EpicSimpleModel>();
 

@@ -12,12 +12,12 @@ namespace WebAPI.Infrastructure.Postgres.Repository
     {
         public SprintRepository(DatabaseContext databaseContext) : base(databaseContext) { }
 
-        public async Task<List<Sprint>> GetFullSprintsByEpicId(Guid epicId)
+        public async Task<List<Sprint>> GetFullSprintsByEpicId(Guid epicId, Guid? teamId = null)
         {
             var sprintEntities =
                 await _dbContext.Sprints
-                    .Where(x => x.EpicId == epicId)
                     .Include(x => x.Stories)
+                    .Where(x => x.EpicId == epicId && x.Stories.Any(s => !teamId.HasValue || s.TeamId == teamId))
                     .ToListAsync();
 
             return sprintEntities;

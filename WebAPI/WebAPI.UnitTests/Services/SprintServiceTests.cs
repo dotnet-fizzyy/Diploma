@@ -225,7 +225,7 @@ namespace WebAPI.UnitTests.Services
                 }
             };
 
-            A.CallTo(() => sprintRepository.GetFullSprintsByEpicId(A<Guid>._))
+            A.CallTo(() => sprintRepository.GetFullSprintsByEpicId(A<Guid>._, null))
                 .Returns(entities);
             
             //Act
@@ -236,7 +236,7 @@ namespace WebAPI.UnitTests.Services
             
             AssertSprintModelProperties(expectedModels.Items[0], result.Items[0]);
             
-            A.CallTo(() => sprintRepository.GetFullSprintsByEpicId(A<Guid>._))
+            A.CallTo(() => sprintRepository.GetFullSprintsByEpicId(A<Guid>._, null))
                 .MustHaveHappenedOnceExactly();
         }
         
@@ -251,7 +251,7 @@ namespace WebAPI.UnitTests.Services
             
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
 
-            A.CallTo(() => sprintRepository.GetFullSprintsByEpicId(A<Guid>._))
+            A.CallTo(() => sprintRepository.GetFullSprintsByEpicId(A<Guid>._, null))
                 .Returns(new List<Core.Entities.Sprint>());
             
             //Act
@@ -261,7 +261,7 @@ namespace WebAPI.UnitTests.Services
             Assert.NotNull(result.Items);
             Assert.Empty(result.Items);
             
-            A.CallTo(() => sprintRepository.GetFullSprintsByEpicId(A<Guid>._))
+            A.CallTo(() => sprintRepository.GetFullSprintsByEpicId(A<Guid>._, null))
                 .MustHaveHappenedOnceExactly();
         }
         

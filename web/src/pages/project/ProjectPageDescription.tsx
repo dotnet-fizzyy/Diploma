@@ -3,7 +3,6 @@ import moment from 'moment';
 import React from 'react';
 import MainLabel, { LabelType } from '../../components/common/MainLabel';
 import PageHeaderTab from '../../components/header/page-header/PageHeaderTab';
-//import ProjectList from '../../components/project/ProjectList';
 import ProjectTab from '../../components/project/ProjectTab';
 import { DateFormat } from '../../constants';
 import { IEpic } from '../../types/epicTypes';
@@ -118,7 +117,6 @@ const ProjectPageDescription = (props: IProjectPageDescriptionProps) => {
                               </div>
                           ))
                         : null}
-                    {/*<ProjectList label="Sprints" listItems={sprints} onClickCreate={onClickCreateSprint} />*/}
                 </div>
             </div>
         </div>
