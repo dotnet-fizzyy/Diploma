@@ -90,16 +90,16 @@ namespace WebAPI.UnitTests.Services
 
             var signUpModel = new SignUpUser
             {
-                UserName = "UserName",
+                Email = "UserName",
                 Password = "123",
-                Email = "email@test.com"
+                UserName = "email@test.com"
             };
 
             var userEntity = new User
             {
                 Id = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec"),
-                UserName = signUpModel.UserName,
-                Email = signUpModel.Email,
+                UserName = signUpModel.Email,
+                Email = signUpModel.UserName,
                 UserPosition = Core.Enums.UserPosition.Customer,
                 UserRole = Core.Enums.UserRole.Manager,
                 CreationDate = DateTime.UtcNow

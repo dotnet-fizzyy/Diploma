@@ -46,7 +46,7 @@ namespace WebAPI.UnitTests.Services
             
             var signInUser = new SignInUser
             {
-                UserName = userName,
+                Email = userName,
                 Password = "123",
             };
 
@@ -101,7 +101,7 @@ namespace WebAPI.UnitTests.Services
             
             var signInUser = new SignInUser
             {
-                UserName = userName,
+                Email = userName,
                 Password = "123",
             };
 

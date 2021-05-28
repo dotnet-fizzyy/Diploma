@@ -123,7 +123,7 @@ namespace WebAPI.UnitTests.Providers
 
             var signInUser = new SignInUser
             {
-                UserName = userName,
+                Email = userName,
                 Password = password
             };
             
@@ -229,7 +229,7 @@ namespace WebAPI.UnitTests.Providers
 
             var signInUser = new SignInUser
             {
-                UserName = userName,
+                Email = userName,
                 Password = password
             };
 

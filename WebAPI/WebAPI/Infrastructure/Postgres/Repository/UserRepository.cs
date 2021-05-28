@@ -36,7 +36,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             return await _dbContext.Users
                 .AsNoTracking()
                 .Include(x => x.TeamUsers)
-                .FirstOrDefaultAsync(x => x.UserName == user.UserName && x.Password == user.Password);
+                .FirstOrDefaultAsync(x => x.Email == user.Email && x.Password == user.Password && x.IsActive);
         }
 
         public async Task UpdateUserAvatarLinkAsync(User user)

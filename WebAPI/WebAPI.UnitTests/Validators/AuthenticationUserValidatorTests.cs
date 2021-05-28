@@ -17,9 +17,9 @@ namespace WebAPI.UnitTests.Validators
             //Arrange
             var authUser = new SignUpUser
             {
-                UserName = "Name",
+                Email = "Name",
                 Password = "123",
-                Email = "test@mail.com",
+                UserName = "test@mail.com",
             };
             
             _signUpUserValidator = new SignUpUserValidator();
@@ -40,9 +40,9 @@ namespace WebAPI.UnitTests.Validators
             //Arrange
             var authUser = new SignUpUser
             {
-                UserName = username,
+                Email = username,
                 Password = "123",
-                Email = "test@mail.com",
+                UserName = "test@mail.com",
             };
             
             _signUpUserValidator = new SignUpUserValidator();
@@ -52,7 +52,7 @@ namespace WebAPI.UnitTests.Validators
 
             //Assert
             Assert.False(result.IsValid);
-            result.ShouldHaveValidationErrorFor(x => x.UserName);
+            result.ShouldHaveValidationErrorFor(x => x.Email);
         }
         
         [Theory]
@@ -63,9 +63,9 @@ namespace WebAPI.UnitTests.Validators
             //Arrange
             var authUser = new SignUpUser
             {
-                UserName = "Name",
+                Email = "Name",
                 Password = password,
-                Email = "test@mail.com",
+                UserName = "test@mail.com",
             };
             
             _signUpUserValidator = new SignUpUserValidator();
@@ -89,9 +89,9 @@ namespace WebAPI.UnitTests.Validators
             //Arrange
             var authUser = new SignUpUser
             {
-                UserName = "Name",
+                Email = "Name",
                 Password = "123",
-                Email = email
+                UserName = email
             };
             
             _signUpUserValidator = new SignUpUserValidator();
@@ -101,7 +101,7 @@ namespace WebAPI.UnitTests.Validators
             
             //Assert
             Assert.False(result.IsValid);
-            result.ShouldHaveValidationErrorFor(x => x.Email);
+            result.ShouldHaveValidationErrorFor(x => x.UserName);
         }
     }
 }

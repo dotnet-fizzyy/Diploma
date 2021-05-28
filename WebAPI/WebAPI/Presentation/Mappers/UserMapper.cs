@@ -58,9 +58,9 @@ namespace WebAPI.Presentation.Mappers
             
             var userEntity = new User
             {
-                UserName = user.UserName,
+                UserName = user.Email,
                 Password = user.Password,
-                Email = user.Email
+                Email = user.UserName
             };
 
             return userEntity;
@@ -75,7 +75,7 @@ namespace WebAPI.Presentation.Mappers
             
             var userEntity = new User
             {
-                UserName = user.UserName,
+                Email = user.Email,
                 Password = user.Password
             };
 

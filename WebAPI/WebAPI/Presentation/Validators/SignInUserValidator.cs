@@ -8,7 +8,7 @@ namespace WebAPI.Presentation.Validators
     {
         public SignInUserValidator()
         {
-            RuleFor(x => x.UserName)
+            RuleFor(x => x.Email)
                 .NotNull()
                 .NotEmpty();
             RuleFor(x => x.Password)

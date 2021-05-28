@@ -9,13 +9,13 @@ namespace WebAPI.Presentation.Validators
     {
         public SignUpUserValidator()
         {
-            RuleFor(x => x.UserName)
+            RuleFor(x => x.Email)
                 .NotNull()
                 .NotEmpty();
             RuleFor(x => x.Password)
                 .NotNull()
                 .NotEmpty();
-            RuleFor(x => x.Email)
+            RuleFor(x => x.UserName)
                 .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEmpty()

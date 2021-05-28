@@ -11,9 +11,9 @@ namespace WebAPI.ApplicationLogic.Handlers
         {
             return new User
             {
-                UserName = user.UserName,
+                UserName = user.Email,
                 Password = user.Password,
-                Email = user.Email,
+                Email = user.UserName,
                 UserPosition = UserPosition.Customer,
                 UserRole = UserRole.Manager,
                 IsActive = true
