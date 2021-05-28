@@ -53,6 +53,7 @@ export const UserUrls = {
     updateAvatarLink: `${UserBaseUrl}/avatar`,
     updatePassword: `${UserBaseUrl}/password`,
     changeStatus: `${UserBaseUrl}/activity`,
+    refreshToken: `${BaseUrl}/auth/token-renew`,
 };
 
 export const SprintUrls = {

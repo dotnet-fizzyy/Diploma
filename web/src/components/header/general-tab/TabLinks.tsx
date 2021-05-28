@@ -64,7 +64,7 @@ const TabLinks = (props: ITabLinks) => {
                 x.errorMessage = !isCustomer ? 'This option is available only for customers' : '';
                 break;
             case TabLinkOptions.BOARD:
-                x.link = `/board?projectId=${selectedProjectId}&teamId=${selectedTeamId}`;
+                x.link = '/board';
                 break;
             case TabLinkOptions.PROJECT:
                 x.link = `/project/${selectedProjectId}`;

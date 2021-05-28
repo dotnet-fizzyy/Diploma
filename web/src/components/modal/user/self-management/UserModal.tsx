@@ -73,7 +73,7 @@ const useStyles = makeStyles(() =>
         },
         text: {
             fontFamily: 'Poppins',
-            fontSize: '18px',
+            fontSize: '16px',
             color: '#242126',
         },
         staticFieldLabel: {

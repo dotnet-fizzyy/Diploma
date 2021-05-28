@@ -57,3 +57,13 @@ export const CustomerInitialState: IUser = {
     password: '',
     teamId: '',
 };
+
+export const UserPositionRoleMap: Record<UserPosition, UserRole> = {
+    [UserPosition.Developer]: UserRole.Engineer,
+    [UserPosition.DevOps]: UserRole.Engineer,
+    [UserPosition.Architecture]: UserRole.Engineer,
+    [UserPosition.Qa]: UserRole.Engineer,
+    [UserPosition.TeamLead]: UserRole.Engineer,
+    [UserPosition.ProjectManager]: UserRole.Manager,
+    [UserPosition.Customer]: UserRole.Manager,
+};

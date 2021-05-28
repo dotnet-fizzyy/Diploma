@@ -11,7 +11,7 @@ import AxiosBaseApi from './axiosBaseApi';
 
 export default class EpicsApi {
     public static async getProjectEpics(projectId: string): Promise<IEpic[]> {
-        const response: AxiosResponse<ICollectionResponse<IEpic>> = await AxiosBaseApi.axiosGet(
+        const response: AxiosResponse<ICollectionResponse<IEpic>> = await AxiosBaseApi.get(
             `${EpicUrls.getProjectPage}/${projectId}`
         );
 
@@ -27,7 +27,7 @@ export default class EpicsApi {
             projectId: epic.projectId,
         };
 
-        const response: AxiosResponse<IEpic> = await AxiosBaseApi.axiosPost(EpicUrls.createEpic, mappedEpic);
+        const response: AxiosResponse<IEpic> = await AxiosBaseApi.post(EpicUrls.createEpic, mappedEpic);
 
         return mapToEpicModel(response.data);
     }
@@ -43,17 +43,17 @@ export default class EpicsApi {
             creationDate: new Date(epic.creationDate),
         };
 
-        const response: AxiosResponse<IEpic> = await AxiosBaseApi.axiosPut(EpicUrls.updateEpic, mappedEpic);
+        const response: AxiosResponse<IEpic> = await AxiosBaseApi.put(EpicUrls.updateEpic, mappedEpic);
 
         return mapToEpicModel(response.data);
     }
 
     public static async removeEpic(epicId: string): Promise<void> {
-        await AxiosBaseApi.axiosPatch(EpicUrls.removeEpic, createEpicRemoveRequestBody(epicId));
+        await AxiosBaseApi.patch(EpicUrls.removeEpic, createEpicRemoveRequestBody(epicId));
     }
 
     public static async getStatsSearchItems(epicId: string): Promise<IStatsPage> {
-        const response: AxiosResponse<IStatsPage> = await AxiosBaseApi.axiosGet(
+        const response: AxiosResponse<IStatsPage> = await AxiosBaseApi.get(
             `${EpicUrls.getStatsPageSearchItems}?epicId=${epicId}`
         );
 

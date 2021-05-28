@@ -9,29 +9,29 @@ export default class AxiosBaseApi {
             responseType: 'json',
             headers: {
                 Authorization: `Bearer ${accessToken}`,
-                RefreshToken: refreshToken,
+                'x-refresh-token': refreshToken,
                 'Content-Type': 'application/json',
             },
         });
     }
 
-    public static async axiosGet(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> {
+    public static async get(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> {
         return await AxiosBaseApi.getAxiosInstance().get(url, config);
     }
 
-    public static async axiosPost(url: string, body?: any, config?: AxiosRequestConfig): Promise<AxiosResponse> {
+    public static async post(url: string, body?: any, config?: AxiosRequestConfig): Promise<AxiosResponse> {
         return await AxiosBaseApi.getAxiosInstance().post(url, body, config);
     }
 
-    public static async axiosPut(url: string, body?: any, config?: AxiosRequestConfig): Promise<AxiosResponse> {
+    public static async put(url: string, body?: any, config?: AxiosRequestConfig): Promise<AxiosResponse> {
         return await AxiosBaseApi.getAxiosInstance().put(url, body, config);
     }
 
-    public static async axiosDelete(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> {
+    public static async delete(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> {
         return await AxiosBaseApi.getAxiosInstance().delete(url, config);
     }
 
-    public static async axiosPatch(url: string, body: any, config?: AxiosRequestConfig): Promise<AxiosResponse> {
+    public static async patch(url: string, body: any, config?: AxiosRequestConfig): Promise<AxiosResponse> {
         return await AxiosBaseApi.getAxiosInstance().patch(url, body, config);
     }
 }

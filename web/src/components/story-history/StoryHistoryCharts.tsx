@@ -17,11 +17,13 @@ const useStyles = makeStyles(() =>
 
 export interface IStoryHistoryChartsProps {
     storyHistoryItems: IStoryHistory[];
+    selectedDate: string;
+    onChangeSelectedDateFilter: (selectedDate: string) => void;
 }
 
 const StoryHistoryCharts = (props: IStoryHistoryChartsProps) => {
     const classes = useStyles();
-    const { storyHistoryItems } = props;
+    const { storyHistoryItems, selectedDate, onChangeSelectedDateFilter } = props;
 
     const mappedDataByDates = storyHistoryItems
         .sort((a, b) => (a.creationDate as any) - (b.creationDate as any))
@@ -30,6 +32,12 @@ const StoryHistoryCharts = (props: IStoryHistoryChartsProps) => {
             creationDate: moment(x.creationDate).format(DateFormat),
         }));
     const uniqueDateLabels: string[] = Array.from(new Set(mappedDataByDates.map((x) => x.creationDate)));
+
+    const onClick = (index: number): void => {
+        if (uniqueDateLabels[index] && selectedDate !== uniqueDateLabels[index]) {
+            onChangeSelectedDateFilter(uniqueDateLabels[index]);
+        }
+    };
 
     const chartsData: ILineChartTypes = {
         labels: uniqueDateLabels,
@@ -49,7 +57,7 @@ const StoryHistoryCharts = (props: IStoryHistoryChartsProps) => {
 
     return (
         <div className={classes.root}>
-            <LineChart data={chartsData} />
+            <LineChart data={chartsData} onClick={onClick} />
         </div>
     );
 };

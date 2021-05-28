@@ -8,7 +8,7 @@ import AxiosBaseApi from './axiosBaseApi';
 
 export default class StoryApi {
     public static async changeStoryColumn(jsonPatchDocument: IJsonPatchBody[]): Promise<IStory> {
-        const response: AxiosResponse<IStory> = await AxiosBaseApi.axiosPatch(StoryUrls.boardMove, jsonPatchDocument);
+        const response: AxiosResponse<IStory> = await AxiosBaseApi.patch(StoryUrls.boardMove, jsonPatchDocument);
 
         return mapToStoryModel(response.data);
     }
@@ -31,19 +31,19 @@ export default class StoryApi {
             requiredPosition: story.requiredPosition,
         };
 
-        const response: AxiosResponse<IStory> = await AxiosBaseApi.axiosPost(StoryUrls.updateStory, mappedStory);
+        const response: AxiosResponse<IStory> = await AxiosBaseApi.post(StoryUrls.updateStory, mappedStory);
 
         return mapToStoryModel(response.data);
     }
 
     public static async updateStory(storyUpdate: IStory): Promise<IStory> {
-        const response: AxiosResponse<IStory> = await AxiosBaseApi.axiosPut(StoryUrls.partUpdate, storyUpdate);
+        const response: AxiosResponse<IStory> = await AxiosBaseApi.put(StoryUrls.partUpdate, storyUpdate);
 
         return mapToStoryModel(response.data);
     }
 
     public static async sortStories(queryParams: string): Promise<IStory[]> {
-        const response: AxiosResponse<ICollectionResponse<IStory>> = await AxiosBaseApi.axiosGet(
+        const response: AxiosResponse<ICollectionResponse<IStory>> = await AxiosBaseApi.get(
             `${StoryUrls.sortStories}?${queryParams}`
         );
 
@@ -51,18 +51,18 @@ export default class StoryApi {
     }
 
     public static async getStoryHistory(storyId: string): Promise<IFullStory> {
-        const response: AxiosResponse<IFullStory> = await AxiosBaseApi.axiosGet(`${StoryUrls.storyHistory}/${storyId}`);
+        const response: AxiosResponse<IFullStory> = await AxiosBaseApi.get(`${StoryUrls.storyHistory}/${storyId}`);
 
         return mapToFullStory(response.data);
     }
 
     public static async makeStoryReady(body: IJsonPatchBody[]): Promise<IStory> {
-        const response: AxiosResponse<IStory> = await AxiosBaseApi.axiosPatch(StoryUrls.changeStatus, body);
+        const response: AxiosResponse<IStory> = await AxiosBaseApi.patch(StoryUrls.changeStatus, body);
 
         return mapToStoryModel(response.data);
     }
 
     public static async removeStory(body: IJsonPatchBody[]): Promise<void> {
-        await AxiosBaseApi.axiosPatch(StoryUrls.removeStory, body);
+        await AxiosBaseApi.patch(StoryUrls.removeStory, body);
     }
 }

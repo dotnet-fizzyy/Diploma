@@ -30,6 +30,9 @@ export const UserActions = {
     CHANGE_USER_ACTIVITY_STATUS_FAILURE: 'CHANGE_USER_ACTIVITY_STATUS_FAILURE',
     CHANGE_USER_PROJECT: 'CHANGE_USER_PROJECT',
     CHANGE_USER_TEAM: 'CHANGE_USER_TEAM',
+    REFRESH_USER_TOKEN_REQUEST: 'REFRESH_USER_TOKEN_REQUEST',
+    REFRESH_USER_TOKEN_SUCCESS: 'REFRESH_USER_TOKEN_SUCCESS',
+    REFRESH_USER_TOKEN_FAILURE: 'REFRESH_USER_TOKEN_FAILURE',
 };
 
 /*
@@ -180,6 +183,19 @@ export interface IChangeUserTeam {
 export interface IChangeUserProject {
     type: typeof UserActions.CHANGE_USER_TEAM;
     payload: string;
+}
+
+export interface IRefreshUserTokenRequest {
+    type: typeof UserActions.REFRESH_USER_TOKEN_REQUEST;
+}
+
+export interface IRefreshUserTokeSuccess {
+    type: typeof UserActions.REFRESH_USER_TOKEN_SUCCESS;
+}
+
+export interface IRefreshUserTokeFailure {
+    type: typeof UserActions.REFRESH_USER_TOKEN_FAILURE;
+    payload: Error;
 }
 
 /*
@@ -399,6 +415,26 @@ export function changeUserTeam(teamId: string): IChangeUserTeam {
         payload: teamId,
     };
 }
+
+export function refreshUserTokenRequest(): IRefreshUserTokenRequest {
+    return {
+        type: UserActions.REFRESH_USER_TOKEN_REQUEST,
+    };
+}
+
+export function refreshUserTokenSuccess(): IRefreshUserTokenRequest {
+    return {
+        type: UserActions.REFRESH_USER_TOKEN_SUCCESS,
+    };
+}
+
+export function refreshUserTokenFailure(error: Error): IRefreshUserTokeFailure {
+    return {
+        type: UserActions.REFRESH_USER_TOKEN_FAILURE,
+        payload: error,
+    };
+}
+
 export type CurrentUserActionTypes = IAddUser &
     IAuthenticationSuccess &
     IAuthenticationFailure &

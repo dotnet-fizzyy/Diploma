@@ -27,15 +27,22 @@ const useStyles = makeStyles(() =>
 export interface IStoryHistoryPageProps {
     story: IStory;
     storyHistoryItems: IStoryHistory[];
+    selectedDate: string;
+    onChangeSelectedDateFilter: (selectedDate: string) => void;
 }
 
 const StoryHistoryPage = (props: IStoryHistoryPageProps) => {
     const classes = useStyles();
-    const { storyHistoryItems, story } = props;
+    const { storyHistoryItems, story, selectedDate, onChangeSelectedDateFilter } = props;
 
     return (
         <div className={classes.root}>
-            <StoryHistoryPageDescription storyHistoryItems={storyHistoryItems} story={story} />
+            <StoryHistoryPageDescription
+                storyHistoryItems={storyHistoryItems}
+                story={story}
+                selectedDate={selectedDate}
+                onChangeSelectedDateFilter={onChangeSelectedDateFilter}
+            />
         </div>
     );
 };

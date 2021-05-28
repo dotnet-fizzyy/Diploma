@@ -1,14 +1,14 @@
 import { AxiosResponse } from 'axios';
 import { getCloudStorageUrl, SignInUrl, SignUpUrl, UserUrls } from '../constants/routeConstants';
 import { mapToFullUserModel, mapToUserModel } from '../mappers/userMapper';
-import { AuthenticationResponse, IJsonPatchBody, TokenType } from '../types';
+import { IAuthenticationResponse, IJsonPatchBody, ITokenResponse, TokenType } from '../types';
 import { IAuthenticationUser, IFullUser, IUser } from '../types/userTypes';
 import { createRequestBodyForUserChangeStatus } from '../utils/userUtils';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class UserApi {
     public static async getUserByToken(): Promise<IUser> {
-        const response: AxiosResponse<IFullUser> = await AxiosBaseApi.axiosGet(UserUrls.getUserByToken);
+        const response: AxiosResponse<IFullUser> = await AxiosBaseApi.get(UserUrls.getUserByToken);
 
         return mapToFullUserModel(response.data);
     }
@@ -25,19 +25,19 @@ export default class UserApi {
             isActive: true,
         };
 
-        const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosPost(UserUrls.createUser, mappedUser);
+        const response: AxiosResponse<IUser> = await AxiosBaseApi.post(UserUrls.createUser, mappedUser);
 
         return mapToUserModel(response.data);
     }
 
     public static async createCustomer(authUser: IAuthenticationUser): Promise<IUser> {
-        const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosPost(SignUpUrl, authUser);
+        const response: AxiosResponse<IUser> = await AxiosBaseApi.post(SignUpUrl, authUser);
 
         return mapToUserModel(response.data);
     }
 
-    public static async authenticate(authUser: IAuthenticationUser): Promise<AuthenticationResponse> {
-        const response: AxiosResponse<AuthenticationResponse> = await AxiosBaseApi.axiosPost(SignInUrl, authUser);
+    public static async authenticate(authUser: IAuthenticationUser): Promise<IAuthenticationResponse> {
+        const response: AxiosResponse<IAuthenticationResponse> = await AxiosBaseApi.post(SignInUrl, authUser);
 
         return UserApi.mapToAuthenticationUser(response.data);
     }
@@ -50,7 +50,7 @@ export default class UserApi {
         formData.append('file', file);
         formData.append('upload_preset', storageFolder);
 
-        const response: AxiosResponse = await AxiosBaseApi.axiosPost(getCloudStorageUrl(cloudinaryId), formData, {
+        const response: AxiosResponse = await AxiosBaseApi.post(getCloudStorageUrl(cloudinaryId), formData, {
             headers: null,
         });
 
@@ -71,13 +71,13 @@ export default class UserApi {
             creationDate: user.creationDate,
         };
 
-        const response: AxiosResponse<IUser> = await AxiosBaseApi.axiosPut(UserUrls.updateProfileSettings, mappedUser);
+        const response: AxiosResponse<IUser> = await AxiosBaseApi.put(UserUrls.updateProfileSettings, mappedUser);
 
         return mapToUserModel(response.data);
     }
 
     public static async updateAvatarLink(body: IJsonPatchBody[]): Promise<void> {
-        await AxiosBaseApi.axiosPatch(UserUrls.updateAvatarLink, body);
+        await AxiosBaseApi.patch(UserUrls.updateAvatarLink, body);
     }
 
     public static async updatePassword(oldPassword: string, newPassword: string): Promise<void> {
@@ -86,16 +86,22 @@ export default class UserApi {
             newPassword,
         };
 
-        await AxiosBaseApi.axiosPut(UserUrls.updatePassword, body);
+        await AxiosBaseApi.put(UserUrls.updatePassword, body);
     }
 
     public static async changeActivityStatus(userId: string, isActive: boolean): Promise<void> {
         const body = createRequestBodyForUserChangeStatus(userId, isActive);
 
-        await AxiosBaseApi.axiosPatch(UserUrls.changeStatus, body);
+        await AxiosBaseApi.patch(UserUrls.changeStatus, body);
     }
 
-    private static mapToAuthenticationUser(data: any): AuthenticationResponse {
+    public static async refreshToken(): Promise<ITokenResponse> {
+        const response: AxiosResponse<ITokenResponse> = await AxiosBaseApi.get(UserUrls.refreshToken);
+
+        return UserApi.mapToTokenResponse(response.data);
+    }
+
+    private static mapToTokenResponse(data: any): ITokenResponse {
         return {
             accessToken: {
                 type: TokenType[data.accessToken.type],
@@ -105,6 +111,14 @@ export default class UserApi {
                 type: TokenType[data.refreshToken.type],
                 value: data.refreshToken.value,
             },
+        };
+    }
+
+    private static mapToAuthenticationUser(data: any): IAuthenticationResponse {
+        const tokensPair = UserApi.mapToTokenResponse(data);
+
+        return {
+            ...tokensPair,
             user: mapToFullUserModel(data.user),
         };
     }

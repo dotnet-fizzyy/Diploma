@@ -28,6 +28,10 @@ const useStyles = makeStyles(() =>
             marginRight: '50px',
             display: 'flex',
             flexDirection: 'column',
+            width: '100%',
+            flexGrow: 1,
+            flexBasis: 0,
+            flexShrink: 0,
         },
         text: {
             fontFamily: 'Poppins',
@@ -37,7 +41,11 @@ const useStyles = makeStyles(() =>
         storyHistoryItem: {
             marginTop: '20px',
         },
-        chartsContainer: {},
+        chartsContainer: {
+            flexGrow: 1.5,
+            flexBasis: 0,
+            flexShrink: 0,
+        },
         descPagePartLabel: {
             marginLeft: '3px',
         },
@@ -47,11 +55,13 @@ const useStyles = makeStyles(() =>
 export interface IStoryHistoryPageDescriptionProps {
     story: IStory;
     storyHistoryItems: IStoryHistory[];
+    selectedDate: string;
+    onChangeSelectedDateFilter: (selectedDate: string) => void;
 }
 
 const StoryHistoryPageDescription = (props: IStoryHistoryPageDescriptionProps) => {
     const classes = useStyles();
-    const { story, storyHistoryItems } = props;
+    const { story, storyHistoryItems, selectedDate, onChangeSelectedDateFilter } = props;
     const booleanStatuses: string[] = ['Ready', 'Blocked'];
 
     const getStoryHistoryItem = ({
@@ -106,13 +116,23 @@ const StoryHistoryPageDescription = (props: IStoryHistoryPageDescriptionProps) =
             <div className={classes.body}>
                 <div className={classes.changesContainer}>
                     <MainLabel title="Changes" variant={LabelType.SECONDARY} />
-                    {storyHistoryItems && storyHistoryItems.length ? storyHistoryItems.map(getStoryHistoryItem) : null}
+                    {storyHistoryItems && storyHistoryItems.length
+                        ? storyHistoryItems
+                              .filter((x) =>
+                                  selectedDate ? selectedDate === moment(x.creationDate).format(DateFormat) : true
+                              )
+                              .map(getStoryHistoryItem)
+                        : null}
                 </div>
                 <div className={classes.chartsContainer}>
                     <div className={classes.descPagePartLabel}>
                         <MainLabel title="Timeline changes" variant={LabelType.SECONDARY} />
                     </div>
-                    <StoryHistoryCharts storyHistoryItems={storyHistoryItems} />
+                    <StoryHistoryCharts
+                        storyHistoryItems={storyHistoryItems}
+                        selectedDate={selectedDate}
+                        onChangeSelectedDateFilter={onChangeSelectedDateFilter}
+                    />
                 </div>
             </div>
         </div>

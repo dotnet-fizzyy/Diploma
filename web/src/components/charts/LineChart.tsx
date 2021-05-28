@@ -1,6 +1,6 @@
 import { withStyles } from '@material-ui/core';
 import { createStyles } from '@material-ui/core/styles';
-import { registerables, Chart } from 'chart.js';
+import { registerables, ActiveElement, Chart, ChartEvent } from 'chart.js';
 import React from 'react';
 import { ILineChartTypes } from '../../types/charTypes';
 
@@ -19,6 +19,7 @@ export interface ILineChartProps {
         root: string;
     };
     data: ILineChartTypes;
+    onClick: (index: number) => void;
 }
 
 export interface ILineChartState {
@@ -27,6 +28,7 @@ export interface ILineChartState {
 
 class LineChart extends React.Component<ILineChartProps, ILineChartState> {
     private readonly chartRef: React.RefObject<HTMLCanvasElement>;
+    private chart: any;
 
     constructor(props) {
         super(props);
@@ -35,8 +37,18 @@ class LineChart extends React.Component<ILineChartProps, ILineChartState> {
 
     componentDidUpdate(prevProps: Readonly<ILineChartProps>, prevState: Readonly<ILineChartState>) {
         const ctx = this.chartRef.current.getContext('2d');
-        if (prevProps.data !== this.props.data) {
-            new Chart(ctx, {
+
+        const prevDataSets = prevProps.data.datasets[0].data;
+        const currentDataSets = this.props.data.datasets[0].data;
+
+        if (prevDataSets.length !== currentDataSets.length) {
+            if (this.chart) {
+                this.chart.destroy();
+            }
+
+            const { onClick } = this.props;
+
+            this.chart = new Chart(ctx, {
                 type: 'line',
                 data: this.props.data,
                 options: {
@@ -47,6 +59,12 @@ class LineChart extends React.Component<ILineChartProps, ILineChartState> {
                         legend: {
                             display: false,
                         },
+                    },
+                    onHover(event: ChartEvent, elements: ActiveElement[]) {
+                        (event.native.target as any).style.cursor = elements[0] ? 'pointer' : 'default';
+                    },
+                    onClick(event: ChartEvent, elements: ActiveElement[], chart: Chart) {
+                        elements && elements.length && onClick(elements[0].index);
                     },
                 },
             });

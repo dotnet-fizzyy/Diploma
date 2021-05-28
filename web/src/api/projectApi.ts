@@ -10,7 +10,7 @@ import AxiosBaseApi from './axiosBaseApi';
 
 export default class ProjectApi {
     public static async getProjectPage(projectId: string): Promise<IProjectPage> {
-        const response: AxiosResponse<IProjectPage> = await AxiosBaseApi.axiosGet(
+        const response: AxiosResponse<IProjectPage> = await AxiosBaseApi.get(
             `${ProjectUrls.getProjectPage}/${projectId}`
         );
 
@@ -18,13 +18,13 @@ export default class ProjectApi {
     }
 
     public static async getProject(projectId: string): Promise<IProject> {
-        const response: AxiosResponse<IProject> = await AxiosBaseApi.axiosGet(`${ProjectUrls.getProject}/${projectId}`);
+        const response: AxiosResponse<IProject> = await AxiosBaseApi.get(`${ProjectUrls.getProject}/${projectId}`);
 
         return mapToProjectModel(response.data);
     }
 
     public static async getBoardPage(projectId: string, teamId: string): Promise<any> {
-        const response: AxiosResponse<IBoardPage> = await AxiosBaseApi.axiosGet(
+        const response: AxiosResponse<IBoardPage> = await AxiosBaseApi.get(
             `${ProjectUrls.getBoardPage}?projectId=${projectId}&teamId=${teamId}`
         );
 
@@ -40,10 +40,7 @@ export default class ProjectApi {
             workSpaceId: project.workSpaceId,
         };
 
-        const response: AxiosResponse<IProject> = await AxiosBaseApi.axiosPost(
-            ProjectUrls.createProject,
-            mappedProject
-        );
+        const response: AxiosResponse<IProject> = await AxiosBaseApi.post(ProjectUrls.createProject, mappedProject);
 
         return mapToProjectModel(response.data);
     }
@@ -59,17 +56,17 @@ export default class ProjectApi {
             creationDate: new Date(project.creationDate),
         };
 
-        const response: AxiosResponse<IProject> = await AxiosBaseApi.axiosPut(ProjectUrls.createProject, mappedProject);
+        const response: AxiosResponse<IProject> = await AxiosBaseApi.put(ProjectUrls.createProject, mappedProject);
 
         return mapToProjectModel(response.data);
     }
 
     public static async removeProject(projectId: string): Promise<void> {
-        await AxiosBaseApi.axiosDelete(`${ProjectUrls.removeProject}/${projectId}`);
+        await AxiosBaseApi.delete(`${ProjectUrls.removeProject}/${projectId}`);
     }
 
     public static async getProjectPageStats(projectId: string): Promise<IFullStatsPage> {
-        const response: AxiosResponse<IFullStatsPage> = await AxiosBaseApi.axiosGet(
+        const response: AxiosResponse<IFullStatsPage> = await AxiosBaseApi.get(
             `${ProjectUrls.getStatsPage}?projectId=${projectId}`
         );
 

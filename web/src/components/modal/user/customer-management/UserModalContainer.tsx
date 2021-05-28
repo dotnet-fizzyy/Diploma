@@ -2,20 +2,24 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../../constants';
 import { ModalOptions } from '../../../../constants/modalConstants';
-import { CustomerInitialState, UserInitialState } from '../../../../constants/userConstants';
+import {
+    CustomerInitialState,
+    UserInitialState,
+    UserPosition,
+    UserPositionRoleMap,
+} from '../../../../constants/userConstants';
 import { createUserRequest } from '../../../../redux/actions/userActions';
 import { getModalOption, getModalRequestPerforming } from '../../../../redux/selectors/modalSelectors';
 import { getSelectedTeamId } from '../../../../redux/selectors/teamSelectors';
 import { getWorkSpaceId } from '../../../../redux/selectors/workSpaceSelectors';
 import { IUser } from '../../../../types/userTypes';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formUtils';
-import { createUserPositionDropdownItems, createUserRoleDropdownItems } from '../../../../utils/userUtils';
+import { createUserPositionDropdownItems } from '../../../../utils/userUtils';
 import UserModal, { IUserCreationProps } from './UserModal';
 
 const UserModalContainer = () => {
     const dispatch = useDispatch();
-    const userRoles = createUserRoleDropdownItems();
-    const userPositions = createUserPositionDropdownItems();
+    const userPositions = createUserPositionDropdownItems().filter((x) => x.value !== UserPosition.Customer);
     const modalOption = useSelector(getModalOption);
     const workSpaceId: string = useSelector(getWorkSpaceId);
     const teamId: string = useSelector(getSelectedTeamId);
@@ -27,6 +31,7 @@ const UserModalContainer = () => {
     const onClickSubmit = (values: IUser) => {
         values.workSpaceId = workSpaceId;
         values.teamId = teamId;
+        values.userRole = UserPositionRoleMap[values.userPosition];
 
         dispatch(createUserRequest(values));
     };
@@ -42,7 +47,6 @@ const UserModalContainer = () => {
         isPerformingRequest,
         mainLabel,
         initialState,
-        userRoles,
         userPositions,
         validateField,
         validateEmail,

@@ -7,7 +7,7 @@ import AxiosBaseApi from './axiosBaseApi';
 
 export default class TeamApi {
     public static async getUserTeamPage(teamId: string): Promise<ITeamPage> {
-        const response: AxiosResponse<ITeamPage> = await AxiosBaseApi.axiosGet(`${TeamUrls.getUserTeamPage}/${teamId}`);
+        const response: AxiosResponse<ITeamPage> = await AxiosBaseApi.get(`${TeamUrls.getUserTeamPage}/${teamId}`);
 
         return { workSpace: mapToWorkSpaceModel(response.data.workSpace), team: mapToTeamModel(response.data.team) };
     }
@@ -19,7 +19,7 @@ export default class TeamApi {
             projectId: team.projectId,
         };
 
-        const response: AxiosResponse<ITeam> = await AxiosBaseApi.axiosPost(TeamUrls.createTeam, mappedTeam);
+        const response: AxiosResponse<ITeam> = await AxiosBaseApi.post(TeamUrls.createTeam, mappedTeam);
 
         return mapToTeamModel(response.data);
     }
@@ -33,7 +33,7 @@ export default class TeamApi {
             creationDate: new Date(team.creationDate),
         };
 
-        const response: AxiosResponse<ITeam> = await AxiosBaseApi.axiosPut(TeamUrls.updateTeam, mappedTeam);
+        const response: AxiosResponse<ITeam> = await AxiosBaseApi.put(TeamUrls.updateTeam, mappedTeam);
 
         return mapToTeamModel(response.data);
     }

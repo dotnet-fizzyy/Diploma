@@ -1,8 +1,8 @@
 import { push } from 'connected-react-router';
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, delay, put, takeLatest } from 'redux-saga/effects';
 import UserApi from '../../api/userApi';
-import { DefaultRoute } from '../../constants/routeConstants';
-import { AuthenticationResponse, IJsonPatchBody } from '../../types';
+import { DefaultRoute, LoginScreenRoute } from '../../constants/routeConstants';
+import { IAuthenticationResponse, IJsonPatchBody, ITokenResponse } from '../../types';
 import { IFullUser, IUser } from '../../types/userTypes';
 import { setCredentialsToLocalStorage } from '../../utils';
 import { createRequestBodyForUserUpdateLink } from '../../utils/userUtils';
@@ -14,6 +14,9 @@ import {
     changeUserActivityStatusSuccess,
     createUserFailure,
     createUserSuccess,
+    refreshUserTokenFailure,
+    refreshUserTokenRequest,
+    refreshUserTokenSuccess,
     registrationFailure,
     registrationSuccess,
     updateAvatarFailure,
@@ -37,7 +40,7 @@ import {
 
 function* authenticateUser(action: IAuthenticationRequest) {
     try {
-        const authResponse: AuthenticationResponse = yield call(UserApi.authenticate, action.payload);
+        const authResponse: IAuthenticationResponse = yield call(UserApi.authenticate, action.payload);
         yield all([put(authenticationSuccess(authResponse.user)), put(push(DefaultRoute))]);
 
         setCredentialsToLocalStorage(authResponse.accessToken.value, authResponse.refreshToken.value);
@@ -59,7 +62,13 @@ export function* verifyUser(action: IVerifyUserRequest) {
     try {
         const user: IFullUser = yield call(UserApi.getUserByToken);
 
-        yield all([put(verifyUserSuccess(user)), put(push(action.payload))]);
+        const isLoginRoute: boolean = action.payload === LoginScreenRoute;
+
+        yield all([
+            put(verifyUserSuccess(user)),
+            put(push(isLoginRoute ? DefaultRoute : action.payload)),
+            refreshUserTokenRequest(),
+        ]);
     } catch (error) {
         yield put(verifyUserFailure(error));
     }
@@ -122,6 +131,19 @@ function* changeUserActivityStatus(action: IChangeUserActivityStatusRequest) {
     }
 }
 
+export function* refreshUserToken() {
+    try {
+        yield delay(180000);
+
+        const tokensPair: ITokenResponse = yield call(UserApi.refreshToken);
+
+        yield put(refreshUserTokenSuccess());
+        setCredentialsToLocalStorage(tokensPair.accessToken.value, tokensPair.refreshToken.value);
+    } catch (error) {
+        yield put(refreshUserTokenFailure(error));
+    }
+}
+
 export default function* rootCurrentUserSaga() {
     yield takeLatest(UserActions.AUTHENTICATION_REQUEST, authenticateUser);
     yield takeLatest(UserActions.REGISTRATION_REQUEST, createCustomer);
@@ -131,4 +153,5 @@ export default function* rootCurrentUserSaga() {
     yield takeLatest(UserActions.UPDATE_USER_PASSWORD_REQUEST, updatePassword);
     yield takeLatest(UserActions.UPDATE_PROFILE_SETTINGS_REQUEST, updateProfileSettings);
     yield takeLatest(UserActions.CHANGE_USER_ACTIVITY_STATUS_REQUEST, changeUserActivityStatus);
+    yield takeLatest(UserActions.REFRESH_USER_TOKEN_REQUEST, refreshUserToken);
 }

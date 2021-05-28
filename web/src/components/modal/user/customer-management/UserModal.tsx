@@ -43,7 +43,6 @@ export interface IUserCreationProps {
     isPerformingRequest: boolean;
     mainLabel: string;
     initialState: IUser;
-    userRoles: ISelectedItem[];
     userPositions: ISelectedItem[];
     validateField: (value: string) => void;
     validateEmail: (value: string) => void;
@@ -57,7 +56,6 @@ const UserModal = (props: IUserCreationProps) => {
         isPerformingRequest,
         mainLabel,
         initialState,
-        userRoles,
         userPositions,
         validateField,
         validateEmail,
@@ -106,14 +104,6 @@ const UserModal = (props: IUserCreationProps) => {
                                     label="Position"
                                     name={userFields.userPosition}
                                     items={userPositions}
-                                    component={FormDropdown}
-                                />
-                            </div>
-                            <div className={classes.fieldContainer}>
-                                <Field
-                                    label="Role"
-                                    name={userFields.userRole}
-                                    items={userRoles}
                                     component={FormDropdown}
                                 />
                             </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getStoryHistoryRequest } from '../../redux/actions/storyActions';
@@ -13,6 +13,12 @@ const StoryHistoryPageContainer = () => {
     const storyHistoryItems: IStoryHistory[] = useSelector(getStoryHistory);
     const story: IStory = useSelector(getStoryFromHistory);
 
+    const [selectedDate, setSelectedDate] = useState<string>('');
+
+    const onChangeSelectedDateFilter = (newDate: string): void => {
+        setSelectedDate(newDate);
+    };
+
     useEffect(() => {
         if (params && params.storyId) {
             dispatch(getStoryHistoryRequest(params.storyId));
@@ -22,6 +28,8 @@ const StoryHistoryPageContainer = () => {
     const storyHistoryPageProps: IStoryHistoryPageProps = {
         storyHistoryItems,
         story,
+        selectedDate,
+        onChangeSelectedDateFilter,
     };
 
     return <StoryHistoryPage {...storyHistoryPageProps} />;

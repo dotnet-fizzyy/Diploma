@@ -52,7 +52,6 @@ const StartScreenContainer = () => {
 
     const loginProps: ILoginPageProps = {
         wasAttemptToLogIn: wasAttemptToLogIn && !isAuthenticationSuccessful,
-        validateField,
         onSubmitLogIn,
     };
 

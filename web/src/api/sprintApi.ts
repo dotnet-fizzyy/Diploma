@@ -8,7 +8,7 @@ import AxiosBaseApi from './axiosBaseApi';
 
 export default class SprintApi {
     public static async getSprintsFromEpic(epicId: string): Promise<IFullSprint[]> {
-        const response: AxiosResponse<ICollectionResponse<IFullSprint>> = await AxiosBaseApi.axiosGet(
+        const response: AxiosResponse<ICollectionResponse<IFullSprint>> = await AxiosBaseApi.get(
             `${SprintUrls.getEpicSprints}/${epicId}`
         );
 
@@ -23,7 +23,7 @@ export default class SprintApi {
             epicId: sprint.epicId,
         };
 
-        const response: AxiosResponse<ISprint> = await AxiosBaseApi.axiosPost(SprintUrls.createSprint, mappedSprint);
+        const response: AxiosResponse<ISprint> = await AxiosBaseApi.post(SprintUrls.createSprint, mappedSprint);
 
         return mapToSprintModel(response.data);
     }
@@ -39,12 +39,12 @@ export default class SprintApi {
         };
 
         debugger;
-        const response: AxiosResponse<ISprint> = await AxiosBaseApi.axiosPut(SprintUrls.updateSprint, mappedSprint);
+        const response: AxiosResponse<ISprint> = await AxiosBaseApi.put(SprintUrls.updateSprint, mappedSprint);
 
         return mapToSprintModel(response.data);
     }
 
     public static async removeSprint(sprintId: string): Promise<void> {
-        await AxiosBaseApi.axiosPatch(SprintUrls.removeSprint, createSprintRemoveRequestBody(sprintId));
+        await AxiosBaseApi.patch(SprintUrls.removeSprint, createSprintRemoveRequestBody(sprintId));
     }
 }

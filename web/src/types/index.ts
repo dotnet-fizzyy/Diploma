@@ -5,9 +5,12 @@ export enum TokenType {
     REFRESH = 'Refresh',
 }
 
-export interface AuthenticationResponse {
+export interface ITokenResponse {
     accessToken: IToken;
     refreshToken: IToken;
+}
+
+export interface IAuthenticationResponse extends ITokenResponse {
     user: IFullUser;
 }
 

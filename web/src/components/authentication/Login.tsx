@@ -77,13 +77,12 @@ const useStyles = makeStyles(() =>
 
 export interface ILoginPageProps {
     wasAttemptToLogIn: boolean;
-    validateField: (value: string) => void;
     onSubmitLogIn: (values: ILoginForm) => void;
 }
 
 const LoginPage = (props: ILoginPageProps) => {
     const classes = useStyles();
-    const { validateField, wasAttemptToLogIn, onSubmitLogIn } = props;
+    const { wasAttemptToLogIn, onSubmitLogIn } = props;
 
     return (
         <Formik initialValues={InitialLoginFormValues} onSubmit={onSubmitLogIn}>
@@ -95,19 +94,13 @@ const LoginPage = (props: ILoginPageProps) => {
                         <div className={classes.root}>
                             <span className={classes.title}>Sign In</span>
                             <div className={classes.fieldContainer}>
-                                <Field
-                                    name={LoginFormConstants.name}
-                                    label="Name"
-                                    validate={validateField}
-                                    component={FormTextField}
-                                />
+                                <Field name={LoginFormConstants.name} label="Name" component={FormTextField} />
                             </div>
                             <div className={classes.fieldContainer}>
                                 <Field
                                     name={LoginFormConstants.password}
                                     label="Password"
                                     type="password"
-                                    validate={validateField}
                                     component={FormTextField}
                                 />
                             </div>

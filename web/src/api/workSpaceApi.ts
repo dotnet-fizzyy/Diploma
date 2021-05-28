@@ -8,7 +8,7 @@ import AxiosBaseApi from './axiosBaseApi';
 
 export default class WorkSpaceApi {
     public static async getUserWorkSpace(): Promise<IWorkSpacePage> {
-        const response: AxiosResponse<IWorkSpacePage> = await AxiosBaseApi.axiosGet(WorkSpaceUrls.workSpacePage);
+        const response: AxiosResponse<IWorkSpacePage> = await AxiosBaseApi.get(WorkSpaceUrls.workSpacePage);
 
         return response.data;
     }
@@ -19,7 +19,7 @@ export default class WorkSpaceApi {
             workSpaceDescription: workSpace.workSpaceDescription,
         };
 
-        const response: AxiosResponse<IWorkSpace> = await AxiosBaseApi.axiosPost(
+        const response: AxiosResponse<IWorkSpace> = await AxiosBaseApi.post(
             WorkSpaceUrls.createWorkSpace,
             mappedWorkSpace
         );
@@ -28,16 +28,13 @@ export default class WorkSpaceApi {
     }
 
     public static async updateWorkSpace(workSpace: IWorkSpace): Promise<IWorkSpace> {
-        const response: AxiosResponse<IWorkSpace> = await AxiosBaseApi.axiosPut(
-            WorkSpaceUrls.updateWorkSpace,
-            workSpace
-        );
+        const response: AxiosResponse<IWorkSpace> = await AxiosBaseApi.put(WorkSpaceUrls.updateWorkSpace, workSpace);
 
         return mapToWorkSpaceModel(response.data);
     }
 
     public static async getWorkSpaceItemsBySearchTerm(searchTerm: string, teamIds: string[]): Promise<ISearchResults> {
-        const response: AxiosResponse<ISearchResults> = await AxiosBaseApi.axiosGet(
+        const response: AxiosResponse<ISearchResults> = await AxiosBaseApi.get(
             `${WorkSpaceUrls.getSearchItems}?term=${searchTerm}&teamIds=${teamIds.join('&teamIds=')}`
         );
 
