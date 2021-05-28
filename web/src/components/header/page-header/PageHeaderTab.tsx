@@ -15,9 +15,6 @@ const useStyles = makeStyles(() =>
         },
         descriptionContainer: {
             marginTop: '10px',
-            '&:last-child': {
-                marginTop: '3px',
-            },
         },
         text: {
             fontFamily: 'Poppins',

@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import React from 'react';
 import MainLabel, { LabelType } from '../../components/common/MainLabel';
 import StatsFilters from '../../components/stats/StatsFilters';
+import StatsGeneralInfo from '../../components/stats/StatsGeneralInfo';
 import StatsProjectShortInfo from '../../components/stats/StatsProjectShortInfo';
 import StatsStoriesFromSearchParameters from '../../components/stats/StatsStoriesFromSearchParameters';
 import { IProject } from '../../types/projectTypes';
@@ -93,6 +94,7 @@ const StatsPage = (props: IStatsPageProps) => {
                     />
                 </div>
                 <div className={classnames(classes.storiesWrapperContainer, classes.chartsWrapperContainer)}>
+                    <StatsGeneralInfo stories={stories} />
                     <StatsStoriesFromSearchParameters
                         stories={stories}
                         selectedSprintId={selectedSprintId}

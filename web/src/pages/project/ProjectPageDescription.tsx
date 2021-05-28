@@ -97,6 +97,12 @@ const ProjectPageDescription = (props: IProjectPageDescriptionProps) => {
                     title={project.projectName}
                     descriptionItems={[
                         { title: 'Description', description: project.projectDescription },
+                        {
+                            title: 'Project timeline',
+                            description: `${moment(project.startDate).format(DateFormat)} - ${moment(
+                                project.endDate
+                            ).format(DateFormat)}`,
+                        },
                         { title: 'Creation date', description: moment(project.creationDate).format(DateFormat) },
                     ]}
                 />

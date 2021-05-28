@@ -13,6 +13,7 @@ export interface IStory {
     isBlocked: boolean;
     blockReason: string;
     creationDate?: Date;
+    teamId?: string;
     userId?: string;
     sprintId: string;
     storyPriority: Priority;
