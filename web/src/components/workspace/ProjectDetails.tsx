@@ -1,4 +1,5 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import InfoIcon from '@material-ui/icons/Info';
 import classnames from 'classnames';
 import moment from 'moment';
@@ -39,9 +40,11 @@ const useStyles = makeStyles(() =>
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'flex-end',
-            '& button': {
-                width: '120px',
-            },
+        },
+        cardItem: {
+            flexGrow: 1,
+            flexBasis: 0,
+            flexShrink: 0,
         },
         buttonContainer: {
             width: '30px',
@@ -52,10 +55,15 @@ const useStyles = makeStyles(() =>
             marginLeft: '20px',
             borderRadius: '5px',
             cursor: 'pointer',
+            flex: 'none',
         },
         primaryButton: {
             backgroundColor: '#75BAF7',
             color: '#FFF',
+        },
+        buttonsContainers: {
+            width: '120px',
+            marginLeft: '20px',
         },
     })
 );
@@ -82,13 +90,13 @@ const ProjectDetails = (props: IProjectSummaryInfoProps) => {
             {teams && teams.length
                 ? teams.map((x) => (
                       <div key={x.teamId} className={classes.teamContainer}>
-                          <span className={classes.text}>{x.teamName}</span>
-                          <span className={classes.text}>
+                          <span className={classnames(classes.text, classes.cardItem)}>{x.teamName}</span>
+                          <span className={classnames(classes.text, classes.cardItem)}>
                               <span className={classnames(classes.text, classes.addText)}>Creation date: </span>
                               {moment(x.creationDate).format(DateFormat)}
                           </span>
                           <div
-                              className={classnames(classes.buttonContainer, classes.primaryButton)}
+                              className={classnames(classes.cardItem, classes.buttonContainer, classes.primaryButton)}
                               onClick={() => onClickViewTeam(x.teamId)}
                           >
                               <InfoIcon fontSize="small" />
@@ -97,14 +105,18 @@ const ProjectDetails = (props: IProjectSummaryInfoProps) => {
                   ))
                 : null}
             <div className={classes.footer}>
-                <Button startIcon={<InfoIcon />} label="View" disabled={false} onClick={onClick} />
-                <Button
-                    startIcon={<InfoIcon />}
-                    label="Remove"
-                    disabled={false}
-                    onClick={onClickRemoveProject}
-                    buttonVariant={ButtonVariant.DANGER}
-                />
+                <div className={classes.buttonsContainers}>
+                    <Button startIcon={<InfoIcon />} label="View" disabled={false} onClick={onClick} />
+                </div>
+                <div className={classes.buttonsContainers}>
+                    <Button
+                        startIcon={<DeleteOutlineIcon />}
+                        label="Remove"
+                        disabled={false}
+                        onClick={onClickRemoveProject}
+                        buttonVariant={ButtonVariant.DANGER}
+                    />
+                </div>
             </div>
         </div>
     );
