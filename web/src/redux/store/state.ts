@@ -57,7 +57,7 @@ export interface ISidebarState {
 export interface ITeamState {
     teams: ITeam[];
     simpleItems: ITeamSimpleModel[];
-    selectedTeam?: ITeam;
+    selectedTeamId: string;
 }
 
 export interface IProjectState {

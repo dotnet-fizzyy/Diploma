@@ -114,12 +114,12 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication</response>
         [HttpPatch]
         [Route("soft-remove")]
-        public async Task<IActionResult> RemoveSprintSoft([FromBody] JsonPatchDocument<Sprint> projectPatch)
+        public async Task<IActionResult> RemoveSprintSoft([FromBody] JsonPatchDocument<Sprint> sprintPatch)
         {
-            var project = new Sprint();
-            projectPatch.ApplyTo(project);
+            var sprint = new Sprint();
+            sprintPatch.ApplyTo(sprint);
             
-            await _sprintService.RemoveSprintSoftAsync(project);
+            await _sprintService.RemoveSprintSoftAsync(sprint);
             
             return NoContent();
         }

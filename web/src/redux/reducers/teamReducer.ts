@@ -1,6 +1,8 @@
+import { ITeamSimpleModel } from '../../types/teamTypes';
 import {
     IAddTeamSimpleItems,
     ICreateTeamSuccess,
+    IRemoveTeamSuccess,
     ISetSelectedTeam,
     ISetSelectedTeamById,
     IUpdateTeamSuccess,
@@ -12,7 +14,7 @@ import { ITeamState } from '../store/state';
 const initialState: ITeamState = {
     teams: [],
     simpleItems: [],
-    selectedTeam: null,
+    selectedTeamId: '',
 };
 
 export default function teamsReducer(state = initialState, action) {
@@ -32,39 +34,51 @@ export default function teamsReducer(state = initialState, action) {
             return handleUpdateUserActivityStatus(state, action);
         case TeamActions.UPDATE_TEAM_SUCCESS:
             return handleUpdateTeam(state, action);
+        case TeamActions.REMOVE_TEAM_SUCCESS:
+            return handleRemoveTeamSuccess(state, action);
         default:
             return state;
     }
 }
 
 function handleCreateTeamSuccess(state: ITeamState, action: ICreateTeamSuccess): ITeamState {
+    const simpleTeam: ITeamSimpleModel = {
+        teamId: action.payload.teamId,
+        teamName: action.payload.teamName,
+        creationDate: action.payload.creationDate,
+    };
+
     return {
         ...state,
-        teams: state.teams.length ? [...state.teams, action.payload] : [action.payload],
+        simpleItems: state.simpleItems.length ? [...state.simpleItems, simpleTeam] : [simpleTeam],
     };
 }
 
 function handleSetSelectedTeam(state: ITeamState, action: ISetSelectedTeam): ITeamState {
     return {
         ...state,
-        selectedTeam: action.payload,
+        selectedTeamId: action.payload.teamId,
     };
 }
 
 function handleSetSelectedTeamById(state: ITeamState, action: ISetSelectedTeamById): ITeamState {
     return {
         ...state,
-        selectedTeam: state.teams.find((x) => x.teamId === action.payload),
+        selectedTeamId: action.payload,
     };
 }
 
 function handleCreateUserSuccess(state: ITeamState, action: ICreateUserSuccess): ITeamState {
     return {
         ...state,
-        selectedTeam: {
-            ...state.selectedTeam,
-            users: state.selectedTeam.users.concat(action.payload),
-        },
+        teams: state.teams.map((x) =>
+            x.teamId === state.selectedTeamId
+                ? {
+                      ...x,
+                      users: x.users.concat(action.payload),
+                  }
+                : x
+        ),
     };
 }
 
@@ -78,21 +92,27 @@ function handleSetSimpleItems(state: ITeamState, action: IAddTeamSimpleItems): I
 function handleUpdateUserActivityStatus(state: ITeamState, action: IChangeUserActivityStatusSuccess): ITeamState {
     return {
         ...state,
-        selectedTeam: {
-            ...state.selectedTeam,
-            users: state.selectedTeam.users.map((x) => {
-                return x.userId === action.payload ? { ...x, isActive: !x.isActive } : x;
-            }),
-        },
+        teams: state.teams.map((x) =>
+            x.teamId === state.selectedTeamId
+                ? {
+                      ...x,
+                      users: x.users.map((u) => (u.userId === action.payload ? { ...u, isActive: !u.isActive } : u)),
+                  }
+                : x
+        ),
     };
 }
 
 function handleUpdateTeam(state: ITeamState, action: IUpdateTeamSuccess): ITeamState {
     return {
         ...state,
-        selectedTeam: {
-            ...action.payload,
-            users: state.selectedTeam.users,
-        },
+        teams: state.teams.map((x) => (x.teamId === action.payload.teamId ? { ...action.payload } : x)),
+    };
+}
+
+function handleRemoveTeamSuccess(state: ITeamState, action: IRemoveTeamSuccess): ITeamState {
+    return {
+        ...state,
+        simpleItems: state.simpleItems.filter((x) => x.teamId !== action.payload),
     };
 }

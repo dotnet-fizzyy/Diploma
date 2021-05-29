@@ -5,11 +5,14 @@ import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { setSelectedEpicById } from '../../redux/actions/epicActions';
 import { openModal } from '../../redux/actions/modalActions';
 import { getSprintsFromEpicRequest } from '../../redux/actions/sprintActions';
+import { setSelectedTeamById } from '../../redux/actions/teamActions';
 import { getEpics, getSelectedEpicId } from '../../redux/selectors/epicSelectors';
 import { getSprints } from '../../redux/selectors/sprintSelectors';
+import { getTeamSimpleItems } from '../../redux/selectors/teamSelectors';
 import { IEpic } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';
 import { ISprint } from '../../types/sprintTypes';
+import { ITeamSimpleModel } from '../../types/teamTypes';
 import ProjectPageDescription, { IProjectPageDescriptionProps } from './ProjectPageDescription';
 
 export interface IProjectPageDescriptionContainerProps {
@@ -23,6 +26,7 @@ const ProjectPageDescriptionContainer = (props: IProjectPageDescriptionContainer
 
     const sprints: ISprint[] = useSelector(getSprints);
     const epics: IEpic[] = useSelector(getEpics);
+    const teams: ITeamSimpleModel[] = useSelector(getTeamSimpleItems);
     const selectedEpicId: string = useSelector(getSelectedEpicId);
 
     const onClickUpdateProjectInfo = (): void => {
@@ -50,10 +54,20 @@ const ProjectPageDescriptionContainer = (props: IProjectPageDescriptionContainer
         history.push(`/board`);
     };
 
+    const onClickViewTeam = (teamId: string): void => {
+        history.push(`/team/${teamId}`);
+    };
+
+    const onClickRemoveTeam = (teamId: string): void => {
+        dispatch(setSelectedTeamById(teamId));
+        dispatch(openModal(ModalTypes.TEAM, ModalOptions.TEAM_REMOVE));
+    };
+
     const pageDescriptionProps: IProjectPageDescriptionProps = {
         epics,
         project,
         sprints,
+        teams,
         selectedEpicId,
         onClickUpdateProjectInfo,
         onClickCreateTeamInfo,
@@ -61,6 +75,8 @@ const ProjectPageDescriptionContainer = (props: IProjectPageDescriptionContainer
         onClickCreateEpic,
         onClickCreateSprint,
         onClickSelectEpic,
+        onClickViewTeam,
+        onClickRemoveTeam,
     };
 
     return <ProjectPageDescription {...pageDescriptionProps} />;

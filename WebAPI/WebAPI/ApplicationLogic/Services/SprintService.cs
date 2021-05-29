@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
@@ -95,7 +96,18 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task RemoveSprintSoftAsync(Sprint sprint)
         {
+            using var tr = new TransactionScope(
+                TransactionScopeOption.Required,
+                new TransactionOptions
+                {
+                    IsolationLevel = IsolationLevel.RepeatableRead
+                }, 
+                TransactionScopeAsyncFlowOption.Enabled
+            );
+            
             await _sprintRepository.DeleteSoftAsync(sprint.SprintId);
+
+            tr.Complete();
         }
 
         public async Task RemoveSprintAsync(Guid sprintId)

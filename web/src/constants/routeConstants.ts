@@ -97,6 +97,7 @@ export const TeamUrls = {
     getUserTeamPage: PageUrls.getTeamPage,
     createTeam: TeamBaseUrl,
     updateTeam: TeamBaseUrl,
+    removeTeam: `${TeamBaseUrl}/soft-remove`,
 };
 
 export const WorkSpaceUrls = {

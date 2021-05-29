@@ -136,10 +136,10 @@ namespace WebAPI.Presentation.Controllers
         [Route("soft-remove")]
         public async Task<IActionResult> RemoveTeamSoft([FromBody] JsonPatchDocument<Team> teamPatch)
         {
-            var project = new Team();
-            teamPatch.ApplyTo(project);
+            var team = new Team();
+            teamPatch.ApplyTo(team);
             
-            await _teamService.RemoveTeamSoftAsync(project);
+            await _teamService.RemoveTeamSoftAsync(team);
             
             return NoContent();
         }

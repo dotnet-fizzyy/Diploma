@@ -67,6 +67,7 @@ function handleSetCurrentProject(state: IProjectState, action: ISetSelectedProje
     return {
         ...state,
         items: [action.payload],
+        selectedProjectId: action.payload.projectId,
     };
 }
 

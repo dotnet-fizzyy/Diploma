@@ -6,10 +6,13 @@ import {
     createTeamSuccess,
     getUserTeamPageFailure,
     getUserTeamPageSuccess,
+    removeTeamFailure,
+    removeTeamSuccess,
     updateTeamFailure,
     updateTeamSuccess,
     ICreateTeamRequest,
     IGetUserTeamPageRequest,
+    IRemoveTeamRequest,
     IUpdateTeamRequest,
     TeamActions,
 } from '../actions/teamActions';
@@ -46,8 +49,19 @@ export function* updateTeam(action: IUpdateTeamRequest) {
     }
 }
 
+export function* removeTeam(action: IRemoveTeamRequest) {
+    try {
+        yield call(TeamApi.removeTeam, action.payload);
+
+        yield put(removeTeamSuccess(action.payload));
+    } catch (error) {
+        yield put(removeTeamFailure(error));
+    }
+}
+
 export default function* rootTeamsSaga() {
     yield takeLatest(TeamActions.GET_USER_TEAM_PAGE_REQUEST, getUserTeamPage);
     yield takeLatest(TeamActions.CREATE_TEAM_REQUEST, createTeam);
     yield takeLatest(TeamActions.UPDATE_TEAM_REQUEST, updateTeam);
+    yield takeLatest(TeamActions.REMOVE_TEAM_REQUEST, removeTeam);
 }

@@ -56,6 +56,7 @@ export default function modalReducer(state = initialState, action: ModalActionTy
         case ProjectActions.REMOVE_PROJECT_SUCCESS:
         case TeamActions.CREATE_TEAM_SUCCESS:
         case TeamActions.UPDATE_TEAM_SUCCESS:
+        case TeamActions.REMOVE_TEAM_SUCCESS:
         case EpicActions.CREATE_EPIC_SUCCESS:
         case EpicActions.UPDATE_EPIC_SUCCESS:
         case EpicActions.REMOVE_EPIC_SUCCESS:

@@ -3,6 +3,7 @@ import { TeamUrls } from '../constants/routeConstants';
 import { mapToTeamModel } from '../mappers/teamMapper';
 import { mapToWorkSpaceModel } from '../mappers/workSpaceMapper';
 import { ITeam, ITeamPage } from '../types/teamTypes';
+import { createTeamRemoveRequestBody } from '../utils';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class TeamApi {
@@ -22,6 +23,10 @@ export default class TeamApi {
         const response: AxiosResponse<ITeam> = await AxiosBaseApi.post(TeamUrls.createTeam, mappedTeam);
 
         return mapToTeamModel(response.data);
+    }
+
+    public static async removeTeam(teamId: string): Promise<void> {
+        await AxiosBaseApi.patch(TeamUrls.removeTeam, createTeamRemoveRequestBody(teamId));
     }
 
     public static async updateTeam(team: ITeam): Promise<ITeam> {

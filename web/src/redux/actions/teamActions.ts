@@ -13,6 +13,9 @@ export const TeamActions = {
     UPDATE_TEAM_REQUEST: 'UPDATE_TEAM_REQUEST',
     UPDATE_TEAM_SUCCESS: 'UPDATE_TEAM_SUCCESS',
     UPDATE_TEAM_FAILURE: 'UPDATE_TEAM_FAILURE',
+    REMOVE_TEAM_REQUEST: 'REMOVE_TEAM_REQUEST',
+    REMOVE_TEAM_SUCCESS: 'REMOVE_TEAM_SUCCESS',
+    REMOVE_TEAM_FAILURE: 'REMOVE_TEAM_FAILURE',
 };
 
 /*
@@ -75,6 +78,21 @@ export interface IUpdateTeamSuccess {
 
 export interface IUpdateTeamFailure {
     type: typeof TeamActions.UPDATE_TEAM_FAILURE;
+    payload: Error;
+}
+
+export interface IRemoveTeamRequest {
+    type: typeof TeamActions.REMOVE_TEAM_REQUEST;
+    payload: string;
+}
+
+export interface IRemoveTeamSuccess {
+    type: typeof TeamActions.REMOVE_TEAM_SUCCESS;
+    payload: string;
+}
+
+export interface IRemoveTeamFailure {
+    type: typeof TeamActions.REMOVE_TEAM_FAILURE;
     payload: Error;
 }
 
@@ -161,6 +179,27 @@ export function updateTeamSuccess(team: ITeam): IUpdateTeamSuccess {
 export function updateTeamFailure(error: Error): IUpdateTeamFailure {
     return {
         type: TeamActions.UPDATE_TEAM_FAILURE,
+        payload: error,
+    };
+}
+
+export function removeTeamRequest(teamId: string): IRemoveTeamRequest {
+    return {
+        type: TeamActions.REMOVE_TEAM_REQUEST,
+        payload: teamId,
+    };
+}
+
+export function removeTeamSuccess(teamId: string): IRemoveTeamSuccess {
+    return {
+        type: TeamActions.REMOVE_TEAM_SUCCESS,
+        payload: teamId,
+    };
+}
+
+export function removeTeamFailure(error: Error): IRemoveTeamFailure {
+    return {
+        type: TeamActions.REMOVE_TEAM_FAILURE,
         payload: error,
     };
 }

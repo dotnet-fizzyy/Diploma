@@ -8,7 +8,9 @@ import { DateFormat } from '../../constants';
 import { IEpic } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';
 import { ISprint } from '../../types/sprintTypes';
+import { ITeamSimpleModel } from '../../types/teamTypes';
 import ProjectEpicExpansionPanel from './ProjectEpicExpansionPanel';
+import TeamCard from './TeamCard';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -18,6 +20,12 @@ const useStyles = makeStyles(() =>
         },
         body: {
             padding: '30px',
+        },
+        teamsContainer: {
+            marginTop: '20px',
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
         },
         table: {
             marginTop: '20px',
@@ -53,12 +61,19 @@ const useStyles = makeStyles(() =>
         epicsLabelContainer: {
             margin: '20px 0',
         },
+        teamCardContainer: {
+            marginLeft: '10px',
+            '&:first-child': {
+                marginLeft: 0,
+            },
+        },
     })
 );
 
 export interface IProjectPageDescriptionProps {
     epics: IEpic[];
     sprints: ISprint[];
+    teams: ITeamSimpleModel[];
     project: IProject;
     selectedEpicId: string;
     onClickUpdateProjectInfo: () => void;
@@ -67,6 +82,8 @@ export interface IProjectPageDescriptionProps {
     onClickCreateEpic: () => void;
     onClickCreateSprint: () => void;
     onClickSelectEpic: (epicId: string) => void;
+    onClickViewTeam: (teamId: string) => void;
+    onClickRemoveTeam: (teamId: string) => void;
 }
 
 const ProjectPageDescription = (props: IProjectPageDescriptionProps) => {
@@ -75,6 +92,7 @@ const ProjectPageDescription = (props: IProjectPageDescriptionProps) => {
         epics,
         sprints,
         project,
+        teams,
         selectedEpicId,
         onClickUpdateProjectInfo,
         onClickCreateTeamInfo,
@@ -82,6 +100,8 @@ const ProjectPageDescription = (props: IProjectPageDescriptionProps) => {
         onClickCreateEpic,
         onClickCreateSprint,
         onClickSelectEpic,
+        onClickViewTeam,
+        onClickRemoveTeam,
     } = props;
 
     return (
@@ -106,6 +126,22 @@ const ProjectPageDescription = (props: IProjectPageDescriptionProps) => {
                         { title: 'Creation date', description: moment(project.creationDate).format(DateFormat) },
                     ]}
                 />
+                <div className={classes.epicsLabelContainer}>
+                    <MainLabel title="Teams" variant={LabelType.SECONDARY} />
+                </div>
+                <div className={classes.teamsContainer}>
+                    {teams && teams.length
+                        ? teams.map((x) => (
+                              <div key={x.teamId} className={classes.teamCardContainer}>
+                                  <TeamCard
+                                      team={x}
+                                      onClickRemoveTeam={onClickRemoveTeam}
+                                      onClickViewTeam={onClickViewTeam}
+                                  />
+                              </div>
+                          ))
+                        : null}
+                </div>
                 <div className={classes.epicsLabelContainer}>
                     <MainLabel title="Epics" variant={LabelType.SECONDARY} />
                 </div>
