@@ -5,7 +5,7 @@ import moment from 'moment';
 import React from 'react';
 import { DateFormat } from '../../constants';
 import { ITeamSimpleModel } from '../../types/teamTypes';
-import Button from '../common/Button';
+import Button, { ButtonVariant } from '../common/Button';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -65,11 +65,12 @@ export interface IProjectSummaryInfoProps {
     teams: ITeamSimpleModel[];
     onClickViewProject: (projectId: string) => void;
     onClickViewTeam: (teamId: string) => void;
+    onClickRemoveProject: () => void;
 }
 
 const ProjectDetails = (props: IProjectSummaryInfoProps) => {
     const classes = useStyles();
-    const { projectId, teams, onClickViewProject, onClickViewTeam } = props;
+    const { projectId, teams, onClickViewProject, onClickViewTeam, onClickRemoveProject } = props;
 
     const onClick = () => {
         onClickViewProject(projectId);
@@ -97,6 +98,13 @@ const ProjectDetails = (props: IProjectSummaryInfoProps) => {
                 : null}
             <div className={classes.footer}>
                 <Button startIcon={<InfoIcon />} label="View" disabled={false} onClick={onClick} />
+                <Button
+                    startIcon={<InfoIcon />}
+                    label="Remove"
+                    disabled={false}
+                    onClick={onClickRemoveProject}
+                    buttonVariant={ButtonVariant.DANGER}
+                />
             </div>
         </div>
     );

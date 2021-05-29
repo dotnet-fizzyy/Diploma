@@ -1,4 +1,5 @@
 import { IProject } from '../../types/projectTypes';
+import { IWorkSpacePageProject } from '../../types/workSpaceTypes';
 
 export const ProjectActions = {
     GET_PROJECT_PAGE_REQUEST: 'GET_PROJECT_PAGE_REQUEST',
@@ -11,7 +12,7 @@ export const ProjectActions = {
     CREATE_PROJECT_FAILURE: 'CREATE_PROJECT_FAILURE',
     SET_PROJECTS: 'SET_PROJECTS',
     SET_SELECTED_PROJECT: 'SET_SELECTED_PROJECT',
-    SET_CURRENT_PROJECT_BY_ID: 'SET_CURRENT_PROJECT_BY_ID',
+    SET_SELECTED_PROJECT_BY_ID: 'SET_SELECTED_PROJECT_BY_ID',
     GET_PROJECT_REQUEST: 'GET_PROJECT_REQUEST',
     GET_PROJECT_SUCCESS: 'GET_PROJECT_SUCCESS',
     GET_PROJECT_FAILURE: 'GET_PROJECT_FAILURE',
@@ -27,6 +28,8 @@ export const ProjectActions = {
     GET_PROJECTS_STATS_PAGE_FAILURE: 'GET_PROJECTS_STATS_PAGE_FAILURE',
     CHANGE_STATS_SEARCH_ITEMS_REQUEST: 'CHANGE_STATS_SEARCH_ITEMS_REQUEST',
     CHANGE_STATS_SEARCH_ITEMS_FAILURE: 'CHANGE_STATS_SEARCH_ITEMS_FAILURE',
+    ADD_WORKSPACE_PROJECTS: 'ADD_WORKSPACE_PROJECTS',
+    SET_SELECTED_PROJECT_FROM_WORKSPACE_BY_ID: 'SET_SELECTED_PROJECT_FROM_WORKSPACE_BY_ID',
 };
 
 /*
@@ -82,7 +85,7 @@ export interface ISetSelectedProject {
 }
 
 export interface ISetCurrentProjectById {
-    type: typeof ProjectActions.SET_CURRENT_PROJECT_BY_ID;
+    type: typeof ProjectActions.SET_SELECTED_PROJECT_BY_ID;
     payload: string;
 }
 
@@ -164,6 +167,16 @@ export interface IChangeStatsSearchItemsFailure {
     payload: Error;
 }
 
+export interface IAddWorkSpaceProjects {
+    type: typeof ProjectActions.ADD_WORKSPACE_PROJECTS;
+    payload: IWorkSpacePageProject[];
+}
+
+export interface ISetSelectedProjectFromWorkSpaceById {
+    type: typeof ProjectActions.SET_SELECTED_PROJECT_FROM_WORKSPACE_BY_ID;
+    payload: string;
+}
+
 /*
 Actions
  */
@@ -238,7 +251,7 @@ export function setSelectedProject(project: IProject): ISetSelectedProject {
 
 export function setCurrentProjectById(projectId: string): ISetCurrentProjectById {
     return {
-        type: ProjectActions.SET_CURRENT_PROJECT_BY_ID,
+        type: ProjectActions.SET_SELECTED_PROJECT_BY_ID,
         payload: projectId,
     };
 }
@@ -348,5 +361,19 @@ export function changeStatsSearchItemsFailure(error: Error): IChangeStatsSearchI
     return {
         type: ProjectActions.CHANGE_STATS_SEARCH_ITEMS_FAILURE,
         payload: error,
+    };
+}
+
+export function addWorkSpaceProjects(projects: IWorkSpacePageProject[]): IAddWorkSpaceProjects {
+    return {
+        type: ProjectActions.ADD_WORKSPACE_PROJECTS,
+        payload: projects,
+    };
+}
+
+export function setSelectedProjectFromWorkSpaceById(projectId: string): ISetSelectedProjectFromWorkSpaceById {
+    return {
+        type: ProjectActions.SET_SELECTED_PROJECT_FROM_WORKSPACE_BY_ID,
+        payload: projectId,
     };
 }

@@ -1,15 +1,20 @@
+import { IWorkSpacePageProject } from '../../types/workSpaceTypes';
 import {
+    IAddWorkSpaceProjects,
     ICreateProjectSuccess,
+    IRemoveProjectSuccess,
     ISetCurrentProjectById,
     ISetProjects,
     ISetSelectedProject,
+    ISetSelectedProjectFromWorkSpaceById,
     ProjectActions,
 } from '../actions/projectActions';
 import { IProjectState } from '../store/state';
 
 const initialState: IProjectState = {
-    projects: [],
-    selectedProject: null,
+    items: [],
+    workSpaceItems: [],
+    selectedProjectId: '',
 };
 
 export default function projectsReducer(state = initialState, action) {
@@ -23,37 +28,68 @@ export default function projectsReducer(state = initialState, action) {
         case ProjectActions.GET_PROJECT_PAGE_SUCCESS:
         case ProjectActions.UPDATE_PROJECT_SUCCESS:
             return handleSetCurrentProject(state, action);
-        case ProjectActions.SET_CURRENT_PROJECT_BY_ID:
-            return handleSetCurrentProjectById(state, action);
+        case ProjectActions.ADD_WORKSPACE_PROJECTS:
+            return handleAddWorkSpaceProject(state, action);
+        case ProjectActions.SET_SELECTED_PROJECT_BY_ID:
+        case ProjectActions.SET_SELECTED_PROJECT_FROM_WORKSPACE_BY_ID:
+            return handleSetSelectedProjectId(state, action);
+        case ProjectActions.REMOVE_PROJECT_SUCCESS:
+            return handleRemoveProjectSuccess(state, action);
         default:
             return state;
     }
 }
 
 function handleCreateProjectSuccess(state: IProjectState, action: ICreateProjectSuccess): IProjectState {
+    const createdProject: IWorkSpacePageProject = {
+        projectId: action.payload.projectId,
+        projectName: action.payload.projectName,
+        teams: [],
+    };
+
     return {
         ...state,
-        projects: state.projects.length ? [...state.projects, action.payload] : [action.payload],
+        workSpaceItems:
+            state.workSpaceItems && state.workSpaceItems.length
+                ? [...state.workSpaceItems, createdProject]
+                : [createdProject],
     };
 }
 
 function handleSetProjects(state: IProjectState, action: ISetProjects): IProjectState {
     return {
         ...state,
-        projects: action.payload,
+        items: action.payload,
     };
 }
 
 function handleSetCurrentProject(state: IProjectState, action: ISetSelectedProject): IProjectState {
     return {
         ...state,
-        selectedProject: action.payload,
+        items: [action.payload],
     };
 }
 
-function handleSetCurrentProjectById(state: IProjectState, action: ISetCurrentProjectById): IProjectState {
+function handleAddWorkSpaceProject(state: IProjectState, action: IAddWorkSpaceProjects): IProjectState {
     return {
         ...state,
-        selectedProject: state.projects.find((x) => x.projectId === action.payload),
+        workSpaceItems: action.payload,
+    };
+}
+
+function handleSetSelectedProjectId(
+    state: IProjectState,
+    action: ISetSelectedProjectFromWorkSpaceById | ISetCurrentProjectById
+): IProjectState {
+    return {
+        ...state,
+        selectedProjectId: action.payload,
+    };
+}
+
+function handleRemoveProjectSuccess(state: IProjectState, action: IRemoveProjectSuccess): IProjectState {
+    return {
+        ...state,
+        workSpaceItems: state.workSpaceItems.filter((x) => x.projectId !== action.payload),
     };
 }

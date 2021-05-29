@@ -89,7 +89,7 @@ export const ProjectUrls = {
     getProject: ProjectBaseUrl,
     getBoardPage: PageUrls.getBoardPage,
     updateProject: ProjectBaseUrl,
-    removeProject: `${ProjectBaseUrl}/soft/id`,
+    removeProject: `${ProjectBaseUrl}/soft-remove`,
     getStatsPage: PageUrls.getFullProjectStatsPage,
 };
 

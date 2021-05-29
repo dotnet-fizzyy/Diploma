@@ -21,11 +21,19 @@ export interface IProjectShortDescriptionProps {
     onChangeSelectedProjectId: (projectId: string) => void;
     onClickViewProject: (projectId: string) => void;
     onClickViewTeam: (teamId: string) => void;
+    onClickRemoveProject: () => void;
 }
 
 const ProjectAccordion = (props: IProjectShortDescriptionProps) => {
     const classes = useStyles();
-    const { project, expanded, onChangeSelectedProjectId, onClickViewProject, onClickViewTeam } = props;
+    const {
+        project,
+        expanded,
+        onChangeSelectedProjectId,
+        onClickViewProject,
+        onClickViewTeam,
+        onClickRemoveProject,
+    } = props;
 
     const onChange = (event: React.ChangeEvent<{}>, expanded: boolean) => {
         onChangeSelectedProjectId(expanded ? project.projectId : '');
@@ -44,6 +52,7 @@ const ProjectAccordion = (props: IProjectShortDescriptionProps) => {
                     teams={project.teams}
                     onClickViewProject={onClickViewProject}
                     onClickViewTeam={onClickViewTeam}
+                    onClickRemoveProject={onClickRemoveProject}
                 />
             }
         />

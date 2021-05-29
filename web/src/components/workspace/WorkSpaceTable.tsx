@@ -30,6 +30,7 @@ export interface IWorkSpaceTableProps {
     onClickViewProject: (projectId: string) => void;
     onClickViewTeam: (teamId: string) => void;
     onChangeSelectedProjectId: (projectId: string) => void;
+    onClickRemoveProject: () => void;
 }
 
 const WorkSpaceTable = (props: IWorkSpaceTableProps) => {
@@ -40,6 +41,7 @@ const WorkSpaceTable = (props: IWorkSpaceTableProps) => {
         onChangeSelectedProjectId,
         onClickViewProject,
         onClickViewTeam,
+        onClickRemoveProject,
     } = props;
 
     return (
@@ -56,6 +58,7 @@ const WorkSpaceTable = (props: IWorkSpaceTableProps) => {
                               onChangeSelectedProjectId={onChangeSelectedProjectId}
                               onClickViewTeam={onClickViewTeam}
                               onClickViewProject={onClickViewProject}
+                              onClickRemoveProject={onClickRemoveProject}
                           />
                       </div>
                   ))

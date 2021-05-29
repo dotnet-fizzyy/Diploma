@@ -1,5 +1,3 @@
-import { IWorkSpacePageProject } from '../../types/workSpaceTypes';
-import { ICreateProjectSuccess, ProjectActions } from '../actions/projectActions';
 import {
     IAddWorkSpace,
     ICreateWorkSpaceSuccess,
@@ -17,7 +15,6 @@ const initialState: IWorkSpaceState = {
         workSpaceDescription: '',
         creationDate: null,
     },
-    projects: [],
     isLoading: false,
     search: {
         searchTerm: '',
@@ -46,8 +43,6 @@ export default function workSpaceReducer(state = initialState, action): IWorkSpa
             return handleSetSearchTitleSuccess(state, action);
         case WorkSpaceActions.BLUR_SEARCH_FIELD_TERM:
             return handleBlurSearchFieldTerm(state);
-        case ProjectActions.CREATE_PROJECT_SUCCESS:
-            return handleCreateProjectSuccess(state, action);
         default:
             return state;
     }
@@ -79,7 +74,6 @@ function handleGetUserWorkSpacePage(state: IWorkSpaceState, action: IGetUserWork
     return {
         ...state,
         workSpace: action.payload.workSpace,
-        projects: action.payload.projects,
         isLoading: false,
     };
 }
@@ -116,18 +110,5 @@ function handleBlurSearchFieldTerm(state: IWorkSpaceState): IWorkSpaceState {
             users: [],
             stories: [],
         },
-    };
-}
-
-function handleCreateProjectSuccess(state: IWorkSpaceState, action: ICreateProjectSuccess): IWorkSpaceState {
-    const workSpaceProject: IWorkSpacePageProject = {
-        projectId: action.payload.projectId,
-        projectName: action.payload.projectName,
-        teams: [],
-    };
-
-    return {
-        ...state,
-        projects: state.projects.length ? [...state.projects, workSpaceProject] : [workSpaceProject],
     };
 }

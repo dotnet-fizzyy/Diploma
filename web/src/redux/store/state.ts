@@ -61,8 +61,9 @@ export interface ITeamState {
 }
 
 export interface IProjectState {
-    projects: IProject[];
-    selectedProject: IProject;
+    items: IProject[];
+    workSpaceItems: IWorkSpacePageProject[];
+    selectedProjectId: string;
 }
 
 export interface ISprintsState {
@@ -92,7 +93,6 @@ export interface ISearch {
 
 export interface IWorkSpaceState {
     workSpace: IWorkSpace;
-    projects: IWorkSpacePageProject[];
     search: ISearch;
     isLoading: boolean;
 }

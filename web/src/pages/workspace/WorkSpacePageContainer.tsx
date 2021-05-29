@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { openModal } from '../../redux/actions/modalActions';
+import { setSelectedProjectFromWorkSpaceById } from '../../redux/actions/projectActions';
 import { getUserWorkSpacePageRequest } from '../../redux/actions/workSpaceActions';
-import { getWorkSpace, getWorkSpaceIsLoading, getWorkSpaceProjects } from '../../redux/selectors/workSpaceSelectors';
+import { getWorkSpacePageProjects } from '../../redux/selectors/projectSelectors';
+import { getWorkSpace, getWorkSpaceIsLoading } from '../../redux/selectors/workSpaceSelectors';
 import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
 import WorkSpacePage, { IWorkSpacePageProps } from './WorkSpacePage';
 
@@ -14,7 +16,7 @@ const WorkSpacePageContainer = () => {
 
     const workSpace: IWorkSpace = useSelector(getWorkSpace);
     const isLoading: boolean = useSelector(getWorkSpaceIsLoading);
-    const workSpaceProjects: IWorkSpacePageProject[] = useSelector(getWorkSpaceProjects);
+    const workSpaceProjects: IWorkSpacePageProject[] = useSelector(getWorkSpacePageProjects);
 
     const [selectedProjectId, setSelectedProjectId] = useState<string>('');
 
@@ -28,6 +30,11 @@ const WorkSpacePageContainer = () => {
 
     const onClickUpdateWorkSpaceInfo = (): void => {
         dispatch(openModal(ModalTypes.WORKSPACE, ModalOptions.WORKSPACE_UPDATE));
+    };
+
+    const onClickRemoveProject = (): void => {
+        dispatch(setSelectedProjectFromWorkSpaceById(selectedProjectId));
+        dispatch(openModal(ModalTypes.PROJECT, ModalOptions.PROJECT_REMOVE));
     };
 
     const onClickViewProject = (projectId: string): void => {
@@ -53,6 +60,7 @@ const WorkSpacePageContainer = () => {
         onClickViewProject,
         onClickViewTeam,
         onChangeSelectedProjectId,
+        onClickRemoveProject,
     };
 
     return <WorkSpacePage {...workSpacePageProps} />;

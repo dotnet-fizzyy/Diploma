@@ -47,3 +47,11 @@ export const createTeamRemoveRequestBody = (teamId: string): IJsonPatchBody[] =>
         value: teamId,
     },
 ];
+
+export const createProjectRemoveRequestBody = (projectId: string): IJsonPatchBody[] => [
+    {
+        op: 'add',
+        path: '/projectId',
+        value: projectId,
+    },
+];

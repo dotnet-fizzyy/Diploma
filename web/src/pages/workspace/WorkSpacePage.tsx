@@ -23,6 +23,7 @@ export interface IWorkSpacePageProps {
     onClickViewProject: (projectId: string) => void;
     onClickViewTeam: (teamId: string) => void;
     onChangeSelectedProjectId: (projectId: string) => void;
+    onClickRemoveProject: () => void;
 }
 
 const WorkSpacePage = (props: IWorkSpacePageProps) => {
@@ -37,6 +38,7 @@ const WorkSpacePage = (props: IWorkSpacePageProps) => {
         onClickCreateProject,
         onChangeSelectedProjectId,
         onClickViewTeam,
+        onClickRemoveProject,
     } = props;
 
     return (
@@ -51,6 +53,7 @@ const WorkSpacePage = (props: IWorkSpacePageProps) => {
                     onClickViewTeam={onClickViewTeam}
                     onClickCreateProject={onClickCreateProject}
                     onChangeSelectedProjectId={onChangeSelectedProjectId}
+                    onClickRemoveProject={onClickRemoveProject}
                 />
             )}
         </div>

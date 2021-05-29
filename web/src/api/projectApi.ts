@@ -6,6 +6,7 @@ import { mapToSprintModel } from '../mappers/sprintMappers';
 import { mapToStoryModel, mapToStorySimpleModel } from '../mappers/storyMappers';
 import { mapToTeamModel } from '../mappers/teamMapper';
 import { IBoardPage, IFullStatsPage, IProject, IProjectPage } from '../types/projectTypes';
+import { createProjectRemoveRequestBody } from '../utils';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class ProjectApi {
@@ -62,7 +63,7 @@ export default class ProjectApi {
     }
 
     public static async removeProject(projectId: string): Promise<void> {
-        await AxiosBaseApi.delete(`${ProjectUrls.removeProject}/${projectId}`);
+        await AxiosBaseApi.patch(ProjectUrls.removeProject, createProjectRemoveRequestBody(projectId));
     }
 
     public static async getProjectPageStats(projectId: string): Promise<IFullStatsPage> {

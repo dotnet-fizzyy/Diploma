@@ -4,6 +4,7 @@ import WorkSpaceApi from '../../api/workSpaceApi';
 import { WorkspaceViewerRoute } from '../../constants/routeConstants';
 import { debouncePeriod } from '../../constants/storyConstants';
 import { ISearchResults, IWorkSpace, IWorkSpacePage } from '../../types/workSpaceTypes';
+import { addWorkSpaceProjects } from '../actions/projectActions';
 import {
     createWorkSpaceFailure,
     createWorkSpaceSuccess,
@@ -24,7 +25,7 @@ export function* getUserWorkSpacePage() {
     try {
         const workSpace: IWorkSpacePage = yield call(WorkSpaceApi.getUserWorkSpace);
 
-        yield put(getUserWorkSpacePageSuccess(workSpace));
+        yield all([put(getUserWorkSpacePageSuccess(workSpace)), put(addWorkSpaceProjects(workSpace.projects))]);
     } catch (error) {
         yield put(getUserWorkSpacePageFailure(error));
     }

@@ -45,14 +45,15 @@ export default function modalReducer(state = initialState, action: ModalActionTy
             return handleModalRequestFailure(state);
         case ModalActions.CLOSE_MODAL:
         case UserActions.CREATE_USER_SUCCESS:
-        case ProjectActions.CREATE_PROJECT_SUCCESS:
         case WorkSpaceActions.CREATE_WORKSPACE_SUCCESS:
         case WorkSpaceActions.UPDATE_WORKSPACE_SUCCESS:
         case SprintActions.CREATE_SPRINT_SUCCESS:
         case SprintActions.UPDATE_SPRINT_SUCCESS:
         case SprintActions.REMOVE_SPRINT_SUCCESS:
         case StoryActions.CREATE_STORY_SUCCESS:
+        case ProjectActions.CREATE_PROJECT_SUCCESS:
         case ProjectActions.UPDATE_PROJECT_SUCCESS:
+        case ProjectActions.REMOVE_PROJECT_SUCCESS:
         case TeamActions.CREATE_TEAM_SUCCESS:
         case TeamActions.UPDATE_TEAM_SUCCESS:
         case EpicActions.CREATE_EPIC_SUCCESS:
