@@ -48,7 +48,7 @@ const PageUrls = {
 
 export const UserUrls = {
     getUserByToken: UserBaseUrl,
-    createUser: UserBaseUrl,
+    createUser: `${UserBaseUrl}/team/id`,
     updateProfileSettings: UserBaseUrl,
     updateAvatarLink: `${UserBaseUrl}/avatar`,
     updatePassword: `${UserBaseUrl}/password`,

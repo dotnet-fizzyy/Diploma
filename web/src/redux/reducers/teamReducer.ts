@@ -57,6 +57,7 @@ function handleCreateTeamSuccess(state: ITeamState, action: ICreateTeamSuccess):
 function handleSetSelectedTeam(state: ITeamState, action: ISetSelectedTeam): ITeamState {
     return {
         ...state,
+        teams: [action.payload],
         selectedTeamId: action.payload.teamId,
     };
 }

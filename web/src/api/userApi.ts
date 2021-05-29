@@ -25,7 +25,10 @@ export default class UserApi {
             isActive: true,
         };
 
-        const response: AxiosResponse<IUser> = await AxiosBaseApi.post(UserUrls.createUser, mappedUser);
+        const response: AxiosResponse<IUser> = await AxiosBaseApi.post(
+            `${UserUrls.createUser}/${user.teamId}`,
+            mappedUser
+        );
 
         return mapToUserModel(response.data);
     }

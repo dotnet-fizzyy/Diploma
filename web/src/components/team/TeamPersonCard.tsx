@@ -14,7 +14,7 @@ const useStyles = makeStyles(() =>
         root: {
             width: '100%',
             height: 'max-content',
-            maxWidth: '400px',
+            maxWidth: '420px',
             maxHeight: '300px',
             backgroundColor: '#FFF',
             borderRadius: '10px',
@@ -61,6 +61,7 @@ const useStyles = makeStyles(() =>
             flexBasis: '150px',
             flexShrink: 0,
             marginBottom: '10px',
+            wordBreak: 'break-all',
         },
         descriptionLabel: {
             fontSize: '16px',
