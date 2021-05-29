@@ -6,13 +6,13 @@ import { ITeam, ITeamSimpleModel } from './teamTypes';
 interface IBaseProject {
     projectId?: string;
     projectName: string;
+    startDate: Date;
+    endDate: Date;
 }
 
 export interface IProject extends IBaseProject {
     workSpaceId?: string;
     projectDescription: string;
-    startDate: Date;
-    endDate: Date;
     teams?: ITeam[];
     creationDate?: Date;
 }

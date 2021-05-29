@@ -36,6 +36,22 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 .ToList();
         }
 
+        public async Task<List<Team>> GetTeamsBySearchTerm(string searchTerm, int limit, Guid[] teamIds)
+        {
+            var query = from teams in _dbContext.Teams
+                    .AsNoTracking()
+                    .Include(x => x.TeamUsers)
+                    .ThenInclude(x => x.User)
+                    .Where(x => EF.Functions.ILike(x.TeamName, $"{searchTerm}%"))
+                    .Take(limit)
+                where teamIds.Any(x => x == teams.Id)
+                select teams;
+
+            var teamEntities = await query.ToListAsync();
+
+            return teamEntities;
+        }
+
         public async Task<Team> GetTeamWithUsers(Guid teamId)
         {
             var team = await _dbContext.Teams

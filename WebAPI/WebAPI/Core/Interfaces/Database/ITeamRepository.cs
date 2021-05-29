@@ -11,6 +11,8 @@ namespace WebAPI.Core.Interfaces.Database
 
         Task<List<Team>> GetUserTeams(Guid userId);
 
+        Task<List<Team>> GetTeamsBySearchTerm(string searchTerm, int limit, Guid[] teamIds);
+        
         Task<Team> GetTeamWithUsers(Guid teamId);
 
         Task DeleteSoftAsync(Guid teamId);

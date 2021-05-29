@@ -35,6 +35,20 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             return foundProjects;
         }
 
+        public async Task<List<Project>> GetProjectsBySearchTerm(string term, int limit, Guid[] teamIds)
+        {
+            var query = from projects in _dbContext.Projects
+                    .AsNoTracking()
+                    .Where(x => EF.Functions.ILike(x.ProjectName, $"{term}%"))
+                join teams in _dbContext.Teams on projects.Id equals teams.ProjectId
+                where teamIds.Any(x => x == teams.Id)
+                select projects;
+
+            var projectEntities = await query.ToListAsync();
+
+            return projectEntities;
+        }
+
         public async Task DeleteSoftAsync(Guid projectId)
         {
             var projectEntity = new Project

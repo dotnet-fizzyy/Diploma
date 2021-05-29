@@ -19,8 +19,8 @@ const initialState: IWorkSpaceState = {
     search: {
         searchTerm: '',
         searching: true,
-        stories: [],
-        users: [],
+        teams: [],
+        projects: [],
     },
 };
 
@@ -95,8 +95,8 @@ function handleSetSearchTitleSuccess(state: IWorkSpaceState, action: ISetSearchT
         search: {
             ...state.search,
             searching: false,
-            stories: action.payload.stories,
-            users: action.payload.users,
+            teams: action.payload.teams,
+            projects: action.payload.projects,
         },
     };
 }
@@ -107,8 +107,8 @@ function handleBlurSearchFieldTerm(state: IWorkSpaceState): IWorkSpaceState {
         search: {
             ...state.search,
             searching: false,
-            users: [],
-            stories: [],
+            projects: [],
+            teams: [],
         },
     };
 }

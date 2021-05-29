@@ -16,5 +16,6 @@ export function mapToSimpleTeamModel(data: any): ITeamSimpleModel {
     return {
         teamId: data.teamId,
         teamName: data.teamName,
+        location: data.location,
     };
 }

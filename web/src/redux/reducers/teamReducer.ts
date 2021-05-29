@@ -46,6 +46,7 @@ function handleCreateTeamSuccess(state: ITeamState, action: ICreateTeamSuccess):
         teamId: action.payload.teamId,
         teamName: action.payload.teamName,
         creationDate: action.payload.creationDate,
+        location: action.payload.location,
     };
 
     return {

@@ -12,13 +12,19 @@ export const mockedProjectList: IProjectSimpleModel[] = [
     {
         projectId: '12345',
         projectName: 'Scrum board',
+        startDate: new Date(),
+        endDate: new Date(),
     },
     {
         projectId: '54321',
         projectName: 'Test board',
+        startDate: new Date(),
+        endDate: new Date(),
     },
     {
         projectId: '09876',
         projectName: 'Test project123',
+        startDate: new Date(),
+        endDate: new Date(),
     },
 ];

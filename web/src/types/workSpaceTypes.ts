@@ -1,7 +1,5 @@
 import { IProjectSimpleModel } from './projectTypes';
-import { IStorySimpleModel } from './storyTypes';
 import { ITeamSimpleModel } from './teamTypes';
-import { IUserSimpleModel } from './userTypes';
 
 export interface IWorkSpace {
     workSpaceId?: string;
@@ -20,6 +18,6 @@ export interface IWorkSpacePage {
 }
 
 export interface ISearchResults {
-    users: IUserSimpleModel[];
-    stories: IStorySimpleModel[];
+    projects: IProjectSimpleModel[];
+    teams: ITeamSimpleModel[];
 }

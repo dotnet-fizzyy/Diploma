@@ -51,13 +51,16 @@ export const mockedTeamList: ITeamSimpleModel[] = [
     {
         teamId: '12345',
         teamName: 'team1',
+        location: 'Minsk',
     },
     {
         teamId: '54321',
         teamName: 'Team Team Team',
+        location: 'Minsk',
     },
     {
         teamId: '098765',
         teamName: 'Awesome Team',
+        location: 'Minsk',
     },
 ];

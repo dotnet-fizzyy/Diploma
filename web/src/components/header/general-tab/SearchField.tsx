@@ -2,8 +2,8 @@ import { TextField } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import React, { useState } from 'react';
-import { IStorySimpleModel } from '../../../types/storyTypes';
-import { IUserSimpleModel } from '../../../types/userTypes';
+import { IProjectSimpleModel } from '../../../types/projectTypes';
+import { ITeamSimpleModel } from '../../../types/teamTypes';
 import SearchResults from './SearchResults';
 
 const useStyles = makeStyles(() =>
@@ -52,16 +52,27 @@ const useStyles = makeStyles(() =>
 
 export interface ISearchFieldProps {
     searchTerm: string;
-    searchUsers: IUserSimpleModel[];
-    searchStories: IStorySimpleModel[];
+    searchProjects: IProjectSimpleModel[];
+    searchTeams: ITeamSimpleModel[];
     searching: boolean;
     onBlur: () => void;
     onChangeSearchTerm: (value: string) => void;
+    onClickViewTeam: (teamId: string) => void;
+    onClickViewProject: (projectId: string) => void;
 }
 
 const SearchField = (props: ISearchFieldProps) => {
     const classes = useStyles();
-    const { onBlur, searching, searchUsers, searchStories, searchTerm, onChangeSearchTerm } = props;
+    const {
+        onBlur,
+        searching,
+        searchTeams,
+        searchProjects,
+        searchTerm,
+        onChangeSearchTerm,
+        onClickViewTeam,
+        onClickViewProject,
+    } = props;
 
     const [focused, setIsFocused] = useState<boolean>(false);
 
@@ -101,8 +112,10 @@ const SearchField = (props: ISearchFieldProps) => {
                     searching={searching}
                     focusedField={focused}
                     searchTerm={searchTerm}
-                    searchUsers={searchUsers}
-                    searchStories={searchStories}
+                    searchTeams={searchTeams}
+                    searchProjects={searchProjects}
+                    onClickViewTeam={onClickViewTeam}
+                    onClickViewProject={onClickViewProject}
                 />
             </div>
         </>

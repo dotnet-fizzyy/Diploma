@@ -44,6 +44,8 @@ function handleCreateProjectSuccess(state: IProjectState, action: ICreateProject
     const createdProject: IWorkSpacePageProject = {
         projectId: action.payload.projectId,
         projectName: action.payload.projectName,
+        startDate: action.payload.startDate,
+        endDate: action.payload.endDate,
         teams: [],
     };
 

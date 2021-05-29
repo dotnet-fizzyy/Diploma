@@ -53,6 +53,8 @@ namespace WebAPI.Presentation.Mappers
             {
                 ProjectId = project.Id,
                 ProjectName = project.ProjectName,
+                StartDate = project.StartDate,
+                EndDate = project.EndDate
             };
 
             return simpleModel;

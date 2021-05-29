@@ -5,8 +5,8 @@ namespace WebAPI.Presentation.Models.Pages
 {
     public class SearchResult
     {
-        public IList<UserSimpleModel> Users { get; set; } = new List<UserSimpleModel>();
+        public IList<TeamSimpleModel> Teams { get; set; } = new List<TeamSimpleModel>();
         
-        public IList<StorySimpleModel> Stories { get; set; } = new List<StorySimpleModel>();
+        public IList<ProjectSimpleModel> Projects { get; set; } = new List<ProjectSimpleModel>();
     }
 }

@@ -1,4 +1,4 @@
-import { IProject, IProjectPage } from '../types/projectTypes';
+import { IProject, IProjectPage, IProjectSimpleModel } from '../types/projectTypes';
 import { mapToEpicModel } from './epicMapper';
 import { mapToSimpleTeamModel } from './teamMapper';
 
@@ -11,6 +11,15 @@ export function mapToProjectModel(data: any): IProject {
         endDate: new Date(data.endDate),
         workSpaceId: data.workSpaceId,
         creationDate: data.creationDate,
+    };
+}
+
+export function mapToProjectSimpleModel(data: any): IProjectSimpleModel {
+    return {
+        projectId: data.projectId,
+        projectName: data.projectName,
+        startDate: new Date(data.startDate),
+        endDate: new Date(data.endDate),
     };
 }
 

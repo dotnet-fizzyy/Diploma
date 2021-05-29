@@ -3,8 +3,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { DefaultRoute } from '../../../constants/routeConstants';
 import LogoIcon from '../../../static/Icon.svg';
-import { IStorySimpleModel } from '../../../types/storyTypes';
-import { IFullUser, IUserSimpleModel } from '../../../types/userTypes';
+import { IProjectSimpleModel } from '../../../types/projectTypes';
+import { ITeamSimpleModel } from '../../../types/teamTypes';
+import { IFullUser } from '../../../types/userTypes';
 import NotificationPanel from './NotificationPanel';
 import SearchField from './SearchField';
 import TabLinks from './TabLinks';
@@ -58,8 +59,8 @@ export interface IGeneralTabProps {
     user: IFullUser;
     searchTerm: string;
     anchor: HTMLElement;
-    searchUsers: IUserSimpleModel[];
-    searchStories: IStorySimpleModel[];
+    searchProjects: IProjectSimpleModel[];
+    searchTeams: ITeamSimpleModel[];
     selectedProjectId: string;
     selectedTeamId: string;
     searching: boolean;
@@ -74,6 +75,8 @@ export interface IGeneralTabProps {
     onBlur: () => void;
     onClickOpenPopover: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
     onClickClosePopover: () => void;
+    onClickViewTeam: (teamId: string) => void;
+    onClickViewProject: (projectId: string) => void;
 }
 
 const GeneralTab = (props: IGeneralTabProps) => {
@@ -82,8 +85,8 @@ const GeneralTab = (props: IGeneralTabProps) => {
         anchor,
         user,
         searchTerm,
-        searchUsers,
-        searchStories,
+        searchProjects,
+        searchTeams,
         selectedProjectId,
         selectedTeamId,
         searching,
@@ -98,6 +101,8 @@ const GeneralTab = (props: IGeneralTabProps) => {
         onBlur,
         onClickOpenPopover,
         onClickClosePopover,
+        onClickViewTeam,
+        onClickViewProject,
     } = props;
 
     return (
@@ -112,10 +117,12 @@ const GeneralTab = (props: IGeneralTabProps) => {
                         <SearchField
                             searching={searching}
                             searchTerm={searchTerm}
-                            searchUsers={searchUsers}
-                            searchStories={searchStories}
+                            searchProjects={searchProjects}
+                            searchTeams={searchTeams}
                             onBlur={onBlur}
                             onChangeSearchTerm={onChangeSearchTerm}
+                            onClickViewTeam={onClickViewTeam}
+                            onClickViewProject={onClickViewProject}
                         />
                     </div>
                     <div className={classes.mainTabsContainer}>

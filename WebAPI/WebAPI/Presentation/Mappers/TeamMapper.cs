@@ -75,7 +75,8 @@ namespace WebAPI.Presentation.Mappers
             {
                 TeamId = team.Id,
                 TeamName = team.TeamName,
-                ProjectId = team.ProjectId
+                ProjectId = team.ProjectId,
+                Location = team.Location,
             };
 
             return simpleTeamModel;

@@ -50,10 +50,10 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<SearchResult> GetSearchResultsAsync(string searchTerm, Guid[] teamIds)
         {
-            var userEntities = await _userRepository.GetUsersBySearchTermAsync(searchTerm, Search.UsersLimit, teamIds);
-            var storyEntities = await _storyRepository.GetStoriesByTitleTerm(searchTerm, Search.StoriesLimit, teamIds);
+            var teamEntities = await _teamRepository.GetTeamsBySearchTerm(searchTerm, Search.TeamsLimit, teamIds);
+            var projectEntities = await _projectRepository.GetProjectsBySearchTerm(searchTerm, Search.ProjectsLimit, teamIds);
 
-            var searchResults = _pageAggregator.CreateSearchResultsByTerm(storyEntities, userEntities);
+            var searchResults = _pageAggregator.CreateSearchResultsByTerm(teamEntities, projectEntities);
             
             return searchResults;
         }

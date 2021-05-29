@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { WorkSpaceUrls } from '../constants/routeConstants';
-import { mapToStorySimpleModel } from '../mappers/storyMappers';
-import { mapToSimpleUserModel } from '../mappers/userMapper';
+import { mapToProjectSimpleModel } from '../mappers/projectMapper';
+import { mapToSimpleTeamModel } from '../mappers/teamMapper';
 import { mapToWorkSpaceModel } from '../mappers/workSpaceMapper';
 import { ISearchResults, IWorkSpace, IWorkSpacePage } from '../types/workSpaceTypes';
 import AxiosBaseApi from './axiosBaseApi';
@@ -43,8 +43,8 @@ export default class WorkSpaceApi {
 
     private static mapSearchResultItems(data): ISearchResults {
         return {
-            users: data.users && data.users.length ? data.users.map(mapToSimpleUserModel) : [],
-            stories: data.stories && data.stories.length ? data.stories.map(mapToStorySimpleModel) : [],
+            projects: data.projects && data.projects.length ? data.projects.map(mapToProjectSimpleModel) : [],
+            teams: data.teams && data.teams.length ? data.teams.map(mapToSimpleTeamModel) : [],
         };
     }
 }

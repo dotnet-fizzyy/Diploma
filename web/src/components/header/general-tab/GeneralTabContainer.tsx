@@ -9,12 +9,13 @@ import { blurSearchTitleTerm, setSearchTitleTermRequest } from '../../../redux/a
 import { getUser, getUserSelectedProjectId, getUserSelectedTeamId } from '../../../redux/selectors/userSelectors';
 import {
     getIsSearchTermSearching,
-    getSearchStories,
+    getSearchProjects,
+    getSearchTeams,
     getSearchTitleTerm,
-    getSearchUsers,
 } from '../../../redux/selectors/workSpaceSelectors';
-import { IStorySimpleModel } from '../../../types/storyTypes';
-import { IFullUser, IUserSimpleModel } from '../../../types/userTypes';
+import { IProjectSimpleModel } from '../../../types/projectTypes';
+import { ITeamSimpleModel } from '../../../types/teamTypes';
+import { IFullUser } from '../../../types/userTypes';
 import { clearCredentialsFromLocalStorage } from '../../../utils';
 import GeneralTab, { IGeneralTabProps } from './GeneralTab';
 
@@ -23,8 +24,8 @@ const GeneralTabContainer = () => {
     const history = useHistory();
     const user: IFullUser = useSelector(getUser);
     const searchTerm: string = useSelector(getSearchTitleTerm);
-    const searchUsers: IUserSimpleModel[] = useSelector(getSearchUsers);
-    const searchStories: IStorySimpleModel[] = useSelector(getSearchStories);
+    const searchProjects: IProjectSimpleModel[] = useSelector(getSearchProjects);
+    const searchTeams: ITeamSimpleModel[] = useSelector(getSearchTeams);
     const selectedTeamId: string = useSelector(getUserSelectedTeamId);
     const selectedProjectId: string = useSelector(getUserSelectedProjectId);
     const searching: boolean = useSelector(getIsSearchTermSearching);
@@ -75,12 +76,22 @@ const GeneralTabContainer = () => {
         setAnchorPopoverEl(null);
     };
 
+    const onClickViewTeam = (teamId: string) => {
+        dispatch(setSearchTitleTermRequest(''));
+        history.push(`/team/${teamId}`);
+    };
+
+    const onClickViewProject = (projectId: string) => {
+        dispatch(setSearchTitleTermRequest(''));
+        history.push(`/project/${projectId}`);
+    };
+
     const generalTabProps: IGeneralTabProps = {
         user,
         anchor,
         searchTerm,
-        searchUsers,
-        searchStories,
+        searchProjects,
+        searchTeams,
         selectedTeamId,
         selectedProjectId,
         searching,
@@ -95,6 +106,8 @@ const GeneralTabContainer = () => {
         onBlur,
         onClickOpenPopover,
         onClickClosePopover,
+        onClickViewProject,
+        onClickViewTeam,
     };
 
     return <GeneralTab {...generalTabProps} />;

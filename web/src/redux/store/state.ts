@@ -3,11 +3,11 @@ import { SidebarTypes } from '../../constants';
 import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { SortDirection } from '../../constants/storyConstants';
 import { IEpic, IEpicSimpleModel } from '../../types/epicTypes';
-import { IProject } from '../../types/projectTypes';
+import { IProject, IProjectSimpleModel } from '../../types/projectTypes';
 import { ISprint } from '../../types/sprintTypes';
 import { IStory, IStoryColumns, IStoryHistory, IStorySimpleModel } from '../../types/storyTypes';
 import { ITeam, ITeamSimpleModel } from '../../types/teamTypes';
-import { IFullUser, IUserSimpleModel } from '../../types/userTypes';
+import { IFullUser } from '../../types/userTypes';
 import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
 
 export interface IState {
@@ -87,8 +87,8 @@ export interface IEpicsState {
 export interface ISearch {
     searchTerm: string;
     searching: boolean;
-    users: IUserSimpleModel[];
-    stories: IStorySimpleModel[];
+    projects: IProjectSimpleModel[];
+    teams: ITeamSimpleModel[];
 }
 
 export interface IWorkSpaceState {

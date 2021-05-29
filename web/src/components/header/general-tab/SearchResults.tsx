@@ -1,10 +1,10 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
+import moment from 'moment';
 import React from 'react';
-import { ColumnNames } from '../../../constants/boardConstants';
-import { UserPosition, UserRole } from '../../../constants/userConstants';
-import { IStorySimpleModel } from '../../../types/storyTypes';
-import { IUserSimpleModel } from '../../../types/userTypes';
+import { DateFormat } from '../../../constants';
+import { IProjectSimpleModel } from '../../../types/projectTypes';
+import { ITeamSimpleModel } from '../../../types/teamTypes';
 import Spinner from '../../common/Spinner';
 
 const useStyles = makeStyles(() =>
@@ -41,9 +41,6 @@ const useStyles = makeStyles(() =>
             justifyContent: 'space-between',
             cursor: 'pointer',
             marginBottom: '5px',
-            '&:last-child': {
-                marginBottom: 0,
-            },
         },
         spinnerContainer: {
             paddingLeft: '50px',
@@ -55,16 +52,26 @@ export interface ISearchResultsProps {
     searching: boolean;
     focusedField: boolean;
     searchTerm: string;
-    searchUsers: IUserSimpleModel[];
-    searchStories: IStorySimpleModel[];
+    searchProjects: IProjectSimpleModel[];
+    searchTeams: ITeamSimpleModel[];
+    onClickViewTeam: (teamId: string) => void;
+    onClickViewProject: (projectId: string) => void;
 }
 
 const SearchResults = (props: ISearchResultsProps) => {
     const classes = useStyles();
-    const { searching, focusedField, searchTerm, searchStories, searchUsers } = props;
+    const {
+        searching,
+        focusedField,
+        searchTerm,
+        searchTeams,
+        searchProjects,
+        onClickViewTeam,
+        onClickViewProject,
+    } = props;
 
-    const usersFound: boolean = !!(searchUsers && searchUsers.length);
-    const storiesFound: boolean = !!(searchStories && searchStories.length);
+    const teamsFound: boolean = !!(searchTeams && searchTeams.length);
+    const projectsFound: boolean = !!(searchProjects && searchProjects.length);
 
     return (
         <div className={classes.root}>
@@ -75,31 +82,38 @@ const SearchResults = (props: ISearchResultsProps) => {
                             <Spinner size={16} />
                         </div>
                     )}
-                    {!searching && storiesFound ? (
+                    {!searching && projectsFound ? (
                         <div>
-                            {searchStories.map((x) => (
-                                <div key={x.storyId} className={classes.item}>
-                                    <span className={classes.text}>{x.title}</span>
+                            {searchProjects.map((x) => (
+                                <div
+                                    key={x.projectId}
+                                    className={classes.item}
+                                    onMouseDown={() => onClickViewProject(x.projectId)}
+                                >
+                                    <span className={classes.text}>{x.projectName}</span>
                                     <span className={classnames(classes.text, classes.descText)}>
-                                        {ColumnNames[x.columnType]}
+                                        {moment(x.startDate).format(DateFormat)} -{' '}
+                                        {moment(x.endDate).format(DateFormat)}
                                     </span>
                                 </div>
                             ))}
                         </div>
                     ) : null}
-                    {!searching && usersFound ? (
+                    {!searching && teamsFound ? (
                         <div>
-                            {searchUsers.map((x) => (
-                                <div key={x.userId} className={classes.item}>
-                                    <span className={classes.text}>{x.userName}</span>
-                                    <span className={classnames(classes.text, classes.descText)}>
-                                        {UserRole[x.userRole]}, {UserPosition[x.userPosition]}
-                                    </span>
+                            {searchTeams.map((x) => (
+                                <div
+                                    key={x.teamId}
+                                    className={classes.item}
+                                    onMouseDown={() => onClickViewTeam(x.teamId)}
+                                >
+                                    <span className={classes.text}>{x.teamName}</span>
+                                    <span className={classnames(classes.text, classes.descText)}>{x.location}</span>
                                 </div>
                             ))}
                         </div>
                     ) : null}
-                    {!searching && !storiesFound && !usersFound && searchTerm && focusedField ? (
+                    {!searching && !projectsFound && !teamsFound && searchTerm && focusedField ? (
                         <span className={classes.text}>No items found</span>
                     ) : null}
                 </div>
