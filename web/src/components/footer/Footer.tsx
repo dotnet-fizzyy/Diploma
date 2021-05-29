@@ -36,11 +36,10 @@ const Footer = () => {
     return (
         <div className={classes.root}>
             <div>
-                <span className={classes.copyrights}>© 2020 Yaniuk Dmitry. All Rights Reserved.</span>
+                <span className={classes.copyrights}>© 2021 Yaniuk Dmitry</span>
             </div>
             <div className={classes.designDesc}>
                 <span>Developed by Dmitry Yaniuk</span>
-                <span>Designed by Viktoria Kantarovich</span>
             </div>
         </div>
     );

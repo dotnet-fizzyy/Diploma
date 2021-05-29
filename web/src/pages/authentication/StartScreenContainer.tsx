@@ -36,7 +36,7 @@ const StartScreenContainer = () => {
 
     const onSubmitLogIn = (values: ILoginForm) => {
         setWasAttemptToLogIn(true);
-        dispatch(currentUserActions.authenticationRequest(values.name, values.password));
+        dispatch(currentUserActions.authenticationRequest(values.email, values.password));
     };
 
     const onSubmitRegistration = (values: IRegistrationForm) => {
@@ -47,7 +47,7 @@ const StartScreenContainer = () => {
         }
 
         setSamePasswords(true);
-        dispatch(currentUserActions.registrationRequest(values.name, values.password, values.email));
+        dispatch(currentUserActions.registrationRequest(values.email, values.password, values.name));
     };
 
     const loginProps: ILoginPageProps = {

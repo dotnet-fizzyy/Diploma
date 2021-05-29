@@ -20,10 +20,6 @@ const useStyles = makeStyles(() =>
             cursor: 'pointer',
             marginRight: '10px',
         },
-        avatar: {
-            borderColor: '#AFC1C4',
-            backgroundColor: 'rgba(189, 189, 189)',
-        },
     })
 );
 
@@ -50,9 +46,7 @@ const TeamMembers = (props: ITeamMembersProps) => {
                     team.users.map((x, index) => {
                         return x.userId !== userId ? (
                             <Tooltip title={x.userName} key={x.userId}>
-                                <Avatar className={classes.avatar} src={x.avatarLink}>
-                                    {getFirstNameLetter(x.userName)}
-                                </Avatar>
+                                <Avatar src={x.avatarLink}>{getFirstNameLetter(x.userName)}</Avatar>
                             </Tooltip>
                         ) : null;
                     })}

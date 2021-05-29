@@ -2,14 +2,14 @@ import { Priority } from '../constants/storyConstants';
 import { UserPosition } from '../constants/userConstants';
 
 export interface ILoginForm {
-    name: string;
+    email: string;
     password: string;
 }
 
 export interface IRegistrationForm {
-    name: string;
-    password: string;
     email: string;
+    password: string;
+    name: string;
     repeatedPassword: string;
 }
 

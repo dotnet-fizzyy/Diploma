@@ -132,6 +132,7 @@ const GeneralTab = (props: IGeneralTabProps) => {
                     </div>
                     <div className={classes.notificationsBell}>
                         <NotificationPanel
+                            userCreationDate={user.creationDate}
                             onClickOpenPopover={onClickOpenPopover}
                             onClickClosePopover={onClickClosePopover}
                             anchorPopoverEl={anchorPopoverEl}

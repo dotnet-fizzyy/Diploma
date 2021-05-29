@@ -225,11 +225,11 @@ export function registrationFailure(error: Error): IRegistrationFailure {
     };
 }
 
-export function authenticationRequest(userName: string, password: string): IAuthenticationRequest {
+export function authenticationRequest(email: string, password: string): IAuthenticationRequest {
     return {
         type: UserActions.AUTHENTICATION_REQUEST,
         payload: {
-            userName,
+            email,
             password,
         },
     };

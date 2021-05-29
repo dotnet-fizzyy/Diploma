@@ -43,7 +43,7 @@ export const TabLinkItems: ISelectTabItem[] = [
 ];
 
 export const LoginFormConstants = {
-    name: 'name',
+    email: 'email',
     password: 'password',
 };
 
@@ -55,13 +55,13 @@ export const RegistrationFormConstants = {
 };
 
 export const InitialLoginFormValues: ILoginForm = {
-    name: '',
+    email: '',
     password: '',
 };
 
 export const InitialRegistrationFormValues: IRegistrationForm = {
-    name: '',
     email: '',
+    name: '',
     password: '',
     repeatedPassword: '',
 };

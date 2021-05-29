@@ -31,9 +31,9 @@ export interface IUserProject {
 }
 
 export interface IAuthenticationUser {
-    userName: string;
+    userName?: string;
     password: string;
-    email?: string;
+    email: string;
 }
 
 export interface IUpdateUserPassword {

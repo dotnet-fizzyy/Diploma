@@ -3,6 +3,7 @@ import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { InitialLoginFormValues, LoginFormConstants } from '../../constants';
 import * as routeConstants from '../../constants/routeConstants';
+import LogoIcon from '../../static/app-logo.svg';
 import { ILoginForm } from '../../types/formTypes';
 import Button from '../common/Button';
 import FormTextField from '../common/FormTextField';
@@ -72,6 +73,14 @@ const useStyles = makeStyles(() =>
             fontSize: '20px',
             marginTop: '20px',
         },
+        logo: {
+            width: '90px',
+            height: '60px',
+            backgroundImage: `url(${LogoIcon})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            marginBottom: '30px',
+        },
     })
 );
 
@@ -92,9 +101,10 @@ const LoginPage = (props: ILoginPageProps) => {
                 return (
                     <Form className={classes.form}>
                         <div className={classes.root}>
+                            <div className={classes.logo} />
                             <span className={classes.title}>Sign In</span>
                             <div className={classes.fieldContainer}>
-                                <Field name={LoginFormConstants.name} label="Name" component={FormTextField} />
+                                <Field name={LoginFormConstants.email} label="Email" component={FormTextField} />
                             </div>
                             <div className={classes.fieldContainer}>
                                 <Field

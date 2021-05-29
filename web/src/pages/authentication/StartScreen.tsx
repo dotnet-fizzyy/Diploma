@@ -3,6 +3,7 @@ import React from 'react';
 import LoginPage, { ILoginPageProps } from '../../components/authentication/Login';
 import RegistrationPage, { IRegistrationPageProps } from '../../components/authentication/Registration';
 import { StartPageTypes } from '../../constants';
+import Background from '../../static/LaunchBackground.png';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -12,6 +13,9 @@ const useStyles = makeStyles(() =>
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            backgroundImage: `url(${Background})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: '100% 100%',
         },
     })
 );
