@@ -48,6 +48,10 @@ const useStyles = makeStyles(() =>
         removeButton: {
             backgroundColor: '#ffbdb9',
             color: 'red',
+            '&:hover': {
+                color: '#FAFAFA',
+                backgroundColor: 'red',
+            },
         },
     })
 );

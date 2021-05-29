@@ -60,6 +60,8 @@ const useStyles = makeStyles(() =>
             '&:hover': {
                 color: ({ buttonVariant }: IButtonProps) => {
                     switch (buttonVariant) {
+                        case ButtonVariant.DANGER:
+                            return '#FAFAFA';
                         case ButtonVariant.PRIMARY:
                         default:
                             return '#FFF';
@@ -67,6 +69,8 @@ const useStyles = makeStyles(() =>
                 },
                 backgroundColor: ({ buttonVariant }: IButtonProps) => {
                     switch (buttonVariant) {
+                        case ButtonVariant.DANGER:
+                            return 'red';
                         case ButtonVariant.PRIMARY:
                         default:
                             return '#E8F4FF';
