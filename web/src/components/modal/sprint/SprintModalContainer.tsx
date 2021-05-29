@@ -2,12 +2,13 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ModalOptions } from '../../../constants/modalConstants';
 import { InitialSprintState } from '../../../constants/sprintConstants';
-import { createSprintRequest, updateSprintRequest } from '../../../redux/actions/sprintActions';
+import { createSprintRequest, removeSprintRequest, updateSprintRequest } from '../../../redux/actions/sprintActions';
 import { getSelectedEpicId } from '../../../redux/selectors/epicSelectors';
 import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modalSelectors';
 import { getSelectedSprint } from '../../../redux/selectors/sprintSelectors';
 import { ISprint } from '../../../types/sprintTypes';
 import { InputFormFieldValidator } from '../../../utils/formUtils';
+import ModalRemove, { IModalRemoveProps } from '../ModalRemove';
 import SprintModal, { ISprintCreationProps } from './SprintModal';
 
 const SprintModalContainer = () => {
@@ -19,24 +20,37 @@ const SprintModalContainer = () => {
     const sprint: ISprint = useSelector(getSelectedSprint);
 
     const isUpdate: boolean = modalOptions === ModalOptions.SPRINT_UPDATE;
+    const isDelete: boolean = modalOptions === ModalOptions.SPRINT_REMOVE;
+
     const initialValues: ISprint = isUpdate ? sprint : InitialSprintState;
 
-    const onSubmitButton = (values: ISprint) => {
-        const sprint: ISprint = {
+    const onClickRemoveSprint = (): void => {
+        dispatch(removeSprintRequest(sprint.sprintId));
+    };
+
+    const onSubmitButton = (values: ISprint): void => {
+        const newSprint: ISprint = {
             ...values,
             epicId,
             startDate: new Date(values.startDate),
             endDate: new Date(values.endDate),
+            creationDate: isUpdate ? sprint.creationDate : null,
         };
 
         if (isUpdate) {
-            dispatch(updateSprintRequest(sprint));
+            dispatch(updateSprintRequest(newSprint));
         } else {
-            dispatch(createSprintRequest(sprint));
+            dispatch(createSprintRequest(newSprint));
         }
     };
 
     const validateSprintName = (value: string) => new InputFormFieldValidator(value, 3, 100, true, null).validate();
+
+    const sprintRemoveProps: IModalRemoveProps = {
+        entity: 'sprint',
+        entityName: isUpdate ? sprint.sprintName : '',
+        onClick: onClickRemoveSprint,
+    };
 
     const sprintCreationProps: ISprintCreationProps = {
         initialValues,
@@ -46,7 +60,7 @@ const SprintModalContainer = () => {
         validateSprintName,
     };
 
-    return <SprintModal {...sprintCreationProps} />;
+    return isDelete ? <ModalRemove {...sprintRemoveProps} /> : <SprintModal {...sprintCreationProps} />;
 };
 
 export default SprintModalContainer;

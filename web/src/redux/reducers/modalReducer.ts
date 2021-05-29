@@ -50,12 +50,14 @@ export default function modalReducer(state = initialState, action: ModalActionTy
         case WorkSpaceActions.UPDATE_WORKSPACE_SUCCESS:
         case SprintActions.CREATE_SPRINT_SUCCESS:
         case SprintActions.UPDATE_SPRINT_SUCCESS:
+        case SprintActions.REMOVE_SPRINT_SUCCESS:
         case StoryActions.CREATE_STORY_SUCCESS:
         case ProjectActions.UPDATE_PROJECT_SUCCESS:
         case TeamActions.CREATE_TEAM_SUCCESS:
         case TeamActions.UPDATE_TEAM_SUCCESS:
         case EpicActions.CREATE_EPIC_SUCCESS:
         case EpicActions.UPDATE_EPIC_SUCCESS:
+        case EpicActions.REMOVE_EPIC_SUCCESS:
             return handleCloseModal(state);
         default:
             return state;

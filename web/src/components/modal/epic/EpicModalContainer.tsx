@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { EpicInitialState } from '../../../constants/epicConstants';
 import { ModalOptions } from '../../../constants/modalConstants';
+import { removeEpicRequest } from '../../../redux/actions/epicActions';
 import * as epicActions from '../../../redux/actions/epicActions';
 import { getSelectedEpic } from '../../../redux/selectors/epicSelectors';
 import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modalSelectors';
@@ -10,6 +11,7 @@ import { IEpic } from '../../../types/epicTypes';
 import { IEpicFormTypes } from '../../../types/formTypes';
 import { IProject } from '../../../types/projectTypes';
 import { InputFormFieldValidator } from '../../../utils/formUtils';
+import ModalRemove, { IModalRemoveProps } from '../ModalRemove';
 import EpicModal, { IEpicCreationProps } from './EpicModal';
 
 const EpicModalContainer = () => {
@@ -20,6 +22,7 @@ const EpicModalContainer = () => {
     const isPerformingRequest: boolean = useSelector(getModalRequestPerforming);
 
     const isUpdate: boolean = modalOption === ModalOptions.EPIC_UPDATE;
+    const isRemove: boolean = modalOption === ModalOptions.EPIC_REMOVE;
     const initialValues: IEpicFormTypes = isUpdate
         ? {
               ...selectedEpic,
@@ -27,12 +30,12 @@ const EpicModalContainer = () => {
           }
         : EpicInitialState;
 
-    const onSubmitButton = (values: IEpicFormTypes) => {
+    const onSubmitButton = (values: IEpicFormTypes): void => {
         const epic: IEpic = {
             ...values,
             epicId: values.epicId,
             projectId: project.projectId,
-            creationDate: selectedEpic.creationDate,
+            creationDate: isUpdate ? selectedEpic.creationDate : null,
         };
 
         if (isUpdate) {
@@ -42,7 +45,17 @@ const EpicModalContainer = () => {
         }
     };
 
+    const onClickRemoveEpic = (): void => {
+        dispatch(removeEpicRequest(selectedEpic.epicId));
+    };
+
     const validateEpicName = (value: string) => new InputFormFieldValidator(value, 3, 100, true, null).validate();
+
+    const epicRemoveProps: IModalRemoveProps = {
+        entity: 'epic',
+        entityName: selectedEpic ? selectedEpic.epicName : '',
+        onClick: onClickRemoveEpic,
+    };
 
     const epicCreationProps: IEpicCreationProps = {
         isPerformingRequest,
@@ -52,7 +65,7 @@ const EpicModalContainer = () => {
         onSubmitButton,
     };
 
-    return <EpicModal {...epicCreationProps} />;
+    return isRemove ? <ModalRemove {...epicRemoveProps} /> : <EpicModal {...epicCreationProps} />;
 };
 
 export default EpicModalContainer;

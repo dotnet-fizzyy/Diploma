@@ -30,6 +30,7 @@ const GeneralTabContainer = () => {
     const searching: boolean = useSelector(getIsSearchTermSearching);
 
     const [anchor, setAnchor] = useState<null | HTMLElement>(null);
+    const [anchorPopoverEl, setAnchorPopoverEl] = useState<SVGSVGElement | null>(null);
 
     const onChangeSearchTerm = (value: string): void => {
         dispatch(setSearchTitleTermRequest(value));
@@ -66,6 +67,14 @@ const GeneralTabContainer = () => {
         dispatch(changeUserProject(e.target.value));
     };
 
+    const onClickOpenPopover = (event: React.MouseEvent<SVGSVGElement, MouseEvent>): void => {
+        setAnchorPopoverEl(event.currentTarget);
+    };
+
+    const onClickClosePopover = (): void => {
+        setAnchorPopoverEl(null);
+    };
+
     const generalTabProps: IGeneralTabProps = {
         user,
         anchor,
@@ -75,6 +84,7 @@ const GeneralTabContainer = () => {
         selectedTeamId,
         selectedProjectId,
         searching,
+        anchorPopoverEl,
         onClickDisplayMenu,
         onClickCloseMenu,
         onClickLogOut,
@@ -83,6 +93,8 @@ const GeneralTabContainer = () => {
         onChangeTeam,
         onChangeProject,
         onBlur,
+        onClickOpenPopover,
+        onClickClosePopover,
     };
 
     return <GeneralTab {...generalTabProps} />;

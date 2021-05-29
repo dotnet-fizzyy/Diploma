@@ -4,6 +4,7 @@ import {
     IChangeStatsEpic,
     ICreateEpicSuccess,
     IGetEpicsSuccess,
+    IRemoveEpicSuccess,
     ISetSelectedEpic,
     ISetSelectedEpicById,
     IUpdateEpicSuccess,
@@ -36,6 +37,8 @@ export default function epicReducer(state = initialState, action) {
             return handleChangeSelectedEpic(state, action);
         case EpicActions.UPDATE_EPIC_SUCCESS:
             return handleUpdateEpicSuccess(state, action);
+        case EpicActions.REMOVE_EPIC_SUCCESS:
+            return handleRemoveEpicSuccess(state, action);
         default:
             return state;
     }
@@ -99,5 +102,12 @@ function handleUpdateEpicSuccess(state: IEpicsState, action: IUpdateEpicSuccess)
     return {
         ...state,
         epics: state.epics.map((x) => (x.epicId === action.payload.epicId ? { ...action.payload } : x)),
+    };
+}
+
+function handleRemoveEpicSuccess(state: IEpicsState, action: IRemoveEpicSuccess): IEpicsState {
+    return {
+        ...state,
+        epics: state.epics.filter((x) => x.epicId !== action.payload),
     };
 }

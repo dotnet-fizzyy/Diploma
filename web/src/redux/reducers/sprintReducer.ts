@@ -2,6 +2,7 @@ import { IChangeStatsEpic } from '../actions/epicActions';
 import {
     IAddSprints,
     ICreateSprintSuccess,
+    IRemoveSprintSuccess,
     ISetSelectedSprint,
     IUpdateSprintSuccess,
     SprintActions,
@@ -28,6 +29,8 @@ export default function sprintReducer(state = initialState, action) {
             return handleChangeStatsEpic(state, action);
         case SprintActions.UPDATE_SPRINT_SUCCESS:
             return handleUpdateSprintSuccess(state, action);
+        case SprintActions.REMOVE_SPRINT_SUCCESS:
+            return handleRemoveSprintSuccess(state, action);
         default:
             return state;
     }
@@ -70,5 +73,12 @@ function handleUpdateSprintSuccess(state: ISprintsState, action: IUpdateSprintSu
     return {
         ...state,
         sprints: state.sprints.map((x) => (x.sprintId === action.payload.sprintId ? { ...action.payload } : x)),
+    };
+}
+
+function handleRemoveSprintSuccess(state: ISprintsState, action: IRemoveSprintSuccess): ISprintsState {
+    return {
+        ...state,
+        sprints: state.sprints.filter((x) => x.sprintId !== action.payload),
     };
 }

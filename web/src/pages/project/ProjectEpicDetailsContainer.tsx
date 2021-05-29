@@ -27,14 +27,19 @@ const ProjectEpicDetailsContainer = (props: IProjectEpicDetailsContainerProps) =
         dispatch(openModal(ModalTypes.EPIC, ModalOptions.EPIC_UPDATE));
     };
 
-    const onClickRemoveEpic = (): void => {};
-
     const onClickUpdateSprint = (sprintId: string): void => {
         dispatch(setSelectedSprint(sprintId));
         dispatch(openModal(ModalTypes.SPRINT, ModalOptions.SPRINT_UPDATE));
     };
 
-    const onClickRemoveSprint = (sprintId: string): void => {};
+    const onClickRemoveEpic = (): void => {
+        dispatch(openModal(ModalTypes.EPIC, ModalOptions.EPIC_REMOVE));
+    };
+
+    const onClickRemoveSprint = (sprintId: string): void => {
+        dispatch(setSelectedSprint(sprintId));
+        dispatch(openModal(ModalTypes.SPRINT, ModalOptions.SPRINT_REMOVE));
+    };
 
     return (
         <ProjectEpicDetails

@@ -1,11 +1,11 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { DefaultRoute } from '../../../constants/routeConstants';
 import LogoIcon from '../../../static/Icon.svg';
 import { IStorySimpleModel } from '../../../types/storyTypes';
 import { IFullUser, IUserSimpleModel } from '../../../types/userTypes';
+import NotificationPanel from './NotificationPanel';
 import SearchField from './SearchField';
 import TabLinks from './TabLinks';
 import TabMenu from './TabMenu';
@@ -63,6 +63,7 @@ export interface IGeneralTabProps {
     selectedProjectId: string;
     selectedTeamId: string;
     searching: boolean;
+    anchorPopoverEl: SVGSVGElement;
     onClickDisplayMenu: (event: React.MouseEvent<HTMLElement>) => void;
     onChangeSearchTerm: (value: string) => void;
     onClickCloseMenu: () => void;
@@ -71,6 +72,8 @@ export interface IGeneralTabProps {
     onChangeTeam: (e: any) => void;
     onChangeProject: (e: any) => void;
     onBlur: () => void;
+    onClickOpenPopover: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
+    onClickClosePopover: () => void;
 }
 
 const GeneralTab = (props: IGeneralTabProps) => {
@@ -84,6 +87,7 @@ const GeneralTab = (props: IGeneralTabProps) => {
         selectedProjectId,
         selectedTeamId,
         searching,
+        anchorPopoverEl,
         onClickDisplayMenu,
         onClickCloseMenu,
         onClickOpenProfile,
@@ -92,6 +96,8 @@ const GeneralTab = (props: IGeneralTabProps) => {
         onChangeTeam,
         onChangeProject,
         onBlur,
+        onClickOpenPopover,
+        onClickClosePopover,
     } = props;
 
     return (
@@ -125,7 +131,11 @@ const GeneralTab = (props: IGeneralTabProps) => {
                         />
                     </div>
                     <div className={classes.notificationsBell}>
-                        <NotificationsNoneIcon />
+                        <NotificationPanel
+                            onClickOpenPopover={onClickOpenPopover}
+                            onClickClosePopover={onClickClosePopover}
+                            anchorPopoverEl={anchorPopoverEl}
+                        />
                     </div>
                     <TabMenu
                         anchor={anchor}
