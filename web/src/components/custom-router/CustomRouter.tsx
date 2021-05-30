@@ -5,7 +5,6 @@ import StartScreenContainer from '../../pages/authentication/StartScreenContaine
 import { IUser } from '../../types/userTypes';
 import { UserRouteGuard } from '../../utils/routeUtils';
 import { ApplicationRouting } from './ApplicationRouting';
-import LoadingScreen from './LoadingScreen';
 import RouteGuard from './RouteGuard';
 
 export interface ICustomRouterProps {
@@ -16,10 +15,6 @@ export interface ICustomRouterProps {
 const CustomRouter = (props: ICustomRouterProps) => {
     const { user, isLoading } = props;
     const isAuthenticated: boolean = new UserRouteGuard(user).validate();
-
-    if (isLoading) {
-        return <LoadingScreen />;
-    }
 
     return (
         <Switch>
@@ -34,6 +29,7 @@ const CustomRouter = (props: ICustomRouterProps) => {
                     path={route.path}
                     component={route.component}
                     isAuthenticated={isAuthenticated}
+                    isLoading={isLoading}
                 />
             ))}
         </Switch>

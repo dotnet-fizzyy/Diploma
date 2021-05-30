@@ -1,6 +1,6 @@
 namespace WebAPI.Core.Constants
 {
-    public class SortTypes
+    public static class SortTypes
     {
         public const string Priority = "PRIORITY";
         public const string Title = "NAME";
@@ -8,7 +8,7 @@ namespace WebAPI.Core.Constants
         public const string CreationDate = "CREATION_DATE";
     }
 
-    public class StoryFields
+    public static class StoryFields
     {
         public const string User = "User";
         public const string Sprint = "Sprint";
@@ -28,5 +28,6 @@ namespace WebAPI.Core.Constants
     {
         public const int TeamsLimit = 5;
         public const int ProjectsLimit = 5;
+        public const int StoriesLimit = 5;
     }
 }

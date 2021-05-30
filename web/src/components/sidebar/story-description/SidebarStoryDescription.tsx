@@ -8,7 +8,8 @@ import { storyFields } from '../../../constants/storyConstants';
 import { UserPosition } from '../../../constants/userConstants';
 import { IStoryFormTypes } from '../../../types/formTypes';
 import { ISelectedItem } from '../../../types/storyTypes';
-import { IUser } from '../../../types/userTypes';
+import { IFullUser, IUser } from '../../../types/userTypes';
+import { isUserCustomer, isUserProjectManager } from '../../../utils';
 import { areStoriesEqual } from '../../../utils/storyUtils';
 import { createAvailableUsersDropdownItems } from '../../../utils/userUtils';
 import Button, { ButtonVariant } from '../../common/Button';
@@ -49,6 +50,7 @@ export interface ISidebarStoryDescription {
     isReady: boolean;
     isBlocked: boolean;
     isLoading: boolean;
+    user: IFullUser;
     users: IUser[];
     sprints: ISelectedItem[];
     storyPriorities: ISelectedItem[];
@@ -67,6 +69,7 @@ export interface ISidebarStoryDescription {
 const SidebarStoryDescription = (props: ISidebarStoryDescription) => {
     const classes = useStyles();
     const {
+        user,
         isReady,
         isBlocked,
         initialValues,
@@ -83,6 +86,9 @@ const SidebarStoryDescription = (props: ISidebarStoryDescription) => {
         onSubmitChanges,
         validateStoryTitle,
     } = props;
+
+    const isCustomer: boolean =
+        isUserCustomer(user.userRole, user.userPosition) || isUserProjectManager(user.userRole, user.userPosition);
 
     return (
         <Formik initialValues={initialValues} onSubmit={onSubmitChanges} enableReinitialize={true}>
@@ -119,7 +125,7 @@ const SidebarStoryDescription = (props: ISidebarStoryDescription) => {
                                 />
                                 <Button
                                     startIcon={<DeleteOutlineIcon className={classes.icon} />}
-                                    disabled={false}
+                                    disabled={!isCustomer}
                                     label="Remove story"
                                     isSmall={true}
                                     buttonVariant={ButtonVariant.DANGER}
@@ -150,7 +156,7 @@ const SidebarStoryDescription = (props: ISidebarStoryDescription) => {
                                 <div className={classes.sectionContainer}>
                                     <Field
                                         name={storyFields.requiredPosition}
-                                        disabled={false}
+                                        disabled={!isCustomer}
                                         label="Required Position"
                                         items={requiredPositions}
                                         component={FormDropdown}
@@ -177,7 +183,7 @@ const SidebarStoryDescription = (props: ISidebarStoryDescription) => {
                                 <div className={classes.sectionContainer}>
                                     <Field
                                         name={storyFields.sprintId}
-                                        disabled={false}
+                                        disabled={!isCustomer}
                                         label="Sprint"
                                         items={sprints}
                                         component={FormDropdown}

@@ -3,8 +3,9 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Add } from '@material-ui/icons';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import React from 'react';
+import { UserPosition, UserRole } from '../../../constants/userConstants';
 import { ITeam } from '../../../types/teamTypes';
-import { getFirstNameLetter } from '../../../utils';
+import { getFirstNameLetter, isUserCustomer, isUserProjectManager } from '../../../utils';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -26,20 +27,24 @@ const useStyles = makeStyles(() =>
 export interface ITeamMembersProps {
     team: ITeam;
     userId: string;
+    userRole: UserRole;
+    userPosition: UserPosition;
     onClickCreateUser: () => void;
 }
 
 const TeamMembers = (props: ITeamMembersProps) => {
     const classes = useStyles();
-    const { userId, team, onClickCreateUser } = props;
+    const { userId, userRole, userPosition, team, onClickCreateUser } = props;
 
     return (
         <>
-            <Tooltip title="Add new team member">
-                <div className={classes.addUserButton} onClick={onClickCreateUser}>
-                    <Add />
-                </div>
-            </Tooltip>
+            {(isUserCustomer(userRole, userPosition) || isUserProjectManager(userRole, userPosition)) && (
+                <Tooltip title="Add new team member">
+                    <div className={classes.addUserButton} onClick={onClickCreateUser}>
+                        <Add />
+                    </div>
+                </Tooltip>
+            )}
             <AvatarGroup max={5} spacing="small">
                 {team &&
                     team.users &&

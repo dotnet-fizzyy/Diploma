@@ -25,6 +25,7 @@ const useStyles = makeStyles(() =>
             fontSize: '16px',
             fontWeight: 500,
             color: '#242126',
+            wordBreak: 'break-all',
         },
         buttonsContainer: {
             marginLeft: '20px',
@@ -59,7 +60,7 @@ const useStyles = makeStyles(() =>
 export interface ITeamCardProps {
     team: ITeamSimpleModel;
     onClickViewTeam: (teamId: string) => void;
-    onClickRemoveTeam: (teamId: string) => void;
+    onClickRemoveTeam?: (teamId: string) => void;
 }
 
 const TeamCard = (props: ITeamCardProps) => {
@@ -76,12 +77,14 @@ const TeamCard = (props: ITeamCardProps) => {
                 >
                     <InfoIcon fontSize="small" />
                 </div>
-                <div
-                    className={classnames(classes.buttonContainer, classes.removeButton)}
-                    onClick={() => onClickRemoveTeam(team.teamId)}
-                >
-                    <DeleteOutlineIcon fontSize="small" />
-                </div>
+                {onClickRemoveTeam && (
+                    <div
+                        className={classnames(classes.buttonContainer, classes.removeButton)}
+                        onClick={() => onClickRemoveTeam(team.teamId)}
+                    >
+                        <DeleteOutlineIcon fontSize="small" />
+                    </div>
+                )}
             </div>
         </div>
     );

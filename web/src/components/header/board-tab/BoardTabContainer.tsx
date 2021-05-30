@@ -60,6 +60,8 @@ const BoardTabContainer = () => {
     const infoTabProps: IBoardTabProps = {
         team,
         userId: user && user.userId,
+        userRole: user && user.userRole,
+        userPosition: user && user.userPosition,
         selectedEpicId,
         selectedSprintId,
         epics,

@@ -44,6 +44,7 @@ const PageUrls = {
     getStoryHistory: `${StoryBaseUrl}/full/id`,
     getFullProjectStatsPage: `${PageBaseUrl}/full-stats`,
     getSearchItems: `${PageBaseUrl}/search`,
+    getDefaultPage: `${PageBaseUrl}/default`,
 };
 
 export const UserUrls = {
@@ -91,6 +92,7 @@ export const ProjectUrls = {
     updateProject: ProjectBaseUrl,
     removeProject: `${ProjectBaseUrl}/soft-remove`,
     getStatsPage: PageUrls.getFullProjectStatsPage,
+    getDefaultPage: PageUrls.getDefaultPage,
 };
 
 export const TeamUrls = {

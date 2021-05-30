@@ -57,7 +57,11 @@ namespace WebAPI.Presentation.Controllers
             
             return CreatedAtAction(nameof(CreateCustomer), createdCustomer);
         }
-
+        
+        /// <summary>
+        /// Update user access token (sign up)
+        /// </summary>
+        /// <response code="200">Successful user access token update</response>
         [HttpGet]
         [Route("token-renew")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -68,7 +72,13 @@ namespace WebAPI.Presentation.Controllers
             
             var authModel = await _tokenService.UpdateTokens(refreshToken, user.UserId, user.UserName, user.UserRole.ToString());
             
-            return Ok(authModel);
+            return authModel;
         }
+
+        [HttpGet]
+        [Route("check-email")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<EmailResultModel>> CheckForEmailExistence([FromQuery] string email)
+            => await _userService.CheckForEmailExistenceAsync(email);
     }
 }

@@ -1,23 +1,34 @@
-import { Button } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
+import MainLabel, { LabelType } from '../../components/common/MainLabel';
 import LaunchBackground from '../../components/default/LaunchBackground';
 import Background from '../../static/LaunchBackground.png';
-import { IProject } from '../../types/projectTypes';
-import { ITeam } from '../../types/teamTypes';
+import { IStorySimpleModel } from '../../types/storyTypes';
+import { ITeamSimpleModel } from '../../types/teamTypes';
 import { IUser } from '../../types/userTypes';
+import TeamCard from '../project/TeamCard';
 
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
             width: '100%',
-            height: 'calc(100% - 60px)',
+            height: '100%',
             display: 'flex',
             flexDirection: 'column',
+            padding: '30px',
+            boxSizing: 'border-box',
             backgroundColor: '#FAFAFA',
         },
-        mainPageContainer: {
-            padding: '30px 30px 0 30px',
+        body: {
+            marginTop: '20px',
+        },
+        teamsContainer: {
+            margin: '20px 0',
+            display: 'flex',
+            flexDirection: 'row',
+        },
+        teamCardContainer: {
+            width: '200px',
         },
         launchScreenContainer: {
             width: '100%',
@@ -29,162 +40,75 @@ const useStyles = makeStyles(() =>
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
         },
-        header: {
-            marginTop: '20px',
-            fontSize: '30px',
-            fontFamily: 'Poppins',
-        },
-        topicLabel: {
-            fontSize: '24px',
-            fontFamily: 'Poppins',
-        },
-        topicContainer: {
-            marginTop: '20px',
-        },
-        body: {
-            display: 'flex',
-            flexDirection: 'row',
+        emptyEntitiesContainer: {
             width: '100%',
-            height: '100%',
-            marginTop: '30px',
-        },
-        infoContainer: {
-            width: '100%',
-            height: '100%',
-            flexGrow: 1,
-            flexBasis: 0,
-        },
-        teamContainer: {
+            padding: '20px',
+            boxSizing: 'border-box',
+            backgroundColor: '#FFF',
             display: 'flex',
-            flexDirection: 'column',
-            fontFamily: 'Poppins',
-        },
-        teamName: {
-            fontSize: '20px',
-        },
-        teamMembersLabel: {
-            fontSize: '20px',
-            marginTop: '20px',
-        },
-        teamMembersContainer: {
-            marginTop: '10px',
-        },
-        teamAvatar: {
-            width: '24px',
-            height: '24px',
-            fontSize: '0.9rem',
-            marginRight: '5px',
-        },
-        user: {
-            display: 'flex',
-            flexDirection: 'row',
-            fontSize: '20px',
-            marginBottom: '10px',
-            '&:hover': {
-                cursor: 'pointer',
-            },
-        },
-        projectName: {
-            fontSize: '20px',
-            marginBottom: '5px',
-        },
-        tasksButton: {
-            backgroundColor: '#75BAF7',
-            color: '#FFF',
-            border: 'none',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100px',
+            border: '1px solid #AFC1C4',
+            borderColor: 'rgba(175, 193, 196, 0.2)',
             borderRadius: '5px',
-            width: '150px',
-            height: '45px',
+        },
+        storiesContainer: {
+            marginTop: '20px',
+        },
+        text: {
+            fontFamily: 'Poppins',
             fontSize: '16px',
-            fontFamily: 'Poppins, sans-serif',
-            textTransform: 'unset',
-            marginTop: '10px',
+            fontWeight: 500,
+            color: '#242126',
         },
     })
 );
 
 export interface IMainPageProps {
-    teams: ITeam[];
-    projects: IProject[];
     user: IUser;
+    teams: ITeamSimpleModel[];
+    stories: IStorySimpleModel[];
     onSelectTeam: (value: string) => void;
     onSelectProject: (value: string) => void;
-    onClickMoveBoard: (value: string) => void;
     onClickCreateWorkSpace: () => void;
 }
 
 const DefaultPage = (props: IMainPageProps) => {
     const classes = useStyles();
-    const { projects, teams, user, onSelectProject, onClickMoveBoard, onSelectTeam, onClickCreateWorkSpace } = props;
+    const { user, teams, stories, onClickCreateWorkSpace, onSelectTeam } = props;
 
-    const renderTeamMembersForOneTeam = (team: ITeam): React.ReactNode => {
-        return (
-            <div className={classes.teamContainer}>
-                <span className={classes.teamName}>
-                    <b>{team.teamName}</b>
-                </span>
-                <Button className={classes.tasksButton} variant="outlined" onClick={() => onSelectTeam(team.teamId)}>
-                    Manage team
-                </Button>
-            </div>
-        );
-    };
+    const emptyEntities = (): React.ReactNode => (
+        <div className={classes.emptyEntitiesContainer}>
+            <span className={classes.text}>There is not content... yet</span>
+        </div>
+    );
 
-    return (
+    return user && user.workSpaceId ? (
         <div className={classes.root}>
-            {projects && teams && projects.length && teams.length ? (
-                <div className={classes.mainPageContainer}>
-                    <span className={classes.header}>Welcome back, {user.userName}!</span>
-                    <div className={classes.body}>
-                        <div className={classes.infoContainer}>
-                            <span className={classes.topicLabel}>My projects</span>
-                            <div className={classes.topicContainer}>
-                                {projects.map((x) => (
-                                    <div
-                                        className={classes.teamContainer}
-                                        style={{ marginBottom: '20px' }}
-                                        key={x.projectId}
-                                    >
-                                        <span className={classes.projectName}>
-                                            <b>{x.projectName}</b>
-                                        </span>
-                                        <span>{x.projectDescription}</span>
-                                        <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                            <Button
-                                                variant="outlined"
-                                                className={classes.tasksButton}
-                                                onClick={() => onSelectProject(x.projectId)}
-                                            >
-                                                Manage project
-                                            </Button>
-                                            <Button
-                                                variant="outlined"
-                                                className={classes.tasksButton}
-                                                style={{ marginLeft: '15px' }}
-                                                onClick={() => onClickMoveBoard(x.projectId)}
-                                            >
-                                                Move to board
-                                            </Button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className={classes.infoContainer}>
-                            <span className={classes.topicLabel}>My team{teams && teams.length === 1 ? '' : 's'}</span>
-                            <div className={classes.topicContainer}>
-                                {teams.map((x) => (
-                                    <React.Fragment key={x.teamId}>{renderTeamMembersForOneTeam(x)}</React.Fragment>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
+            <MainLabel title={`Welcome back, ${user.userName}!`} variant={LabelType.PRIMARY} />
+            <div className={classes.body}>
+                <MainLabel title="My teams" variant={LabelType.SECONDARY} />
+                <div className={classes.teamsContainer}>
+                    {teams && teams.length
+                        ? teams.map((x) => (
+                              <div key={x.teamId} className={classes.teamCardContainer}>
+                                  <TeamCard team={x} onClickViewTeam={onSelectTeam} />
+                              </div>
+                          ))
+                        : emptyEntities()}
                 </div>
-            ) : (
-                <div className={classes.launchScreenContainer}>
-                    <LaunchBackground onClickCreateWorkSpace={onClickCreateWorkSpace} />
+                <MainLabel title="My last stories" variant={LabelType.SECONDARY} />
+                <div className={classes.storiesContainer}>
+                    {stories && stories.length
+                        ? stories.map((x) => <div key={x.storyId}>{x.title}</div>)
+                        : emptyEntities()}
                 </div>
-            )}
+            </div>
+        </div>
+    ) : (
+        <div className={classes.launchScreenContainer}>
+            <LaunchBackground onClickCreateWorkSpace={onClickCreateWorkSpace} />
         </div>
     );
 };

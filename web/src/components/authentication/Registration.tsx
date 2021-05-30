@@ -7,6 +7,7 @@ import LogoIcon from '../../static/app-logo.svg';
 import { IRegistrationForm } from '../../types/formTypes';
 import Button from '../common/Button';
 import FormTextField from '../common/FormTextField';
+import Spinner from '../common/Spinner';
 import ForwardLink from './ForwardLink';
 
 const useStyles = makeStyles(() =>
@@ -62,19 +63,14 @@ const useStyles = makeStyles(() =>
         },
         createdAccountLabel: {
             fontFamily: 'Poppins',
-            fontSize: '20px',
-            color: 'green',
-            marginBottom: '20px',
+            fontWeight: 500,
+            fontSize: '18px',
+            color: '#00e200',
         },
         lessMarginBottom: {
             marginBottom: '20px',
         },
-        spinner: {
-            color: '#75BAF7',
-            fontSize: '20px',
-            marginTop: '20px',
-        },
-        spinnerMargin: {
+        spinnerContainer: {
             marginTop: '20px',
         },
         buttonContainer: {
@@ -92,8 +88,10 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IRegistrationPageProps {
+    isLoading: boolean;
     wasUserCreated: boolean;
     customError?: string;
+    requiredField: (value: string) => void;
     validateField: (value: string) => void;
     validateEmail: (value: string) => void;
     validatePassword: (value: string) => void;
@@ -102,15 +100,19 @@ export interface IRegistrationPageProps {
 
 const RegistrationPage = (props: IRegistrationPageProps) => {
     const classes = useStyles();
-    const { customError, wasUserCreated, validatePassword, validateField, validateEmail, onSubmitRegistration } = props;
+    const {
+        isLoading,
+        customError,
+        wasUserCreated,
+        requiredField,
+        validatePassword,
+        validateField,
+        validateEmail,
+        onSubmitRegistration,
+    } = props;
 
     return (
-        <Formik
-            initialValues={InitialRegistrationFormValues}
-            onSubmit={onSubmitRegistration}
-            validateOnBlur={false}
-            validateOnChange={true}
-        >
+        <Formik initialValues={InitialRegistrationFormValues} onSubmit={onSubmitRegistration}>
             {({ isValid, touched }) => {
                 const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
 
@@ -124,7 +126,7 @@ const RegistrationPage = (props: IRegistrationPageProps) => {
                                     label="Email"
                                     name={RegistrationFormConstants.email}
                                     component={FormTextField}
-                                    validate={validateEmail}
+                                    validate={[requiredField, validateEmail]}
                                 />
                             </div>
                             <div className={classes.fieldContainer}>
@@ -155,23 +157,25 @@ const RegistrationPage = (props: IRegistrationPageProps) => {
                                     customError={customError}
                                 />
                             </div>
-                            {/*{isSpinnerVisible && <CircularProgress className={classes.spinner} />}*/}
                             <ForwardLink
                                 mainLabel="Do you have account?"
                                 link={routeConstants.LoginScreenRoute}
                                 linkLabel="Sign in"
                             />
-                            {wasUserCreated && (
-                                <span className={classes.createdAccountLabel}>
-                                    Your account was successfully created!
-                                </span>
-                            )}
                             <div className={classes.buttonContainer}>
                                 <Button
                                     disabled={!isAnyFieldTouched || !isValid}
                                     type="submit"
                                     label="Create your account"
                                 />
+                            </div>
+                            <div className={classes.spinnerContainer}>
+                                {isLoading && <Spinner size={28} />}{' '}
+                                {wasUserCreated && (
+                                    <span className={classes.createdAccountLabel}>
+                                        Your account was successfully created!
+                                    </span>
+                                )}
                             </div>
                         </div>
                     </Form>

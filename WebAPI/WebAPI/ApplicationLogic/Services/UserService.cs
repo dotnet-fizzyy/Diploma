@@ -12,6 +12,7 @@ using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Models.Action;
+using WebAPI.Presentation.Models.Result;
 
 namespace WebAPI.ApplicationLogic.Services
 {
@@ -99,6 +100,18 @@ namespace WebAPI.ApplicationLogic.Services
             var userModel = _userMapper.MapToModel(entityUpdatedUser);
 
             return userModel;
+        }
+
+        public async Task<EmailResultModel> CheckForEmailExistenceAsync(string email)
+        {
+            var emailExists = await _userRepository.ExistsAsync(x => x.Email.ToLower() == email.ToLower());
+
+            var emailCheckResult = new EmailResultModel
+            {
+                IsEmailExist = emailExists
+            };
+
+            return emailCheckResult;
         }
 
         public async Task UpdateUserPasswordAsync(Guid userId, PasswordUpdate passwordUpdate)

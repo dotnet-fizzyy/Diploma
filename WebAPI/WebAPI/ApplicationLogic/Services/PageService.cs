@@ -48,6 +48,22 @@ namespace WebAPI.ApplicationLogic.Services
             _pageAggregator = pageAggregator;
         }
 
+        public async Task<DefaultPage> GetDefaultPageAsync(Guid userId)
+        {
+            var stories = await _storyRepository.SearchForMultipleItemsAsync(
+                x => x.UserId == userId, 
+                0, 
+                Search.StoriesLimit, 
+                story => story.CreationDate,
+                OrderType.Desc
+            );
+            var teams = await _teamRepository.GetUserTeams(userId);
+
+            var defaultPageResult = _pageAggregator.CreateDefaultPageModel(teams, stories);
+
+            return defaultPageResult;
+        }
+
         public async Task<SearchResult> GetSearchResultsAsync(string searchTerm, Guid[] teamIds)
         {
             var teamEntities = await _teamRepository.GetTeamsBySearchTerm(searchTerm, Search.TeamsLimit, teamIds);

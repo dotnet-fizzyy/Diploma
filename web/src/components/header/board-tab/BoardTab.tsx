@@ -2,6 +2,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import React from 'react';
 import { SortDirection } from '../../../constants/storyConstants';
+import { UserPosition, UserRole } from '../../../constants/userConstants';
 import { ISelectedItem } from '../../../types/storyTypes';
 import { ITeam } from '../../../types/teamTypes';
 import Button from '../../common/Button';
@@ -62,6 +63,8 @@ const useStyles = makeStyles(() =>
 
 export interface IBoardTabProps {
     userId: string;
+    userRole: UserRole;
+    userPosition: UserPosition;
     team: ITeam;
     selectedSprintId: string;
     sortFields: ISelectedItem[];
@@ -82,6 +85,8 @@ const BoardTab = (props: IBoardTabProps) => {
     const classes = useStyles();
     const {
         team,
+        userRole,
+        userPosition,
         userId,
         selectedEpicId,
         selectedSprintId,
@@ -102,7 +107,13 @@ const BoardTab = (props: IBoardTabProps) => {
         <div className={classes.root}>
             <div className={classes.tabContainer}>
                 <EpicDisplay selectedEpicId={selectedEpicId} epics={epics} onChangeEpic={onChangeEpic} />
-                <TeamMembers team={team} userId={userId} onClickCreateUser={onClickCreateUser} />
+                <TeamMembers
+                    team={team}
+                    userId={userId}
+                    userRole={userRole}
+                    userPosition={userPosition}
+                    onClickCreateUser={onClickCreateUser}
+                />
                 <div className={classes.selectContainer}>
                     <SortSwitch value={sortDirection} onChangeSortDirection={onChangeSortDirection} />
                 </div>

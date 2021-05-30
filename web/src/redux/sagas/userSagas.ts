@@ -40,6 +40,7 @@ import {
 
 function* authenticateUser(action: IAuthenticationRequest) {
     try {
+        yield delay(2000);
         const authResponse: IAuthenticationResponse = yield call(UserApi.authenticate, action.payload);
         yield all([put(authenticationSuccess(authResponse.user)), put(push(DefaultRoute))]);
 

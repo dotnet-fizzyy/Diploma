@@ -2,8 +2,8 @@ using System;
 using System.Threading.Tasks;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Models;
 using WebAPI.Presentation.Models.Action;
+using WebAPI.Presentation.Models.Result;
 
 namespace WebAPI.Core.Interfaces.Services
 {
@@ -21,6 +21,8 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<User> UpdateUserAsync(User user);
 
+        Task<EmailResultModel> CheckForEmailExistenceAsync(string email);
+        
         Task UpdateUserPasswordAsync(Guid userId, PasswordUpdate passwordUpdate);
         
         Task UpdateUserAvatarAsync(User user);

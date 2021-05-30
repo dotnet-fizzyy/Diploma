@@ -7,9 +7,10 @@ import { getSidebarIsLoading } from '../../../redux/selectors/sidebarSelectors';
 import { getSprintsNames } from '../../../redux/selectors/sprintSelectors';
 import { getSelectedStory } from '../../../redux/selectors/storySelectors';
 import { getTeamUsers } from '../../../redux/selectors/teamSelectors';
+import { getUser } from '../../../redux/selectors/userSelectors';
 import { IStoryFormTypes } from '../../../types/formTypes';
 import { ISelectedItem, IStory } from '../../../types/storyTypes';
-import { IUser } from '../../../types/userTypes';
+import { IFullUser, IUser } from '../../../types/userTypes';
 import { InputFormFieldValidator } from '../../../utils/formUtils';
 import { createStoryEstimationDropdownItems, createStoryPriorityDropdownItems } from '../../../utils/storyUtils';
 import { createUserPositionDropdownItems } from '../../../utils/userUtils';
@@ -18,6 +19,7 @@ import SidebarStoryDescription, { ISidebarStoryDescription } from './SidebarStor
 const SidebarStoryDescriptionContainer = () => {
     const dispatch = useDispatch();
     const story: IStory = useSelector(getSelectedStory);
+    const user: IFullUser = useSelector(getUser);
     const users: IUser[] = useSelector(getTeamUsers);
     const sprints: ISelectedItem[] = useSelector(getSprintsNames);
     const isLoading: boolean = useSelector(getSidebarIsLoading);
@@ -69,6 +71,7 @@ const SidebarStoryDescriptionContainer = () => {
         new InputFormFieldValidator(value, 3, 100, true, BaseRegexExpression).validate();
 
     const sidebarProps: ISidebarStoryDescription = {
+        user,
         isBlocked,
         isReady,
         isLoading,

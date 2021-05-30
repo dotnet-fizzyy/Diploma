@@ -44,3 +44,8 @@ export interface IFullStatsPage {
     sprints: ISprint[];
     stories: IStorySimpleModel[];
 }
+
+export interface IDefaultPage {
+    teams: ITeamSimpleModel[];
+    stories: IStorySimpleModel[];
+}

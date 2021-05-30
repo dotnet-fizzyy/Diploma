@@ -7,6 +7,7 @@ import LogoIcon from '../../static/app-logo.svg';
 import { ILoginForm } from '../../types/formTypes';
 import Button from '../common/Button';
 import FormTextField from '../common/FormTextField';
+import Spinner from '../common/Spinner';
 import ForwardLink from './ForwardLink';
 
 const useStyles = makeStyles(() =>
@@ -59,18 +60,14 @@ const useStyles = makeStyles(() =>
         errorMessage: {
             marginTop: '30px',
             fontFamily: 'Poppins',
-            fontSize: '20px',
+            fontSize: '18px',
             color: 'red',
+            fontWeight: 500,
         },
         errorMessageMargin: {
             marginTop: '30px',
         },
-        spinnerMargin: {
-            marginTop: '20px',
-        },
-        spinner: {
-            color: '#75BAF7',
-            fontSize: '20px',
+        spinnerContainer: {
             marginTop: '20px',
         },
         logo: {
@@ -85,13 +82,15 @@ const useStyles = makeStyles(() =>
 );
 
 export interface ILoginPageProps {
+    isLoading: boolean;
     wasAttemptToLogIn: boolean;
+    requiredField: (value: string) => string;
     onSubmitLogIn: (values: ILoginForm) => void;
 }
 
 const LoginPage = (props: ILoginPageProps) => {
     const classes = useStyles();
-    const { wasAttemptToLogIn, onSubmitLogIn } = props;
+    const { wasAttemptToLogIn, onSubmitLogIn, requiredField, isLoading } = props;
 
     return (
         <Formik initialValues={InitialLoginFormValues} onSubmit={onSubmitLogIn}>
@@ -104,7 +103,12 @@ const LoginPage = (props: ILoginPageProps) => {
                             <div className={classes.logo} />
                             <span className={classes.title}>Sign In</span>
                             <div className={classes.fieldContainer}>
-                                <Field name={LoginFormConstants.email} label="Email" component={FormTextField} />
+                                <Field
+                                    name={LoginFormConstants.email}
+                                    label="Email"
+                                    component={FormTextField}
+                                    validate={requiredField}
+                                />
                             </div>
                             <div className={classes.fieldContainer}>
                                 <Field
@@ -112,12 +116,9 @@ const LoginPage = (props: ILoginPageProps) => {
                                     label="Password"
                                     type="password"
                                     component={FormTextField}
+                                    validate={requiredField}
                                 />
                             </div>
-                            {/*{isSpinnerVisible && <CircularProgress className={classes.spinner} />}*/}
-                            {wasAttemptToLogIn && (
-                                <span className={classes.errorMessage}>Unable to login with following credentials</span>
-                            )}
                             <ForwardLink
                                 mainLabel="Don't you an account yet?"
                                 link={routeConstants.RegistrationScreenRoute}
@@ -125,6 +126,14 @@ const LoginPage = (props: ILoginPageProps) => {
                             />
                             <div className={classes.buttonContainer}>
                                 <Button disabled={!isAnyFieldTouched || !isValid} type="submit" label="Sign in" />
+                            </div>
+                            <div className={classes.spinnerContainer}>
+                                {isLoading && <Spinner size={28} />}
+                                {wasAttemptToLogIn && (
+                                    <span className={classes.errorMessage}>
+                                        Unable to login with following credentials
+                                    </span>
+                                )}
                             </div>
                         </div>
                     </Form>

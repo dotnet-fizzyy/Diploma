@@ -5,8 +5,6 @@ export const ProjectActions = {
     GET_PROJECT_PAGE_REQUEST: 'GET_PROJECT_PAGE_REQUEST',
     GET_PROJECT_PAGE_SUCCESS: 'GET_PROJECT_PAGE_SUCCESS',
     GET_PROJECT_PAGE_FAILURE: 'GET_PROJECT_PAGE_FAILURE',
-    GET_USER_PROJECTS_REQUEST: 'GET_USER_PROJECTS_REQUEST',
-    GET_USER_PROJECTS_FAILURE: 'GET_USER_PROJECTS_FAILURE',
     CREATE_PROJECT_REQUEST: 'CREATE_PROJECT_REQUEST',
     CREATE_PROJECT_SUCCESS: 'CREATE_PROJECT_SUCCESS',
     CREATE_PROJECT_FAILURE: 'CREATE_PROJECT_FAILURE',
@@ -30,6 +28,9 @@ export const ProjectActions = {
     CHANGE_STATS_SEARCH_ITEMS_FAILURE: 'CHANGE_STATS_SEARCH_ITEMS_FAILURE',
     ADD_WORKSPACE_PROJECTS: 'ADD_WORKSPACE_PROJECTS',
     SET_SELECTED_PROJECT_FROM_WORKSPACE_BY_ID: 'SET_SELECTED_PROJECT_FROM_WORKSPACE_BY_ID',
+    GET_MAIN_PAGE_DATA_REQUEST: 'GET_MAIN_PAGE_DATA_REQUEST',
+    GET_MAIN_PAGE_DATA_SUCCESS: 'GET_MAIN_PAGE_DATA_SUCCESS',
+    GET_MAIN_PAGE_DATA_FAILURE: 'GET_MAIN_PAGE_DATA_FAILURE',
 };
 
 /*
@@ -47,15 +48,6 @@ export interface IGetProjectPageSuccess {
 
 export interface IGetProjectPageFailure {
     type: typeof ProjectActions.GET_PROJECT_PAGE_FAILURE;
-    payload: Error;
-}
-
-export interface IGetUserProjectsRequest {
-    type: typeof ProjectActions.GET_USER_PROJECTS_REQUEST;
-}
-
-export interface IGetUserProjectsFailure {
-    type: typeof ProjectActions.GET_USER_PROJECTS_FAILURE;
     payload: Error;
 }
 
@@ -177,6 +169,20 @@ export interface ISetSelectedProjectFromWorkSpaceById {
     payload: string;
 }
 
+export interface IGetMainPageDataRequest {
+    type: typeof ProjectActions.GET_MAIN_PAGE_DATA_REQUEST;
+}
+
+export interface IGetMainPageDataSuccess {
+    type: typeof ProjectActions.GET_MAIN_PAGE_DATA_SUCCESS;
+    payload: any;
+}
+
+export interface IGetMainPageDataFailure {
+    type: typeof ProjectActions.GET_MAIN_PAGE_DATA_FAILURE;
+    payload: Error;
+}
+
 /*
 Actions
  */
@@ -197,19 +203,6 @@ export function getProjectPageSuccess(project: IProject): IGetProjectPageSuccess
 export function getProjectPageFailure(error: Error): IGetProjectPageFailure {
     return {
         type: ProjectActions.GET_PROJECT_PAGE_FAILURE,
-        payload: error,
-    };
-}
-
-export function getUserProjectsRequest(): IGetUserProjectsRequest {
-    return {
-        type: ProjectActions.GET_USER_PROJECTS_REQUEST,
-    };
-}
-
-export function getUserProjectsFailure(error: Error): IGetUserProjectsFailure {
-    return {
-        type: ProjectActions.GET_USER_PROJECTS_FAILURE,
         payload: error,
     };
 }
@@ -375,5 +368,25 @@ export function setSelectedProjectFromWorkSpaceById(projectId: string): ISetSele
     return {
         type: ProjectActions.SET_SELECTED_PROJECT_FROM_WORKSPACE_BY_ID,
         payload: projectId,
+    };
+}
+
+export function getMainPageDataRequest(): IGetMainPageDataRequest {
+    return {
+        type: ProjectActions.GET_MAIN_PAGE_DATA_REQUEST,
+    };
+}
+
+export function getMainPageDataSuccess(data: any): IGetMainPageDataSuccess {
+    return {
+        type: ProjectActions.GET_MAIN_PAGE_DATA_SUCCESS,
+        payload: data,
+    };
+}
+
+export function getMainPageDataFailure(error: Error): IGetMainPageDataFailure {
+    return {
+        type: ProjectActions.GET_MAIN_PAGE_DATA_FAILURE,
+        payload: error,
     };
 }

@@ -1,11 +1,13 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import ProjectApi from '../../api/projectApi';
-import { IBoardPage, IFullStatsPage, IProject, IProjectPage } from '../../types/projectTypes';
+import { IBoardPage, IDefaultPage, IFullStatsPage, IProject, IProjectPage } from '../../types/projectTypes';
 import { addEpics, addSimpleEpics } from '../actions/epicActions';
 import {
     createProjectFailure,
     createProjectSuccess,
     getBoardInfoFailure,
+    getMainPageDataFailure,
+    getMainPageDataSuccess,
     getProjectFailure,
     getProjectPageFailure,
     getProjectPageSuccess,
@@ -28,6 +30,20 @@ import {
 import { addSprints } from '../actions/sprintActions';
 import { addStories, setStorySimpleItems } from '../actions/storyActions';
 import { addTeamSimpleItems, setSelectedTeam } from '../actions/teamActions';
+
+export function* getMainPage() {
+    try {
+        const defaultPageResult: IDefaultPage = yield call(ProjectApi.getDefaultPage);
+
+        yield all([
+            put(getMainPageDataSuccess(null)),
+            put(setStorySimpleItems(defaultPageResult.stories)),
+            put(addTeamSimpleItems(defaultPageResult.teams)),
+        ]);
+    } catch (error) {
+        yield put(getMainPageDataFailure(error));
+    }
+}
 
 export function* getProjectPage(action: IGetProjectPageRequest) {
     try {
@@ -123,6 +139,7 @@ export function* getProjectStatsPage(action: IGetProjectStatsPageRequest) {
 }
 
 export default function* rootStoriesSaga() {
+    yield takeLatest(ProjectActions.GET_MAIN_PAGE_DATA_REQUEST, getMainPage);
     yield takeLatest(ProjectActions.GET_PROJECT_PAGE_REQUEST, getProjectPage);
     yield takeLatest(ProjectActions.CREATE_PROJECT_REQUEST, createProject);
     yield takeLatest(ProjectActions.GET_PROJECT_REQUEST, getProject);

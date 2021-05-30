@@ -3,18 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { ModalTypes } from '../../constants/modalConstants';
 import { openModal } from '../../redux/actions/modalActions';
-import { getUserProjectsRequest } from '../../redux/actions/projectActions';
-import { getProjects } from '../../redux/selectors/projectSelectors';
-import { getTeams } from '../../redux/selectors/teamSelectors';
+import { getMainPageDataRequest } from '../../redux/actions/projectActions';
+import { getStorySimpleModels } from '../../redux/selectors/storySelectors';
+import { getTeamSimpleItems } from '../../redux/selectors/teamSelectors';
 import { getUser } from '../../redux/selectors/userSelectors';
+import { IStorySimpleModel } from '../../types/storyTypes';
+import { ITeamSimpleModel } from '../../types/teamTypes';
+import { IFullUser } from '../../types/userTypes';
 import DefaultPage, { IMainPageProps } from './DefaultPage';
 
 const DefaultPageContainer = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const teams = useSelector(getTeams);
-    const projects = useSelector(getProjects);
-    const user = useSelector(getUser);
+
+    const user: IFullUser = useSelector(getUser);
+    const teams: ITeamSimpleModel[] = useSelector(getTeamSimpleItems);
+    const stories: IStorySimpleModel[] = useSelector(getStorySimpleModels);
 
     const onSelectTeam = (value: string) => {
         history.push(`/team/${value}`);
@@ -24,28 +28,22 @@ const DefaultPageContainer = () => {
         history.push(`/project/${value}`);
     };
 
-    const onClickMoveBoard = (value: string) => {
-        history.push(`/board/${value}`);
-    };
-
     const onClickCreateWorkSpace = () => {
         dispatch(openModal(ModalTypes.WORKSPACE));
     };
 
     useEffect(() => {
-        if (!teams.length && !projects.length) {
-            dispatch(getUserProjectsRequest());
-        }
-    }, [dispatch, teams.length, projects.length]);
+        dispatch(getMainPageDataRequest());
+        // eslint-disable-next-line
+    }, []);
 
     const mainPageProps: IMainPageProps = {
-        teams,
-        projects,
         user,
+        teams,
+        stories,
         onSelectTeam,
         onSelectProject,
         onClickCreateWorkSpace,
-        onClickMoveBoard,
     };
 
     return <DefaultPage {...mainPageProps} />;

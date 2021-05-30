@@ -6,6 +6,8 @@ namespace WebAPI.Core.Interfaces.Aggregators
 {
     public interface IPageAggregator
     {
+        DefaultPage CreateDefaultPageModel(IList<Team> teams, IList<Story> stories);
+        
         SearchResult CreateSearchResultsByTerm(IList<Team> teams, IList<Project> projects);
 
         BoardPage CreateBoardPageModel(Team team, Project project, IList<Epic> epics, IList<Sprint> sprints);

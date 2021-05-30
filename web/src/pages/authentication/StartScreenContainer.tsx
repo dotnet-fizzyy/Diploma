@@ -4,10 +4,20 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 import { ILoginPageProps } from '../../components/authentication/Login';
 import { IRegistrationPageProps } from '../../components/authentication/Registration';
 import { BaseRegexExpression, StartPageTypes } from '../../constants';
-import * as routeConstants from '../../constants/routeConstants';
-import * as currentUserActions from '../../redux/actions/userActions';
-import * as currentUserSelectors from '../../redux/selectors/userSelectors';
+import { DefaultRoute } from '../../constants/routeConstants';
+import {
+    authenticationRequest,
+    hideCustomerSuccessfulRegistration,
+    registrationRequest,
+} from '../../redux/actions/userActions';
+import {
+    getIsAuthenticationSuccessful,
+    getIsUserLoading,
+    getUser,
+    getWasCustomerCreated,
+} from '../../redux/selectors/userSelectors';
 import { ILoginForm, IRegistrationForm } from '../../types/formTypes';
+import { IFullUser } from '../../types/userTypes';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../utils/formUtils';
 import StartScreen, { IStartScreenProps } from './StartScreen';
 
@@ -20,23 +30,23 @@ const StartScreenContainer = () => {
     const startPageType =
         startPage.toUpperCase() === StartPageTypes.REGISTRATION ? StartPageTypes.REGISTRATION : StartPageTypes.LOGIN;
 
-    const isAuthenticationSuccessful = useSelector(currentUserSelectors.getIsAuthenticationSuccessful);
-    const wasUserCreated = useSelector(currentUserSelectors.getWasCustomerCreated);
-    const user = useSelector(currentUserSelectors.getUser);
+    const isAuthenticationSuccessful: boolean = useSelector(getIsAuthenticationSuccessful);
+    const isLoading: boolean = useSelector(getIsUserLoading);
+    const wasUserCreated: boolean = useSelector(getWasCustomerCreated);
+    const user: IFullUser = useSelector(getUser);
 
     const [arePasswordsSame, setSamePasswords] = useState<boolean>(true);
     const [wasAttemptToLogIn, setWasAttemptToLogIn] = useState<boolean>(false);
 
+    const requiredField = (value: string): string => new InputFormFieldValidator(value, null, null, true).validate();
     const validateField = (value: string): string =>
         new InputFormFieldValidator(value, null, null, true, BaseRegexExpression).validate();
-
     const validateEmail = (value: string): string => new EmailInputFormFieldValidator(value).validate();
-
     const validatePassword = (value: string): string => new InputFormFieldValidator(value, 3, 16, true).validate();
 
     const onSubmitLogIn = (values: ILoginForm) => {
         setWasAttemptToLogIn(true);
-        dispatch(currentUserActions.authenticationRequest(values.email, values.password));
+        dispatch(authenticationRequest(values.email, values.password));
     };
 
     const onSubmitRegistration = (values: IRegistrationForm) => {
@@ -47,21 +57,25 @@ const StartScreenContainer = () => {
         }
 
         setSamePasswords(true);
-        dispatch(currentUserActions.registrationRequest(values.email, values.password, values.name));
+        dispatch(registrationRequest(values.email, values.password, values.name));
     };
 
     const loginProps: ILoginPageProps = {
-        wasAttemptToLogIn: wasAttemptToLogIn && !isAuthenticationSuccessful,
+        isLoading,
+        wasAttemptToLogIn: wasAttemptToLogIn && !isAuthenticationSuccessful && !isLoading,
         onSubmitLogIn,
+        requiredField,
     };
 
     const registrationProps: IRegistrationPageProps = {
+        isLoading,
         wasUserCreated,
         customError: !arePasswordsSame ? 'Provided passwords are different' : '',
         validateField,
         validatePassword,
         validateEmail,
         onSubmitRegistration,
+        requiredField,
     };
 
     const startScreenProps: IStartScreenProps = {
@@ -73,14 +87,14 @@ const StartScreenContainer = () => {
     useEffect(() => {
         if (wasUserCreated) {
             setTimeout(() => {
-                dispatch(currentUserActions.hideCustomerSuccessfulRegistration());
+                dispatch(hideCustomerSuccessfulRegistration());
             }, 5000);
         }
     }, [dispatch, wasUserCreated]);
 
     useEffect(() => {
         if (user) {
-            history.push(routeConstants.DefaultRoute);
+            history.push(DefaultRoute);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);

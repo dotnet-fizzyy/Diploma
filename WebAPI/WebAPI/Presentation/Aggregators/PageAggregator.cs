@@ -35,6 +35,17 @@ namespace WebAPI.Presentation.Aggregators
             _storyMapper = storyMapper;
         }
 
+        public DefaultPage CreateDefaultPageModel(IList<Team> teams, IList<Story> stories)
+        {
+            var defaultPageResults = new DefaultPage
+            {
+                Teams = teams != null ? teams.Select(_teamMapper.MapToSimpleModel).ToList() : new List<TeamSimpleModel>(),
+                Stories = stories != null ? stories.Select(_storyMapper.MapToSimpleModel).ToList() : new List<StorySimpleModel>()
+            };
+
+            return defaultPageResults;
+        }
+
         public SearchResult CreateSearchResultsByTerm(IList<Team> teams, IList<Project> projects)
         {
             var searchResults = new SearchResult

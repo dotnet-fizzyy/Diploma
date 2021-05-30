@@ -40,7 +40,6 @@ export default class UserApi {
     }
 
     public static async authenticate(authUser: IAuthenticationUser): Promise<IAuthenticationResponse> {
-        debugger;
         const response: AxiosResponse<IAuthenticationResponse> = await AxiosBaseApi.post(SignInUrl, authUser);
 
         return UserApi.mapToAuthenticationUser(response.data);

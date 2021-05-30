@@ -4,8 +4,8 @@ import { mapToEpicSimpleModel } from '../mappers/epicMapper';
 import { mapToProjectModel, mapToProjectPageModel } from '../mappers/projectMapper';
 import { mapToSprintModel } from '../mappers/sprintMappers';
 import { mapToStoryModel, mapToStorySimpleModel } from '../mappers/storyMappers';
-import { mapToTeamModel } from '../mappers/teamMapper';
-import { IBoardPage, IFullStatsPage, IProject, IProjectPage } from '../types/projectTypes';
+import { mapToSimpleTeamModel, mapToTeamModel } from '../mappers/teamMapper';
+import { IBoardPage, IDefaultPage, IFullStatsPage, IProject, IProjectPage } from '../types/projectTypes';
 import { createProjectRemoveRequestBody } from '../utils';
 import AxiosBaseApi from './axiosBaseApi';
 
@@ -16,6 +16,12 @@ export default class ProjectApi {
         );
 
         return mapToProjectPageModel(response.data);
+    }
+
+    public static async getDefaultPage(): Promise<IDefaultPage> {
+        const response: AxiosResponse<IDefaultPage> = await AxiosBaseApi.get(ProjectUrls.getDefaultPage);
+
+        return ProjectApi.mapToDefaultPage(response.data);
     }
 
     public static async getProject(projectId: string): Promise<IProject> {
@@ -72,6 +78,13 @@ export default class ProjectApi {
         );
 
         return ProjectApi.mapToStatsPageData(response.data);
+    }
+
+    private static mapToDefaultPage(data): IDefaultPage {
+        return {
+            stories: data.stories && data.stories.length ? data.stories.map(mapToStorySimpleModel) : [],
+            teams: data.teams && data.teams.length ? data.teams.map(mapToSimpleTeamModel) : [],
+        };
     }
 
     private static mapToBoardPageData(data: any): IBoardPage {

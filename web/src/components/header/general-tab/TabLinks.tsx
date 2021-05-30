@@ -57,9 +57,10 @@ const TabLinks = (props: ITabLinks) => {
         []
     );
     const defaultItemsTab: ISelectTabItem[] = TabLinkItems.map((x) => {
+        const isCustomer: boolean = isUserCustomer(userRole, userPosition);
+
         switch (x.key) {
             case TabLinkOptions.WORKSPACE:
-                const isCustomer: boolean = isUserCustomer(userRole, userPosition);
                 x.link = isCustomer ? '/workspace' : '';
                 x.errorMessage = !isCustomer ? 'This option is available only for customers' : '';
                 break;
@@ -67,7 +68,8 @@ const TabLinks = (props: ITabLinks) => {
                 x.link = '/board';
                 break;
             case TabLinkOptions.PROJECT:
-                x.link = `/project/${selectedProjectId}`;
+                x.link = isCustomer ? `/project/${selectedProjectId}` : '';
+                x.errorMessage = !isCustomer ? 'This option is available only for customers' : '';
                 break;
             case TabLinkOptions.TEAM:
                 x.link = `/team/${selectedTeamId}`;

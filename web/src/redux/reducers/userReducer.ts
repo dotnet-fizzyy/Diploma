@@ -13,6 +13,7 @@ const initialState: IUserState = {
 export default function userReducer(state = initialState, action: UserActions.CurrentUserActionTypes) {
     switch (action.type) {
         case UserActions.UserActions.VERIFY_USER_REQUEST:
+        case UserActions.UserActions.AUTHENTICATION_REQUEST:
             return handleVerifyUserRequest(state);
         case UserActions.UserActions.ADD_USER:
         case UserActions.UserActions.VERIFY_USER_SUCCESS:
@@ -81,6 +82,7 @@ function handleRegistrationSuccess(state: IUserState): IUserState {
 function handleAuthenticationFailure(state: IUserState): IUserState {
     return {
         ...state,
+        isLoading: false,
         isAuthenticationSuccessful: false,
     };
 }
