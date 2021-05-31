@@ -7,10 +7,13 @@ import { BaseRegexExpression, StartPageTypes } from '../../constants';
 import { DefaultRoute } from '../../constants/routeConstants';
 import {
     authenticationRequest,
+    checkEmailExistenceRequest,
     hideCustomerSuccessfulRegistration,
     registrationRequest,
+    resetEmailExistence,
 } from '../../redux/actions/userActions';
 import {
+    getEmailExistence,
     getIsAuthenticationSuccessful,
     getIsUserLoading,
     getUser,
@@ -34,6 +37,7 @@ const StartScreenContainer = () => {
     const isLoading: boolean = useSelector(getIsUserLoading);
     const wasUserCreated: boolean = useSelector(getWasCustomerCreated);
     const user: IFullUser = useSelector(getUser);
+    const emailExists: boolean = useSelector(getEmailExistence);
 
     const [arePasswordsSame, setSamePasswords] = useState<boolean>(true);
     const [wasAttemptToLogIn, setWasAttemptToLogIn] = useState<boolean>(false);
@@ -41,7 +45,7 @@ const StartScreenContainer = () => {
     const requiredField = (value: string): string => new InputFormFieldValidator(value, null, null, true).validate();
     const validateField = (value: string): string =>
         new InputFormFieldValidator(value, null, null, true, BaseRegexExpression).validate();
-    const validateEmail = (value: string): string => new EmailInputFormFieldValidator(value).validate();
+    const validateEmail = (value: string): string => new EmailInputFormFieldValidator(value, true).validate();
     const validatePassword = (value: string): string => new InputFormFieldValidator(value, 3, 16, true).validate();
 
     const onSubmitLogIn = (values: ILoginForm) => {
@@ -60,6 +64,16 @@ const StartScreenContainer = () => {
         dispatch(registrationRequest(values.email, values.password, values.name));
     };
 
+    const onChangeEmailField = (value: string): void => {
+        if (!validateEmail(value)) {
+            dispatch(checkEmailExistenceRequest(value));
+        }
+
+        if (emailExists) {
+            dispatch(resetEmailExistence());
+        }
+    };
+
     const loginProps: ILoginPageProps = {
         isLoading,
         wasAttemptToLogIn: wasAttemptToLogIn && !isAuthenticationSuccessful && !isLoading,
@@ -68,14 +82,15 @@ const StartScreenContainer = () => {
     };
 
     const registrationProps: IRegistrationPageProps = {
+        emailExists,
         isLoading,
         wasUserCreated,
-        customError: !arePasswordsSame ? 'Provided passwords are different' : '',
+        arePasswordsSame,
         validateField,
         validatePassword,
         validateEmail,
         onSubmitRegistration,
-        requiredField,
+        onChangeEmailField,
     };
 
     const startScreenProps: IStartScreenProps = {

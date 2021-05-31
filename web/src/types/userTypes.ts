@@ -53,3 +53,7 @@ export interface IUserSimpleModel {
     userRole: UserRole;
     userPosition: UserPosition;
 }
+
+export interface IEmailExistence {
+    isEmailExist: boolean;
+}

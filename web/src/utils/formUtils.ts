@@ -80,6 +80,10 @@ export class EmailInputFormFieldValidator extends FormFieldValidator {
     public validate(): string {
         let error: string = super.validateBase();
 
+        if (error) {
+            return error;
+        }
+
         if (!RegExp(EmailRegexExpression).test(this._value)) {
             error = 'Incorrect email format';
 

@@ -88,33 +88,37 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IRegistrationPageProps {
+    emailExists: boolean;
     isLoading: boolean;
     wasUserCreated: boolean;
-    customError?: string;
-    requiredField: (value: string) => void;
+    arePasswordsSame: boolean;
     validateField: (value: string) => void;
     validateEmail: (value: string) => void;
     validatePassword: (value: string) => void;
+    onChangeEmailField: (value: string) => void;
     onSubmitRegistration: (values: IRegistrationForm) => void;
 }
 
 const RegistrationPage = (props: IRegistrationPageProps) => {
     const classes = useStyles();
     const {
+        emailExists,
+        arePasswordsSame,
         isLoading,
-        customError,
         wasUserCreated,
-        requiredField,
         validatePassword,
         validateField,
         validateEmail,
         onSubmitRegistration,
+        onChangeEmailField,
     } = props;
 
     return (
         <Formik initialValues={InitialRegistrationFormValues} onSubmit={onSubmitRegistration}>
             {({ isValid, touched }) => {
                 const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
+
+                const passwordError: string = !arePasswordsSame ? 'Provided passwords are different' : '';
 
                 return (
                     <Form className={classes.form}>
@@ -126,7 +130,9 @@ const RegistrationPage = (props: IRegistrationPageProps) => {
                                     label="Email"
                                     name={RegistrationFormConstants.email}
                                     component={FormTextField}
-                                    validate={[requiredField, validateEmail]}
+                                    validate={validateEmail}
+                                    onChangeCallback={onChangeEmailField}
+                                    customError={emailExists ? 'This email is already taken' : ''}
                                 />
                             </div>
                             <div className={classes.fieldContainer}>
@@ -144,7 +150,7 @@ const RegistrationPage = (props: IRegistrationPageProps) => {
                                     type="password"
                                     component={FormTextField}
                                     validate={validatePassword}
-                                    customError={customError}
+                                    customError={passwordError}
                                 />
                             </div>
                             <div className={classes.fieldContainer}>
@@ -154,7 +160,7 @@ const RegistrationPage = (props: IRegistrationPageProps) => {
                                     type="password"
                                     component={FormTextField}
                                     validate={validatePassword}
-                                    customError={customError}
+                                    customError={passwordError}
                                 />
                             </div>
                             <ForwardLink

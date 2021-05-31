@@ -42,6 +42,7 @@ export interface IFormTextFieldProps {
     placeholder?: string;
     type?: string;
     customError?: string;
+    onChangeCallback?: (value: string) => void;
 }
 
 const FormTextField = (props: IFormTextFieldProps & FieldProps) => {
@@ -53,13 +54,15 @@ const FormTextField = (props: IFormTextFieldProps & FieldProps) => {
         type,
         field,
         form: { touched, errors, setFieldTouched, handleChange },
+        onChangeCallback,
     } = props;
 
     const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const {
-            target: { name },
+            target: { name, value },
         } = e;
 
+        onChangeCallback && onChangeCallback(value);
         setFieldTouched(name);
         handleChange(e);
     };

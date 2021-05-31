@@ -8,9 +8,10 @@ const initialState: IUserState = {
     isLoading: false,
     selectedTeam: '',
     selectedProject: '',
+    emailExists: false,
 };
 
-export default function userReducer(state = initialState, action: UserActions.CurrentUserActionTypes) {
+export default function userReducer(state = initialState, action) {
     switch (action.type) {
         case UserActions.UserActions.VERIFY_USER_REQUEST:
         case UserActions.UserActions.AUTHENTICATION_REQUEST:
@@ -37,6 +38,10 @@ export default function userReducer(state = initialState, action: UserActions.Cu
             return handleChangeUserTeam(state, action);
         case UserActions.UserActions.LOGOUT_USER:
             return handleUserLogOut();
+        case UserActions.UserActions.CHECK_EMAIL_EXISTENCE_SUCCESS:
+            return handleEmailExistence(state, action);
+        case UserActions.UserActions.RESET_EMAIL_EXISTENCE:
+            return handleResetEmailExistence(state);
         default:
             return state;
     }
@@ -141,4 +146,18 @@ function handleChangeUserTeam(state: IUserState, action: UserActions.IChangeUser
 
 function handleUserLogOut(): IUserState {
     return initialState;
+}
+
+function handleEmailExistence(state: IUserState, action: UserActions.ICheckEmailExistenceSuccess): IUserState {
+    return {
+        ...state,
+        emailExists: action.payload,
+    };
+}
+
+function handleResetEmailExistence(state: IUserState): IUserState {
+    return {
+        ...state,
+        emailExists: false,
+    };
 }

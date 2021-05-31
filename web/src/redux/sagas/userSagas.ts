@@ -1,9 +1,10 @@
 import { push } from 'connected-react-router';
-import { all, call, delay, put, takeLatest } from 'redux-saga/effects';
+import { all, call, debounce, delay, put, takeLatest } from 'redux-saga/effects';
 import UserApi from '../../api/userApi';
 import { DefaultRoute, LoginScreenRoute } from '../../constants/routeConstants';
+import { debouncePeriod } from '../../constants/storyConstants';
 import { IAuthenticationResponse, IJsonPatchBody, ITokenResponse } from '../../types';
-import { IFullUser, IUser } from '../../types/userTypes';
+import { IEmailExistence, IFullUser, IUser } from '../../types/userTypes';
 import { setCredentialsToLocalStorage } from '../../utils';
 import { createRequestBodyForUserUpdateLink } from '../../utils/userUtils';
 import { closeModal } from '../actions/modalActions';
@@ -12,6 +13,8 @@ import {
     authenticationSuccess,
     changeUserActivityStatusFailure,
     changeUserActivityStatusSuccess,
+    checkEmailExistenceFailure,
+    checkEmailExistenceSuccess,
     createUserFailure,
     createUserSuccess,
     refreshUserTokenFailure,
@@ -29,6 +32,7 @@ import {
     verifyUserSuccess,
     IAuthenticationRequest,
     IChangeUserActivityStatusRequest,
+    ICheckEmailExistenceRequest,
     ICreateUserRequest,
     IRegistrationRequest,
     IUpdateAvatarRequest,
@@ -145,6 +149,16 @@ export function* refreshUserToken() {
     }
 }
 
+export function* checkEmailExistence(action: ICheckEmailExistenceRequest) {
+    try {
+        const emailExistenceResult: IEmailExistence = yield call(UserApi.checkEmailExistence, action.payload);
+
+        yield put(checkEmailExistenceSuccess(emailExistenceResult.isEmailExist));
+    } catch (error) {
+        yield put(checkEmailExistenceFailure(error));
+    }
+}
+
 export default function* rootCurrentUserSaga() {
     yield takeLatest(UserActions.AUTHENTICATION_REQUEST, authenticateUser);
     yield takeLatest(UserActions.REGISTRATION_REQUEST, createCustomer);
@@ -155,4 +169,5 @@ export default function* rootCurrentUserSaga() {
     yield takeLatest(UserActions.UPDATE_PROFILE_SETTINGS_REQUEST, updateProfileSettings);
     yield takeLatest(UserActions.CHANGE_USER_ACTIVITY_STATUS_REQUEST, changeUserActivityStatus);
     yield takeLatest(UserActions.REFRESH_USER_TOKEN_REQUEST, refreshUserToken);
+    yield debounce(debouncePeriod, UserActions.CHECK_EMAIL_EXISTENCE_REQUEST, checkEmailExistence);
 }

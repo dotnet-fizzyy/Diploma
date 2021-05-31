@@ -102,7 +102,7 @@ namespace WebAPI.ApplicationLogic.Services
         private async Task<WorkSpace> CreateWorkSpace(WorkSpace workSpace)
         {
             var workSpaceEntity = _workSpaceMapper.MapToEntity(workSpace);
-            workSpace.CreationDate = DateTime.UtcNow;
+            workSpaceEntity.CreationDate = DateTime.UtcNow;
 
             var createdWorkSpaceEntity = await _workSpaceRepository.CreateAsync(workSpaceEntity);
 

@@ -28,3 +28,7 @@ export function getUserSelectedTeamId(state: IState): string {
 export function getUserTeamIds(state: IState): string[] {
     return state.currentUser.user.teams.map((x) => x.teamId);
 }
+
+export function getEmailExistence(state: IState): boolean {
+    return state.currentUser.emailExists;
+}

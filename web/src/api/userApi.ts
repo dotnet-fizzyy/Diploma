@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import { getCloudStorageUrl, SignInUrl, SignUpUrl, UserUrls } from '../constants/routeConstants';
 import { mapToFullUserModel, mapToUserModel } from '../mappers/userMapper';
 import { IAuthenticationResponse, IJsonPatchBody, ITokenResponse, TokenType } from '../types';
-import { IAuthenticationUser, IFullUser, IUser } from '../types/userTypes';
+import { IAuthenticationUser, IEmailExistence, IFullUser, IUser } from '../types/userTypes';
 import { createRequestBodyForUserChangeStatus } from '../utils/userUtils';
 import AxiosBaseApi from './axiosBaseApi';
 
@@ -58,6 +58,14 @@ export default class UserApi {
         });
 
         return response.data.secure_url;
+    }
+
+    public static async checkEmailExistence(email: string): Promise<IEmailExistence> {
+        const response: AxiosResponse<IEmailExistence> = await AxiosBaseApi.get(
+            `${UserUrls.checkEmailExistence}?email=${email}`
+        );
+
+        return response.data;
     }
 
     public static async updateUser(user: IUser): Promise<IUser> {

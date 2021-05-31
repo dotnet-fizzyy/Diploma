@@ -33,11 +33,16 @@ export const UserActions = {
     REFRESH_USER_TOKEN_REQUEST: 'REFRESH_USER_TOKEN_REQUEST',
     REFRESH_USER_TOKEN_SUCCESS: 'REFRESH_USER_TOKEN_SUCCESS',
     REFRESH_USER_TOKEN_FAILURE: 'REFRESH_USER_TOKEN_FAILURE',
+    CHECK_EMAIL_EXISTENCE_REQUEST: 'CHECK_EMAIL_EXISTENCE_REQUEST',
+    CHECK_EMAIL_EXISTENCE_SUCCESS: 'CHECK_EMAIL_EXISTENCE_SUCCESS',
+    CHECK_EMAIL_EXISTENCE_FAILURE: 'CHECK_EMAIL_EXISTENCE_FAILURE',
+    RESET_EMAIL_EXISTENCE: 'RESET_EMAIL_EXISTENCE',
 };
 
 /*
 Interfaces
  */
+
 export interface IAuthenticationRequest {
     type: typeof UserActions.AUTHENTICATION_REQUEST;
     payload: IAuthenticationUser;
@@ -198,9 +203,29 @@ export interface IRefreshUserTokeFailure {
     payload: Error;
 }
 
+export interface ICheckEmailExistenceRequest {
+    type: typeof UserActions.CHECK_EMAIL_EXISTENCE_REQUEST;
+    payload: string;
+}
+
+export interface ICheckEmailExistenceSuccess {
+    type: typeof UserActions.CHECK_EMAIL_EXISTENCE_SUCCESS;
+    payload: boolean;
+}
+
+export interface ICheckEmailExistenceFailure {
+    type: typeof UserActions.CHECK_EMAIL_EXISTENCE_FAILURE;
+    payload: Error;
+}
+
+export interface IResetEmailExistence {
+    type: typeof UserActions.RESET_EMAIL_EXISTENCE;
+}
+
 /*
 Actions
  */
+
 export function registrationRequest(userName: string, password: string, email: string): IRegistrationRequest {
     return {
         type: UserActions.REGISTRATION_REQUEST,
@@ -435,21 +460,29 @@ export function refreshUserTokenFailure(error: Error): IRefreshUserTokeFailure {
     };
 }
 
-export type CurrentUserActionTypes = IAddUser &
-    IAuthenticationSuccess &
-    IAuthenticationFailure &
-    IRegistrationSuccess &
-    IVerifyUserRequest &
-    IHideCustomerSuccessfulRegistration &
-    IUpdateAvatarRequest &
-    IUpdateAvatarSuccess &
-    IUpdateAvatarFailure &
-    IUpdatePasswordRequest &
-    IUpdatePasswordSuccess &
-    IUpdatePasswordFailure &
-    IUpdateProfileSettingsRequest &
-    IUpdateProfileSettingsSuccess &
-    IUpdateProfileSettingsFailure &
-    IChangeUserActivityStatusSuccess &
-    IChangeUserProject &
-    IChangeUserTeam;
+export function checkEmailExistenceRequest(email: string): ICheckEmailExistenceRequest {
+    return {
+        type: UserActions.CHECK_EMAIL_EXISTENCE_REQUEST,
+        payload: email,
+    };
+}
+
+export function checkEmailExistenceSuccess(emailExists: boolean): ICheckEmailExistenceSuccess {
+    return {
+        type: UserActions.CHECK_EMAIL_EXISTENCE_SUCCESS,
+        payload: emailExists,
+    };
+}
+
+export function checkEmailExistenceFailure(error: Error): ICheckEmailExistenceFailure {
+    return {
+        type: UserActions.CHECK_EMAIL_EXISTENCE_FAILURE,
+        payload: error,
+    };
+}
+
+export function resetEmailExistence(): IResetEmailExistence {
+    return {
+        type: UserActions.RESET_EMAIL_EXISTENCE,
+    };
+}

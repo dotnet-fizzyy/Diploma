@@ -55,6 +55,7 @@ export const UserUrls = {
     updatePassword: `${UserBaseUrl}/password`,
     changeStatus: `${UserBaseUrl}/activity`,
     refreshToken: `${BaseUrl}/auth/token-renew`,
+    checkEmailExistence: `${BaseUrl}/auth/check-email`,
 };
 
 export const SprintUrls = {

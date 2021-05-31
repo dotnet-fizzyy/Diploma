@@ -30,6 +30,7 @@ export interface IUserState {
     isLoading: boolean;
     selectedTeam?: string;
     selectedProject?: string;
+    emailExists: boolean;
 }
 
 export interface IStoryState {
