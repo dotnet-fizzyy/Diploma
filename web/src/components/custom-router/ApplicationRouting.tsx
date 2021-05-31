@@ -22,12 +22,12 @@ import StoryFullViewContainer from '../story-full-view/StoryFullViewContainer';
 
 export const ApplicationRouting: IApplicationRoute[] = [
     { path: DefaultRoute, exact: true, component: DefaultPageContainer },
-    { path: WorkspaceViewerRoute, exact: true, component: WorkSpacePageContainer },
+    { path: WorkspaceViewerRoute, exact: true, isCustomer: true, component: WorkSpacePageContainer },
     { path: ProjectBoardRoute, exact: false, component: BoardContainer },
     { path: FullViewStoryRoute, exact: false, component: StoryFullViewContainer },
     { path: ViewStoryHistoryRoute, exact: false, component: StoryHistoryPageContainer },
     { path: TeamManagementRoute, exact: false, component: TeamPageContainer },
-    { path: ProjectManagementRoute, exact: false, component: ProjectPageContainer },
+    { path: ProjectManagementRoute, exact: false, isCustomer: true, component: ProjectPageContainer },
     { path: EpicChartsRoute, exact: false, component: StatsPageContainer },
     { path: NoMatchRoute, exact: false, component: UndefinedPage },
 ];

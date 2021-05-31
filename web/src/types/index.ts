@@ -34,4 +34,5 @@ export interface IApplicationRoute {
     path: string;
     exact: boolean;
     component: () => JSX.Element;
+    isCustomer?: boolean;
 }

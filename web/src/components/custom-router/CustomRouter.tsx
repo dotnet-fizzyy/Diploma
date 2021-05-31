@@ -24,6 +24,8 @@ const CustomRouter = (props: ICustomRouterProps) => {
             )}
             {ApplicationRouting.map((route) => (
                 <RouteGuard
+                    isCustomer={route.isCustomer}
+                    user={user}
                     exact={route.exact}
                     key={route.path}
                     path={route.path}

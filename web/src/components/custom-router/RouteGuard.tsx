@@ -1,11 +1,13 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { LoginScreenRoute } from '../../constants/routeConstants';
+import { isUserCustomer } from '../../utils';
+import UndefinedPage from '../no-match/UndefinedPage';
 import ApplicationPageContainer from './ApplicationPageContainer';
 import LoadingScreen from './LoadingScreen';
 
-const RouteGuard = ({ component: Component, exact, isAuthenticated, isLoading, ...rest }) => {
-    if (isLoading) {
+const RouteGuard = ({ component: Component, exact, user, isAuthenticated, isLoading, isCustomer, ...rest }) => {
+    if (isLoading && !user) {
         return <LoadingScreen />;
     }
 
@@ -17,7 +19,11 @@ const RouteGuard = ({ component: Component, exact, isAuthenticated, isLoading, .
             render={(props) =>
                 isAuthenticated ? (
                     <ApplicationPageContainer>
-                        <Component {...props} />
+                        {isCustomer && user && !isUserCustomer(user.userRole, user.userPosition) ? (
+                            <UndefinedPage />
+                        ) : (
+                            <Component {...props} />
+                        )}
                     </ApplicationPageContainer>
                 ) : (
                     <Redirect to={LoginScreenRoute} />
