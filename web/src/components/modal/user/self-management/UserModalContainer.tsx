@@ -2,12 +2,14 @@ import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../../constants';
 import {
+    checkEmailExistenceRequest,
+    resetEmailExistence,
     updateAvatarRequest,
     updatePasswordRequest,
     updateProfileSettingsRequest,
 } from '../../../../redux/actions/userActions';
 import { getModalRequestPerforming } from '../../../../redux/selectors/modalSelectors';
-import { getUser } from '../../../../redux/selectors/userSelectors';
+import { getEmailExistence, getUser } from '../../../../redux/selectors/userSelectors';
 import { IProfilePasswordUpdateForm, IProfileSettingsForm } from '../../../../types/formTypes';
 import { IFullUser, IUser } from '../../../../types/userTypes';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formUtils';
@@ -21,6 +23,7 @@ const UserModalContainer = () => {
 
     const user: IFullUser = useSelector(getUser);
     const isPerformingRequest: boolean = useSelector(getModalRequestPerforming);
+    const emailExists: boolean = useSelector(getEmailExistence);
 
     const initialProfileSettings: IProfileSettingsForm = {
         userName: user.userName,
@@ -37,6 +40,16 @@ const UserModalContainer = () => {
     const onClickUpdateAvatar = (): void => {
         if (fileRef && fileRef.current) {
             fileRef.current.click();
+        }
+    };
+
+    const onChangeEmailField = (value: string): void => {
+        if (!validateEmail(value)) {
+            dispatch(checkEmailExistenceRequest(value));
+        }
+
+        if (emailExists) {
+            dispatch(resetEmailExistence());
         }
     };
 
@@ -72,6 +85,7 @@ const UserModalContainer = () => {
     };
 
     const userModalProps: IUserModalProps = {
+        emailExists,
         isChangePassword,
         isPerformingRequest,
         passwordsAreSame,
@@ -86,6 +100,7 @@ const UserModalContainer = () => {
         onClickResetPassword,
         onClickUpdateAvatar,
         onChangeFile,
+        onChangeEmailField,
     };
 
     return <UserModal {...userModalProps} />;

@@ -84,6 +84,7 @@ const useStyles = makeStyles(() =>
 );
 
 export interface IUserModalProps {
+    emailExists: boolean;
     isChangePassword: boolean;
     passwordsAreSame: boolean;
     isPerformingRequest: boolean;
@@ -98,11 +99,13 @@ export interface IUserModalProps {
     onChangeFile: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onSubmitUpdatePasswordButton: (values: IProfilePasswordUpdateForm) => void;
     onSubmitUpdateProfileSettingsButton: (values: IProfileSettingsForm) => void;
+    onChangeEmailField: (value: string) => void;
 }
 
 const UserModal = (props: IUserModalProps) => {
     const classes = useStyles();
     const {
+        emailExists,
         isPerformingRequest,
         isChangePassword,
         passwordsAreSame,
@@ -117,6 +120,7 @@ const UserModal = (props: IUserModalProps) => {
         validatePassword,
         validateField,
         validateEmail,
+        onChangeEmailField,
     } = props;
 
     const passwordUpdate = (): React.ReactNode => (
@@ -213,6 +217,8 @@ const UserModal = (props: IUserModalProps) => {
                                     name={userFields.email}
                                     component={FormTextField}
                                     validate={validateEmail}
+                                    customError={emailExists ? 'This email is already taken' : ''}
+                                    onChangeCallback={onChangeEmailField}
                                 />
                             </div>
                             <div className={classes.fieldContainer}>

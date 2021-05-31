@@ -7,7 +7,7 @@ import ApplicationPageContainer from './ApplicationPageContainer';
 import LoadingScreen from './LoadingScreen';
 
 const RouteGuard = ({ component: Component, exact, user, isAuthenticated, isLoading, isCustomer, ...rest }) => {
-    if (isLoading && !user) {
+    if (isLoading) {
         return <LoadingScreen />;
     }
 

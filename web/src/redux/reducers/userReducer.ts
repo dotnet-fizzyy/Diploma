@@ -5,7 +5,7 @@ const initialState: IUserState = {
     isAuthenticationSuccessful: false,
     wasCustomerCreated: false,
     user: null,
-    isLoading: false,
+    isLoading: true,
     selectedTeam: '',
     selectedProject: '',
     emailExists: false,

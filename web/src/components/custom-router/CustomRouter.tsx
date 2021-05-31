@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import * as routeConstants from '../../constants/routeConstants';
+import { LoginScreenRoute, RegistrationScreenRoute } from '../../constants/routeConstants';
 import StartScreenContainer from '../../pages/authentication/StartScreenContainer';
 import { IUser } from '../../types/userTypes';
 import { UserRouteGuard } from '../../utils/routeUtils';
@@ -18,10 +18,8 @@ const CustomRouter = (props: ICustomRouterProps) => {
 
     return (
         <Switch>
-            {!isAuthenticated && <Route path={routeConstants.LoginScreenRoute} component={StartScreenContainer} />}
-            {!isAuthenticated && (
-                <Route path={routeConstants.RegistrationScreenRoute} component={StartScreenContainer} />
-            )}
+            {!isAuthenticated && <Route path={LoginScreenRoute} component={StartScreenContainer} />}
+            {!isAuthenticated && <Route path={RegistrationScreenRoute} component={StartScreenContainer} />}
             {ApplicationRouting.map((route) => (
                 <RouteGuard
                     isCustomer={route.isCustomer}
