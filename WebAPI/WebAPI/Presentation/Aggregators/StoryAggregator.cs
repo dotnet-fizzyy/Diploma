@@ -60,8 +60,8 @@ namespace WebAPI.Presentation.Aggregators
                     storyEntity.Id, 
                     userName, 
                     StoryFields.Sprint, 
-                    sprints.First(x => x.Id == storyEntity.SprintId).SprintName, 
-                    sprints.First(x => x.Id == storyEntityUpdate.SprintId).SprintName
+                    sprints.FirstOrDefault(x => x.Id == storyEntity.SprintId)?.SprintName, 
+                    sprints.FirstOrDefault(x => x.Id == storyEntityUpdate.SprintId)?.SprintName
                     )
                 );
             }
@@ -72,8 +72,8 @@ namespace WebAPI.Presentation.Aggregators
                     storyEntity.Id, 
                     userName, 
                     StoryFields.User, 
-                    users.First(x => x.Id == storyEntity.UserId).UserName, 
-                    users.First(x => x.Id == storyEntityUpdate.UserId).UserName
+                    users.FirstOrDefault(x => x.Id == storyEntity.UserId)?.UserName, 
+                    users.FirstOrDefault(x => x.Id == storyEntityUpdate.UserId)?.UserName
                     )
                 );
             }
