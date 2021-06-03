@@ -86,16 +86,9 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<User> UpdateUserAsync(User user)
         {
-            var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == user.UserId);
-            if (userEntity == null)
-            {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(User.UserId)));
-            }
-            
             var entityUser = _userMapper.MapToEntity(user);
-            entityUser.Password = user.Password;
 
-            var entityUpdatedUser = await _userRepository.UpdateItemAsync(entityUser);
+            var entityUpdatedUser = await _userRepository.UpdateUser(entityUser);
 
             var userModel = _userMapper.MapToModel(entityUpdatedUser);
 

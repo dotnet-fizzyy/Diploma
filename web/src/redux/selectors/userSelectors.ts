@@ -32,3 +32,7 @@ export function getUserTeamIds(state: IState): string[] {
 export function getEmailExistence(state: IState): boolean {
     return state.currentUser.emailExists;
 }
+
+export function getWorkSpaceId(state: IState): string {
+    return state.currentUser.user.workSpaceId;
+}

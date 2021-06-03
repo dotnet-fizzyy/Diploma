@@ -7,6 +7,8 @@ namespace WebAPI.Core.Interfaces.Database
     {
         Task<User> AuthenticateUser(User user);
 
+        Task<User> UpdateUser(User user);
+        
         Task UpdateUserAvatarLinkAsync(User user);
 
         Task UpdateUserPasswordAsync(User user);

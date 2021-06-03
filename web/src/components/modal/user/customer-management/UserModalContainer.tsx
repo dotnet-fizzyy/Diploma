@@ -11,7 +11,7 @@ import {
 import { createUserRequest } from '../../../../redux/actions/userActions';
 import { getModalOption, getModalRequestPerforming } from '../../../../redux/selectors/modalSelectors';
 import { getSelectedTeamId } from '../../../../redux/selectors/teamSelectors';
-import { getWorkSpaceId } from '../../../../redux/selectors/workSpaceSelectors';
+import { getWorkSpaceId } from '../../../../redux/selectors/userSelectors';
 import { IUser } from '../../../../types/userTypes';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formUtils';
 import { createUserPositionDropdownItems } from '../../../../utils/userUtils';
