@@ -220,6 +220,29 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 
             return item;
         }
+        
+        public async Task<T> UpdateItemAsync(T item, params Expression<Func<T, object>>[] unmodifiedProperties)
+        {
+            try
+            {
+                _dbSet.Update(item);
+                foreach (var property in unmodifiedProperties)
+                {
+                    _dbContext.Entry(item).Property(property).IsModified = false;
+                }
+                
+                await _dbContext.SaveChangesAsync();
+
+                _dbContext.Entry(item).State = EntityState.Detached;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new Exception($"Unable to update item. Error: {e.Message}");
+            }
+
+            return item;
+        }
 
         public async Task<List<T>> UpdateItemsAsync(IEnumerable<T> items)
         {

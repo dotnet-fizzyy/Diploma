@@ -88,7 +88,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var entityUser = _userMapper.MapToEntity(user);
 
-            var entityUpdatedUser = await _userRepository.UpdateUser(entityUser);
+            var entityUpdatedUser = await _userRepository.UpdateItemAsync(entityUser, x => x.Password, x => x.CreationDate);
 
             var userModel = _userMapper.MapToModel(entityUpdatedUser);
 

@@ -43,6 +43,8 @@ namespace WebAPI.Core.Interfaces.Database
 
         Task<List<T>> UpdateItemsAsync(IEnumerable<T> items);
 
+        Task<T> UpdateItemAsync(T item, params Expression<Func<T, object>>[] unmodifiedProperties);
+        
         Task DeleteAsync(Expression<Func<T, bool>> expression);
     }
 }
