@@ -168,7 +168,7 @@ namespace WebAPI.ApplicationLogic.Services
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(story.StoryId)));
             }
             
-            await _storyRepository.UpdateStoryColumn(mappedStoryEntity); 
+            var updatedStory = await _storyRepository.UpdateStoryColumn(mappedStoryEntity); 
             await _storyHistoryRepository.CreateAsync(StoryHistoryGenerator.GetStoryHistoryForUpdate(
                 userName, 
                 mappedStoryEntity.Id, 
@@ -179,7 +179,8 @@ namespace WebAPI.ApplicationLogic.Services
 
             scope.Complete();
 
-            existingStoryEntity.ColumnType = mappedStoryEntity.ColumnType;
+            existingStoryEntity.RecordVersion = updatedStory.RecordVersion;
+            existingStoryEntity.ColumnType = updatedStory.ColumnType;
             var updatedStoryModel = _storyMapper.MapToModel(existingStoryEntity);
             
             return updatedStoryModel;

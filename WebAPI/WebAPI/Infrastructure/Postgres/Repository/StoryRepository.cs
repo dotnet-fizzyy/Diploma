@@ -43,13 +43,15 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             return foundStories;
         }
 
-        public async Task UpdateStoryColumn(Story story)
+        public async Task<Story> UpdateStoryColumn(Story story)
         {
             _dbContext.Stories.Attach(story);
 
             _dbContext.Entry(story).Property(x => x.ColumnType).IsModified = true;
             
             await _dbContext.SaveChangesAsync();
+            
+            return story;
         }
 
         public async Task ChangeStoryStatus(Story story)

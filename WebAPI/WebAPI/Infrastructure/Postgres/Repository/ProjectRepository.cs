@@ -44,7 +44,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 where teamIds.Any(x => x == teams.Id)
                 select projects;
 
-            var projectEntities = await query.ToListAsync();
+            var projectEntities = await query.Distinct().ToListAsync();
 
             return projectEntities;
         }

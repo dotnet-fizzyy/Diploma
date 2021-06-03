@@ -23,7 +23,7 @@ const useStyles = makeStyles(() =>
             },
         },
         body: {
-            height: 'inherit',
+            height: '100%',
             padding: '20px',
             boxSizing: 'border-box',
         },

@@ -15,10 +15,16 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         public async Task<List<Sprint>> GetFullSprintsByEpicId(Guid epicId, Guid? teamId = null)
         {
             var sprintEntities =
-                await _dbContext.Sprints
-                    .Include(x => x.Stories)
-                    .Where(x => x.EpicId == epicId && x.Stories.Any(s => !teamId.HasValue || s.TeamId == teamId))
-                    .ToListAsync();
+                teamId.HasValue 
+                    ? await _dbContext.Sprints
+                        .Include(x => x.Stories)
+                        .Where(x => x.EpicId == epicId)
+                        .Select(x => FilterStoriesByTeam(x, (Guid)teamId))
+                        .ToListAsync()
+                    : await _dbContext.Sprints
+                        .Include(x => x.Stories)
+                        .Where(x => x.EpicId == epicId)
+                        .ToListAsync();
 
             return sprintEntities;
         }
@@ -34,6 +40,14 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             _dbContext.Entry(sprintEntity).Property(x => x.IsDeleted).IsModified = true;
             
             await _dbContext.SaveChangesAsync();
+        }
+
+        
+        private static Sprint FilterStoriesByTeam(Sprint sprint, Guid teamId)
+        {
+            sprint.Stories = sprint.Stories.Where(s => s.TeamId == teamId).ToList();
+
+            return sprint;
         }
     }
 }

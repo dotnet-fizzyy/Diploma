@@ -29,6 +29,7 @@ export default class StoryApi {
             userId: story.userId,
             creationDate: new Date(),
             requiredPosition: story.requiredPosition,
+            teamId: story.teamId,
         };
 
         const response: AxiosResponse<IStory> = await AxiosBaseApi.post(StoryUrls.updateStory, mappedStory);

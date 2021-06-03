@@ -108,7 +108,7 @@ function handleUpdateUserActivityStatus(state: ITeamState, action: IChangeUserAc
 function handleUpdateTeam(state: ITeamState, action: IUpdateTeamSuccess): ITeamState {
     return {
         ...state,
-        teams: state.teams.map((x) => (x.teamId === action.payload.teamId ? { ...action.payload } : x)),
+        teams: state.teams.map((x) => (x.teamId === action.payload.teamId ? { ...action.payload, users: x.users } : x)),
     };
 }
 

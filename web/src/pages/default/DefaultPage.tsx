@@ -29,6 +29,7 @@ const useStyles = makeStyles(() =>
         },
         teamCardContainer: {
             width: '200px',
+            marginRight: '20px',
         },
         launchScreenContainer: {
             width: '100%',
