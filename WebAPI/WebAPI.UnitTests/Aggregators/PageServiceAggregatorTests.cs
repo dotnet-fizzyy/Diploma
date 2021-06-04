@@ -10,6 +10,79 @@ namespace WebAPI.UnitTests.Aggregators
     public class PageServiceAggregatorTests
     {
         [Fact]
+        public void ShouldCreateSearchResultResponseBySearchTerm()
+        {
+            //Arrange
+            var workSpaceMapper = new WorkSpaceMapper();
+            var userMapper = new UserMapper();
+            var teamMapper = new TeamMapper(userMapper);
+            var projectMapper = new ProjectMapper();
+            var storyMapper = new StoryMapper(new StoryHistoryMapper());
+            var sprintMapper = new SprintMapper(storyMapper);
+            var epicMapper = new EpicMapper(sprintMapper);
+
+            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper, sprintMapper, storyMapper);
+
+            var projectId = new Guid("807e22d0-d244-439c-bdde-4908b45c9707");
+            var teamId = new Guid("1115d0d1-8e12-4068-b68e-f8294cf0ffff");
+            
+            var teams = new List<Team>
+            {
+                new Team
+                {
+                    Id = teamId
+                }
+            };
+
+            var project = new List<Project>
+            {
+                new Project
+                {
+                    Id = projectId
+                }
+            };
+            
+            //Act
+            var result = pageAggregator.CreateSearchResultsByTerm(teams, project);
+
+            //Assert
+            Assert.NotNull(result);
+            
+            Assert.NotNull(result.Teams);
+            Assert.NotEmpty(result.Teams);
+            
+            Assert.NotNull(result.Projects);
+            Assert.NotEmpty(result.Projects);
+        }
+        
+        [Fact]
+        public void ShouldReturnEmptySearchResultResponseBySearchTermOnNullModels()
+        {
+            //Arrange
+            var workSpaceMapper = new WorkSpaceMapper();
+            var userMapper = new UserMapper();
+            var teamMapper = new TeamMapper(userMapper);
+            var projectMapper = new ProjectMapper();
+            var storyMapper = new StoryMapper(new StoryHistoryMapper());
+            var sprintMapper = new SprintMapper(storyMapper);
+            var epicMapper = new EpicMapper(sprintMapper);
+
+            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper, sprintMapper, storyMapper);
+            
+            //Act
+            var result = pageAggregator.CreateSearchResultsByTerm(null, null);
+
+            //Assert
+            Assert.NotNull(result);
+            
+            Assert.NotNull(result.Teams);
+            Assert.Empty(result.Teams);
+            
+            Assert.NotNull(result.Projects);
+            Assert.Empty(result.Projects);
+        }
+        
+        [Fact]
         public void ShouldCreateBoardPageModel()
         {
             //Arrange

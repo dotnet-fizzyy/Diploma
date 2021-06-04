@@ -10,7 +10,6 @@ using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Models.Enums;
 using WebAPI.Presentation.Mappers;
-using WebAPI.Presentation.Models;
 using WebAPI.Presentation.Models.Action;
 using Xunit;
 
@@ -266,7 +265,7 @@ namespace WebAPI.UnitTests.Services
                 CreationDate = DateTime.UtcNow
             };
 
-            A.CallTo(() => userRepository.UpdateItemAsync(A<User>._))
+            A.CallTo(() => userRepository.UpdateItemAsync(A<User>._, A<Expression<Func<User, object>>>._, A<Expression<Func<User, object>>>._))
                 .Returns(userEntity);
             
             //Act
@@ -275,8 +274,8 @@ namespace WebAPI.UnitTests.Services
             //Assert
             AssertUsers(expectedUserModel, result);
             
-            A.CallTo(() => userRepository.UpdateItemAsync(A<User>._))
-                .MustHaveHappened();
+            A.CallTo(() => userRepository.UpdateItemAsync(A<User>._, A<Expression<Func<User, object>>>._, A<Expression<Func<User, object>>>._))
+                .Returns(userEntity);
         }
         
         [Fact]

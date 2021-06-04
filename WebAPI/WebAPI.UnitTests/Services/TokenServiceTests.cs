@@ -10,7 +10,6 @@ using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Models.Enums;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Aggregators;
-using WebAPI.Presentation.Models;
 using WebAPI.Presentation.Models.Action;
 using Xunit;
 
@@ -150,17 +149,8 @@ namespace WebAPI.UnitTests.Services
                 Value = "token_value",
             };
 
-            var updatedEntity = new Core.Entities.RefreshToken
-            {
-                UserId = userId,
-                Value = "new_value",
-            };
-            
             A.CallTo(() => refreshTokenRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.RefreshToken, bool>>>._))
                 .Returns(entity);
-
-            A.CallTo(() => refreshTokenRepository.UpdateItemAsync(A<Core.Entities.RefreshToken>._))
-                .Returns(updatedEntity);
 
             //Act
             var result = await tokenService.UpdateTokens("token", userId, userName, userRole);
@@ -171,38 +161,6 @@ namespace WebAPI.UnitTests.Services
             
             A.CallTo(() =>refreshTokenRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.RefreshToken, bool>>>._))
                 .MustHaveHappenedOnceExactly();
-            A.CallTo(() => refreshTokenRepository.UpdateItemAsync(A<Core.Entities.RefreshToken>._))
-                .MustHaveHappenedOnceExactly();
-        }
-        
-        [Fact]
-        public async Task ShouldGenerateOnlyNewUserAccessToken()
-        {
-            //Arrange
-            _appSettings.Token.EnableRefreshTokenVerification = false;
-            
-            var userProvider = A.Fake<IUserProvider>();
-            var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
-            var refreshTokenAggregator = new RefreshTokenAggregator();
-            var tokenGenerator = new TokenGenerator();
-
-            var tokenService = new TokenService(userProvider, tokenGenerator, refreshTokenRepository, refreshTokenAggregator, _appSettings);
-            
-            var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
-            var userRole = UserRole.Engineer.ToString();
-            const string userName = "UserName";
-            
-            //Act
-            var result = await tokenService.UpdateTokens("token", userId, userName, userRole);
-
-            //Assert
-            Assert.NotNull(result.AccessToken.Value);
-            Assert.Null(result.RefreshToken.Value);
-            
-            A.CallTo(() =>refreshTokenRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.RefreshToken, bool>>>._))
-                .MustNotHaveHappened();
-            A.CallTo(() => refreshTokenRepository.UpdateItemAsync(A<Core.Entities.RefreshToken>._))
-                .MustNotHaveHappened();
         }
     }
 }
