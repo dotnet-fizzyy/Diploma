@@ -3,8 +3,10 @@ import classnames from 'classnames';
 import moment from 'moment';
 import React from 'react';
 import { DateFormat } from '../../../constants';
+import { UserPosition, UserRole } from '../../../constants/userConstants';
 import { IProjectSimpleModel } from '../../../types/projectTypes';
 import { ITeamSimpleModel } from '../../../types/teamTypes';
+import { isUserCustomer } from '../../../utils';
 import Spinner from '../../common/Spinner';
 
 const useStyles = makeStyles(() =>
@@ -49,6 +51,8 @@ const useStyles = makeStyles(() =>
 );
 
 export interface ISearchResultsProps {
+    userRole: UserRole;
+    userPosition: UserPosition;
     searching: boolean;
     focusedField: boolean;
     searchTerm: string;
@@ -61,6 +65,8 @@ export interface ISearchResultsProps {
 const SearchResults = (props: ISearchResultsProps) => {
     const classes = useStyles();
     const {
+        userRole,
+        userPosition,
         searching,
         focusedField,
         searchTerm,
@@ -82,7 +88,7 @@ const SearchResults = (props: ISearchResultsProps) => {
                             <Spinner size={16} />
                         </div>
                     )}
-                    {!searching && projectsFound ? (
+                    {!searching && isUserCustomer(userRole, userPosition) && projectsFound ? (
                         <div>
                             {searchProjects.map((x) => (
                                 <div

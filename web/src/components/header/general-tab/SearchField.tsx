@@ -2,6 +2,7 @@ import { TextField } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import React, { useState } from 'react';
+import { UserPosition, UserRole } from '../../../constants/userConstants';
 import { IProjectSimpleModel } from '../../../types/projectTypes';
 import { ITeamSimpleModel } from '../../../types/teamTypes';
 import SearchResults from './SearchResults';
@@ -51,6 +52,8 @@ const useStyles = makeStyles(() =>
 );
 
 export interface ISearchFieldProps {
+    userRole: UserRole;
+    userPosition: UserPosition;
     searchTerm: string;
     searchProjects: IProjectSimpleModel[];
     searchTeams: ITeamSimpleModel[];
@@ -69,6 +72,8 @@ const SearchField = (props: ISearchFieldProps) => {
         searchTeams,
         searchProjects,
         searchTerm,
+        userRole,
+        userPosition,
         onChangeSearchTerm,
         onClickViewTeam,
         onClickViewProject,
@@ -109,6 +114,8 @@ const SearchField = (props: ISearchFieldProps) => {
             />
             <div className={classes.searchResults}>
                 <SearchResults
+                    userRole={userRole}
+                    userPosition={userPosition}
                     searching={searching}
                     focusedField={focused}
                     searchTerm={searchTerm}

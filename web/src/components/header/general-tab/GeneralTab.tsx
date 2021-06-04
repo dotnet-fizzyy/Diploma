@@ -115,6 +115,8 @@ const GeneralTab = (props: IGeneralTabProps) => {
                     </Link>
                     <div className={classes.searchResultsContainer}>
                         <SearchField
+                            userRole={user.userRole}
+                            userPosition={user.userPosition}
                             searching={searching}
                             searchTerm={searchTerm}
                             searchProjects={searchProjects}
