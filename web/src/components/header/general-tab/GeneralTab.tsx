@@ -43,8 +43,8 @@ const useStyles = makeStyles(() =>
             cursor: 'pointer',
         },
         logo: {
-            width: '65px',
-            height: '44px',
+            width: '66px',
+            height: '45px',
             backgroundImage: `url(${LogoIcon})`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',

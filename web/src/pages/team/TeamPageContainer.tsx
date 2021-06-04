@@ -16,8 +16,7 @@ const TeamPageContainer = () => {
         if (params && 'teamId' in params) {
             dispatch(getUserTeamPageRequest((params as any).teamId));
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [dispatch, params]);
 
     const teamPageProps: ITeamPageProps = {
         team,
