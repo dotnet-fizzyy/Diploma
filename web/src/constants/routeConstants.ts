@@ -98,7 +98,7 @@ export const ProjectUrls = {
 
 export const TeamUrls = {
     getUserTeamPage: PageUrls.getTeamPage,
-    createTeam: TeamBaseUrl,
+    createTeam: `${TeamBaseUrl}/customer`,
     updateTeam: TeamBaseUrl,
     removeTeam: `${TeamBaseUrl}/soft-remove`,
 };

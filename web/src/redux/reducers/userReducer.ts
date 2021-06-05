@@ -1,5 +1,11 @@
-import { IRemoveProjectSuccess, IUpdateProjectSuccess, ProjectActions } from '../actions/projectActions';
-import { IUpdateTeamSuccess, TeamActions } from '../actions/teamActions';
+import { IUserProject, IUserTeam } from '../../types/userTypes';
+import {
+    ICreateProjectSuccess,
+    IRemoveProjectSuccess,
+    IUpdateProjectSuccess,
+    ProjectActions,
+} from '../actions/projectActions';
+import { ICreateTeamSuccess, IRemoveTeamSuccess, IUpdateTeamSuccess, TeamActions } from '../actions/teamActions';
 import * as UserActions from '../actions/userActions';
 import { IUserState } from '../store/state';
 
@@ -43,12 +49,18 @@ export default function userReducer(state = initialState, action) {
             return handleEmailExistence(state, action);
         case UserActions.UserActions.RESET_EMAIL_EXISTENCE:
             return handleResetEmailExistence(state);
-        case ProjectActions.REMOVE_PROJECT_SUCCESS:
-            return handleRemoveUserProject(state, action);
+        case ProjectActions.CREATE_PROJECT_SUCCESS:
+            return handleCreateProject(state, action);
         case ProjectActions.UPDATE_PROJECT_SUCCESS:
             return handleUpdateProject(state, action);
+        case ProjectActions.REMOVE_PROJECT_SUCCESS:
+            return handleRemoveUserProject(state, action);
+        case TeamActions.CREATE_TEAM_SUCCESS:
+            return handleCreateTeam(state, action);
         case TeamActions.UPDATE_TEAM_SUCCESS:
             return handleUpdateTeam(state, action);
+        case TeamActions.REMOVE_TEAM_SUCCESS:
+            return handleRemoveUserTeam(state, action);
         default:
             return state;
     }
@@ -200,5 +212,50 @@ function handleUpdateTeam(state: IUserState, action: IUpdateTeamSuccess): IUserS
                     : x
             ),
         },
+    };
+}
+
+function handleRemoveUserTeam(state: IUserState, action: IRemoveTeamSuccess): IUserState {
+    return {
+        ...state,
+        user: {
+            ...state.user,
+            teams: state.user.teams.filter((x) => x.teamId !== action.payload),
+        },
+        selectedTeam: state.selectedTeam !== action.payload ? state.selectedTeam : state.user.teams[0].teamId,
+    };
+}
+
+function handleCreateProject(state: IUserState, action: ICreateProjectSuccess): IUserState {
+    const project: IUserProject = {
+        projectId: action.payload.projectId,
+        projectName: action.payload.projectName,
+    };
+
+    return {
+        ...state,
+        user: {
+            ...state.user,
+            projects:
+                state.user.projects && state.user.projects.length ? state.user.projects.concat(project) : [project],
+        },
+        selectedProject: state.selectedProject || project.projectId,
+    };
+}
+
+function handleCreateTeam(state: IUserState, action: ICreateTeamSuccess): IUserState {
+    const team: IUserTeam = {
+        teamId: action.payload.teamId,
+        teamName: action.payload.teamName,
+        projectId: action.payload.projectId,
+    };
+
+    return {
+        ...state,
+        user: {
+            ...state.user,
+            teams: state.user.teams && state.user.teams.length ? state.user.teams.concat(team) : [team],
+        },
+        selectedTeam: state.selectedTeam || team.teamId,
     };
 }
