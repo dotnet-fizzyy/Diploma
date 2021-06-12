@@ -10,6 +10,7 @@ import {
     IUpdateEpicSuccess,
 } from '../actions/epicActions';
 import { IChangeEpicRequest, StoryActions } from '../actions/storyActions';
+import { UserActions } from '../actions/userActions';
 import { IEpicsState } from '../store/state';
 
 const initialState: IEpicsState = {
@@ -39,6 +40,8 @@ export default function epicReducer(state = initialState, action) {
             return handleUpdateEpicSuccess(state, action);
         case EpicActions.REMOVE_EPIC_SUCCESS:
             return handleRemoveEpicSuccess(state, action);
+        case UserActions.CHANGE_USER_PROJECT:
+            return handleChangeUserProject(state);
         default:
             return state;
     }
@@ -114,5 +117,12 @@ function handleRemoveEpicSuccess(state: IEpicsState, action: IRemoveEpicSuccess)
     return {
         ...state,
         epics: state.epics.filter((x) => x.epicId !== action.payload),
+    };
+}
+
+function handleChangeUserProject(state: IEpicsState): IEpicsState {
+    return {
+        ...state,
+        selectedEpicId: '',
     };
 }

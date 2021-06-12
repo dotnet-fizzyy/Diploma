@@ -19,7 +19,7 @@ import {
     IUpdateEpicRequest,
 } from '../actions/epicActions';
 import { changeStatsSearchItemsFailure, changeStatsSearchItemsRequest } from '../actions/projectActions';
-import { addSprints } from '../actions/sprintActions';
+import { addSprints, setSelectedSprint } from '../actions/sprintActions';
 import { setStorySimpleItems } from '../actions/storyActions';
 
 export function* getEpicsRequest(action: IGetEpicsRequest) {
@@ -68,7 +68,11 @@ export function* changeStatsSearchItems(action: IChangeStatsEpic) {
 
         const statsPage: IStatsPage = yield call(EpicsApi.getStatsSearchItems, action.payload);
 
-        yield all([put(addSprints(statsPage.sprints)), put(setStorySimpleItems(statsPage.stories))]);
+        yield all([
+            put(setSelectedSprint('')),
+            put(addSprints(statsPage.sprints)),
+            put(setStorySimpleItems(statsPage.stories)),
+        ]);
     } catch (error) {
         yield put(changeStatsSearchItemsFailure(error));
     }
