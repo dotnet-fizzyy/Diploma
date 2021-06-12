@@ -43,9 +43,9 @@ namespace WebAPI.ApplicationLogic.Services
             _storyAggregator = storyAggregator;
         }
 
-        public async Task<CollectionResponse<Story>> GetStoriesFromEpicAsync(Guid epicId)
+        public async Task<CollectionResponse<Story>> GetStoriesFromEpicAsync(Guid epicId, Guid? teamId)
         {
-            var storyEntities = await _storyRepository.GetStoriesByEpicId(epicId);
+            var storyEntities = await _storyRepository.GetStoriesByEpicId(epicId, teamId);
 
             var collectionResponse = new CollectionResponse<Story>
             {
@@ -55,16 +55,16 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<CollectionResponse<Story>> SortStories(Guid epicId, Guid? sprintId, string sortType, OrderType orderType)
+        public async Task<CollectionResponse<Story>> SortStories(Guid epicId, Guid teamId, Guid? sprintId, string sortType, OrderType orderType)
         {
             List<Core.Entities.Story> storyEntities;
             if (sprintId.HasValue)
             {
-                storyEntities = await _storyRepository.SearchForMultipleItemsAsync(x => sprintId == x.SprintId);
+                storyEntities = await _storyRepository.SearchForMultipleItemsAsync(x => sprintId == x.SprintId && x.TeamId == teamId);
             }
             else
             {
-                storyEntities = await _storyRepository.GetStoriesByEpicId(epicId);
+                storyEntities = await _storyRepository.GetStoriesByEpicId(epicId, teamId);
             }
             
             if (!storyEntities.Any())

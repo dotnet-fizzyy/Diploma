@@ -60,6 +60,8 @@ import {
     getSortType,
     getWasStoryBlocked,
 } from '../selectors/storySelectors';
+import { getSelectedTeamId } from '../selectors/teamSelectors';
+import { getUserSelectedTeamId } from '../selectors/userSelectors';
 
 function* refreshData() {
     try {
@@ -159,7 +161,12 @@ function* updateStoryChanges(action: IUpdateStoryChangesRequest) {
 
 function* changeEpic(action: IChangeEpicRequest) {
     try {
-        const sprintsFromCurrentEpic: IFullSprint[] = yield call(SprintApi.getSprintsFromEpic, action.payload);
+        const selectedTeamId: string = yield select(getUserSelectedTeamId);
+        const sprintsFromCurrentEpic: IFullSprint[] = yield call(
+            SprintApi.getSprintsFromEpic,
+            action.payload,
+            selectedTeamId
+        );
 
         const sprints: ISprint[] = sprintsFromCurrentEpic.map(mapFullSprintToSprint);
         const stories: IStory[] = sprintsFromCurrentEpic
@@ -183,8 +190,9 @@ function* sortStories() {
         const sprintId: string = yield select(getSelectedSprintId);
         const sortType: string = yield select(getSortType);
         const sortDirection: string = yield select(getSortDirection);
+        const selectedTeam: string = yield select(getSelectedTeamId);
 
-        const queryString: string = `epicId=${epicId}&sortType=${sortType}&orderType=${sortDirection}${
+        const queryString: string = `epicId=${epicId}&teamId=${selectedTeam}&sortType=${sortType}&orderType=${sortDirection}${
             sprintId ? `&sprintId=${sprintId}` : ''
         }`;
 

@@ -7,7 +7,7 @@ namespace WebAPI.Core.Interfaces.Database
 {
     public interface IStoryRepository : IBaseCrudRepository<Story>
     {
-        Task<List<Story>> GetStoriesByEpicId(Guid epicId);
+        Task<List<Story>> GetStoriesByEpicId(Guid epicId, Guid? teamId);
 
         Task<List<Story>> GetStoriesByTitleTerm(string searchTerm, int limit, Guid[] teamIds);
 

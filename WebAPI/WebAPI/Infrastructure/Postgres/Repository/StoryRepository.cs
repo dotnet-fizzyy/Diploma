@@ -12,9 +12,15 @@ namespace WebAPI.Infrastructure.Postgres.Repository
     {
         public StoryRepository(DatabaseContext databaseContext) : base(databaseContext) { }
         
-        public async Task<List<Story>> GetStoriesByEpicId(Guid epicId)
+        public async Task<List<Story>> GetStoriesByEpicId(Guid epicId, Guid? teamId)
         {
-            var query = from sprints in _dbContext.Sprints
+            var query = teamId.HasValue ?
+                from sprints in _dbContext.Sprints
+                join stories in _dbContext.Stories on sprints.Id equals stories.SprintId
+                where sprints.EpicId == epicId && stories.TeamId == teamId
+                select stories
+                :
+                from sprints in _dbContext.Sprints
                 join stories in _dbContext.Stories on sprints.Id equals stories.SprintId
                 where sprints.EpicId == epicId 
                 select stories;

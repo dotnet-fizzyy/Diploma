@@ -30,9 +30,18 @@ export default class ProjectApi {
         return mapToProjectModel(response.data);
     }
 
-    public static async getBoardPage(projectId: string, teamId: string): Promise<any> {
+    public static async getBoardPage(
+        projectId: string,
+        teamId: string,
+        epicId: string,
+        sprintId: string
+    ): Promise<IBoardPage> {
+        const epicAndSprintQuery: string = `${projectId ? `&epicId=${epicId}` : ''}${
+            sprintId ? `&sprintId=${sprintId}` : ''
+        }`;
+
         const response: AxiosResponse<IBoardPage> = await AxiosBaseApi.get(
-            `${ProjectUrls.getBoardPage}?projectId=${projectId}&teamId=${teamId}`
+            `${ProjectUrls.getBoardPage}?projectId=${projectId}&teamId=${teamId}${epicAndSprintQuery}`
         );
 
         return ProjectApi.mapToBoardPageData(response.data);

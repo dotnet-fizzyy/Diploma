@@ -10,7 +10,7 @@ namespace WebAPI.Core.Interfaces.Services
         
         Task<SearchResult> GetSearchResultsAsync(string searchTerm, Guid[] teamIds);
 
-        Task<BoardPage> GetBoardPageDataAsync(Guid projectId, Guid teamId, Guid userId);
+        Task<BoardPage> GetBoardPageDataAsync(Guid projectId, Guid teamId, Guid? epicId, Guid? sprintId, Guid userId);
         
         Task<TeamPage> GetTeamPageDataAsync(Guid userId, Guid teamId); 
         

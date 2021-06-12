@@ -34,9 +34,9 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CollectionResponse<FullSprint>>> GetAllSprintsFromEpic(Guid epicId)
+        public async Task<ActionResult<CollectionResponse<FullSprint>>> GetAllSprintsFromEpic(Guid epicId, [FromQuery]Guid? teamId)
         {
-            var boardResponse = await _sprintService.GetAllSprintsFromEpicAsync(epicId);
+            var boardResponse = await _sprintService.GetAllSprintsFromEpicAsync(epicId, teamId);
 
             return boardResponse;
         }

@@ -1,4 +1,4 @@
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import ProjectApi from '../../api/projectApi';
 import { IBoardPage, IDefaultPage, IFullStatsPage, IProject, IProjectPage } from '../../types/projectTypes';
 import { addEpics, addSimpleEpics } from '../actions/epicActions';
@@ -30,6 +30,8 @@ import {
 import { addSprints } from '../actions/sprintActions';
 import { addStories, setStorySimpleItems } from '../actions/storyActions';
 import { addTeamSimpleItems, setSelectedTeam } from '../actions/teamActions';
+import { getSelectedEpicId } from '../selectors/epicSelectors';
+import { getSelectedSprintId } from '../selectors/sprintSelectors';
 
 export function* getMainPage() {
     try {
@@ -82,10 +84,15 @@ export function* createProject(action: ICreateProjectRequest) {
 export function* getBoardInfo(action: IGetBoardInfoRequest) {
     try {
         const { projectId, teamId } = action.payload;
+        const selectedEpicId: string = yield select(getSelectedEpicId);
+        const selectedSprintId: string = yield select(getSelectedSprintId);
+
         const { project, stories, sprints, team, epics }: IBoardPage = yield call(
             ProjectApi.getBoardPage,
             projectId,
-            teamId
+            teamId,
+            selectedEpicId,
+            selectedSprintId
         );
 
         yield all([

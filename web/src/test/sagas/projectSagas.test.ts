@@ -44,6 +44,7 @@ import {
     removeProject,
     updateProject,
 } from '../../redux/sagas/projectSagas';
+import { IState } from '../../redux/store/state';
 import { IBoardPage, IFullStatsPage, IProject, IProjectPage } from '../../types/projectTypes';
 
 describe('Project sagas tests', () => {
@@ -51,6 +52,8 @@ describe('Project sagas tests', () => {
         //Arrange
         const teamId: string = 'team_id';
         const projectId: string = 'project_id';
+        const selectedEpicId: string = 'epic_id';
+        const selectedSprintId: string = 'sprint_id';
 
         const board: IBoardPage = {
             project: {
@@ -76,7 +79,15 @@ describe('Project sagas tests', () => {
 
         //Act & Assert
         return expectSaga(getBoardInfo, action)
-            .provide([[call(ProjectApi.getBoardPage, projectId, teamId), board]])
+            .withState({
+                epics: {
+                    selectedEpicId,
+                },
+                sprints: {
+                    selectedSprintId,
+                },
+            } as IState)
+            .provide([[call(ProjectApi.getBoardPage, projectId, teamId, selectedEpicId, selectedSprintId), board]])
             .put(setSelectedProject(board.project))
             .put(setSelectedTeam(board.team))
             .put(addSimpleEpics(board.epics))
@@ -89,13 +100,25 @@ describe('Project sagas tests', () => {
         //Arrange
         const teamId: string = 'team_id';
         const projectId: string = 'project_id';
+        const selectedEpicId: string = 'epic_id';
+        const selectedSprintId: string = 'sprint_id';
         const error = new Error('test');
 
         const action: IGetBoardInfoRequest = getBoardInfoRequest(projectId, teamId);
 
         //Act & Assert
         return expectSaga(getBoardInfo, action)
-            .provide([[call(ProjectApi.getBoardPage, projectId, teamId), throwError(error)]])
+            .withState({
+                epics: {
+                    selectedEpicId,
+                },
+                sprints: {
+                    selectedSprintId,
+                },
+            } as IState)
+            .provide([
+                [call(ProjectApi.getBoardPage, projectId, teamId, selectedEpicId, selectedSprintId), throwError(error)],
+            ])
             .put(getBoardInfoFailure(error))
             .run();
     });

@@ -21,19 +21,26 @@ import {
     SprintActions,
 } from '../../redux/actions/sprintActions';
 import { createSprint, getSprints, removeSprint, updateSprint } from '../../redux/sagas/sprintSagas';
+import { IState } from '../../redux/store/state';
 import { ISprint } from '../../types/sprintTypes';
 
 describe('Sprint sagas tests', () => {
     it(`Should get sprints from epic on ${SprintActions.GET_SPRINTS_FROM_EPIC_REQUEST}`, () => {
         //Arrange
         const epicId: string = 'epic_id';
+        const teamId: string = 'team_id';
         const sprints: ISprint[] = [];
 
         const action: IGetSprintsFromEpicRequest = getSprintsFromEpicRequest(epicId);
 
         //Act & Assert
         return expectSaga(getSprints, action)
-            .provide([[call(SprintApi.getSprintsFromEpic, epicId), sprints]])
+            .withState({
+                currentUser: {
+                    selectedTeam: teamId,
+                },
+            } as IState)
+            .provide([[call(SprintApi.getSprintsFromEpic, epicId, teamId), sprints]])
             .put(getSprintsFromEpicSuccess(sprints))
             .run();
     });
@@ -41,13 +48,19 @@ describe('Sprint sagas tests', () => {
     it(`Should throw error on get sprints from epic on ${SprintActions.GET_SPRINTS_FROM_EPIC_REQUEST}`, () => {
         //Arrange
         const epicId: string = 'epic_id';
+        const teamId: string = 'team_id';
         const error = new Error('test');
 
         const action: IGetSprintsFromEpicRequest = getSprintsFromEpicRequest(epicId);
 
         //Act & Assert
         return expectSaga(getSprints, action)
-            .provide([[call(SprintApi.getSprintsFromEpic, epicId), throwError(error)]])
+            .withState({
+                currentUser: {
+                    selectedTeam: teamId,
+                },
+            } as IState)
+            .provide([[call(SprintApi.getSprintsFromEpic, epicId, teamId), throwError(error)]])
             .put(getSprintsFromEpicFailure(error))
             .run();
     });

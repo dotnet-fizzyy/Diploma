@@ -7,9 +7,11 @@ import { createSprintRemoveRequestBody } from '../utils';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class SprintApi {
-    public static async getSprintsFromEpic(epicId: string): Promise<IFullSprint[]> {
+    public static async getSprintsFromEpic(epicId: string, teamId?: string): Promise<IFullSprint[]> {
+        const teamIdQuery: string = teamId ? `?teamId=${teamId}` : '';
+
         const response: AxiosResponse<ICollectionResponse<IFullSprint>> = await AxiosBaseApi.get(
-            `${SprintUrls.getEpicSprints}/${epicId}`
+            `${SprintUrls.getEpicSprints}/${epicId}${teamIdQuery}`
         );
 
         return response.data.items;

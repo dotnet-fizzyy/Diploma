@@ -41,11 +41,16 @@ namespace WebAPI.Presentation.Controllers
 
         [HttpGet]
         [Route("board")]
-        public async Task<ActionResult<BoardPage>> GetBoardPageData([FromQuery, BindRequired]Guid projectId, [FromQuery, BindRequired]Guid teamId)
+        public async Task<ActionResult<BoardPage>> GetBoardPageData(
+            [FromQuery, BindRequired]Guid projectId, 
+            [FromQuery, BindRequired]Guid teamId,
+            [FromQuery]Guid? epicId,
+            [FromQuery]Guid? sprintId
+            )
         {
             var user = _claimsReader.GetUserClaims(User);
 
-            var projectBoardData = await _pageService.GetBoardPageDataAsync(projectId, teamId, user.UserId);
+            var projectBoardData = await _pageService.GetBoardPageDataAsync(projectId, teamId, epicId, sprintId, user.UserId);
             
             return projectBoardData;
         }

@@ -87,7 +87,12 @@ function handleAddSimpleEpics(state: IEpicsState, action: IAddSimpleEpics): IEpi
     return {
         ...state,
         simpleItems: action.payload,
-        selectedEpicId: action.payload && action.payload.length ? action.payload[0].epicId : '',
+        selectedEpicId:
+            action.payload && action.payload.length
+                ? state.selectedEpicId
+                    ? state.selectedEpicId
+                    : action.payload[0].epicId
+                : '',
     };
 }
 

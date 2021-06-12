@@ -229,7 +229,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(entities);
             
             //Act
-            var result = await sprintService.GetAllSprintsFromEpicAsync(epicId);
+            var result = await sprintService.GetAllSprintsFromEpicAsync(epicId, null);
 
             //Assert
             Assert.Equal(expectedModels.Count, result.Count);
@@ -255,7 +255,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(new List<Core.Entities.Sprint>());
             
             //Act
-            var result = await sprintService.GetAllSprintsFromEpicAsync(epicId);
+            var result = await sprintService.GetAllSprintsFromEpicAsync(epicId, null);
 
             //Assert
             Assert.NotNull(result.Items);

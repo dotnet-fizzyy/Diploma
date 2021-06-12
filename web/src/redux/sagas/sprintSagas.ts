@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import SprintApi from '../../api/sprintApi';
 import { ISprint } from '../../types/sprintTypes';
 import {
@@ -16,10 +16,13 @@ import {
     IUpdateSprintRequest,
     SprintActions,
 } from '../actions/sprintActions';
+import { getUserSelectedTeamId } from '../selectors/userSelectors';
 
 export function* getSprints(action: IGetSprintsFromEpicRequest) {
     try {
-        const sprints: ISprint[] = yield call(SprintApi.getSprintsFromEpic, action.payload);
+        const selectedTeamId: string = yield select(getUserSelectedTeamId);
+
+        const sprints: ISprint[] = yield call(SprintApi.getSprintsFromEpic, action.payload, selectedTeamId);
         yield put(getSprintsFromEpicSuccess(sprints));
     } catch (error) {
         yield put(getSprintsFromEpicFailure(error));

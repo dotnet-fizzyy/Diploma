@@ -27,9 +27,9 @@ namespace WebAPI.ApplicationLogic.Services
             _sprintMapper = sprintMapper;
         }
 
-        public async Task<CollectionResponse<FullSprint>> GetAllSprintsFromEpicAsync(Guid epicId)
+        public async Task<CollectionResponse<FullSprint>> GetAllSprintsFromEpicAsync(Guid epicId, Guid? teamId)
         {
-            var sprintEntities = await _sprintRepository.GetFullSprintsByEpicId(epicId);
+            var sprintEntities = await _sprintRepository.GetFullSprintsByEpicId(epicId, teamId);
            
             var sprintsCollectionResponse = new CollectionResponse<FullSprint>
             {

@@ -71,7 +71,7 @@ namespace WebAPI.ApplicationLogic.Services
             return searchResults;
         }
 
-        public async Task<BoardPage> GetBoardPageDataAsync(Guid projectId, Guid teamId, Guid userId)
+        public async Task<BoardPage> GetBoardPageDataAsync(Guid projectId, Guid teamId, Guid? epicId, Guid? sprintId, Guid userId)
         {
             var team = await _teamRepository.GetUserTeamById(teamId, userId);
             if (team == null)
@@ -87,7 +87,7 @@ namespace WebAPI.ApplicationLogic.Services
                 return new BoardPage();
             }
             
-            var latestEpic = epics.First();
+            var latestEpic = epicId.HasValue ? epics.First(x => x.Id == epicId) : epics.First();
             var sprints = await _sprintRepository.GetFullSprintsByEpicId(latestEpic.Id, teamId);
             foreach (var sprint in sprints)
             {

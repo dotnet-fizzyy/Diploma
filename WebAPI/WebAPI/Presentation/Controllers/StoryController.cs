@@ -40,12 +40,13 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CollectionResponse<Story>>> SortStories(
+            [FromQuery, BindRequired] Guid teamId,
             [FromQuery, BindRequired] Guid epicId,
             [FromQuery] Guid? sprintId,
             [FromQuery, BindRequired] string sortType,
             [FromQuery, BindRequired] OrderType orderType
             ) => 
-                await _storyService.SortStories(epicId, sprintId, sortType, orderType);
+                await _storyService.SortStories(epicId, teamId, sprintId, sortType, orderType);
         
         /// <summary>
         /// Receive all stories from epic by epic id
@@ -58,8 +59,8 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesFormEpic(Guid epicId) => 
-            await _storyService.GetStoriesFromEpicAsync(epicId);
+        public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesFormEpic(Guid epicId, [FromQuery]Guid? teamId) => 
+            await _storyService.GetStoriesFromEpicAsync(epicId, teamId);
         
         /// <summary>
         /// Receive all stories from epic by sprint id

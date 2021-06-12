@@ -259,6 +259,7 @@ namespace WebAPI.UnitTests.Services
             var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var userId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
             var sprintId = new Guid("1111238f-0000-0000-7777-ab79b8805555");
+            var teamId = new Guid("2222238f-0000-0000-7777-ab79b8805555");
             const int estimate = 3;
             const int recordVersion = 555;
             const string notes = "Notes";
@@ -319,17 +320,17 @@ namespace WebAPI.UnitTests.Services
                 }
             };
 
-            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._))
+            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._, A<Guid>._))
                 .Returns(entities);
 
             //Act
-            var result = await storyService.SortStories(epicId, null, SortTypes.Title, Core.Enums.OrderType.Asc);
+            var result = await storyService.SortStories(epicId, teamId,null, SortTypes.Title, Core.Enums.OrderType.Asc);
 
             //Assert
             Assert.Equal(expectedModels.Count, result.Count);
             AssertStoryModelProperties(expectedModels.Items[0], result.Items[0]);
 
-            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._))
+            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._, A<Guid>._))
                 .MustHaveHappened();
             A.CallTo(() => storyRepository.SearchForMultipleItemsAsync(A<Expression<Func<Core.Entities.Story, bool>>>._))
                 .MustNotHaveHappened();
@@ -353,6 +354,7 @@ namespace WebAPI.UnitTests.Services
             var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var userId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
             var sprintId = new Guid("1111238f-0000-0000-7777-ab79b8805555");
+            var teamId = new Guid("2222238f-0000-0000-7777-ab79b8805555");
             const int estimate = 3;
             const int recordVersion = 555;
             const string notes = "Notes";
@@ -417,7 +419,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(entities);
 
             //Act
-            var result = await storyService.SortStories(epicId, sprintId, SortTypes.Title, Core.Enums.OrderType.Asc);
+            var result = await storyService.SortStories(epicId,  teamId, sprintId, SortTypes.Title, Core.Enums.OrderType.Asc);
 
             //Assert
             Assert.Equal(expectedModels.Count, result.Count);
@@ -425,7 +427,7 @@ namespace WebAPI.UnitTests.Services
 
             A.CallTo(() => storyRepository.SearchForMultipleItemsAsync(A<Expression<Func<Core.Entities.Story, bool>>>._))
                 .MustHaveHappenedOnceExactly();
-            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._))
+            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._, A<Guid>._))
                 .MustNotHaveHappened();
         }
         
@@ -443,15 +445,16 @@ namespace WebAPI.UnitTests.Services
             var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
 
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
+            var teamId = new Guid("2222238f-0000-0000-7777-ab79b8805555");
 
-            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._))
+            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._, A<Guid>._))
                 .Returns(new List<Core.Entities.Story>());
 
             //Act
             //Act && Assert
-            await Assert.ThrowsAsync<UserFriendlyException>(async () => await storyService.SortStories(epicId, null, SortTypes.Title, Core.Enums.OrderType.Asc));
+            await Assert.ThrowsAsync<UserFriendlyException>(async () => await storyService.SortStories(epicId, teamId, null, SortTypes.Title, Core.Enums.OrderType.Asc));
 
-            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._))
+            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._, A<Guid>._))
                 .MustHaveHappened();
             A.CallTo(() => storyRepository.SearchForMultipleItemsAsync(A<Expression<Func<Core.Entities.Story, bool>>>._))
                 .MustNotHaveHappened();
@@ -475,6 +478,7 @@ namespace WebAPI.UnitTests.Services
             var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var userId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
             var sprintId = new Guid("1111238f-0000-0000-7777-ab79b8805555");
+            var teamId = new Guid("2222238f-0000-0000-7777-ab79b8805555");
             const int estimate = 3;
             const int recordVersion = 555;
             const string notes = "Notes";
@@ -535,11 +539,11 @@ namespace WebAPI.UnitTests.Services
                 }
             };
 
-            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._))
+            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._, A<Guid>._))
                 .Returns(entities);
             
             //Act
-            var result = await storyService.GetStoriesFromEpicAsync(epicId);
+            var result = await storyService.GetStoriesFromEpicAsync(epicId, teamId);
 
             //Assert
             Assert.Equal(expectedModels.Count, result.Count);
@@ -560,12 +564,13 @@ namespace WebAPI.UnitTests.Services
             var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
             
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
+            var teamId = new Guid("2222238f-0000-0000-7777-ab79b8805555");
 
-            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._))
+            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._, A<Guid>._))
                 .Returns(new List<Core.Entities.Story>());
             
             //Act
-            var result = await storyService.GetStoriesFromEpicAsync(epicId);
+            var result = await storyService.GetStoriesFromEpicAsync(epicId, teamId);
 
             //Assert
             Assert.NotNull(result.Items);

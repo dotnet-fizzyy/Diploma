@@ -10,9 +10,9 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<CollectionResponse<Story>> GetStoriesFromSprintAsync(Guid sprintId);
         
-        Task<CollectionResponse<Story>> GetStoriesFromEpicAsync(Guid epicId);
+        Task<CollectionResponse<Story>> GetStoriesFromEpicAsync(Guid epicId, Guid? teamId);
 
-        Task<CollectionResponse<Story>> SortStories(Guid epicId, Guid? sprintId, string sortType, OrderType orderType);
+        Task<CollectionResponse<Story>> SortStories(Guid epicId, Guid teamId, Guid? sprintId, string sortType, OrderType orderType);
         
         Task<Story> GetStoryByIdAsync(Guid storyId);
 
