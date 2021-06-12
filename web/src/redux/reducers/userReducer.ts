@@ -140,6 +140,10 @@ function handleChangeUserProject(state: IUserState, action: UserActions.IChangeU
     return {
         ...state,
         selectedProject: action.payload,
+        selectedTeam:
+            state.user.teams && state.user.teams.length && state.user.teams.some((x) => x.projectId === action.payload)
+                ? state.user.teams.find((x) => x.projectId === action.payload).teamId
+                : '',
     };
 }
 

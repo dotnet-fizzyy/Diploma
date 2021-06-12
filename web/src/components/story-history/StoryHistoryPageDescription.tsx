@@ -9,6 +9,7 @@ import {
     getStoryHistoryActionTextForBooleanValues,
     getStoryHistoryUpdateAction,
 } from '../../utils/storyHistoryUtils';
+import Button from '../common/Button';
 import MainLabel, { LabelType } from '../common/MainLabel';
 import StoryHistoryCharts from './StoryHistoryCharts';
 import StoryHistoryShortDescription from './StoryHistoryShortDescription';
@@ -49,6 +50,10 @@ const useStyles = makeStyles(() =>
         descPagePartLabel: {
             marginLeft: '3px',
         },
+        buttonContainer: {
+            width: 'fit-content',
+            marginTop: '20px',
+        },
     })
 );
 
@@ -57,11 +62,12 @@ export interface IStoryHistoryPageDescriptionProps {
     storyHistoryItems: IStoryHistory[];
     selectedDate: string;
     onChangeSelectedDateFilter: (selectedDate: string) => void;
+    onClickResetFilter: () => void;
 }
 
 const StoryHistoryPageDescription = (props: IStoryHistoryPageDescriptionProps) => {
     const classes = useStyles();
-    const { story, storyHistoryItems, selectedDate, onChangeSelectedDateFilter } = props;
+    const { story, storyHistoryItems, selectedDate, onChangeSelectedDateFilter, onClickResetFilter } = props;
     const booleanStatuses: string[] = ['Ready', 'Blocked'];
 
     const getStoryHistoryItem = ({
@@ -133,6 +139,9 @@ const StoryHistoryPageDescription = (props: IStoryHistoryPageDescriptionProps) =
                         selectedDate={selectedDate}
                         onChangeSelectedDateFilter={onChangeSelectedDateFilter}
                     />
+                    <div className={classes.buttonContainer}>
+                        <Button disabled={false} label="Reset filter" onClick={onClickResetFilter} />
+                    </div>
                 </div>
             </div>
         </div>

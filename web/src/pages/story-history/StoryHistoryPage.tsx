@@ -29,11 +29,12 @@ export interface IStoryHistoryPageProps {
     storyHistoryItems: IStoryHistory[];
     selectedDate: string;
     onChangeSelectedDateFilter: (selectedDate: string) => void;
+    onClickResetFilter: () => void;
 }
 
 const StoryHistoryPage = (props: IStoryHistoryPageProps) => {
     const classes = useStyles();
-    const { storyHistoryItems, story, selectedDate, onChangeSelectedDateFilter } = props;
+    const { storyHistoryItems, story, selectedDate, onChangeSelectedDateFilter, onClickResetFilter } = props;
 
     return (
         <div className={classes.root}>
@@ -42,6 +43,7 @@ const StoryHistoryPage = (props: IStoryHistoryPageProps) => {
                 story={story}
                 selectedDate={selectedDate}
                 onChangeSelectedDateFilter={onChangeSelectedDateFilter}
+                onClickResetFilter={onClickResetFilter}
             />
         </div>
     );

@@ -47,9 +47,9 @@ export const EpicDisplay = (props: IProjectDisplayProps) => {
             <span className={classnames(classes.projectLabel)}>Epics</span>
             <NavigateNextIcon className={classes.icon} />
             <div className={classes.dropdownContainer}>
-                {epics && epics.length && (
+                {epics && epics.length ? (
                     <Dropdown value={selectedEpicId} items={epics} onChangeEvent={onChangeEpic} isOutlined={false} />
-                )}
+                ) : null}
             </div>
         </div>
     );

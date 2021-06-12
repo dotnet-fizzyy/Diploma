@@ -19,6 +19,10 @@ const StoryHistoryPageContainer = () => {
         setSelectedDate(newDate);
     };
 
+    const onClickResetFilter = (): void => {
+        setSelectedDate('');
+    };
+
     useEffect(() => {
         if (params && params.storyId) {
             dispatch(getStoryHistoryRequest(params.storyId));
@@ -30,6 +34,7 @@ const StoryHistoryPageContainer = () => {
         story,
         selectedDate,
         onChangeSelectedDateFilter,
+        onClickResetFilter,
     };
 
     return <StoryHistoryPage {...storyHistoryPageProps} />;

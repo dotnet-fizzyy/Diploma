@@ -16,8 +16,7 @@ const ProjectPageContainer = () => {
         if (params && 'projectId' in params) {
             dispatch(getProjectPageRequest((params as any).projectId));
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [dispatch, params]);
 
     const projectPageProps: IProjectPageProps = {
         project,
