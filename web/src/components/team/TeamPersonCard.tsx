@@ -13,8 +13,9 @@ const useStyles = makeStyles(() =>
     createStyles({
         root: {
             width: '100%',
-            height: 'max-content',
+            height: '100%',
             maxWidth: '420px',
+            minHeight: '270px',
             maxHeight: '300px',
             backgroundColor: '#FFF',
             borderRadius: '10px',
@@ -22,6 +23,8 @@ const useStyles = makeStyles(() =>
             borderColor: 'rgba(175, 193, 196, 0.2)',
         },
         body: {
+            boxSizing: 'border-box',
+            height: '100%',
             padding: '10px',
             display: 'flex',
             flexDirection: 'column',
@@ -72,6 +75,11 @@ const useStyles = makeStyles(() =>
         },
         deactivatedPerson: {
             color: '#ffbdb9',
+        },
+        buttonContainer: {
+            height: '100%',
+            display: 'flex',
+            alignItems: 'flex-end',
         },
     })
 );
@@ -129,14 +137,16 @@ const TeamPersonCard = (props: ITeamPersonCardProps) => {
                         <span className={classes.text}>{user.email}</span>
                     </div>
                 </div>
-                {isEditingAllowed && (
-                    <Button
-                        label={user.isActive ? 'Deactivate' : 'Activate'}
-                        disabled={false}
-                        buttonVariant={user.isActive ? ButtonVariant.DANGER : ButtonVariant.SUCCESS}
-                        onClick={onClick}
-                    />
-                )}
+                <div className={classes.buttonContainer}>
+                    {isEditingAllowed && (
+                        <Button
+                            label={user.isActive ? 'Deactivate' : 'Activate'}
+                            disabled={false}
+                            buttonVariant={user.isActive ? ButtonVariant.DANGER : ButtonVariant.SUCCESS}
+                            onClick={onClick}
+                        />
+                    )}
+                </div>
             </div>
         </div>
     );

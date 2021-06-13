@@ -63,7 +63,6 @@ const SidebarStoryDescriptionContainer = () => {
             blockReason: values.blockReason ? values.blockReason.trim() : null,
             description: values.description.trim(),
         };
-
         dispatch(storyUpdateChangesRequest(updatedStory));
     };
 

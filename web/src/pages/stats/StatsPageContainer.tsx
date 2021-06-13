@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { changeStatsEpic } from '../../redux/actions/epicActions';
+import { changeStatsEpic, setSelectedEpicById } from '../../redux/actions/epicActions';
 import { getProjectStatsPageRequest } from '../../redux/actions/projectActions';
 import { changeStatsSprint } from '../../redux/actions/sprintActions';
 import { getEpicsDropdownItems, getSelectedEpicId } from '../../redux/selectors/epicSelectors';
@@ -58,6 +58,7 @@ const StatsPageContainer = () => {
             return;
         }
 
+        dispatch(setSelectedEpicById(''));
         dispatch(getProjectStatsPageRequest(projectId));
         // eslint-disable-next-line
     }, []);

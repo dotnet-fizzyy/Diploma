@@ -16,6 +16,7 @@ export const mapToStoryModel = (data): IStory => ({
     userId: data.userId,
     creationDate: new Date(data.creationDate),
     requiredPosition: data.requiredPosition,
+    teamId: data.teamId,
 });
 
 export const mapToStoryHistoryModel = (data): IStoryHistory => ({

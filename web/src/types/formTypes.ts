@@ -65,4 +65,5 @@ export interface IStoryFormTypes {
     sprintId: string;
     storyPriority: Priority;
     requiredPosition: UserPosition;
+    teamId?: string;
 }

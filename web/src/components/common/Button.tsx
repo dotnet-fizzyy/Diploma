@@ -73,7 +73,7 @@ const useStyles = makeStyles(() =>
                             return 'red';
                         case ButtonVariant.PRIMARY:
                         default:
-                            return '#E8F4FF';
+                            return '#5d94c5';
                     }
                 },
                 boxShadow: 'none',
