@@ -1,4 +1,4 @@
-using System;
+using System.Text.Json.Serialization;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,8 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using WebAPI.Core.Configuration;
 using WebAPI.Startup.Configuration;
 
@@ -35,9 +33,9 @@ namespace WebAPI.Startup
                 Redis = redisSettings
             };
 
-            services.AddControllers().AddNewtonsoftJson(options =>
+            services.AddControllers().AddJsonOptions(options =>
             {
-                options.SerializerSettings.Converters.Add(new EnumConverter());
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
 
             services
@@ -98,22 +96,6 @@ namespace WebAPI.Startup
             var redisSettings = configuration.GetSection(nameof(AppSettings.Redis)).Get<RedisSettings>();
 
             return (databaseSettings, tokenSettings, redisSettings);
-        }
-    }
-    
-    public class EnumConverter : StringEnumConverter
-    {
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
-            JsonSerializer serializer)
-        {
-            try
-            {
-                return base.ReadJson(reader, objectType, existingValue, serializer);
-            }
-            catch (JsonSerializationException)
-            {
-                return null;
-            }
         }
     }
 }
