@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using WebAPI.Core.Configuration;
 using WebAPI.Startup.Configuration;
 
@@ -33,9 +34,10 @@ namespace WebAPI.Startup
                 Redis = redisSettings
             };
 
-            services.AddControllers().AddJsonOptions(options =>
+            services.AddControllers().AddNewtonsoftJson(options =>
             {
-                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                options.SerializerSettings.Converters.Add(new StringEnumConverter());
             });
 
             services
