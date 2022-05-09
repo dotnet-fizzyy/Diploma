@@ -8,10 +8,6 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@material-ui/pickers": "^3.3.10",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "@types/react-redux": "^7.1.9",
     "axios": "^0.21.0",
     "chart.js": "^3.2.1",
     "classnames": "^2.2.6",
@@ -63,6 +59,10 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/react-redux": "^7.1.9",
     "@types/classnames": "^2.2.10",
     "@types/jest": "^26.0.23",
     "@types/react-beautiful-dnd": "^13.0.0",
@@ -79,6 +79,6 @@
     "tslint-plugin-prettier": "^2.3.0",
     "tslint-react": "^5.0.0",
     "typescript": "^4.0.2",
-    "yarn": "1.22.14"
+    "yarn": "1.22.18"
   }
 }
