@@ -2,7 +2,7 @@
 
 ### About Project
 
-This project represents Back-End part for _web_ project and represents RESTful web-service.
+This project represents Back-End part for _diploma_ project and implements RESTful web-service.
 
 ### Built With
 
@@ -52,14 +52,14 @@ Docker is not necessary to launch application if you have prepared prerequisites
 docker-compose up --build
 ```
 4. Wait until corresponding images will be downloaded, all steps from Dockerfile will pass and application will start;
-5. Visit the following URL: http://localhost:7000/swagger. You should be able to see Swagger description;
+5. Visit the following URL: http://localhost:3006. You should be able to see Swagger description;
 6. If you need to stop Docker containers, you can just press `ctrl + C` keyboard combination in your terminal and wait until containers will be stopped. To terminate containers, enter (or stop via Docker dashboard):
 ```
 docker-compose down
 ```
 7. To remove application images, enter the following command (or remove via Docker UI dashboard):
 ```
-docker rmi postgres:10.11 redis:5.0.5 web-api ui
+docker rmi postgres:10.11 redis:5.0.5 web-api
 ```
 
 ### Logging

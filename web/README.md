@@ -1,68 +1,72 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## web
 
-## Available Scripts
+### About Project
 
-In the project directory, you can run:
+This project represents Front-End part for _diploma_ project and implements SPA.
 
-### `yarn start`
+### Built With
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+* [React 16.13](https://reactjs.org/);
+* [Redux](https://redux.js.org/);
+* [Redux Saga](https://redux-saga.js.org/);
+* [React Formik](https://formik.org/overview);
+* [Material UI 4](https://v4.mui.com/getting-started/installation/);
+* [Jest](https://jestjs.io/);
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Prerequisites
 
-### `yarn test`
+Before launching this application make sure you have prepared the following components:
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* Windows | macOS | Linux;
+* [NodeJS 14](https://nodejs.org/gl/blog/release/v14.0.0/)
+* [Visual Studio](https://visualstudio.microsoft.com/) | [Visual Studio Code](https://code.visualstudio.com/) | [Webstorm](https://www.jetbrains.com/webstorm/);
+* [Yarn](https://yarnpkg.com/) - optional (included in _package.json_);
+* [Docker](https://www.docker.com/) - optional;
 
-### `yarn build`
+### Installation and launch
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone repository
+```
+git clone https://github.com/dotnet-fizzyy/Diploma.git
+```
+2. Open directory _web_;
+3. Run the command to install dependencies
+```
+npm install
+```
+4. If you have Yarn installed on your OS, you can just run the following command:
+```
+yarn start
+```
+otherwise
+```
+npm run start
+```
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Application will build its modules and your browser should be opened.;
+5. Visit the following URL: https://localhost:3000. You should see start page of application for a while;
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Docker
 
-### `yarn eject`
+Docker is not necessary to launch application if you have prepared prerequisites for your physical OS. If you want to launch it without and modifications and would like to see the working result, you can refer to the next steps:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+1. Follow the first step from previous article;
+2. Open project root directory via terminal (_diploma_ directory);
+3. Run the following command:
+```
+docker-compose up --build
+```
+4. Wait until corresponding images will be downloaded, all steps from Dockerfile will pass and application will start;
+5. Visit the following URL: http://localhost:7000/swagger. You should be able to see Swagger description;
+6. If you need to stop Docker containers, you can just press `ctrl + C` keyboard combination in your terminal and wait until containers will be stopped. To terminate containers, enter (or stop via Docker dashboard):
+```
+docker-compose down
+```
+7. To remove application images, enter the following command (or remove via Docker UI dashboard):
+```
+docker rmi node:14-alpine ui
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Contact
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+dotnet-fizzyy | [GitHub](https://github.com/dotnet-fizzyy) | ezzyfizzy27@gmail.com
