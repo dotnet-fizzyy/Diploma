@@ -15,9 +15,10 @@ This project represents Back-End part for _diploma_ project and implements RESTf
 
 ### Prerequisites
 
-Before launching this application make sure you have prepared the following components:
+Before launching this application make sure the following components are prepared:
 
 * Windows | macOS | Linux;
+* [Dotnet CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/);
 * [.Net Core 3.1](https://dotnet.microsoft.com/en-us/download/dotnet/3.1/);
 * [PostgreSQL](https://www.postgresql.org/);
 * [Redis](https://redis.io/) - optional;
@@ -33,17 +34,41 @@ git clone https://github.com/dotnet-fizzyy/Diploma.git
 ```
 2. Run **WebAPI.sln** in the current directory;
 3. Depending on your OS, choose IIS or Kestrel as hosting webservices;
-4. Make sure your PostgreSQL database instance is running. Redis is optional and is used only for performance increasing. Otherwise you will not be able to launch app;
+4. Make sure your PostgreSQL database instance is running. Redis is optional and is used only for performance increasing. Otherwise will not be able to launch app;
 5. Start the application;
 6. Visit the following URLs: 
 
-* https://localhost:{port}. You should see HTML page with the following content: **Web-Api is running**;
+* https://localhost:{port}. Should see HTML page with the following content: **Web-Api is running**;
 
-* https://localhost:{port}/swagger. You should be able to see Swagger description (port - depends on your web-server this value may vary);
+* https://localhost:{port}/swagger. Should be able to see Swagger description (port - depends on your web-server this value may vary);
+
+To run app via Dotnet CLI run the following command (please, notice, in this case only Kestrel will be used):
+```
+dotnet run --project ./WebAPI/WebAPI.csproj
+```
+
+### Testing
+
+Application supports the following types of tests:
+
+* Unit;
+
+To be able to run Unit tests select appropriate tool in IDE or run the following command:
+```
+dotnet test ./WebApi.UnitTests
+```
+
+Unit tests cover the following parts:
+* Controllers;
+* Services;
+* Handlers;
+* Utilities;
+* Mappers;
+* Validators logic.
 
 ### Docker
 
-Docker is not necessary to launch application if you have prepared prerequisites for your physical OS. If you want to launch it without and modifications and would like to see the working result, you can refer to the next steps:
+Docker is not necessary to launch application in case of prepared prerequisites for your physical OS. To launch it without any modifications and wish to see the working result, refer to the next steps:
 
 1. Follow the first step from previous article;
 2. Open project root directory via terminal (_diploma_ directory);
@@ -52,8 +77,8 @@ Docker is not necessary to launch application if you have prepared prerequisites
 docker-compose up --build
 ```
 4. Wait until corresponding images will be downloaded, all steps from Dockerfile will pass and application will start;
-5. Visit the following URL: http://localhost:3006. You should be able to see Swagger description;
-6. If you need to stop Docker containers, you can just press `ctrl + C` keyboard combination in your terminal and wait until containers will be stopped. To terminate containers, enter (or stop via Docker dashboard):
+5. Visit the following URL: http://localhost:3006. Should be able to see Swagger description;
+6. If there is a need to stop Docker containers, just press `ctrl + C` keyboard combination in terminal and wait until containers will be stopped. To terminate containers, enter (or stop via Docker dashboard):
 ```
 docker-compose down
 ```
