@@ -1,4 +1,4 @@
-## WebAPI
+# WebAPI
 
 ### About Project
 
@@ -100,6 +100,6 @@ For more examples, please, refer to the following options:
 
 * [Swagger](https://swagger.io/);
 
-### Contact
+## Contact
 
 dotnet-fizzyy | [GitHub](https://github.com/dotnet-fizzyy) | ezzyfizzy27@gmail.com

@@ -1,4 +1,4 @@
-## web
+# web
 
 ### About Project
 
@@ -87,6 +87,6 @@ docker-compose down
 docker rmi node:14-alpine ui
 ```
 
-### Contact
+## Contact
 
 dotnet-fizzyy | [GitHub](https://github.com/dotnet-fizzyy) | ezzyfizzy27@gmail.com
