@@ -2,13 +2,9 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import moment from 'moment';
 import React from 'react';
-import { DateFormat } from '../../constants';
+import { DateFormat, UnspecifiedValue } from '../../constants';
 import { IStory, IStoryHistory, StoryHistoryAction } from '../../types/storyTypes';
-import {
-    getStoryHistoryActionText,
-    getStoryHistoryActionTextForBooleanValues,
-    getStoryHistoryUpdateAction,
-} from '../../utils/storyHistoryUtils';
+import { getStoryHistoryActionText } from '../../utils/storyHistoryUtils';
 import Button from '../common/Button';
 import MainLabel, { LabelType } from '../common/MainLabel';
 import StoryHistoryCharts from './StoryHistoryCharts';
@@ -69,6 +65,29 @@ const StoryHistoryPageDescription = (props: IStoryHistoryPageDescriptionProps) =
     const classes = useStyles();
     const { story, storyHistoryItems, selectedDate, onChangeSelectedDateFilter, onClickResetFilter } = props;
     const booleanStatuses: string[] = ['Ready', 'Blocked'];
+
+    const getStoryHistoryActionTextForBooleanValues = (fieldName: string, value: boolean): React.ReactNode => {
+        return value ? (
+            <span>
+                set <b>{fieldName}</b> status
+            </span>
+        ) : (
+            <span>
+                removed <b>{fieldName}</b> status
+            </span>
+        );
+    };
+
+    const getStoryHistoryUpdateAction = (
+        fieldName: string,
+        previousValue: string,
+        currentValue: string
+    ): React.ReactNode => (
+        <>
+            {getStoryHistoryActionText(StoryHistoryAction.Update)} <b>{fieldName}</b> from{' '}
+            <b>{previousValue || <i>{UnspecifiedValue}</i>}</b> to <b>{currentValue || <i>{UnspecifiedValue}</i>}</b>{' '}
+        </>
+    );
 
     const getStoryHistoryItem = ({
         storyHistoryId,

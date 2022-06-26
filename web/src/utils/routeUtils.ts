@@ -9,7 +9,7 @@ abstract class BaseRouteGuard {
     }
 
     protected baseValidation(): boolean {
-        return !!(this._user && this._user.userId && this._user.userRole);
+        return !!(this._user?.userId && this._user?.userRole);
     }
 
     protected abstract validate(): boolean;
@@ -37,8 +37,8 @@ export class CustomerRouteGuard extends BaseRouteGuard {
     }
 }
 
-export function getQueryParameter(search: string, key: string): string {
+export const getQueryParameter = (search: string, key: string): string => {
     const params = new URLSearchParams(search);
 
     return params.get(key);
-}
+};
