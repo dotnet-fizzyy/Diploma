@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using FakeItEasy;
 using WebAPI.Core.Entities;
-using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Mappers;
 using Xunit;
@@ -15,9 +13,7 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldReturnEmptyModelOnNullEntity()
         {
             //Arrange
-            var storyMapper = A.Fake<IStoryMapper>();
-
-            var sprintMapper = new SprintMapper(storyMapper);
+            var sprintMapper = new SprintMapper();
             
             //Act
             var mappedResult = sprintMapper.MapToModel(null);
@@ -30,9 +26,7 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldReturnEmptyEntityOnNullModel()
         {
             //Arrange
-            var storyMapper = A.Fake<IStoryMapper>();
-
-            var sprintMapper = new SprintMapper(storyMapper);
+            var sprintMapper = new SprintMapper();
             
             //Act
             var mappedResult = sprintMapper.MapToEntity(null);
@@ -45,8 +39,6 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldMapEntityToModel()
         {
             //Arrange
-            var storyMapper = A.Fake<IStoryMapper>();
-
             var sprintId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var epicId = new Guid("1b7572ee-eb5b-4094-bd5e-e2191090c444");
             const string sprintName = "SprintName";
@@ -74,7 +66,7 @@ namespace WebAPI.UnitTests.Mappers
                 IsDeleted = isDeleted
             };
             
-            var sprintMapper = new SprintMapper(storyMapper);
+            var sprintMapper = new SprintMapper();
             
             //Act
             var mappedResult = sprintMapper.MapToModel(sprintEntity);
@@ -87,8 +79,6 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldMapModelToEntity()
         {
             //Arrange
-            var storyMapper = A.Fake<IStoryMapper>();
-
             var sprintId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var epicId = new Guid("1b7572ee-eb5b-4094-bd5e-e2191090c444");
             const string sprintName = "SprintName";
@@ -113,7 +103,7 @@ namespace WebAPI.UnitTests.Mappers
                 EpicId = epicId,
             };
             
-            var sprintMapper = new SprintMapper(storyMapper);
+            var sprintMapper = new SprintMapper();
             
             //Act
             var mappedResult = sprintMapper.MapToEntity(sprintModel);
@@ -173,7 +163,7 @@ namespace WebAPI.UnitTests.Mappers
                 }
             };
 
-            var sprintMapper = new SprintMapper(new StoryMapper(new StoryHistoryMapper()));
+            var sprintMapper = new SprintMapper();
             
             //Act
             var mappedResult = sprintMapper.MapToFullModel(sprintEntity);

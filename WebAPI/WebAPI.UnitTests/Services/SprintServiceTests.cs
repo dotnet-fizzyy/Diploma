@@ -20,7 +20,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper(new StoryMapper(new StoryHistoryMapper()));
+            var sprintMapper = new SprintMapper();
 
             var sprintService = new SprintService(sprintRepository, sprintMapper);
             
@@ -69,7 +69,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper(new StoryMapper(new StoryHistoryMapper()));
+            var sprintMapper = new SprintMapper();
 
             var sprintService = new SprintService(sprintRepository, sprintMapper);
             
@@ -90,7 +90,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper(new StoryMapper(new StoryHistoryMapper()));
+            var sprintMapper = new SprintMapper();
 
             var sprintService = new SprintService(sprintRepository, sprintMapper);
             
@@ -164,7 +164,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper(new StoryMapper(new StoryHistoryMapper()));
+            var sprintMapper = new SprintMapper();
 
             var sprintService = new SprintService(sprintRepository, sprintMapper);
             
@@ -185,7 +185,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper(new StoryMapper(new StoryHistoryMapper()));
+            var sprintMapper = new SprintMapper();
 
             var sprintService = new SprintService(sprintRepository, sprintMapper);
             
@@ -245,7 +245,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper(new StoryMapper(new StoryHistoryMapper()));
+            var sprintMapper = new SprintMapper();
 
             var sprintService = new SprintService(sprintRepository, sprintMapper);
             
@@ -270,7 +270,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper(new StoryMapper(new StoryHistoryMapper()));
+            var sprintMapper = new SprintMapper();
 
             var sprintService = new SprintService(sprintRepository, sprintMapper);
             
@@ -327,7 +327,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper(new StoryMapper(new StoryHistoryMapper()));
+            var sprintMapper = new SprintMapper();
 
             var sprintService = new SprintService(sprintRepository, sprintMapper);
             
@@ -386,7 +386,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper(new StoryMapper(new StoryHistoryMapper()));
+            var sprintMapper = new SprintMapper();
 
             var sprintService = new SprintService(sprintRepository, sprintMapper);
 
@@ -411,7 +411,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper(new StoryMapper(new StoryHistoryMapper()));
+            var sprintMapper = new SprintMapper();
 
             var sprintService = new SprintService(sprintRepository, sprintMapper);
             

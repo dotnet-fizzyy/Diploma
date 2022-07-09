@@ -40,10 +40,8 @@ namespace WebAPI.Startup.Configuration
             services.AddScoped<IRedisContext, RedisContext>();
             
             //Mappers
-            services.AddSingleton<IStoryMapper, StoryMapper>();
             services.AddSingleton<IEpicMapper, EpicMapper>();
             services.AddSingleton<IUserMapper, UserMapper>();
-            services.AddSingleton<IStoryHistoryMapper, StoryHistoryMapper>();
             services.AddSingleton<ISprintMapper, SprintMapper>();
             services.AddSingleton<ITeamMapper, TeamMapper>();
             services.AddSingleton<IProjectMapper, ProjectMapper>();

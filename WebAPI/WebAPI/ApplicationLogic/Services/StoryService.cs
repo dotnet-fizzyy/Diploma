@@ -9,11 +9,11 @@ using WebAPI.Core.Constants;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
-using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Aggregators;
+using WebAPI.Presentation.Mappers;
 
 namespace WebAPI.ApplicationLogic.Services
 {
@@ -23,20 +23,17 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly ISprintRepository _sprintRepository;        
         private readonly IStoryHistoryRepository _storyHistoryRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IStoryMapper _storyMapper;
 
         public StoryService(
             IStoryRepository storyRepository, 
             ISprintRepository sprintRepository,
             IStoryHistoryRepository storyHistoryRepository,
-            IUserRepository userRepository,
-            IStoryMapper storyMapper)
+            IUserRepository userRepository)
         {
             _storyRepository = storyRepository;
             _sprintRepository = sprintRepository;
             _storyHistoryRepository = storyHistoryRepository;
             _userRepository = userRepository;
-            _storyMapper = storyMapper;
         }
 
         public async Task<CollectionResponse<Story>> GetStoriesFromEpicAsync(Guid epicId, Guid? teamId)
@@ -45,7 +42,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             var collectionResponse = new CollectionResponse<Story>
             {
-                Items = storyEntities.Select(_storyMapper.MapToModel).ToList()
+                Items = storyEntities.Select(StoryMapper.Map).ToList()
             };
 
             return collectionResponse;
@@ -75,7 +72,7 @@ namespace WebAPI.ApplicationLogic.Services
             
             var collectionResponse = new CollectionResponse<Story>
             {
-                Items = storyEntities.Select(_storyMapper.MapToModel).ToList()
+                Items = storyEntities.Select(StoryMapper.Map).ToList()
             };
 
             return collectionResponse;
@@ -87,7 +84,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             var collectionResponse = new CollectionResponse<Story>
             {
-                Items = storyEntities.Select(_storyMapper.MapToModel).ToList()
+                Items = storyEntities.Select(StoryMapper.Map).ToList()
             };
 
             return collectionResponse;
@@ -102,7 +99,7 @@ namespace WebAPI.ApplicationLogic.Services
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(storyId)));
             }
             
-            var storyModel = _storyMapper.MapToModel(storyEntity);
+            var storyModel = StoryMapper.Map(storyEntity);
             
             return storyModel;
         }
@@ -119,7 +116,7 @@ namespace WebAPI.ApplicationLogic.Services
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(storyId)));
             }
             
-            var storyFullModel = _storyMapper.MapToFullModel(storyEntity);
+            var storyFullModel = StoryMapper.MapToFullModel(storyEntity);
 
             return storyFullModel;
         }
@@ -135,21 +132,21 @@ namespace WebAPI.ApplicationLogic.Services
                 TransactionScopeAsyncFlowOption.Enabled
             );
             
-            var storyEntity = _storyMapper.MapToEntity(story);
+            var storyEntity = StoryMapper.Map(story);
 
             var createdStoryEntity = await _storyRepository.CreateAsync(storyEntity);
             await _storyHistoryRepository.CreateAsync(StoryHistoryGenerator.GetStoryHistoryForCreation(userName, createdStoryEntity.Id));
             
             tr.Complete();
             
-            var storyModel = _storyMapper.MapToModel(createdStoryEntity);
+            var storyModel = StoryMapper.Map(createdStoryEntity);
             
             return storyModel;
         }
 
         public async Task<Story> UpdateStoryColumnAsync(Story story, string userName)
         {
-            var mappedStoryEntity = _storyMapper.MapToEntity(story);
+            var mappedStoryEntity = StoryMapper.Map(story);
             
             using var scope = new TransactionScope
             (
@@ -180,14 +177,15 @@ namespace WebAPI.ApplicationLogic.Services
 
             existingStoryEntity.RecordVersion = updatedStory.RecordVersion;
             existingStoryEntity.ColumnType = updatedStory.ColumnType;
-            var updatedStoryModel = _storyMapper.MapToModel(existingStoryEntity);
+
+            var updatedStoryModel = StoryMapper.Map(existingStoryEntity);
             
             return updatedStoryModel;
         }
 
         public async Task<Story> ChangeStoryStatusAsync(Story story, string userName)
         {
-            var storyEntity = _storyMapper.MapToEntity(story);
+            var storyEntity = StoryMapper.Map(story);
 
             using var scope = new TransactionScope
             (
@@ -242,7 +240,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             scope.Complete();
 
-            var updatedStoryModel = _storyMapper.MapToModel(existingStoryEntity);
+            var updatedStoryModel = StoryMapper.Map(existingStoryEntity);
 
             return updatedStoryModel;
         }
@@ -270,7 +268,7 @@ namespace WebAPI.ApplicationLogic.Services
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(storyUpdate.UserId)));
             }
             
-            var storyUpdateEntity = _storyMapper.MapToEntity(storyUpdate);
+            var storyUpdateEntity = StoryMapper.Map(storyUpdate);
 
             List<Core.Entities.Sprint> sprints = null;
             List<Core.Entities.User> users = null;
@@ -306,14 +304,14 @@ namespace WebAPI.ApplicationLogic.Services
     
             scope.Complete();
 
-            var storyModel = _storyMapper.MapToModel(updatedStory);
+            var storyModel = StoryMapper.Map(updatedStory);
             
             return storyModel;
         }
 
         public async Task RemoveStorySoftAsync(Story story)
         {
-            var storyEntity = _storyMapper.MapToEntity(story);
+            var storyEntity = StoryMapper.Map(story);
             
             await _storyRepository.DeleteStorySoftAsync(storyEntity);
         }

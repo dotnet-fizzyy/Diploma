@@ -1,46 +1,27 @@
 using System;
-using WebAPI.Core.Entities;
-using WebAPI.Core.Enums;
-using WebAPI.Core.Interfaces.Mappers;
+
+using StoryHistoryEntity = WebAPI.Core.Entities.StoryHistory;
+using StoryHistoryModel = WebAPI.Models.Models.Models.StoryHistory;
+using StoryHistoryActionModel = WebAPI.Models.Enums.StoryHistoryAction;
 
 namespace WebAPI.Presentation.Mappers
 {
-    public class StoryHistoryMapper : IStoryHistoryMapper
+    public static class StoryHistoryMapper
     {
-        public StoryHistory MapToEntity(WebAPI.Models.Models.Models.StoryHistory storyHistory)
+        public static StoryHistoryModel Map(StoryHistoryEntity storyHistory)
         {
             if (storyHistory == null)
             {
-                return new StoryHistory();
+                return new StoryHistoryModel();
             }
             
-            var storyHistoryEntity = new StoryHistory
-            {
-                Id = storyHistory.StoryHistoryId,
-                StoryId = storyHistory.StoryId,
-                StoryHistoryAction = Enum.Parse<StoryHistoryAction>(storyHistory.StoryHistoryAction.ToString(), true),
-                PreviousValue = storyHistory.PreviousValue,
-                CurrentValue = storyHistory.CurrentValue,
-                FieldName = storyHistory.FieldName,
-                UserName = storyHistory.UserName,
-                CreationDate = DateTime.Now,
-            };
-
-            return storyHistoryEntity;
-        }
-
-        public WebAPI.Models.Models.Models.StoryHistory MapToModel(StoryHistory storyHistory)
-        {
-            if (storyHistory == null)
-            {
-                return new WebAPI.Models.Models.Models.StoryHistory();
-            }
-            
-            var storyHistoryModel = new WebAPI.Models.Models.Models.StoryHistory
+            var storyHistoryModel = new StoryHistoryModel
             {
                 StoryHistoryId = storyHistory.Id,
                 StoryId = storyHistory.StoryId,
-                StoryHistoryAction = Enum.Parse<WebAPI.Models.Enums.StoryHistoryAction>(storyHistory.StoryHistoryAction.ToString(), true),
+                StoryHistoryAction = Enum.Parse<StoryHistoryActionModel>(
+                                    storyHistory.StoryHistoryAction.ToString(),
+                                         ignoreCase: true),
                 PreviousValue = storyHistory.PreviousValue,
                 CurrentValue = storyHistory.CurrentValue,
                 FieldName = storyHistory.FieldName,

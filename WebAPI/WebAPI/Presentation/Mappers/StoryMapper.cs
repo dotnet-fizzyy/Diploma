@@ -1,30 +1,29 @@
 using System;
 using System.Linq;
-using WebAPI.Core.Entities;
-using WebAPI.Core.Enums;
-using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Simple;
 
+using StoryEntity = WebAPI.Core.Entities.Story;
+using StoryModel = WebAPI.Models.Models.Models.Story;
+using StoryPriorityEntity = WebAPI.Core.Enums.StoryPriority;
+using StoryPriorityModel = WebAPI.Models.Enums.StoryPriority;
+using UserPositionEntity = WebAPI.Core.Enums.UserPosition;
+using UserPositionModel = WebAPI.Models.Enums.UserPosition;
+using ColumnTypeEntity = WebAPI.Core.Enums.ColumnType;
+using ColumnTypeModel = WebAPI.Models.Enums.ColumnType;
+
 namespace WebAPI.Presentation.Mappers
 {
-    public class StoryMapper : IStoryMapper
+    public static class StoryMapper
     {
-        private readonly IStoryHistoryMapper _storyHistoryMapper;
-        
-        public StoryMapper(IStoryHistoryMapper storyHistoryMapper)
-        {
-            _storyHistoryMapper = storyHistoryMapper;
-        }
-        
-        public Story MapToEntity(WebAPI.Models.Models.Models.Story story)
+        public static StoryEntity Map(StoryModel story)
         {
             if (story == null)
             {
-                return new Story();
+                return new StoryEntity();
             }
             
-            var storyEntity = new Story
+            var storyEntity = new StoryEntity
             {
                 Id = story.StoryId,
                 UserId = story.UserId,
@@ -38,9 +37,9 @@ namespace WebAPI.Presentation.Mappers
                 IsBlocked = story.IsBlocked,
                 BlockReason = story.BlockReason,
                 CreationDate = story.CreationDate,
-                RequiredPosition = Enum.Parse<UserPosition>(story.RequiredPosition.ToString()),
-                StoryPriority = Enum.Parse<StoryPriority>(story.StoryPriority.ToString()),
-                ColumnType = Enum.Parse<ColumnType>(story.ColumnType.ToString()),
+                RequiredPosition = Enum.Parse<UserPositionEntity>(story.RequiredPosition.ToString()),
+                StoryPriority = Enum.Parse<StoryPriorityEntity>(story.StoryPriority.ToString()),
+                ColumnType = Enum.Parse<ColumnTypeEntity>(story.ColumnType.ToString()),
                 IsDeleted = story.IsDeleted,
                 RecordVersion = story.RecordVersion,
             };
@@ -48,21 +47,21 @@ namespace WebAPI.Presentation.Mappers
             return storyEntity;
         }
 
-        public WebAPI.Models.Models.Models.Story MapToModel(Story storyEntity)
+        public static StoryModel Map(StoryEntity storyEntity)
         {
             if (storyEntity == null)
             {
-                return new WebAPI.Models.Models.Models.Story();
+                return new StoryModel();
             }
 
-            var storyModel = new WebAPI.Models.Models.Models.Story();
+            var storyModel = new StoryModel();
             
             MapBaseEntityToModel(storyModel, storyEntity);
 
             return storyModel;
         }
 
-        public FullStory MapToFullModel(Story storyEntity)
+        public static FullStory MapToFullModel(StoryEntity storyEntity)
         {
             if (storyEntity == null)
             {
@@ -72,15 +71,16 @@ namespace WebAPI.Presentation.Mappers
             var fullStoryModel = new FullStory();
             
             MapBaseEntityToModel(fullStoryModel, storyEntity);
+
             fullStoryModel.StoryHistories = storyEntity.StoryHistories
-                .Select(_storyHistoryMapper.MapToModel)
-                .OrderByDescending(x => x.CreationDate)
+                .Select(StoryHistoryMapper.Map)
+                .OrderByDescending(storyHistory => storyHistory.CreationDate)
                 .ToList();
 
             return fullStoryModel;
         }
 
-        public StorySimpleModel MapToSimpleModel(Story story)
+        public static StorySimpleModel MapToSimpleModel(StoryEntity story)
         {
             if (story == null)
             {
@@ -93,8 +93,8 @@ namespace WebAPI.Presentation.Mappers
                 Title = story.Title,
                 SprintId = story.SprintId,
                 RecordVersion = story.RecordVersion,
-                ColumnType = Enum.Parse<WebAPI.Models.Enums.ColumnType>(story.ColumnType.ToString()),
-                StoryPriority = Enum.Parse<WebAPI.Models.Enums.StoryPriority>(story.StoryPriority.ToString()),
+                ColumnType = Enum.Parse<ColumnTypeModel>(story.ColumnType.ToString()),
+                StoryPriority = Enum.Parse<StoryPriorityModel>(story.StoryPriority.ToString()),
                 IsReady = story.IsReady,
                 IsBlocked = story.IsBlocked,
                 Estimate = story.Estimate,
@@ -104,7 +104,7 @@ namespace WebAPI.Presentation.Mappers
         }
 
 
-        private static void MapBaseEntityToModel(WebAPI.Models.Models.Models.Story model, Story entity)
+        private static void MapBaseEntityToModel(StoryModel model, StoryEntity entity)
         {
             model.StoryId = entity.Id;
             model.UserId = entity.UserId;
@@ -119,9 +119,9 @@ namespace WebAPI.Presentation.Mappers
             model.BlockReason = entity.BlockReason;
             model.CreationDate = entity.CreationDate;
             model.RecordVersion = entity.RecordVersion;
-            model.StoryPriority = Enum.Parse<WebAPI.Models.Enums.StoryPriority>(entity.StoryPriority.ToString());
-            model.RequiredPosition = Enum.Parse<WebAPI.Models.Enums.UserPosition>(entity.RequiredPosition.ToString());
-            model.ColumnType = Enum.Parse<WebAPI.Models.Enums.ColumnType>(entity.ColumnType.ToString());
+            model.StoryPriority = Enum.Parse<StoryPriorityModel>(entity.StoryPriority.ToString());
+            model.RequiredPosition = Enum.Parse<UserPositionModel>(entity.RequiredPosition.ToString());
+            model.ColumnType = Enum.Parse<ColumnTypeModel>(entity.ColumnType.ToString());
         }
     }
 }

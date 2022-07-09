@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using FakeItEasy;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
-using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Simple;
 using WebAPI.Presentation.Mappers;
@@ -16,13 +14,8 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyModelOnNullEntity()
         {
-            //Arrange
-            var storyHistoryMapper = A.Fake<IStoryHistoryMapper>();
-
-            var storyMapper = new StoryMapper(storyHistoryMapper);
-            
-            //Act
-            var mappedResult = storyMapper.MapToModel(null);
+            //Arrange & Act
+            var mappedResult = StoryMapper.Map((Story)null);
 
             //Assert
             Assert.NotNull(mappedResult);
@@ -31,13 +24,8 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyEntityOnNullModel()
         {
-            //Arrange
-            var storyHistoryMapper = A.Fake<IStoryHistoryMapper>();
-
-            var storyMapper = new StoryMapper(storyHistoryMapper);
-            
-            //Act
-            var mappedResult = storyMapper. MapToEntity(null);
+            //Arrange & Act
+            var mappedResult = StoryMapper.Map((Story)null);
 
             //Assert
             Assert.NotNull(mappedResult);
@@ -47,8 +35,6 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldMapEntityToModel()
         {
             //Arrange
-            var storyHistoryMapper = A.Fake<IStoryHistoryMapper>();
-
             var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var userId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
             var sprintId = new Guid("1111238f-0000-0000-7777-ab79b8805555");
@@ -102,8 +88,7 @@ namespace WebAPI.UnitTests.Mappers
             };
             
             //Act
-            var storyMapper = new StoryMapper(storyHistoryMapper);
-            var mappedResult = storyMapper.MapToModel(storyEntity);
+            var mappedResult = StoryMapper.Map(storyEntity);
 
             //Assert
             AssertStoryModelProperties(storyModel, mappedResult);
@@ -113,8 +98,6 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldMapModelToEntity()
         {
             //Arrange
-            var storyHistoryMapper = A.Fake<IStoryHistoryMapper>();
-
             var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var userId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
             var sprintId = new Guid("1111238f-0000-0000-7777-ab79b8805555");
@@ -168,11 +151,9 @@ namespace WebAPI.UnitTests.Mappers
                 RequiredPosition = Models.Enums.UserPosition.Developer,
                 CreationDate = creationDate
             };
-            
-            var storyMapper = new StoryMapper(storyHistoryMapper);
-            
+
             //Act
-            var mappedResult = storyMapper.MapToEntity(storyModel);
+            var mappedResult = StoryMapper.Map(storyModel);
 
             //Assert
             Assert.Equal(storyEntity.Id, mappedResult.Id);
@@ -267,10 +248,9 @@ namespace WebAPI.UnitTests.Mappers
                     }
                 },
             };
-            
+
             //Act
-            var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var mappedResult = storyMapper.MapToFullModel(storyEntity);
+            var mappedResult = StoryMapper.MapToFullModel(storyEntity);
 
             //Assert
             AssertStoryModelProperties(storyModel, mappedResult);
@@ -284,10 +264,6 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldMapEntityToSimpleModel()
         {
             //Arrange
-            var storyHistoryMapper = A.Fake<IStoryHistoryMapper>();
-            
-            var storyMapper = new StoryMapper(storyHistoryMapper);
-            
             var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var userId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
             var sprintId = new Guid("1111238f-0000-0000-7777-ab79b8805555");
@@ -336,7 +312,7 @@ namespace WebAPI.UnitTests.Mappers
             };
             
             //Act
-            var result = storyMapper.MapToSimpleModel(storyEntity);
+            var result = StoryMapper.MapToSimpleModel(storyEntity);
 
             //Assert
             Assert.Equal(expectedModel.StoryId, result.StoryId);
@@ -352,13 +328,8 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyModelForNullEntityOnMapToSimpleModel()
         {
-            //Arrange
-            var storyHistoryMapper = A.Fake<IStoryHistoryMapper>();
-            
-            var storyMapper = new StoryMapper(storyHistoryMapper);
-
-            //Act
-            var result = storyMapper.MapToSimpleModel(null);
+            //Arrange & Act
+            var result = StoryMapper.MapToSimpleModel(null);
 
             //Assert
             Assert.NotNull(result);

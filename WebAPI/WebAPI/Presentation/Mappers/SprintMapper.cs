@@ -7,13 +7,6 @@ namespace WebAPI.Presentation.Mappers
 {
     public class SprintMapper : ISprintMapper
     {
-        private readonly IStoryMapper _storyMapper;
-
-        public SprintMapper(IStoryMapper storyMapper)
-        {
-            _storyMapper = storyMapper;
-        }
-        
         public Sprint MapToEntity(WebAPI.Models.Models.Models.Sprint sprint)
         {
             if (sprint == null)
@@ -59,7 +52,8 @@ namespace WebAPI.Presentation.Mappers
             var sprintFullModel = new FullSprint();
             
             MapBaseEntityToModel(sprintFullModel, sprintEntity);
-            sprintFullModel.Stories = sprintEntity.Stories.Select(_storyMapper.MapToModel).ToList();
+
+            sprintFullModel.Stories = sprintEntity.Stories.Select(StoryMapper.Map).ToList();
 
             return sprintFullModel;
         }
@@ -72,7 +66,7 @@ namespace WebAPI.Presentation.Mappers
             model.StartDate = entity.StartDate;
             model.EndDate = entity.EndDate;
             model.CreationDate = entity.CreationDate;
-           model.IsDeleted = entity.IsDeleted;
+            model.IsDeleted = entity.IsDeleted;
         }
     }
 }

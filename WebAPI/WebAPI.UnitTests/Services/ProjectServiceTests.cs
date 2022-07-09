@@ -29,9 +29,7 @@ namespace WebAPI.UnitTests.Services
 
             var userMapper = new UserMapper();
             var teamMapper = new TeamMapper(userMapper);
-            var storyHistoryMapper = new StoryHistoryMapper();
-            var storyMapper = new StoryMapper(storyHistoryMapper);
-            var sprintMapper = new SprintMapper(storyMapper);
+            var sprintMapper = new SprintMapper();
             var epicMapper = new EpicMapper(sprintMapper);
             var projectMapper = new ProjectMapper();
             
@@ -131,9 +129,7 @@ namespace WebAPI.UnitTests.Services
 
             var userMapper = new UserMapper();
             var teamMapper = new TeamMapper(userMapper);
-            var storyHistoryMapper = new StoryHistoryMapper();
-            var storyMapper = new StoryMapper(storyHistoryMapper);
-            var sprintMapper = new SprintMapper(storyMapper);
+            var sprintMapper = new SprintMapper();
             var epicMapper = new EpicMapper(sprintMapper);
             var projectMapper = new ProjectMapper();
             
@@ -288,9 +284,7 @@ namespace WebAPI.UnitTests.Services
 
             var userMapper = new UserMapper();
             var teamMapper = new TeamMapper(userMapper);
-            var storyHistoryMapper = new StoryHistoryMapper();
-            var storyMapper = new StoryMapper(storyHistoryMapper);
-            var sprintMapper = new SprintMapper(storyMapper);
+            var sprintMapper = new SprintMapper();
             var epicMapper = new EpicMapper(sprintMapper);
             var projectMapper = new ProjectMapper();
             
@@ -405,9 +399,7 @@ namespace WebAPI.UnitTests.Services
 
             var userMapper = new UserMapper();
             var teamMapper = new TeamMapper(userMapper);
-            var storyHistoryMapper = new StoryHistoryMapper();
-            var storyMapper = new StoryMapper(storyHistoryMapper);
-            var sprintMapper = new SprintMapper(storyMapper);
+            var sprintMapper = new SprintMapper();
             var epicMapper = new EpicMapper(sprintMapper);
             var projectMapper = new ProjectMapper();
             
@@ -479,9 +471,7 @@ namespace WebAPI.UnitTests.Services
 
             var userMapper = new UserMapper();
             var teamMapper = new TeamMapper(userMapper);
-            var storyHistoryMapper = new StoryHistoryMapper();
-            var storyMapper = new StoryMapper(storyHistoryMapper);
-            var sprintMapper = new SprintMapper(storyMapper);
+            var sprintMapper = new SprintMapper();
             var epicMapper = new EpicMapper(sprintMapper);
             var projectMapper = new ProjectMapper();
             
