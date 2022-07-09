@@ -18,8 +18,7 @@ namespace WebAPI.Presentation.Aggregators
             IProjectMapper projectMapper, 
             IEpicMapper epicMapper,
             ISprintMapper sprintMapper, 
-            ITeamMapper teamMapper
-            )
+            ITeamMapper teamMapper)
         {
             _projectMapper = projectMapper;
             _teamMapper = teamMapper;
@@ -27,7 +26,10 @@ namespace WebAPI.Presentation.Aggregators
             _sprintMapper = sprintMapper;
         }
         
-        public FullProjectDescription AggregateFullProjectDescription(Project project, Epic epic, IEnumerable<Sprint> sprints,
+        public FullProjectDescription AggregateFullProjectDescription(
+            Project project,
+            Epic epic,
+            IEnumerable<Sprint> sprints,
             IEnumerable<Team> teams)
         {
             var fullProjectDescription = new FullProjectDescription();
@@ -39,15 +41,15 @@ namespace WebAPI.Presentation.Aggregators
             
             fullProjectDescription.Project = _projectMapper.MapToModel(project);
             fullProjectDescription.Epic = _epicMapper.MapToModel(epic);
-            
+
             fullProjectDescription.Sprints = new CollectionResponse<FullSprint>
             {
-                Items = sprints.Select(_sprintMapper.MapToFullModel).ToList()
+                Items = sprints?.Select(_sprintMapper.MapToFullModel).ToList() ?? new List<FullSprint>()
             };
 
             fullProjectDescription.Teams = new CollectionResponse<FullTeam>
             {
-                Items = teams.Select(_teamMapper.MapToFullModel).ToList()
+                Items = teams?.Select(_teamMapper.MapToFullModel).ToList() ?? new List<FullTeam>()
             };
             
             return fullProjectDescription;

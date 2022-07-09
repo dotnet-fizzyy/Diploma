@@ -6,13 +6,12 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using WebAPI.Core.Configuration;
-using WebAPI.Core.Interfaces.Utilities;
 
 namespace WebAPI.ApplicationLogic.Utilities
 {
-    public class TokenGenerator : ITokenGenerator
+    public class TokenGenerator
     {
-        public string GenerateAccessToken(AppSettings appSettings, Guid userId, string userName, string userRole)
+        public static string GenerateAccessToken(AppSettings appSettings, Guid userId, string userName, string userRole)
         {
             var claims = GetClaims(userId, userName, userRole);
 
@@ -32,12 +31,14 @@ namespace WebAPI.ApplicationLogic.Utilities
             return encodedJwt;
         }
 
-        public string GenerateRefreshToken()
+        public static string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
-            using (var rng = RandomNumberGenerator.Create())
+
+            using (var randomNumberGenerator = RandomNumberGenerator.Create())
             {
-                rng.GetBytes(randomNumber);
+                randomNumberGenerator.GetBytes(randomNumber);
+
                 return Convert.ToBase64String(randomNumber);
             }
         }

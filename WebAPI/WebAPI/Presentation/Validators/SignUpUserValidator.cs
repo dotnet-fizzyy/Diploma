@@ -1,7 +1,8 @@
 using FluentValidation;
 using FluentValidation.Validators;
-using WebAPI.Presentation.Models;
 using WebAPI.Presentation.Models.Action;
+
+#pragma warning disable 618
 
 namespace WebAPI.Presentation.Validators
 {
@@ -10,19 +11,19 @@ namespace WebAPI.Presentation.Validators
         public SignUpUserValidator()
         {
             RuleFor(x => x.Email)
-                .NotNull()
-                .NotEmpty();
+                .Cascade(CascadeMode.Stop)
+                    .NotNull()
+                    .NotEmpty();
             RuleFor(x => x.Password)
-                .NotNull()
-                .NotEmpty();
+                .Cascade(CascadeMode.Stop)
+                    .NotNull()
+                    .NotEmpty();
             RuleFor(x => x.UserName)
                 .Cascade(CascadeMode.Stop)
-                .NotNull()
-                .NotEmpty()
-#pragma warning disable 618
-                .EmailAddress(EmailValidationMode.Net4xRegex)
-#pragma warning restore 618
-                .WithMessage("Provided email is not valid");
+                    .NotNull()
+                    .NotEmpty()
+                    .EmailAddress(EmailValidationMode.Net4xRegex)
+                        .WithMessage("Provided email is not valid");
         }
     }
 }

@@ -9,7 +9,6 @@ using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Aggregators;
 using WebAPI.Presentation.Mappers;
 using Xunit;
 
@@ -26,9 +25,8 @@ namespace WebAPI.UnitTests.Services
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
             var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper);
 
             var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var userId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
@@ -106,16 +104,15 @@ namespace WebAPI.UnitTests.Services
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
             var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var storyAggregator = new StoryAggregator();
-
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
+            
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper);
 
             var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 
             A.CallTo(() => storyRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.Story, bool>>>._))
                 .Returns((Core.Entities.Story)null);
             
-            //Act && Asser
+            //Act & Assert
             await Assert.ThrowsAsync<UserFriendlyException>(async () => await storyService.GetStoryByIdAsync(storyId));
 
             A.CallTo(() => storyRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.Story, bool>>>._))
@@ -131,9 +128,8 @@ namespace WebAPI.UnitTests.Services
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
             var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper);
 
             var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var userId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
@@ -221,9 +217,8 @@ namespace WebAPI.UnitTests.Services
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
             var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper);
 
             var sprintId = new Guid("1111238f-0000-0000-7777-ab79b8805555");
             
@@ -250,9 +245,8 @@ namespace WebAPI.UnitTests.Services
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
             var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper);
 
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
             
@@ -345,9 +339,8 @@ namespace WebAPI.UnitTests.Services
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
             var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper);
 
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
             
@@ -440,9 +433,8 @@ namespace WebAPI.UnitTests.Services
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
             var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper);
 
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
             var teamId = new Guid("2222238f-0000-0000-7777-ab79b8805555");
@@ -450,8 +442,7 @@ namespace WebAPI.UnitTests.Services
             A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._, A<Guid>._))
                 .Returns(new List<Core.Entities.Story>());
 
-            //Act
-            //Act && Assert
+            //Act & Assert
             await Assert.ThrowsAsync<UserFriendlyException>(async () => await storyService.SortStories(epicId, teamId, null, SortTypes.Title, Core.Enums.OrderType.Asc));
 
             A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._, A<Guid>._))
@@ -469,9 +460,8 @@ namespace WebAPI.UnitTests.Services
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
             var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper);
             
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
             
@@ -559,9 +549,8 @@ namespace WebAPI.UnitTests.Services
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
             var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper);
             
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
             var teamId = new Guid("2222238f-0000-0000-7777-ab79b8805555");
@@ -586,9 +575,8 @@ namespace WebAPI.UnitTests.Services
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
             var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper);
 
             var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var userId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
@@ -687,9 +675,8 @@ namespace WebAPI.UnitTests.Services
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
             var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper);
 
             var storyId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
 
@@ -713,9 +700,8 @@ namespace WebAPI.UnitTests.Services
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
             var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var storyAggregator = new StoryAggregator();
             
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper);
 
             const string userName = "UserName";
             var storyId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
@@ -816,9 +802,8 @@ namespace WebAPI.UnitTests.Services
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
             var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper);
 
             var story = new Story
             {
@@ -846,9 +831,8 @@ namespace WebAPI.UnitTests.Services
             var storyHistoryRepository = A.Fake<IStoryHistoryRepository>();
             var userRepository = A.Fake<IUserRepository>();
             var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var storyAggregator = new StoryAggregator();
 
-            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper, storyAggregator);
+            var storyService = new StoryService(storyRepository, sprintRepository, storyHistoryRepository, userRepository, storyMapper);
             
             var storyId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
 

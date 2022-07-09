@@ -3,13 +3,11 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FakeItEasy;
 using WebAPI.ApplicationLogic.Services;
-using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Configuration;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Models.Enums;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Aggregators;
 using WebAPI.Presentation.Models.Action;
 using Xunit;
 
@@ -35,10 +33,8 @@ namespace WebAPI.UnitTests.Services
             //Arrange
             var userProvider = A.Fake<IUserProvider>();
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
-            var refreshTokenAggregator = new RefreshTokenAggregator();
-            var tokenGenerator = new TokenGenerator();
 
-            var tokenService = new TokenService(userProvider, tokenGenerator, refreshTokenRepository, refreshTokenAggregator, _appSettings);
+            var tokenService = new TokenService(userProvider, refreshTokenRepository, _appSettings);
 
             var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             const string userName = "UserName";
@@ -90,10 +86,8 @@ namespace WebAPI.UnitTests.Services
             
             var userProvider = A.Fake<IUserProvider>();
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
-            var refreshTokenAggregator = new RefreshTokenAggregator();
-            var tokenGenerator = new TokenGenerator();
 
-            var tokenService = new TokenService(userProvider, tokenGenerator, refreshTokenRepository, refreshTokenAggregator, _appSettings);
+            var tokenService = new TokenService(userProvider, refreshTokenRepository, _appSettings);
 
             var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             const string userName = "UserName";
@@ -134,10 +128,8 @@ namespace WebAPI.UnitTests.Services
             //Arrange
             var userProvider = A.Fake<IUserProvider>();
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
-            var refreshTokenAggregator = new RefreshTokenAggregator();
-            var tokenGenerator = new TokenGenerator();
 
-            var tokenService = new TokenService(userProvider, tokenGenerator, refreshTokenRepository, refreshTokenAggregator, _appSettings);
+            var tokenService = new TokenService(userProvider, refreshTokenRepository, _appSettings);
             
             var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var userRole = UserRole.Engineer.ToString();

@@ -15,7 +15,6 @@ using WebAPI.Infrastructure.Redis;
 using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Aggregators;
 using WebAPI.Presentation.Mappers;
-using WebAPI.Presentation.Models;
 using WebAPI.Presentation.Models.Action;
 using WebAPI.Presentation.Validators;
 
@@ -29,61 +28,58 @@ namespace WebAPI.Startup.Configuration
             services.AddSingleton(appSettings);
             
             //Infrastructure
-            services.AddTransient<IEpicRepository, EpicRepository>();
-            services.AddTransient<ISprintRepository, SprintRepository>();
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
-            services.AddTransient<ITeamRepository, TeamRepository>();
-            services.AddTransient<IProjectRepository, ProjectRepository>();
-            services.AddTransient<IStoryHistoryRepository, StoryHistoryRepository>();
-            services.AddTransient<IStoryRepository, StoryRepository>();
-            services.AddTransient<IWorkSpaceRepository, WorkSpaceRepository>();
-            services.AddTransient<IRedisContext, RedisContext>();
+            services.AddScoped<IEpicRepository, EpicRepository>();
+            services.AddScoped<ISprintRepository, SprintRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<ITeamRepository, TeamRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IStoryHistoryRepository, StoryHistoryRepository>();
+            services.AddScoped<IStoryRepository, StoryRepository>();
+            services.AddScoped<IWorkSpaceRepository, WorkSpaceRepository>();
+            services.AddScoped<IRedisContext, RedisContext>();
             
             //Mappers
-            services.AddTransient<IStoryMapper, StoryMapper>();
-            services.AddTransient<IEpicMapper, EpicMapper>();
-            services.AddTransient<IUserMapper, UserMapper>();
-            services.AddTransient<IStoryHistoryMapper, StoryHistoryMapper>();
-            services.AddTransient<ISprintMapper, SprintMapper>();
-            services.AddTransient<ITeamMapper, TeamMapper>();
-            services.AddTransient<IProjectMapper, ProjectMapper>();
-            services.AddTransient<IWorkSpaceMapper, WorkSpaceMapper>();
+            services.AddSingleton<IStoryMapper, StoryMapper>();
+            services.AddSingleton<IEpicMapper, EpicMapper>();
+            services.AddSingleton<IUserMapper, UserMapper>();
+            services.AddSingleton<IStoryHistoryMapper, StoryHistoryMapper>();
+            services.AddSingleton<ISprintMapper, SprintMapper>();
+            services.AddSingleton<ITeamMapper, TeamMapper>();
+            services.AddSingleton<IProjectMapper, ProjectMapper>();
+            services.AddSingleton<IWorkSpaceMapper, WorkSpaceMapper>();
             
             //Services
-            services.AddTransient<IStoryService, StoryService>();
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<ITeamService, TeamService>();
-            services.AddTransient<IProjectService, ProjectService>();
-            services.AddTransient<ISprintService, SprintService>();
-            services.AddTransient<IEpicService, EpicService>();
-            services.AddTransient<ITokenGenerator, TokenGenerator>();
-            services.AddTransient<IPageService, PageService>();
-            services.AddTransient<IWorkSpaceService, WorkSpaceService>();
+            services.AddScoped<IStoryService, StoryService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<ISprintService, SprintService>();
+            services.AddScoped<IEpicService, EpicService>();
+            services.AddScoped<IPageService, PageService>();
+            services.AddScoped<IWorkSpaceService, WorkSpaceService>();
 
             //Providers
-            services.AddTransient<IUserProvider, UserProvider>();
+            services.AddScoped<IUserProvider, UserProvider>();
             
             //Utilities
-            services.AddTransient<IClaimsReader, ClaimsReader>();
-            services.AddTransient<ITokenService, TokenService>();
+            services.AddSingleton<IClaimsReader, ClaimsReader>();
+            services.AddSingleton<ITokenService, TokenService>();
             
             //Aggregators
-            services.AddTransient<IFullProjectDescriptionAggregator, FullProjectDescriptionAggregator>();
-            services.AddTransient<IStoryAggregator, StoryAggregator>();
-            services.AddTransient<IRefreshTokenAggregator, RefreshTokenAggregator>();
-            services.AddTransient<IPageAggregator, PageAggregator>();
+            services.AddSingleton<IFullProjectDescriptionAggregator, FullProjectDescriptionAggregator>();
+            services.AddSingleton<IPageAggregator, PageAggregator>();
 
             //Validators
-            services.AddTransient<IValidator<SignUpUser>, SignUpUserValidator>();
-            services.AddTransient<IValidator<SignInUser>, SignInUserValidator>();
-            services.AddTransient<IValidator<User>, UserValidator>();
-            services.AddTransient<IValidator<Story>, StoryValidator>();
-            services.AddTransient<IValidator<Team>, TeamValidator>();
-            services.AddTransient<IValidator<Epic>, EpicValidator>();
-            services.AddTransient<IValidator<Sprint>, SprintValidator>();
-            services.AddTransient<IValidator<Project>, ProjectValidator>();
-            services.AddTransient<IValidator<WorkSpace>, WorkSpaceValidator>();
+            services.AddSingleton<IValidator<SignUpUser>, SignUpUserValidator>();
+            services.AddSingleton<IValidator<SignInUser>, SignInUserValidator>();
+            services.AddSingleton<IValidator<User>, UserValidator>();
+            services.AddSingleton<IValidator<Story>, StoryValidator>();
+            services.AddSingleton<IValidator<Team>, TeamValidator>();
+            services.AddSingleton<IValidator<Epic>, EpicValidator>();
+            services.AddSingleton<IValidator<Sprint>, SprintValidator>();
+            services.AddSingleton<IValidator<Project>, ProjectValidator>();
+            services.AddSingleton<IValidator<WorkSpace>, WorkSpaceValidator>();
         }
     }
 }

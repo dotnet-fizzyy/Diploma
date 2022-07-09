@@ -1,4 +1,3 @@
-using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +16,7 @@ namespace WebAPI.Startup.Configuration
             {
                 appError.Run(async context =>
                 {
-                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                     context.Response.ContentType = "application/json";
                     
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
@@ -44,6 +43,7 @@ namespace WebAPI.Startup.Configuration
                                 }
                                 
                                 exceptionResponse.Status = userFriendlyException.ErrorStatus.ToString();
+
                                 break;
                         }
                         

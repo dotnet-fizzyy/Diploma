@@ -4,11 +4,9 @@ using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Configuration;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
-using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Constants;
 using WebAPI.Presentation.Models.Action;
@@ -19,24 +17,18 @@ namespace WebAPI.ApplicationLogic.Services
     public class TokenService : ITokenService
     {
         private readonly IUserProvider _userProvider;
-        private readonly ITokenGenerator _tokenGenerator;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
-        private readonly IRefreshTokenAggregator _refreshTokenAggregator;
         private readonly AppSettings _appSettings;
 
         public TokenService(
             IUserProvider userProvider,
-            ITokenGenerator tokenGenerator,
             IRefreshTokenRepository refreshTokenRepository,
-            IRefreshTokenAggregator refreshTokenAggregator,
             AppSettings appSettings
             )
         {
             _userProvider = userProvider;
             _appSettings = appSettings;
             _refreshTokenRepository = refreshTokenRepository;
-            _tokenGenerator = tokenGenerator;
-            _refreshTokenAggregator = refreshTokenAggregator;
         }
         
 
@@ -46,7 +38,7 @@ namespace WebAPI.ApplicationLogic.Services
             var fullUserModel = await _userProvider.GetFullUser(user);
 
             //Generate tokens if record is valid
-            var accessToken = _tokenGenerator.GenerateAccessToken(_appSettings, fullUserModel.UserId, fullUserModel.UserName, fullUserModel.UserRole.ToString());
+            var accessToken = TokenGenerator.GenerateAccessToken(_appSettings, fullUserModel.UserId, fullUserModel.UserName, fullUserModel.UserRole.ToString());
 
             string refreshToken = null;
             if (_appSettings.Token.EnableRefreshTokenVerification)
@@ -59,8 +51,8 @@ namespace WebAPI.ApplicationLogic.Services
 
                 if (refreshToken == null)
                 {
-                    refreshToken = _tokenGenerator.GenerateRefreshToken();
-                    var refreshTokenEntity = _refreshTokenAggregator.GenerateRefreshTokenEntityOnSave(fullUserModel.UserId, refreshToken, _appSettings.Token.LifeTime);
+                    refreshToken = TokenGenerator.GenerateRefreshToken();
+                    var refreshTokenEntity = GenerateRefreshTokenEntityOnSave(fullUserModel.UserId, refreshToken, _appSettings.Token.LifeTime);
                
                     await _refreshTokenRepository.CreateAsync(refreshTokenEntity);
                 }
@@ -80,14 +72,20 @@ namespace WebAPI.ApplicationLogic.Services
         {
             if (_appSettings.Token.EnableRefreshTokenVerification)
             {
-                var refreshTokenEntity = await _refreshTokenRepository.SearchForSingleItemAsync(x => x.UserId == userId && x.Value == refreshToken);
+                var refreshTokenEntity = await _refreshTokenRepository.SearchForSingleItemAsync(token => 
+                                                                            token.UserId == userId && 
+                                                                            token.Value == refreshToken);
+
                 if (refreshTokenEntity == null)
                 {
-                    throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage($"refresh token and {nameof(userId)}"));
+                    throw new UserFriendlyException(
+                        ErrorStatus.NOT_FOUND,
+                        ExceptionMessageGenerator.GetMissingEntityMessage($"refresh token and {nameof(userId)}")
+                    );
                 }
             }
             
-            var accessToken = _tokenGenerator.GenerateAccessToken(_appSettings, userId, userName, userRole);
+            var accessToken = TokenGenerator.GenerateAccessToken(_appSettings, userId, userName, userRole);
             
             var tokenPair = new AuthenticationResultModel
             {
@@ -97,5 +95,14 @@ namespace WebAPI.ApplicationLogic.Services
 
             return tokenPair;
         }
+        
+        private static WebAPI.Core.Entities.RefreshToken GenerateRefreshTokenEntityOnSave(Guid userId, string token, double tokenLifeTime) =>
+            new WebAPI.Core.Entities.RefreshToken
+            {
+                UserId = userId,
+                Value = token,
+                ExpirationDate = DateTime.UtcNow.Add(TimeSpan.FromMinutes(tokenLifeTime)),
+                CreationDate = DateTime.UtcNow
+            };
     }
 }

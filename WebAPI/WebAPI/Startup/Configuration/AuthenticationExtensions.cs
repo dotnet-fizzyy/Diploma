@@ -21,8 +21,9 @@ namespace WebAPI.Startup.Configuration
                         
                         ValidateAudience = tokenSettings.ValidateAudience,
                         ValidAudience = tokenSettings.Audience,
-                        
+
                         ValidateLifetime = tokenSettings.ValidateLifeTime,
+
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(tokenSettings.SigningKey)),
                         ValidateIssuerSigningKey = tokenSettings.ValidateIssuerSigningKey
                     };

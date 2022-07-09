@@ -8,12 +8,12 @@ using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Constants;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
-using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
+using WebAPI.Presentation.Aggregators;
 
 namespace WebAPI.ApplicationLogic.Services
 {
@@ -24,23 +24,19 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly IStoryHistoryRepository _storyHistoryRepository;
         private readonly IUserRepository _userRepository;
         private readonly IStoryMapper _storyMapper;
-        private readonly IStoryAggregator _storyAggregator;
 
         public StoryService(
             IStoryRepository storyRepository, 
             ISprintRepository sprintRepository,
             IStoryHistoryRepository storyHistoryRepository,
             IUserRepository userRepository,
-            IStoryMapper storyMapper, 
-            IStoryAggregator storyAggregator
-        )
+            IStoryMapper storyMapper)
         {
             _storyRepository = storyRepository;
             _sprintRepository = sprintRepository;
             _storyHistoryRepository = storyHistoryRepository;
             _userRepository = userRepository;
             _storyMapper = storyMapper;
-            _storyAggregator = storyAggregator;
         }
 
         public async Task<CollectionResponse<Story>> GetStoriesFromEpicAsync(Guid epicId, Guid? teamId)
@@ -58,9 +54,12 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<CollectionResponse<Story>> SortStories(Guid epicId, Guid teamId, Guid? sprintId, string sortType, OrderType orderType)
         {
             List<Core.Entities.Story> storyEntities;
+
             if (sprintId.HasValue)
             {
-                storyEntities = await _storyRepository.SearchForMultipleItemsAsync(x => sprintId == x.SprintId && x.TeamId == teamId);
+                storyEntities = await _storyRepository.SearchForMultipleItemsAsync(story => 
+                                            sprintId == story.SprintId && 
+                                            story.TeamId == teamId);
             }
             else
             {
@@ -293,7 +292,14 @@ namespace WebAPI.ApplicationLogic.Services
                 }
             }
             
-            var storyHistoryUpdates = _storyAggregator.CreateStoryFromUpdateParts(storyEntity, storyUpdateEntity, userEntity.UserName, sprints, users);
+            var storyHistoryUpdates = new StoryAggregator()
+                .CreateStoryFromUpdateParts(
+                    storyEntity, 
+                    storyUpdateEntity, 
+                    userEntity.UserName, 
+                    sprints, 
+                    users
+                );
             
             await _storyHistoryRepository.CreateAsync(storyHistoryUpdates);
             var updatedStory = await _storyRepository.UpdateItemAsync(storyUpdateEntity);
