@@ -9,17 +9,7 @@ namespace WebAPI.Core.Exceptions
         
         public UserFriendlyException() { }
         
-        public UserFriendlyException(string message) : base(message) {}
-        
-        public UserFriendlyException(string message, Exception exception) : base(message, exception) {}
-        
         public UserFriendlyException(ErrorStatus errorStatus, string message) : base(message)
-        {
-            ErrorStatus = errorStatus;
-        }
-        
-        public UserFriendlyException(ErrorStatus errorStatus, string message, Exception exception) : base(message,
-            exception)
         {
             ErrorStatus = errorStatus;
         }
