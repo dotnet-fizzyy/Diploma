@@ -44,7 +44,6 @@ namespace WebAPI.Startup.Configuration
             services.AddSingleton<IUserMapper, UserMapper>();
             services.AddSingleton<ITeamMapper, TeamMapper>();
             services.AddSingleton<IProjectMapper, ProjectMapper>();
-            services.AddSingleton<IWorkSpaceMapper, WorkSpaceMapper>();
             
             //Services
             services.AddScoped<IStoryService, StoryService>();

@@ -5,9 +5,9 @@ using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
-using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
+using WebAPI.Presentation.Mappers;
 
 namespace WebAPI.ApplicationLogic.Services
 {
@@ -15,12 +15,10 @@ namespace WebAPI.ApplicationLogic.Services
     {
         private readonly IWorkSpaceRepository _workSpaceRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IWorkSpaceMapper _workSpaceMapper;
 
-        public WorkSpaceService(IWorkSpaceRepository workSpaceRepository, IWorkSpaceMapper workSpaceMapper, IUserRepository userRepository)
+        public WorkSpaceService(IWorkSpaceRepository workSpaceRepository, IUserRepository userRepository)
         {
             _workSpaceRepository = workSpaceRepository;
-            _workSpaceMapper = workSpaceMapper;
             _userRepository = userRepository;
         }
 
@@ -29,10 +27,12 @@ namespace WebAPI.ApplicationLogic.Services
             var workSpaceEntity = await _workSpaceRepository.SearchForSingleItemAsync(x => x.Id == workSpaceId);
             if (workSpaceEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(workSpaceId)));
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND,
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(workSpaceId)));
             }
 
-            var workSpaceModel = _workSpaceMapper.MapToModel(workSpaceEntity);
+            var workSpaceModel = WorkSpaceMapper.Map(workSpaceEntity);
 
             return workSpaceModel;
         }
@@ -42,10 +42,12 @@ namespace WebAPI.ApplicationLogic.Services
             var userWorkSpaceEntity = await _workSpaceRepository.GetUserWorkSpaceAsync(userId);
             if (userWorkSpaceEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(userId)));
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND,
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(userId)));
             }
 
-            var workSpaceModel = _workSpaceMapper.MapToModel(userWorkSpaceEntity);
+            var workSpaceModel = WorkSpaceMapper.Map(userWorkSpaceEntity);
             return workSpaceModel;
         }
 
@@ -75,6 +77,7 @@ namespace WebAPI.ApplicationLogic.Services
                 Id = userId,
                 WorkSpaceId = createdWorkSpaceModel.WorkSpaceId
             };
+
             await _userRepository.UpdateUserWorkSpace(userEntity);
             
             scope.Complete();
@@ -84,11 +87,11 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<WorkSpace> UpdateWorkSpaceAsync(WorkSpace workSpace)
         {
-            var workSpaceEntity = _workSpaceMapper.MapToEntity(workSpace);
+            var workSpaceEntity = WorkSpaceMapper.Map(workSpace);
 
             var updatedWorkSpaceEntity = await _workSpaceRepository.UpdateItemAsync(workSpaceEntity);
 
-            var updatedWorkSpaceModel = _workSpaceMapper.MapToModel(updatedWorkSpaceEntity);
+            var updatedWorkSpaceModel = WorkSpaceMapper.Map(updatedWorkSpaceEntity);
 
             return updatedWorkSpaceModel;
         }
@@ -101,12 +104,12 @@ namespace WebAPI.ApplicationLogic.Services
         
         private async Task<WorkSpace> CreateWorkSpace(WorkSpace workSpace)
         {
-            var workSpaceEntity = _workSpaceMapper.MapToEntity(workSpace);
+            var workSpaceEntity = WorkSpaceMapper.Map(workSpace);
             workSpaceEntity.CreationDate = DateTime.UtcNow;
 
             var createdWorkSpaceEntity = await _workSpaceRepository.CreateAsync(workSpaceEntity);
 
-            var createdWorkSpaceModel = _workSpaceMapper.MapToModel(createdWorkSpaceEntity);
+            var createdWorkSpaceModel = WorkSpaceMapper.Map(createdWorkSpaceEntity);
 
             return createdWorkSpaceModel;
         }

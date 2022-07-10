@@ -1,7 +1,9 @@
 using System;
-using WebAPI.Core.Entities;
 using WebAPI.Presentation.Mappers;
 using Xunit;
+
+using WorkSpaceEntity = WebAPI.Core.Entities.WorkSpace;
+using WorkSpaceModel = WebAPI.Models.Models.Models.WorkSpace;
 
 namespace WebAPI.UnitTests.Mappers
 {
@@ -10,11 +12,8 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyModelOnNullEntity()
         {
-            //Arrange
-            var epicMapper = new WorkSpaceMapper();
-            
-            //Act
-            var mappedResult = epicMapper.MapToModel(null);
+            //Arrange & Act
+            var mappedResult = WorkSpaceMapper.Map((WorkSpaceEntity)null);
 
             //Assert
             Assert.NotNull(mappedResult);
@@ -23,11 +22,8 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyEntityOnNullModel()
         {
-            //Arrange
-            var epicMapper = new WorkSpaceMapper();
-            
-            //Act
-            var mappedResult = epicMapper.MapToEntity(null);
+            //Arrange & Act
+            var mappedResult = WorkSpaceMapper.Map((WorkSpaceModel)null);
 
             //Assert
             Assert.NotNull(mappedResult);
@@ -42,7 +38,7 @@ namespace WebAPI.UnitTests.Mappers
             const string workSpaceDescription = "WorkSpaceDescription";
             var creationDate = DateTime.UtcNow;
             
-            var epicModel = new Models.Models.Models.WorkSpace
+            var epicModel = new WorkSpaceModel
             {
                 WorkSpaceId = workSpaceId,
                 WorkSpaceName = workSpaceName,
@@ -50,18 +46,16 @@ namespace WebAPI.UnitTests.Mappers
                 CreationDate = creationDate
             };
 
-            var epicEntity = new WorkSpace
+            var epicEntity = new WorkSpaceEntity
             {
                 Id = workSpaceId,
                 WorkSpaceName = workSpaceName,
                 WorkSpaceDescription = workSpaceDescription,
                 CreationDate = creationDate
             };
-            
-            var epicMapper = new WorkSpaceMapper();
-            
+
             //Act
-            var mappedResult = epicMapper.MapToEntity(epicModel);
+            var mappedResult = WorkSpaceMapper.Map(epicModel);
 
             //Assert
             Assert.NotNull(mappedResult);
@@ -80,7 +74,7 @@ namespace WebAPI.UnitTests.Mappers
             var creationDate = DateTime.UtcNow;
             
             //Arrange
-            var epicModel = new Models.Models.Models.WorkSpace
+            var epicModel = new WorkSpaceModel
             {
                 WorkSpaceId = workSpaceId,
                 WorkSpaceName = workSpaceName,
@@ -88,7 +82,7 @@ namespace WebAPI.UnitTests.Mappers
                 CreationDate = creationDate
             };
 
-            var epicEntity = new WorkSpace
+            var epicEntity = new WorkSpaceEntity
             {
                 Id = workSpaceId,
                 WorkSpaceName = workSpaceName,
@@ -97,8 +91,7 @@ namespace WebAPI.UnitTests.Mappers
             };
             
             //Act
-            var epicMapper = new WorkSpaceMapper();
-            var mappedResult = epicMapper.MapToModel(epicEntity);
+            var mappedResult = WorkSpaceMapper.Map(epicEntity);
 
             //Assert
             Assert.NotNull(mappedResult);

@@ -12,18 +12,15 @@ namespace WebAPI.Presentation.Aggregators
 {
     public class PageAggregator : IPageAggregator
     {
-        private readonly IWorkSpaceMapper _workSpaceMapper;
         private readonly ITeamMapper _teamMapper;
         private readonly IProjectMapper _projectMapper;
         private readonly IEpicMapper _epicMapper;
 
         public PageAggregator(
-            IWorkSpaceMapper workSpaceMapper, 
             ITeamMapper teamMapper, 
             IProjectMapper projectMapper, 
             IEpicMapper epicMapper)
         {
-            _workSpaceMapper = workSpaceMapper;
             _teamMapper = teamMapper;
             _projectMapper = projectMapper;
             _epicMapper = epicMapper;
@@ -74,7 +71,7 @@ namespace WebAPI.Presentation.Aggregators
             var teamPageModel = new TeamPage
             {
                 WorkSpace = workSpace != null 
-                    ? _workSpaceMapper.MapToModel(workSpace)
+                    ? WorkSpaceMapper.Map(workSpace)
                     : new WebAPI.Models.Models.Models.WorkSpace(),
                 Team = team != null 
                     ? _teamMapper.MapToFullModel(team) 
@@ -107,7 +104,7 @@ namespace WebAPI.Presentation.Aggregators
             var workSpacePage = new WorkSpacePage
             {
                 WorkSpace = workSpace != null 
-                    ? _workSpaceMapper.MapToModel(workSpace)
+                    ? WorkSpaceMapper.Map(workSpace)
                     : new WebAPI.Models.Models.Models.WorkSpace(),
                 Projects = projects?.Select(project => new WorkSpacePageProject
                     {

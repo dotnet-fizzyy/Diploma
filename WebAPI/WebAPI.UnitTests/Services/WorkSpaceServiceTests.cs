@@ -6,7 +6,6 @@ using WebAPI.ApplicationLogic.Services;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Models.Models.Models;
-using WebAPI.Presentation.Mappers;
 using Xunit;
 
 namespace WebAPI.UnitTests.Services
@@ -19,9 +18,8 @@ namespace WebAPI.UnitTests.Services
             //Arrange
             var workSpaceRepository = A.Fake<IWorkSpaceRepository>();
             var userRepository = A.Fake<IUserRepository>();
-            var workSpaceMapper = new WorkSpaceMapper();
 
-            var workSpaceService = new WorkSpaceService(workSpaceRepository, workSpaceMapper, userRepository);
+            var workSpaceService = new WorkSpaceService(workSpaceRepository, userRepository);
 
             var id = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             const string name = "Name";
@@ -63,9 +61,8 @@ namespace WebAPI.UnitTests.Services
             //Arrange
             var workSpaceRepository = A.Fake<IWorkSpaceRepository>();
             var userRepository = A.Fake<IUserRepository>();
-            var workSpaceMapper = new WorkSpaceMapper();
 
-            var workSpaceService = new WorkSpaceService(workSpaceRepository, workSpaceMapper, userRepository);
+            var workSpaceService = new WorkSpaceService(workSpaceRepository, userRepository);
 
             var id = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 
@@ -85,9 +82,8 @@ namespace WebAPI.UnitTests.Services
             //Arrange
             var workSpaceRepository = A.Fake<IWorkSpaceRepository>();
             var userRepository = A.Fake<IUserRepository>();
-            var workSpaceMapper = new WorkSpaceMapper();
 
-            var workSpaceService = new WorkSpaceService(workSpaceRepository, workSpaceMapper, userRepository);
+            var workSpaceService = new WorkSpaceService(workSpaceRepository, userRepository);
 
             var id = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             const string name = "Name";
@@ -129,9 +125,8 @@ namespace WebAPI.UnitTests.Services
             //Arrange
             var workSpaceRepository = A.Fake<IWorkSpaceRepository>();
             var userRepository = A.Fake<IUserRepository>();
-            var workSpaceMapper = new WorkSpaceMapper();
 
-            var workSpaceService = new WorkSpaceService(workSpaceRepository, workSpaceMapper, userRepository);
+            var workSpaceService = new WorkSpaceService(workSpaceRepository, userRepository);
 
             var id = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 
@@ -151,9 +146,8 @@ namespace WebAPI.UnitTests.Services
             //Arrange
             var workSpaceRepository = A.Fake<IWorkSpaceRepository>();
             var userRepository = A.Fake<IUserRepository>();
-            var workSpaceMapper = new WorkSpaceMapper();
 
-            var workSpaceService = new WorkSpaceService(workSpaceRepository, workSpaceMapper, userRepository);
+            var workSpaceService = new WorkSpaceService(workSpaceRepository, userRepository);
 
             var id = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             const string name = "Name";
@@ -198,9 +192,8 @@ namespace WebAPI.UnitTests.Services
             //Arrange
             var workSpaceRepository = A.Fake<IWorkSpaceRepository>();
             var userRepository = A.Fake<IUserRepository>();
-            var workSpaceMapper = new WorkSpaceMapper();
 
-            var workSpaceService = new WorkSpaceService(workSpaceRepository, workSpaceMapper, userRepository);
+            var workSpaceService = new WorkSpaceService(workSpaceRepository, userRepository);
 
             var id = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var userId = new Guid("4443238f-87e6-4e86-93fc-ab79b8804444");
@@ -254,9 +247,8 @@ namespace WebAPI.UnitTests.Services
             //Arrange
             var workSpaceRepository = A.Fake<IWorkSpaceRepository>();
             var userRepository = A.Fake<IUserRepository>();
-            var workSpaceMapper = new WorkSpaceMapper();
 
-            var workSpaceService = new WorkSpaceService(workSpaceRepository, workSpaceMapper, userRepository);
+            var workSpaceService = new WorkSpaceService(workSpaceRepository, userRepository);
 
             var id = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             const string name = "Name";
@@ -304,9 +296,8 @@ namespace WebAPI.UnitTests.Services
             //Arrange
             var workSpaceRepository = A.Fake<IWorkSpaceRepository>();
             var userRepository = A.Fake<IUserRepository>();
-            var workSpaceMapper = new WorkSpaceMapper();
 
-            var workSpaceService = new WorkSpaceService(workSpaceRepository, workSpaceMapper, userRepository);
+            var workSpaceService = new WorkSpaceService(workSpaceRepository, userRepository);
             
             var id = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 

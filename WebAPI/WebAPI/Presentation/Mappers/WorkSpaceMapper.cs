@@ -1,18 +1,18 @@
-using WebAPI.Core.Interfaces.Mappers;
-using WebAPI.Models.Models.Models;
+using WorkSpaceEntity = WebAPI.Core.Entities.WorkSpace;
+using WorkSpaceModel = WebAPI.Models.Models.Models.WorkSpace;
 
 namespace WebAPI.Presentation.Mappers
 {
-    public class WorkSpaceMapper : IWorkSpaceMapper
+    public static class WorkSpaceMapper
     {
-        public WorkSpace MapToModel(Core.Entities.WorkSpace entity)
+        public static WorkSpaceModel Map(WorkSpaceEntity entity)
         {
             if (entity == null)
             {
-                return new WorkSpace();
+                return new WorkSpaceModel();
             }
 
-            var workSpaceModel = new WorkSpace
+            var workSpaceModel = new WorkSpaceModel
             {
                 WorkSpaceId = entity.Id,
                 WorkSpaceDescription = entity.WorkSpaceDescription,
@@ -23,14 +23,14 @@ namespace WebAPI.Presentation.Mappers
             return workSpaceModel;
         }
 
-        public Core.Entities.WorkSpace MapToEntity(WorkSpace model)
+        public static WorkSpaceEntity Map(WorkSpaceModel model)
         {
             if (model == null)
             {
-                return new Core.Entities.WorkSpace();
+                return new WorkSpaceEntity();
             }
 
-            var workSpaceModel = new Core.Entities.WorkSpace
+            var workSpaceModel = new WorkSpaceEntity
             {
                 Id = model.WorkSpaceId,
                 WorkSpaceDescription = model.WorkSpaceDescription,
