@@ -18,7 +18,6 @@ namespace WebAPI.UnitTests.Aggregators
             //Arrange
             var projectMapper = A.Fake<IProjectMapper>();
             var epicMapper = A.Fake<IEpicMapper>();
-            var sprintMapper = A.Fake<ISprintMapper>();
             var teamMapper = A.Fake<ITeamMapper>();
             
             var projectId = new Guid();
@@ -52,7 +51,6 @@ namespace WebAPI.UnitTests.Aggregators
             var projectAggregator = new FullProjectDescriptionAggregator(
                 projectMapper,
                 epicMapper,
-                sprintMapper,
                 teamMapper
             );
 
@@ -71,8 +69,6 @@ namespace WebAPI.UnitTests.Aggregators
                 .MustNotHaveHappened();
             A.CallTo(() => epicMapper.MapToModel(null))
                 .MustNotHaveHappened();
-            A.CallTo(() => sprintMapper.MapToFullModel(sprintEntities.First()))
-                .MustNotHaveHappened();
             A.CallTo(() => teamMapper.MapToFullModel(teamEntities.First()))
                 .MustNotHaveHappened();
         }
@@ -83,7 +79,6 @@ namespace WebAPI.UnitTests.Aggregators
             //Arrange
             var projectMapper = A.Fake<IProjectMapper>();
             var epicMapper = A.Fake<IEpicMapper>();
-            var sprintMapper = A.Fake<ISprintMapper>();
             var teamMapper = A.Fake<ITeamMapper>();
             
             var projectId = new Guid();
@@ -189,15 +184,12 @@ namespace WebAPI.UnitTests.Aggregators
             //Act
             A.CallTo(() => projectMapper.MapToModel(projectEntity)).Returns(projectModel);
             A.CallTo(() => epicMapper.MapToModel(epicEntity)).Returns(epicModel);
-            A.CallTo(() => sprintMapper.MapToFullModel(sprintEntities.First()))
-                .Returns(sprintModels.Items.First());
             A.CallTo(() => teamMapper.MapToFullModel(teamEntities.First()))
                 .Returns(teamModels.Items.First());
 
             var projectAggregator = new FullProjectDescriptionAggregator(
                     projectMapper,
                     epicMapper,
-                    sprintMapper,
                     teamMapper
                 );
 
@@ -239,8 +231,6 @@ namespace WebAPI.UnitTests.Aggregators
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => epicMapper.MapToModel(epicEntity))
                 .MustHaveHappenedOnceExactly();
-            A.CallTo(() => sprintMapper.MapToFullModel(sprintEntities.First()))
-                .MustHaveHappened();
             A.CallTo(() => teamMapper.MapToFullModel(teamEntities.First()))
                 .MustHaveHappened();
         }

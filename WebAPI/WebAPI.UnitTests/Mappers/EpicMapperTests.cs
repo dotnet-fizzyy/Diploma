@@ -1,7 +1,5 @@
 using System;
-using FakeItEasy;
 using WebAPI.Core.Entities;
-using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models.Simple;
 using WebAPI.Presentation.Mappers;
 using Xunit;
@@ -14,9 +12,7 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldReturnEmptyModelOnNullEntity()
         {
             //Arrange
-            var sprintMapper = A.Fake<ISprintMapper>();
-
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
             
             //Act
             var mappedResult = epicMapper.MapToModel(null);
@@ -29,9 +25,7 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldReturnEmptyEntityOnNullModel()
         {
             //Arrange
-            var sprintMapper = A.Fake<ISprintMapper>();
-
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
             
             //Act
             var mappedResult = epicMapper.MapToEntity(null);
@@ -44,8 +38,6 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldMapEntityToModel()
         {
             //Arrange
-            var sprintMapper = A.Fake<ISprintMapper>();
-            
             var epicId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var projectId = new Guid("1113238f-87e6-4e86-93fc-ab79b8804111");
             const string epicName = "EpicName";
@@ -77,7 +69,7 @@ namespace WebAPI.UnitTests.Mappers
             };
             
             //Act
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
             var mappedResult = epicMapper.MapToModel(epicEntity);
             
             //Assert
@@ -94,8 +86,6 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldMapModelToEntity()
         {
             //Arrange
-            var sprintMapper = A.Fake<ISprintMapper>();
-            
             var epicId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var projectId = new Guid("1113238f-87e6-4e86-93fc-ab79b8804111");
             const string epicName = "EpicName";
@@ -126,7 +116,7 @@ namespace WebAPI.UnitTests.Mappers
                 IsDeleted = isDeleted
             };
             
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
             
             //Act
             var mappedResult = epicMapper.MapToEntity(epicModel);
@@ -145,9 +135,7 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldReturnEmptyModelForNullEntityOnMapToEpicSimpleModel()
         {
             //Arrange
-            var sprintMapper = A.Fake<ISprintMapper>();
-            
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
             
             //Act
             var result = epicMapper.MapToSimpleModel(null);
@@ -160,8 +148,6 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldMapToEpicSimpleModel()
         {
             //Arrange
-            var sprintMapper = A.Fake<ISprintMapper>();
-            
             var epicId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             const string epicName = "EpicName";
             var startDate = DateTime.UtcNow.Date;
@@ -184,7 +170,7 @@ namespace WebAPI.UnitTests.Mappers
                 EndDate = endDate,
             };
 
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
             
             //Act
             var result = epicMapper.MapToSimpleModel(epicEntity);

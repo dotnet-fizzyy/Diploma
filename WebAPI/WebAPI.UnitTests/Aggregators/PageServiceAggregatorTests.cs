@@ -17,11 +17,9 @@ namespace WebAPI.UnitTests.Aggregators
             var userMapper = new UserMapper();
             var teamMapper = new TeamMapper(userMapper);
             var projectMapper = new ProjectMapper();
-            var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var sprintMapper = new SprintMapper(storyMapper);
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
 
-            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper, sprintMapper, storyMapper);
+            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper);
 
             var projectId = new Guid("807e22d0-d244-439c-bdde-4908b45c9707");
             var teamId = new Guid("1115d0d1-8e12-4068-b68e-f8294cf0ffff");
@@ -63,11 +61,9 @@ namespace WebAPI.UnitTests.Aggregators
             var userMapper = new UserMapper();
             var teamMapper = new TeamMapper(userMapper);
             var projectMapper = new ProjectMapper();
-            var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var sprintMapper = new SprintMapper(storyMapper);
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
 
-            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper, sprintMapper, storyMapper);
+            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper);
             
             //Act
             var result = pageAggregator.CreateSearchResultsByTerm(null, null);
@@ -90,11 +86,9 @@ namespace WebAPI.UnitTests.Aggregators
             var userMapper = new UserMapper();
             var teamMapper = new TeamMapper(userMapper);
             var projectMapper = new ProjectMapper();
-            var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var sprintMapper = new SprintMapper(storyMapper);
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
 
-            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper, sprintMapper, storyMapper);
+            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper);
 
             var projectId = new Guid("807e22d0-d244-439c-bdde-4908b45c9707");
             var epicId = new Guid("9a15d0d1-8e12-4068-b68e-f8294cf0f90a");
@@ -169,11 +163,9 @@ namespace WebAPI.UnitTests.Aggregators
             var userMapper = new UserMapper();
             var teamMapper = new TeamMapper(userMapper);
             var projectMapper = new ProjectMapper();
-            var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var sprintMapper = new SprintMapper(storyMapper);
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
 
-            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper, sprintMapper, storyMapper);
+            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper);
 
             //Act
             var result = pageAggregator.CreateBoardPageModel(null, null, null, null);
@@ -198,11 +190,9 @@ namespace WebAPI.UnitTests.Aggregators
             var userMapper = new UserMapper();
             var teamMapper = new TeamMapper(userMapper);
             var projectMapper = new ProjectMapper();
-            var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var sprintMapper = new SprintMapper(storyMapper);
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
 
-            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper, sprintMapper, storyMapper);
+            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper);
 
             var workSpaceId = new Guid("f6064878-bfd4-4fd7-b119-d7838abae643");
             var teamId = new Guid("66664878-bfd4-4fd7-b119-d7838abae555");
@@ -241,11 +231,9 @@ namespace WebAPI.UnitTests.Aggregators
             var userMapper = new UserMapper();
             var teamMapper = new TeamMapper(userMapper);
             var projectMapper = new ProjectMapper();
-            var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var sprintMapper = new SprintMapper(storyMapper);
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
 
-            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper, sprintMapper, storyMapper);
+            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper);
 
             //Act
             var result = pageAggregator.CreateTeamPageModel(null, null);
@@ -264,11 +252,9 @@ namespace WebAPI.UnitTests.Aggregators
             var userMapper = new UserMapper();
             var teamMapper = new TeamMapper(userMapper);
             var projectMapper = new ProjectMapper();
-            var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var sprintMapper = new SprintMapper(storyMapper);
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
 
-            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper, sprintMapper, storyMapper);
+            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper);
 
             var projectId = new Guid("807e22d0-d244-439c-bdde-4908b45c9707");
             var epicId = new Guid("9a15d0d1-8e12-4068-b68e-f8294cf0f90a");
@@ -319,11 +305,9 @@ namespace WebAPI.UnitTests.Aggregators
             var userMapper = new UserMapper();
             var teamMapper = new TeamMapper(userMapper);
             var projectMapper = new ProjectMapper();
-            var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var sprintMapper = new SprintMapper(storyMapper);
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
 
-            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper, sprintMapper, storyMapper);
+            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper);
 
             //Act
             var result = pageAggregator.CreateProjectPageModel(null);
@@ -345,11 +329,9 @@ namespace WebAPI.UnitTests.Aggregators
             var userMapper = new UserMapper();
             var teamMapper = new TeamMapper(userMapper);
             var projectMapper = new ProjectMapper();
-            var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var sprintMapper = new SprintMapper(storyMapper);
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
 
-            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper, sprintMapper, storyMapper);
+            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper);
 
             var workSpaceId = new Guid("f6064878-bfd4-4fd7-b119-d7838abae643");
             var projectId = new Guid("66664878-bfd4-4fd7-b119-d7838abae555");
@@ -390,11 +372,9 @@ namespace WebAPI.UnitTests.Aggregators
             var userMapper = new UserMapper();
             var teamMapper = new TeamMapper(userMapper);
             var projectMapper = new ProjectMapper();
-            var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var sprintMapper = new SprintMapper(storyMapper);
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
 
-            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper, sprintMapper, storyMapper);
+            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper);
 
             //Act
             var result = pageAggregator.CreateWorkSpacePageModel(null, null);
@@ -414,11 +394,9 @@ namespace WebAPI.UnitTests.Aggregators
             var userMapper = new UserMapper();
             var teamMapper = new TeamMapper(userMapper);
             var projectMapper = new ProjectMapper();
-            var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var sprintMapper = new SprintMapper(storyMapper);
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
 
-            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper, sprintMapper, storyMapper);
+            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper);
 
             var projectId = new Guid("807e22d0-d244-439c-bdde-4908b45c9707");
             var epicId = new Guid("9a15d0d1-8e12-4068-b68e-f8294cf0f90a");
@@ -485,11 +463,9 @@ namespace WebAPI.UnitTests.Aggregators
             var userMapper = new UserMapper();
             var teamMapper = new TeamMapper(userMapper);
             var projectMapper = new ProjectMapper();
-            var storyMapper = new StoryMapper(new StoryHistoryMapper());
-            var sprintMapper = new SprintMapper(storyMapper);
-            var epicMapper = new EpicMapper(sprintMapper);
+            var epicMapper = new EpicMapper();
 
-            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper, sprintMapper, storyMapper);
+            var pageAggregator = new PageAggregator(workSpaceMapper, teamMapper, projectMapper, epicMapper);
 
             //Act
             var result = pageAggregator.CreateStatisticsPageModel(null, null, null);

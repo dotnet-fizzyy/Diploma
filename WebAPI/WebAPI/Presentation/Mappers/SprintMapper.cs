@@ -1,20 +1,21 @@
 using System.Linq;
-using WebAPI.Core.Entities;
-using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models.Result;
+
+using SprintEntity = WebAPI.Core.Entities.Sprint;
+using SprintModel = WebAPI.Models.Models.Models.Sprint;
 
 namespace WebAPI.Presentation.Mappers
 {
-    public class SprintMapper : ISprintMapper
+    public static class SprintMapper
     {
-        public Sprint MapToEntity(WebAPI.Models.Models.Models.Sprint sprint)
+        public static SprintEntity Map(SprintModel sprint)
         {
             if (sprint == null)
             {
-                return new Sprint();
+                return new SprintEntity();
             }
 
-            var sprintEntity = new Sprint
+            var sprintEntity = new SprintEntity
             {
                 Id = sprint.SprintId,
                 EpicId = sprint.EpicId,
@@ -28,21 +29,21 @@ namespace WebAPI.Presentation.Mappers
             return sprintEntity;
         }
 
-        public WebAPI.Models.Models.Models.Sprint MapToModel(Sprint sprintEntity)
+        public static SprintModel Map(SprintEntity sprintEntity)
         {
             if (sprintEntity == null)
             {
-                return new WebAPI.Models.Models.Models.Sprint();
+                return new SprintModel();
             }
 
-            var sprintModel = new WebAPI.Models.Models.Models.Sprint();
+            var sprintModel = new SprintModel();
             
             MapBaseEntityToModel(sprintModel, sprintEntity);
             
             return sprintModel;
         }
 
-        public FullSprint MapToFullModel(Sprint sprintEntity)
+        public static FullSprint MapToFullModel(SprintEntity sprintEntity)
         {
             if (sprintEntity == null)
             {
@@ -58,7 +59,7 @@ namespace WebAPI.Presentation.Mappers
             return sprintFullModel;
         }
 
-        private static void MapBaseEntityToModel(WebAPI.Models.Models.Models.Sprint model, Sprint entity)
+        private static void MapBaseEntityToModel(SprintModel model, SprintEntity entity)
         {
             model.SprintId = entity.Id;
             model.EpicId = entity.EpicId;

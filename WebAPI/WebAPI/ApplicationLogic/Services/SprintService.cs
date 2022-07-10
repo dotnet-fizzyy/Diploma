@@ -6,25 +6,20 @@ using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
-using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
+using WebAPI.Presentation.Mappers;
 
 namespace WebAPI.ApplicationLogic.Services
 {
     public class SprintService : ISprintService
     {
         private readonly ISprintRepository _sprintRepository;
-        private readonly ISprintMapper _sprintMapper;
 
-        public SprintService(
-            ISprintRepository sprintRepository,
-            ISprintMapper sprintMapper
-            )
+        public SprintService(ISprintRepository sprintRepository)
         {
             _sprintRepository = sprintRepository;
-            _sprintMapper = sprintMapper;
         }
 
         public async Task<CollectionResponse<FullSprint>> GetAllSprintsFromEpicAsync(Guid epicId, Guid? teamId)
@@ -33,7 +28,7 @@ namespace WebAPI.ApplicationLogic.Services
            
             var sprintsCollectionResponse = new CollectionResponse<FullSprint>
             {
-                Items = sprintEntities.Select(_sprintMapper.MapToFullModel).ToList()
+                Items = sprintEntities.Select(SprintMapper.MapToFullModel).ToList()
             };
 
             return sprintsCollectionResponse;
@@ -48,7 +43,7 @@ namespace WebAPI.ApplicationLogic.Services
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(sprintId)));
             }
 
-            var sprintModel = _sprintMapper.MapToModel(sprintEntity);
+            var sprintModel = SprintMapper.Map(sprintEntity);
 
             return sprintModel;
         }
@@ -66,30 +61,30 @@ namespace WebAPI.ApplicationLogic.Services
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(sprintId)));
             }
 
-            var sprintFullModel = _sprintMapper.MapToFullModel(sprintEntity);
+            var sprintFullModel = SprintMapper.MapToFullModel(sprintEntity);
 
             return sprintFullModel;
         }
 
         public async Task<Sprint> CreateSprintAsync(Sprint sprint)
         {
-            var sprintEntity = _sprintMapper.MapToEntity(sprint);
+            var sprintEntity = SprintMapper.Map(sprint);
             sprintEntity.CreationDate = DateTime.UtcNow;
 
             var createdSprintEntity = await _sprintRepository.CreateAsync(sprintEntity);
 
-            var sprintModel = _sprintMapper.MapToModel(createdSprintEntity);
+            var sprintModel = SprintMapper.Map(createdSprintEntity);
 
             return sprintModel;
         }
 
         public async Task<Sprint> UpdateSprintAsync(Sprint sprint)
         {
-            var sprintEntity = _sprintMapper.MapToEntity(sprint);
+            var sprintEntity = SprintMapper.Map(sprint);
 
             var updatedSprintEntity = await _sprintRepository.UpdateItemAsync(sprintEntity);
 
-            var sprintModel = _sprintMapper.MapToModel(updatedSprintEntity);
+            var sprintModel = SprintMapper.Map(updatedSprintEntity);
 
             return sprintModel;
         }

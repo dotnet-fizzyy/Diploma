@@ -20,7 +20,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var epicRepository = A.Fake<IEpicRepository>();
-            var epicMapper = new EpicMapper(new SprintMapper(new StoryMapper(new StoryHistoryMapper())));
+            var epicMapper = new EpicMapper();
 
             var epicService = new EpicService(epicRepository, epicMapper);
 
@@ -72,7 +72,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var epicRepository = A.Fake<IEpicRepository>();
-            var epicMapper = new EpicMapper(new SprintMapper(new StoryMapper(new StoryHistoryMapper())));
+            var epicMapper = new EpicMapper();
 
             var epicService = new EpicService(epicRepository, epicMapper);
 
@@ -93,7 +93,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var epicRepository = A.Fake<IEpicRepository>();
-            var epicMapper = new EpicMapper(new SprintMapper(new StoryMapper(new StoryHistoryMapper())));
+            var epicMapper = new EpicMapper();
 
             var epicService = new EpicService(epicRepository, epicMapper);
 
@@ -168,7 +168,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var epicRepository = A.Fake<IEpicRepository>();
-            var epicMapper = new EpicMapper(new SprintMapper(new StoryMapper(new StoryHistoryMapper())));
+            var epicMapper = new EpicMapper();
 
             var epicService = new EpicService(epicRepository, epicMapper);
 
@@ -189,7 +189,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var epicRepository = A.Fake<IEpicRepository>();
-            var epicMapper = new EpicMapper(new SprintMapper(new StoryMapper(new StoryHistoryMapper())));
+            var epicMapper = new EpicMapper();
 
             var epicService = new EpicService(epicRepository, epicMapper);
 
@@ -250,7 +250,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var epicRepository = A.Fake<IEpicRepository>();
-            var epicMapper = new EpicMapper(new SprintMapper(new StoryMapper(new StoryHistoryMapper())));
+            var epicMapper = new EpicMapper();
 
             var epicService = new EpicService(epicRepository, epicMapper);
 
@@ -312,7 +312,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var epicRepository = A.Fake<IEpicRepository>();
-            var epicMapper = new EpicMapper(new SprintMapper(new StoryMapper(new StoryHistoryMapper())));
+            var epicMapper = new EpicMapper();
 
             var epicService = new EpicService(epicRepository, epicMapper);
 
@@ -337,7 +337,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var epicRepository = A.Fake<IEpicRepository>();
-            var epicMapper = new EpicMapper(new SprintMapper(new StoryMapper(new StoryHistoryMapper())));
+            var epicMapper = new EpicMapper();
 
             var epicService = new EpicService(epicRepository, epicMapper);
 

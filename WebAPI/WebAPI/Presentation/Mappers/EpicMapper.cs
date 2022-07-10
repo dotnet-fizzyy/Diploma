@@ -8,13 +8,6 @@ namespace WebAPI.Presentation.Mappers
 {
     public class EpicMapper : IEpicMapper
     {
-        private readonly ISprintMapper _sprintMapper;
-        
-        public EpicMapper(ISprintMapper sprintMapper)
-        {
-            _sprintMapper = sprintMapper;
-        }
-        
         public Epic MapToEntity(WebAPI.Models.Models.Models.Epic epic)
         {
             if (epic == null)
@@ -61,7 +54,7 @@ namespace WebAPI.Presentation.Mappers
             var epicModel = new FullEpic();
             
             MapBaseEntityToModel(epicModel, epicEntity);
-            epicModel.Sprints = epicEntity.Sprints.Select(_sprintMapper.MapToModel).ToList();
+            epicModel.Sprints = epicEntity.Sprints.Select(SprintMapper.Map).ToList();
 
             return epicModel;
         }

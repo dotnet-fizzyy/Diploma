@@ -8,7 +8,6 @@ using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Mappers;
 using Xunit;
 
 namespace WebAPI.UnitTests.Services
@@ -20,9 +19,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper();
 
-            var sprintService = new SprintService(sprintRepository, sprintMapper);
+            var sprintService = new SprintService(sprintRepository);
             
             var sprintId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
@@ -69,9 +67,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper();
 
-            var sprintService = new SprintService(sprintRepository, sprintMapper);
+            var sprintService = new SprintService(sprintRepository);
             
             var sprintId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 
@@ -90,9 +87,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper();
 
-            var sprintService = new SprintService(sprintRepository, sprintMapper);
+            var sprintService = new SprintService(sprintRepository);
             
             var sprintId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
@@ -164,9 +160,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper();
 
-            var sprintService = new SprintService(sprintRepository, sprintMapper);
+            var sprintService = new SprintService(sprintRepository);
             
             var sprintId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 
@@ -185,9 +180,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper();
 
-            var sprintService = new SprintService(sprintRepository, sprintMapper);
+            var sprintService = new SprintService(sprintRepository);
             
             var sprintId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
@@ -245,9 +239,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper();
 
-            var sprintService = new SprintService(sprintRepository, sprintMapper);
+            var sprintService = new SprintService(sprintRepository);
             
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
 
@@ -270,9 +263,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper();
 
-            var sprintService = new SprintService(sprintRepository, sprintMapper);
+            var sprintService = new SprintService(sprintRepository);
             
             var sprintId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
@@ -327,9 +319,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper();
 
-            var sprintService = new SprintService(sprintRepository, sprintMapper);
+            var sprintService = new SprintService(sprintRepository);
             
             var sprintId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
@@ -386,9 +377,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper();
 
-            var sprintService = new SprintService(sprintRepository, sprintMapper);
+            var sprintService = new SprintService(sprintRepository);
 
             var sprint = new Sprint
             {
@@ -411,9 +401,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var sprintRepository = A.Fake<ISprintRepository>();
-            var sprintMapper = new SprintMapper();
 
-            var sprintService = new SprintService(sprintRepository, sprintMapper);
+            var sprintService = new SprintService(sprintRepository);
             
             var sprintId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 

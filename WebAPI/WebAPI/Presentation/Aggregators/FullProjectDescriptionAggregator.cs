@@ -4,6 +4,7 @@ using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models.Result;
+using WebAPI.Presentation.Mappers;
 
 namespace WebAPI.Presentation.Aggregators
 {
@@ -11,19 +12,16 @@ namespace WebAPI.Presentation.Aggregators
     {
         private readonly IProjectMapper _projectMapper;
         private readonly IEpicMapper _epicMapper;
-        private readonly ISprintMapper _sprintMapper;
         private readonly ITeamMapper _teamMapper;
 
         public FullProjectDescriptionAggregator(
             IProjectMapper projectMapper, 
             IEpicMapper epicMapper,
-            ISprintMapper sprintMapper, 
             ITeamMapper teamMapper)
         {
             _projectMapper = projectMapper;
             _teamMapper = teamMapper;
             _epicMapper = epicMapper;
-            _sprintMapper = sprintMapper;
         }
         
         public FullProjectDescription AggregateFullProjectDescription(
@@ -44,7 +42,7 @@ namespace WebAPI.Presentation.Aggregators
 
             fullProjectDescription.Sprints = new CollectionResponse<FullSprint>
             {
-                Items = sprints?.Select(_sprintMapper.MapToFullModel).ToList() ?? new List<FullSprint>()
+                Items = sprints?.Select(SprintMapper.MapToFullModel).ToList() ?? new List<FullSprint>()
             };
 
             fullProjectDescription.Teams = new CollectionResponse<FullTeam>

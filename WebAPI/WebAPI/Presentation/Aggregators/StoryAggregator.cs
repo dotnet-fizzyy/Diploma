@@ -81,7 +81,7 @@ namespace WebAPI.Presentation.Aggregators
                 storyToUpdate.Description, 
                 StringComparison.OrdinalIgnoreCase);
 
-            if (!isDescriptionDifferent)
+            if (isDescriptionDifferent)
             {
                 _storyHistory.Add(CreateStoryHistory(
                     originalStory.Id,
@@ -135,8 +135,8 @@ namespace WebAPI.Presentation.Aggregators
 
             if (isSprintDifferent)
             {
-                var previousSprintName = sprints.FirstOrDefault(x => x.Id == originalStory.UserId)?.SprintName;
-                var newSprintName = sprints.FirstOrDefault(x => x.Id == storyToUpdate.UserId)?.SprintName;
+                var previousSprintName = sprints.FirstOrDefault(x => x.Id == originalStory.SprintId)?.SprintName;
+                var newSprintName = sprints.FirstOrDefault(x => x.Id == storyToUpdate.SprintId)?.SprintName;
 
                 _storyHistory.Add(CreateStoryHistory(
                         originalStory.Id, 

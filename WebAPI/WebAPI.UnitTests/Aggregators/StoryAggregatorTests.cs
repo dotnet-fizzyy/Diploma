@@ -118,26 +118,13 @@ namespace WebAPI.UnitTests.Aggregators
                 Assert.Equal(StoryHistoryAction.Update, st.StoryHistoryAction);
                 Assert.Equal(userName, st.UserName);
             });
-            
-            Assert.Equal(expectedResult[0].FieldName, result[0].FieldName);
-            Assert.Equal(expectedResult[0].PreviousValue, result[0].PreviousValue);
-            Assert.Equal(expectedResult[0].CurrentValue, result[0].CurrentValue);
-            
-            Assert.Equal(expectedResult[1].FieldName, result[1].FieldName);
-            Assert.Equal(expectedResult[1].PreviousValue, result[1].PreviousValue);
-            Assert.Equal(expectedResult[1].CurrentValue, result[1].CurrentValue);
-            
-            Assert.Equal(expectedResult[2].FieldName, result[2].FieldName);
-            Assert.Equal(expectedResult[2].PreviousValue, result[2].PreviousValue);
-            Assert.Equal(expectedResult[2].CurrentValue, result[2].CurrentValue);
-            
-            Assert.Equal(expectedResult[3].FieldName, result[3].FieldName);
-            Assert.Equal(expectedResult[3].PreviousValue, result[3].PreviousValue);
-            Assert.Equal(expectedResult[3].CurrentValue, result[3].CurrentValue);
-            
-            Assert.Equal(expectedResult[4].FieldName, result[4].FieldName);
-            Assert.Equal(expectedResult[4].PreviousValue, result[4].PreviousValue);
-            Assert.Equal(expectedResult[4].CurrentValue, result[4].CurrentValue);
+
+            for (var i = 0; i < result.Count; i++)
+            {
+                Assert.Equal(expectedResult[i].FieldName, result[i].FieldName);
+                Assert.Equal(expectedResult[i].PreviousValue, result[i].PreviousValue);
+                Assert.Equal(expectedResult[i].CurrentValue, result[i].CurrentValue);
+            }
         }
 
         [Fact]

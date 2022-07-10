@@ -12,11 +12,8 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyModelOnNullEntity()
         {
-            //Arrange
-            var sprintMapper = new SprintMapper();
-            
-            //Act
-            var mappedResult = sprintMapper.MapToModel(null);
+            //Arrange & Act
+            var mappedResult = SprintMapper.Map((Sprint)null);
 
             //Assert
             Assert.NotNull(mappedResult);
@@ -25,11 +22,8 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyEntityOnNullModel()
         {
-            //Arrange
-            var sprintMapper = new SprintMapper();
-            
-            //Act
-            var mappedResult = sprintMapper.MapToEntity(null);
+            //Arrange & Act
+            var mappedResult = SprintMapper.Map((Models.Models.Models.Sprint)null);
 
             //Assert
             Assert.NotNull(mappedResult);
@@ -66,10 +60,8 @@ namespace WebAPI.UnitTests.Mappers
                 IsDeleted = isDeleted
             };
             
-            var sprintMapper = new SprintMapper();
-            
             //Act
-            var mappedResult = sprintMapper.MapToModel(sprintEntity);
+            var mappedResult = SprintMapper.Map(sprintEntity);
 
             //Assert
             AssertSprintModelProperties(sprintModel, mappedResult);
@@ -102,11 +94,9 @@ namespace WebAPI.UnitTests.Mappers
                 EndDate = endDate,
                 EpicId = epicId,
             };
-            
-            var sprintMapper = new SprintMapper();
-            
+
             //Act
-            var mappedResult = sprintMapper.MapToEntity(sprintModel);
+            var mappedResult = SprintMapper.Map(sprintModel);
 
             //Assert
             Assert.Equal(sprintEntity.Id, mappedResult.Id);
@@ -163,10 +153,8 @@ namespace WebAPI.UnitTests.Mappers
                 }
             };
 
-            var sprintMapper = new SprintMapper();
-            
             //Act
-            var mappedResult = sprintMapper.MapToFullModel(sprintEntity);
+            var mappedResult = SprintMapper.MapToFullModel(sprintEntity);
 
             //Assert
             AssertSprintModelProperties(expectedModel, mappedResult);

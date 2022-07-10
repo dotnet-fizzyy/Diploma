@@ -42,7 +42,6 @@ namespace WebAPI.Startup.Configuration
             //Mappers
             services.AddSingleton<IEpicMapper, EpicMapper>();
             services.AddSingleton<IUserMapper, UserMapper>();
-            services.AddSingleton<ISprintMapper, SprintMapper>();
             services.AddSingleton<ITeamMapper, TeamMapper>();
             services.AddSingleton<IProjectMapper, ProjectMapper>();
             services.AddSingleton<IWorkSpaceMapper, WorkSpaceMapper>();

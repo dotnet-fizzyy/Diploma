@@ -16,21 +16,17 @@ namespace WebAPI.Presentation.Aggregators
         private readonly ITeamMapper _teamMapper;
         private readonly IProjectMapper _projectMapper;
         private readonly IEpicMapper _epicMapper;
-        private readonly ISprintMapper _sprintMapper;
 
         public PageAggregator(
             IWorkSpaceMapper workSpaceMapper, 
             ITeamMapper teamMapper, 
             IProjectMapper projectMapper, 
-            IEpicMapper epicMapper,
-            ISprintMapper sprintMapper
-            )
+            IEpicMapper epicMapper)
         {
             _workSpaceMapper = workSpaceMapper;
             _teamMapper = teamMapper;
             _projectMapper = projectMapper;
             _epicMapper = epicMapper;
-            _sprintMapper = sprintMapper;
         }
 
         public DefaultPage CreateDefaultPageModel(IList<Team> teams, IList<Story> stories)
@@ -66,7 +62,7 @@ namespace WebAPI.Presentation.Aggregators
                     ? _teamMapper.MapToFullModel(team)
                     : new FullTeam(),
                 Epics = epics?.Select(_epicMapper.MapToSimpleModel).ToList() ?? new List<EpicSimpleModel>(),
-                Sprints = sprints?.Select(_sprintMapper.MapToModel).ToList() ?? new List<WebAPI.Models.Models.Models.Sprint>(),
+                Sprints = sprints?.Select(SprintMapper.Map).ToList() ?? new List<WebAPI.Models.Models.Models.Sprint>(),
                 Stories =  sprints?.SelectMany(x => x.Stories.Select(StoryMapper.Map)).ToList() ?? new List<WebAPI.Models.Models.Models.Story>(),
             };
 
@@ -133,7 +129,7 @@ namespace WebAPI.Presentation.Aggregators
                     ? _projectMapper.MapToModel(project) 
                     : new WebAPI.Models.Models.Models.Project(),
                 Epics =  epics?.Select(_epicMapper.MapToSimpleModel).ToList() ?? new List<EpicSimpleModel>(),
-                Sprints = sprints?.Select(_sprintMapper.MapToModel).ToList() ?? new List<WebAPI.Models.Models.Models.Sprint>(),
+                Sprints = sprints?.Select(SprintMapper.Map).ToList() ?? new List<WebAPI.Models.Models.Models.Sprint>(),
                 Stories =  sprints?.SelectMany(x => x.Stories, (_, story) => StoryMapper.MapToSimpleModel(story)).ToList() ?? new List<StorySimpleModel>()
             };
 
