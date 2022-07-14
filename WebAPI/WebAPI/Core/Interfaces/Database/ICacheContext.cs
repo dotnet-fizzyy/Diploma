@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Core.Interfaces.Database
 {
-    public interface IRedisContext
+    public interface ICacheContext
     {
         Task<T> Get<T>(string key);
         

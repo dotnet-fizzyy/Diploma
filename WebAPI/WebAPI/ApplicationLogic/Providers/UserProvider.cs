@@ -20,20 +20,20 @@ namespace WebAPI.ApplicationLogic.Providers
         private readonly IUserRepository _userRepository;
         private readonly ITeamRepository _teamRepository;
         private readonly IProjectRepository _projectRepository;
-        private readonly IRedisContext _redisContext;
+        private readonly ICacheContext _cacheContext;
         private readonly AppSettings _appSettings;
 
         public UserProvider(
             IUserRepository userRepository, 
             ITeamRepository teamRepository, 
             IProjectRepository projectRepository,
-            IRedisContext redisContext,
+            ICacheContext cacheContext,
             AppSettings appSettings)
         {
             _projectRepository = projectRepository;
             _teamRepository = teamRepository;
             _userRepository = userRepository;
-            _redisContext = redisContext;
+            _cacheContext = cacheContext;
             _appSettings = appSettings;
         }
         
@@ -41,7 +41,7 @@ namespace WebAPI.ApplicationLogic.Providers
         {
             if (_appSettings.Redis.EnableRedis)
             {
-                var user = await _redisContext.Get<FullUser>(RedisUtilities.CreateRedisKeyForUser(userId));
+                var user = await _cacheContext.Get<FullUser>(RedisUtilities.CreateRedisKeyForUser(userId));
                 if (user != null)
                 {
                     return user;
@@ -59,7 +59,8 @@ namespace WebAPI.ApplicationLogic.Providers
             if (_appSettings.Redis.EnableRedis)
             {
                 var userKey = RedisUtilities.CreateRedisKeyForUser(userId);
-                await _redisContext.Set(userKey, fullUser, TimeSpan.FromHours(1));
+ 
+                await _cacheContext.Set(userKey, fullUser, TimeSpan.FromHours(1));
             }
 
             return fullUser;

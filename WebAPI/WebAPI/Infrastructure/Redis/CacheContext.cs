@@ -4,24 +4,20 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using StackExchange.Redis.Extensions.Core.Abstractions;
-using WebAPI.Core.Configuration;
 using WebAPI.Core.Interfaces.Database;
 
 namespace WebAPI.Infrastructure.Redis
 {
-    public class RedisContext : IRedisContext
+    public class CacheContext : ICacheContext
     {
         private readonly IRedisCacheClient _redisCacheClient;
-        private readonly ILogger<RedisContext> _logger;
-        private readonly AppSettings _appSettings;
+        private readonly ILogger<CacheContext> _logger;
 
-        public RedisContext(IRedisCacheClient redisCacheClient, ILogger<RedisContext> logger, AppSettings appSettings)
+        public CacheContext(IRedisCacheClient redisCacheClient, ILogger<CacheContext> logger)
         {
             _redisCacheClient = redisCacheClient;
             _logger = logger;
-            _appSettings = appSettings;
         }
-
 
         public async Task<T> Get<T>(string key)
         {
@@ -57,14 +53,7 @@ namespace WebAPI.Infrastructure.Redis
             }
         }
         
-        private IDatabase Redis()
-        {
-            if (_appSettings.Redis.EnableRedis)
-            {
-                return _redisCacheClient.GetDbFromConfiguration().Database;
-            }
-
-            return null;
-        }
+        private IDatabase Redis() =>
+            _redisCacheClient.GetDbFromConfiguration().Database;
     }
 }

@@ -31,7 +31,7 @@ namespace WebAPI.Startup.Configuration
             services.AddScoped<IStoryHistoryRepository, StoryHistoryRepository>();
             services.AddScoped<IStoryRepository, StoryRepository>();
             services.AddScoped<IWorkSpaceRepository, WorkSpaceRepository>();
-            services.AddScoped<IRedisContext, RedisContext>();
+            services.AddScoped<ICacheContext, CacheContext>();
 
             //Services
             services.AddScoped<IStoryService, StoryService>();

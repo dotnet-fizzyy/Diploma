@@ -31,7 +31,7 @@ namespace WebAPI.UnitTests.Providers
             var userRepository = A.Fake<IUserRepository>();
             var teamRepository = A.Fake<ITeamRepository>();
             var projectRepository = A.Fake<IProjectRepository>();
-            var redisHandler = A.Fake<IRedisContext>();
+            var redisHandler = A.Fake<ICacheContext>();
             
             var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, redisHandler, _appSettings);
 
@@ -80,7 +80,7 @@ namespace WebAPI.UnitTests.Providers
             var userRepository = A.Fake<IUserRepository>();
             var teamRepository = A.Fake<ITeamRepository>();
             var projectRepository = A.Fake<IProjectRepository>();
-            var redisHandler = A.Fake<IRedisContext>();
+            var redisHandler = A.Fake<ICacheContext>();
             
             var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, redisHandler, _appSettings);
 
@@ -107,7 +107,7 @@ namespace WebAPI.UnitTests.Providers
             var userRepository = A.Fake<IUserRepository>();
             var teamRepository = A.Fake<ITeamRepository>();
             var projectRepository = A.Fake<IProjectRepository>();
-            var redisHandler = A.Fake<IRedisContext>();
+            var redisHandler = A.Fake<ICacheContext>();
             
             var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, redisHandler, _appSettings);
 
@@ -218,7 +218,7 @@ namespace WebAPI.UnitTests.Providers
             var userRepository = A.Fake<IUserRepository>();
             var teamRepository = A.Fake<ITeamRepository>();
             var projectRepository = A.Fake<IProjectRepository>();
-            var redisHandler = A.Fake<IRedisContext>();
+            var redisHandler = A.Fake<ICacheContext>();
             
             var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, redisHandler, _appSettings);
 
