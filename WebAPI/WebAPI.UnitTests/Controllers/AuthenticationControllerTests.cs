@@ -12,7 +12,7 @@ using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Constants;
 using WebAPI.Presentation.Controllers;
 using WebAPI.Presentation.Models.Action;
-using WebAPI.Presentation.Models.Result;
+using WebAPI.Presentation.Models.Response;
 using Xunit;
 
 namespace WebAPI.UnitTests.Controllers
@@ -32,7 +32,7 @@ namespace WebAPI.UnitTests.Controllers
                 Password = "123",
             };
 
-            var createdUser = new AuthenticationUserResultModel
+            var createdUser = new AuthenticationUserResponseModel
             {
                 User = new FullUser
                 {
@@ -119,7 +119,7 @@ namespace WebAPI.UnitTests.Controllers
                 new Claim(ClaimTypes.Name, userName),
             }));
 
-            var authModel = new AuthenticationResultModel
+            var authModel = new AuthenticationResponseModel
             {
                 AccessToken = new Token(TokenTypes.Access, "acc_token"),
                 RefreshToken = new Token(TokenTypes.Refresh, "ref_token")
@@ -162,7 +162,7 @@ namespace WebAPI.UnitTests.Controllers
    
             const string email = "test@mail.com";
 
-            var emailResultModel = new EmailResultModel
+            var emailResultModel = new EmailResponseModel
             {
                 IsEmailExist = true,
             };

@@ -6,7 +6,7 @@ using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Constants;
 using WebAPI.Presentation.Models.Action;
-using WebAPI.Presentation.Models.Result;
+using WebAPI.Presentation.Models.Response;
 using WebAPI.Presentation.Utilities;
 
 namespace WebAPI.Presentation.Controllers
@@ -34,7 +34,7 @@ namespace WebAPI.Presentation.Controllers
         [Route("sign-in")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<AuthenticationUserResultModel>> AuthenticateUser([FromBody, BindRequired] SignInUser user)
+        public async Task<ActionResult<AuthenticationUserResponseModel>> AuthenticateUser([FromBody, BindRequired] SignInUser user)
         {
             var authResult = await _tokenService.AuthenticateUser(user);
 
@@ -64,7 +64,7 @@ namespace WebAPI.Presentation.Controllers
         [Route("token-renew")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<AuthenticationResultModel>> UpdateAccessToken([FromHeader(Name = RequestHeaders.RefreshTokenHeader)] string refreshToken)
+        public async Task<ActionResult<AuthenticationResponseModel>> UpdateAccessToken([FromHeader(Name = RequestHeaders.RefreshTokenHeader)] string refreshToken)
         {
             var user = ClaimsReader.GetUserClaims(User);
             
@@ -76,7 +76,7 @@ namespace WebAPI.Presentation.Controllers
         [HttpGet]
         [Route("check-email")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<EmailResultModel>> CheckForEmailExistence([FromQuery] string email)
+        public async Task<ActionResult<EmailResponseModel>> CheckForEmailExistence([FromQuery] string email)
             => await _userService.CheckForEmailExistenceAsync(email);
     }
 }

@@ -1,8 +1,8 @@
 using WebAPI.Models.Models.Models;
 
-namespace WebAPI.Presentation.Models.Result
+namespace WebAPI.Presentation.Models.Response
 {
-    public class AuthenticationResultModel
+    public class AuthenticationResponseModel
     {
         public Token AccessToken { get; set; }
         

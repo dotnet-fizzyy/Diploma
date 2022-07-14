@@ -10,7 +10,7 @@ using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Constants;
 using WebAPI.Presentation.Models.Action;
-using WebAPI.Presentation.Models.Result;
+using WebAPI.Presentation.Models.Response;
 
 namespace WebAPI.ApplicationLogic.Services
 {
@@ -32,7 +32,7 @@ namespace WebAPI.ApplicationLogic.Services
         }
         
 
-        public async Task<AuthenticationUserResultModel> AuthenticateUser(SignInUser user)
+        public async Task<AuthenticationUserResponseModel> AuthenticateUser(SignInUser user)
         {
             //Authenticate user (find in db)
             var fullUserModel = await _userProvider.GetFullUser(user);
@@ -58,7 +58,7 @@ namespace WebAPI.ApplicationLogic.Services
                 }
             }
 
-            var tokenPair = new AuthenticationUserResultModel
+            var tokenPair = new AuthenticationUserResponseModel
             {
                 AccessToken = new Token(TokenTypes.Access, accessToken),
                 RefreshToken = new Token(TokenTypes.Refresh, refreshToken),
@@ -68,7 +68,7 @@ namespace WebAPI.ApplicationLogic.Services
             return tokenPair;
         }
 
-        public async Task<AuthenticationResultModel> UpdateTokens(string refreshToken, Guid userId, string userName, string userRole)
+        public async Task<AuthenticationResponseModel> UpdateTokens(string refreshToken, Guid userId, string userName, string userRole)
         {
             if (_appSettings.Token.EnableRefreshTokenVerification)
             {
@@ -87,7 +87,7 @@ namespace WebAPI.ApplicationLogic.Services
             
             var accessToken = TokenGenerator.GenerateAccessToken(_appSettings, userId, userName, userRole);
             
-            var tokenPair = new AuthenticationResultModel
+            var tokenPair = new AuthenticationResponseModel
             {
                 AccessToken = new Token(TokenTypes.Access, accessToken),
                 RefreshToken = new Token(TokenTypes.Refresh, refreshToken)

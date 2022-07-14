@@ -11,7 +11,7 @@ using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Models.Action;
-using WebAPI.Presentation.Models.Result;
+using WebAPI.Presentation.Models.Response;
 
 namespace WebAPI.ApplicationLogic.Services
 {
@@ -90,11 +90,11 @@ namespace WebAPI.ApplicationLogic.Services
             return userModel;
         }
 
-        public async Task<EmailResultModel> CheckForEmailExistenceAsync(string email)
+        public async Task<EmailResponseModel> CheckForEmailExistenceAsync(string email)
         {
             var emailExists = await _userRepository.ExistsAsync(x => x.Email.ToLower() == email.ToLower());
 
-            var emailCheckResult = new EmailResultModel
+            var emailCheckResult = new EmailResponseModel
             {
                 IsEmailExist = emailExists
             };

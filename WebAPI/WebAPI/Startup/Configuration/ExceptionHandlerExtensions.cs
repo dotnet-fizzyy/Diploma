@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
-using WebAPI.Core.Models;
+using WebAPI.Presentation.Models.Response;
 
 namespace WebAPI.Startup.Configuration
 {

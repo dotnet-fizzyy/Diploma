@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Exceptions;
-using WebAPI.Core.Models;
 using WebAPI.Models.Enums;
+using WebAPI.Presentation.Models.Response;
 using WebAPI.Presentation.Utilities;
 using Xunit;
 
@@ -27,7 +26,7 @@ namespace WebAPI.UnitTests.Utilities
                 new Claim(ClaimTypes.Role, userRole.ToString())
             }));
 
-            var expectedClaims = new UserClaims(userId, userName, userRole);
+            var expectedClaims = new UserClaimsResponseModel(userId, userName, userRole);
 
             //Act
             var result = ClaimsReader.GetUserClaims(user);

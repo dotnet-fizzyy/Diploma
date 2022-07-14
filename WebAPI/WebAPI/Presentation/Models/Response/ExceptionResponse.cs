@@ -1,4 +1,4 @@
-namespace WebAPI.Core.Models
+namespace WebAPI.Presentation.Models.Response
 {
     public class ExceptionResponse
     {

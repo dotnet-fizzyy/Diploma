@@ -1,11 +1,11 @@
 using System;
 using WebAPI.Models.Enums;
 
-namespace WebAPI.Core.Models
+namespace WebAPI.Presentation.Models.Response
 {
-    public class UserClaims
+    public class UserClaimsResponseModel
     {
-        public UserClaims(Guid userId, string userName, UserRole userRole)
+        public UserClaimsResponseModel(Guid userId, string userName, UserRole userRole)
         {
             UserId = userId;
             UserRole = userRole;
