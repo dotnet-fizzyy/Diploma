@@ -8,7 +8,6 @@ using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Mappers;
 using Xunit;
 
 namespace WebAPI.UnitTests.Services

@@ -5,25 +5,20 @@ using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
-using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
+using WebAPI.Presentation.Mappers;
 
 namespace WebAPI.ApplicationLogic.Services
 {
     public class EpicService : IEpicService
     {
         private readonly IEpicRepository _epicRepository;
-        private readonly IEpicMapper _epicMapper;
 
-        public EpicService(
-            IEpicRepository epicRepository,
-            IEpicMapper epicMapper
-            )
+        public EpicService(IEpicRepository epicRepository)
         {
             _epicRepository = epicRepository;
-            _epicMapper = epicMapper;
         }
 
         public async Task<CollectionResponse<Epic>> GetEpicsFromProjectAsync(Guid projectId)
@@ -32,7 +27,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             var collectionResponse = new CollectionResponse<Epic>
             {
-                Items = epicEntities.Select(_epicMapper.MapToModel).ToList()
+                Items = epicEntities.Select(EpicMapper.Map).ToList()
             };
 
             return collectionResponse;
@@ -46,7 +41,7 @@ namespace WebAPI.ApplicationLogic.Services
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(epicId)));
             }
             
-            var epicModel = _epicMapper.MapToModel(epicEntity);
+            var epicModel = EpicMapper.Map(epicEntity);
             
             return epicModel;
         }
@@ -62,30 +57,30 @@ namespace WebAPI.ApplicationLogic.Services
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(epicId)));
             }
 
-            var epicFullModel = _epicMapper.MapToFullModel(epicEntity);
+            var epicFullModel = EpicMapper.MapToFullModel(epicEntity);
             
             return epicFullModel;
         }
 
         public async Task<Epic> CreateEpicAsync(Epic epic)
         {
-            var epicEntity = _epicMapper.MapToEntity(epic);
+            var epicEntity = EpicMapper.Map(epic);
             epicEntity.CreationDate = DateTime.UtcNow;
 
             var createdEpicEntity = await _epicRepository.CreateAsync(epicEntity);
 
-            var epicModel = _epicMapper.MapToModel(createdEpicEntity);
+            var epicModel = EpicMapper.Map(createdEpicEntity);
 
             return epicModel;
         }
 
         public async Task<Epic> UpdateEpicAsync(Epic epic)
         {
-            var epicEntity = _epicMapper.MapToEntity(epic);
+            var epicEntity = EpicMapper.Map(epic);
 
             var updatedEpicEntity =  await _epicRepository.UpdateItemAsync(epicEntity);
 
-            var epicModel = _epicMapper.MapToModel(updatedEpicEntity);
+            var epicModel = EpicMapper.Map(updatedEpicEntity);
 
             return epicModel;
         }

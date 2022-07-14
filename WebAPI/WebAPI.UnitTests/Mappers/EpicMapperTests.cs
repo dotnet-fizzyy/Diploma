@@ -1,8 +1,10 @@
 using System;
-using WebAPI.Core.Entities;
-using WebAPI.Models.Models.Simple;
 using WebAPI.Presentation.Mappers;
 using Xunit;
+
+using EpicEntity = WebAPI.Core.Entities.Epic;
+using EpicModel = WebAPI.Models.Models.Models.Epic;
+using SimpleEpicModel = WebAPI.Models.Models.Simple.EpicSimpleModel;
 
 namespace WebAPI.UnitTests.Mappers
 {
@@ -11,11 +13,8 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyModelOnNullEntity()
         {
-            //Arrange
-            var epicMapper = new EpicMapper();
-            
-            //Act
-            var mappedResult = epicMapper.MapToModel(null);
+            //Arrange & Act
+            var mappedResult = EpicMapper.Map((EpicEntity)null);
 
             //Assert
             Assert.NotNull(mappedResult);
@@ -24,11 +23,8 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyEntityOnNullModel()
         {
-            //Arrange
-            var epicMapper = new EpicMapper();
-            
-            //Act
-            var mappedResult = epicMapper.MapToEntity(null);
+            //Arrange & Act
+            var mappedResult = EpicMapper.Map((EpicModel)null);
 
             //Assert
             Assert.NotNull(mappedResult);
@@ -46,7 +42,7 @@ namespace WebAPI.UnitTests.Mappers
             var endDate = DateTime.UtcNow.Date.AddDays(2);
             const bool isDeleted = true;
             
-            var epicEntity = new Epic
+            var epicEntity = new EpicEntity
             {
                 Id = epicId,
                 EpicName = epicName,
@@ -69,8 +65,7 @@ namespace WebAPI.UnitTests.Mappers
             };
             
             //Act
-            var epicMapper = new EpicMapper();
-            var mappedResult = epicMapper.MapToModel(epicEntity);
+            var mappedResult = EpicMapper.Map(epicEntity);
             
             //Assert
             Assert.Equal(epicModel.EpicId, mappedResult.EpicId);
@@ -94,7 +89,7 @@ namespace WebAPI.UnitTests.Mappers
             var endDate = DateTime.UtcNow.Date.AddDays(2);
             const bool isDeleted = true;
 
-            var epicEntity = new Epic
+            var epicEntity = new EpicEntity
             {
                 Id = epicId,
                 EpicName = epicName,
@@ -115,11 +110,9 @@ namespace WebAPI.UnitTests.Mappers
                 EndDate = endDate,
                 IsDeleted = isDeleted
             };
-            
-            var epicMapper = new EpicMapper();
-            
+
             //Act
-            var mappedResult = epicMapper.MapToEntity(epicModel);
+            var mappedResult = EpicMapper.Map(epicModel);
             
             //Assert
             Assert.Equal(epicEntity.Id, mappedResult.Id);
@@ -134,11 +127,8 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyModelForNullEntityOnMapToEpicSimpleModel()
         {
-            //Arrange
-            var epicMapper = new EpicMapper();
-            
-            //Act
-            var result = epicMapper.MapToSimpleModel(null);
+            //Arrange & Act
+            var result = EpicMapper.MapToSimpleModel(null);
 
             //Assert
             Assert.NotNull(result);
@@ -153,7 +143,7 @@ namespace WebAPI.UnitTests.Mappers
             var startDate = DateTime.UtcNow.Date;
             var endDate = DateTime.UtcNow.Date.AddDays(2);
 
-            var epicEntity = new Epic
+            var epicEntity = new EpicEntity
             {
                 Id = epicId,
                 EpicName = epicName,
@@ -162,7 +152,7 @@ namespace WebAPI.UnitTests.Mappers
                 EndDate = endDate
             };
 
-            var expectedModel = new EpicSimpleModel
+            var expectedModel = new SimpleEpicModel
             {
                 EpicId = epicId,
                 EpicName = epicName,
@@ -170,10 +160,8 @@ namespace WebAPI.UnitTests.Mappers
                 EndDate = endDate,
             };
 
-            var epicMapper = new EpicMapper();
-            
             //Act
-            var result = epicMapper.MapToSimpleModel(epicEntity);
+            var result = EpicMapper.MapToSimpleModel(epicEntity);
 
             //Assert
             Assert.Equal(expectedModel.EpicId, result.EpicId);

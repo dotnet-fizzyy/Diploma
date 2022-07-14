@@ -11,12 +11,10 @@ namespace WebAPI.Presentation.Aggregators
     public class FullProjectDescriptionAggregator : IFullProjectDescriptionAggregator
     {
         private readonly IProjectMapper _projectMapper;
-        private readonly IEpicMapper _epicMapper;
 
-        public FullProjectDescriptionAggregator(IProjectMapper projectMapper, IEpicMapper epicMapper)
+        public FullProjectDescriptionAggregator(IProjectMapper projectMapper)
         {
             _projectMapper = projectMapper;
-            _epicMapper = epicMapper;
         }
         
         public FullProjectDescription AggregateFullProjectDescription(
@@ -33,7 +31,7 @@ namespace WebAPI.Presentation.Aggregators
             }
             
             fullProjectDescription.Project = _projectMapper.MapToModel(project);
-            fullProjectDescription.Epic = _epicMapper.MapToModel(epic);
+            fullProjectDescription.Epic = EpicMapper.Map(epic);
 
             fullProjectDescription.Sprints = new CollectionResponse<FullSprint>
             {

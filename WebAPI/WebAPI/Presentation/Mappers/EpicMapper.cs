@@ -1,21 +1,22 @@
 using System.Linq;
-using WebAPI.Core.Entities;
-using WebAPI.Core.Interfaces.Mappers;
-using WebAPI.Models.Models.Result;
-using WebAPI.Models.Models.Simple;
+
+using EpicEntity = WebAPI.Core.Entities.Epic;
+using EpicModel = WebAPI.Models.Models.Models.Epic;
+using FullEpicModel = WebAPI.Models.Models.Result.FullEpic;
+using SimpleEpicModel = WebAPI.Models.Models.Simple.EpicSimpleModel;
 
 namespace WebAPI.Presentation.Mappers
 {
-    public class EpicMapper : IEpicMapper
+    public static class EpicMapper
     {
-        public Epic MapToEntity(WebAPI.Models.Models.Models.Epic epic)
+        public static EpicEntity Map(EpicModel epic)
         {
             if (epic == null)
             {
-                return new Epic();
+                return new EpicEntity();
             }
         
-            var entityEpic = new Epic
+            var entityEpic = new EpicEntity
             {
                 Id = epic.EpicId,
                 ProjectId = epic.ProjectId,
@@ -30,43 +31,44 @@ namespace WebAPI.Presentation.Mappers
             return entityEpic;
         }
 
-        public WebAPI.Models.Models.Models.Epic MapToModel(Epic epicEntity)
+        public static EpicModel Map(EpicEntity epicEntity)
         {
             if (epicEntity == null)
             {
-                return new WebAPI.Models.Models.Models.Epic();
+                return new EpicModel();
             }
 
-            var epicModel = new WebAPI.Models.Models.Models.Epic();
+            var epicModel = new EpicModel();
             
-            MapBaseEntityToModel(epicModel, epicEntity);
+            MapBase(epicModel, epicEntity);
 
             return epicModel;
         }
 
-        public FullEpic MapToFullModel(Epic epicEntity)
+        public static FullEpicModel MapToFullModel(EpicEntity epicEntity)
         {
             if (epicEntity == null)
             {
-                return new FullEpic();
+                return new FullEpicModel();
             }
 
-            var epicModel = new FullEpic();
+            var epicModel = new FullEpicModel();
             
-            MapBaseEntityToModel(epicModel, epicEntity);
+            MapBase(epicModel, epicEntity);
+
             epicModel.Sprints = epicEntity.Sprints.Select(SprintMapper.Map).ToList();
 
             return epicModel;
         }
 
-        public EpicSimpleModel MapToSimpleModel(Epic epicEntity)
+        public static SimpleEpicModel MapToSimpleModel(EpicEntity epicEntity)
         {
             if (epicEntity == null)
             {
-                return new EpicSimpleModel();
+                return new SimpleEpicModel();
             }
 
-            var epicSimpleModel = new EpicSimpleModel
+            var epicSimpleModel = new SimpleEpicModel
             {
                 EpicId = epicEntity.Id,
                 EpicName = epicEntity.EpicName,
@@ -78,7 +80,7 @@ namespace WebAPI.Presentation.Mappers
         }
 
 
-        private static void MapBaseEntityToModel(WebAPI.Models.Models.Models.Epic model, Epic entity)
+        private static void MapBase(EpicModel model, EpicEntity entity)
         {
             model.EpicId = entity.Id;
             model.ProjectId = entity.ProjectId;

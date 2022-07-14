@@ -6,10 +6,13 @@ using FakeItEasy;
 using WebAPI.ApplicationLogic.Services;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
-using WebAPI.Models.Models.Models;
-using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Mappers;
 using Xunit;
+
+using EpicEntity = WebAPI.Core.Entities.Epic;
+using EpicModel = WebAPI.Models.Models.Models.Epic;
+using FullEpicModel = WebAPI.Models.Models.Result.FullEpic;
+using SprintEntity = WebAPI.Core.Entities.Sprint;
+using SprintModel = WebAPI.Models.Models.Models.Sprint;
 
 namespace WebAPI.UnitTests.Services
 {
@@ -20,9 +23,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var epicRepository = A.Fake<IEpicRepository>();
-            var epicMapper = new EpicMapper();
 
-            var epicService = new EpicService(epicRepository, epicMapper);
+            var epicService = new EpicService(epicRepository);
 
             var epicId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var projectId = new Guid("5593238f-87e6-4444-1111-ab79b8804444");
@@ -32,7 +34,7 @@ namespace WebAPI.UnitTests.Services
             var endDate = DateTime.UtcNow.AddDays(2);
             var creationDate = DateTime.UtcNow;
 
-            var entity = new Core.Entities.Epic
+            var entity = new EpicEntity
             {
                 Id = epicId,
                 ProjectId = projectId,
@@ -43,7 +45,7 @@ namespace WebAPI.UnitTests.Services
                 CreationDate = creationDate
             };
             
-            var expectedModel = new Epic
+            var expectedModel = new EpicModel
             {
                 EpicId = epicId,
                 ProjectId = projectId,
@@ -54,7 +56,7 @@ namespace WebAPI.UnitTests.Services
                 CreationDate = creationDate
             };
 
-            A.CallTo(() => epicRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.Epic, bool>>>._))
+            A.CallTo(() => epicRepository.SearchForSingleItemAsync(A<Expression<Func<EpicEntity, bool>>>._))
                 .Returns(entity);
             
             //Act
@@ -63,7 +65,7 @@ namespace WebAPI.UnitTests.Services
             //Assert
             AssertEpicModelProperties(expectedModel, result);
 
-            A.CallTo(() => epicRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.Epic, bool>>>._))
+            A.CallTo(() => epicRepository.SearchForSingleItemAsync(A<Expression<Func<EpicEntity, bool>>>._))
                 .MustHaveHappenedOnceExactly();
         }
         
@@ -72,19 +74,18 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var epicRepository = A.Fake<IEpicRepository>();
-            var epicMapper = new EpicMapper();
 
-            var epicService = new EpicService(epicRepository, epicMapper);
+            var epicService = new EpicService(epicRepository);
 
             var epicId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 
-            A.CallTo(() => epicRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.Epic, bool>>>._))
-                .Returns((Core.Entities.Epic)null);
+            A.CallTo(() => epicRepository.SearchForSingleItemAsync(A<Expression<Func<EpicEntity, bool>>>._))
+                .Returns((EpicEntity)null);
             
             //Act && Assert
            await Assert.ThrowsAsync<UserFriendlyException>(() => epicService.GetEpicByIdAsync(epicId));
 
-            A.CallTo(() => epicRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.Epic, bool>>>._))
+            A.CallTo(() => epicRepository.SearchForSingleItemAsync(A<Expression<Func<EpicEntity, bool>>>._))
                 .MustHaveHappenedOnceExactly();
         }
         
@@ -93,9 +94,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var epicRepository = A.Fake<IEpicRepository>();
-            var epicMapper = new EpicMapper();
 
-            var epicService = new EpicService(epicRepository, epicMapper);
+            var epicService = new EpicService(epicRepository);
 
             var epicId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var projectId = new Guid("5593238f-87e6-4444-1111-ab79b8804444");
@@ -107,7 +107,7 @@ namespace WebAPI.UnitTests.Services
             var endDate = DateTime.UtcNow.AddDays(2);
             var creationDate = DateTime.UtcNow;
 
-            var entity = new Core.Entities.Epic
+            var entity = new EpicEntity
             {
                 Id = epicId,
                 ProjectId = projectId,
@@ -116,9 +116,9 @@ namespace WebAPI.UnitTests.Services
                 StartDate = startDate,
                 EndDate = endDate,
                 CreationDate = creationDate,
-                Sprints = new List<Core.Entities.Sprint>
+                Sprints = new List<SprintEntity>
                 {
-                    new Core.Entities.Sprint
+                    new SprintEntity
                     {
                         Id = sprintId,
                         SprintName = sprintName,
@@ -127,7 +127,7 @@ namespace WebAPI.UnitTests.Services
                 }
             };
             
-            var expectedModel = new FullEpic
+            var expectedModel = new FullEpicModel
             {
                 EpicId = epicId,
                 ProjectId = projectId,
@@ -136,9 +136,9 @@ namespace WebAPI.UnitTests.Services
                 StartDate = startDate,
                 EndDate = endDate,
                 CreationDate = creationDate,
-                Sprints = new List<Sprint>
+                Sprints = new List<SprintModel>
                 {
-                    new Sprint
+                    new SprintModel
                     {
                         SprintId = sprintId,
                         SprintName = sprintName,
@@ -147,8 +147,10 @@ namespace WebAPI.UnitTests.Services
                 }
             };
 
-            A.CallTo(() => epicRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.Epic, bool>>>._, A<Expression<Func<Core.Entities.Epic,object>>>._))
-                .Returns(entity);
+            A.CallTo(() => epicRepository.SearchForSingleItemAsync(
+                        A<Expression<Func<EpicEntity, bool>>>._, 
+                        A<Expression<Func<EpicEntity, object>>>._))
+              .Returns(entity);
             
             //Act
             var result = await epicService.GetFullEpicDescriptionAsync(epicId);
@@ -159,8 +161,10 @@ namespace WebAPI.UnitTests.Services
             Assert.Equal(expectedModel.Sprints[0].SprintName, result.Sprints[0].SprintName);
             Assert.Equal(expectedModel.Sprints[0].EpicId, result.Sprints[0].EpicId);
 
-            A.CallTo(() => epicRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.Epic, bool>>>._, A<Expression<Func<Core.Entities.Epic,object>>>._))
-                .MustHaveHappenedOnceExactly();
+            A.CallTo(() => epicRepository.SearchForSingleItemAsync(
+                    A<Expression<Func<EpicEntity, bool>>>._, 
+                    A<Expression<Func<EpicEntity, object>>>._))
+             .MustHaveHappenedOnceExactly();
         }
 
         [Fact]
@@ -168,20 +172,23 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var epicRepository = A.Fake<IEpicRepository>();
-            var epicMapper = new EpicMapper();
 
-            var epicService = new EpicService(epicRepository, epicMapper);
+            var epicService = new EpicService(epicRepository);
 
             var epicId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 
-            A.CallTo(() => epicRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.Epic, bool>>>._, A<Expression<Func<Core.Entities.Epic,object>>>._))
-                .Returns((Core.Entities.Epic)null);
+            A.CallTo(() => epicRepository.SearchForSingleItemAsync(
+                    A<Expression<Func<EpicEntity, bool>>>._, 
+                    A<Expression<Func<EpicEntity, object>>>._))
+             .Returns((EpicEntity)null);
             
             //Act && Assert
             await Assert.ThrowsAsync<UserFriendlyException>(() => epicService.GetFullEpicDescriptionAsync(epicId));
 
-            A.CallTo(() => epicRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.Epic, bool>>>._, A< Expression<Func<Core.Entities.Epic,object>>>._))
-                .MustHaveHappenedOnceExactly();
+            A.CallTo(() => epicRepository.SearchForSingleItemAsync(
+                    A<Expression<Func<EpicEntity, bool>>>._, 
+                    A<Expression<Func<EpicEntity, object>>>._))
+             .MustHaveHappenedOnceExactly();
         }
         
         [Fact]
@@ -189,9 +196,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var epicRepository = A.Fake<IEpicRepository>();
-            var epicMapper = new EpicMapper();
 
-            var epicService = new EpicService(epicRepository, epicMapper);
+            var epicService = new EpicService(epicRepository);
 
             var epicId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var projectId = new Guid("5593238f-87e6-4444-1111-ab79b8804444");
@@ -201,7 +207,7 @@ namespace WebAPI.UnitTests.Services
             var endDate = DateTime.UtcNow.AddDays(2);
             var creationDate = DateTime.UtcNow;
 
-            var model = new Epic
+            var model = new EpicModel
             {
                 ProjectId = projectId,
                 EpicName = epicName,
@@ -210,7 +216,7 @@ namespace WebAPI.UnitTests.Services
                 EndDate = endDate,
             };
             
-            var entity = new Core.Entities.Epic
+            var entity = new EpicEntity
             {
                 Id = epicId,
                 ProjectId = projectId,
@@ -221,7 +227,7 @@ namespace WebAPI.UnitTests.Services
                 CreationDate = creationDate,
             };
 
-            var expectedModel = new Epic
+            var expectedModel = new EpicModel
             {
                 EpicId = epicId,
                 ProjectId = projectId,
@@ -232,7 +238,7 @@ namespace WebAPI.UnitTests.Services
                 CreationDate = creationDate,
             };
 
-            A.CallTo(() => epicRepository.CreateAsync(A<Core.Entities.Epic>._))
+            A.CallTo(() => epicRepository.CreateAsync(A<EpicEntity>._))
                 .Returns(entity);
             
             //Act
@@ -241,7 +247,7 @@ namespace WebAPI.UnitTests.Services
             //Assert
             AssertEpicModelProperties(expectedModel, result);
 
-            A.CallTo(() => epicRepository.CreateAsync(A<Core.Entities.Epic>._))
+            A.CallTo(() => epicRepository.CreateAsync(A<EpicEntity>._))
                 .MustHaveHappenedOnceExactly();
         }
         
@@ -250,9 +256,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var epicRepository = A.Fake<IEpicRepository>();
-            var epicMapper = new EpicMapper();
 
-            var epicService = new EpicService(epicRepository, epicMapper);
+            var epicService = new EpicService(epicRepository);
 
             var epicId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var projectId = new Guid("5593238f-87e6-4444-1111-ab79b8804444");
@@ -262,7 +267,7 @@ namespace WebAPI.UnitTests.Services
             var endDate = DateTime.UtcNow.AddDays(2);
             var creationDate = DateTime.UtcNow;
 
-            var model = new Epic
+            var model = new EpicModel
             {
                 EpicId = epicId,
                 ProjectId = projectId,
@@ -272,7 +277,7 @@ namespace WebAPI.UnitTests.Services
                 EndDate = endDate,
             };
             
-            var entity = new Core.Entities.Epic
+            var entity = new EpicEntity
             {
                 Id = epicId,
                 ProjectId = projectId,
@@ -283,7 +288,7 @@ namespace WebAPI.UnitTests.Services
                 CreationDate = creationDate,
             };
 
-            var expectedModel = new Epic
+            var expectedModel = new EpicModel
             {
                 EpicId = epicId,
                 ProjectId = projectId,
@@ -294,7 +299,7 @@ namespace WebAPI.UnitTests.Services
                 CreationDate = creationDate
             };
 
-            A.CallTo(() => epicRepository.UpdateItemAsync(A<Core.Entities.Epic>._))
+            A.CallTo(() => epicRepository.UpdateItemAsync(A<EpicEntity>._))
                 .Returns(entity);
             
             //Act
@@ -303,7 +308,7 @@ namespace WebAPI.UnitTests.Services
             //Assert
             AssertEpicModelProperties(expectedModel, result);
 
-            A.CallTo(() => epicRepository.UpdateItemAsync(A<Core.Entities.Epic>._))
+            A.CallTo(() => epicRepository.UpdateItemAsync(A<EpicEntity>._))
                 .MustHaveHappenedOnceExactly();
         }
         
@@ -312,11 +317,10 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var epicRepository = A.Fake<IEpicRepository>();
-            var epicMapper = new EpicMapper();
 
-            var epicService = new EpicService(epicRepository, epicMapper);
+            var epicService = new EpicService(epicRepository);
 
-            var epic = new Epic
+            var epic = new EpicModel
             {
                 EpicId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec"),
             };
@@ -337,25 +341,24 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var epicRepository = A.Fake<IEpicRepository>();
-            var epicMapper = new EpicMapper();
 
-            var epicService = new EpicService(epicRepository, epicMapper);
+            var epicService = new EpicService(epicRepository);
 
             var epicId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             
-            A.CallTo(() => epicRepository.DeleteAsync(A<Expression<Func<Core.Entities.Epic, bool>>>._))
+            A.CallTo(() => epicRepository.DeleteAsync(A<Expression<Func<EpicEntity, bool>>>._))
                 .DoesNothing();
             
             //Act
             await epicService.RemoveEpicAsync(epicId);
 
             //Assert
-            A.CallTo(() => epicRepository.DeleteAsync(A<Expression<Func<Core.Entities.Epic, bool>>>._))
+            A.CallTo(() => epicRepository.DeleteAsync(A<Expression<Func<EpicEntity, bool>>>._))
                 .MustHaveHappenedOnceExactly();
         }
         
         
-        private static void AssertEpicModelProperties(Epic expectedModel, Epic result)
+        private static void AssertEpicModelProperties(EpicModel expectedModel, EpicModel result)
         {
             Assert.Equal(expectedModel.EpicId, result.EpicId);
             Assert.Equal(expectedModel.EpicName, result.EpicName);

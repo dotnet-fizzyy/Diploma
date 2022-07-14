@@ -17,7 +17,6 @@ namespace WebAPI.UnitTests.Aggregators
         {
             //Arrange
             var projectMapper = A.Fake<IProjectMapper>();
-            var epicMapper = A.Fake<IEpicMapper>();
             
             var projectId = new Guid();
             var epicId = new Guid();
@@ -47,7 +46,7 @@ namespace WebAPI.UnitTests.Aggregators
                 }
             };
 
-            var projectAggregator = new FullProjectDescriptionAggregator(projectMapper, epicMapper);
+            var projectAggregator = new FullProjectDescriptionAggregator(projectMapper);
 
             var fullProjectDescription =
                 projectAggregator.AggregateFullProjectDescription(
@@ -62,8 +61,6 @@ namespace WebAPI.UnitTests.Aggregators
             
             A.CallTo(() => projectMapper.MapToModel(null))
                 .MustNotHaveHappened();
-            A.CallTo(() => epicMapper.MapToModel(null))
-                .MustNotHaveHappened();
         }
         
         [Fact]
@@ -71,7 +68,6 @@ namespace WebAPI.UnitTests.Aggregators
         {
             //Arrange
             var projectMapper = A.Fake<IProjectMapper>();
-            var epicMapper = A.Fake<IEpicMapper>();
             
             var projectId = new Guid();
             var epicId = new Guid();
@@ -175,9 +171,8 @@ namespace WebAPI.UnitTests.Aggregators
             
             //Act
             A.CallTo(() => projectMapper.MapToModel(projectEntity)).Returns(projectModel);
-            A.CallTo(() => epicMapper.MapToModel(epicEntity)).Returns(epicModel);
 
-            var projectAggregator = new FullProjectDescriptionAggregator(projectMapper, epicMapper);
+            var projectAggregator = new FullProjectDescriptionAggregator(projectMapper);
 
             var fullProjectDescription = projectAggregator.AggregateFullProjectDescription(
                     projectEntity, 
@@ -212,8 +207,6 @@ namespace WebAPI.UnitTests.Aggregators
             Assert.Equal(projectFullModel.Sprints.Items.First().EndDate, fullProjectDescription.Sprints.Items.First().EndDate);
 
             A.CallTo(() => projectMapper.MapToModel(projectEntity))
-                .MustHaveHappenedOnceExactly();
-            A.CallTo(() => epicMapper.MapToModel(epicEntity))
                 .MustHaveHappenedOnceExactly();
         }
     }
