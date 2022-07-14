@@ -9,7 +9,6 @@ using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Aggregators;
 using Xunit;
 
 namespace WebAPI.UnitTests.Services
@@ -29,9 +28,7 @@ namespace WebAPI.UnitTests.Services
                 projectRepository, 
                 epicRepository, 
                 sprintRepository, 
-                teamRepository, 
-                new FullProjectDescriptionAggregator()
-            );
+                teamRepository);
 
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             const string projectName = "ProjectName";
@@ -86,9 +83,7 @@ namespace WebAPI.UnitTests.Services
                 projectRepository, 
                 epicRepository, 
                 sprintRepository, 
-                teamRepository,
-                new FullProjectDescriptionAggregator()
-            );
+                teamRepository);
 
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 
@@ -116,9 +111,7 @@ namespace WebAPI.UnitTests.Services
                 projectRepository,
                 epicRepository,
                 sprintRepository,
-                teamRepository,
-                new FullProjectDescriptionAggregator()
-            );
+                teamRepository);
 
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var epicId = new Guid("2593238f-87e6-4e86-93fc-ab79b8804de4");
@@ -264,9 +257,7 @@ namespace WebAPI.UnitTests.Services
                 projectRepository, 
                 epicRepository, 
                 sprintRepository, 
-                teamRepository,
-                new FullProjectDescriptionAggregator()
-            );
+                teamRepository);
 
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             const string projectName = "ProjectName";
@@ -336,9 +327,7 @@ namespace WebAPI.UnitTests.Services
                 projectRepository, 
                 epicRepository, 
                 sprintRepository, 
-                teamRepository,
-                new FullProjectDescriptionAggregator()
-            );
+                teamRepository);
 
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 
@@ -366,9 +355,7 @@ namespace WebAPI.UnitTests.Services
                 projectRepository, 
                 epicRepository, 
                 sprintRepository, 
-                teamRepository,
-                new FullProjectDescriptionAggregator()
-            );
+                teamRepository);
 
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             const string projectName = "ProjectName";
@@ -431,9 +418,7 @@ namespace WebAPI.UnitTests.Services
                 projectRepository, 
                 epicRepository, 
                 sprintRepository, 
-                teamRepository,
-                new FullProjectDescriptionAggregator()
-            );
+                teamRepository);
 
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             const string projectName = "ProjectName";
@@ -498,9 +483,7 @@ namespace WebAPI.UnitTests.Services
                 projectRepository, 
                 epicRepository, 
                 sprintRepository, 
-                teamRepository,
-                new FullProjectDescriptionAggregator()
-            );
+                teamRepository);
 
             var project = new Project
             {
@@ -531,9 +514,7 @@ namespace WebAPI.UnitTests.Services
                 projectRepository, 
                 epicRepository, 
                 sprintRepository, 
-                teamRepository,
-                new FullProjectDescriptionAggregator()
-            );
+                teamRepository);
 
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             

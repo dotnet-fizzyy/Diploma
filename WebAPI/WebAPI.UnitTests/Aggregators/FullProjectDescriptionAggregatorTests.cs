@@ -42,15 +42,11 @@ namespace WebAPI.UnitTests.Aggregators
                 }
             };
 
-            var projectAggregator = new FullProjectDescriptionAggregator();
-
-            var fullProjectDescription =
-                projectAggregator.AggregateFullProjectDescription(
+            var fullProjectDescription = FullProjectDescriptionAggregator.AggregateFullProjectDescription(
                     null, 
                     null, 
                     sprintEntities, 
-                    teamEntities
-                );
+                    teamEntities);
             
             //Assert
             Assert.NotNull(fullProjectDescription);
@@ -161,9 +157,7 @@ namespace WebAPI.UnitTests.Aggregators
             };
             
             //Act
-            var projectAggregator = new FullProjectDescriptionAggregator();
-
-            var fullProjectDescription = projectAggregator.AggregateFullProjectDescription(
+            var fullProjectDescription = FullProjectDescriptionAggregator.AggregateFullProjectDescription(
                     projectEntity, 
                     epicEntity, 
                     sprintEntities, 

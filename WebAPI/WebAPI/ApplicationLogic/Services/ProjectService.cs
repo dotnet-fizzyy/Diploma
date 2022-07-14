@@ -5,11 +5,11 @@ using WebAPI.ApplicationLogic.Mappers;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
-using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
+using WebAPI.Presentation.Aggregators;
 
 namespace WebAPI.ApplicationLogic.Services
 {
@@ -19,20 +19,17 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly IEpicRepository _epicRepository;
         private readonly ITeamRepository _teamRepository;
         private readonly ISprintRepository _sprintRepository;
-        private readonly IFullProjectDescriptionAggregator _fullProjectDescriptionAggregator;
 
         public ProjectService(
             IProjectRepository projectRepository,
             IEpicRepository epicRepository, 
             ISprintRepository sprintRepository,
-            ITeamRepository teamRepository,
-            IFullProjectDescriptionAggregator fullProjectDescriptionAggregator)
+            ITeamRepository teamRepository)
         {
             _projectRepository = projectRepository;
             _teamRepository = teamRepository;
             _epicRepository = epicRepository;
             _sprintRepository = sprintRepository;
-            _fullProjectDescriptionAggregator = fullProjectDescriptionAggregator;
         }
 
         public async Task<Project> GetProjectAsync(Guid projectId)
@@ -88,7 +85,7 @@ namespace WebAPI.ApplicationLogic.Services
             // Receive teams working on it
             var projectTeams =  await _teamRepository.SearchForMultipleItemsAsync(x => x.ProjectId == projectId);
 
-            var fullProjectDescription = _fullProjectDescriptionAggregator.AggregateFullProjectDescription(
+            var fullProjectDescription = FullProjectDescriptionAggregator.AggregateFullProjectDescription(
                 projectEntity,
                 projectEpicEntity,
                 epicSprints,

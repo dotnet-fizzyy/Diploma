@@ -2,14 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using WebAPI.ApplicationLogic.Mappers;
 using WebAPI.Core.Entities;
-using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Models.Models.Result;
 
 namespace WebAPI.Presentation.Aggregators
 {
-    public class FullProjectDescriptionAggregator : IFullProjectDescriptionAggregator
+    public static class FullProjectDescriptionAggregator
     {
-        public FullProjectDescription AggregateFullProjectDescription(
+        public static FullProjectDescription AggregateFullProjectDescription(
             Project project,
             Epic epic,
             IEnumerable<Sprint> sprints,

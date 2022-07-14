@@ -55,7 +55,6 @@ namespace WebAPI.Startup.Configuration
             services.AddSingleton<ITokenService, TokenService>();
             
             //Aggregators
-            services.AddSingleton<IFullProjectDescriptionAggregator, FullProjectDescriptionAggregator>();
             services.AddSingleton<IPageAggregator, PageAggregator>();
 
             //Validators
