@@ -2,9 +2,9 @@ using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 using WebAPI.Presentation.Models.Action;
 
-namespace WebAPI.ApplicationLogic.Handlers
+namespace WebAPI.ApplicationLogic.Utilities
 {
-    public static class UserHandler
+    public static class UserUtilities
     {
         public static User CreateCustomerEntity(SignUpUser user)
         {

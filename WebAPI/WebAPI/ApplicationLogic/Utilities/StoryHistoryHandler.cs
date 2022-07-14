@@ -2,13 +2,12 @@ using System;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 
-namespace WebAPI.ApplicationLogic.Handlers
+namespace WebAPI.ApplicationLogic.Utilities
 {
-    public static class StoryHistoryGenerator
+    public static class StoryHistoryUtilities
     {
-        public static StoryHistory GetStoryHistoryForCreation(string userName, Guid storyId)
-        {
-            return new StoryHistory
+        public static StoryHistory GetStoryHistoryForCreation(string userName, Guid storyId) =>
+            new StoryHistory
             {
                 StoryHistoryAction = StoryHistoryAction.Add,
                 UserName = userName,
@@ -18,11 +17,15 @@ namespace WebAPI.ApplicationLogic.Handlers
                 StoryId = storyId,
                 CreationDate = DateTime.Now,
             };
-        }
-        
-        public static StoryHistory GetStoryHistoryForUpdate(string userName, Guid storyId, string fieldName, string prevValue, string newValue)
-        {
-            return new StoryHistory
+
+        public static StoryHistory GetStoryHistoryForUpdate(
+            string userName,
+            Guid storyId,
+            string fieldName,
+            string prevValue,
+            string newValue
+        ) =>
+            new StoryHistory
             {
                 StoryHistoryAction = StoryHistoryAction.Update,
                 UserName = userName,
@@ -32,6 +35,5 @@ namespace WebAPI.ApplicationLogic.Handlers
                 StoryId = storyId,
                 CreationDate = DateTime.Now,
             };
-        }
     }
 }

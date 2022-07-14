@@ -9,7 +9,7 @@ using WebAPI.Core.Configuration;
 
 namespace WebAPI.ApplicationLogic.Utilities
 {
-    public class TokenGenerator
+    public static class TokenGenerator
     {
         public static string GenerateAccessToken(AppSettings appSettings, Guid userId, string userName, string userRole)
         {

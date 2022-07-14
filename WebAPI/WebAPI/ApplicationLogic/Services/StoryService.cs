@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 using WebAPI.ApplicationLogic.Aggregators;
-using WebAPI.ApplicationLogic.Handlers;
 using WebAPI.ApplicationLogic.Mappers;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Constants;
@@ -68,7 +67,7 @@ namespace WebAPI.ApplicationLogic.Services
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntitiesMessage($"{nameof(epicId)} and ${nameof(sprintId)}"));
             }
 
-            storyEntities = StoryHandler.SortStoriesByCriteria(storyEntities, sortType, orderType);
+            storyEntities = StoryUtilities.SortStoriesByCriteria(storyEntities, sortType, orderType);
             
             var collectionResponse = new CollectionResponse<Story>
             {
@@ -135,7 +134,7 @@ namespace WebAPI.ApplicationLogic.Services
             var storyEntity = StoryMapper.Map(story);
 
             var createdStoryEntity = await _storyRepository.CreateAsync(storyEntity);
-            await _storyHistoryRepository.CreateAsync(StoryHistoryGenerator.GetStoryHistoryForCreation(userName, createdStoryEntity.Id));
+            await _storyHistoryRepository.CreateAsync(StoryHistoryUtilities.GetStoryHistoryForCreation(userName, createdStoryEntity.Id));
             
             tr.Complete();
             
@@ -165,7 +164,7 @@ namespace WebAPI.ApplicationLogic.Services
             }
             
             var updatedStory = await _storyRepository.UpdateStoryColumn(mappedStoryEntity); 
-            await _storyHistoryRepository.CreateAsync(StoryHistoryGenerator.GetStoryHistoryForUpdate(
+            await _storyHistoryRepository.CreateAsync(StoryHistoryUtilities.GetStoryHistoryForUpdate(
                 userName, 
                 mappedStoryEntity.Id, 
                 StoryFields.ColumnType, 
@@ -208,13 +207,13 @@ namespace WebAPI.ApplicationLogic.Services
             if (!string.IsNullOrEmpty(story.BlockReason))
             {
                 await _storyHistoryRepository.CreateAsync(new []{
-                    StoryHistoryGenerator.GetStoryHistoryForUpdate(
+                    StoryHistoryUtilities.GetStoryHistoryForUpdate(
                     userName, 
                     storyEntity.Id, 
                     StoryFields.IsBlocked, 
                     existingStoryEntity.IsBlocked.ToString(), 
                     storyEntity.IsBlocked.ToString()),
-                    StoryHistoryGenerator.GetStoryHistoryForUpdate(
+                    StoryHistoryUtilities.GetStoryHistoryForUpdate(
                         userName, 
                         storyEntity.Id, 
                         StoryFields.BlockReason, 
@@ -227,7 +226,7 @@ namespace WebAPI.ApplicationLogic.Services
             }
             else
             {
-                await _storyHistoryRepository.CreateAsync(StoryHistoryGenerator.GetStoryHistoryForUpdate(
+                await _storyHistoryRepository.CreateAsync(StoryHistoryUtilities.GetStoryHistoryForUpdate(
                     userName, 
                     storyEntity.Id, 
                     StoryFields.IsReady, 

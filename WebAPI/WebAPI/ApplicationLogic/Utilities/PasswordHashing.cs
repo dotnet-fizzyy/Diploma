@@ -10,7 +10,9 @@ namespace WebAPI.ApplicationLogic.Utilities
         {
             if (string.IsNullOrEmpty(password))
             {
-                throw new UserFriendlyException(ErrorStatus.INVALID_DATA, ExceptionMessageGenerator.GetInvalidDataMessage(nameof(password)));
+                throw new UserFriendlyException(
+                    ErrorStatus.INVALID_DATA, 
+                    ExceptionMessageGenerator.GetInvalidDataMessage(nameof(password)));
             }
             
             var bytes = Encoding.UTF8.GetBytes(password);

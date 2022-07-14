@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.ApplicationLogic.Aggregators;
-using WebAPI.ApplicationLogic.Handlers;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Constants;
 using WebAPI.Core.Enums;
@@ -88,7 +87,7 @@ namespace WebAPI.ApplicationLogic.Services
             var sprints = await _sprintRepository.GetFullSprintsByEpicId(latestEpic.Id, teamId);
             foreach (var sprint in sprints)
             {
-                sprint.Stories = StoryHandler.SortStoriesByCriteria(sprint.Stories, SortTypes.Priority, OrderType.Asc);
+                sprint.Stories = StoryUtilities.SortStoriesByCriteria(sprint.Stories, SortTypes.Priority, OrderType.Asc);
             }
             
             var boardPage = PageAggregator.CreateBoardPageModel(team, project, epics, sprints);

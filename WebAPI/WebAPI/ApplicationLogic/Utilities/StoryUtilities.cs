@@ -4,13 +4,14 @@ using WebAPI.Core.Constants;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 
-namespace WebAPI.ApplicationLogic.Handlers
+namespace WebAPI.ApplicationLogic.Utilities
 {
-    public static class StoryHandler
+    public static class StoryUtilities
     {
         public static List<Story> SortStoriesByCriteria(IEnumerable<Story> stories, string sortType, OrderType orderType)
         {
             List<Story> sortedStories;
+
             if (orderType == OrderType.Asc)
             {
                 sortedStories = sortType switch

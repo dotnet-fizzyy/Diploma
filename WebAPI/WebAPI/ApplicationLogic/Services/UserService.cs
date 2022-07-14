@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using System.Transactions;
-using WebAPI.ApplicationLogic.Handlers;
 using WebAPI.ApplicationLogic.Mappers;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
@@ -64,7 +63,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<User> CreateCustomerAsync(SignUpUser user)
         {
-            var customerEntity = UserHandler.CreateCustomerEntity(user);
+            var customerEntity = UserUtilities.CreateCustomerEntity(user);
             
             var createdUserModel = await CreateUser(customerEntity);
             

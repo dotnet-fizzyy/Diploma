@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
-using WebAPI.ApplicationLogic.Handlers;
+using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Constants;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 using Xunit;
 
-namespace WebAPI.UnitTests.Handlers
+namespace WebAPI.UnitTests.Utilities
 {
-    public class StoryHandlerTests
+    public class StoryUtilitiesTests
     {
         [Fact]
         public void ShouldSortStoriesByTitleAscending()
@@ -47,7 +47,7 @@ namespace WebAPI.UnitTests.Handlers
             };
             
             //Act
-            stories = StoryHandler.SortStoriesByCriteria(stories, SortTypes.Title, OrderType.Asc);
+            stories = StoryUtilities.SortStoriesByCriteria(stories, SortTypes.Title, OrderType.Asc);
             
             //Arrange
             Assert.Equal(expectedValue[0].Title, stories[0].Title);
@@ -92,7 +92,7 @@ namespace WebAPI.UnitTests.Handlers
             };
             
             //Act
-            stories = StoryHandler.SortStoriesByCriteria(stories, SortTypes.Title, OrderType.Desc);
+            stories = StoryUtilities.SortStoriesByCriteria(stories, SortTypes.Title, OrderType.Desc);
             
             //Arrange
             Assert.Equal(expectedValue[0].Title, stories[0].Title);
@@ -137,7 +137,7 @@ namespace WebAPI.UnitTests.Handlers
             };
             
             //Act
-            stories = StoryHandler.SortStoriesByCriteria(stories, SortTypes.Priority, OrderType.Asc);
+            stories = StoryUtilities.SortStoriesByCriteria(stories, SortTypes.Priority, OrderType.Asc);
             
             //Arrange
             Assert.Equal(expectedValue[0].StoryPriority, stories[0].StoryPriority);
@@ -182,7 +182,7 @@ namespace WebAPI.UnitTests.Handlers
             };
             
             //Act
-            stories = StoryHandler.SortStoriesByCriteria(stories, SortTypes.Priority, OrderType.Desc);
+            stories = StoryUtilities.SortStoriesByCriteria(stories, SortTypes.Priority, OrderType.Desc);
             
             //Arrange
             Assert.Equal(expectedValue[0].StoryPriority, stories[0].StoryPriority);
@@ -227,7 +227,7 @@ namespace WebAPI.UnitTests.Handlers
             };
             
             //Act
-            stories = StoryHandler.SortStoriesByCriteria(stories, SortTypes.CreationDate, OrderType.Asc);
+            stories = StoryUtilities.SortStoriesByCriteria(stories, SortTypes.CreationDate, OrderType.Asc);
             
             //Arrange
             Assert.Equal(expectedValue[0].CreationDate, stories[0].CreationDate);
@@ -272,7 +272,7 @@ namespace WebAPI.UnitTests.Handlers
             };
             
             //Act
-            stories = StoryHandler.SortStoriesByCriteria(stories, SortTypes.CreationDate, OrderType.Desc);
+            stories = StoryUtilities.SortStoriesByCriteria(stories, SortTypes.CreationDate, OrderType.Desc);
             
             //Arrange
             Assert.Equal(expectedValue[0].CreationDate, stories[0].CreationDate);
@@ -317,7 +317,7 @@ namespace WebAPI.UnitTests.Handlers
             };
             
             //Act
-            stories = StoryHandler.SortStoriesByCriteria(stories, SortTypes.Estimate, OrderType.Asc);
+            stories = StoryUtilities.SortStoriesByCriteria(stories, SortTypes.Estimate, OrderType.Asc);
             
             //Arrange
             Assert.Equal(expectedValue[0].Estimate, stories[0].Estimate);
@@ -362,7 +362,7 @@ namespace WebAPI.UnitTests.Handlers
             };
             
             //Act
-            stories = StoryHandler.SortStoriesByCriteria(stories, SortTypes.Estimate, OrderType.Desc);
+            stories = StoryUtilities.SortStoriesByCriteria(stories, SortTypes.Estimate, OrderType.Desc);
             
             //Arrange
             Assert.Equal(expectedValue[0].Estimate, stories[0].Estimate);
