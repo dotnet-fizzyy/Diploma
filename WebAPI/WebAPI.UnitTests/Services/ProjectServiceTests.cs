@@ -10,7 +10,6 @@ using WebAPI.Core.Interfaces.Database;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Aggregators;
-using WebAPI.Presentation.Mappers;
 using Xunit;
 
 namespace WebAPI.UnitTests.Services
@@ -26,15 +25,12 @@ namespace WebAPI.UnitTests.Services
             var teamRepository = A.Fake<ITeamRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();
 
-            var projectMapper = new ProjectMapper();
-            
             var projectService = new ProjectService(
                 projectRepository, 
                 epicRepository, 
                 sprintRepository, 
                 teamRepository, 
-                projectMapper,
-                new FullProjectDescriptionAggregator(projectMapper)
+                new FullProjectDescriptionAggregator()
             );
 
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
@@ -86,15 +82,12 @@ namespace WebAPI.UnitTests.Services
             var teamRepository = A.Fake<ITeamRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();
             
-            var projectMapper = new ProjectMapper();
-            
             var projectService = new ProjectService(
                 projectRepository, 
                 epicRepository, 
                 sprintRepository, 
-                teamRepository, 
-                projectMapper, 
-                new FullProjectDescriptionAggregator(projectMapper)
+                teamRepository,
+                new FullProjectDescriptionAggregator()
             );
 
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
@@ -119,15 +112,12 @@ namespace WebAPI.UnitTests.Services
             var teamRepository = A.Fake<ITeamRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();
 
-            var projectMapper = new ProjectMapper();
-            
             var projectService = new ProjectService(
-                projectRepository, 
-                epicRepository, 
-                sprintRepository, 
-                teamRepository, 
-                projectMapper, 
-                new FullProjectDescriptionAggregator(projectMapper)
+                projectRepository,
+                epicRepository,
+                sprintRepository,
+                teamRepository,
+                new FullProjectDescriptionAggregator()
             );
 
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
@@ -269,16 +259,13 @@ namespace WebAPI.UnitTests.Services
             var epicRepository = A.Fake<IEpicRepository>();
             var teamRepository = A.Fake<ITeamRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();
-            
-            var projectMapper = new ProjectMapper();
-            
+
             var projectService = new ProjectService(
                 projectRepository, 
                 epicRepository, 
                 sprintRepository, 
-                teamRepository, 
-                new ProjectMapper(), 
-                new FullProjectDescriptionAggregator(projectMapper)
+                teamRepository,
+                new FullProjectDescriptionAggregator()
             );
 
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
@@ -344,16 +331,13 @@ namespace WebAPI.UnitTests.Services
             var epicRepository = A.Fake<IEpicRepository>();
             var teamRepository = A.Fake<ITeamRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();
-            
-            var projectMapper = new ProjectMapper();
-            
+
             var projectService = new ProjectService(
                 projectRepository, 
                 epicRepository, 
                 sprintRepository, 
-                teamRepository, 
-                new ProjectMapper(), 
-                new FullProjectDescriptionAggregator(projectMapper)
+                teamRepository,
+                new FullProjectDescriptionAggregator()
             );
 
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
@@ -378,15 +362,12 @@ namespace WebAPI.UnitTests.Services
             var teamRepository = A.Fake<ITeamRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();
 
-            var projectMapper = new ProjectMapper();
-            
             var projectService = new ProjectService(
                 projectRepository, 
                 epicRepository, 
                 sprintRepository, 
-                teamRepository, 
-                projectMapper,
-                new FullProjectDescriptionAggregator(projectMapper)
+                teamRepository,
+                new FullProjectDescriptionAggregator()
             );
 
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
@@ -446,15 +427,12 @@ namespace WebAPI.UnitTests.Services
             var teamRepository = A.Fake<ITeamRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();
 
-            var projectMapper = new ProjectMapper();
-            
             var projectService = new ProjectService(
                 projectRepository, 
                 epicRepository, 
                 sprintRepository, 
-                teamRepository, 
-                projectMapper,
-                new FullProjectDescriptionAggregator(projectMapper)
+                teamRepository,
+                new FullProjectDescriptionAggregator()
             );
 
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
@@ -515,16 +493,13 @@ namespace WebAPI.UnitTests.Services
             var epicRepository = A.Fake<IEpicRepository>();
             var teamRepository = A.Fake<ITeamRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();
-            
-            var projectMapper = new ProjectMapper();
-            
+
             var projectService = new ProjectService(
                 projectRepository, 
                 epicRepository, 
                 sprintRepository, 
-                teamRepository, 
-                projectMapper,
-                new FullProjectDescriptionAggregator(projectMapper)
+                teamRepository,
+                new FullProjectDescriptionAggregator()
             );
 
             var project = new Project
@@ -551,16 +526,13 @@ namespace WebAPI.UnitTests.Services
             var epicRepository = A.Fake<IEpicRepository>();
             var teamRepository = A.Fake<ITeamRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();
-            
-            var projectMapper = new ProjectMapper();
-            
+
             var projectService = new ProjectService(
                 projectRepository, 
                 epicRepository, 
                 sprintRepository, 
-                teamRepository, 
-                projectMapper,
-                new FullProjectDescriptionAggregator(projectMapper)
+                teamRepository,
+                new FullProjectDescriptionAggregator()
             );
 
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");

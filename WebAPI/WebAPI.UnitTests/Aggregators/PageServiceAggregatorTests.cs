@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using WebAPI.Core.Entities;
 using WebAPI.Presentation.Aggregators;
-using WebAPI.Presentation.Mappers;
 using Xunit;
 
 namespace WebAPI.UnitTests.Aggregators
@@ -13,9 +12,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateSearchResultResponseBySearchTerm()
         {
             //Arrange
-            var projectMapper = new ProjectMapper();
-
-            var pageAggregator = new PageAggregator(projectMapper);
+            var pageAggregator = new PageAggregator();
 
             var projectId = new Guid("807e22d0-d244-439c-bdde-4908b45c9707");
             var teamId = new Guid("1115d0d1-8e12-4068-b68e-f8294cf0ffff");
@@ -53,9 +50,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldReturnEmptySearchResultResponseBySearchTermOnNullModels()
         {
             //Arrange
-            var projectMapper = new ProjectMapper();
-
-            var pageAggregator = new PageAggregator(projectMapper);
+            var pageAggregator = new PageAggregator();
             
             //Act
             var result = pageAggregator.CreateSearchResultsByTerm(null, null);
@@ -74,9 +69,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateBoardPageModel()
         {
             //Arrange
-            var projectMapper = new ProjectMapper();
-
-            var pageAggregator = new PageAggregator(projectMapper);
+            var pageAggregator = new PageAggregator();
 
             var projectId = new Guid("807e22d0-d244-439c-bdde-4908b45c9707");
             var epicId = new Guid("9a15d0d1-8e12-4068-b68e-f8294cf0f90a");
@@ -147,9 +140,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateBoardPageModelOnNullModels()
         {
             //Arrange
-            var projectMapper = new ProjectMapper();
-
-            var pageAggregator = new PageAggregator(projectMapper);
+            var pageAggregator = new PageAggregator();
 
             //Act
             var result = pageAggregator.CreateBoardPageModel(null, null, null, null);
@@ -170,9 +161,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateTeamPageModel()
         {
             //Arrange
-            var projectMapper = new ProjectMapper();
-
-            var pageAggregator = new PageAggregator(projectMapper);
+            var pageAggregator = new PageAggregator();
 
             var workSpaceId = new Guid("f6064878-bfd4-4fd7-b119-d7838abae643");
             var teamId = new Guid("66664878-bfd4-4fd7-b119-d7838abae555");
@@ -207,9 +196,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateTeamPageModelOnNullModels()
         {
             //Arrange
-            var projectMapper = new ProjectMapper();
-
-            var pageAggregator = new PageAggregator(projectMapper);
+            var pageAggregator = new PageAggregator();
 
             //Act
             var result = pageAggregator.CreateTeamPageModel(null, null);
@@ -224,9 +211,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateProjectPageModel()
         {
             //Arrange
-            var projectMapper = new ProjectMapper();
-
-            var pageAggregator = new PageAggregator(projectMapper);
+            var pageAggregator = new PageAggregator();
 
             var projectId = new Guid("807e22d0-d244-439c-bdde-4908b45c9707");
             var epicId = new Guid("9a15d0d1-8e12-4068-b68e-f8294cf0f90a");
@@ -273,9 +258,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateProjectPageModelOnNullModel()
         {
             //Arrange
-            var projectMapper = new ProjectMapper();
-
-            var pageAggregator = new PageAggregator(projectMapper);
+            var pageAggregator = new PageAggregator();
 
             //Act
             var result = pageAggregator.CreateProjectPageModel(null);
@@ -293,9 +276,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateWorkSpacePageModel()
         {
             //Arrange
-            var projectMapper = new ProjectMapper();
-
-            var pageAggregator = new PageAggregator(projectMapper);
+            var pageAggregator = new PageAggregator();
 
             var workSpaceId = new Guid("f6064878-bfd4-4fd7-b119-d7838abae643");
             var projectId = new Guid("66664878-bfd4-4fd7-b119-d7838abae555");
@@ -332,9 +313,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateWorkSpacePageModelOnNullModels()
         {
             //Arrange
-            var projectMapper = new ProjectMapper();
-
-            var pageAggregator = new PageAggregator(projectMapper);
+            var pageAggregator = new PageAggregator();
 
             //Act
             var result = pageAggregator.CreateWorkSpacePageModel(null, null);
@@ -350,9 +329,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateStatsPageModel()
         {
             //Arrange
-            var projectMapper = new ProjectMapper();
-
-            var pageAggregator = new PageAggregator(projectMapper);
+            var pageAggregator = new PageAggregator();
 
             var projectId = new Guid("807e22d0-d244-439c-bdde-4908b45c9707");
             var epicId = new Guid("9a15d0d1-8e12-4068-b68e-f8294cf0f90a");
@@ -415,9 +392,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateStatsPageModelWithNullModels()
         {
             //Arrange
-            var projectMapper = new ProjectMapper();
-
-            var pageAggregator = new PageAggregator(projectMapper);
+            var pageAggregator = new PageAggregator();
 
             //Act
             var result = pageAggregator.CreateStatisticsPageModel(null, null, null);

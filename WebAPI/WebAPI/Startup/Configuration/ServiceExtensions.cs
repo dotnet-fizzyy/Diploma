@@ -6,7 +6,6 @@ using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Configuration;
 using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
-using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Core.Interfaces.Utilities;
@@ -14,7 +13,6 @@ using WebAPI.Infrastructure.Postgres.Repository;
 using WebAPI.Infrastructure.Redis;
 using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Aggregators;
-using WebAPI.Presentation.Mappers;
 using WebAPI.Presentation.Models.Action;
 using WebAPI.Presentation.Validators;
 
@@ -38,10 +36,7 @@ namespace WebAPI.Startup.Configuration
             services.AddScoped<IStoryRepository, StoryRepository>();
             services.AddScoped<IWorkSpaceRepository, WorkSpaceRepository>();
             services.AddScoped<IRedisContext, RedisContext>();
-            
-            //Mappers
-            services.AddSingleton<IProjectMapper, ProjectMapper>();
-            
+
             //Services
             services.AddScoped<IStoryService, StoryService>();
             services.AddScoped<IUserService, UserService>();

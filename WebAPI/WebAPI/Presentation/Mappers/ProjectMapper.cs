@@ -1,19 +1,19 @@
-using WebAPI.Core.Entities;
-using WebAPI.Core.Interfaces.Mappers;
-using WebAPI.Models.Models.Simple;
+using ProjectEntity = WebAPI.Core.Entities.Project;
+using ProjectModel = WebAPI.Models.Models.Models.Project;
+using ProjectSimpleModel = WebAPI.Models.Models.Simple.ProjectSimpleModel;
 
 namespace WebAPI.Presentation.Mappers
 {
-    public class ProjectMapper : IProjectMapper
+    public static class ProjectMapper
     {
-        public Project MapToEntity(WebAPI.Models.Models.Models.Project project)
+        public static ProjectEntity Map(ProjectModel project)
         {
             if (project == null)
             {
-                return new Project();
+                return new ProjectEntity();
             }
             
-            var projectEntity = new Project
+            var projectEntity = new ProjectEntity
             {
                 Id = project.ProjectId,
                 ProjectDescription = project.ProjectDescription,
@@ -28,21 +28,21 @@ namespace WebAPI.Presentation.Mappers
             return projectEntity;
         }
 
-        public WebAPI.Models.Models.Models.Project MapToModel(Project project)
+        public static ProjectModel Map(ProjectEntity project)
         {
             if (project == null)
             {
-                return new WebAPI.Models.Models.Models.Project();
+                return new ProjectModel();
             }
 
-            var projectModel = new WebAPI.Models.Models.Models.Project();
+            var projectModel = new ProjectModel();
             
-            MapBaseEntityToModel(projectModel, project);
+            MapBase(projectModel, project);
 
             return projectModel;
         }
 
-        public ProjectSimpleModel MapToSimpleModel(Project project)
+        public static ProjectSimpleModel MapToSimpleModel(ProjectEntity project)
         {
             if (project == null)
             {
@@ -61,7 +61,7 @@ namespace WebAPI.Presentation.Mappers
         }
 
 
-        private static void MapBaseEntityToModel(WebAPI.Models.Models.Models.Project model, Project entity)
+        private static void MapBase(ProjectModel model, ProjectEntity entity)
         {
             model.ProjectId = entity.Id;
             model.ProjectDescription = entity.ProjectDescription;

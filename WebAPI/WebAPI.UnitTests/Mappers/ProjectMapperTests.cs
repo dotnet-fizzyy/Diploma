@@ -1,8 +1,10 @@
 using System;
-using WebAPI.Core.Entities;
-using WebAPI.Models.Models.Simple;
 using WebAPI.Presentation.Mappers;
 using Xunit;
+
+using ProjectEntity = WebAPI.Core.Entities.Project;
+using ProjectModel = WebAPI.Models.Models.Models.Project;
+using ProjectSimpleModel = WebAPI.Models.Models.Simple.ProjectSimpleModel;
 
 namespace WebAPI.UnitTests.Mappers
 {
@@ -11,11 +13,8 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyModelOnNullEntity()
         {
-            //Arrange
-            var projectMapper = new ProjectMapper();
-            
-            //Act
-            var mappedResult = projectMapper.MapToModel(null);
+            //Arrange & Act
+            var mappedResult = ProjectMapper.Map((ProjectEntity)null);
 
             //Assert
             Assert.NotNull(mappedResult);
@@ -24,11 +23,8 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyEntityOnNullModel()
         {
-            //Arrange
-            var projectMapper = new ProjectMapper();
-            
-            //Act
-            var mappedResult = projectMapper.MapToEntity(null);
+            //Arrange & Act
+            var mappedResult = ProjectMapper.Map((ProjectModel)null);
 
             //Assert
             Assert.NotNull(mappedResult);
@@ -46,7 +42,7 @@ namespace WebAPI.UnitTests.Mappers
             var endDate = DateTime.UtcNow.Date.AddDays(2);
             const bool isDeleted = true;
             
-            var projectEntity = new Project
+            var projectEntity = new ProjectEntity
             {
                 Id = projectId,
                 ProjectName = projectName,
@@ -57,7 +53,7 @@ namespace WebAPI.UnitTests.Mappers
                 IsDeleted = isDeleted
             };
 
-            var expectedModel = new Models.Models.Models.Project
+            var expectedModel = new ProjectModel
             {
                 ProjectId = projectId,
                 ProjectName = projectName,
@@ -67,11 +63,9 @@ namespace WebAPI.UnitTests.Mappers
                 WorkSpaceId = workSpaceId,
                 IsDeleted = isDeleted
             };
-            
-            var projectMapper = new ProjectMapper();
-            
+
             //Act
-            var mappedResult = projectMapper.MapToModel(projectEntity);
+            var mappedResult = ProjectMapper.Map(projectEntity);
 
             //Assert
             AssertProjectModelProperties(expectedModel, mappedResult);
@@ -89,7 +83,7 @@ namespace WebAPI.UnitTests.Mappers
             var endDate = DateTime.UtcNow.Date.AddDays(2);
             const bool isDeleted = true;
             
-            var expectedEntity = new Project
+            var expectedEntity = new ProjectEntity
             {
                 Id = projectId,
                 ProjectName = projectName,
@@ -100,7 +94,7 @@ namespace WebAPI.UnitTests.Mappers
                 IsDeleted = isDeleted
             };
 
-            var projectModel = new Models.Models.Models.Project
+            var projectModel = new ProjectModel
             {
                 ProjectId = projectId,
                 ProjectName = projectName,
@@ -110,11 +104,9 @@ namespace WebAPI.UnitTests.Mappers
                 WorkSpaceId = workSpaceId,
                 IsDeleted = isDeleted
             };
-            
-            var projectMapper = new ProjectMapper();
-            
+
             //Act
-            var mappedResult = projectMapper.MapToEntity(projectModel);
+            var mappedResult = ProjectMapper.Map(projectModel);
 
             //Assert
             Assert.Equal(expectedEntity.Id, mappedResult.Id);
@@ -130,12 +122,10 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldMapToProjectSimpleModel()
         {
             //Arrange
-            var projectMapper = new ProjectMapper();
-            
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             const string projectName = "SomeName";
             
-            var projectEntity = new Project
+            var projectEntity = new ProjectEntity
             {
                 Id = projectId,
                 ProjectName = projectName
@@ -148,7 +138,7 @@ namespace WebAPI.UnitTests.Mappers
             };
 
             //Act
-            var result = projectMapper.MapToSimpleModel(projectEntity);
+            var result = ProjectMapper.MapToSimpleModel(projectEntity);
 
             //Assert
             Assert.Equal(expectedModel.ProjectId, result.ProjectId);
@@ -156,7 +146,7 @@ namespace WebAPI.UnitTests.Mappers
         }
 
 
-        private static void AssertProjectModelProperties(Models.Models.Models.Project expectedModel, Models.Models.Models.Project result)
+        private static void AssertProjectModelProperties(ProjectModel expectedModel, ProjectModel result)
         {
             Assert.Equal(expectedModel.ProjectId, result.ProjectId);
             Assert.Equal(expectedModel.ProjectName, result.ProjectName);

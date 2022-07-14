@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FakeItEasy;
 using WebAPI.Core.Entities;
-using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Aggregators;
 using Xunit;
@@ -16,8 +14,6 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldReturnEmptyModelOnNullProjectOrEpic()
         {
             //Arrange
-            var projectMapper = A.Fake<IProjectMapper>();
-            
             var projectId = new Guid();
             var epicId = new Guid();
             var teamId = new Guid();
@@ -46,7 +42,7 @@ namespace WebAPI.UnitTests.Aggregators
                 }
             };
 
-            var projectAggregator = new FullProjectDescriptionAggregator(projectMapper);
+            var projectAggregator = new FullProjectDescriptionAggregator();
 
             var fullProjectDescription =
                 projectAggregator.AggregateFullProjectDescription(
@@ -58,17 +54,12 @@ namespace WebAPI.UnitTests.Aggregators
             
             //Assert
             Assert.NotNull(fullProjectDescription);
-            
-            A.CallTo(() => projectMapper.MapToModel(null))
-                .MustNotHaveHappened();
         }
         
         [Fact]
         public void ShouldAggregateFullProjectDescription()
         {
             //Arrange
-            var projectMapper = A.Fake<IProjectMapper>();
-            
             var projectId = new Guid();
             var epicId = new Guid();
             var teamId = new Guid();
@@ -170,9 +161,7 @@ namespace WebAPI.UnitTests.Aggregators
             };
             
             //Act
-            A.CallTo(() => projectMapper.MapToModel(projectEntity)).Returns(projectModel);
-
-            var projectAggregator = new FullProjectDescriptionAggregator(projectMapper);
+            var projectAggregator = new FullProjectDescriptionAggregator();
 
             var fullProjectDescription = projectAggregator.AggregateFullProjectDescription(
                     projectEntity, 
@@ -205,9 +194,6 @@ namespace WebAPI.UnitTests.Aggregators
             Assert.Equal(projectFullModel.Sprints.Items.First().SprintName, fullProjectDescription.Sprints.Items.First().SprintName);
             Assert.Equal(projectFullModel.Sprints.Items.First().StartDate, fullProjectDescription.Sprints.Items.First().StartDate);
             Assert.Equal(projectFullModel.Sprints.Items.First().EndDate, fullProjectDescription.Sprints.Items.First().EndDate);
-
-            A.CallTo(() => projectMapper.MapToModel(projectEntity))
-                .MustHaveHappenedOnceExactly();
         }
     }
 }
