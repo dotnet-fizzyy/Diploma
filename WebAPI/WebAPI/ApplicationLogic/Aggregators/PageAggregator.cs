@@ -6,7 +6,7 @@ using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Simple;
 using WebAPI.Presentation.Models.Pages;
 
-namespace WebAPI.Presentation.Aggregators
+namespace WebAPI.ApplicationLogic.Aggregators
 {
     public static class PageAggregator
     {

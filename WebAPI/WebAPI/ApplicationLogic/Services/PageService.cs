@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.ApplicationLogic.Aggregators;
 using WebAPI.ApplicationLogic.Handlers;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Constants;
@@ -8,7 +9,6 @@ using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Presentation.Aggregators;
 using WebAPI.Presentation.Models.Pages;
 
 namespace WebAPI.ApplicationLogic.Services

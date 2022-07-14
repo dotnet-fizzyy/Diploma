@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using WebAPI.ApplicationLogic.Aggregators;
 using WebAPI.ApplicationLogic.Handlers;
 using WebAPI.ApplicationLogic.Mappers;
 using WebAPI.ApplicationLogic.Utilities;
@@ -13,7 +14,6 @@ using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Aggregators;
 
 namespace WebAPI.ApplicationLogic.Services
 {

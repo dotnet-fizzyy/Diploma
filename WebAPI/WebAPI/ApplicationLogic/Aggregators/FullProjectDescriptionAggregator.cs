@@ -4,7 +4,7 @@ using WebAPI.ApplicationLogic.Mappers;
 using WebAPI.Core.Entities;
 using WebAPI.Models.Models.Result;
 
-namespace WebAPI.Presentation.Aggregators
+namespace WebAPI.ApplicationLogic.Aggregators
 {
     public static class FullProjectDescriptionAggregator
     {

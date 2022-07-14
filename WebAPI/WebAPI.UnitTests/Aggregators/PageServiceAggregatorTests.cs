@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using WebAPI.ApplicationLogic.Aggregators;
 using WebAPI.Core.Entities;
-using WebAPI.Presentation.Aggregators;
 using Xunit;
 
 namespace WebAPI.UnitTests.Aggregators

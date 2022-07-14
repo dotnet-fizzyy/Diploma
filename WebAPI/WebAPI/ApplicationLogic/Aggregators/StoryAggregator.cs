@@ -5,7 +5,7 @@ using WebAPI.Core.Constants;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 
-namespace WebAPI.Presentation.Aggregators
+namespace WebAPI.ApplicationLogic.Aggregators
 {
     // todo: move to app logic utilities
     public class StoryAggregator

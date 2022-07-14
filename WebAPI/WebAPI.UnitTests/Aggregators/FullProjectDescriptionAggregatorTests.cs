@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using WebAPI.ApplicationLogic.Aggregators;
 using WebAPI.Core.Entities;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Aggregators;
 using Xunit;
 
 namespace WebAPI.UnitTests.Aggregators

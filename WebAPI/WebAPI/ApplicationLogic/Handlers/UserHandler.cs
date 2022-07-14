@@ -1,6 +1,5 @@
 using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
-using WebAPI.Presentation.Models;
 using WebAPI.Presentation.Models.Action;
 
 namespace WebAPI.ApplicationLogic.Handlers
