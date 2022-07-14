@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Constants;
-using WebAPI.Presentation.Models.Action;
+using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Models.Response;
 using WebAPI.Presentation.Utilities;
 
@@ -27,16 +27,16 @@ namespace WebAPI.Presentation.Controllers
         /// <summary>
         /// Authenticate user (sign in)
         /// </summary>
-        /// <param name="user">AuthenticationUser model</param>
+        /// <param name="userRequestModel">AuthenticationUser model</param>
         /// <response code="200">Successful authentication</response>
         /// <response code="400">Failed authentication</response>
         [HttpPost]
         [Route("sign-in")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<AuthenticationUserResponseModel>> AuthenticateUser([FromBody, BindRequired] SignInUser user)
+        public async Task<ActionResult<AuthenticationUserResponseModel>> AuthenticateUser([FromBody, BindRequired] SignInUserRequestModel userRequestModel)
         {
-            var authResult = await _tokenService.AuthenticateUser(user);
+            var authResult = await _tokenService.AuthenticateUser(userRequestModel);
 
             return authResult;
         }
@@ -44,14 +44,14 @@ namespace WebAPI.Presentation.Controllers
         /// <summary>
         /// Create customer (sign up)
         /// </summary>
-        /// <param name="user">AuthenticationUser model</param>
+        /// <param name="userRequestModel">AuthenticationUser model</param>
         /// <response code="201">Successful customer registration</response>
         [HttpPost]
         [Route("sign-up")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<User>> CreateCustomer([FromBody, BindRequired] SignUpUser user)
+        public async Task<ActionResult<User>> CreateCustomer([FromBody, BindRequired] SignUpUserRequestModel userRequestModel)
         {
-            var createdCustomer = await _userService.CreateCustomerAsync(user);
+            var createdCustomer = await _userService.CreateCustomerAsync(userRequestModel);
             
             return CreatedAtAction(nameof(CreateCustomer), createdCustomer);
         }

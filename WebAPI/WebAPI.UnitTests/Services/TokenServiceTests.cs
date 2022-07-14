@@ -8,7 +8,7 @@ using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Models.Enums;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Models.Action;
+using WebAPI.Presentation.Models.Request;
 using Xunit;
 
 namespace WebAPI.UnitTests.Services
@@ -39,7 +39,7 @@ namespace WebAPI.UnitTests.Services
             var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             const string userName = "UserName";
             
-            var signInUser = new SignInUser
+            var signInUser = new SignInUserRequestModel
             {
                 Email = userName,
                 Password = "123",
@@ -58,7 +58,7 @@ namespace WebAPI.UnitTests.Services
                 Value = "new value"
             };
             
-            A.CallTo(() => userProvider.GetFullUser(A<SignInUser>._))
+            A.CallTo(() => userProvider.GetFullUser(A<SignInUserRequestModel>._))
                 .Returns(userEntity);
 
             A.CallTo(() => refreshTokenRepository.CreateAsync(A<Core.Entities.RefreshToken>._))
@@ -72,7 +72,7 @@ namespace WebAPI.UnitTests.Services
             Assert.NotNull(result.AccessToken.Value);
             Assert.NotNull(result.RefreshToken.Value);
             
-            A.CallTo(() => userProvider.GetFullUser(A<SignInUser>._))
+            A.CallTo(() => userProvider.GetFullUser(A<SignInUserRequestModel>._))
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => refreshTokenRepository.CreateAsync(A<Core.Entities.RefreshToken>._))
                 .MustHaveHappenedOnceExactly();
@@ -92,7 +92,7 @@ namespace WebAPI.UnitTests.Services
             var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             const string userName = "UserName";
             
-            var signInUser = new SignInUser
+            var signInUser = new SignInUserRequestModel
             {
                 Email = userName,
                 Password = "123",
@@ -105,7 +105,7 @@ namespace WebAPI.UnitTests.Services
                 UserRole = UserRole.Engineer,
             };
 
-            A.CallTo(() => userProvider.GetFullUser(A<SignInUser>._))
+            A.CallTo(() => userProvider.GetFullUser(A<SignInUserRequestModel>._))
                 .Returns(userEntity);
 
             //Act
@@ -116,7 +116,7 @@ namespace WebAPI.UnitTests.Services
             Assert.NotNull(result.AccessToken.Value);
             Assert.Null(result.RefreshToken.Value);
             
-            A.CallTo(() => userProvider.GetFullUser(A<SignInUser>._))
+            A.CallTo(() => userProvider.GetFullUser(A<SignInUserRequestModel>._))
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => refreshTokenRepository.CreateAsync(A<Core.Entities.RefreshToken>._))
                 .MustNotHaveHappened();

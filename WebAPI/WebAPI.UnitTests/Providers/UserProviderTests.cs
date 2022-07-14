@@ -9,7 +9,7 @@ using WebAPI.Core.Entities;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Models.Action;
+using WebAPI.Presentation.Models.Request;
 using Xunit;
 
 namespace WebAPI.UnitTests.Providers
@@ -119,7 +119,7 @@ namespace WebAPI.UnitTests.Providers
             const string teamName = "TeamName";
             const string projectName = "ProjectName";
 
-            var signInUser = new SignInUser
+            var signInUser = new SignInUserRequestModel
             {
                 Email = userName,
                 Password = password
@@ -225,7 +225,7 @@ namespace WebAPI.UnitTests.Providers
             const string userName = "UserName";
             const string password = "123";
 
-            var signInUser = new SignInUser
+            var signInUser = new SignInUserRequestModel
             {
                 Email = userName,
                 Password = password

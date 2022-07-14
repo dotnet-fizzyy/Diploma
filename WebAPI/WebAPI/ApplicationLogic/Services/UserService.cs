@@ -10,7 +10,7 @@ using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Models;
-using WebAPI.Presentation.Models.Action;
+using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Models.Response;
 
 namespace WebAPI.ApplicationLogic.Services
@@ -61,9 +61,9 @@ namespace WebAPI.ApplicationLogic.Services
             return createdUserModel;
         }
 
-        public async Task<User> CreateCustomerAsync(SignUpUser user)
+        public async Task<User> CreateCustomerAsync(SignUpUserRequestModel userRequestModel)
         {
-            var customerEntity = UserUtilities.CreateCustomerEntity(user);
+            var customerEntity = UserUtilities.CreateCustomerEntity(userRequestModel);
             
             var createdUserModel = await CreateUser(customerEntity);
             
@@ -102,10 +102,10 @@ namespace WebAPI.ApplicationLogic.Services
             return emailCheckResult;
         }
 
-        public async Task UpdateUserPasswordAsync(Guid userId, PasswordUpdate passwordUpdate)
+        public async Task UpdateUserPasswordAsync(Guid userId, PasswordUpdateRequestModel passwordUpdateRequestModel)
         {
-            var oldHashedPassword = PasswordHashing.CreateHashPassword(passwordUpdate.OldPassword);
-            var newHashedPassword = PasswordHashing.CreateHashPassword(passwordUpdate.NewPassword);
+            var oldHashedPassword = PasswordHashing.CreateHashPassword(passwordUpdateRequestModel.OldPassword);
+            var newHashedPassword = PasswordHashing.CreateHashPassword(passwordUpdateRequestModel.NewPassword);
             
             var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == userId && x.Password == oldHashedPassword);
             if (userEntity == null)

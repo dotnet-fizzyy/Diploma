@@ -1,12 +1,12 @@
 using FluentValidation;
 using FluentValidation.Validators;
-using WebAPI.Presentation.Models.Action;
+using WebAPI.Presentation.Models.Request;
 
 #pragma warning disable 618
 
 namespace WebAPI.Presentation.Validators
 {
-    public class SignUpUserValidator : AbstractValidator<SignUpUser>
+    public class SignUpUserValidator : AbstractValidator<SignUpUserRequestModel>
     {
         public SignUpUserValidator()
         {

@@ -1,7 +1,7 @@
 using FluentValidation.TestHelper;
 using WebAPI.Models.Models;
 using WebAPI.Presentation.Models;
-using WebAPI.Presentation.Models.Action;
+using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Validators;
 using Xunit;
 
@@ -15,7 +15,7 @@ namespace WebAPI.UnitTests.Validators
         public void ShouldValidateCorrectAuthenticationUser()
         {
             //Arrange
-            var authUser = new SignUpUser
+            var authUser = new SignUpUserRequestModel
             {
                 Email = "Name",
                 Password = "123",
@@ -38,7 +38,7 @@ namespace WebAPI.UnitTests.Validators
         public void ShouldValidateInCorrectAuthenticationUserName(string username)
         {
             //Arrange
-            var authUser = new SignUpUser
+            var authUser = new SignUpUserRequestModel
             {
                 Email = username,
                 Password = "123",
@@ -61,7 +61,7 @@ namespace WebAPI.UnitTests.Validators
         public void ShouldValidateInCorrectAuthenticationUserPassword(string password)
         {
             //Arrange
-            var authUser = new SignUpUser
+            var authUser = new SignUpUserRequestModel
             {
                 Email = "Name",
                 Password = password,
@@ -87,7 +87,7 @@ namespace WebAPI.UnitTests.Validators
         public void ShouldValidateIncorrectUserEmail(string email)
         {
             //Arrange
-            var authUser = new SignUpUser
+            var authUser = new SignUpUserRequestModel
             {
                 Email = "Name",
                 Password = "123",

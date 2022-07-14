@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Models;
-using WebAPI.Presentation.Models.Action;
+using WebAPI.Presentation.Models.Request;
 
 namespace WebAPI.Core.Interfaces.Providers
 {
@@ -10,6 +10,6 @@ namespace WebAPI.Core.Interfaces.Providers
     {
         Task<FullUser> GetFullUser(Guid userId);
 
-        Task<FullUser> GetFullUser(SignInUser signInUser);
+        Task<FullUser> GetFullUser(SignInUserRequestModel signInUserRequestModel);
     }
 }

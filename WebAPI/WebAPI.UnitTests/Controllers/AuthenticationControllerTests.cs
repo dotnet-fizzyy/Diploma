@@ -11,7 +11,7 @@ using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Constants;
 using WebAPI.Presentation.Controllers;
-using WebAPI.Presentation.Models.Action;
+using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Models.Response;
 using Xunit;
 
@@ -26,7 +26,7 @@ namespace WebAPI.UnitTests.Controllers
             var tokenService = A.Fake<ITokenService>();
             var userService = A.Fake<IUserService>();
             
-            var body = new SignInUser
+            var body = new SignInUserRequestModel
             {
                 Email = "test@mail.com",
                 Password = "123",
@@ -47,7 +47,7 @@ namespace WebAPI.UnitTests.Controllers
 
             var authController = new AuthenticationController(tokenService, userService);
 
-            A.CallTo(() => tokenService.AuthenticateUser(A<SignInUser>._))
+            A.CallTo(() => tokenService.AuthenticateUser(A<SignInUserRequestModel>._))
                 .Returns(createdUser);
             
             //Act
@@ -67,7 +67,7 @@ namespace WebAPI.UnitTests.Controllers
             var tokenService = A.Fake<ITokenService>();
             var userService = A.Fake<IUserService>();
             
-            var body = new SignUpUser
+            var body = new SignUpUserRequestModel
             {
                 Email = "test@mail.com",
                 Password = "123",
@@ -84,7 +84,7 @@ namespace WebAPI.UnitTests.Controllers
 
             var authController = new AuthenticationController(tokenService, userService);
 
-            A.CallTo(() => userService.CreateCustomerAsync(A<SignUpUser>._))
+            A.CallTo(() => userService.CreateCustomerAsync(A<SignUpUserRequestModel>._))
                 .Returns(createdUser);
             
             //Act

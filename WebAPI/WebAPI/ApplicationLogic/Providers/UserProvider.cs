@@ -11,7 +11,7 @@ using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Models.Action;
+using WebAPI.Presentation.Models.Request;
 
 namespace WebAPI.ApplicationLogic.Providers
 {
@@ -65,10 +65,10 @@ namespace WebAPI.ApplicationLogic.Providers
             return fullUser;
         }
 
-        public async Task<FullUser> GetFullUser(SignInUser signInUser)
+        public async Task<FullUser> GetFullUser(SignInUserRequestModel signInUserRequestModel)
         {
             //Authenticate user (find in db)
-            var userEntity = UserMapper.Map(signInUser);
+            var userEntity = UserMapper.Map(signInUserRequestModel);
             userEntity.Password = PasswordHashing.CreateHashPassword(userEntity.Password);
 
             var authUser = await _userRepository.AuthenticateUser(userEntity);

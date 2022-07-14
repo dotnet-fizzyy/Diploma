@@ -1,6 +1,6 @@
-namespace WebAPI.Presentation.Models.Action
+namespace WebAPI.Presentation.Models.Request
 {
-    public class PasswordUpdate
+    public class PasswordUpdateRequestModel
     {
         public string OldPassword { get; set; }
         

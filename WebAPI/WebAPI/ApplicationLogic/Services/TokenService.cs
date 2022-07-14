@@ -9,7 +9,7 @@ using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Constants;
-using WebAPI.Presentation.Models.Action;
+using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Models.Response;
 
 namespace WebAPI.ApplicationLogic.Services
@@ -32,10 +32,10 @@ namespace WebAPI.ApplicationLogic.Services
         }
         
 
-        public async Task<AuthenticationUserResponseModel> AuthenticateUser(SignInUser user)
+        public async Task<AuthenticationUserResponseModel> AuthenticateUser(SignInUserRequestModel userRequestModel)
         {
             //Authenticate user (find in db)
-            var fullUserModel = await _userProvider.GetFullUser(user);
+            var fullUserModel = await _userProvider.GetFullUser(userRequestModel);
 
             //Generate tokens if record is valid
             var accessToken = TokenGenerator.GenerateAccessToken(_appSettings, fullUserModel.UserId, fullUserModel.UserName, fullUserModel.UserRole.ToString());

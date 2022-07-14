@@ -9,7 +9,7 @@ using WebAPI.Core.Interfaces.Services;
 using WebAPI.Infrastructure.Postgres.Repository;
 using WebAPI.Infrastructure.Redis;
 using WebAPI.Models.Models.Models;
-using WebAPI.Presentation.Models.Action;
+using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Validators;
 
 namespace WebAPI.Startup.Configuration
@@ -50,8 +50,8 @@ namespace WebAPI.Startup.Configuration
             services.AddSingleton<ITokenService, TokenService>();
 
             //Validators
-            services.AddSingleton<IValidator<SignUpUser>, SignUpUserValidator>();
-            services.AddSingleton<IValidator<SignInUser>, SignInUserValidator>();
+            services.AddSingleton<IValidator<SignUpUserRequestModel>, SignUpUserValidator>();
+            services.AddSingleton<IValidator<SignInUserRequestModel>, SignInUserValidator>();
             services.AddSingleton<IValidator<User>, UserValidator>();
             services.AddSingleton<IValidator<Story>, StoryValidator>();
             services.AddSingleton<IValidator<Team>, TeamValidator>();

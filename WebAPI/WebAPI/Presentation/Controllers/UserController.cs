@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Models.Action;
+using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Utilities;
 
 namespace WebAPI.Presentation.Controllers
@@ -114,11 +114,11 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateUserPassword([FromBody] PasswordUpdate passwordUpdate)
+        public async Task<IActionResult> UpdateUserPassword([FromBody] PasswordUpdateRequestModel passwordUpdateRequestModel)
         {
             var user = ClaimsReader.GetUserClaims(User);
 
-            await _userService.UpdateUserPasswordAsync(user.UserId, passwordUpdate);
+            await _userService.UpdateUserPasswordAsync(user.UserId, passwordUpdateRequestModel);
             
             return NoContent();
         }

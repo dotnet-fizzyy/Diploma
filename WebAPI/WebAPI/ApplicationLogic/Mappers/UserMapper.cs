@@ -13,7 +13,7 @@ using UserRoleCore = WebAPI.Core.Enums.UserRole;
 using UserRoleModel = WebAPI.Models.Enums.UserRole;
 using UserPositionCore = WebAPI.Core.Enums.UserPosition;
 using UserPositionModel = WebAPI.Models.Enums.UserPosition;
-using SignInUserModel = WebAPI.Presentation.Models.Action.SignInUser;
+using SignInUserRequestModel = WebAPI.Presentation.Models.Request.SignInUserRequestModel;
 
 namespace WebAPI.ApplicationLogic.Mappers
 {
@@ -57,17 +57,17 @@ namespace WebAPI.ApplicationLogic.Mappers
             return userModel;
         }
 
-        public static UserEntity Map(SignInUserModel user)
+        public static UserEntity Map(SignInUserRequestModel userRequestModel)
         {
-            if (user == null)
+            if (userRequestModel == null)
             {
                 return new UserEntity();
             }
             
             var userEntity = new UserEntity
             {
-                Email = user.Email,
-                Password = user.Password
+                Email = userRequestModel.Email,
+                Password = userRequestModel.Password
             };
 
             return userEntity;

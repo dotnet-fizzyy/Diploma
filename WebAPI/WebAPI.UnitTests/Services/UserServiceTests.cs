@@ -9,7 +9,7 @@ using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Models.Enums;
-using WebAPI.Presentation.Models.Action;
+using WebAPI.Presentation.Models.Request;
 using Xunit;
 
 namespace WebAPI.UnitTests.Services
@@ -83,7 +83,7 @@ namespace WebAPI.UnitTests.Services
 
             var userService = new UserService(userRepository, userProvider, refreshTokenRepository);
 
-            var signUpModel = new SignUpUser
+            var signUpModel = new SignUpUserRequestModel
             {
                 Email = "UserName",
                 Password = "123",
@@ -305,7 +305,7 @@ namespace WebAPI.UnitTests.Services
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
 
             var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
-            var passwordUpdate = new PasswordUpdate
+            var passwordUpdate = new PasswordUpdateRequestModel
             {
                 OldPassword = "123",
                 NewPassword = "312"
@@ -346,7 +346,7 @@ namespace WebAPI.UnitTests.Services
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
 
             var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
-            var passwordUpdate = new PasswordUpdate
+            var passwordUpdate = new PasswordUpdateRequestModel
             {
                 OldPassword = "123",
                 NewPassword = "312"

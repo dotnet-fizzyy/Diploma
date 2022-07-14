@@ -1,6 +1,6 @@
-namespace WebAPI.Presentation.Models.Action
+namespace WebAPI.Presentation.Models.Request
 {
-    public abstract class BaseAuthenticationModel
+    public abstract class BaseAuthenticationRequestModel
     {
         public string Email { get; set; }
         
