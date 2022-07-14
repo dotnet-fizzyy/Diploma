@@ -18,7 +18,6 @@ namespace WebAPI.UnitTests.Aggregators
             //Arrange
             var projectMapper = A.Fake<IProjectMapper>();
             var epicMapper = A.Fake<IEpicMapper>();
-            var teamMapper = A.Fake<ITeamMapper>();
             
             var projectId = new Guid();
             var epicId = new Guid();
@@ -48,11 +47,7 @@ namespace WebAPI.UnitTests.Aggregators
                 }
             };
 
-            var projectAggregator = new FullProjectDescriptionAggregator(
-                projectMapper,
-                epicMapper,
-                teamMapper
-            );
+            var projectAggregator = new FullProjectDescriptionAggregator(projectMapper, epicMapper);
 
             var fullProjectDescription =
                 projectAggregator.AggregateFullProjectDescription(
@@ -69,8 +64,6 @@ namespace WebAPI.UnitTests.Aggregators
                 .MustNotHaveHappened();
             A.CallTo(() => epicMapper.MapToModel(null))
                 .MustNotHaveHappened();
-            A.CallTo(() => teamMapper.MapToFullModel(teamEntities.First()))
-                .MustNotHaveHappened();
         }
         
         [Fact]
@@ -79,7 +72,6 @@ namespace WebAPI.UnitTests.Aggregators
             //Arrange
             var projectMapper = A.Fake<IProjectMapper>();
             var epicMapper = A.Fake<IEpicMapper>();
-            var teamMapper = A.Fake<ITeamMapper>();
             
             var projectId = new Guid();
             var epicId = new Guid();
@@ -184,22 +176,14 @@ namespace WebAPI.UnitTests.Aggregators
             //Act
             A.CallTo(() => projectMapper.MapToModel(projectEntity)).Returns(projectModel);
             A.CallTo(() => epicMapper.MapToModel(epicEntity)).Returns(epicModel);
-            A.CallTo(() => teamMapper.MapToFullModel(teamEntities.First()))
-                .Returns(teamModels.Items.First());
 
-            var projectAggregator = new FullProjectDescriptionAggregator(
-                    projectMapper,
-                    epicMapper,
-                    teamMapper
-                );
+            var projectAggregator = new FullProjectDescriptionAggregator(projectMapper, epicMapper);
 
-            var fullProjectDescription =
-                projectAggregator.AggregateFullProjectDescription(
+            var fullProjectDescription = projectAggregator.AggregateFullProjectDescription(
                     projectEntity, 
                     epicEntity, 
                     sprintEntities, 
-                    teamEntities
-                    );
+                    teamEntities);
             
             //Assert
             Assert.Equal(projectFullModel.Project.ProjectId, fullProjectDescription.Project.ProjectId);
@@ -231,8 +215,6 @@ namespace WebAPI.UnitTests.Aggregators
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => epicMapper.MapToModel(epicEntity))
                 .MustHaveHappenedOnceExactly();
-            A.CallTo(() => teamMapper.MapToFullModel(teamEntities.First()))
-                .MustHaveHappened();
         }
     }
 }

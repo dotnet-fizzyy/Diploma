@@ -12,15 +12,10 @@ namespace WebAPI.Presentation.Aggregators
     {
         private readonly IProjectMapper _projectMapper;
         private readonly IEpicMapper _epicMapper;
-        private readonly ITeamMapper _teamMapper;
 
-        public FullProjectDescriptionAggregator(
-            IProjectMapper projectMapper, 
-            IEpicMapper epicMapper,
-            ITeamMapper teamMapper)
+        public FullProjectDescriptionAggregator(IProjectMapper projectMapper, IEpicMapper epicMapper)
         {
             _projectMapper = projectMapper;
-            _teamMapper = teamMapper;
             _epicMapper = epicMapper;
         }
         
@@ -47,7 +42,7 @@ namespace WebAPI.Presentation.Aggregators
 
             fullProjectDescription.Teams = new CollectionResponse<FullTeam>
             {
-                Items = teams?.Select(_teamMapper.MapToFullModel).ToList() ?? new List<FullTeam>()
+                Items = teams?.Select(TeamMapper.MapToFullModel).ToList() ?? new List<FullTeam>()
             };
             
             return fullProjectDescription;

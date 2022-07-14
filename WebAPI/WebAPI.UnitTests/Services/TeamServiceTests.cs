@@ -20,9 +20,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper();
 
-            var teamService = new TeamService(teamRepository, teamMapper);
+            var teamService = new TeamService(teamRepository);
             
             var teamId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var projectId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
@@ -66,9 +65,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper();
 
-            var teamService = new TeamService(teamRepository, teamMapper);
+            var teamService = new TeamService(teamRepository);
             
             var teamId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 
@@ -87,9 +85,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper();
 
-            var teamService = new TeamService(teamRepository, teamMapper);
+            var teamService = new TeamService(teamRepository);
             
             var teamId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var projectId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
@@ -144,9 +141,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper();
 
-            var teamService = new TeamService(teamRepository, teamMapper);
+            var teamService = new TeamService(teamRepository);
             
             var teamId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 
@@ -170,9 +166,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper();
 
-            var teamService = new TeamService(teamRepository, teamMapper);
+            var teamService = new TeamService(teamRepository);
             
             var teamId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var projectId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
@@ -243,9 +238,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper();
 
-            var teamService = new TeamService(teamRepository, teamMapper);
+            var teamService = new TeamService(teamRepository);
             
             var teamId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 
@@ -264,10 +258,9 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper();
 
-            var teamService = new TeamService(teamRepository, teamMapper);
-            
+            var teamService = new TeamService(teamRepository);
+
             var teamId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var projectId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
             const string teamName = "TeamName";
@@ -317,9 +310,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper();
 
-            var teamService = new TeamService(teamRepository, teamMapper);
+            var teamService = new TeamService(teamRepository);
             
             var teamId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var projectId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
@@ -372,9 +364,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper();
 
-            var teamService = new TeamService(teamRepository, teamMapper);
+            var teamService = new TeamService(teamRepository);
 
             var team = new Team
             {
@@ -397,9 +388,8 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper();
 
-            var teamService = new TeamService(teamRepository, teamMapper);
+            var teamService = new TeamService(teamRepository);
             
             var teamId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 

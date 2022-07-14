@@ -5,25 +5,20 @@ using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
-using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
+using WebAPI.Presentation.Mappers;
 
 namespace WebAPI.ApplicationLogic.Services
 {
     public class TeamService : ITeamService
     {
         private readonly ITeamRepository _teamRepository;
-        private readonly ITeamMapper _teamMapper;
 
-        public TeamService(
-            ITeamRepository teamRepository,
-            ITeamMapper teamMapper
-            )
+        public TeamService(ITeamRepository teamRepository)
         {
             _teamRepository = teamRepository;
-            _teamMapper = teamMapper;
         }
 
         public async Task<CollectionResponse<FullTeam>> GetUserTeamsAsync(Guid userId)
@@ -32,7 +27,7 @@ namespace WebAPI.ApplicationLogic.Services
             
             var collectionResponse = new CollectionResponse<FullTeam>
             {
-                Items = teamEntities.Select(_teamMapper.MapToFullModel).ToList(),
+                Items = teamEntities.Select(TeamMapper.MapToFullModel).ToList(),
             };
 
             return collectionResponse;
@@ -43,10 +38,13 @@ namespace WebAPI.ApplicationLogic.Services
             var teamEntity = await _teamRepository.SearchForSingleItemAsync(x => x.Id == teamId);
             if (teamEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(teamId)));
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND, 
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(teamId))
+                );
             }
             
-            var team = _teamMapper.MapToModel(teamEntity);
+            var team = TeamMapper.Map(teamEntity);
             
             return team;
         }
@@ -56,17 +54,20 @@ namespace WebAPI.ApplicationLogic.Services
             var teamEntity = await _teamRepository.GetTeamWithUsers(teamId);
             if (teamEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(teamId)));
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND,
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(teamId))
+                );
             }
             
-            var teamFullModel = _teamMapper.MapToFullModel(teamEntity);
+            var teamFullModel = TeamMapper.MapToFullModel(teamEntity);
             
             return teamFullModel;
         }
 
         public async Task<Team> CreateTeamAsync(Team team)
         {
-            var teamEntity = _teamMapper.MapToEntity(team);
+            var teamEntity = TeamMapper.Map(team);
 
             var teamModel = await CreateTeam(teamEntity);
 
@@ -75,7 +76,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<Team> CreateTeamWithCustomerAsync(Team team, Guid userId)
         {
-            var teamEntity = _teamMapper.MapToEntity(team);
+            var teamEntity = TeamMapper.Map(team);
             teamEntity.TeamUsers.Add(new Core.Entities.TeamUser { UserId = userId });
 
             var teamModel = await CreateTeam(teamEntity);
@@ -85,11 +86,11 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<Team> UpdateTeamAsync(Team team)
         {
-            var teamEntity = _teamMapper.MapToEntity(team);
+            var teamEntity = TeamMapper.Map(team);
 
             var updatedTeamEntity = await _teamRepository.UpdateItemAsync(teamEntity);
 
-            var teamModel = _teamMapper.MapToModel(updatedTeamEntity);
+            var teamModel = TeamMapper.Map(updatedTeamEntity);
 
             return teamModel;
         }
@@ -111,7 +112,7 @@ namespace WebAPI.ApplicationLogic.Services
             
             var createdTeamEntity = await _teamRepository.CreateAsync(teamEntity);
 
-            var teamModel = _teamMapper.MapToModel(createdTeamEntity);
+            var teamModel = TeamMapper.Map(createdTeamEntity);
 
             return teamModel;
         }

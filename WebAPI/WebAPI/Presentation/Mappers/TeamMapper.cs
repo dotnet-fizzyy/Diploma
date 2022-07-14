@@ -1,21 +1,22 @@
 using System.Linq;
-using WebAPI.Core.Entities;
-using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Simple;
 
+using TeamEntity = WebAPI.Core.Entities.Team;
+using TeamModel = WebAPI.Models.Models.Models.Team;
+
 namespace WebAPI.Presentation.Mappers
 {
-    public class TeamMapper : ITeamMapper
+    public static class TeamMapper
     {
-        public Team MapToEntity(WebAPI.Models.Models.Models.Team team)
+        public static TeamEntity Map(TeamModel team)
         {
             if (team == null)
             {
-                return new Team();
+                return new TeamEntity();
             }
             
-            var teamEntity = new Team
+            var teamEntity = new TeamEntity
             {
                 Id = team.TeamId,
                 ProjectId = team.ProjectId,
@@ -28,21 +29,21 @@ namespace WebAPI.Presentation.Mappers
             return teamEntity;
         }
 
-        public WebAPI.Models.Models.Models.Team MapToModel(Team teamEntity)
+        public static TeamModel Map(TeamEntity teamEntity)
         {
             if (teamEntity == null)
             {
-                return new WebAPI.Models.Models.Models.Team();
+                return new TeamModel();
             }
 
-            var teamModel = new WebAPI.Models.Models.Models.Team();
+            var teamModel = new TeamModel();
             
             MapBaseEntityToModel(teamModel, teamEntity);
 
             return teamModel;
         }
 
-        public FullTeam MapToFullModel(Team teamEntity)
+        public static FullTeam MapToFullModel(TeamEntity teamEntity)
         {
             if (teamEntity == null)
             {
@@ -60,7 +61,7 @@ namespace WebAPI.Presentation.Mappers
             return fullTeamModel;
         }
 
-        public TeamSimpleModel MapToSimpleModel(Team team)
+        public static TeamSimpleModel MapToSimpleModel(TeamEntity team)
         {
             if (team == null)
             {
@@ -79,7 +80,7 @@ namespace WebAPI.Presentation.Mappers
         }
 
 
-        private static void MapBaseEntityToModel(WebAPI.Models.Models.Models.Team model, Team entity)
+        private static void MapBaseEntityToModel(TeamModel model, TeamEntity entity)
         {
             model.TeamId = entity.Id;
             model.ProjectId = entity.ProjectId;

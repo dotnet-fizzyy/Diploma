@@ -12,16 +12,13 @@ namespace WebAPI.Presentation.Aggregators
 {
     public class PageAggregator : IPageAggregator
     {
-        private readonly ITeamMapper _teamMapper;
         private readonly IProjectMapper _projectMapper;
         private readonly IEpicMapper _epicMapper;
 
         public PageAggregator(
-            ITeamMapper teamMapper, 
             IProjectMapper projectMapper, 
             IEpicMapper epicMapper)
         {
-            _teamMapper = teamMapper;
             _projectMapper = projectMapper;
             _epicMapper = epicMapper;
         }
@@ -30,7 +27,7 @@ namespace WebAPI.Presentation.Aggregators
         {
             var defaultPageResults = new DefaultPage
             {
-                Teams = teams?.Select(_teamMapper.MapToSimpleModel).ToList() ?? new List<TeamSimpleModel>(),
+                Teams = teams?.Select(TeamMapper.MapToSimpleModel).ToList() ?? new List<TeamSimpleModel>(),
                 Stories = stories?.Select(StoryMapper.MapToSimpleModel).ToList() ?? new List<StorySimpleModel>()
             };
 
@@ -41,7 +38,7 @@ namespace WebAPI.Presentation.Aggregators
         {
             var searchResults = new SearchResult
             {
-                Teams = teams?.Select(_teamMapper.MapToSimpleModel).ToList() ?? new List<TeamSimpleModel>(),
+                Teams = teams?.Select(TeamMapper.MapToSimpleModel).ToList() ?? new List<TeamSimpleModel>(),
                 Projects = projects?.Select(_projectMapper.MapToSimpleModel).ToList() ?? new List<ProjectSimpleModel>(),
             };
 
@@ -56,7 +53,7 @@ namespace WebAPI.Presentation.Aggregators
                     ? _projectMapper.MapToModel(project)
                     : new WebAPI.Models.Models.Models.Project(),
                 Team = team != null 
-                    ? _teamMapper.MapToFullModel(team)
+                    ? TeamMapper.MapToFullModel(team)
                     : new FullTeam(),
                 Epics = epics?.Select(_epicMapper.MapToSimpleModel).ToList() ?? new List<EpicSimpleModel>(),
                 Sprints = sprints?.Select(SprintMapper.Map).ToList() ?? new List<WebAPI.Models.Models.Models.Sprint>(),
@@ -74,7 +71,7 @@ namespace WebAPI.Presentation.Aggregators
                     ? WorkSpaceMapper.Map(workSpace)
                     : new WebAPI.Models.Models.Models.WorkSpace(),
                 Team = team != null 
-                    ? _teamMapper.MapToFullModel(team) 
+                    ? TeamMapper.MapToFullModel(team) 
                     : new FullTeam(),
             };
 
@@ -89,7 +86,7 @@ namespace WebAPI.Presentation.Aggregators
                     ? _projectMapper.MapToModel(project)
                     : new WebAPI.Models.Models.Models.Project(),
                 Teams = project != null && project.Teams != null
-                    ? project.Teams.Select(_teamMapper.MapToSimpleModel).ToList()
+                    ? project.Teams.Select(TeamMapper.MapToSimpleModel).ToList()
                     : new List<TeamSimpleModel>(),
                 Epics = project != null && project.Epics != null
                     ? project.Epics.Select(_epicMapper.MapToModel).ToList()
@@ -110,7 +107,7 @@ namespace WebAPI.Presentation.Aggregators
                     {
                         ProjectId = project.Id,
                         ProjectName = project.ProjectName,
-                        Teams = project.Teams.Select(_teamMapper.MapToSimpleModel).ToList(),
+                        Teams = project.Teams.Select(TeamMapper.MapToSimpleModel).ToList(),
                     }).ToList()
                     ?? new List<WorkSpacePageProject>(),
             };
@@ -118,7 +115,10 @@ namespace WebAPI.Presentation.Aggregators
             return workSpacePage;
         }
 
-        public FullStatisticsPage CreateStatisticsPageModel(Project project, IEnumerable<Epic> epics, IList<Sprint> sprints)
+        public FullStatisticsPage CreateStatisticsPageModel(
+            Project project,
+            IEnumerable<Epic> epics,
+            IList<Sprint> sprints)
         {
             var statisticsModel = new FullStatisticsPage
             {
@@ -127,7 +127,8 @@ namespace WebAPI.Presentation.Aggregators
                     : new WebAPI.Models.Models.Models.Project(),
                 Epics =  epics?.Select(_epicMapper.MapToSimpleModel).ToList() ?? new List<EpicSimpleModel>(),
                 Sprints = sprints?.Select(SprintMapper.Map).ToList() ?? new List<WebAPI.Models.Models.Models.Sprint>(),
-                Stories =  sprints?.SelectMany(x => x.Stories, (_, story) => StoryMapper.MapToSimpleModel(story)).ToList() ?? new List<StorySimpleModel>()
+                Stories =  sprints?.SelectMany(x => x.Stories, (_, story) => StoryMapper.MapToSimpleModel(story))
+                                   .ToList() ?? new List<StorySimpleModel>()
             };
 
             return statisticsModel;
