@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
+using WebAPI.Presentation.Utilities;
 
 namespace WebAPI.Presentation.Controllers
 {
@@ -19,12 +19,10 @@ namespace WebAPI.Presentation.Controllers
     public class StoryController : ControllerBase
     {
         private readonly IStoryService _storyService;
-        private readonly IClaimsReader _claimsReader;
 
-        public StoryController(IStoryService storyService, IClaimsReader claimsReader)
+        public StoryController(IStoryService storyService)
         {
             _storyService = storyService;
-            _claimsReader = claimsReader;
         }
         
         /// <summary>
@@ -113,7 +111,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Story>> CreateStory([FromBody, BindRequired] Story story)
         {
-            var user = _claimsReader.GetUserClaims(User);
+            var user = ClaimsReader.GetUserClaims(User);
             
             var createdStory = await _storyService.CreateStoryAsync(story, user.UserName);
 
@@ -131,7 +129,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Story>> UpdatePartsOfStory([FromBody, BindRequired] Story story)
         {
-            var user = _claimsReader.GetUserClaims(User);
+            var user = ClaimsReader.GetUserClaims(User);
             
             var updatedStory = await _storyService.UpdatePartsOfStoryAsync(story, user.UserId);
 
@@ -154,7 +152,7 @@ namespace WebAPI.Presentation.Controllers
             var storyModel = new Story();
             storyPatch.ApplyTo(storyModel, ModelState);
 
-            var user = _claimsReader.GetUserClaims(User);
+            var user = ClaimsReader.GetUserClaims(User);
             
             var updatedStory = await _storyService.UpdateStoryColumnAsync(storyModel, user.UserName);
             
@@ -177,7 +175,7 @@ namespace WebAPI.Presentation.Controllers
             var storyModel = new Story();
             storyPatch.ApplyTo(storyModel, ModelState);
 
-            var user = _claimsReader.GetUserClaims(User);
+            var user = ClaimsReader.GetUserClaims(User);
             
             var story = await _storyService.ChangeStoryStatusAsync(storyModel, user.UserName);
             

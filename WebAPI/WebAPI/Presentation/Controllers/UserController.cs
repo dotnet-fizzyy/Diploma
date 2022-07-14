@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Models.Action;
+using WebAPI.Presentation.Utilities;
 
 namespace WebAPI.Presentation.Controllers
 {
@@ -19,12 +19,10 @@ namespace WebAPI.Presentation.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IClaimsReader _claimsReader;
         
-        public UserController(IUserService userService, IClaimsReader claimsReader)
+        public UserController(IUserService userService)
         {
             _userService = userService;
-            _claimsReader = claimsReader;
         }
 
         /// <summary>
@@ -39,7 +37,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<FullUser>> GetUserByToken()
         {
-            var userClaims = _claimsReader.GetUserClaims(User);
+            var userClaims = ClaimsReader.GetUserClaims(User);
             
             var user = await _userService.GetFullUserAsync(userClaims.UserId);
 
@@ -118,7 +116,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateUserPassword([FromBody] PasswordUpdate passwordUpdate)
         {
-            var user = _claimsReader.GetUserClaims(User);
+            var user = ClaimsReader.GetUserClaims(User);
 
             await _userService.UpdateUserPasswordAsync(user.UserId, passwordUpdate);
             

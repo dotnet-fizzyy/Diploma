@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Enums;
 using WebAPI.Models.Models.Models;
@@ -26,7 +25,6 @@ namespace WebAPI.UnitTests.Controllers
             //Arrange
             var tokenService = A.Fake<ITokenService>();
             var userService = A.Fake<IUserService>();
-            var claimsReader = new ClaimsReader();
             
             var body = new SignInUser
             {
@@ -47,7 +45,7 @@ namespace WebAPI.UnitTests.Controllers
                 RefreshToken = new Token()
             };
 
-            var authController = new AuthenticationController(tokenService, userService, claimsReader);
+            var authController = new AuthenticationController(tokenService, userService);
 
             A.CallTo(() => tokenService.AuthenticateUser(A<SignInUser>._))
                 .Returns(createdUser);
@@ -68,7 +66,6 @@ namespace WebAPI.UnitTests.Controllers
             //Arrange
             var tokenService = A.Fake<ITokenService>();
             var userService = A.Fake<IUserService>();
-            var claimsReader = new ClaimsReader();
             
             var body = new SignUpUser
             {
@@ -85,7 +82,7 @@ namespace WebAPI.UnitTests.Controllers
                 UserRole = UserRole.Manager
             };
 
-            var authController = new AuthenticationController(tokenService, userService, claimsReader);
+            var authController = new AuthenticationController(tokenService, userService);
 
             A.CallTo(() => userService.CreateCustomerAsync(A<SignUpUser>._))
                 .Returns(createdUser);
@@ -109,7 +106,6 @@ namespace WebAPI.UnitTests.Controllers
             //Arrange
             var tokenService = A.Fake<ITokenService>();
             var userService = A.Fake<IUserService>();
-            var claimsReader = new ClaimsReader();
 
             var userId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
             const string userName = "user";
@@ -137,7 +133,7 @@ namespace WebAPI.UnitTests.Controllers
                 }
             };
             
-            var authController = new AuthenticationController(tokenService, userService, claimsReader)
+            var authController = new AuthenticationController(tokenService, userService)
             {
                 ControllerContext = new ControllerContext
                 {
@@ -163,8 +159,7 @@ namespace WebAPI.UnitTests.Controllers
             //Arrange
             var tokenService = A.Fake<ITokenService>();
             var userService = A.Fake<IUserService>();
-            var claimsReader = new ClaimsReader();
-
+   
             const string email = "test@mail.com";
 
             var emailResultModel = new EmailResultModel
@@ -173,7 +168,7 @@ namespace WebAPI.UnitTests.Controllers
             };
             
 
-            var authController = new AuthenticationController(tokenService, userService, claimsReader);
+            var authController = new AuthenticationController(tokenService, userService);
 
             A.CallTo(() => userService.CheckForEmailExistenceAsync(A<string>._))
                 .Returns(emailResultModel);

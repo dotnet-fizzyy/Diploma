@@ -2,17 +2,16 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using WebAPI.Core.Exceptions;
-using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Core.Models;
 
 using CoreErrorStatus = WebAPI.Core.Enums.ErrorStatus;
 using ModelUserRole = WebAPI.Models.Enums.UserRole;
 
-namespace WebAPI.ApplicationLogic.Utilities
+namespace WebAPI.Presentation.Utilities
 {
-    public class ClaimsReader : IClaimsReader
+    public static class ClaimsReader
     {
-        public UserClaims GetUserClaims(ClaimsPrincipal user)
+        public static UserClaims GetUserClaims(ClaimsPrincipal user)
         {
             var userId = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var userRole = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;

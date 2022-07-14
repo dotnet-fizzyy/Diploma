@@ -5,6 +5,7 @@ using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Models;
 using WebAPI.Models.Enums;
+using WebAPI.Presentation.Utilities;
 using Xunit;
 
 namespace WebAPI.UnitTests.Utilities
@@ -27,11 +28,9 @@ namespace WebAPI.UnitTests.Utilities
             }));
 
             var expectedClaims = new UserClaims(userId, userName, userRole);
-            
-            var claimsReader = new ClaimsReader();
 
             //Act
-            var result = claimsReader.GetUserClaims(user);
+            var result = ClaimsReader.GetUserClaims(user);
 
             //Assert
             Assert.Equal(expectedClaims.UserId, result.UserId);
@@ -51,10 +50,8 @@ namespace WebAPI.UnitTests.Utilities
                 new Claim(ClaimTypes.Role, userRole)
             }));
 
-            var claimsReader = new ClaimsReader();
-
             //Act && Assert
-            Assert.Throws<UserFriendlyException>(() => claimsReader.GetUserClaims(user));
+            Assert.Throws<UserFriendlyException>(() => ClaimsReader.GetUserClaims(user));
         }
 
         public static IEnumerable<object[]> ClaimsData

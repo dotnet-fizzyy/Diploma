@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
+using WebAPI.Presentation.Utilities;
 
 namespace WebAPI.Presentation.Controllers
 {
@@ -18,12 +18,10 @@ namespace WebAPI.Presentation.Controllers
     public class TeamController : ControllerBase
     {
         private readonly ITeamService _teamService;
-        private readonly IClaimsReader _claimsReader;
 
-        public TeamController(ITeamService teamService, IClaimsReader claimsReader)
+        public TeamController(ITeamService teamService)
         {
             _teamService = teamService;
-            _claimsReader = claimsReader;
         }
         
         /// <summary>
@@ -37,7 +35,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<CollectionResponse<FullTeam>>> GetUserTeams()
         {
-            var user = _claimsReader.GetUserClaims(User);
+            var user = ClaimsReader.GetUserClaims(User);
             
             var userTeams = await _teamService.GetUserTeamsAsync(user.UserId);
 
@@ -106,7 +104,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Team>> CreateTeamWithCustomer([FromBody, BindRequired]Team team)
         {
-            var user = _claimsReader.GetUserClaims(User);
+            var user = ClaimsReader.GetUserClaims(User);
             var createdTeam = await _teamService.CreateTeamWithCustomerAsync(team, user.UserId);
             
             return CreatedAtAction(nameof(CreateTeam), createdTeam);

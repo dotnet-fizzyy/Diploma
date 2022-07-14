@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Constants;
 using WebAPI.Presentation.Models.Action;
 using WebAPI.Presentation.Models.Result;
+using WebAPI.Presentation.Utilities;
 
 namespace WebAPI.Presentation.Controllers
 {
@@ -17,13 +17,11 @@ namespace WebAPI.Presentation.Controllers
     {
         private readonly ITokenService _tokenService;
         private readonly IUserService _userService;
-        private readonly IClaimsReader _claimsReader;
 
-        public AuthenticationController(ITokenService tokenService, IUserService userService, IClaimsReader claimsReader)
+        public AuthenticationController(ITokenService tokenService, IUserService userService)
         {
             _tokenService = tokenService;
             _userService = userService;
-            _claimsReader = claimsReader;
         }
 
         /// <summary>
@@ -68,7 +66,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<AuthenticationResultModel>> UpdateAccessToken([FromHeader(Name = RequestHeaders.RefreshTokenHeader)] string refreshToken)
         {
-            var user = _claimsReader.GetUserClaims(User);
+            var user = ClaimsReader.GetUserClaims(User);
             
             var authModel = await _tokenService.UpdateTokens(refreshToken, user.UserId, user.UserName, user.UserRole.ToString());
             

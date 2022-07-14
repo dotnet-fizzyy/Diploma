@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Presentation.Models.Pages;
+using WebAPI.Presentation.Utilities;
 
 namespace WebAPI.Presentation.Controllers
 {
@@ -15,12 +15,10 @@ namespace WebAPI.Presentation.Controllers
     public class PageController : ControllerBase
     {
         private readonly IPageService _pageService;
-        private readonly IClaimsReader _claimsReader;
 
-        public PageController(IPageService pageService, IClaimsReader claimsReader)
+        public PageController(IPageService pageService)
         {
             _pageService = pageService;
-            _claimsReader = claimsReader;
         }
 
         [HttpGet]
@@ -32,7 +30,7 @@ namespace WebAPI.Presentation.Controllers
         [Route("default")]
         public async Task<ActionResult<DefaultPage>> GetMainPageData()
         {
-            var user = _claimsReader.GetUserClaims(User);
+            var user = ClaimsReader.GetUserClaims(User);
 
             var result = await _pageService.GetDefaultPageAsync(user.UserId);
 
@@ -45,10 +43,9 @@ namespace WebAPI.Presentation.Controllers
             [FromQuery, BindRequired]Guid projectId, 
             [FromQuery, BindRequired]Guid teamId,
             [FromQuery]Guid? epicId,
-            [FromQuery]Guid? sprintId
-            )
+            [FromQuery]Guid? sprintId)
         {
-            var user = _claimsReader.GetUserClaims(User);
+            var user = ClaimsReader.GetUserClaims(User);
 
             var projectBoardData = await _pageService.GetBoardPageDataAsync(projectId, teamId, epicId, sprintId, user.UserId);
             
@@ -64,7 +61,7 @@ namespace WebAPI.Presentation.Controllers
         [Route("team/{teamId}")]
         public async Task<ActionResult<TeamPage>> GetTeamPageIndex(Guid teamId)
         {
-            var user = _claimsReader.GetUserClaims(User);
+            var user = ClaimsReader.GetUserClaims(User);
             
             var teamPage = await _pageService.GetTeamPageDataAsync(user.UserId, teamId);
         
@@ -75,7 +72,7 @@ namespace WebAPI.Presentation.Controllers
         [Route("workspace")]
         public async Task<ActionResult<WorkSpacePage>> GetWorkSpacePageIndex()
         {
-            var user = _claimsReader.GetUserClaims(User);
+            var user = ClaimsReader.GetUserClaims(User);
 
             var userWorkSpace = await _pageService.GetUserWorkSpacePageDataAsync(user.UserId);
 

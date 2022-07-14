@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Models.Models.Models;
+using WebAPI.Presentation.Utilities;
 
 namespace WebAPI.Presentation.Controllers
 {
@@ -15,12 +15,10 @@ namespace WebAPI.Presentation.Controllers
     public class WorkSpaceController : ControllerBase
     {
         private readonly IWorkSpaceService _workSpaceService;
-        private readonly IClaimsReader _claimsReader;
 
-        public WorkSpaceController(IWorkSpaceService workSpaceService, IClaimsReader claimsReader)
+        public WorkSpaceController(IWorkSpaceService workSpaceService)
         {
             _workSpaceService = workSpaceService;
-            _claimsReader = claimsReader;
         }
 
         /// <summary>
@@ -54,7 +52,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<WorkSpace>> GetUserWorkSpace()
         {
-            var user = _claimsReader.GetUserClaims(User);
+            var user = ClaimsReader.GetUserClaims(User);
             
             var workSpace = await _workSpaceService.GetUserWorkSpaceAsync(user.UserId);
 
@@ -88,7 +86,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<WorkSpace>> CreateWorkSpaceWithUser([FromBody] WorkSpace workSpace)
         {
-            var user = _claimsReader.GetUserClaims(User);
+            var user = ClaimsReader.GetUserClaims(User);
             
             var createdWorkSpace = await _workSpaceService.CreateWorkSpaceWithUserAsync(workSpace, user.UserId);
 

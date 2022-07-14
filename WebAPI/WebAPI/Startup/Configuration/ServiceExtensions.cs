@@ -2,12 +2,10 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using WebAPI.ApplicationLogic.Providers;
 using WebAPI.ApplicationLogic.Services;
-using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Configuration;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Infrastructure.Postgres.Repository;
 using WebAPI.Infrastructure.Redis;
 using WebAPI.Models.Models.Models;
@@ -49,7 +47,6 @@ namespace WebAPI.Startup.Configuration
             services.AddScoped<IUserProvider, UserProvider>();
             
             //Utilities
-            services.AddSingleton<IClaimsReader, ClaimsReader>();
             services.AddSingleton<ITokenService, TokenService>();
 
             //Validators
