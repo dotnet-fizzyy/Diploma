@@ -4,7 +4,6 @@ using WebAPI.ApplicationLogic.Providers;
 using WebAPI.ApplicationLogic.Services;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Configuration;
-using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
@@ -12,7 +11,6 @@ using WebAPI.Core.Interfaces.Utilities;
 using WebAPI.Infrastructure.Postgres.Repository;
 using WebAPI.Infrastructure.Redis;
 using WebAPI.Models.Models.Models;
-using WebAPI.Presentation.Aggregators;
 using WebAPI.Presentation.Models.Action;
 using WebAPI.Presentation.Validators;
 
@@ -53,9 +51,6 @@ namespace WebAPI.Startup.Configuration
             //Utilities
             services.AddSingleton<IClaimsReader, ClaimsReader>();
             services.AddSingleton<ITokenService, TokenService>();
-            
-            //Aggregators
-            services.AddSingleton<IPageAggregator, PageAggregator>();
 
             //Validators
             services.AddSingleton<IValidator<SignUpUser>, SignUpUserValidator>();

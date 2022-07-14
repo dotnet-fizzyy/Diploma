@@ -6,9 +6,9 @@ using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Constants;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
-using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
+using WebAPI.Presentation.Aggregators;
 using WebAPI.Presentation.Models.Pages;
 
 namespace WebAPI.ApplicationLogic.Services
@@ -21,7 +21,6 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly ITeamRepository _teamRepository;
         private readonly ISprintRepository _sprintRepository;
         private readonly IStoryRepository _storyRepository;
-        private readonly IPageAggregator _pageAggregator;
 
         private const string MissingEpicsExceptionMessage = "No any epics found with provided project id";
         private const string MissingTeamExceptionMessage = "No any team found with provided team and user ids";
@@ -32,8 +31,7 @@ namespace WebAPI.ApplicationLogic.Services
             IEpicRepository epicRepository,
             ITeamRepository teamRepository,
             ISprintRepository sprintRepository,
-            IStoryRepository storyRepository,
-            IPageAggregator pageAggregator
+            IStoryRepository storyRepository
             )
         {
             _workSpaceRepository = workSpaceRepository;
@@ -42,7 +40,6 @@ namespace WebAPI.ApplicationLogic.Services
             _teamRepository = teamRepository;
             _sprintRepository = sprintRepository;
             _storyRepository = storyRepository;
-            _pageAggregator = pageAggregator;
         }
 
         public async Task<DefaultPage> GetDefaultPageAsync(Guid userId)
@@ -56,7 +53,7 @@ namespace WebAPI.ApplicationLogic.Services
             );
             var teams = await _teamRepository.GetUserTeams(userId);
 
-            var defaultPageResult = _pageAggregator.CreateDefaultPageModel(teams, stories);
+            var defaultPageResult = PageAggregator.CreateDefaultPageModel(teams, stories);
 
             return defaultPageResult;
         }
@@ -66,7 +63,7 @@ namespace WebAPI.ApplicationLogic.Services
             var teamEntities = await _teamRepository.GetTeamsBySearchTerm(searchTerm, Search.TeamsLimit, teamIds);
             var projectEntities = await _projectRepository.GetProjectsBySearchTerm(searchTerm, Search.ProjectsLimit, teamIds);
 
-            var searchResults = _pageAggregator.CreateSearchResultsByTerm(teamEntities, projectEntities);
+            var searchResults = PageAggregator.CreateSearchResultsByTerm(teamEntities, projectEntities);
             
             return searchResults;
         }
@@ -94,7 +91,7 @@ namespace WebAPI.ApplicationLogic.Services
                 sprint.Stories = StoryHandler.SortStoriesByCriteria(sprint.Stories, SortTypes.Priority, OrderType.Asc);
             }
             
-            var boardPage = _pageAggregator.CreateBoardPageModel(team, project, epics, sprints);
+            var boardPage = PageAggregator.CreateBoardPageModel(team, project, epics, sprints);
             
             return boardPage;
         }
@@ -105,7 +102,7 @@ namespace WebAPI.ApplicationLogic.Services
             
             var team = await _teamRepository.GetTeamWithUsers(teamId);
 
-            var teamData = _pageAggregator.CreateTeamPageModel(workSpace, team);
+            var teamData = PageAggregator.CreateTeamPageModel(workSpace, team);
             
             return teamData;
         }
@@ -118,7 +115,7 @@ namespace WebAPI.ApplicationLogic.Services
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(projectId)));
             }
 
-            var projectData = _pageAggregator.CreateProjectPageModel(project);
+            var projectData = PageAggregator.CreateProjectPageModel(project);
             
             return projectData;
         }
@@ -133,7 +130,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             var projects = await _projectRepository.GetProjectWithTeamsByWorkSpaceIdAsync(workSpace.Id);
 
-            var projectWorkSpaceData = _pageAggregator.CreateWorkSpacePageModel(workSpace, projects);
+            var projectWorkSpaceData = PageAggregator.CreateWorkSpacePageModel(workSpace, projects);
             
             return projectWorkSpaceData;
         }
@@ -151,7 +148,7 @@ namespace WebAPI.ApplicationLogic.Services
             var latestEpic = epics.First();
             var sprints = await _sprintRepository.GetFullSprintsByEpicId(latestEpic.Id);
             
-            var statisticsPage = _pageAggregator.CreateStatisticsPageModel(project, epics, sprints);
+            var statisticsPage = PageAggregator.CreateStatisticsPageModel(project, epics, sprints);
             
             return statisticsPage;
         }
@@ -160,7 +157,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var sprints = await _sprintRepository.GetFullSprintsByEpicId(epicId);
             
-            var statisticsPage = _pageAggregator.CreateStatisticsPageModel(null, null, sprints);
+            var statisticsPage = PageAggregator.CreateStatisticsPageModel(null, null, sprints);
 
             return statisticsPage;
         }

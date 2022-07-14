@@ -2,16 +2,15 @@ using System.Collections.Generic;
 using System.Linq;
 using WebAPI.ApplicationLogic.Mappers;
 using WebAPI.Core.Entities;
-using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Simple;
 using WebAPI.Presentation.Models.Pages;
 
 namespace WebAPI.Presentation.Aggregators
 {
-    public class PageAggregator : IPageAggregator
+    public static class PageAggregator
     {
-        public DefaultPage CreateDefaultPageModel(IList<Team> teams, IList<Story> stories)
+        public static DefaultPage CreateDefaultPageModel(IList<Team> teams, IList<Story> stories)
         {
             var defaultPageResults = new DefaultPage
             {
@@ -22,7 +21,7 @@ namespace WebAPI.Presentation.Aggregators
             return defaultPageResults;
         }
 
-        public SearchResult CreateSearchResultsByTerm(IList<Team> teams, IList<Project> projects)
+        public static SearchResult CreateSearchResultsByTerm(IList<Team> teams, IList<Project> projects)
         {
             var searchResults = new SearchResult
             {
@@ -33,7 +32,7 @@ namespace WebAPI.Presentation.Aggregators
             return searchResults;
         }
 
-        public BoardPage CreateBoardPageModel(Team team, Project project, IList<Epic> epics, IList<Sprint> sprints)
+        public static BoardPage CreateBoardPageModel(Team team, Project project, IList<Epic> epics, IList<Sprint> sprints)
         {
             var boardPage = new BoardPage
             {
@@ -51,7 +50,7 @@ namespace WebAPI.Presentation.Aggregators
             return boardPage;
         }
 
-        public TeamPage CreateTeamPageModel(WorkSpace workSpace, Team team)
+        public static TeamPage CreateTeamPageModel(WorkSpace workSpace, Team team)
         {
             var teamPageModel = new TeamPage
             {
@@ -66,7 +65,7 @@ namespace WebAPI.Presentation.Aggregators
             return teamPageModel;
         }
 
-        public ProjectPage CreateProjectPageModel(Project project)
+        public static ProjectPage CreateProjectPageModel(Project project)
         {
             var projectPage = new ProjectPage
             {
@@ -84,7 +83,7 @@ namespace WebAPI.Presentation.Aggregators
             return projectPage;
         }
 
-        public WorkSpacePage CreateWorkSpacePageModel(WorkSpace workSpace, IEnumerable<Project> projects)
+        public static WorkSpacePage CreateWorkSpacePageModel(WorkSpace workSpace, IEnumerable<Project> projects)
         {
             var workSpacePage = new WorkSpacePage
             {
@@ -103,7 +102,7 @@ namespace WebAPI.Presentation.Aggregators
             return workSpacePage;
         }
 
-        public FullStatisticsPage CreateStatisticsPageModel(
+        public static FullStatisticsPage CreateStatisticsPageModel(
             Project project,
             IEnumerable<Epic> epics,
             IList<Sprint> sprints)
