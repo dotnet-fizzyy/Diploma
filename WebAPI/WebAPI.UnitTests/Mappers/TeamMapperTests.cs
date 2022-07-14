@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using WebAPI.Presentation.Mappers;
+using WebAPI.ApplicationLogic.Mappers;
 using Xunit;
 
 using TeamEntity = WebAPI.Core.Entities.Team;

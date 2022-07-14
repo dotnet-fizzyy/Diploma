@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using WebAPI.ApplicationLogic.Mappers;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Aggregators;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Mappers;
 
 namespace WebAPI.Presentation.Aggregators
 {

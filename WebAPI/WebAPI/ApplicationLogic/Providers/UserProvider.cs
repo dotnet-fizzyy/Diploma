@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.ApplicationLogic.Mappers;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Configuration;
 using WebAPI.Core.Entities;
@@ -10,7 +11,6 @@ using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Mappers;
 using WebAPI.Presentation.Models.Action;
 
 namespace WebAPI.ApplicationLogic.Providers
@@ -28,8 +28,7 @@ namespace WebAPI.ApplicationLogic.Providers
             ITeamRepository teamRepository, 
             IProjectRepository projectRepository,
             IRedisContext redisContext,
-            AppSettings appSettings
-            )
+            AppSettings appSettings)
         {
             _projectRepository = projectRepository;
             _teamRepository = teamRepository;

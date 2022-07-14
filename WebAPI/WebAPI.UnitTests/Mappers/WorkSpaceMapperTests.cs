@@ -1,5 +1,5 @@
 using System;
-using WebAPI.Presentation.Mappers;
+using WebAPI.ApplicationLogic.Mappers;
 using Xunit;
 
 using WorkSpaceEntity = WebAPI.Core.Entities.WorkSpace;

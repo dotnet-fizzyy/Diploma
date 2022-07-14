@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using WebAPI.ApplicationLogic.Mappers;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Simple;
-using WebAPI.Presentation.Mappers;
 using Xunit;
 
 namespace WebAPI.UnitTests.Mappers

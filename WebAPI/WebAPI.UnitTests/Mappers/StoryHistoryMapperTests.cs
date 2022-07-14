@@ -1,8 +1,8 @@
 using System;
+using WebAPI.ApplicationLogic.Mappers;
 using WebAPI.Core.Constants;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
-using WebAPI.Presentation.Mappers;
 using Xunit;
 
 namespace WebAPI.UnitTests.Mappers

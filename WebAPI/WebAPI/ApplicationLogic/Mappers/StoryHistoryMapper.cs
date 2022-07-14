@@ -4,7 +4,7 @@ using StoryHistoryEntity = WebAPI.Core.Entities.StoryHistory;
 using StoryHistoryModel = WebAPI.Models.Models.Models.StoryHistory;
 using StoryHistoryActionModel = WebAPI.Models.Enums.StoryHistoryAction;
 
-namespace WebAPI.Presentation.Mappers
+namespace WebAPI.ApplicationLogic.Mappers
 {
     public static class StoryHistoryMapper
     {

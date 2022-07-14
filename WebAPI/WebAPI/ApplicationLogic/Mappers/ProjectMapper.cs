@@ -2,7 +2,7 @@ using ProjectEntity = WebAPI.Core.Entities.Project;
 using ProjectModel = WebAPI.Models.Models.Models.Project;
 using ProjectSimpleModel = WebAPI.Models.Models.Simple.ProjectSimpleModel;
 
-namespace WebAPI.Presentation.Mappers
+namespace WebAPI.ApplicationLogic.Mappers
 {
     public static class ProjectMapper
     {

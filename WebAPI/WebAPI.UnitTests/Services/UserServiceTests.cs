@@ -9,7 +9,6 @@ using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Models.Enums;
-using WebAPI.Presentation.Mappers;
 using WebAPI.Presentation.Models.Action;
 using Xunit;
 

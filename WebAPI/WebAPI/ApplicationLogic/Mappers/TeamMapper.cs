@@ -1,11 +1,11 @@
 using System.Linq;
-using WebAPI.Models.Models.Result;
-using WebAPI.Models.Models.Simple;
 
 using TeamEntity = WebAPI.Core.Entities.Team;
 using TeamModel = WebAPI.Models.Models.Models.Team;
+using FullTeamModel = WebAPI.Models.Models.Result.FullTeam;
+using TeamSimpleModel = WebAPI.Models.Models.Simple.TeamSimpleModel;
 
-namespace WebAPI.Presentation.Mappers
+namespace WebAPI.ApplicationLogic.Mappers
 {
     public static class TeamMapper
     {
@@ -43,14 +43,14 @@ namespace WebAPI.Presentation.Mappers
             return teamModel;
         }
 
-        public static FullTeam MapToFullModel(TeamEntity teamEntity)
+        public static FullTeamModel MapToFullModel(TeamEntity teamEntity)
         {
             if (teamEntity == null)
             {
-                return new FullTeam();
+                return new FullTeamModel();
             }
 
-            var fullTeamModel = new FullTeam();
+            var fullTeamModel = new FullTeamModel();
             
             MapBaseEntityToModel(fullTeamModel, teamEntity);
 

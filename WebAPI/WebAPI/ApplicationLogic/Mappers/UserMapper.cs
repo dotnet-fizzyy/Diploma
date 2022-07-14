@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebAPI.Models.Models.Result;
 
 using UserEntity = WebAPI.Core.Entities.User;
 using UserModel = WebAPI.Models.Models.Models.User;
+using FullUserModel = WebAPI.Models.Models.Result.FullUser;
+using UserProjectModel = WebAPI.Models.Models.Result.UserProject;
+using UserTeamModel = WebAPI.Models.Models.Result.UserTeam;
 using ProjectEntity = WebAPI.Core.Entities.Project;
 using TeamEntity = WebAPI.Core.Entities.Team;
 using UserRoleCore = WebAPI.Core.Enums.UserRole;
@@ -13,7 +15,7 @@ using UserPositionCore = WebAPI.Core.Enums.UserPosition;
 using UserPositionModel = WebAPI.Models.Enums.UserPosition;
 using SignInUserModel = WebAPI.Presentation.Models.Action.SignInUser;
 
-namespace WebAPI.Presentation.Mappers
+namespace WebAPI.ApplicationLogic.Mappers
 {
     public static class UserMapper
     {
@@ -71,17 +73,17 @@ namespace WebAPI.Presentation.Mappers
             return userEntity;
         }
 
-        public static FullUser Map(
+        public static FullUserModel Map(
             UserEntity user, 
             IEnumerable<ProjectEntity> projects, 
             IEnumerable<TeamEntity> teams)
         {
-            var fullUser = new FullUser();
+            var fullUser = new FullUserModel();
             
             MapBase(fullUser, user);
  
-            fullUser.Projects = projects?.Select(Map).ToList() ?? new List<UserProject>();
-            fullUser.Teams = teams?.Select(Map).ToList() ?? new List<UserTeam>();
+            fullUser.Projects = projects?.Select(Map).ToList() ?? new List<UserProjectModel>();
+            fullUser.Teams = teams?.Select(Map).ToList() ?? new List<UserTeamModel>();
             
             return fullUser;
         }
@@ -101,16 +103,16 @@ namespace WebAPI.Presentation.Mappers
             userModel.UserPosition = Enum.Parse<UserPositionModel>(userEntity.UserPosition.ToString(), ignoreCase: true);
         }
         
-        private static UserTeam Map(TeamEntity team) => 
-            new UserTeam
+        private static UserTeamModel Map(TeamEntity team) => 
+            new UserTeamModel
             {
                 TeamId = team.Id,
                 TeamName = team.TeamName,
                 ProjectId = team.ProjectId
             };
         
-        private static UserProject Map(ProjectEntity project) => 
-            new UserProject
+        private static UserProjectModel Map(ProjectEntity project) => 
+            new UserProjectModel
             {
                 ProjectId = project.Id,
                 ProjectName = project.ProjectName,

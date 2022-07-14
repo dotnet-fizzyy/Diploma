@@ -5,7 +5,7 @@ using EpicModel = WebAPI.Models.Models.Models.Epic;
 using FullEpicModel = WebAPI.Models.Models.Result.FullEpic;
 using SimpleEpicModel = WebAPI.Models.Models.Simple.EpicSimpleModel;
 
-namespace WebAPI.Presentation.Mappers
+namespace WebAPI.ApplicationLogic.Mappers
 {
     public static class EpicMapper
     {

@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using System.Transactions;
 using WebAPI.ApplicationLogic.Handlers;
+using WebAPI.ApplicationLogic.Mappers;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
@@ -10,7 +11,6 @@ using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Models;
-using WebAPI.Presentation.Mappers;
 using WebAPI.Presentation.Models.Action;
 using WebAPI.Presentation.Models.Result;
 

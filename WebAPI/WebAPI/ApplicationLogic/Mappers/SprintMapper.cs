@@ -1,10 +1,10 @@
 using System.Linq;
-using WebAPI.Models.Models.Result;
 
 using SprintEntity = WebAPI.Core.Entities.Sprint;
 using SprintModel = WebAPI.Models.Models.Models.Sprint;
+using FullSprintModel = WebAPI.Models.Models.Result.FullSprint;
 
-namespace WebAPI.Presentation.Mappers
+namespace WebAPI.ApplicationLogic.Mappers
 {
     public static class SprintMapper
     {
@@ -43,14 +43,14 @@ namespace WebAPI.Presentation.Mappers
             return sprintModel;
         }
 
-        public static FullSprint MapToFullModel(SprintEntity sprintEntity)
+        public static FullSprintModel MapToFullModel(SprintEntity sprintEntity)
         {
             if (sprintEntity == null)
             {
-                return new FullSprint();
+                return new FullSprintModel();
             }
 
-            var sprintFullModel = new FullSprint();
+            var sprintFullModel = new FullSprintModel();
             
             MapBase(sprintFullModel, sprintEntity);
 

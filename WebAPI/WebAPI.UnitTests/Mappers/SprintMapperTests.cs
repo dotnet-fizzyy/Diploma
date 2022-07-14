@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using WebAPI.ApplicationLogic.Mappers;
 using WebAPI.Core.Entities;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Mappers;
 using Xunit;
 
 namespace WebAPI.UnitTests.Mappers
