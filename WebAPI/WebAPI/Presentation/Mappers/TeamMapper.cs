@@ -8,13 +8,6 @@ namespace WebAPI.Presentation.Mappers
 {
     public class TeamMapper : ITeamMapper
     {
-        private readonly IUserMapper _userMapper;
-
-        public TeamMapper(IUserMapper userMapper)
-        {
-            _userMapper = userMapper;
-        }
-        
         public Team MapToEntity(WebAPI.Models.Models.Models.Team team)
         {
             if (team == null)
@@ -59,7 +52,10 @@ namespace WebAPI.Presentation.Mappers
             var fullTeamModel = new FullTeam();
             
             MapBaseEntityToModel(fullTeamModel, teamEntity);
-            fullTeamModel.Users = teamEntity.TeamUsers.Select(x => _userMapper.MapToModel(x.User)).ToList();
+
+            fullTeamModel.Users = teamEntity.TeamUsers
+                .Select(teamUser => UserMapper.Map(teamUser.User))
+                .ToList();
 
             return fullTeamModel;
         }

@@ -27,8 +27,7 @@ namespace WebAPI.UnitTests.Services
             var teamRepository = A.Fake<ITeamRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();
 
-            var userMapper = new UserMapper();
-            var teamMapper = new TeamMapper(userMapper);
+            var teamMapper = new TeamMapper();
             var epicMapper = new EpicMapper();
             var projectMapper = new ProjectMapper();
             
@@ -125,8 +124,7 @@ namespace WebAPI.UnitTests.Services
             var teamRepository = A.Fake<ITeamRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();
 
-            var userMapper = new UserMapper();
-            var teamMapper = new TeamMapper(userMapper);
+            var teamMapper = new TeamMapper();
             var epicMapper = new EpicMapper();
             var projectMapper = new ProjectMapper();
             
@@ -279,8 +277,7 @@ namespace WebAPI.UnitTests.Services
             var teamRepository = A.Fake<ITeamRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();
 
-            var userMapper = new UserMapper();
-            var teamMapper = new TeamMapper(userMapper);
+            var teamMapper = new TeamMapper();
             var epicMapper = new EpicMapper();
             var projectMapper = new ProjectMapper();
             
@@ -392,8 +389,7 @@ namespace WebAPI.UnitTests.Services
             var teamRepository = A.Fake<ITeamRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();
 
-            var userMapper = new UserMapper();
-            var teamMapper = new TeamMapper(userMapper);
+            var teamMapper = new TeamMapper();
             var epicMapper = new EpicMapper();
             var projectMapper = new ProjectMapper();
             
@@ -463,8 +459,7 @@ namespace WebAPI.UnitTests.Services
             var teamRepository = A.Fake<ITeamRepository>();
             var sprintRepository = A.Fake<ISprintRepository>();
 
-            var userMapper = new UserMapper();
-            var teamMapper = new TeamMapper(userMapper);
+            var teamMapper = new TeamMapper();
             var epicMapper = new EpicMapper();
             var projectMapper = new ProjectMapper();
             

@@ -6,11 +6,11 @@ using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
-using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Models;
+using WebAPI.Presentation.Mappers;
 using WebAPI.Presentation.Models.Action;
 using WebAPI.Presentation.Models.Result;
 
@@ -21,19 +21,15 @@ namespace WebAPI.ApplicationLogic.Services
         private readonly IUserRepository _userRepository;
         private readonly IUserProvider _userProvider;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
-        private readonly IUserMapper _userMapper;
 
         public UserService(
             IUserRepository userRepository,
             IUserProvider userProvider,
-            IRefreshTokenRepository refreshTokenRepository, 
-            IUserMapper userMapper
-            )
+            IRefreshTokenRepository refreshTokenRepository)
         {
             _userRepository = userRepository;
             _userProvider = userProvider;
             _refreshTokenRepository = refreshTokenRepository;
-            _userMapper = userMapper;
         }
         
         public async Task<FullUser> GetFullUserAsync(Guid id)
@@ -51,14 +47,14 @@ namespace WebAPI.ApplicationLogic.Services
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id)));
             }
             
-            var userModel = _userMapper.MapToModel(userEntity);
+            var userModel = UserMapper.Map(userEntity);
 
             return userModel;
         }
 
         public async Task<User> CreateUserWithTeamAsync(User user, Guid teamId)
         {
-            var userEntity = _userMapper.MapToEntity(user);
+            var userEntity = UserMapper.Map(user);
             userEntity.TeamUsers.Add(new Core.Entities.TeamUser { TeamId = teamId });
             
             var createdUserModel = await CreateUser(userEntity);
@@ -77,7 +73,7 @@ namespace WebAPI.ApplicationLogic.Services
         
         public async Task<User> CreateUserAsync(User user)
         {
-            var entityUser = _userMapper.MapToEntity(user);
+            var entityUser = UserMapper.Map(user);
 
             var createdUserModel = await CreateUser(entityUser);
             
@@ -86,11 +82,11 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<User> UpdateUserAsync(User user)
         {
-            var entityUser = _userMapper.MapToEntity(user);
+            var entityUser = UserMapper.Map(user);
 
             var entityUpdatedUser = await _userRepository.UpdateItemAsync(entityUser, x => x.Password, x => x.CreationDate);
 
-            var userModel = _userMapper.MapToModel(entityUpdatedUser);
+            var userModel = UserMapper.Map(entityUpdatedUser);
 
             return userModel;
         }
@@ -124,14 +120,14 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task UpdateUserAvatarAsync(User user)
         {
-            var userEntity = _userMapper.MapToEntity(user);
+            var userEntity = UserMapper.Map(user);
 
             await _userRepository.UpdateUserAvatarLinkAsync(userEntity);
         }
 
         public async Task ChangeUserActivityStatusAsync(User user)
         {
-            var userEntity = _userMapper.MapToEntity(user);
+            var userEntity = UserMapper.Map(user);
 
             await _userRepository.ChangeUserActivityStatusAsync(userEntity);
         }
@@ -162,7 +158,7 @@ namespace WebAPI.ApplicationLogic.Services
             
             var createdUserEntity = await _userRepository.CreateAsync(user);
             
-            var userModel = _userMapper.MapToModel(createdUserEntity);
+            var userModel = UserMapper.Map(createdUserEntity);
 
             return userModel;
         }

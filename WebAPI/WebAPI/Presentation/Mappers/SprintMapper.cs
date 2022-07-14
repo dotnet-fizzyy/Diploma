@@ -38,7 +38,7 @@ namespace WebAPI.Presentation.Mappers
 
             var sprintModel = new SprintModel();
             
-            MapBaseEntityToModel(sprintModel, sprintEntity);
+            MapBase(sprintModel, sprintEntity);
             
             return sprintModel;
         }
@@ -52,14 +52,15 @@ namespace WebAPI.Presentation.Mappers
 
             var sprintFullModel = new FullSprint();
             
-            MapBaseEntityToModel(sprintFullModel, sprintEntity);
+            MapBase(sprintFullModel, sprintEntity);
 
             sprintFullModel.Stories = sprintEntity.Stories.Select(StoryMapper.Map).ToList();
 
             return sprintFullModel;
         }
 
-        private static void MapBaseEntityToModel(SprintModel model, SprintEntity entity)
+        
+        private static void MapBase(SprintModel model, SprintEntity entity)
         {
             model.SprintId = entity.Id;
             model.EpicId = entity.EpicId;

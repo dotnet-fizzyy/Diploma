@@ -1,7 +1,9 @@
 using System;
-using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Mappers;
 using Xunit;
+
+using UserEntity = WebAPI.Core.Entities.User;
+using UserModel = WebAPI.Models.Models.Models.User;
 
 namespace WebAPI.UnitTests.Mappers
 {
@@ -10,11 +12,8 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyModelOnNullEntity()
         {
-            //Arrange
-            var userMapper = new UserMapper();
-            
-            //Act
-            var mappedResult = userMapper.MapToModel(null);
+            //Arrange & Act
+            var mappedResult = UserMapper.Map((UserEntity)null);
             
             //Assert
             Assert.NotNull(mappedResult);
@@ -23,11 +22,8 @@ namespace WebAPI.UnitTests.Mappers
         [Fact]
         public void ShouldReturnEmptyEntityOnNullModel()
         {
-            //Arrange
-            var userMapper = new UserMapper();
-            
-            //Act
-            var mappedResult = userMapper.MapToEntity((User)null);
+            //Arrange & Act
+            var mappedResult = UserMapper.Map((UserModel)null);
             
             //Assert
             Assert.NotNull(mappedResult);
@@ -45,7 +41,7 @@ namespace WebAPI.UnitTests.Mappers
             var creationDate = DateTime.UtcNow;
             const bool isActive = true;
             
-            var userEntity = new Core.Entities.User
+            var userEntity = new UserEntity
             {
                 Id = userId,
                 UserName = userName,
@@ -58,7 +54,7 @@ namespace WebAPI.UnitTests.Mappers
                 IsActive = isActive
             };
 
-            var userModel = new User
+            var userModel = new UserModel
             {
                 UserId = userId,
                 UserName = userName,
@@ -71,10 +67,8 @@ namespace WebAPI.UnitTests.Mappers
                 IsActive = isActive
             };
             
-            var userMapper = new UserMapper();
-            
             //Act
-            var mappedResult = userMapper.MapToModel(userEntity);
+            var mappedResult = UserMapper.Map(userEntity);
 
             //Assert
             Assert.Equal(userModel.UserId, mappedResult.UserId);
@@ -112,7 +106,7 @@ namespace WebAPI.UnitTests.Mappers
                 IsActive = isActive
             };
 
-            var userModel = new User
+            var userModel = new UserModel
             {
                 UserId = userId,
                 UserName = userName,
@@ -125,10 +119,8 @@ namespace WebAPI.UnitTests.Mappers
                 IsActive = isActive
             };
             
-            var userMapper = new UserMapper();
-            
             //Act
-            var mappedResult = userMapper.MapToEntity(userModel);
+            var mappedResult = UserMapper.Map(userModel);
 
             //Assert
             Assert.Equal(userEntity.Id, mappedResult.Id);
@@ -139,7 +131,6 @@ namespace WebAPI.UnitTests.Mappers
             Assert.Equal(userEntity.Email, mappedResult.Email);
             Assert.Equal(userEntity.IsActive, mappedResult.IsActive);
             Assert.Equal(userModel.CreationDate, mappedResult.CreationDate);
-            
         }
     }
 }

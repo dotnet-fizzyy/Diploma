@@ -24,7 +24,6 @@ namespace WebAPI.UnitTests.Services
             var userRepository = A.Fake<IUserRepository>();
             var userProvider = A.Fake<IUserProvider>();
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
-            var userMapper = new UserMapper();
 
             var userId = new Guid();
 
@@ -41,7 +40,7 @@ namespace WebAPI.UnitTests.Services
             A.CallTo(() => userRepository.SearchForSingleItemAsync(A<Expression<Func<User, bool>>>._))
                 .Returns(userEntity);
 
-            var userService = new UserService(userRepository, userProvider, refreshTokenRepository, userMapper);
+            var userService = new UserService(userRepository, userProvider, refreshTokenRepository);
 
             //Act
             var result = await userService.GetUserByIdAsync(userId);
@@ -60,9 +59,8 @@ namespace WebAPI.UnitTests.Services
             var userRepository = A.Fake<IUserRepository>();
             var userProvider = A.Fake<IUserProvider>();
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
-            var userMapper = new UserMapper();
             
-            var userService = new UserService(userRepository, userProvider, refreshTokenRepository, userMapper);
+            var userService = new UserService(userRepository, userProvider, refreshTokenRepository);
 
             var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             
@@ -83,9 +81,8 @@ namespace WebAPI.UnitTests.Services
             var userRepository = A.Fake<IUserRepository>();
             var userProvider = A.Fake<IUserProvider>();
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
-            var userMapper = new UserMapper();
-            
-            var userService = new UserService(userRepository, userProvider, refreshTokenRepository, userMapper);
+
+            var userService = new UserService(userRepository, userProvider, refreshTokenRepository);
 
             var signUpModel = new SignUpUser
             {
@@ -132,9 +129,8 @@ namespace WebAPI.UnitTests.Services
             var userRepository = A.Fake<IUserRepository>();
             var userProvider = A.Fake<IUserProvider>();
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
-            var userMapper = new UserMapper();
             
-            var userService = new UserService(userRepository, userProvider, refreshTokenRepository, userMapper);
+            var userService = new UserService(userRepository, userProvider, refreshTokenRepository);
 
             var userModel = new Models.Models.Models.User
             {
@@ -180,9 +176,8 @@ namespace WebAPI.UnitTests.Services
             var userRepository = A.Fake<IUserRepository>();
             var userProvider = A.Fake<IUserProvider>();
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
-            var userMapper = new UserMapper();
             
-            var userService = new UserService(userRepository, userProvider, refreshTokenRepository, userMapper);
+            var userService = new UserService(userRepository, userProvider, refreshTokenRepository);
 
             var teamId = Guid.NewGuid();
             
@@ -237,9 +232,8 @@ namespace WebAPI.UnitTests.Services
             var userRepository = A.Fake<IUserRepository>();
             var userProvider = A.Fake<IUserProvider>();
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
-            var userMapper = new UserMapper();
             
-            var userService = new UserService(userRepository, userProvider, refreshTokenRepository, userMapper);
+            var userService = new UserService(userRepository, userProvider, refreshTokenRepository);
 
             var userModel = new Models.Models.Models.User
             {
@@ -285,14 +279,13 @@ namespace WebAPI.UnitTests.Services
             var userRepository = A.Fake<IUserRepository>();
             var userProvider = A.Fake<IUserProvider>();
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
-            var userMapper = new UserMapper();
 
             var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 
             A.CallTo(() => userRepository.DeleteAsync(A<Expression<Func<User, bool>>>._)).DoesNothing();
             A.CallTo(() => refreshTokenRepository.DeleteAsync(A<Expression<Func<RefreshToken, bool>>>._)).DoesNothing();
 
-            var userService = new UserService(userRepository, userProvider, refreshTokenRepository, userMapper);
+            var userService = new UserService(userRepository, userProvider, refreshTokenRepository);
             
             //Act
             await userService.RemoveUserAsync(userId);
@@ -311,7 +304,6 @@ namespace WebAPI.UnitTests.Services
             var userRepository = A.Fake<IUserRepository>();
             var userProvider = A.Fake<IUserProvider>();
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
-            var userMapper = new UserMapper();
 
             var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var passwordUpdate = new PasswordUpdate
@@ -334,7 +326,7 @@ namespace WebAPI.UnitTests.Services
             A.CallTo(() => userRepository.UpdateUserPasswordAsync(A<User>._))
                 .DoesNothing();
             
-            var userService = new UserService(userRepository, userProvider, refreshTokenRepository, userMapper);
+            var userService = new UserService(userRepository, userProvider, refreshTokenRepository);
             
             //Act
             await userService.UpdateUserPasswordAsync(userId, passwordUpdate);
@@ -353,7 +345,6 @@ namespace WebAPI.UnitTests.Services
             var userRepository = A.Fake<IUserRepository>();
             var userProvider = A.Fake<IUserProvider>();
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
-            var userMapper = new UserMapper();
 
             var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var passwordUpdate = new PasswordUpdate
@@ -365,7 +356,7 @@ namespace WebAPI.UnitTests.Services
             A.CallTo(() => userRepository.SearchForSingleItemAsync(A<Expression<Func<User, bool>>>._))
                 .Returns((User)null);
 
-            var userService = new UserService(userRepository, userProvider, refreshTokenRepository, userMapper);
+            var userService = new UserService(userRepository, userProvider, refreshTokenRepository);
             
             //Act && Assert
             await Assert.ThrowsAsync<UserFriendlyException>(async () => await userService.UpdateUserPasswordAsync(userId, passwordUpdate));
@@ -383,7 +374,6 @@ namespace WebAPI.UnitTests.Services
             var userRepository = A.Fake<IUserRepository>();
             var userProvider = A.Fake<IUserProvider>();
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
-            var userMapper = new UserMapper();
             
             var user = new Models.Models.Models.User
             {
@@ -394,7 +384,7 @@ namespace WebAPI.UnitTests.Services
             A.CallTo(() => userRepository.UpdateUserAvatarLinkAsync(A<User>._))
                 .DoesNothing();
             
-            var userService = new UserService(userRepository, userProvider, refreshTokenRepository, userMapper);
+            var userService = new UserService(userRepository, userProvider, refreshTokenRepository);
             
             //Act
             await userService.UpdateUserAvatarAsync(user);
@@ -411,7 +401,6 @@ namespace WebAPI.UnitTests.Services
             var userRepository = A.Fake<IUserRepository>();
             var userProvider = A.Fake<IUserProvider>();
             var refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
-            var userMapper = new UserMapper();
             
             var user = new Models.Models.Models.User
             {
@@ -422,7 +411,7 @@ namespace WebAPI.UnitTests.Services
             A.CallTo(() => userRepository.ChangeUserActivityStatusAsync(A<User>._))
                 .DoesNothing();
             
-            var userService = new UserService(userRepository, userProvider, refreshTokenRepository, userMapper);
+            var userService = new UserService(userRepository, userProvider, refreshTokenRepository);
             
             //Act
             await userService.ChangeUserActivityStatusAsync(user);

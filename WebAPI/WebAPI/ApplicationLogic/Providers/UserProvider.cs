@@ -8,9 +8,9 @@ using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
-using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Models.Models.Result;
+using WebAPI.Presentation.Mappers;
 using WebAPI.Presentation.Models.Action;
 
 namespace WebAPI.ApplicationLogic.Providers
@@ -21,7 +21,6 @@ namespace WebAPI.ApplicationLogic.Providers
         private readonly ITeamRepository _teamRepository;
         private readonly IProjectRepository _projectRepository;
         private readonly IRedisContext _redisContext;
-        private readonly IUserMapper _userMapper;
         private readonly AppSettings _appSettings;
 
         public UserProvider(
@@ -29,7 +28,6 @@ namespace WebAPI.ApplicationLogic.Providers
             ITeamRepository teamRepository, 
             IProjectRepository projectRepository,
             IRedisContext redisContext,
-            IUserMapper userMapper,
             AppSettings appSettings
             )
         {
@@ -37,7 +35,6 @@ namespace WebAPI.ApplicationLogic.Providers
             _teamRepository = teamRepository;
             _userRepository = userRepository;
             _redisContext = redisContext;
-            _userMapper = userMapper;
             _appSettings = appSettings;
         }
         
@@ -72,7 +69,7 @@ namespace WebAPI.ApplicationLogic.Providers
         public async Task<FullUser> GetFullUser(SignInUser signInUser)
         {
             //Authenticate user (find in db)
-            var userEntity = _userMapper.MapToEntity(signInUser);
+            var userEntity = UserMapper.Map(signInUser);
             userEntity.Password = PasswordHashing.CreateHashPassword(userEntity.Password);
 
             var authUser = await _userRepository.AuthenticateUser(userEntity);
@@ -99,7 +96,7 @@ namespace WebAPI.ApplicationLogic.Providers
                     : await _projectRepository.GetProjectsByCollectionOfTeamIds(teamEntities);
             }
 
-            var userFullModel = _userMapper.MapToFullModel(userEntity, projectEntities, teamEntities);
+            var userFullModel = UserMapper.Map(userEntity, projectEntities, teamEntities);
             
             return userFullModel;
         }

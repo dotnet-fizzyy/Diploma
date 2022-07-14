@@ -20,7 +20,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper(new UserMapper());
+            var teamMapper = new TeamMapper();
 
             var teamService = new TeamService(teamRepository, teamMapper);
             
@@ -66,7 +66,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper(new UserMapper());
+            var teamMapper = new TeamMapper();
 
             var teamService = new TeamService(teamRepository, teamMapper);
             
@@ -87,7 +87,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper(new UserMapper());
+            var teamMapper = new TeamMapper();
 
             var teamService = new TeamService(teamRepository, teamMapper);
             
@@ -144,7 +144,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper(new UserMapper());
+            var teamMapper = new TeamMapper();
 
             var teamService = new TeamService(teamRepository, teamMapper);
             
@@ -170,7 +170,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper(new UserMapper());
+            var teamMapper = new TeamMapper();
 
             var teamService = new TeamService(teamRepository, teamMapper);
             
@@ -243,7 +243,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper(new UserMapper());
+            var teamMapper = new TeamMapper();
 
             var teamService = new TeamService(teamRepository, teamMapper);
             
@@ -264,7 +264,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper(new UserMapper());
+            var teamMapper = new TeamMapper();
 
             var teamService = new TeamService(teamRepository, teamMapper);
             
@@ -317,7 +317,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper(new UserMapper());
+            var teamMapper = new TeamMapper();
 
             var teamService = new TeamService(teamRepository, teamMapper);
             
@@ -372,7 +372,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper(new UserMapper());
+            var teamMapper = new TeamMapper();
 
             var teamService = new TeamService(teamRepository, teamMapper);
 
@@ -397,7 +397,7 @@ namespace WebAPI.UnitTests.Services
         {
             //Arrange
             var teamRepository = A.Fake<ITeamRepository>();
-            var teamMapper = new TeamMapper(new UserMapper());
+            var teamMapper = new TeamMapper();
 
             var teamService = new TeamService(teamRepository, teamMapper);
             

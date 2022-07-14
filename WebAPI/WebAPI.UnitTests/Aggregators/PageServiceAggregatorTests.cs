@@ -13,8 +13,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateSearchResultResponseBySearchTerm()
         {
             //Arrange
-            var userMapper = new UserMapper();
-            var teamMapper = new TeamMapper(userMapper);
+            var teamMapper = new TeamMapper();
             var projectMapper = new ProjectMapper();
             var epicMapper = new EpicMapper();
 
@@ -56,8 +55,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldReturnEmptySearchResultResponseBySearchTermOnNullModels()
         {
             //Arrange
-            var userMapper = new UserMapper();
-            var teamMapper = new TeamMapper(userMapper);
+            var teamMapper = new TeamMapper();
             var projectMapper = new ProjectMapper();
             var epicMapper = new EpicMapper();
 
@@ -80,8 +78,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateBoardPageModel()
         {
             //Arrange
-            var userMapper = new UserMapper();
-            var teamMapper = new TeamMapper(userMapper);
+            var teamMapper = new TeamMapper();
             var projectMapper = new ProjectMapper();
             var epicMapper = new EpicMapper();
 
@@ -156,8 +153,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateBoardPageModelOnNullModels()
         {
             //Arrange
-            var userMapper = new UserMapper();
-            var teamMapper = new TeamMapper(userMapper);
+            var teamMapper = new TeamMapper();
             var projectMapper = new ProjectMapper();
             var epicMapper = new EpicMapper();
 
@@ -182,8 +178,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateTeamPageModel()
         {
             //Arrange
-            var userMapper = new UserMapper();
-            var teamMapper = new TeamMapper(userMapper);
+            var teamMapper = new TeamMapper();
             var projectMapper = new ProjectMapper();
             var epicMapper = new EpicMapper();
 
@@ -222,8 +217,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateTeamPageModelOnNullModels()
         {
             //Arrange
-            var userMapper = new UserMapper();
-            var teamMapper = new TeamMapper(userMapper);
+            var teamMapper = new TeamMapper();
             var projectMapper = new ProjectMapper();
             var epicMapper = new EpicMapper();
 
@@ -242,8 +236,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateProjectPageModel()
         {
             //Arrange
-            var userMapper = new UserMapper();
-            var teamMapper = new TeamMapper(userMapper);
+            var teamMapper = new TeamMapper();
             var projectMapper = new ProjectMapper();
             var epicMapper = new EpicMapper();
 
@@ -294,8 +287,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateProjectPageModelOnNullModel()
         {
             //Arrange
-            var userMapper = new UserMapper();
-            var teamMapper = new TeamMapper(userMapper);
+            var teamMapper = new TeamMapper();
             var projectMapper = new ProjectMapper();
             var epicMapper = new EpicMapper();
 
@@ -317,8 +309,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateWorkSpacePageModel()
         {
             //Arrange
-            var userMapper = new UserMapper();
-            var teamMapper = new TeamMapper(userMapper);
+            var teamMapper = new TeamMapper();
             var projectMapper = new ProjectMapper();
             var epicMapper = new EpicMapper();
 
@@ -359,8 +350,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateWorkSpacePageModelOnNullModels()
         {
             //Arrange
-            var userMapper = new UserMapper();
-            var teamMapper = new TeamMapper(userMapper);
+            var teamMapper = new TeamMapper();
             var projectMapper = new ProjectMapper();
             var epicMapper = new EpicMapper();
 
@@ -380,8 +370,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateStatsPageModel()
         {
             //Arrange
-            var userMapper = new UserMapper();
-            var teamMapper = new TeamMapper(userMapper);
+            var teamMapper = new TeamMapper();
             var projectMapper = new ProjectMapper();
             var epicMapper = new EpicMapper();
 
@@ -448,8 +437,7 @@ namespace WebAPI.UnitTests.Aggregators
         public void ShouldCreateStatsPageModelWithNullModels()
         {
             //Arrange
-            var userMapper = new UserMapper();
-            var teamMapper = new TeamMapper(userMapper);
+            var teamMapper = new TeamMapper();
             var projectMapper = new ProjectMapper();
             var epicMapper = new EpicMapper();
 

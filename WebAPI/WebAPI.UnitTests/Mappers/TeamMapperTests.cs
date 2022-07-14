@@ -13,7 +13,7 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldReturnEmptyModelOnNullEntity()
         {
             //Arrange
-            var teamMapper = new TeamMapper(new UserMapper());
+            var teamMapper = new TeamMapper();
             
             //Act
             var mappedResult = teamMapper.MapToModel(null);
@@ -26,7 +26,7 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldReturnEmptyEntityOnNullModel()
         {
             //Arrange
-            var teamMapper = new TeamMapper(new UserMapper());
+            var teamMapper = new TeamMapper();
 
             //Act
             var mappedResult = teamMapper.MapToEntity(null);
@@ -39,7 +39,7 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldMapModelToEntity()
         {
             //Arrange
-            var teamMapper = new TeamMapper(new UserMapper());
+            var teamMapper = new TeamMapper();
             
             var teamId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var projectId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
@@ -87,7 +87,7 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldMapEntityToModel()
         {
             //Arrange
-            var teamMapper = new TeamMapper(new UserMapper());
+            var teamMapper = new TeamMapper();
             
             var teamId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var projectId = new Guid("3333238f-87e6-4e86-93fc-ab79b8804444");
@@ -132,7 +132,7 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldReturnEmptyModelForNullEntityOnMapToTeamSimpleModel()
         {
             //Arrange
-            var teamMapper = new TeamMapper(new UserMapper());
+            var teamMapper = new TeamMapper();
             
             //Act
             var result = teamMapper.MapToSimpleModel(null);
@@ -145,7 +145,7 @@ namespace WebAPI.UnitTests.Mappers
         public void ShouldMapToTeamSimpleModel()
         {
             //Arrange
-            var teamMapper = new TeamMapper(new UserMapper());
+            var teamMapper = new TeamMapper();
             
             var teamId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var projectId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");

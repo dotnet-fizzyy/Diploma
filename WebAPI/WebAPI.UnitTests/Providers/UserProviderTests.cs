@@ -9,8 +9,6 @@ using WebAPI.Core.Entities;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Models.Models.Result;
-using WebAPI.Presentation.Mappers;
-using WebAPI.Presentation.Models;
 using WebAPI.Presentation.Models.Action;
 using Xunit;
 
@@ -35,7 +33,7 @@ namespace WebAPI.UnitTests.Providers
             var projectRepository = A.Fake<IProjectRepository>();
             var redisHandler = A.Fake<IRedisContext>();
             
-            var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, redisHandler, new UserMapper(), _appSettings);
+            var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, redisHandler, _appSettings);
 
             var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             const string userName = "UserName";
@@ -84,7 +82,7 @@ namespace WebAPI.UnitTests.Providers
             var projectRepository = A.Fake<IProjectRepository>();
             var redisHandler = A.Fake<IRedisContext>();
             
-            var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, redisHandler, new UserMapper(), _appSettings);
+            var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, redisHandler, _appSettings);
 
             var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804d22");
 
@@ -111,7 +109,7 @@ namespace WebAPI.UnitTests.Providers
             var projectRepository = A.Fake<IProjectRepository>();
             var redisHandler = A.Fake<IRedisContext>();
             
-            var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, redisHandler, new UserMapper(), _appSettings);
+            var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, redisHandler, _appSettings);
 
             var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var teamId = new Guid("0493238f-6666-4e86-93fc-ab79b8804444");
@@ -222,7 +220,7 @@ namespace WebAPI.UnitTests.Providers
             var projectRepository = A.Fake<IProjectRepository>();
             var redisHandler = A.Fake<IRedisContext>();
             
-            var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, redisHandler, new UserMapper(), _appSettings);
+            var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, redisHandler, _appSettings);
 
             const string userName = "UserName";
             const string password = "123";

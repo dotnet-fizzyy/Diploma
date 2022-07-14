@@ -1,24 +1,30 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebAPI.Core.Entities;
-using WebAPI.Core.Interfaces.Mappers;
 using WebAPI.Models.Models.Result;
-using WebAPI.Models.Models.Simple;
-using WebAPI.Presentation.Models.Action;
+
+using UserEntity = WebAPI.Core.Entities.User;
+using UserModel = WebAPI.Models.Models.Models.User;
+using ProjectEntity = WebAPI.Core.Entities.Project;
+using TeamEntity = WebAPI.Core.Entities.Team;
+using UserRoleCore = WebAPI.Core.Enums.UserRole;
+using UserRoleModel = WebAPI.Models.Enums.UserRole;
+using UserPositionCore = WebAPI.Core.Enums.UserPosition;
+using UserPositionModel = WebAPI.Models.Enums.UserPosition;
+using SignInUserModel = WebAPI.Presentation.Models.Action.SignInUser;
 
 namespace WebAPI.Presentation.Mappers
 {
-    public class UserMapper : IUserMapper
+    public static class UserMapper
     {
-        public User MapToEntity(WebAPI.Models.Models.Models.User user)
+        public static UserEntity Map(UserModel user)
         {
             if (user == null)
             {
-                return new User();
+                return new UserEntity();
             }
             
-            var userEntity = new User
+            var userEntity = new UserEntity
             {
                 Id = user.UserId,
                 UserName = user.UserName,
@@ -28,52 +34,35 @@ namespace WebAPI.Presentation.Mappers
                 WorkSpaceId = user.WorkSpaceId,
                 Email = user.Email,
                 CreationDate = user.CreationDate,
-                UserRole = Enum.Parse<Core.Enums.UserRole>(user.UserRole.ToString(), true),
-                UserPosition = Enum.Parse<Core.Enums.UserPosition>(user.UserPosition.ToString(), true),
+                UserRole = Enum.Parse<UserRoleCore>(user.UserRole.ToString(), ignoreCase: true),
+                UserPosition = Enum.Parse<UserPositionCore>(user.UserPosition.ToString(), ignoreCase: true),
             };
 
             return userEntity;
         }
 
-        public WebAPI.Models.Models.Models.User MapToModel(User user)
+        public static UserModel Map(UserEntity user)
         {
             if (user == null)
             {
-                return new WebAPI.Models.Models.Models.User();
+                return new UserModel();
             }
             
-            var userModel = new WebAPI.Models.Models.Models.User();
+            var userModel = new UserModel();
             
-            MapBaseEntityToModel(userModel, user);
+            MapBase(userModel, user);
             
             return userModel;
         }
 
-        public User MapToEntity(SignUpUser user)
+        public static UserEntity Map(SignInUserModel user)
         {
             if (user == null)
             {
-                return new User();
+                return new UserEntity();
             }
             
-            var userEntity = new User
-            {
-                UserName = user.Email,
-                Password = user.Password,
-                Email = user.UserName
-            };
-
-            return userEntity;
-        }
-
-        public User MapToEntity(SignInUser user)
-        {
-            if (user == null)
-            {
-                return new User();
-            }
-            
-            var userEntity = new User
+            var userEntity = new UserEntity
             {
                 Email = user.Email,
                 Password = user.Password
@@ -82,37 +71,23 @@ namespace WebAPI.Presentation.Mappers
             return userEntity;
         }
 
-        public FullUser MapToFullModel(User user, IEnumerable<Project> projects, IEnumerable<Team> teams)
+        public static FullUser Map(
+            UserEntity user, 
+            IEnumerable<ProjectEntity> projects, 
+            IEnumerable<TeamEntity> teams)
         {
             var fullUser = new FullUser();
             
-            MapBaseEntityToModel(fullUser, user);
-            fullUser.Projects = projects != null ? projects.Select(MapToUserProject).ToList() : new List<UserProject>();
-            fullUser.Teams = teams != null ? teams.Select(MapToUserTeam).ToList() : new List<UserTeam>();
+            MapBase(fullUser, user);
+ 
+            fullUser.Projects = projects?.Select(Map).ToList() ?? new List<UserProject>();
+            fullUser.Teams = teams?.Select(Map).ToList() ?? new List<UserTeam>();
             
             return fullUser;
         }
-
-        public UserSimpleModel MapToSimpleModel(User userEntity)
-        {
-            if (userEntity == null)
-            {
-                return new UserSimpleModel();
-            }
-
-            var userSimpleModel = new UserSimpleModel
-            {
-                UserId = userEntity.Id,
-                UserName = userEntity.UserName,
-                UserRole = Enum.Parse<WebAPI.Models.Enums.UserRole>(userEntity.UserRole.ToString(), true),
-                UserPosition = Enum.Parse<WebAPI.Models.Enums.UserPosition>(userEntity.UserPosition.ToString(), true),
-            };
-
-            return userSimpleModel;
-        }
         
         
-        private static void MapBaseEntityToModel(WebAPI.Models.Models.Models.User userModel, User userEntity)
+        private static void MapBase(UserModel userModel, UserEntity userEntity)
         {
             userModel.UserId = userEntity.Id;
             userModel.UserName = userEntity.UserName;
@@ -122,11 +97,11 @@ namespace WebAPI.Presentation.Mappers
             userModel.Email = userEntity.Email;
             userModel.CreationDate = userEntity.CreationDate;
             userModel.WorkSpaceId = userEntity.WorkSpaceId;
-            userModel.UserRole = Enum.Parse<WebAPI.Models.Enums.UserRole>(userEntity.UserRole.ToString(), true);
-            userModel.UserPosition = Enum.Parse<WebAPI.Models.Enums.UserPosition>(userEntity.UserPosition.ToString(), true);
+            userModel.UserRole = Enum.Parse<UserRoleModel>(userEntity.UserRole.ToString(), ignoreCase: true);
+            userModel.UserPosition = Enum.Parse<UserPositionModel>(userEntity.UserPosition.ToString(), ignoreCase: true);
         }
         
-        private static UserTeam MapToUserTeam(Team team) => 
+        private static UserTeam Map(TeamEntity team) => 
             new UserTeam
             {
                 TeamId = team.Id,
@@ -134,7 +109,7 @@ namespace WebAPI.Presentation.Mappers
                 ProjectId = team.ProjectId
             };
         
-        private static UserProject MapToUserProject(Project project) => 
+        private static UserProject Map(ProjectEntity project) => 
             new UserProject
             {
                 ProjectId = project.Id,
