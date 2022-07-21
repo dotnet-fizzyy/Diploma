@@ -14,7 +14,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 
         public async Task<Team> GetUserTeamById(Guid teamId, Guid userId)
         {
-            var team = await _dbContext.Teams
+            var team = await DbContext.Teams
                     .AsNoTracking()
                     .Include(x => x.TeamUsers)
                     .ThenInclude(x => x.User)
@@ -25,7 +25,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 
         public async Task<List<Team>> GetUserTeams(Guid userId)
         {
-            var user = await _dbContext.Users
+            var user = await DbContext.Users
                 .AsNoTracking()
                 .Include(x => x.TeamUsers)
                 .ThenInclude(x => x.Team)
@@ -38,7 +38,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 
         public async Task<List<Team>> GetTeamsBySearchTerm(string searchTerm, int limit, Guid[] teamIds)
         {
-            var query = from teams in _dbContext.Teams
+            var query = from teams in DbContext.Teams
                     .AsNoTracking()
                     .Include(x => x.TeamUsers)
                     .ThenInclude(x => x.User)
@@ -54,7 +54,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 
         public async Task<Team> GetTeamWithUsers(Guid teamId)
         {
-            var team = await _dbContext.Teams
+            var team = await DbContext.Teams
                 .AsNoTracking()
                 .Include(x => x.TeamUsers)
                 .ThenInclude(x => x.User)
@@ -71,9 +71,9 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 IsDeleted = true
             };
 
-            _dbContext.Entry(teamEntity).Property(x => x.IsDeleted).IsModified = true;
+            DbContext.Entry(teamEntity).Property(x => x.IsDeleted).IsModified = true;
             
-            await _dbContext.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
         }
     }
 }

@@ -187,7 +187,7 @@ namespace WebAPI.UnitTests.Providers
                 .Returns(projects);
 
             //Act
-            var result = await userProvider.GetFullUser(signInUser);
+            var result = await userProvider.AuthenticateAndGetFullUser(signInUser);
 
             //Assert
             Assert.Equal(expectedModel.UserId, result.UserId);
@@ -235,7 +235,7 @@ namespace WebAPI.UnitTests.Providers
                 .Returns((User)null);
 
             //Assert && Act
-            await Assert.ThrowsAsync<UserFriendlyException>(async () => await userProvider.GetFullUser(signInUser));
+            await Assert.ThrowsAsync<UserFriendlyException>(async () => await userProvider.AuthenticateAndGetFullUser(signInUser));
 
             A.CallTo(() => userRepository.AuthenticateUser(A<User>._))
                 .MustHaveHappenedOnceExactly();

@@ -15,13 +15,13 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         public async Task<List<Story>> GetStoriesByEpicId(Guid epicId, Guid? teamId)
         {
             var query = teamId.HasValue ?
-                from sprints in _dbContext.Sprints
-                join stories in _dbContext.Stories on sprints.Id equals stories.SprintId
+                from sprints in DbContext.Sprints
+                join stories in DbContext.Stories on sprints.Id equals stories.SprintId
                 where sprints.EpicId == epicId && stories.TeamId == teamId
-                select stories
+                select stories 
                 :
-                from sprints in _dbContext.Sprints
-                join stories in _dbContext.Stories on sprints.Id equals stories.SprintId
+                from sprints in DbContext.Sprints
+                join stories in DbContext.Stories on sprints.Id equals stories.SprintId
                 where sprints.EpicId == epicId 
                 select stories;
 
@@ -33,17 +33,16 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         public async Task<List<Story>> GetStoriesByTitleTerm(string searchTerm, int limit, Guid[] teamIds)
         {
             var query = from stories in
-                _dbContext.Stories.Where(
+                DbContext.Stories.Where(
                     x => EF.Functions.Like(x.Title, $"{searchTerm}%")
                 ).AsNoTracking().Take(limit) 
-                join sprints in _dbContext.Sprints on stories.SprintId equals sprints.Id
-                join epic in _dbContext.Epics on sprints.EpicId equals epic.Id
-                join project in _dbContext.Projects on epic.ProjectId equals project.Id
-                join teams in _dbContext.Teams on project.Id equals teams.ProjectId
+                join sprints in DbContext.Sprints on stories.SprintId equals sprints.Id
+                join epic in DbContext.Epics on sprints.EpicId equals epic.Id
+                join project in DbContext.Projects on epic.ProjectId equals project.Id
+                join teams in DbContext.Teams on project.Id equals teams.ProjectId
                 where teamIds.Select(x => x).Any(x => x == teams.Id)
                 select stories;
-
-
+            
             var foundStories = await query.ToListAsync();
 
             return foundStories;
@@ -51,38 +50,33 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 
         public async Task<Story> UpdateStoryColumn(Story story)
         {
-            _dbContext.Stories.Attach(story);
-
-            _dbContext.Entry(story).Property(x => x.ColumnType).IsModified = true;
+            DbContext.Entry(story).Property(x => x.ColumnType).IsModified = true;
             
-            await _dbContext.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
             
             return story;
         }
 
         public async Task ChangeStoryStatus(Story story)
         {
-            _dbContext.Attach(story);
-            
             if (!string.IsNullOrEmpty(story.BlockReason))
             {
-                _dbContext.Entry(story).Property(x => x.BlockReason).IsModified = true;
-                _dbContext.Entry(story).Property(x => x.IsBlocked).IsModified = true;
+                DbContext.Entry(story).Property(x => x.BlockReason).IsModified = true;
+                DbContext.Entry(story).Property(x => x.IsBlocked).IsModified = true;
             }
             else
             {
-                _dbContext.Entry(story).Property(x => x.IsReady).IsModified = true;
+                DbContext.Entry(story).Property(x => x.IsReady).IsModified = true;
             }
             
-            await _dbContext.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
         }
 
         public async Task DeleteStorySoftAsync(Story story)
         {
-            _dbContext.Attach(story);
-            _dbContext.Entry(story).Property(x => x.IsDeleted).IsModified = true;
+            DbContext.Entry(story).Property(x => x.IsDeleted).IsModified = true;
 
-            await _dbContext.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
         }
     }
 }

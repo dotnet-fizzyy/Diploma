@@ -12,6 +12,8 @@ using WebAPI.Presentation.Constants;
 using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Models.Response;
 
+using RefreshTokenEntity = WebAPI.Core.Entities.RefreshToken;
+
 namespace WebAPI.ApplicationLogic.Services
 {
     public class TokenService : ITokenService
@@ -23,8 +25,7 @@ namespace WebAPI.ApplicationLogic.Services
         public TokenService(
             IUserProvider userProvider,
             IRefreshTokenRepository refreshTokenRepository,
-            AppSettings appSettings
-            )
+            AppSettings appSettings)
         {
             _userProvider = userProvider;
             _appSettings = appSettings;
@@ -35,24 +36,33 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<AuthenticationUserResponseModel> AuthenticateUser(SignInUserRequestModel userRequestModel)
         {
             //Authenticate user (find in db)
-            var fullUserModel = await _userProvider.GetFullUser(userRequestModel);
+            var fullUserModel = await _userProvider.AuthenticateAndGetFullUser(userRequestModel);
 
             //Generate tokens if record is valid
-            var accessToken = TokenGenerator.GenerateAccessToken(_appSettings, fullUserModel.UserId, fullUserModel.UserName, fullUserModel.UserRole.ToString());
+            var accessToken = TokenGenerator.GenerateAccessToken(
+                _appSettings, 
+                fullUserModel.UserId, 
+                fullUserModel.UserName, 
+                fullUserModel.UserRole.ToString());
 
             string refreshToken = null;
+
             if (_appSettings.Token.EnableRefreshTokenVerification)
             {
-                var existingToken = await _refreshTokenRepository.SearchForSingleItemAsync(x => x.UserId == fullUserModel.UserId);
+                var existingToken = await _refreshTokenRepository.SearchForSingleItemAsync(
+                    token => token.UserId == fullUserModel.UserId);
+ 
                 if (existingToken != null)
                 {
                     refreshToken = existingToken.Value;
                 }
-
-                if (refreshToken == null)
+                else
                 {
                     refreshToken = TokenGenerator.GenerateRefreshToken();
-                    var refreshTokenEntity = GenerateRefreshTokenEntityOnSave(fullUserModel.UserId, refreshToken, _appSettings.Token.LifeTime);
+                    var refreshTokenEntity = GenerateRefreshTokenEntityOnSave(
+                        fullUserModel.UserId,
+                        refreshToken,
+                        _appSettings.Token.LifeTime);
                
                     await _refreshTokenRepository.CreateAsync(refreshTokenEntity);
                 }
@@ -68,7 +78,11 @@ namespace WebAPI.ApplicationLogic.Services
             return tokenPair;
         }
 
-        public async Task<AuthenticationResponseModel> UpdateTokens(string refreshToken, Guid userId, string userName, string userRole)
+        public async Task<AuthenticationResponseModel> UpdateTokens(
+            string refreshToken,
+            Guid userId,
+            string userName,
+            string userRole)
         {
             if (_appSettings.Token.EnableRefreshTokenVerification)
             {
@@ -96,13 +110,17 @@ namespace WebAPI.ApplicationLogic.Services
             return tokenPair;
         }
         
-        private static WebAPI.Core.Entities.RefreshToken GenerateRefreshTokenEntityOnSave(Guid userId, string token, double tokenLifeTime) =>
-            new WebAPI.Core.Entities.RefreshToken
-            {
-                UserId = userId,
-                Value = token,
-                ExpirationDate = DateTime.UtcNow.Add(TimeSpan.FromMinutes(tokenLifeTime)),
-                CreationDate = DateTime.UtcNow
-            };
+        private static RefreshTokenEntity GenerateRefreshTokenEntityOnSave(
+            Guid userId,
+            string token,
+            double tokenLifeTime
+            ) =>
+                new RefreshTokenEntity
+                {
+                    UserId = userId,
+                    Value = token,
+                    ExpirationDate = DateTime.UtcNow.Add(TimeSpan.FromMinutes(tokenLifeTime)),
+                    CreationDate = DateTime.UtcNow
+                };
     }
 }

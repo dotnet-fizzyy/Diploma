@@ -58,7 +58,7 @@ namespace WebAPI.UnitTests.Services
                 Value = "new value"
             };
             
-            A.CallTo(() => userProvider.GetFullUser(A<SignInUserRequestModel>._))
+            A.CallTo(() => userProvider.AuthenticateAndGetFullUser(A<SignInUserRequestModel>._))
                 .Returns(userEntity);
 
             A.CallTo(() => refreshTokenRepository.CreateAsync(A<Core.Entities.RefreshToken>._))
@@ -72,7 +72,7 @@ namespace WebAPI.UnitTests.Services
             Assert.NotNull(result.AccessToken.Value);
             Assert.NotNull(result.RefreshToken.Value);
             
-            A.CallTo(() => userProvider.GetFullUser(A<SignInUserRequestModel>._))
+            A.CallTo(() => userProvider.AuthenticateAndGetFullUser(A<SignInUserRequestModel>._))
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => refreshTokenRepository.CreateAsync(A<Core.Entities.RefreshToken>._))
                 .MustHaveHappenedOnceExactly();
@@ -105,7 +105,7 @@ namespace WebAPI.UnitTests.Services
                 UserRole = UserRole.Engineer,
             };
 
-            A.CallTo(() => userProvider.GetFullUser(A<SignInUserRequestModel>._))
+            A.CallTo(() => userProvider.AuthenticateAndGetFullUser(A<SignInUserRequestModel>._))
                 .Returns(userEntity);
 
             //Act
@@ -116,7 +116,7 @@ namespace WebAPI.UnitTests.Services
             Assert.NotNull(result.AccessToken.Value);
             Assert.Null(result.RefreshToken.Value);
             
-            A.CallTo(() => userProvider.GetFullUser(A<SignInUserRequestModel>._))
+            A.CallTo(() => userProvider.AuthenticateAndGetFullUser(A<SignInUserRequestModel>._))
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => refreshTokenRepository.CreateAsync(A<Core.Entities.RefreshToken>._))
                 .MustNotHaveHappened();

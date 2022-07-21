@@ -41,38 +41,43 @@ namespace WebAPI.ApplicationLogic.Providers
         {
             if (_appSettings.Redis.EnableRedis)
             {
-                var user = await _cacheContext.Get<FullUser>(RedisUtilities.CreateRedisKeyForUser(userId));
+                var user = await GetUserFromCache(userId);
+
                 if (user != null)
                 {
                     return user;
                 }
             }
             
-            var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == userId, x => x.TeamUsers);
+            var userEntity = await _userRepository.SearchForSingleItemAsync(
+                searchProp => searchProp.Id == userId, 
+                includeEntity => includeEntity.TeamUsers);
+            
             if (userEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(userId)));
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND, 
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(userId)));
             }
 
             var fullUser = await GetUser(userEntity);
 
             if (_appSettings.Redis.EnableRedis)
             {
-                var userKey = RedisUtilities.CreateRedisKeyForUser(userId);
- 
-                await _cacheContext.Set(userKey, fullUser, TimeSpan.FromHours(1));
+                await SetUserToCache(fullUser);
             }
 
             return fullUser;
         }
 
-        public async Task<FullUser> GetFullUser(SignInUserRequestModel signInUserRequestModel)
+        // todo: split to follow Single resp.
+        public async Task<FullUser> AuthenticateAndGetFullUser(SignInUserRequestModel signInUserRequestModel)
         {
-            //Authenticate user (find in db)
             var userEntity = UserMapper.Map(signInUserRequestModel);
             userEntity.Password = PasswordHashing.CreateHashPassword(userEntity.Password);
 
             var authUser = await _userRepository.AuthenticateUser(userEntity);
+
             if (authUser == null)
             {
                 throw new UserFriendlyException(ErrorStatus.INVALID_DATA, "Unable to authenticate user");
@@ -83,6 +88,16 @@ namespace WebAPI.ApplicationLogic.Providers
             return fullUser;
         }
 
+        private async Task<FullUser> GetUserFromCache(Guid userId) =>
+            await _cacheContext.Get<FullUser>(RedisUtilities.CreateRedisKeyForUser(userId));
+
+        private async Task SetUserToCache( FullUser fullUser)
+        {
+            var userKey = RedisUtilities.CreateRedisKeyForUser(fullUser.UserId);
+ 
+            await _cacheContext.Set(userKey, fullUser, TimeSpan.FromHours(1));
+        }
+        
         private async Task<FullUser> GetUser(User userEntity)
         {
             ICollection<Team> teamEntities = null;
@@ -91,9 +106,16 @@ namespace WebAPI.ApplicationLogic.Providers
             if (userEntity.TeamUsers.Any())
             {
                 teamEntities = await _teamRepository.GetUserTeams(userEntity.Id);
-                projectEntities = userEntity.UserPosition == UserPosition.Customer 
-                    ? await _projectRepository.SearchForMultipleItemsAsync(x => x.WorkSpaceId == userEntity.WorkSpaceId)
-                    : await _projectRepository.GetProjectsByCollectionOfTeamIds(teamEntities);
+
+                if (userEntity.UserPosition == UserPosition.Customer)
+                {
+                    projectEntities = await _projectRepository.SearchForMultipleItemsAsync(
+                        searchProp => searchProp.WorkSpaceId == userEntity.WorkSpaceId);
+                }
+                else
+                {
+                    projectEntities = await _projectRepository.GetProjectsByCollectionOfTeamIds(teamEntities);
+                }
             }
 
             var userFullModel = UserMapper.Map(userEntity, projectEntities, teamEntities);

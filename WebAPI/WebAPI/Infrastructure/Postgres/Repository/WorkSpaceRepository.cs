@@ -15,8 +15,8 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         public async Task<WorkSpace> GetUserWorkSpaceAsync(Guid userId)
         {
             var query =
-                from users in _dbContext.Users
-                join workspaces in _dbContext.WorkSpaces
+                from users in DbContext.Users
+                join workspaces in DbContext.WorkSpaces
                     on users.WorkSpaceId equals workspaces.Id
                 where users.Id == userId select workspaces;
 

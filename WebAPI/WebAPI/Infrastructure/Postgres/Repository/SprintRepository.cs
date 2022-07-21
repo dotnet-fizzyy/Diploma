@@ -16,12 +16,12 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         {
             var sprintEntities =
                 teamId.HasValue 
-                    ? await _dbContext.Sprints
+                    ? await DbContext.Sprints
                         .Include(x => x.Stories)
                         .Where(x => x.EpicId == epicId)
                         .Select(x => FilterStoriesByTeam(x, (Guid)teamId))
                         .ToListAsync()
-                    : await _dbContext.Sprints
+                    : await DbContext.Sprints
                         .Include(x => x.Stories)
                         .Where(x => x.EpicId == epicId)
                         .ToListAsync();
@@ -37,9 +37,9 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 IsDeleted = true
             };
 
-            _dbContext.Entry(sprintEntity).Property(x => x.IsDeleted).IsModified = true;
+            DbContext.Entry(sprintEntity).Property(x => x.IsDeleted).IsModified = true;
             
-            await _dbContext.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
         }
 
         

@@ -14,8 +14,6 @@ namespace WebAPI.Core.Interfaces.Database
 
         Task<bool> ExistsAsync(Expression<Func<T, bool>> expression);
 
-        Task<List<T>> SearchForMultipleItemsAsync();
-         
         Task<List<T>> SearchForMultipleItemsAsync(Expression<Func<T, bool>> expression);
 
         Task<int> CountAsync(Expression<Func<T, bool>> expression);
@@ -43,7 +41,7 @@ namespace WebAPI.Core.Interfaces.Database
 
         Task<List<T>> UpdateItemsAsync(IEnumerable<T> items);
 
-        Task<T> UpdateItemAsync(T item, params Expression<Func<T, object>>[] unmodifiedProperties);
+        Task<T> UpdateItemAsync(T item, params Expression<Func<T, object>>[] nonModifiedProperties);
         
         Task DeleteAsync(Expression<Func<T, bool>> expression);
     }

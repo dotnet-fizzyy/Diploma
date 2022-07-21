@@ -20,9 +20,9 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 IsDeleted = true
             };
 
-            _dbContext.Entry(epicEntity).Property(x => x.IsDeleted).IsModified = true;
+            DbContext.Entry(epicEntity).Property(x => x.IsDeleted).IsModified = true;
             
-            await _dbContext.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
         }
     }
 }

@@ -43,7 +43,9 @@ namespace WebAPI.ApplicationLogic.Services
             var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == id);
             if (userEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id)));
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND, 
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id)));
             }
             
             var userModel = UserMapper.Map(userEntity);

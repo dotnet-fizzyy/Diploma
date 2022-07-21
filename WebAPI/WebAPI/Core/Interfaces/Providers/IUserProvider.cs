@@ -10,6 +10,6 @@ namespace WebAPI.Core.Interfaces.Providers
     {
         Task<FullUser> GetFullUser(Guid userId);
 
-        Task<FullUser> GetFullUser(SignInUserRequestModel signInUserRequestModel);
+        Task<FullUser> AuthenticateAndGetFullUser(SignInUserRequestModel signInUserRequestModel);
     }
 }
