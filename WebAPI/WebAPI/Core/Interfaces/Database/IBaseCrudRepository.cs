@@ -37,6 +37,8 @@ namespace WebAPI.Core.Interfaces.Database
             params Expression<Func<T, object>>[] includes
             );
 
+        Task UpdateItemFieldAsync(T item, Expression<Func<T, object>> property);
+        
         Task<T> UpdateItemAsync(T item);
 
         Task<List<T>> UpdateItemsAsync(IEnumerable<T> items);

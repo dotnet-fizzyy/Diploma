@@ -308,7 +308,7 @@ namespace WebAPI.UnitTests.Services
                 }
             };
 
-            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._, A<Guid>._))
+            A.CallTo(() => storyRepository.GetStoriesByEpicAndTeamIds(A<Guid>._, A<Guid>._))
                 .Returns(entities);
 
             //Act
@@ -318,7 +318,7 @@ namespace WebAPI.UnitTests.Services
             Assert.Equal(expectedModels.Count, result.Count);
             AssertStoryModelProperties(expectedModels.Items[0], result.Items[0]);
 
-            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._, A<Guid>._))
+            A.CallTo(() => storyRepository.GetStoriesByEpicAndTeamIds(A<Guid>._, A<Guid>._))
                 .MustHaveHappened();
             A.CallTo(() => storyRepository.SearchForMultipleItemsAsync(A<Expression<Func<Core.Entities.Story, bool>>>._))
                 .MustNotHaveHappened();
@@ -413,7 +413,7 @@ namespace WebAPI.UnitTests.Services
 
             A.CallTo(() => storyRepository.SearchForMultipleItemsAsync(A<Expression<Func<Core.Entities.Story, bool>>>._))
                 .MustHaveHappenedOnceExactly();
-            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._, A<Guid>._))
+            A.CallTo(() => storyRepository.GetStoriesByEpicAndTeamIds(A<Guid>._, A<Guid>._))
                 .MustNotHaveHappened();
         }
         
@@ -431,13 +431,13 @@ namespace WebAPI.UnitTests.Services
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
             var teamId = new Guid("2222238f-0000-0000-7777-ab79b8805555");
 
-            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._, A<Guid>._))
+            A.CallTo(() => storyRepository.GetStoriesByEpicAndTeamIds(A<Guid>._, A<Guid>._))
                 .Returns(new List<Core.Entities.Story>());
 
             //Act & Assert
             await Assert.ThrowsAsync<UserFriendlyException>(async () => await storyService.SortStories(epicId, teamId, null, SortTypes.Title, Core.Enums.OrderType.Asc));
 
-            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._, A<Guid>._))
+            A.CallTo(() => storyRepository.GetStoriesByEpicAndTeamIds(A<Guid>._, A<Guid>._))
                 .MustHaveHappened();
             A.CallTo(() => storyRepository.SearchForMultipleItemsAsync(A<Expression<Func<Core.Entities.Story, bool>>>._))
                 .MustNotHaveHappened();
@@ -520,7 +520,7 @@ namespace WebAPI.UnitTests.Services
                 }
             };
 
-            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._, A<Guid>._))
+            A.CallTo(() => storyRepository.GetStoriesByEpicAndTeamIds(A<Guid>._, A<Guid>._))
                 .Returns(entities);
             
             //Act
@@ -545,7 +545,7 @@ namespace WebAPI.UnitTests.Services
             var epicId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
             var teamId = new Guid("2222238f-0000-0000-7777-ab79b8805555");
 
-            A.CallTo(() => storyRepository.GetStoriesByEpicId(A<Guid>._, A<Guid>._))
+            A.CallTo(() => storyRepository.GetStoriesByEpicAndTeamIds(A<Guid>._, A<Guid>._))
                 .Returns(new List<Core.Entities.Story>());
             
             //Act
@@ -797,15 +797,19 @@ namespace WebAPI.UnitTests.Services
                 RecordVersion = 123
             };
             
-            A.CallTo(() => storyRepository.DeleteStorySoftAsync(A<Core.Entities.Story>._))
-                .DoesNothing();
+            A.CallTo(() => storyRepository.UpdateItemFieldAsync(
+                    A<Core.Entities.Story>._, 
+                    A<Expression<Func<Core.Entities.Story, object>>>._))
+             .DoesNothing();
 
             //Act
             await storyService.RemoveStorySoftAsync(story);
 
             //Assert
-            A.CallTo(() => storyRepository.DeleteStorySoftAsync(A<Core.Entities.Story>._))
-                .MustHaveHappenedOnceExactly();
+            A.CallTo(() => storyRepository.UpdateItemFieldAsync(
+                    A<Core.Entities.Story>._, 
+                    A<Expression<Func<Core.Entities.Story, object>>>._))
+             .MustHaveHappenedOnceExactly();
         }
         
         [Fact]

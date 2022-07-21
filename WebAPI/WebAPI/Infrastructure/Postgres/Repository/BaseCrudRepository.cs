@@ -211,13 +211,14 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         {
             try
             {
-                _dbSet.Update(item);
- 
+                var entryEntity = DbContext.Entry(item);
+                
                 foreach (var property in nonModifiedProperties)
                 {
-                    DbContext.Entry(item).Property(property).IsModified = false;
+                    entryEntity.Property(property).IsModified = false;
                 }
                 
+                _dbSet.Update(item);
                 await DbContext.SaveChangesAsync();
 
                 DbContext.Entry(item).State = EntityState.Detached;
@@ -228,6 +229,20 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             }
 
             return item;
+        }
+
+        public async Task UpdateItemFieldAsync(T item, Expression<Func<T, object>> property)
+        {
+            try
+            {
+                DbContext.Entry(item).Property(property).IsModified = true;
+
+                await DbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Unable to update item property. Error: {e.Message}");
+            }
         }
 
         public async Task<List<T>> UpdateItemsAsync(IEnumerable<T> items)
