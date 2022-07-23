@@ -63,7 +63,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             return team;
         }
 
-        public async Task DeleteSoftAsync(Guid teamId)
+        public void RemoveSoftAsync(Guid teamId)
         {
             var teamEntity = new Team
             {
@@ -72,8 +72,6 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             };
 
             DbContext.Entry(teamEntity).Property(x => x.IsDeleted).IsModified = true;
-            
-            await DbContext.SaveChangesAsync();
         }
     }
 }

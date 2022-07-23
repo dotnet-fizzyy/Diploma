@@ -55,7 +55,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Team>> GetTeam(Guid id)
         {
-           var team = await _teamService.GetTeamByIdAsync(id);
+           var team = await _teamService.GetByIdAsync(id);
 
            return team;
         }
@@ -73,7 +73,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<FullTeam>> GetFullTeamDescription(Guid id)
         {
-            var fullTeam = await _teamService.GetFullTeamDescriptionAsync(id);
+            var fullTeam = await _teamService.GetFullDescriptionAsync(id);
 
             return fullTeam;
         }
@@ -88,7 +88,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Team>> CreateTeam([FromBody, BindRequired]Team team)
         {
-            var createdTeam = await _teamService.CreateTeamAsync(team);
+            var createdTeam = await _teamService.CreateAsync(team);
             
             return CreatedAtAction(nameof(CreateTeam), createdTeam);
         }
@@ -105,7 +105,7 @@ namespace WebAPI.Presentation.Controllers
         public async Task<ActionResult<Team>> CreateTeamWithCustomer([FromBody, BindRequired]Team team)
         {
             var user = ClaimsReader.GetUserClaims(User);
-            var createdTeam = await _teamService.CreateTeamWithCustomerAsync(team, user.UserId);
+            var createdTeam = await _teamService.CreateAndAssignCustomerAsync(team, user.UserId);
             
             return CreatedAtAction(nameof(CreateTeam), createdTeam);
         }
@@ -120,7 +120,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Team>> UpdateTeam([FromBody, BindRequired] Team team)
         {
-            var updatedTeam = await _teamService.UpdateTeamAsync(team);
+            var updatedTeam = await _teamService.UpdateAsync(team);
             
             return updatedTeam;
         }
@@ -137,7 +137,7 @@ namespace WebAPI.Presentation.Controllers
             var team = new Team();
             teamPatch.ApplyTo(team);
             
-            await _teamService.RemoveTeamSoftAsync(team);
+            await _teamService.SoftRemoveAsync(team.TeamId);
             
             return NoContent();
         }
@@ -153,7 +153,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveTeam(Guid id)
         {
-            await _teamService.RemoveTeamAsync(id);
+            await _teamService.RemoveAsync(id);
             
             return NoContent();
         }

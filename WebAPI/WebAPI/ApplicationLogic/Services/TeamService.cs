@@ -36,7 +36,7 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<Team> GetTeamByIdAsync(Guid teamId)
+        public async Task<Team> GetByIdAsync(Guid teamId)
         {
             var teamEntity = await _unitOfWork.TeamRepository
                 .SearchForSingleItemAsync(team => team.Id == teamId);
@@ -54,7 +54,7 @@ namespace WebAPI.ApplicationLogic.Services
             return team;
         }
 
-        public async Task<FullTeam> GetFullTeamDescriptionAsync(Guid teamId)
+        public async Task<FullTeam> GetFullDescriptionAsync(Guid teamId)
         {
             var teamEntity = await _unitOfWork.TeamRepository.GetTeamWithUsers(teamId);
 
@@ -71,7 +71,7 @@ namespace WebAPI.ApplicationLogic.Services
             return teamFullModel;
         }
 
-        public async Task<Team> CreateTeamAsync(Team team)
+        public async Task<Team> CreateAsync(Team team)
         {
             var teamEntity = TeamMapper.Map(team);
 
@@ -80,7 +80,7 @@ namespace WebAPI.ApplicationLogic.Services
             return teamModel;
         }
 
-        public async Task<Team> CreateTeamWithCustomerAsync(Team team, Guid userId)
+        public async Task<Team> CreateAndAssignCustomerAsync(Team team, Guid userId)
         {
             var teamEntity = TeamMapper.Map(team);
             teamEntity.TeamUsers.Add(new TeamUserEntity { UserId = userId });
@@ -90,7 +90,7 @@ namespace WebAPI.ApplicationLogic.Services
             return teamModel;
         }
 
-        public async Task<Team> UpdateTeamAsync(Team team)
+        public async Task<Team> UpdateAsync(Team team)
         {
             var teamEntity = TeamMapper.Map(team);
 
@@ -103,14 +103,14 @@ namespace WebAPI.ApplicationLogic.Services
             return teamModel;
         }
 
-        public async Task RemoveTeamSoftAsync(Team team)
+        public async Task SoftRemoveAsync(Guid teamId)
         {
-            await _unitOfWork.TeamRepository.DeleteSoftAsync(team.TeamId);
+            _unitOfWork.TeamRepository.RemoveSoftAsync(teamId);
             
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task RemoveTeamAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
             _unitOfWork.TeamRepository.Remove(team => team.Id == id);
             

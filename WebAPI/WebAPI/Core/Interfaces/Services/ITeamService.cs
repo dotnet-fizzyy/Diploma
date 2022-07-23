@@ -9,18 +9,18 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<CollectionResponse<FullTeam>> GetUserTeamsAsync(Guid userId);
 
-        Task<Team> GetTeamByIdAsync(Guid teamId);
+        Task<Team> GetByIdAsync(Guid teamId);
 
-        Task<FullTeam> GetFullTeamDescriptionAsync(Guid teamId);
+        Task<FullTeam> GetFullDescriptionAsync(Guid teamId);
 
-        Task<Team> CreateTeamAsync(Team team);
+        Task<Team> CreateAsync(Team team);
         
-        Task<Team> CreateTeamWithCustomerAsync(Team team, Guid userId);
+        Task<Team> CreateAndAssignCustomerAsync(Team team, Guid userId);
         
-        Task<Team> UpdateTeamAsync(Team team);
+        Task<Team> UpdateAsync(Team team);
 
-        Task RemoveTeamSoftAsync(Team team); 
+        Task SoftRemoveAsync(Guid id); 
         
-        Task RemoveTeamAsync(Guid id);
+        Task RemoveAsync(Guid id);
     }
 }
