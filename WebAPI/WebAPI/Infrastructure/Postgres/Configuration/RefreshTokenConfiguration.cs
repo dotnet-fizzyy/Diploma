@@ -4,19 +4,21 @@ using WebAPI.Core.Entities;
 
 namespace WebAPI.Infrastructure.Postgres.Configuration
 {
-    public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
+    public class RefreshTokenConfiguration : BaseEntityConfiguration<RefreshToken>, IEntityTypeConfiguration<RefreshToken>
     {
-        public void Configure(EntityTypeBuilder<RefreshToken> builder)
+        public new void Configure(EntityTypeBuilder<RefreshToken> builder)
         {
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.Id).HasColumnName("RefreshTokenId");
-            builder.Property(x => x.CreationDate).HasColumnType("timestamptz");
+            base.Configure(builder);
+            
+            builder.Property(prop => prop.Id).HasColumnName("RefreshTokenId");
+
             builder
                 .HasOne<User>()
-                .WithMany(x => x.RefreshTokens)
-                .HasForeignKey(x => x.UserId)
+                .WithMany(user => user.RefreshTokens)
+                .HasForeignKey(refreshToken => refreshToken.UserId)
                 .OnDelete(DeleteBehavior.SetNull);
-            builder.HasIndex(x => x.UserId);
+            
+            builder.HasIndex(prop => prop.UserId);
         }
     }
 }

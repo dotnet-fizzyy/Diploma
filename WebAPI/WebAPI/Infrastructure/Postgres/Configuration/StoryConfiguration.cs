@@ -4,38 +4,44 @@ using WebAPI.Core.Entities;
 
 namespace WebAPI.Infrastructure.Postgres.Configuration
 {
-    public class StoryConfiguration : IEntityTypeConfiguration<Story>
+    public class StoryConfiguration : BaseEntityConfiguration<Story>, IEntityTypeConfiguration<Story>
     {
-        public void Configure(EntityTypeBuilder<Story> builder)
+        public new void Configure(EntityTypeBuilder<Story> builder)
         {
-            builder.HasKey(x => x.Id);
+            base.Configure(builder);
+            
             builder.Property(x => x.Id).HasColumnName("StoryId");
-            builder.Property(x => x.CreationDate).HasColumnType("timestamptz");
+
             builder
                 .HasOne<Sprint>()
-                .WithMany(x => x.Stories)
-                .HasForeignKey(x => x.SprintId)
+                .WithMany(sprint => sprint.Stories)
+                .HasForeignKey(story => story.SprintId)
                 .OnDelete(DeleteBehavior.SetNull)
-                .IsRequired(false);
+                .IsRequired(required: false);
+
             builder
                 .HasOne<User>()
-                .WithMany(e => e.Stories)
-                .HasForeignKey(x => x.UserId)
-                .IsRequired(false);
+                .WithMany(user => user.Stories)
+                .HasForeignKey(story => story.UserId)
+                .IsRequired(required: false);
+
             builder
                 .HasOne<Team>()
-                .WithMany(x => x.Stories)
-                .HasForeignKey(x => x.TeamId)
-                .IsRequired(false);
-            builder.Property(x => x.RecordVersion)
+                .WithMany(team => team.Stories)
+                .HasForeignKey(story => story.TeamId)
+                .IsRequired(required: false);
+
+            builder.Property(prop => prop.RecordVersion)
                 .HasColumnName("xmin")
                 .HasColumnType("xid")
                 .ValueGeneratedOnAddOrUpdate()
                 .IsConcurrencyToken();
-            builder.HasQueryFilter(x => !x.IsDeleted);
-            builder.HasIndex(x => x.Title);
-            builder.HasIndex(x => x.SprintId);
-            builder.HasIndex(x => x.ColumnType);
+
+            builder.HasIndex(prop => prop.Title);
+            builder.HasIndex(prop => prop.SprintId);
+            builder.HasIndex(prop => prop.ColumnType);
+            
+            builder.HasQueryFilter(story => !story.IsDeleted);
         }
     }
 }

@@ -4,20 +4,23 @@ using WebAPI.Core.Entities;
 
 namespace WebAPI.Infrastructure.Postgres.Configuration
 {
-    public class SprintConfiguration : IEntityTypeConfiguration<Sprint>
+    public class SprintConfiguration : BaseEntityConfiguration<Sprint>, IEntityTypeConfiguration<Sprint>
     {
-        public void Configure(EntityTypeBuilder<Sprint> builder)
+        public new void Configure(EntityTypeBuilder<Sprint> builder)
         {
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.Id).HasColumnName("SprintId");
-            builder.Property(x => x.CreationDate).HasColumnType("timestamptz");
+            base.Configure(builder);
+            
+            builder.Property(prop => prop.Id).HasColumnName("SprintId");
+            
             builder
                 .HasOne<Epic>()
-                .WithMany(e => e.Sprints)
-                .HasForeignKey(x => x.EpicId)
+                .WithMany(epic => epic.Sprints)
+                .HasForeignKey(sprint => sprint.EpicId)
                 .OnDelete(DeleteBehavior.SetNull);
-            builder.HasIndex(x => x.EpicId);
-            builder.HasQueryFilter(x => !x.IsDeleted);
+            
+            builder.HasIndex(prop => prop.EpicId);
+
+            builder.HasQueryFilter(sprint => !sprint.IsDeleted);
         }
     }
 }

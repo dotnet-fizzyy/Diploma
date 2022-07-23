@@ -14,14 +14,20 @@ namespace WebAPI.Infrastructure.Postgres
             
         public DbSet<Project> Projects { get; set; }
 
+        public DbSet<Epic> Epics { get; set; }
+
         public DbSet<Sprint> Sprints { get; set; }
         
         public DbSet<Story> Stories { get; set; }
-
-        public DbSet<User> Users { get; set; }
         
+        public DbSet<StoryHistory> StoryHistories { get; set; }
+
         public DbSet<Team> Teams { get; set; }
         
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(DatabaseContext).Assembly);

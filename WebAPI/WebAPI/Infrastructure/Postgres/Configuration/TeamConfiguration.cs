@@ -4,21 +4,22 @@ using WebAPI.Core.Entities;
 
 namespace WebAPI.Infrastructure.Postgres.Configuration
 {
-    public class TeamConfiguration : IEntityTypeConfiguration<Team>
+    public class TeamConfiguration : BaseEntityConfiguration<Team>, IEntityTypeConfiguration<Team>
     {
-        public void Configure(EntityTypeBuilder<Team> builder)
+        public new void Configure(EntityTypeBuilder<Team> builder)
         {
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.Id).HasColumnName("TeamId");
-            builder.Property(x => x.CreationDate).HasColumnType("timestamptz");
+            builder.Property(prop => prop.Id).HasColumnName("TeamId");
+            
             builder
                 .HasOne<Project>()
-                .WithMany(e => e.Teams)
-                .HasForeignKey(x => x.ProjectId)
+                .WithMany(project => project.Teams)
+                .HasForeignKey(team => team.ProjectId)
                 .OnDelete(DeleteBehavior.SetNull)
-                .IsRequired(false);
-            builder.HasIndex(x => x.ProjectId);
-            builder.HasQueryFilter(x => !x.IsDeleted);
+                .IsRequired(required: false);
+            
+            builder.HasIndex(prop => prop.ProjectId);
+            
+            builder.HasQueryFilter(team => !team.IsDeleted);
         }
     }
 }

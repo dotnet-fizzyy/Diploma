@@ -4,19 +4,21 @@ using WebAPI.Core.Entities;
 
 namespace WebAPI.Infrastructure.Postgres.Configuration
 {
-    public class StoryHistoryConfiguration : IEntityTypeConfiguration<StoryHistory>
+    public class StoryHistoryConfiguration : BaseEntityConfiguration<StoryHistory>, IEntityTypeConfiguration<StoryHistory>
     {
-        public void Configure(EntityTypeBuilder<StoryHistory> builder)
+        public new void Configure(EntityTypeBuilder<StoryHistory> builder)
         {
-            builder.HasKey(x => x.Id);
+            base.Configure(builder);
+
             builder.Property(x => x.Id).HasColumnName("StoryHistoryId");
-            builder.Property(x => x.CreationDate).HasColumnType("timestamptz");
+            
             builder
                 .HasOne<Story>()
-                .WithMany(e => e.StoryHistories)
-                .HasForeignKey(x => x.StoryId)
+                .WithMany(story => story.StoryHistories)
+                .HasForeignKey(storyHistory => storyHistory.StoryId)
                 .OnDelete(DeleteBehavior.SetNull);
-            builder.HasIndex(x => x.StoryId);
+            
+            builder.HasIndex(prop => prop.StoryId);
         }
     }
 }

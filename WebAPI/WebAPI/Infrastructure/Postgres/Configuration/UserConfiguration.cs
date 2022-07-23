@@ -4,23 +4,23 @@ using WebAPI.Core.Entities;
 
 namespace WebAPI.Infrastructure.Postgres.Configuration
 {
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    public class UserConfiguration : BaseEntityConfiguration<User>, IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public new void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.Id).HasColumnName("UserId");
-            builder.Property(x => x.CreationDate).HasColumnType("timestamptz");
+            builder.Property(prop => prop.Id).HasColumnName("UserId");
+            
             builder
                 .HasOne<WorkSpace>()
-                .WithMany(e => e.Users)
-                .HasForeignKey(x => x.WorkSpaceId)
+                .WithMany(workSpace => workSpace.Users)
+                .HasForeignKey(user => user.WorkSpaceId)
                 .OnDelete(DeleteBehavior.SetNull)
-                .IsRequired(false);
-            builder.HasIndex(x => x.UserName);
-            builder.HasIndex(x => x.Password);
-            builder.HasIndex(x => x.UserRole);
-            builder.HasIndex(x => x.UserPosition);
+                .IsRequired(required: false);
+
+            builder.HasIndex(prop => prop.UserName);
+            builder.HasIndex(prop => prop.Password);
+            builder.HasIndex(prop => prop.UserRole);
+            builder.HasIndex(prop => prop.UserPosition);
         }
     }
 }

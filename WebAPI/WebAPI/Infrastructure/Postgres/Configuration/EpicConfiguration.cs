@@ -4,20 +4,23 @@ using WebAPI.Core.Entities;
 
 namespace WebAPI.Infrastructure.Postgres.Configuration
 {
-    public class EpicConfiguration : IEntityTypeConfiguration<Epic>
+    public class EpicConfiguration : BaseEntityConfiguration<Epic>, IEntityTypeConfiguration<Epic>
     {
-        public void Configure(EntityTypeBuilder<Epic> builder)
+        public new void Configure(EntityTypeBuilder<Epic> builder)
         {
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.Id).HasColumnName("EpicId");
-            builder.Property(x => x.CreationDate).HasColumnType("timestamptz");
+            base.Configure(builder);
+            
+            builder.Property(prop => prop.Id).HasColumnName("EpicId");
+
             builder
                 .HasOne<Project>()
-                .WithMany(e => e.Epics)
-                .HasForeignKey(x => x.ProjectId)
+                .WithMany(project => project.Epics)
+                .HasForeignKey(epic => epic.ProjectId)
                 .OnDelete(DeleteBehavior.SetNull);
-            builder.HasIndex(x => x.ProjectId);
-            builder.HasQueryFilter(x => !x.IsDeleted);
+
+            builder.HasIndex(prop => prop.ProjectId);
+            
+            builder.HasQueryFilter(epic => !epic.IsDeleted);
         }
     }
 }

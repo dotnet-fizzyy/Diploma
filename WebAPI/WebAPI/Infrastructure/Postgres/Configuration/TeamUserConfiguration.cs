@@ -8,15 +8,17 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
     {
         public void Configure(EntityTypeBuilder<TeamUser> builder)
         {
-            builder.HasKey(x => new { x.TeamId, x.UserId });
+            builder.HasKey(teamUser => new { teamUser.TeamId, teamUser.UserId });
+
             builder
-                .HasOne(x => x.Team)
-                .WithMany(e => e.TeamUsers)
-                .HasForeignKey(x => x.TeamId);
+                .HasOne(teamUser => teamUser.Team)
+                .WithMany(team => team.TeamUsers)
+                .HasForeignKey(teamUser => teamUser.TeamId);
+            
             builder
-                .HasOne(x => x.User)
-                .WithMany(e => e.TeamUsers)
-                .HasForeignKey(x => x.UserId);
+                .HasOne(teamUser => teamUser.User)
+                .WithMany(user => user.TeamUsers)
+                .HasForeignKey(teamUser => teamUser.UserId);
         }
     }
 }
