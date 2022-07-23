@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using WebAPI.Core.Configuration;
+using WebAPI.Core.Entities;
 
 namespace WebAPI.ApplicationLogic.Utilities
 {
@@ -43,6 +44,19 @@ namespace WebAPI.ApplicationLogic.Utilities
             }
         }
 
+        public static RefreshToken GenerateRefreshTokenEntity(
+            Guid userId,
+            string token,
+            double tokenLifeTime
+        ) =>
+            new RefreshToken
+            {
+                UserId = userId,
+                Value = token,
+                ExpirationDate = DateTime.UtcNow.Add(TimeSpan.FromMinutes(tokenLifeTime)),
+                CreationDate = DateTime.UtcNow
+            };
+        
         private static ClaimsIdentity GetClaims(Guid userId, string userName, string userRole)
         {
             var claims = new List<Claim>

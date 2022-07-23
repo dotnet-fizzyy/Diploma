@@ -47,7 +47,7 @@ namespace WebAPI.UnitTests.Controllers
 
             var authController = new AuthenticationController(tokenService, userService);
 
-            A.CallTo(() => tokenService.AuthenticateUser(A<SignInUserRequestModel>._))
+            A.CallTo(() => userService.AuthenticateUser(A<SignInUserRequestModel>._))
                 .Returns(createdUser);
             
             //Act

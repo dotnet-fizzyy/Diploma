@@ -13,6 +13,8 @@ namespace WebAPI.Core.Interfaces.Services
         
         Task<User> GetByIdAsync(Guid id);
 
+        Task<AuthenticationUserResponseModel> AuthenticateUser(SignInUserRequestModel signInUser);
+        
         Task<User> CreateAsync(User user);
 
         Task<User> CreateUserWithTeamAsync(User user, Guid teamId);

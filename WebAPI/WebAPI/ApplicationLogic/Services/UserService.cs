@@ -11,6 +11,7 @@ using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Models;
+using WebAPI.Presentation.Constants;
 using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Models.Response;
 
@@ -45,10 +46,40 @@ namespace WebAPI.ApplicationLogic.Services
                     ErrorStatus.NOT_FOUND, 
                     ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id)));
             }
-            
-            var userModel = UserMapper.Map(userEntity);
 
-            return userModel;
+            return UserMapper.Map(userEntity);
+        }
+
+        public async Task<AuthenticationUserResponseModel> AuthenticateUser(SignInUserRequestModel signInUser)
+        {
+            var fullUserModel = await new UserProvider(_unitOfWork, _cacheContext, _appSettings)
+                .AuthenticateAndGetFullUser(signInUser);
+            
+            var accessToken = TokenGenerator.GenerateAccessToken(
+                _appSettings, 
+                fullUserModel.UserId, 
+                fullUserModel.UserName, 
+                fullUserModel.UserRole.ToString());
+            
+            string refreshToken = null;
+
+            if (_appSettings.Token.EnableRefreshTokenVerification)
+            {
+                refreshToken = await GenerateRefreshTokenForAuthedUser(fullUserModel.UserId);
+            }
+
+            var tokenPair = new AuthenticationUserResponseModel
+            {
+                AccessToken = new Token(TokenTypes.Access, accessToken),
+                User = fullUserModel
+            };
+
+            if (_appSettings.Token.EnableRefreshTokenVerification)
+            {
+                tokenPair.RefreshToken = new Token(TokenTypes.Refresh, refreshToken);
+            }
+
+            return tokenPair;
         }
 
         public async Task<User> CreateUserWithTeamAsync(User user, Guid teamId)
@@ -56,27 +87,21 @@ namespace WebAPI.ApplicationLogic.Services
             var userEntity = UserMapper.Map(user);
             userEntity.TeamUsers.Add(new TeamUserEntity { TeamId = teamId });
             
-            var createdUserModel = await CreateUser(userEntity);
-            
-            return createdUserModel;
+            return await CreateUser(userEntity);
         }
 
         public async Task<User> CreateCustomerAsync(SignUpUserRequestModel userRequestModel)
         {
             var customerEntity = UserUtilities.CreateCustomerEntity(userRequestModel);
-            
-            var createdUserModel = await CreateUser(customerEntity);
-            
-            return createdUserModel;
+
+            return await CreateUser(customerEntity);
         }
         
         public async Task<User> CreateAsync(User user)
         {
             var entityUser = UserMapper.Map(user);
 
-            var createdUserModel = await CreateUser(entityUser);
-            
-            return createdUserModel;
+            return await CreateUser(entityUser);
         }
 
         public async Task<User> UpdateAsync(User user)
@@ -93,10 +118,8 @@ namespace WebAPI.ApplicationLogic.Services
                 prop => prop.UserPosition);
 
             await _unitOfWork.CommitAsync();
-            
-            var userModel = UserMapper.Map(entityUser);
 
-            return userModel;
+            return UserMapper.Map(entityUser);
         }
 
         public async Task<EmailResponseModel> CheckEmailExistenceAsync(string email)
@@ -104,12 +127,10 @@ namespace WebAPI.ApplicationLogic.Services
             var emailExists = await _unitOfWork.UserRepository
                 .ExistsAsync(user => user.Email.ToLower() == email.ToLower());
 
-            var emailCheckResult = new EmailResponseModel
+            return new EmailResponseModel
             {
                 IsEmailExist = emailExists
-            };
-
-            return emailCheckResult;
+            };;
         }
 
         public async Task UpdatePasswordAsync(Guid userId, PasswordUpdateRequestModel passwordUpdateRequestModel)
@@ -176,10 +197,32 @@ namespace WebAPI.ApplicationLogic.Services
             await _unitOfWork.UserRepository.CreateAsync(user);
             
             await _unitOfWork.CommitAsync();
-            
-            var userModel = UserMapper.Map(user);
 
-            return userModel;
+            return  UserMapper.Map(user);
+        }
+
+        private async Task<string> GenerateRefreshTokenForAuthedUser(Guid userId)
+        {
+            var existingToken = await _unitOfWork.RefreshTokenRepository
+                .SearchForSingleItemAsync(token => token.UserId == userId);
+ 
+            if (existingToken != null)
+            {
+                return existingToken.Value;
+            }
+
+            var refreshToken = TokenGenerator.GenerateRefreshToken();
+
+            var refreshTokenEntity = TokenGenerator.GenerateRefreshTokenEntity(
+                userId,
+                refreshToken,
+                _appSettings.Token.LifeTime);
+
+            await _unitOfWork.RefreshTokenRepository.CreateAsync(refreshTokenEntity);
+
+            await _unitOfWork.CommitAsync();
+
+            return refreshToken;
         }
     }
 }
