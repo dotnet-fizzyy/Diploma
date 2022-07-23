@@ -11,6 +11,7 @@ ProjectSection(SolutionItems) = preProject
 	Dockerfile = Dockerfile
 	dummytoken.txt = dummytoken.txt
 	.dockerignore = .dockerignore
+	..\docker-compose.yml = ..\docker-compose.yml
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{688501E3-AECA-4CC5-B25D-0BD9E2729FB6}"
