@@ -84,7 +84,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(entity);
             
             //Act
-            var result = await storyService.GetStoryByIdAsync(storyId);
+            var result = await storyService.GetByIdAsync(storyId);
 
             //Assert
             AssertStoryModelProperties(expectedModel, result);
@@ -110,7 +110,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns((Core.Entities.Story)null);
             
             //Act & Assert
-            await Assert.ThrowsAsync<UserFriendlyException>(async () => await storyService.GetStoryByIdAsync(storyId));
+            await Assert.ThrowsAsync<UserFriendlyException>(async () => await storyService.GetByIdAsync(storyId));
 
             A.CallTo(() => storyRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.Story, bool>>>._))
                 .MustHaveHappenedOnceExactly();
@@ -642,7 +642,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(entity);
             
             //Act
-            var result = await storyService.GetFullStoryDescriptionAsync(storyId);
+            var result = await storyService.GetFullDescriptionAsync(storyId);
 
             //Assert
             AssertStoryModelProperties(expectedModel, result);
@@ -673,7 +673,7 @@ namespace WebAPI.UnitTests.Services
 
             //Act
             //Act && Assert
-            await Assert.ThrowsAsync<UserFriendlyException>(async () => await storyService.GetFullStoryDescriptionAsync(storyId));
+            await Assert.ThrowsAsync<UserFriendlyException>(async () => await storyService.GetFullDescriptionAsync(storyId));
 
             A.CallTo(() => storyRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.Story, bool>>>._, A<Expression<Func<Core.Entities.Story, object>>>._))
                 .MustHaveHappened();
@@ -769,7 +769,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns((Core.Entities.StoryHistory)null);
                 
             //Act
-            var result = await storyService.CreateStoryAsync(model, userName);
+            var result = await storyService.CreateAsync(model, userName);
 
             //Assert
             AssertStoryModelProperties(expectedModel, result);
@@ -797,16 +797,16 @@ namespace WebAPI.UnitTests.Services
                 RecordVersion = 123
             };
             
-            A.CallTo(() => storyRepository.UpdateItemFieldAsync(
+            A.CallTo(() => storyRepository.UpdateItemField(
                     A<Core.Entities.Story>._, 
                     A<Expression<Func<Core.Entities.Story, object>>>._))
              .DoesNothing();
 
             //Act
-            await storyService.RemoveStorySoftAsync(story);
+            await storyService.SoftRemoveAsync(story);
 
             //Assert
-            A.CallTo(() => storyRepository.UpdateItemFieldAsync(
+            A.CallTo(() => storyRepository.UpdateItemField(
                     A<Core.Entities.Story>._, 
                     A<Expression<Func<Core.Entities.Story, object>>>._))
              .MustHaveHappenedOnceExactly();
@@ -825,18 +825,18 @@ namespace WebAPI.UnitTests.Services
             
             var storyId = new Guid("5593238f-87e6-4e86-93fc-ab79b8804444");
 
-            A.CallTo(() => storyRepository.DeleteAsync(A<Expression<Func<Core.Entities.Story, bool>>>._))
+            A.CallTo(() => storyRepository.Remove(A<Expression<Func<Core.Entities.Story, bool>>>._))
                 .DoesNothing();
-            A.CallTo(() => storyHistoryRepository.DeleteAsync(A<Expression<Func<Core.Entities.StoryHistory, bool>>>._))
+            A.CallTo(() => storyHistoryRepository.Remove(A<Expression<Func<Core.Entities.StoryHistory, bool>>>._))
                 .DoesNothing();
             
             //Act
-            await storyService.RemoveStoryAsync(storyId);
+            await storyService.RemoveAsync(storyId);
 
             //Assert
-            A.CallTo(() => storyRepository.DeleteAsync(A<Expression<Func<Core.Entities.Story, bool>>>._))
+            A.CallTo(() => storyRepository.Remove(A<Expression<Func<Core.Entities.Story, bool>>>._))
                 .MustHaveHappenedOnceExactly();
-            A.CallTo(() => storyHistoryRepository.DeleteAsync(A<Expression<Func<Core.Entities.StoryHistory, bool>>>._))
+            A.CallTo(() => storyHistoryRepository.Remove(A<Expression<Func<Core.Entities.StoryHistory, bool>>>._))
                 .MustHaveHappenedOnceExactly();
         }
         

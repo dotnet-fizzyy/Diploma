@@ -50,7 +50,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(entity);
             
             //Act
-            var result = await teamService.GetTeamByIdAsync(teamId);
+            var result = await teamService.GetByIdAsync(teamId);
 
             //Assert
             AssertTeamModelProperties(expectedModel, result);
@@ -73,7 +73,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns((Core.Entities.Team)null);
             
             //Act && Assert
-           await Assert.ThrowsAsync<UserFriendlyException>(async () => await teamService.GetTeamByIdAsync(teamId));
+           await Assert.ThrowsAsync<UserFriendlyException>(async () => await teamService.GetByIdAsync(teamId));
 
             A.CallTo(() => teamRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.Team, bool>>>._))
                 .MustHaveHappenedOnceExactly();
@@ -217,7 +217,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(entity);
             
             //Act
-            var result = await teamService.GetFullTeamDescriptionAsync(teamId);
+            var result = await teamService.GetFullDescriptionAsync(teamId);
 
             //Assert
             AssertTeamModelProperties(expectedModel, result);
@@ -246,7 +246,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns((Core.Entities.Team)null);
             
             //Act && Assert
-            await Assert.ThrowsAsync<UserFriendlyException>(async () => await teamService.GetFullTeamDescriptionAsync(teamId));
+            await Assert.ThrowsAsync<UserFriendlyException>(async () => await teamService.GetFullDescriptionAsync(teamId));
 
             A.CallTo(() => teamRepository.GetTeamWithUsers(A<Guid>._))
                 .MustHaveHappenedOnceExactly();
@@ -295,7 +295,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(entity);
             
             //Act
-            var result = await teamService.CreateTeamAsync(model);
+            var result = await teamService.CreateAsync(model);
 
             //Assert
             AssertTeamModelProperties(expectedModel, result);
@@ -345,16 +345,16 @@ namespace WebAPI.UnitTests.Services
                 CreationDate = creationDate,
             };
 
-            A.CallTo(() => teamRepository.UpdateItemAsync(A<Core.Entities.Team>._))
+            A.CallTo(() => teamRepository.UpdateItem(A<Core.Entities.Team>._))
                 .Returns(entity);
             
             //Act
-            var result = await teamService.UpdateTeamAsync(model);
+            var result = await teamService.UpdateAsync(model);
 
             //Assert
             AssertTeamModelProperties(expectedModel, result);
             
-            A.CallTo(() => teamRepository.UpdateItemAsync(A<Core.Entities.Team>._))
+            A.CallTo(() => teamRepository.UpdateItem(A<Core.Entities.Team>._))
                 .MustHaveHappenedOnceExactly();
         }
 
@@ -371,14 +371,14 @@ namespace WebAPI.UnitTests.Services
                 TeamId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec")
             };
             
-            A.CallTo(() => teamRepository.DeleteSoftAsync(A<Guid>._))
+            A.CallTo(() => teamRepository.RemoveSoftAsync(A<Guid>._))
                 .DoesNothing();
             
             //Act
-            await teamService.RemoveTeamSoftAsync(team);
+            await teamService.SoftRemoveAsync(team);
 
             //Assert
-            A.CallTo(() => teamRepository.DeleteSoftAsync(A<Guid>._))
+            A.CallTo(() => teamRepository.RemoveSoftAsync(A<Guid>._))
                 .MustHaveHappenedOnceExactly();
         }
         
@@ -392,14 +392,14 @@ namespace WebAPI.UnitTests.Services
             
             var teamId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 
-            A.CallTo(() => teamRepository.DeleteAsync(A<Expression<Func<Core.Entities.Team, bool>>>._))
+            A.CallTo(() => teamRepository.Remove(A<Expression<Func<Core.Entities.Team, bool>>>._))
                 .DoesNothing();
             
             //Act
-            await teamService.RemoveTeamAsync(teamId);
+            await teamService.RemoveAsync(teamId);
 
             //Assert
-            A.CallTo(() => teamRepository.DeleteAsync(A<Expression<Func<Core.Entities.Team, bool>>>._))
+            A.CallTo(() => teamRepository.Remove(A<Expression<Func<Core.Entities.Team, bool>>>._))
                 .MustHaveHappenedOnceExactly();
         }
         

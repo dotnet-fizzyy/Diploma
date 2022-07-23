@@ -2,11 +2,12 @@ using System;
 using System.Threading.Tasks;
 using System.Transactions;
 using WebAPI.ApplicationLogic.Mappers;
+using WebAPI.ApplicationLogic.Providers;
 using WebAPI.ApplicationLogic.Utilities;
+using WebAPI.Core.Configuration;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
-using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Result;
 using WebAPI.Models.Models.Models;
@@ -21,16 +22,18 @@ namespace WebAPI.ApplicationLogic.Services
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserProvider _userProvider;
+        private readonly ICacheContext _cacheContext;
+        private readonly AppSettings _appSettings;
 
-        public UserService(IUnitOfWork unitOfWork, IUserProvider userProvider)
+        public UserService(IUnitOfWork unitOfWork, ICacheContext cacheContext, AppSettings appSettings)
         {
-            _userProvider = userProvider;
             _unitOfWork = unitOfWork;
+            _cacheContext = cacheContext;
+            _appSettings = appSettings;
         }
         
         public async Task<FullUser> GetFullDescriptionByIdAsync(Guid id) 
-            => await _userProvider.GetFullUser(id);
+            => await new UserProvider(_unitOfWork, _cacheContext, _appSettings).GetFullUser(id);
 
         public async Task<User> GetByIdAsync(Guid id)
         {

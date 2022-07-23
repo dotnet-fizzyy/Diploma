@@ -9,13 +9,12 @@ using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
-using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Models.Request;
 
 namespace WebAPI.ApplicationLogic.Providers
 {
-    public class UserProvider : IUserProvider
+    public class UserProvider
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICacheContext _cacheContext;

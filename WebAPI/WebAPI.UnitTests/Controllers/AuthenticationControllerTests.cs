@@ -170,7 +170,7 @@ namespace WebAPI.UnitTests.Controllers
 
             var authController = new AuthenticationController(tokenService, userService);
 
-            A.CallTo(() => userService.CheckForEmailExistenceAsync(A<string>._))
+            A.CallTo(() => userService.CheckEmailExistenceAsync(A<string>._))
                 .Returns(emailResultModel);
             
             //Act

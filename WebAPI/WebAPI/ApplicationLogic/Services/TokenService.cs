@@ -1,11 +1,11 @@
 using System;
 using System.Threading.Tasks;
+using WebAPI.ApplicationLogic.Providers;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Configuration;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
-using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Presentation.Constants;
@@ -19,16 +19,13 @@ namespace WebAPI.ApplicationLogic.Services
     public class TokenService : ITokenService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserProvider _userProvider;
+        private readonly ICacheContext _cacheContext;
         private readonly AppSettings _appSettings;
 
-        public TokenService(
-            IUnitOfWork unitOfWork,
-            IUserProvider userProvider,
-            AppSettings appSettings)
+        public TokenService(IUnitOfWork unitOfWork, ICacheContext cacheContext, AppSettings appSettings)
         {
             _unitOfWork = unitOfWork;
-            _userProvider = userProvider;
+            _cacheContext = cacheContext;
             _appSettings = appSettings;
         }
         
@@ -36,7 +33,8 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<AuthenticationUserResponseModel> AuthenticateUser(SignInUserRequestModel userRequestModel)
         {
             //Authenticate user (find in db)
-            var fullUserModel = await _userProvider.AuthenticateAndGetFullUser(userRequestModel);
+            var fullUserModel = await new UserProvider(_unitOfWork, _cacheContext, _appSettings)
+                .AuthenticateAndGetFullUser(userRequestModel);
 
             //Generate tokens if record is valid
             var accessToken = TokenGenerator.GenerateAccessToken(
