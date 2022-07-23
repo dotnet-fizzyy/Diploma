@@ -12,7 +12,12 @@ namespace WebAPI.Core.Interfaces.Services
         
         Task<CollectionResponse<Story>> GetStoriesFromEpicAsync(Guid epicId, Guid? teamId);
 
-        Task<CollectionResponse<Story>> SortStories(Guid epicId, Guid teamId, Guid? sprintId, string sortType, OrderType orderType);
+        Task<CollectionResponse<Story>> SortStories(
+            Guid epicId, 
+            Guid teamId, 
+            Guid? sprintId,
+            string sortType,
+            OrderType orderType);
         
         Task<Story> GetByIdAsync(Guid storyId);
 
@@ -24,7 +29,7 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<Story> ChangeStatusAsync(Story story,  string username);
 
-        Task<Story> UpdatePartsOfStoryAsync(Story story, Guid userId);
+        Task<Story> UpdateAsync(Story story, Guid userId);
 
         Task SoftRemoveAsync(Story story);
         

@@ -131,7 +131,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = ClaimsReader.GetUserClaims(User);
             
-            var updatedStory = await _storyService.UpdatePartsOfStoryAsync(story, user.UserId);
+            var updatedStory = await _storyService.UpdateAsync(story, user.UserId);
 
             return updatedStory;
         }

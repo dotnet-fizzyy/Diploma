@@ -186,38 +186,39 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (string.IsNullOrWhiteSpace(story.BlockReason))
             {
-                await _unitOfWork.StoryHistoryRepository.CreateAsync(StoryHistoryUtilities.GetStoryHistoryForUpdate(
-                    username, 
-                    storyEntity.Id, 
-                    StoryFields.IsReady, 
-                    existingStoryEntity.IsReady.ToString(), 
-                    storyEntity.IsReady.ToString())
-                );
-                
                 existingStoryEntity.IsReady = storyEntity.IsReady;
+                
+                var storyHistoryRecord = StoryHistoryUtilities.GetStoryHistoryForUpdate(
+                    username,
+                    storyEntity.Id,
+                    StoryFields.IsReady,
+                    existingStoryEntity.IsReady.ToString(),
+                    storyEntity.IsReady.ToString());
+                
+                await _unitOfWork.StoryHistoryRepository.CreateAsync(storyHistoryRecord);
             }
             else
             {
-                var storyHistoryRecords = new [] 
-                { 
-                    StoryHistoryUtilities.GetStoryHistoryForUpdate(
-                        username, 
-                        storyEntity.Id, 
-                        StoryFields.IsBlocked, 
-                        existingStoryEntity.IsBlocked.ToString(), 
-                        storyEntity.IsBlocked.ToString()),
-                    StoryHistoryUtilities.GetStoryHistoryForUpdate(
-                        username, 
-                        storyEntity.Id, 
-                        StoryFields.BlockReason, 
-                        existingStoryEntity.BlockReason, 
-                        storyEntity.BlockReason)
-                };
-                
-                await _unitOfWork.StoryHistoryRepository.CreateAsync(storyHistoryRecords);
-
                 existingStoryEntity.IsBlocked = storyEntity.IsBlocked;
                 existingStoryEntity.BlockReason = storyEntity.BlockReason;
+
+                var storyHistoryRecords = new []
+                {
+                    StoryHistoryUtilities.GetStoryHistoryForUpdate(
+                        username,
+                        storyEntity.Id,
+                        StoryFields.IsBlocked,
+                        existingStoryEntity.IsBlocked.ToString(),
+                        storyEntity.IsBlocked.ToString()),
+                    StoryHistoryUtilities.GetStoryHistoryForUpdate(
+                        username,
+                        storyEntity.Id,
+                        StoryFields.BlockReason,
+                        existingStoryEntity.BlockReason,
+                        storyEntity.BlockReason)
+                };
+
+                await _unitOfWork.StoryHistoryRepository.CreateAsync(storyHistoryRecords);
             }
  
             _unitOfWork.StoryRepository.UpdateItem(existingStoryEntity);
@@ -231,7 +232,7 @@ namespace WebAPI.ApplicationLogic.Services
             return updatedStoryModel;
         }
 
-        public async Task<StoryModel> UpdatePartsOfStoryAsync(StoryModel storyUpdate, Guid userId)
+        public async Task<StoryModel> UpdateAsync(StoryModel storyUpdate, Guid userId)
         {
             using var scope = new TransactionScope
             (
@@ -245,7 +246,8 @@ namespace WebAPI.ApplicationLogic.Services
 
             var storyEntity = await SearchForStoryByIdAsync(storyUpdate.StoryId);
  
-            var userEntity = await _unitOfWork.UserRepository.SearchForSingleItemAsync(user => user.Id == userId);
+            var userEntity = await _unitOfWork.UserRepository
+                .SearchForSingleItemAsync(user => user.Id == userId);
             if (userEntity == null)
             {
                 throw new UserFriendlyException(
@@ -285,12 +287,11 @@ namespace WebAPI.ApplicationLogic.Services
             }
             
             var storyHistoryUpdates = new StoryAggregator().CreateStoryFromUpdateParts(
-                    storyEntity, 
-                    storyUpdateEntity, 
-                    userEntity.UserName, 
-                    sprints, 
-                    users
-                );
+                storyEntity, 
+                storyUpdateEntity, 
+                userEntity.UserName, 
+                sprints, 
+                users);
             
             await _unitOfWork.StoryHistoryRepository.CreateAsync(storyHistoryUpdates);
             _unitOfWork.StoryRepository.UpdateItem(storyUpdateEntity);
