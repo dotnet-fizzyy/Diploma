@@ -33,7 +33,7 @@ namespace WebAPI.ApplicationLogic.Services
             return sprintsCollectionResponse;
         }
 
-        public async Task<Sprint> GetSprintByIdAsync(Guid sprintId)
+        public async Task<Sprint> GetByIdAsync(Guid sprintId)
         {
             var sprintEntity = await _unitOfWork.SprintRepository
                 .SearchForSingleItemAsync(sprint => sprint.Id == sprintId);
@@ -69,7 +69,7 @@ namespace WebAPI.ApplicationLogic.Services
             return sprintFullModel;
         }
 
-        public async Task<Sprint> CreateSprintAsync(Sprint sprint)
+        public async Task<Sprint> CreateAsync(Sprint sprint)
         {
             var sprintEntity = SprintMapper.Map(sprint);
             sprintEntity.CreationDate = DateTime.UtcNow;
@@ -83,7 +83,7 @@ namespace WebAPI.ApplicationLogic.Services
             return sprintModel;
         }
 
-        public async Task<Sprint> UpdateSprintAsync(Sprint sprint)
+        public async Task<Sprint> UpdateAsync(Sprint sprint)
         {
             var sprintEntity = SprintMapper.Map(sprint);
 
@@ -95,14 +95,14 @@ namespace WebAPI.ApplicationLogic.Services
             return sprintModel;
         }
 
-        public async Task RemoveSprintSoftAsync(Sprint sprint)
+        public async Task SoftRemoveAsync(Sprint sprint)
         {
             _unitOfWork.SprintRepository.DeleteSoft(sprint.SprintId);
 
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task RemoveSprintAsync(Guid sprintId)
+        public async Task RemoveAsync(Guid sprintId)
         {
             _unitOfWork.SprintRepository.Remove(x => x.Id == sprintId);
             
