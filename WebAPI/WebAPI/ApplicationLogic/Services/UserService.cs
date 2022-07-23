@@ -32,8 +32,8 @@ namespace WebAPI.ApplicationLogic.Services
             _appSettings = appSettings;
         }
         
-        public async Task<FullUser> GetFullDescriptionByIdAsync(Guid id) 
-            => await new UserProvider(_unitOfWork, _cacheContext, _appSettings).GetFullUser(id);
+        public async Task<FullUser> GetFullDescriptionByIdAsync(Guid id) => 
+            await new UserProvider(_unitOfWork, _cacheContext, _appSettings).GetFullUser(id);
 
         public async Task<User> GetByIdAsync(Guid id)
         {
@@ -85,8 +85,12 @@ namespace WebAPI.ApplicationLogic.Services
 
             _unitOfWork.UserRepository.UpdateItem(
                 entityUser, 
-                prop => prop.Password,
-                prop => prop.CreationDate);
+                prop => prop.Email,
+                prop => prop.UserName,
+                prop => prop.AvatarLink,
+                prop => prop.IsActive,
+                prop => prop.UserRole,
+                prop => prop.UserPosition);
 
             await _unitOfWork.CommitAsync();
             
@@ -114,9 +118,8 @@ namespace WebAPI.ApplicationLogic.Services
             var newHashedPassword = PasswordHashing.CreateHashPassword(passwordUpdateRequestModel.NewPassword);
             
             var userEntity = await _unitOfWork.UserRepository
-                .SearchForSingleItemAsync(user => 
-                    user.Id == userId && 
-                    user.Password == oldHashedPassword);
+                .SearchForSingleItemAsync(user => user.Id == userId && 
+                                                  user.Password == oldHashedPassword);
  
             if (userEntity == null)
             {
@@ -126,6 +129,7 @@ namespace WebAPI.ApplicationLogic.Services
             }
 
             userEntity.Password = newHashedPassword;
+
             await _unitOfWork.UserRepository.UpdateUserPasswordAsync(userEntity);
         }
 

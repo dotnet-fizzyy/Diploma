@@ -167,21 +167,16 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             _dbSet.Update(item);
         }
         
-        public void UpdateItem(T item, params Expression<Func<T, object>>[] nonModifiedProperties)
+        public void UpdateItem(T item, params Expression<Func<T, object>>[] modifiedProperties)
         {
             var entryEntity = DbContext.Entry(item);
 
-            foreach (var property in nonModifiedProperties)
+            foreach (var property in modifiedProperties)
             {
-                entryEntity.Property(property).IsModified = false;
+                entryEntity.Property(property).IsModified = true;
             }
 
             _dbSet.Update(item);
-        }
-
-        public void UpdateItemField(T item, Expression<Func<T, object>> property)
-        {
-            DbContext.Entry(item).Property(property).IsModified = true;
         }
 
         public void UpdateItems(IEnumerable<T> items)

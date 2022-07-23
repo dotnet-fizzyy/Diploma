@@ -133,7 +133,7 @@ namespace WebAPI.ApplicationLogic.Services
                 TransactionScopeAsyncFlowOption.Enabled
             );
             
-            _unitOfWork.StoryRepository.UpdateItemField(storyEntityToUpdate, prop => prop.ColumnType);
+            _unitOfWork.StoryRepository.UpdateItem(storyEntityToUpdate, prop => prop.ColumnType);
             await CreateStoryHistoryRecordWithNewColumnAsync(storyEntityToUpdate, originalStoryEntity, username);
 
             await _unitOfWork.CommitAsync();
@@ -213,7 +213,19 @@ namespace WebAPI.ApplicationLogic.Services
                 users.Result);
             
             await _unitOfWork.StoryHistoryRepository.CreateAsync(storyHistoryUpdates);
-            _unitOfWork.StoryRepository.UpdateItem(storyToUpdateEntity);
+            _unitOfWork.StoryRepository.UpdateItem(
+                storyToUpdateEntity,
+                prop => prop.Title,
+                prop => prop.Description,
+                prop => prop.Notes,
+                prop => prop.IsBlocked,
+                prop => prop.BlockReason,
+                prop => prop.IsReady,
+                prop => prop.RequiredPosition,
+                prop => prop.IsDeleted,
+                prop => prop.TeamId,
+                prop => prop.SprintId,
+                prop => prop.UserId);
     
             await _unitOfWork.CommitAsync();
             

@@ -40,12 +40,9 @@ namespace WebAPI.Core.Interfaces.Database
             Expression<Func<T, bool>> expression, 
             params Expression<Func<T, object>>[] includes);
 
-        // todo: remove in future
-        void UpdateItemField(T item, Expression<Func<T, object>> property);
-        
         void UpdateItem(T item);
         
-        void UpdateItem(T item, params Expression<Func<T, object>>[] nonModifiedProperties);
+        void UpdateItem(T item, params Expression<Func<T, object>>[] modifiedProperties);
 
         void UpdateItems(IEnumerable<T> items);
         
