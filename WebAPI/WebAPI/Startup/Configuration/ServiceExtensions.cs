@@ -22,16 +22,8 @@ namespace WebAPI.Startup.Configuration
             services.AddSingleton(appSettings);
             
             //Infrastructure
-            services.AddScoped<IEpicRepository, EpicRepository>();
-            services.AddScoped<ISprintRepository, SprintRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
-            services.AddScoped<ITeamRepository, TeamRepository>();
-            services.AddScoped<IProjectRepository, ProjectRepository>();
-            services.AddScoped<IStoryHistoryRepository, StoryHistoryRepository>();
-            services.AddScoped<IStoryRepository, StoryRepository>();
-            services.AddScoped<IWorkSpaceRepository, WorkSpaceRepository>();
             services.AddScoped<ICacheContext, CacheContext>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             //Services
             services.AddScoped<IStoryService, StoryService>();
@@ -42,12 +34,10 @@ namespace WebAPI.Startup.Configuration
             services.AddScoped<IEpicService, EpicService>();
             services.AddScoped<IPageService, PageService>();
             services.AddScoped<IWorkSpaceService, WorkSpaceService>();
+            services.AddSingleton<ITokenService, TokenService>();
 
             //Providers
             services.AddScoped<IUserProvider, UserProvider>();
-            
-            //Utilities
-            services.AddSingleton<ITokenService, TokenService>();
 
             //Validators
             services.AddSingleton<IValidator<SignUpUserRequestModel>, SignUpUserValidator>();

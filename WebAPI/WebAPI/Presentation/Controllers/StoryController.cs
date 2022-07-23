@@ -85,7 +85,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Story>> GetStory(Guid id) =>
-            await _storyService.GetStoryByIdAsync(id);
+            await _storyService.GetByIdAsync(id);
 
         /// <summary>
         /// Receive story full description with provided id
@@ -99,7 +99,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<FullStory>> GetFullStoryDescription(Guid id) => 
-            await _storyService.GetFullStoryDescriptionAsync(id);
+            await _storyService.GetFullDescriptionAsync(id);
 
         /// <summary>
         /// Create story with provided model properties
@@ -113,7 +113,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = ClaimsReader.GetUserClaims(User);
             
-            var createdStory = await _storyService.CreateStoryAsync(story, user.UserName);
+            var createdStory = await _storyService.CreateAsync(story, user.UserName);
 
             return CreatedAtAction(nameof(CreateStory), createdStory);
         }
@@ -154,7 +154,7 @@ namespace WebAPI.Presentation.Controllers
 
             var user = ClaimsReader.GetUserClaims(User);
             
-            var updatedStory = await _storyService.UpdateStoryColumnAsync(storyModel, user.UserName);
+            var updatedStory = await _storyService.UpdateColumnAsync(storyModel, user.UserName);
             
             return updatedStory;
         }
@@ -177,7 +177,7 @@ namespace WebAPI.Presentation.Controllers
 
             var user = ClaimsReader.GetUserClaims(User);
             
-            var story = await _storyService.ChangeStoryStatusAsync(storyModel, user.UserName);
+            var story = await _storyService.ChangeStatusAsync(storyModel, user.UserName);
             
             return story;
         }
@@ -191,7 +191,7 @@ namespace WebAPI.Presentation.Controllers
             var story = new Story();
             storyPatch.ApplyTo(story);
             
-            await _storyService.RemoveStorySoftAsync(story);
+            await _storyService.SoftRemoveAsync(story);
             
             return NoContent();
         }
@@ -207,7 +207,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveStory(Guid id)
         {
-            await _storyService.RemoveStoryAsync(id);
+            await _storyService.RemoveAsync(id);
             
             return NoContent();
         }

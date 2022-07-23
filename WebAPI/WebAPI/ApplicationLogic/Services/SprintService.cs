@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
 using WebAPI.ApplicationLogic.Mappers;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
@@ -15,16 +14,16 @@ namespace WebAPI.ApplicationLogic.Services
 {
     public class SprintService : ISprintService
     {
-        private readonly ISprintRepository _sprintRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public SprintService(ISprintRepository sprintRepository)
+        public SprintService(IUnitOfWork unitOfWork)
         {
-            _sprintRepository = sprintRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<CollectionResponse<FullSprint>> GetAllSprintsFromEpicAsync(Guid epicId, Guid? teamId)
         {
-            var sprintEntities = await _sprintRepository.GetFullSprintsByEpicId(epicId, teamId);
+            var sprintEntities = await _unitOfWork.SprintRepository.GetFullSprintsByEpicId(epicId, teamId);
            
             var sprintsCollectionResponse = new CollectionResponse<FullSprint>
             {
@@ -36,11 +35,14 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<Sprint> GetSprintByIdAsync(Guid sprintId)
         {
-            var sprintEntity = await _sprintRepository.SearchForSingleItemAsync(x => x.Id == sprintId);
+            var sprintEntity = await _unitOfWork.SprintRepository
+                .SearchForSingleItemAsync(sprint => sprint.Id == sprintId);
 
             if (sprintEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(sprintId)));
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND, 
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(sprintId)));
             }
 
             var sprintModel = SprintMapper.Map(sprintEntity);
@@ -50,15 +52,16 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<FullSprint> GetFullSprintAsync(Guid sprintId)
         {
-            var sprintEntity = await _sprintRepository
+            var sprintEntity = await _unitOfWork.SprintRepository
                 .SearchForSingleItemAsync(
-                    x => x.Id == sprintId,
-                    x => x.Stories
-                    );
+                    sprint => sprint.Id == sprintId,
+                    include => include.Stories);
 
             if (sprintEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(sprintId)));
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND,
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(sprintId)));
             }
 
             var sprintFullModel = SprintMapper.MapToFullModel(sprintEntity);
@@ -71,9 +74,11 @@ namespace WebAPI.ApplicationLogic.Services
             var sprintEntity = SprintMapper.Map(sprint);
             sprintEntity.CreationDate = DateTime.UtcNow;
 
-            var createdSprintEntity = await _sprintRepository.CreateAsync(sprintEntity);
+            await _unitOfWork.SprintRepository.CreateAsync(sprintEntity);
 
-            var sprintModel = SprintMapper.Map(createdSprintEntity);
+            await _unitOfWork.CommitAsync();
+            
+            var sprintModel = SprintMapper.Map(sprintEntity);
 
             return sprintModel;
         }
@@ -82,32 +87,26 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var sprintEntity = SprintMapper.Map(sprint);
 
-            var updatedSprintEntity = await _sprintRepository.UpdateItemAsync(sprintEntity);
+            _unitOfWork.SprintRepository.UpdateItem(sprintEntity);
+            await _unitOfWork.CommitAsync();
 
-            var sprintModel = SprintMapper.Map(updatedSprintEntity);
+            var sprintModel = SprintMapper.Map(sprintEntity);
 
             return sprintModel;
         }
 
         public async Task RemoveSprintSoftAsync(Sprint sprint)
         {
-            using var tr = new TransactionScope(
-                TransactionScopeOption.Required,
-                new TransactionOptions
-                {
-                    IsolationLevel = IsolationLevel.RepeatableRead
-                }, 
-                TransactionScopeAsyncFlowOption.Enabled
-            );
-            
-            await _sprintRepository.DeleteSoftAsync(sprint.SprintId);
+            _unitOfWork.SprintRepository.DeleteSoft(sprint.SprintId);
 
-            tr.Complete();
+            await _unitOfWork.CommitAsync();
         }
 
         public async Task RemoveSprintAsync(Guid sprintId)
         {
-            await _sprintRepository.DeleteAsync(x => x.Id == sprintId);
+            _unitOfWork.SprintRepository.Remove(x => x.Id == sprintId);
+            
+            await _unitOfWork.CommitAsync();
         }
     }
 }

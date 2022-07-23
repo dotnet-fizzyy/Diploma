@@ -13,6 +13,6 @@ namespace WebAPI.Core.Interfaces.Database
 
         Task<List<Project>> GetProjectsBySearchTerm(string term, int limit, Guid[] teamIds);
         
-        Task DeleteSoftAsync(Guid projectId);
+        void SoftRemove(Guid projectId);
     }
 }

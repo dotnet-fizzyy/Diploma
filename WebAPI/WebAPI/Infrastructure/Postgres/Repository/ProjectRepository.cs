@@ -49,7 +49,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             return projectEntities;
         }
 
-        public async Task DeleteSoftAsync(Guid projectId)
+        public void SoftRemove(Guid projectId)
         {
             var projectEntity = new Project
             {
@@ -58,8 +58,6 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             };
 
             DbContext.Entry(projectEntity).Property(x => x.IsDeleted).IsModified = true;
-
-            await DbContext.SaveChangesAsync();
         }
     }
 }

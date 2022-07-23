@@ -23,26 +23,16 @@ namespace WebAPI.ApplicationLogic.Services
 {
     public class StoryService : IStoryService
     {
-        private readonly IStoryRepository _storyRepository;
-        private readonly ISprintRepository _sprintRepository;        
-        private readonly IStoryHistoryRepository _storyHistoryRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public StoryService(
-            IStoryRepository storyRepository, 
-            ISprintRepository sprintRepository,
-            IStoryHistoryRepository storyHistoryRepository,
-            IUserRepository userRepository)
+        public StoryService(IUnitOfWork unitOfWork)
         {
-            _storyRepository = storyRepository;
-            _sprintRepository = sprintRepository;
-            _storyHistoryRepository = storyHistoryRepository;
-            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<CollectionResponse<StoryModel>> GetStoriesFromEpicAsync(Guid epicId, Guid? teamId)
         {
-            var storyEntities = await _storyRepository.GetStoriesByEpicAndTeamIds(epicId, teamId);
+            var storyEntities = await _unitOfWork.StoryRepository.GetStoriesByEpicAndTeamIds(epicId, teamId);
 
             var collectionResponse = new CollectionResponse<StoryModel>
             {
@@ -63,13 +53,13 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (sprintId.HasValue)
             {
-                storyEntities = await _storyRepository.SearchForMultipleItemsAsync(story => 
+                storyEntities = await _unitOfWork.StoryRepository.SearchForMultipleItemsAsync(story => 
                                             sprintId == story.SprintId && 
                                             story.TeamId == teamId);
             }
             else
             {
-                storyEntities = await _storyRepository.GetStoriesByEpicAndTeamIds(epicId, teamId);
+                storyEntities = await _unitOfWork.StoryRepository.GetStoriesByEpicAndTeamIds(epicId, teamId);
             }
             
             if (!storyEntities.Any())
@@ -91,7 +81,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<CollectionResponse<StoryModel>> GetStoriesFromSprintAsync(Guid sprintId)
         {
-            var storyEntities = await _storyRepository.SearchForMultipleItemsAsync(
+            var storyEntities = await _unitOfWork.StoryRepository.SearchForMultipleItemsAsync(
                 story => story.SprintId == sprintId);
 
             var collectionResponse = new CollectionResponse<StoryModel>
@@ -102,7 +92,7 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<StoryModel> GetStoryByIdAsync(Guid storyId)
+        public async Task<StoryModel> GetByIdAsync(Guid storyId)
         {
             var storyEntity = await SearchForStoryByIdAsync(storyId);
 
@@ -111,7 +101,7 @@ namespace WebAPI.ApplicationLogic.Services
             return storyModel;
         }
 
-        public async Task<FullStory> GetFullStoryDescriptionAsync(Guid storyId)
+        public async Task<FullStory> GetFullDescriptionAsync(Guid storyId)
         {
             var storyEntity = await SearchForStoryByIdAsync(storyId, include => include.StoryHistories);
 
@@ -120,22 +110,26 @@ namespace WebAPI.ApplicationLogic.Services
             return storyFullModel;
         }
 
-        public async Task<StoryModel> CreateStoryAsync(StoryModel story, string userName)
+        public async Task<StoryModel> CreateAsync(StoryModel story, string username)
         {
             var storyEntity = StoryMapper.Map(story);
 
-            var createdStoryEntity = await _storyRepository.CreateAsync(storyEntity);
-            
-            await _storyHistoryRepository.CreateAsync(
-                StoryHistoryUtilities.GetStoryHistoryForCreation(userName, createdStoryEntity.Id)
-            );
+            await _unitOfWork.StoryRepository.CreateAsync(storyEntity);
 
-            var storyModel = StoryMapper.Map(createdStoryEntity);
+            var storyCreationRecord = StoryHistoryUtilities.GetStoryHistoryForCreation(
+                username, 
+                storyEntity.Id);
+            
+            await _unitOfWork.StoryHistoryRepository.CreateAsync(storyCreationRecord);
+            
+            await _unitOfWork.CommitAsync();
+
+            var storyModel = StoryMapper.Map(storyEntity);
             
             return storyModel;
         }
 
-        public async Task<StoryModel> UpdateStoryColumnAsync(StoryModel story, string userName)
+        public async Task<StoryModel> UpdateColumnAsync(StoryModel story, string username)
         {
             var mappedStoryEntity = StoryMapper.Map(story);
 
@@ -151,15 +145,19 @@ namespace WebAPI.ApplicationLogic.Services
                 TransactionScopeAsyncFlowOption.Enabled
             );
             
-            await _storyRepository.UpdateItemFieldAsync(mappedStoryEntity, prop => prop.ColumnType); 
-            await _storyHistoryRepository.CreateAsync(StoryHistoryUtilities.GetStoryHistoryForUpdate(
-                userName,
+            _unitOfWork.StoryRepository.UpdateItemField(mappedStoryEntity, prop => prop.ColumnType);
+
+            var updateColumnHistoryRecord = StoryHistoryUtilities.GetStoryHistoryForUpdate(
+                username,
                 mappedStoryEntity.Id,
                 StoryFields.ColumnType,
                 existingStoryEntity.ColumnType.ToString(),
-                mappedStoryEntity.ColumnType.ToString())
-            );
+                mappedStoryEntity.ColumnType.ToString());
+            
+            await _unitOfWork.StoryHistoryRepository.CreateAsync(updateColumnHistoryRecord);
 
+            await _unitOfWork.CommitAsync();
+            
             scope.Complete();
             
             existingStoryEntity.RecordVersion = mappedStoryEntity.RecordVersion;
@@ -170,7 +168,7 @@ namespace WebAPI.ApplicationLogic.Services
             return updatedStoryModel;
         }
 
-        public async Task<StoryModel> ChangeStoryStatusAsync(StoryModel story, string userName)
+        public async Task<StoryModel> ChangeStatusAsync(StoryModel story, string username)
         {
             var storyEntity = StoryMapper.Map(story);
 
@@ -188,8 +186,8 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (string.IsNullOrWhiteSpace(story.BlockReason))
             {
-                await _storyHistoryRepository.CreateAsync(StoryHistoryUtilities.GetStoryHistoryForUpdate(
-                    userName, 
+                await _unitOfWork.StoryHistoryRepository.CreateAsync(StoryHistoryUtilities.GetStoryHistoryForUpdate(
+                    username, 
                     storyEntity.Id, 
                     StoryFields.IsReady, 
                     existingStoryEntity.IsReady.ToString(), 
@@ -203,27 +201,29 @@ namespace WebAPI.ApplicationLogic.Services
                 var storyHistoryRecords = new [] 
                 { 
                     StoryHistoryUtilities.GetStoryHistoryForUpdate(
-                        userName, 
+                        username, 
                         storyEntity.Id, 
                         StoryFields.IsBlocked, 
                         existingStoryEntity.IsBlocked.ToString(), 
                         storyEntity.IsBlocked.ToString()),
                     StoryHistoryUtilities.GetStoryHistoryForUpdate(
-                        userName, 
+                        username, 
                         storyEntity.Id, 
                         StoryFields.BlockReason, 
                         existingStoryEntity.BlockReason, 
                         storyEntity.BlockReason)
                 };
                 
-                await _storyHistoryRepository.CreateAsync(storyHistoryRecords);
+                await _unitOfWork.StoryHistoryRepository.CreateAsync(storyHistoryRecords);
 
                 existingStoryEntity.IsBlocked = storyEntity.IsBlocked;
                 existingStoryEntity.BlockReason = storyEntity.BlockReason;
             }
  
-            await _storyRepository.UpdateItemAsync(existingStoryEntity);
+            _unitOfWork.StoryRepository.UpdateItem(existingStoryEntity);
 
+            await _unitOfWork.CommitAsync();
+            
             scope.Complete();
 
             var updatedStoryModel = StoryMapper.Map(existingStoryEntity);
@@ -245,7 +245,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             var storyEntity = await SearchForStoryByIdAsync(storyUpdate.StoryId);
  
-            var userEntity = await _userRepository.SearchForSingleItemAsync(user => user.Id == userId);
+            var userEntity = await _unitOfWork.UserRepository.SearchForSingleItemAsync(user => user.Id == userId);
             if (userEntity == null)
             {
                 throw new UserFriendlyException(
@@ -260,7 +260,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (storyEntity.SprintId != storyUpdateEntity.SprintId)
             {
-                sprints = await _sprintRepository.SearchForMultipleItemsAsync(
+                sprints = await _unitOfWork.SprintRepository.SearchForMultipleItemsAsync(
                     sprint => sprint.Id == storyEntity.SprintId || 
                             sprint.Id == storyUpdateEntity.SprintId);
                 if (!sprints.Any())
@@ -273,7 +273,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (storyEntity.UserId != storyUpdateEntity.UserId)
             {
-                users = await _userRepository.SearchForMultipleItemsAsync(
+                users = await _unitOfWork.UserRepository.SearchForMultipleItemsAsync(
                     user => user.Id == storyEntity.UserId || 
                          user.Id == storyUpdateEntity.UserId);
                 if (!users.Any())
@@ -292,24 +292,28 @@ namespace WebAPI.ApplicationLogic.Services
                     users
                 );
             
-            await _storyHistoryRepository.CreateAsync(storyHistoryUpdates);
-            var updatedStory = await _storyRepository.UpdateItemAsync(storyUpdateEntity);
+            await _unitOfWork.StoryHistoryRepository.CreateAsync(storyHistoryUpdates);
+            _unitOfWork.StoryRepository.UpdateItem(storyUpdateEntity);
     
+            await _unitOfWork.CommitAsync();
+            
             scope.Complete();
 
-            var storyModel = StoryMapper.Map(updatedStory);
+            var storyModel = StoryMapper.Map(storyUpdateEntity);
             
             return storyModel;
         }
 
-        public async Task RemoveStorySoftAsync(StoryModel story)
+        public async Task SoftRemoveAsync(StoryModel story)
         {
             var storyEntity = StoryMapper.Map(story);
             
-            await _storyRepository.UpdateItemFieldAsync(storyEntity, prop => prop.IsDeleted);
+            _unitOfWork.StoryRepository.UpdateItemField(storyEntity, prop => prop.IsDeleted);
+            
+            await _unitOfWork.CommitAsync();
         }
 
-        public async Task RemoveStoryAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
             using var scope = new TransactionScope
             (
@@ -321,8 +325,10 @@ namespace WebAPI.ApplicationLogic.Services
                 TransactionScopeAsyncFlowOption.Enabled
             );
             
-            await _storyHistoryRepository.DeleteAsync(prop => prop.StoryId == id);
-            await _storyRepository.DeleteAsync(prop => prop.Id == id);
+            _unitOfWork.StoryHistoryRepository.Remove(prop => prop.StoryId == id);
+            _unitOfWork.StoryRepository.Remove(prop => prop.Id == id);
+
+            await _unitOfWork.CommitAsync();
 
             scope.Complete();
         }
@@ -332,7 +338,7 @@ namespace WebAPI.ApplicationLogic.Services
             Guid storyId, 
             Expression<Func<StoryEntity, object>> relatedEntity = null)
         {
-            var storyEntity = await _storyRepository.SearchForSingleItemAsync(
+            var storyEntity = await _unitOfWork.StoryRepository.SearchForSingleItemAsync(
                 story => story.Id == storyId, 
                 relatedEntity);
 

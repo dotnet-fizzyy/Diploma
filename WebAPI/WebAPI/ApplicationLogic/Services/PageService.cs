@@ -14,151 +14,164 @@ namespace WebAPI.ApplicationLogic.Services
 {
     public class PageService : IPageService
     {
-        private readonly IWorkSpaceRepository _workSpaceRepository;
-        private readonly IProjectRepository _projectRepository;
-        private readonly IEpicRepository _epicRepository;
-        private readonly ITeamRepository _teamRepository;
-        private readonly ISprintRepository _sprintRepository;
-        private readonly IStoryRepository _storyRepository;
-
         private const string MissingEpicsExceptionMessage = "No any epics found with provided project id";
         private const string MissingTeamExceptionMessage = "No any team found with provided team and user ids";
 
-        public PageService(
-            IProjectRepository projectRepository, 
-            IWorkSpaceRepository workSpaceRepository,
-            IEpicRepository epicRepository,
-            ITeamRepository teamRepository,
-            ISprintRepository sprintRepository,
-            IStoryRepository storyRepository
-            )
+        private readonly IUnitOfWork _unitOfWork;
+        
+        public PageService(IUnitOfWork unitOfWork)
         {
-            _workSpaceRepository = workSpaceRepository;
-            _projectRepository = projectRepository;
-            _epicRepository = epicRepository;
-            _teamRepository = teamRepository;
-            _sprintRepository = sprintRepository;
-            _storyRepository = storyRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<DefaultPage> GetDefaultPageAsync(Guid userId)
         {
-            var stories = await _storyRepository.SearchForMultipleItemsAsync(
-                x => x.UserId == userId, 
-                0, 
-                Search.StoriesLimit, 
-                story => story.CreationDate,
-                OrderType.Desc
+            var stories = _unitOfWork.StoryRepository.SearchForMultipleItemsAsync(
+                story => story.UserId == userId, 
+                offset: 0, 
+                limit: Search.StoriesLimit, 
+                sort: story => story.CreationDate,
+                orderType: OrderType.Desc
             );
-            var teams = await _teamRepository.GetUserTeams(userId);
+            var teams = _unitOfWork.TeamRepository.GetUserTeams(userId);
 
-            var defaultPageResult = PageAggregator.CreateDefaultPageModel(teams, stories);
+            await Task.WhenAll(stories, teams);
 
-            return defaultPageResult;
+            return PageAggregator.CreateDefaultPageModel(teams.Result, stories.Result);;
         }
 
         public async Task<SearchResult> GetSearchResultsAsync(string searchTerm, Guid[] teamIds)
         {
-            var teamEntities = await _teamRepository.GetTeamsBySearchTerm(searchTerm, Search.TeamsLimit, teamIds);
-            var projectEntities = await _projectRepository.GetProjectsBySearchTerm(searchTerm, Search.ProjectsLimit, teamIds);
+            var teams = _unitOfWork.TeamRepository.GetTeamsBySearchTerm(
+                searchTerm,
+                Search.TeamsLimit,
+                teamIds);
+            var projects = _unitOfWork.ProjectRepository.GetProjectsBySearchTerm(
+                searchTerm,
+                Search.ProjectsLimit,
+                teamIds);
 
-            var searchResults = PageAggregator.CreateSearchResultsByTerm(teamEntities, projectEntities);
-            
-            return searchResults;
+            await Task.WhenAll(teams, projects);
+
+            return PageAggregator.CreateSearchResultsByTerm(
+                teams.Result,
+                projects.Result
+            );;
         }
 
-        public async Task<BoardPage> GetBoardPageDataAsync(Guid projectId, Guid teamId, Guid? epicId, Guid? sprintId, Guid userId)
+        public async Task<BoardPage> GetBoardPageDataAsync(
+            Guid projectId, 
+            Guid teamId,
+            Guid? epicId, 
+            Guid? sprintId, 
+            Guid userId)
         {
-            var team = await _teamRepository.GetUserTeamById(teamId, userId);
+            var team = await _unitOfWork.TeamRepository.GetUserTeamById(teamId, userId);
             if (team == null)
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, MissingTeamExceptionMessage);
             }
 
-            var project = await _projectRepository.SearchForSingleItemAsync(x => x.Id == projectId);
-            
-            var epics = await _epicRepository.SearchForMultipleItemsAsync(x => x.ProjectId == projectId, y => y.CreationDate, OrderType.Desc);
+            var project = await _unitOfWork.ProjectRepository
+                .SearchForSingleItemAsync(project => project.Id == projectId);
+            var epics = await _unitOfWork.EpicRepository.SearchForMultipleItemsAsync(
+                epic => epic.ProjectId == projectId, 
+                sort: prop => prop.CreationDate, 
+                OrderType.Desc);
+
             if (epics == null || !epics.Any())
             {
                 return new BoardPage();
             }
             
-            var latestEpic = epicId.HasValue ? epics.First(x => x.Id == epicId) : epics.First();
-            var sprints = await _sprintRepository.GetFullSprintsByEpicId(latestEpic.Id, teamId);
+            var latestEpic = epicId.HasValue ? 
+                epics.First(epic => epic.Id == epicId) : 
+                epics.First();
+
+            var sprints = await _unitOfWork.SprintRepository.GetFullSprintsByEpicId(latestEpic.Id, teamId);
+ 
             foreach (var sprint in sprints)
             {
                 sprint.Stories = StoryUtilities.SortStoriesByCriteria(sprint.Stories, SortTypes.Priority, OrderType.Asc);
             }
-            
-            var boardPage = PageAggregator.CreateBoardPageModel(team, project, epics, sprints);
-            
-            return boardPage;
+
+            return PageAggregator.CreateBoardPageModel(team, project, epics, sprints);
         }
 
         public async Task<TeamPage> GetTeamPageDataAsync(Guid userId, Guid teamId)
         {
-            var workSpace = await _workSpaceRepository.GetUserWorkSpaceAsync(userId);
-            
-            var team = await _teamRepository.GetTeamWithUsers(teamId);
+            var workSpace = _unitOfWork.WorkSpaceRepository.GetUserWorkSpaceAsync(userId);
+            var team = _unitOfWork.TeamRepository.GetTeamWithUsers(teamId);
 
-            var teamData = PageAggregator.CreateTeamPageModel(workSpace, team);
+            await Task.WhenAll(workSpace, team);
             
-            return teamData;
+            return PageAggregator.CreateTeamPageModel(workSpace.Result, team.Result);
         }
 
         public async Task<ProjectPage> GetProjectPageDataAsync(Guid projectId)
         {
-            var project = await _projectRepository.SearchForSingleItemAsync(x => x.Id == projectId, include => include.Teams, include => include.Epics);
+            var project = await _unitOfWork.ProjectRepository
+                .SearchForSingleItemAsync(
+                    project => project.Id == projectId,
+                    include => include.Teams,
+                    include => include.Epics);
+
             if (project == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(projectId)));
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND,
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(projectId)));
             }
 
-            var projectData = PageAggregator.CreateProjectPageModel(project);
-            
-            return projectData;
+            return PageAggregator.CreateProjectPageModel(project);
         }
 
         public async Task<WorkSpacePage> GetUserWorkSpacePageDataAsync(Guid userId)
         {
-            var workSpace = await _workSpaceRepository.GetUserWorkSpaceAsync(userId);
+            var workSpace = await _unitOfWork.WorkSpaceRepository.GetUserWorkSpaceAsync(userId);
+
             if (workSpace == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(userId)));
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND, 
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(userId)));
             }
 
-            var projects = await _projectRepository.GetProjectWithTeamsByWorkSpaceIdAsync(workSpace.Id);
+            var projects = await _unitOfWork.ProjectRepository
+                .GetProjectWithTeamsByWorkSpaceIdAsync(workSpace.Id);
 
-            var projectWorkSpaceData = PageAggregator.CreateWorkSpacePageModel(workSpace, projects);
-            
-            return projectWorkSpaceData;
+            return PageAggregator.CreateWorkSpacePageModel(workSpace, projects);
         }
 
         public async Task<FullStatisticsPage> GetStatisticsPageDataAsync(Guid projectId)
         {
-            var project = await _projectRepository.SearchForSingleItemAsync(x => x.Id == projectId);
+            var project = _unitOfWork.ProjectRepository
+                .SearchForSingleItemAsync(project => project.Id == projectId);
+            var epics = _unitOfWork.EpicRepository
+                .SearchForMultipleItemsAsync(
+                    epic => epic.ProjectId == projectId, 
+                    sort: prop => prop.CreationDate, 
+                    OrderType.Desc);
+
+            await Task.WhenAll(project, epics);
             
-            var epics = await _epicRepository.SearchForMultipleItemsAsync(x => x.ProjectId == projectId, y => y.CreationDate, OrderType.Desc);
-            if (epics == null || !epics.Any())
+            if (epics.Result == null || !epics.Result.Any())
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, MissingEpicsExceptionMessage);
             }
             
-            var latestEpic = epics.First();
-            var sprints = await _sprintRepository.GetFullSprintsByEpicId(latestEpic.Id);
+            var latestEpic = epics.Result.First();
+
+            var sprints = await _unitOfWork.SprintRepository.GetFullSprintsByEpicId(latestEpic.Id);
             
-            var statisticsPage = PageAggregator.CreateStatisticsPageModel(project, epics, sprints);
-            
-            return statisticsPage;
+            return PageAggregator.CreateStatisticsPageModel(project.Result, epics.Result, sprints);
         }
 
         public async Task<StatisticsPage> GetStatisticsDataForSearchItems(Guid epicId)
         {
-            var sprints = await _sprintRepository.GetFullSprintsByEpicId(epicId);
+            var sprints = await _unitOfWork.SprintRepository.GetFullSprintsByEpicId(epicId);
             
-            var statisticsPage = PageAggregator.CreateStatisticsPageModel(null, null, sprints);
-
-            return statisticsPage;
+            return PageAggregator.CreateStatisticsPageModel(project: null, epics: null, sprints);
         }
     }
 }

@@ -10,20 +10,23 @@ using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 
+using TeamEntity = WebAPI.Core.Entities.Team;
+using TeamUserEntity = WebAPI.Core.Entities.TeamUser;
+
 namespace WebAPI.ApplicationLogic.Services
 {
     public class TeamService : ITeamService
     {
-        private readonly ITeamRepository _teamRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public TeamService(ITeamRepository teamRepository)
+        public TeamService(IUnitOfWork unitOfWork)
         {
-            _teamRepository = teamRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<CollectionResponse<FullTeam>> GetUserTeamsAsync(Guid userId)
         {
-            var teamEntities = await _teamRepository.GetUserTeams(userId);
+            var teamEntities = await _unitOfWork.TeamRepository.GetUserTeams(userId);
             
             var collectionResponse = new CollectionResponse<FullTeam>
             {
@@ -35,7 +38,9 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<Team> GetTeamByIdAsync(Guid teamId)
         {
-            var teamEntity = await _teamRepository.SearchForSingleItemAsync(x => x.Id == teamId);
+            var teamEntity = await _unitOfWork.TeamRepository
+                .SearchForSingleItemAsync(team => team.Id == teamId);
+
             if (teamEntity == null)
             {
                 throw new UserFriendlyException(
@@ -51,7 +56,8 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<FullTeam> GetFullTeamDescriptionAsync(Guid teamId)
         {
-            var teamEntity = await _teamRepository.GetTeamWithUsers(teamId);
+            var teamEntity = await _unitOfWork.TeamRepository.GetTeamWithUsers(teamId);
+
             if (teamEntity == null)
             {
                 throw new UserFriendlyException(
@@ -77,7 +83,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<Team> CreateTeamWithCustomerAsync(Team team, Guid userId)
         {
             var teamEntity = TeamMapper.Map(team);
-            teamEntity.TeamUsers.Add(new Core.Entities.TeamUser { UserId = userId });
+            teamEntity.TeamUsers.Add(new TeamUserEntity { UserId = userId });
 
             var teamModel = await CreateTeam(teamEntity);
 
@@ -88,31 +94,39 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var teamEntity = TeamMapper.Map(team);
 
-            var updatedTeamEntity = await _teamRepository.UpdateItemAsync(teamEntity);
+            _unitOfWork.TeamRepository.UpdateItem(teamEntity);
 
-            var teamModel = TeamMapper.Map(updatedTeamEntity);
+            await _unitOfWork.CommitAsync();
+            
+            var teamModel = TeamMapper.Map(teamEntity);
 
             return teamModel;
         }
 
         public async Task RemoveTeamSoftAsync(Team team)
         {
-            await _teamRepository.DeleteSoftAsync(team.TeamId);
+            await _unitOfWork.TeamRepository.DeleteSoftAsync(team.TeamId);
+            
+            await _unitOfWork.CommitAsync();
         }
 
         public async Task RemoveTeamAsync(Guid id)
         {
-            await _teamRepository.DeleteAsync(x => x.Id == id);
+            _unitOfWork.TeamRepository.Remove(team => team.Id == id);
+            
+            await _unitOfWork.CommitAsync();
         }
 
 
-        private async Task<Team> CreateTeam(Core.Entities.Team teamEntity)
+        private async Task<Team> CreateTeam(TeamEntity teamEntity)
         {
             teamEntity.CreationDate = DateTime.UtcNow;
             
-            var createdTeamEntity = await _teamRepository.CreateAsync(teamEntity);
+            await _unitOfWork.TeamRepository.CreateAsync(teamEntity);
 
-            var teamModel = TeamMapper.Map(createdTeamEntity);
+            await _unitOfWork.CommitAsync();
+            
+            var teamModel = TeamMapper.Map(teamEntity);
 
             return teamModel;
         }

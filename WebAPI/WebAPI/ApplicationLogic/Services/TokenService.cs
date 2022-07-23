@@ -18,18 +18,18 @@ namespace WebAPI.ApplicationLogic.Services
 {
     public class TokenService : ITokenService
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserProvider _userProvider;
-        private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly AppSettings _appSettings;
 
         public TokenService(
+            IUnitOfWork unitOfWork,
             IUserProvider userProvider,
-            IRefreshTokenRepository refreshTokenRepository,
             AppSettings appSettings)
         {
+            _unitOfWork = unitOfWork;
             _userProvider = userProvider;
             _appSettings = appSettings;
-            _refreshTokenRepository = refreshTokenRepository;
         }
         
 
@@ -49,8 +49,8 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (_appSettings.Token.EnableRefreshTokenVerification)
             {
-                var existingToken = await _refreshTokenRepository.SearchForSingleItemAsync(
-                    token => token.UserId == fullUserModel.UserId);
+                var existingToken = await _unitOfWork.RefreshTokenRepository
+                    .SearchForSingleItemAsync(token => token.UserId == fullUserModel.UserId);
  
                 if (existingToken != null)
                 {
@@ -64,7 +64,9 @@ namespace WebAPI.ApplicationLogic.Services
                         refreshToken,
                         _appSettings.Token.LifeTime);
                
-                    await _refreshTokenRepository.CreateAsync(refreshTokenEntity);
+                    await _unitOfWork.RefreshTokenRepository.CreateAsync(refreshTokenEntity);
+
+                    await _unitOfWork.CommitAsync();
                 }
             }
 
@@ -86,9 +88,10 @@ namespace WebAPI.ApplicationLogic.Services
         {
             if (_appSettings.Token.EnableRefreshTokenVerification)
             {
-                var refreshTokenEntity = await _refreshTokenRepository.SearchForSingleItemAsync(token => 
-                                                                            token.UserId == userId && 
-                                                                            token.Value == refreshToken);
+                var refreshTokenEntity = await _unitOfWork.RefreshTokenRepository
+                    .SearchForSingleItemAsync(token => 
+                        token.UserId == userId && 
+                        token.Value == refreshToken);
 
                 if (refreshTokenEntity == null)
                 {

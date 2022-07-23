@@ -14,20 +14,20 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<CollectionResponse<Story>> SortStories(Guid epicId, Guid teamId, Guid? sprintId, string sortType, OrderType orderType);
         
-        Task<Story> GetStoryByIdAsync(Guid storyId);
+        Task<Story> GetByIdAsync(Guid storyId);
 
-        Task<FullStory> GetFullStoryDescriptionAsync(Guid storyId);
+        Task<FullStory> GetFullDescriptionAsync(Guid storyId);
 
-        Task<Story> CreateStoryAsync(Story story, string userName);
+        Task<Story> CreateAsync(Story story, string username);
 
-        Task<Story> UpdateStoryColumnAsync(Story story, string userName);
+        Task<Story> UpdateColumnAsync(Story story, string username);
 
-        Task<Story> ChangeStoryStatusAsync(Story story,  string userName);
+        Task<Story> ChangeStatusAsync(Story story,  string username);
 
         Task<Story> UpdatePartsOfStoryAsync(Story story, Guid userId);
 
-        Task RemoveStorySoftAsync(Story story);
+        Task SoftRemoveAsync(Story story);
         
-        Task RemoveStoryAsync(Guid id);
+        Task RemoveAsync(Guid id);
     }
 }

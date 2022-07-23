@@ -1,30 +1,31 @@
 using System;
 using System.Threading.Tasks;
-using System.Transactions;
 using WebAPI.ApplicationLogic.Mappers;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Models.Models.Models;
+
+using WorkspaceModel = WebAPI.Models.Models.Models.WorkSpace;
+using UserEntity = WebAPI.Core.Entities.User;
 
 namespace WebAPI.ApplicationLogic.Services
 {
     public class WorkSpaceService : IWorkSpaceService
     {
-        private readonly IWorkSpaceRepository _workSpaceRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public WorkSpaceService(IWorkSpaceRepository workSpaceRepository, IUserRepository userRepository)
+        public WorkSpaceService(IUnitOfWork unitOfWork)
         {
-            _workSpaceRepository = workSpaceRepository;
-            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<WorkSpace> GetWorkSpaceByIdAsync(Guid workSpaceId)
+        public async Task<WorkspaceModel> GetByIdAsync(Guid workSpaceId)
         {
-            var workSpaceEntity = await _workSpaceRepository.SearchForSingleItemAsync(x => x.Id == workSpaceId);
+            var workSpaceEntity = await _unitOfWork.WorkSpaceRepository.SearchForSingleItemAsync(
+                workSpace => workSpace.Id == workSpaceId);
+
             if (workSpaceEntity == null)
             {
                 throw new UserFriendlyException(
@@ -37,9 +38,10 @@ namespace WebAPI.ApplicationLogic.Services
             return workSpaceModel;
         }
 
-        public async Task<WorkSpace> GetUserWorkSpaceAsync(Guid userId)
+        public async Task<WorkspaceModel> GetUsersWorkSpaceAsync(Guid userId)
         {
-            var userWorkSpaceEntity = await _workSpaceRepository.GetUserWorkSpaceAsync(userId);
+            var userWorkSpaceEntity = await _unitOfWork.WorkSpaceRepository.GetUserWorkSpaceAsync(userId);
+
             if (userWorkSpaceEntity == null)
             {
                 throw new UserFriendlyException(
@@ -48,68 +50,65 @@ namespace WebAPI.ApplicationLogic.Services
             }
 
             var workSpaceModel = WorkSpaceMapper.Map(userWorkSpaceEntity);
+
             return workSpaceModel;
         }
 
-        public async Task<WorkSpace> CreateWorkSpaceAsync(WorkSpace workSpace)
+        public async Task<WorkspaceModel> CreateAsync(WorkspaceModel workSpace)
         {
-            var createdWorkSpaceModel = await CreateWorkSpace(workSpace);
+            var createdWorkSpaceModel = await CreateWorkSpaceAsync(workSpace);
+
+            await _unitOfWork.CommitAsync();
 
             return createdWorkSpaceModel;
         }
 
-        public async Task<WorkSpace> CreateWorkSpaceWithUserAsync(WorkSpace workSpace, Guid userId)
+        public async Task<WorkspaceModel> CreateWithUserAsync(WorkspaceModel workSpace, Guid userId)
         {
-            using var scope = new TransactionScope
-            (
-                TransactionScopeOption.Required,
-                new TransactionOptions
-                {
-                    IsolationLevel = IsolationLevel.Serializable,
-                },
-                TransactionScopeAsyncFlowOption.Enabled
-            );
+            var createdWorkSpaceModel = await CreateWorkSpaceAsync(workSpace);
 
-            var createdWorkSpaceModel = await CreateWorkSpace(workSpace);
-
-            var userEntity = new Core.Entities.User
+            var userEntity = new UserEntity
             {
                 Id = userId,
                 WorkSpaceId = createdWorkSpaceModel.WorkSpaceId
             };
 
-            await _userRepository.UpdateUserWorkSpace(userEntity);
+            await _unitOfWork.UserRepository.UpdateUserWorkSpace(userEntity);
             
-            scope.Complete();
-            
+            await _unitOfWork.CommitAsync();
+
             return createdWorkSpaceModel;
         }
 
-        public async Task<WorkSpace> UpdateWorkSpaceAsync(WorkSpace workSpace)
+        public async Task<WorkspaceModel> UpdateAsync(WorkspaceModel workSpace)
         {
             var workSpaceEntity = WorkSpaceMapper.Map(workSpace);
 
-            var updatedWorkSpaceEntity = await _workSpaceRepository.UpdateItemAsync(workSpaceEntity);
+            _unitOfWork.WorkSpaceRepository.UpdateItem(workSpaceEntity);
+            
+            await _unitOfWork.CommitAsync();
 
-            var updatedWorkSpaceModel = WorkSpaceMapper.Map(updatedWorkSpaceEntity);
+            var updatedWorkSpaceModel = WorkSpaceMapper.Map(workSpaceEntity);
 
             return updatedWorkSpaceModel;
         }
 
-        public async Task RemoveWorkSpaceAsync(Guid workSpaceId)
+        public async Task RemoveAsync(Guid workSpaceId)
         {
-            await _workSpaceRepository.DeleteAsync(x => x.Id == workSpaceId);
+             _unitOfWork.WorkSpaceRepository.Remove(workSpace => workSpace.Id == workSpaceId);
+
+             await _unitOfWork.CommitAsync();
         }
 
-        
-        private async Task<WorkSpace> CreateWorkSpace(WorkSpace workSpace)
+
+        private async Task<WorkspaceModel> CreateWorkSpaceAsync(WorkspaceModel workSpace)
         {
             var workSpaceEntity = WorkSpaceMapper.Map(workSpace);
             workSpaceEntity.CreationDate = DateTime.UtcNow;
 
-            var createdWorkSpaceEntity = await _workSpaceRepository.CreateAsync(workSpaceEntity);
-
-            var createdWorkSpaceModel = WorkSpaceMapper.Map(createdWorkSpaceEntity);
+            await _unitOfWork.WorkSpaceRepository.CreateAsync(workSpaceEntity);
+            
+            var createdWorkSpaceModel = WorkSpaceMapper.Map(workSpaceEntity);
 
             return createdWorkSpaceModel;
         }

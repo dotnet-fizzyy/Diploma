@@ -23,48 +23,20 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             _dbSet = DbContext.Set<T>();
         }
         
-        public async Task<T> CreateAsync(T item)
+        public async Task CreateAsync(T item)
         {
-            try
-            {
-                await _dbSet.AddAsync(item);
-
-                await DbContext.SaveChangesAsync();
-
-                DbContext.Entry(item).State = EntityState.Detached;
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"Could not create item in database. Error: {e.Message}");
-            }
-
-            return item;
+            await _dbSet.AddAsync(item);
         }
 
-        public async Task<List<T>> CreateAsync(IEnumerable<T> items)
+        public async Task CreateAsync(IEnumerable<T> items)
         {
             var entitiesList = items.ToList();
-            
-            try
-            {
-                await _dbSet.AddRangeAsync(entitiesList);
 
-                await DbContext.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"Could not create items in database. Error: {e.Message}");
-            }
-
-            return entitiesList;
+            await _dbSet.AddRangeAsync(entitiesList);
         }
 
-        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> expression)
-        {
-            var exists = await _dbSet.Where(expression).AnyAsync();
-
-            return exists;
-        }
+        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> expression) => 
+            await _dbSet.AnyAsync(expression);
 
         public async Task<List<T>> SearchForMultipleItemsAsync(Expression<Func<T, bool>> expression)
         {
@@ -148,16 +120,13 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 
             return items;
         }
-        
-        public async Task<int> CountAsync(Expression<Func<T, bool>> expression)
-        {
-            var count = expression == null 
-                ? await _dbSet.CountAsync()
-                : await _dbSet.Where(expression).CountAsync();
 
-            return count;
-        }
-        
+        public async Task<int> CountAsync() =>
+            await _dbSet.CountAsync();
+
+        public async Task<int> CountAsync(Expression<Func<T, bool>> expression) => 
+            await _dbSet.Where(expression).CountAsync();
+
         public async Task<T> SearchForSingleItemAsync(
             Expression<Func<T, bool>> expression, 
             params Expression<Func<T, object>>[] includes)
@@ -189,97 +158,38 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             }
         }
 
-        public async Task<T> UpdateItemAsync(T item)
+        public void UpdateItem(T item)
         {
-            try
-            {
-                _dbSet.Update(item);
-
-                await DbContext.SaveChangesAsync();
-
-                DbContext.Entry(item).State = EntityState.Detached;
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"Unable to update item. Error: {e.Message}");
-            }
-
-            return item;
+            _dbSet.Update(item);
         }
         
-        public async Task<T> UpdateItemAsync(T item, params Expression<Func<T, object>>[] nonModifiedProperties)
+        public void UpdateItem(T item, params Expression<Func<T, object>>[] nonModifiedProperties)
         {
-            try
-            {
-                var entryEntity = DbContext.Entry(item);
-                
-                foreach (var property in nonModifiedProperties)
-                {
-                    entryEntity.Property(property).IsModified = false;
-                }
-                
-                _dbSet.Update(item);
-                await DbContext.SaveChangesAsync();
+            var entryEntity = DbContext.Entry(item);
 
-                DbContext.Entry(item).State = EntityState.Detached;
-            }
-            catch (Exception e)
+            foreach (var property in nonModifiedProperties)
             {
-                throw new Exception($"Unable to update item. Error: {e.Message}");
+                entryEntity.Property(property).IsModified = false;
             }
 
-            return item;
+            _dbSet.Update(item);
         }
 
-        public async Task UpdateItemFieldAsync(T item, Expression<Func<T, object>> property)
+        public void UpdateItemField(T item, Expression<Func<T, object>> property)
         {
-            try
-            {
-                DbContext.Entry(item).Property(property).IsModified = true;
-
-                await DbContext.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"Unable to update item property. Error: {e.Message}");
-            }
+            DbContext.Entry(item).Property(property).IsModified = true;
         }
 
-        public async Task<List<T>> UpdateItemsAsync(IEnumerable<T> items)
+        public void UpdateItems(IEnumerable<T> items)
         {
             var entitiesList = items.ToList();
             
-            try
-            {
-                DbContext.UpdateRange(entitiesList);
-
-                await DbContext.SaveChangesAsync();
-
-                foreach (var entity in entitiesList)
-                {
-                    DbContext.Entry(entity).State = EntityState.Detached;
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"Unable to update items. Error: {e.Message}");
-            }
-
-            return entitiesList;
+            DbContext.UpdateRange(entitiesList);
         }
 
-        public async Task DeleteAsync(Expression<Func<T, bool>> expression)
+        public void Remove(Expression<Func<T, bool>> expression)
         {
-            try
-            {
-                _dbSet.RemoveRange(_dbSet.Where(expression));
-
-                await DbContext.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"Unable to remove item or items. Error: {e.Message}");
-            }
+            _dbSet.RemoveRange(_dbSet.Where(expression));
         }
     }
 }

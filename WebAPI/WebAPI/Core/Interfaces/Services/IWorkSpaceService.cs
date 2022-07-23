@@ -6,16 +6,16 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface IWorkSpaceService
     {
-        Task<WorkSpace> GetWorkSpaceByIdAsync(Guid workSpaceId);
+        Task<WorkSpace> GetByIdAsync(Guid workSpaceId);
         
-        Task<WorkSpace> GetUserWorkSpaceAsync(Guid userId);
+        Task<WorkSpace> GetUsersWorkSpaceAsync(Guid userId);
 
-        Task<WorkSpace> CreateWorkSpaceAsync(WorkSpace workSpace);
+        Task<WorkSpace> CreateAsync(WorkSpace workSpace);
         
-        Task<WorkSpace> CreateWorkSpaceWithUserAsync(WorkSpace workSpace, Guid userId);
+        Task<WorkSpace> CreateWithUserAsync(WorkSpace workSpace, Guid userId);
         
-        Task<WorkSpace> UpdateWorkSpaceAsync(WorkSpace workSpace);
+        Task<WorkSpace> UpdateAsync(WorkSpace workSpace);
         
-        Task RemoveWorkSpaceAsync(Guid workSpaceId);
+        Task RemoveAsync(Guid workSpaceId);
     }
 }

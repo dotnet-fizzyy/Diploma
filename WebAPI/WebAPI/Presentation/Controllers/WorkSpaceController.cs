@@ -34,7 +34,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<WorkSpace>> GetWorkSpaceById(Guid id)
         {
-            var workSpace = await _workSpaceService.GetWorkSpaceByIdAsync(id);
+            var workSpace = await _workSpaceService.GetByIdAsync(id);
 
             return workSpace;
         }
@@ -54,7 +54,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = ClaimsReader.GetUserClaims(User);
             
-            var workSpace = await _workSpaceService.GetUserWorkSpaceAsync(user.UserId);
+            var workSpace = await _workSpaceService.GetUsersWorkSpaceAsync(user.UserId);
 
             return workSpace;
         }
@@ -69,7 +69,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<WorkSpace>> CreateWorkSpace([FromBody] WorkSpace workSpace)
         {
-            var createdWorkSpace = await _workSpaceService.CreateWorkSpaceAsync(workSpace);
+            var createdWorkSpace = await _workSpaceService.CreateAsync(workSpace);
 
             return CreatedAtAction(nameof(CreateWorkSpace), createdWorkSpace);
         }
@@ -88,7 +88,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = ClaimsReader.GetUserClaims(User);
             
-            var createdWorkSpace = await _workSpaceService.CreateWorkSpaceWithUserAsync(workSpace, user.UserId);
+            var createdWorkSpace = await _workSpaceService.CreateWithUserAsync(workSpace, user.UserId);
 
             return CreatedAtAction(nameof(CreateWorkSpaceWithUser), createdWorkSpace);
         }
@@ -103,7 +103,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<WorkSpace>> UpdateWorkSpace([FromBody] WorkSpace workSpace)
         {
-            var createdWorkSpace = await _workSpaceService.UpdateWorkSpaceAsync(workSpace);
+            var createdWorkSpace = await _workSpaceService.UpdateAsync(workSpace);
 
             return createdWorkSpace;
         }
@@ -119,7 +119,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveWorkSpace(Guid id)
         {
-            await _workSpaceService.RemoveWorkSpaceAsync(id);
+            await _workSpaceService.RemoveAsync(id);
 
             return NoContent();
         }

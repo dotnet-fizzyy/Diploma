@@ -14,22 +14,28 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 
         public async Task<List<Sprint>> GetFullSprintsByEpicId(Guid epicId, Guid? teamId = null)
         {
-            var sprintEntities =
-                teamId.HasValue 
-                    ? await DbContext.Sprints
-                        .Include(x => x.Stories)
-                        .Where(x => x.EpicId == epicId)
-                        .Select(x => FilterStoriesByTeam(x, (Guid)teamId))
-                        .ToListAsync()
-                    : await DbContext.Sprints
-                        .Include(x => x.Stories)
-                        .Where(x => x.EpicId == epicId)
-                        .ToListAsync();
+            List<Sprint> sprintEntities;
 
+            if (teamId.HasValue)
+            {
+                sprintEntities = await DbContext.Sprints
+                    .Include(include => include.Stories)
+                    .Where(sprint => sprint.EpicId == epicId)
+                    .Select(sprint => FilterStoriesByTeam(sprint, (Guid)teamId))
+                    .ToListAsync();
+            }
+            else
+            {
+                sprintEntities = await DbContext.Sprints
+                    .Include(include => include.Stories)
+                    .Where(sprint => sprint.EpicId == epicId)
+                    .ToListAsync();   
+            }
+            
             return sprintEntities;
         }
 
-        public async Task DeleteSoftAsync(Guid sprintId)
+        public void DeleteSoft(Guid sprintId)
         {
             var sprintEntity = new Sprint
             {
@@ -37,15 +43,13 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 IsDeleted = true
             };
 
-            DbContext.Entry(sprintEntity).Property(x => x.IsDeleted).IsModified = true;
-            
-            await DbContext.SaveChangesAsync();
+            DbContext.Entry(sprintEntity).Property(prop => prop.IsDeleted).IsModified = true;
         }
 
         
         private static Sprint FilterStoriesByTeam(Sprint sprint, Guid teamId)
         {
-            sprint.Stories = sprint.Stories.Where(s => s.TeamId == teamId).ToList();
+            sprint.Stories = sprint.Stories.Where(story => story.TeamId == teamId).ToList();
 
             return sprint;
         }

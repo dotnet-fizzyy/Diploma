@@ -13,9 +13,7 @@ namespace WebAPI.Infrastructure.Postgres
         public DbSet<WorkSpace> WorkSpaces { get; set; } 
             
         public DbSet<Project> Projects { get; set; }
-        
-        public DbSet<Epic> Epics { get; set; }
-        
+
         public DbSet<Sprint> Sprints { get; set; }
         
         public DbSet<Story> Stories { get; set; }

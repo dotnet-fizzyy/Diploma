@@ -14,16 +14,17 @@ namespace WebAPI.ApplicationLogic.Services
 {
     public class EpicService : IEpicService
     {
-        private readonly IEpicRepository _epicRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public EpicService(IEpicRepository epicRepository)
+        public EpicService(IUnitOfWork unitOfWork)
         {
-            _epicRepository = epicRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<CollectionResponse<Epic>> GetEpicsFromProjectAsync(Guid projectId)
         {
-            var epicEntities = await _epicRepository.SearchForMultipleItemsAsync(x => x.ProjectId == projectId);
+            var epicEntities = await _unitOfWork.EpicRepository
+                .SearchForMultipleItemsAsync(epic => epic.ProjectId == projectId);
 
             var collectionResponse = new CollectionResponse<Epic>
             {
@@ -35,10 +36,14 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<Epic> GetEpicByIdAsync(Guid epicId)
         {
-            var epicEntity = await _epicRepository.SearchForSingleItemAsync(x => x.Id == epicId);
+            var epicEntity = await _unitOfWork.EpicRepository
+                .SearchForSingleItemAsync(epic => epic.Id == epicId);
+ 
             if (epicEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(epicId)));
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND, 
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(epicId)));
             }
             
             var epicModel = EpicMapper.Map(epicEntity);
@@ -48,13 +53,15 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<FullEpic> GetFullEpicDescriptionAsync(Guid epicId)
         {
-            var epicEntity = await _epicRepository.SearchForSingleItemAsync(
-                    x => x.Id == epicId, 
-                    includes => includes.Sprints
-                    );
+            var epicEntity = await _unitOfWork.EpicRepository.SearchForSingleItemAsync(
+                    epic => epic.Id == epicId, 
+                    includes => includes.Sprints);
+ 
             if (epicEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(epicId)));
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND,
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(epicId)));
             }
 
             var epicFullModel = EpicMapper.MapToFullModel(epicEntity);
@@ -67,9 +74,11 @@ namespace WebAPI.ApplicationLogic.Services
             var epicEntity = EpicMapper.Map(epic);
             epicEntity.CreationDate = DateTime.UtcNow;
 
-            var createdEpicEntity = await _epicRepository.CreateAsync(epicEntity);
+            await _unitOfWork.EpicRepository.CreateAsync(epicEntity);
 
-            var epicModel = EpicMapper.Map(createdEpicEntity);
+            await _unitOfWork.CommitAsync();
+            
+            var epicModel = EpicMapper.Map(epicEntity);
 
             return epicModel;
         }
@@ -78,21 +87,25 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var epicEntity = EpicMapper.Map(epic);
 
-            var updatedEpicEntity =  await _epicRepository.UpdateItemAsync(epicEntity);
+            _unitOfWork.EpicRepository.UpdateItem(epicEntity);
 
-            var epicModel = EpicMapper.Map(updatedEpicEntity);
+            await _unitOfWork.CommitAsync();
+            
+            var epicModel = EpicMapper.Map(epicEntity);
 
             return epicModel;
         }
 
         public async Task RemoveEpicSoftAsync(Epic epic)
         {
-            await _epicRepository.DeleteSoftAsync(epic.EpicId);
+            await _unitOfWork.EpicRepository.DeleteSoftAsync(epic.EpicId);
         }
 
         public async Task RemoveEpicAsync(Guid epicId)
         {
-            await _epicRepository.DeleteAsync(x => x.Id == epicId);
+            _unitOfWork.EpicRepository.Remove(epic => epic.Id == epicId);
+
+            await _unitOfWork.CommitAsync();
         }
     }
 }

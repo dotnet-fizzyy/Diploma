@@ -8,43 +8,43 @@ namespace WebAPI.Core.Interfaces.Database
 {
     public interface IBaseCrudRepository<T> where T : class
     {
-        Task<T> CreateAsync(T item);
+        Task CreateAsync(T item);
 
-        Task<List<T>> CreateAsync(IEnumerable<T> items);
+        Task CreateAsync(IEnumerable<T> items);
 
         Task<bool> ExistsAsync(Expression<Func<T, bool>> expression);
 
         Task<List<T>> SearchForMultipleItemsAsync(Expression<Func<T, bool>> expression);
+
+        Task<int> CountAsync();
 
         Task<int> CountAsync(Expression<Func<T, bool>> expression);
         
         Task<List<T>> SearchForMultipleItemsAsync<K>(
             Expression<Func<T, bool>> expression, 
             Expression<Func<T, K>> sort, 
-            OrderType orderType
-            );
+            OrderType orderType);
         
         Task<List<T>> SearchForMultipleItemsAsync<K>(
             Expression<Func<T, bool>> expression, 
             int offset, 
             int limit,
             Expression<Func<T, K>> sort, 
-            OrderType orderType
-            );
+            OrderType orderType);
 
         Task<T> SearchForSingleItemAsync(
             Expression<Func<T, bool>> expression, 
-            params Expression<Func<T, object>>[] includes
-            );
+            params Expression<Func<T, object>>[] includes);
 
-        Task UpdateItemFieldAsync(T item, Expression<Func<T, object>> property);
+        // todo: remove in future
+        void UpdateItemField(T item, Expression<Func<T, object>> property);
         
-        Task<T> UpdateItemAsync(T item);
-
-        Task<List<T>> UpdateItemsAsync(IEnumerable<T> items);
-
-        Task<T> UpdateItemAsync(T item, params Expression<Func<T, object>>[] nonModifiedProperties);
+        void UpdateItem(T item);
         
-        Task DeleteAsync(Expression<Func<T, bool>> expression);
+        void UpdateItem(T item, params Expression<Func<T, object>>[] nonModifiedProperties);
+
+        void UpdateItems(IEnumerable<T> items);
+        
+        void Remove(Expression<Func<T, bool>> expression);
     }
 }
