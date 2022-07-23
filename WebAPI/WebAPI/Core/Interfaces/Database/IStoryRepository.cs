@@ -8,5 +8,7 @@ namespace WebAPI.Core.Interfaces.Database
     public interface IStoryRepository : IBaseCrudRepository<Story>
     {
         Task<List<Story>> GetStoriesByEpicAndTeamIds(Guid epicId, Guid? teamId);
+
+        void SoftRemove(Guid id);
     }
 }

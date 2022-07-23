@@ -309,7 +309,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var storyEntity = StoryMapper.Map(story);
             
-            _unitOfWork.StoryRepository.UpdateItemField(storyEntity, prop => prop.IsDeleted);
+            _unitOfWork.StoryRepository.SoftRemove(storyEntity.Id);
             
             await _unitOfWork.CommitAsync();
         }
