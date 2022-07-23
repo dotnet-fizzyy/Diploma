@@ -34,12 +34,10 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var storyEntities = await _unitOfWork.StoryRepository.GetStoriesByEpicAndTeamIds(epicId, teamId);
 
-            var collectionResponse = new CollectionResponse<StoryModel>
+            return new CollectionResponse<StoryModel>
             {
                 Items = storyEntities.Select(StoryMapper.Map).ToList()
             };
-
-            return collectionResponse;
         }
 
         public async Task<CollectionResponse<StoryModel>> SortStories(
@@ -49,34 +47,32 @@ namespace WebAPI.ApplicationLogic.Services
             string sortType,
             OrderType orderType)
         {
-            List<StoryEntity> storyEntities;
+            List<StoryEntity> stories;
 
             if (sprintId.HasValue)
             {
-                storyEntities = await _unitOfWork.StoryRepository
+                stories = await _unitOfWork.StoryRepository
                     .SearchForMultipleItemsAsync(story => sprintId == story.SprintId && 
                                                                    story.TeamId == teamId);
             }
             else
             {
-                storyEntities = await _unitOfWork.StoryRepository.GetStoriesByEpicAndTeamIds(epicId, teamId);
+                stories = await _unitOfWork.StoryRepository.GetStoriesByEpicAndTeamIds(epicId, teamId);
             }
             
-            if (!storyEntities.Any())
+            if (!stories.Any())
             {
                 throw new UserFriendlyException(
                     ErrorStatus.NOT_FOUND, 
                     ExceptionMessageGenerator.GetMissingEntitiesMessage($"{nameof(epicId)} and ${nameof(sprintId)}"));
             }
 
-            storyEntities = StoryUtilities.SortStoriesByCriteria(storyEntities, sortType, orderType);
+            stories = StoryUtilities.SortStoriesByCriteria(stories, sortType, orderType);
             
-            var collectionResponse = new CollectionResponse<StoryModel>
+            return new CollectionResponse<StoryModel>
             {
-                Items = storyEntities.Select(StoryMapper.Map).ToList()
+                Items = stories.Select(StoryMapper.Map).ToList()
             };
-
-            return collectionResponse;
         }
 
         public async Task<CollectionResponse<StoryModel>> GetStoriesFromSprintAsync(Guid sprintId)
@@ -84,30 +80,24 @@ namespace WebAPI.ApplicationLogic.Services
             var storyEntities = await _unitOfWork.StoryRepository
                 .SearchForMultipleItemsAsync(story => story.SprintId == sprintId);
 
-            var collectionResponse = new CollectionResponse<StoryModel>
+            return new CollectionResponse<StoryModel>
             {
                 Items = storyEntities.Select(StoryMapper.Map).ToList()
             };
-
-            return collectionResponse;
         }
 
         public async Task<StoryModel> GetByIdAsync(Guid storyId)
         {
             var storyEntity = await SearchForStoryByIdAsync(storyId);
 
-            var storyModel = StoryMapper.Map(storyEntity);
-            
-            return storyModel;
+            return StoryMapper.Map(storyEntity);
         }
 
         public async Task<FullStory> GetFullDescriptionAsync(Guid storyId)
         {
             var storyEntity = await SearchForStoryByIdAsync(storyId, include => include.StoryHistories);
 
-            var storyFullModel = StoryMapper.MapToFullModel(storyEntity);
-
-            return storyFullModel;
+            return StoryMapper.MapToFullModel(storyEntity);
         }
 
         public async Task<StoryModel> CreateAsync(StoryModel story, string username)
@@ -124,53 +114,38 @@ namespace WebAPI.ApplicationLogic.Services
             
             await _unitOfWork.CommitAsync();
 
-            var storyModel = StoryMapper.Map(storyEntity);
-            
-            return storyModel;
+            return StoryMapper.Map(storyEntity);
         }
 
         public async Task<StoryModel> UpdateColumnAsync(StoryModel story, string username)
         {
-            var mappedStoryEntity = StoryMapper.Map(story);
+            var storyEntityToUpdate = StoryMapper.Map(story);
 
-            var existingStoryEntity = await SearchForStoryByIdAsync(story.StoryId);
+            var originalStoryEntity = await SearchForStoryByIdAsync(story.StoryId);
             
             using var scope = new TransactionScope
             (
                 TransactionScopeOption.Required,
                 new TransactionOptions
                 {
-                    IsolationLevel = IsolationLevel.Serializable,
+                    IsolationLevel = IsolationLevel.Serializable
                 },
                 TransactionScopeAsyncFlowOption.Enabled
             );
             
-            _unitOfWork.StoryRepository.UpdateItemField(mappedStoryEntity, prop => prop.ColumnType);
-
-            var updateColumnHistoryRecord = StoryHistoryUtilities.GetStoryHistoryForUpdate(
-                username,
-                mappedStoryEntity.Id,
-                StoryFields.ColumnType,
-                existingStoryEntity.ColumnType.ToString(),
-                mappedStoryEntity.ColumnType.ToString());
-            
-            await _unitOfWork.StoryHistoryRepository.CreateAsync(updateColumnHistoryRecord);
+            _unitOfWork.StoryRepository.UpdateItemField(storyEntityToUpdate, prop => prop.ColumnType);
+            await CreateStoryHistoryRecordWithNewColumnAsync(storyEntityToUpdate, originalStoryEntity, username);
 
             await _unitOfWork.CommitAsync();
             
             scope.Complete();
-            
-            existingStoryEntity.RecordVersion = mappedStoryEntity.RecordVersion;
-            existingStoryEntity.ColumnType = mappedStoryEntity.ColumnType;
 
-            var updatedStoryModel = StoryMapper.Map(existingStoryEntity);
-            
-            return updatedStoryModel;
+            return StoryMapper.Map(storyEntityToUpdate);
         }
 
         public async Task<StoryModel> ChangeStatusAsync(StoryModel story, string username)
         {
-            var storyEntity = StoryMapper.Map(story);
+            var storyEntityToUpdate = StoryMapper.Map(story);
 
             using var scope = new TransactionScope
             (
@@ -182,58 +157,30 @@ namespace WebAPI.ApplicationLogic.Services
                 TransactionScopeAsyncFlowOption.Enabled
             );
 
-            var existingStoryEntity = await SearchForStoryByIdAsync(story.StoryId);
+            var originalStoryEntity = await SearchForStoryByIdAsync(story.StoryId);
 
             if (string.IsNullOrWhiteSpace(story.BlockReason))
             {
-                existingStoryEntity.IsReady = storyEntity.IsReady;
-                
-                var storyHistoryRecord = StoryHistoryUtilities.GetStoryHistoryForUpdate(
-                    username,
-                    storyEntity.Id,
-                    StoryFields.IsReady,
-                    existingStoryEntity.IsReady.ToString(),
-                    storyEntity.IsReady.ToString());
-                
-                await _unitOfWork.StoryHistoryRepository.CreateAsync(storyHistoryRecord);
+                await CreateStoryHistoryRecordWithReadyStatusAsync(storyEntityToUpdate, originalStoryEntity, username);
             }
             else
             {
-                existingStoryEntity.IsBlocked = storyEntity.IsBlocked;
-                existingStoryEntity.BlockReason = storyEntity.BlockReason;
-
-                var storyHistoryRecords = new []
-                {
-                    StoryHistoryUtilities.GetStoryHistoryForUpdate(
-                        username,
-                        storyEntity.Id,
-                        StoryFields.IsBlocked,
-                        existingStoryEntity.IsBlocked.ToString(),
-                        storyEntity.IsBlocked.ToString()),
-                    StoryHistoryUtilities.GetStoryHistoryForUpdate(
-                        username,
-                        storyEntity.Id,
-                        StoryFields.BlockReason,
-                        existingStoryEntity.BlockReason,
-                        storyEntity.BlockReason)
-                };
-
-                await _unitOfWork.StoryHistoryRepository.CreateAsync(storyHistoryRecords);
+                await CreateStoryHistoryRecordWithBlockStatusAsync(storyEntityToUpdate, originalStoryEntity, username);
             }
  
-            _unitOfWork.StoryRepository.UpdateItem(existingStoryEntity);
+            _unitOfWork.StoryRepository.UpdateItem(originalStoryEntity);
 
             await _unitOfWork.CommitAsync();
             
             scope.Complete();
 
-            var updatedStoryModel = StoryMapper.Map(existingStoryEntity);
-
-            return updatedStoryModel;
+            return StoryMapper.Map(originalStoryEntity);
         }
 
         public async Task<StoryModel> UpdateAsync(StoryModel storyUpdate, Guid userId)
         {
+            var storyToUpdateEntity = StoryMapper.Map(storyUpdate);
+            
             using var scope = new TransactionScope
             (
                 TransactionScopeOption.Required,
@@ -244,64 +191,35 @@ namespace WebAPI.ApplicationLogic.Services
                 TransactionScopeAsyncFlowOption.Enabled
             );
 
-            var storyEntity = await SearchForStoryByIdAsync(storyUpdate.StoryId);
- 
-            var userEntity = await _unitOfWork.UserRepository.SearchForItemById(userId);
-            if (userEntity == null)
-            {
-                throw new UserFriendlyException(
-                    ErrorStatus.NOT_FOUND, 
-                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(storyUpdate.UserId)));
-            }
+            var originalStoryEntity = SearchForStoryByIdAsync(storyUpdate.StoryId);
+            var userEntity = SearchForUserByIdAsync(userId);
+
+            await Task.WhenAll(originalStoryEntity, userEntity);
             
-            var storyUpdateEntity = StoryMapper.Map(storyUpdate);
+            var sprints = GetSprintsForUpdatingStory(
+                storyToUpdateEntity.SprintId, 
+                originalStoryEntity.Result.SprintId);
+            var users = GetUsersForUpdatingStory(
+                storyToUpdateEntity.UserId, 
+                originalStoryEntity.Result.UserId);
 
-            List<SprintEntity> sprints = null;
-            List<UserEntity> users = null;
+            await Task.WhenAll(sprints, users);
 
-            if (storyEntity.SprintId != storyUpdateEntity.SprintId)
-            {
-                sprints = await _unitOfWork.SprintRepository.SearchForMultipleItemsAsync(
-                    sprint => sprint.Id == storyEntity.SprintId || 
-                            sprint.Id == storyUpdateEntity.SprintId);
-                if (!sprints.Any())
-                {
-                    throw new UserFriendlyException(
-                        ErrorStatus.NOT_FOUND,
-                        ExceptionMessageGenerator.GetMissingEntitiesMessage($"{nameof(storyEntity.SprintId)}"));
-                }
-            }
-
-            if (storyEntity.UserId != storyUpdateEntity.UserId)
-            {
-                users = await _unitOfWork.UserRepository.SearchForMultipleItemsAsync(
-                    user => user.Id == storyEntity.UserId || 
-                         user.Id == storyUpdateEntity.UserId);
-                if (!users.Any())
-                {
-                    throw new UserFriendlyException(
-                        ErrorStatus.NOT_FOUND, 
-                        ExceptionMessageGenerator.GetMissingEntitiesMessage($"{nameof(storyEntity.UserId)}"));
-                }
-            }
-            
             var storyHistoryUpdates = new StoryAggregator().CreateStoryFromUpdateParts(
-                storyEntity, 
-                storyUpdateEntity, 
-                userEntity.UserName, 
-                sprints, 
-                users);
+                originalStoryEntity.Result, 
+                storyToUpdateEntity, 
+                userEntity.Result.UserName, 
+                sprints.Result, 
+                users.Result);
             
             await _unitOfWork.StoryHistoryRepository.CreateAsync(storyHistoryUpdates);
-            _unitOfWork.StoryRepository.UpdateItem(storyUpdateEntity);
+            _unitOfWork.StoryRepository.UpdateItem(storyToUpdateEntity);
     
             await _unitOfWork.CommitAsync();
             
             scope.Complete();
 
-            var storyModel = StoryMapper.Map(storyUpdateEntity);
-            
-            return storyModel;
+            return StoryMapper.Map(storyToUpdateEntity);
         }
 
         public async Task SoftRemoveAsync(StoryModel story)
@@ -325,8 +243,8 @@ namespace WebAPI.ApplicationLogic.Services
                 TransactionScopeAsyncFlowOption.Enabled
             );
             
-            _unitOfWork.StoryHistoryRepository.Remove(prop => prop.StoryId == id);
-            _unitOfWork.StoryRepository.Remove(prop => prop.Id == id);
+            _unitOfWork.StoryHistoryRepository.Remove(storyHistory => storyHistory.StoryId == id);
+            _unitOfWork.StoryRepository.Remove(story => story.Id == id);
 
             await _unitOfWork.CommitAsync();
 
@@ -348,6 +266,129 @@ namespace WebAPI.ApplicationLogic.Services
             }
 
             return storyEntity;
+        }
+
+        private async Task CreateStoryHistoryRecordWithReadyStatusAsync(
+            StoryEntity storyToUpdate, 
+            StoryEntity originalStory, 
+            string username)
+        {
+            originalStory.IsReady = storyToUpdate.IsReady;
+                
+            var storyHistoryRecord = StoryHistoryUtilities.GetStoryHistoryForUpdate(
+                username,
+                originalStory.Id,
+                StoryFields.IsReady,
+                storyToUpdate.IsReady.ToString(),
+                originalStory.IsReady.ToString());
+                
+            await _unitOfWork.StoryHistoryRepository.CreateAsync(storyHistoryRecord);
+        }
+        
+        private async Task CreateStoryHistoryRecordWithBlockStatusAsync(
+            StoryEntity storyToUpdate, 
+            StoryEntity originalStory, 
+            string username)
+        {
+            originalStory.IsBlocked = storyToUpdate.IsBlocked;
+            originalStory.BlockReason = storyToUpdate.BlockReason;
+
+            var storyHistoryRecords = new []
+            {
+                StoryHistoryUtilities.GetStoryHistoryForUpdate(
+                    username,
+                    storyToUpdate.Id,
+                    StoryFields.IsBlocked,
+                    originalStory.IsBlocked.ToString(),
+                    storyToUpdate.IsBlocked.ToString()),
+                StoryHistoryUtilities.GetStoryHistoryForUpdate(
+                    username,
+                    storyToUpdate.Id,
+                    StoryFields.BlockReason,
+                    originalStory.BlockReason,
+                    storyToUpdate.BlockReason)
+            };
+
+            await _unitOfWork.StoryHistoryRepository.CreateAsync(storyHistoryRecords);
+        }
+
+        private async Task CreateStoryHistoryRecordWithNewColumnAsync(
+            StoryEntity storyToUpdate, 
+            StoryEntity originalStory, 
+            string username)
+        {
+            var updateColumnHistoryRecord = StoryHistoryUtilities.GetStoryHistoryForUpdate(
+                username,
+                storyToUpdate.Id,
+                StoryFields.ColumnType,
+                originalStory.ColumnType.ToString(),
+                storyToUpdate.ColumnType.ToString());
+            
+            await _unitOfWork.StoryHistoryRepository.CreateAsync(updateColumnHistoryRecord);
+        }
+
+        private async Task<UserEntity> SearchForUserByIdAsync(Guid userId)
+        {
+            var user = await _unitOfWork.UserRepository.SearchForItemById(userId);
+            
+            if (user == null)
+            {
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND, 
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(userId)));
+            }
+
+            return user;
+        }
+
+        private async Task<List<SprintEntity>> GetSprintsForUpdatingStory(
+            Guid? newStorySprintId, 
+            Guid? originalStorySprintId)
+        {
+            if (newStorySprintId == originalStorySprintId)
+            {
+                return null;
+            }
+
+            var sprints = await _unitOfWork.SprintRepository
+                .SearchForMultipleItemsAsync(sprint => sprint.Id == newStorySprintId || 
+                                                       sprint.Id == originalStorySprintId);
+
+            if (!sprints.Any())
+            {
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND,
+                    ExceptionMessageGenerator.GetMissingEntitiesMessage(
+                        $"{nameof(newStorySprintId)} or ${nameof(originalStorySprintId)}")
+                    );
+            }
+            
+            return sprints;
+        }
+        
+        private async Task<List<UserEntity>> GetUsersForUpdatingStory(
+            Guid? newStoryOwnerId, 
+            Guid? originalStoryOwnerId)
+        {
+            if (newStoryOwnerId == originalStoryOwnerId)
+            {
+                return null;
+            }
+
+            var sprints = await _unitOfWork.UserRepository
+                .SearchForMultipleItemsAsync(user => user.Id == newStoryOwnerId || 
+                                                     user.Id == originalStoryOwnerId);
+
+            if (!sprints.Any())
+            {
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND, 
+                    ExceptionMessageGenerator.GetMissingEntitiesMessage(
+                        $"{nameof(newStoryOwnerId)} or ${nameof(originalStoryOwnerId)}")
+                    );
+            }
+            
+            return sprints;
         }
     }
 }

@@ -7,7 +7,6 @@ using WebAPI.Core.Enums;
 
 namespace WebAPI.ApplicationLogic.Aggregators
 {
-    // todo: move to app logic utilities
     public class StoryAggregator
     {
         private readonly List<StoryHistory> _storyHistory = new List<StoryHistory>();
