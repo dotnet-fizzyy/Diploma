@@ -130,7 +130,7 @@ namespace WebAPI.ApplicationLogic.Services
             return new EmailResponseModel
             {
                 IsEmailExist = emailExists
-            };;
+            };
         }
 
         public async Task UpdatePasswordAsync(Guid userId, PasswordUpdateRequestModel passwordUpdateRequestModel)
@@ -198,7 +198,7 @@ namespace WebAPI.ApplicationLogic.Services
             
             await _unitOfWork.CommitAsync();
 
-            return  UserMapper.Map(user);
+            return UserMapper.Map(user);
         }
 
         private async Task<string> GenerateRefreshTokenForAuthedUser(Guid userId)
@@ -210,19 +210,16 @@ namespace WebAPI.ApplicationLogic.Services
             {
                 return existingToken.Value;
             }
-
-            var refreshToken = TokenGenerator.GenerateRefreshToken();
-
+            
             var refreshTokenEntity = TokenGenerator.GenerateRefreshTokenEntity(
                 userId,
-                refreshToken,
                 _appSettings.Token.LifeTime);
 
             await _unitOfWork.RefreshTokenRepository.CreateAsync(refreshTokenEntity);
 
             await _unitOfWork.CommitAsync();
 
-            return refreshToken;
+            return refreshTokenEntity.Value;
         }
     }
 }

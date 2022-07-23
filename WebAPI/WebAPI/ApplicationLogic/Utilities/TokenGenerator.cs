@@ -32,7 +32,19 @@ namespace WebAPI.ApplicationLogic.Utilities
             return encodedJwt;
         }
 
-        public static string GenerateRefreshToken()
+        public static RefreshToken GenerateRefreshTokenEntity(
+            Guid userId,
+            double tokenLifeTime
+        ) =>
+            new RefreshToken
+            {
+                UserId = userId,
+                Value = GenerateRefreshToken(),
+                ExpirationDate = DateTime.UtcNow.Add(TimeSpan.FromMinutes(tokenLifeTime)),
+                CreationDate = DateTime.UtcNow
+            };
+        
+        private static string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
 
@@ -44,19 +56,6 @@ namespace WebAPI.ApplicationLogic.Utilities
             }
         }
 
-        public static RefreshToken GenerateRefreshTokenEntity(
-            Guid userId,
-            string token,
-            double tokenLifeTime
-        ) =>
-            new RefreshToken
-            {
-                UserId = userId,
-                Value = token,
-                ExpirationDate = DateTime.UtcNow.Add(TimeSpan.FromMinutes(tokenLifeTime)),
-                CreationDate = DateTime.UtcNow
-            };
-        
         private static ClaimsIdentity GetClaims(Guid userId, string userName, string userRole)
         {
             var claims = new List<Claim>
