@@ -29,10 +29,10 @@ namespace WebAPI.ApplicationLogic.Services
             _unitOfWork = unitOfWork;
         }
         
-        public async Task<FullUser> GetFullUserAsync(Guid id) 
+        public async Task<FullUser> GetFullDescriptionByIdAsync(Guid id) 
             => await _userProvider.GetFullUser(id);
 
-        public async Task<User> GetUserByIdAsync(Guid id)
+        public async Task<User> GetByIdAsync(Guid id)
         {
             var userEntity = await _unitOfWork.UserRepository.SearchForSingleItemAsync(user => user.Id == id);
 
@@ -67,7 +67,7 @@ namespace WebAPI.ApplicationLogic.Services
             return createdUserModel;
         }
         
-        public async Task<User> CreateUserAsync(User user)
+        public async Task<User> CreateAsync(User user)
         {
             var entityUser = UserMapper.Map(user);
 
@@ -76,7 +76,7 @@ namespace WebAPI.ApplicationLogic.Services
             return createdUserModel;
         }
 
-        public async Task<User> UpdateUserAsync(User user)
+        public async Task<User> UpdateAsync(User user)
         {
             var entityUser = UserMapper.Map(user);
 
@@ -92,7 +92,7 @@ namespace WebAPI.ApplicationLogic.Services
             return userModel;
         }
 
-        public async Task<EmailResponseModel> CheckForEmailExistenceAsync(string email)
+        public async Task<EmailResponseModel> CheckEmailExistenceAsync(string email)
         {
             var emailExists = await _unitOfWork.UserRepository
                 .ExistsAsync(user => user.Email.ToLower() == email.ToLower());
@@ -105,7 +105,7 @@ namespace WebAPI.ApplicationLogic.Services
             return emailCheckResult;
         }
 
-        public async Task UpdateUserPasswordAsync(Guid userId, PasswordUpdateRequestModel passwordUpdateRequestModel)
+        public async Task UpdatePasswordAsync(Guid userId, PasswordUpdateRequestModel passwordUpdateRequestModel)
         {
             var oldHashedPassword = PasswordHashing.CreateHashPassword(passwordUpdateRequestModel.OldPassword);
             var newHashedPassword = PasswordHashing.CreateHashPassword(passwordUpdateRequestModel.NewPassword);
@@ -126,21 +126,21 @@ namespace WebAPI.ApplicationLogic.Services
             await _unitOfWork.UserRepository.UpdateUserPasswordAsync(userEntity);
         }
 
-        public async Task UpdateUserAvatarAsync(User user)
+        public async Task UpdateAvatarAsync(User user)
         {
             var userEntity = UserMapper.Map(user);
 
             await _unitOfWork.UserRepository.UpdateUserAvatarLinkAsync(userEntity);
         }
 
-        public async Task ChangeUserActivityStatusAsync(User user)
+        public async Task ChangeActivityStatusAsync(User user)
         {
             var userEntity = UserMapper.Map(user);
 
             await _unitOfWork.UserRepository.ChangeUserActivityStatusAsync(userEntity);
         }
 
-        public async Task RemoveUserAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
             using var scope = new TransactionScope
             (

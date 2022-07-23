@@ -39,7 +39,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var userClaims = ClaimsReader.GetUserClaims(User);
             
-            var user = await _userService.GetFullUserAsync(userClaims.UserId);
+            var user = await _userService.GetFullDescriptionByIdAsync(userClaims.UserId);
 
             return user;
         }
@@ -57,7 +57,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<User>> GetUser(Guid id)
         {
-            var user = await _userService.GetUserByIdAsync(id);
+            var user = await _userService.GetByIdAsync(id);
 
             return user;
         }
@@ -72,7 +72,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<User>> CreateUser([FromBody]User user)
         {
-            var createdUser = await _userService.CreateUserAsync(user);
+            var createdUser = await _userService.CreateAsync(user);
             
             return CreatedAtAction(nameof(CreateUser), createdUser);
         }
@@ -98,7 +98,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<User>> UpdateUser([FromBody] User user)
         {
-            var updatedUser = await _userService.UpdateUserAsync(user);
+            var updatedUser = await _userService.UpdateAsync(user);
             
             return updatedUser;
         }
@@ -118,7 +118,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = ClaimsReader.GetUserClaims(User);
 
-            await _userService.UpdateUserPasswordAsync(user.UserId, passwordUpdateRequestModel);
+            await _userService.UpdatePasswordAsync(user.UserId, passwordUpdateRequestModel);
             
             return NoContent();
         }
@@ -139,7 +139,7 @@ namespace WebAPI.Presentation.Controllers
             var user = new User();
             userPatchDocument.ApplyTo(user);
 
-            await _userService.ChangeUserActivityStatusAsync(user);
+            await _userService.ChangeActivityStatusAsync(user);
             
             return NoContent();
         }
@@ -160,7 +160,7 @@ namespace WebAPI.Presentation.Controllers
             var user = new User();
             userPatchDocument.ApplyTo(user);
 
-            await _userService.UpdateUserAvatarAsync(user);
+            await _userService.UpdateAvatarAsync(user);
             
             return NoContent();
         }
@@ -176,7 +176,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveUser([BindRequired]Guid id)
         {
-            await _userService.RemoveUserAsync(id);
+            await _userService.RemoveAsync(id);
 
             return NoContent();
         }

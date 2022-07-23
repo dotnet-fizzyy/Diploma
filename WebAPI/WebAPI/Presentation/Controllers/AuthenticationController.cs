@@ -77,6 +77,6 @@ namespace WebAPI.Presentation.Controllers
         [Route("check-email")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<EmailResponseModel>> CheckForEmailExistence([FromQuery] string email)
-            => await _userService.CheckForEmailExistenceAsync(email);
+            => await _userService.CheckEmailExistenceAsync(email);
     }
 }
