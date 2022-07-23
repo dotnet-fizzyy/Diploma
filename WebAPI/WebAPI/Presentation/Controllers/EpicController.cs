@@ -36,7 +36,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Epic>> GetEpic(Guid id)
         {
-            var epic = await _epicService.GetEpicByIdAsync(id);
+            var epic = await _epicService.GetByIdAsync(id);
 
             return epic;
         }
@@ -66,7 +66,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<FullEpic>> GetFullEpicDescription(Guid id)
         {
-            var fullEpic = await _epicService.GetFullEpicDescriptionAsync(id);
+            var fullEpic = await _epicService.GetFullDescriptionAsync(id);
 
             return fullEpic;
         }
@@ -81,7 +81,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Epic>> CreateEpic([FromBody, BindRequired] Epic epic)
         {
-            var createdEpic = await _epicService.CreateEpicAsync(epic);
+            var createdEpic = await _epicService.CreateAsync(epic);
 
             return CreatedAtAction(nameof(CreateEpic), createdEpic);
         }
@@ -96,7 +96,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> UpdateEpic([FromBody, BindRequired] Epic epic)
         {
-            var updatedEpic = await _epicService.UpdateEpicAsync(epic);
+            var updatedEpic = await _epicService.UpdateAsync(epic);
 
             return Ok(updatedEpic);
         }
@@ -113,7 +113,7 @@ namespace WebAPI.Presentation.Controllers
             var epic = new Epic();
             epicPatch.ApplyTo(epic);
             
-            await _epicService.RemoveEpicSoftAsync(epic);
+            await _epicService.SoftRemoveAsync(epic);
             
             return NoContent();
         }
@@ -129,7 +129,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveEpic(Guid id)
         { 
-            await _epicService.RemoveEpicAsync(id);
+            await _epicService.RemoveAsync(id);
 
             return NoContent();
         }

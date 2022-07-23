@@ -34,7 +34,7 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<Epic> GetEpicByIdAsync(Guid epicId)
+        public async Task<Epic> GetByIdAsync(Guid epicId)
         {
             var epicEntity = await _unitOfWork.EpicRepository
                 .SearchForSingleItemAsync(epic => epic.Id == epicId);
@@ -51,7 +51,7 @@ namespace WebAPI.ApplicationLogic.Services
             return epicModel;
         }
 
-        public async Task<FullEpic> GetFullEpicDescriptionAsync(Guid epicId)
+        public async Task<FullEpic> GetFullDescriptionAsync(Guid epicId)
         {
             var epicEntity = await _unitOfWork.EpicRepository.SearchForSingleItemAsync(
                     epic => epic.Id == epicId, 
@@ -69,7 +69,7 @@ namespace WebAPI.ApplicationLogic.Services
             return epicFullModel;
         }
 
-        public async Task<Epic> CreateEpicAsync(Epic epic)
+        public async Task<Epic> CreateAsync(Epic epic)
         {
             var epicEntity = EpicMapper.Map(epic);
             epicEntity.CreationDate = DateTime.UtcNow;
@@ -83,7 +83,7 @@ namespace WebAPI.ApplicationLogic.Services
             return epicModel;
         }
 
-        public async Task<Epic> UpdateEpicAsync(Epic epic)
+        public async Task<Epic> UpdateAsync(Epic epic)
         {
             var epicEntity = EpicMapper.Map(epic);
 
@@ -96,12 +96,12 @@ namespace WebAPI.ApplicationLogic.Services
             return epicModel;
         }
 
-        public async Task RemoveEpicSoftAsync(Epic epic)
+        public async Task SoftRemoveAsync(Epic epic)
         {
             await _unitOfWork.EpicRepository.DeleteSoftAsync(epic.EpicId);
         }
 
-        public async Task RemoveEpicAsync(Guid epicId)
+        public async Task RemoveAsync(Guid epicId)
         {
             _unitOfWork.EpicRepository.Remove(epic => epic.Id == epicId);
 
