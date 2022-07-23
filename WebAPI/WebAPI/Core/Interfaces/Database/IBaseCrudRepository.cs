@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 
 namespace WebAPI.Core.Interfaces.Database
 {
-    public interface IBaseCrudRepository<T> where T : class
+    public interface IBaseCrudRepository<T> 
+        where T : BaseEntity
     {
         Task CreateAsync(T item);
 
@@ -31,6 +33,8 @@ namespace WebAPI.Core.Interfaces.Database
             int limit,
             Expression<Func<T, K>> sort, 
             OrderType orderType);
+
+        Task<T> SearchForItemById(Guid id, params Expression<Func<T, object>>[] includes);
 
         Task<T> SearchForSingleItemAsync(
             Expression<Func<T, bool>> expression, 

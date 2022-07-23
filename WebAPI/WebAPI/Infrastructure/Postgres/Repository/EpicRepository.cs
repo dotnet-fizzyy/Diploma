@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Database;
 
@@ -12,7 +11,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             
         }
 
-        public async Task DeleteSoftAsync(Guid epicId)
+        public void SoftRemove(Guid epicId)
         {
             var epicEntity = new Epic
             {
@@ -21,8 +20,6 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             };
 
             DbContext.Entry(epicEntity).Property(x => x.IsDeleted).IsModified = true;
-            
-            await DbContext.SaveChangesAsync();
         }
     }
 }

@@ -36,8 +36,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<Epic> GetByIdAsync(Guid epicId)
         {
-            var epicEntity = await _unitOfWork.EpicRepository
-                .SearchForSingleItemAsync(epic => epic.Id == epicId);
+            var epicEntity = await _unitOfWork.EpicRepository.SearchForItemById(epicId);
  
             if (epicEntity == null)
             {
@@ -53,9 +52,8 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<FullEpic> GetFullDescriptionAsync(Guid epicId)
         {
-            var epicEntity = await _unitOfWork.EpicRepository.SearchForSingleItemAsync(
-                    epic => epic.Id == epicId, 
-                    includes => includes.Sprints);
+            var epicEntity = await _unitOfWork.EpicRepository
+                .SearchForItemById(epicId, includes => includes.Sprints);
  
             if (epicEntity == null)
             {
@@ -98,7 +96,9 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task SoftRemoveAsync(Epic epic)
         {
-            await _unitOfWork.EpicRepository.DeleteSoftAsync(epic.EpicId);
+            _unitOfWork.EpicRepository.SoftRemove(epic.EpicId);
+            
+            await _unitOfWork.CommitAsync();
         }
 
         public async Task RemoveAsync(Guid epicId)

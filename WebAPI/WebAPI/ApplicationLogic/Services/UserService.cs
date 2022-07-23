@@ -37,7 +37,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<User> GetByIdAsync(Guid id)
         {
-            var userEntity = await _unitOfWork.UserRepository.SearchForSingleItemAsync(user => user.Id == id);
+            var userEntity = await _unitOfWork.UserRepository.SearchForItemById(id);
 
             if (userEntity == null)
             {
@@ -163,7 +163,7 @@ namespace WebAPI.ApplicationLogic.Services
             scope.Complete();
         }
 
-        
+
         private async Task<User> CreateUser(UserEntity user)
         {
             user.Password = PasswordHashing.CreateHashPassword(user.Password);

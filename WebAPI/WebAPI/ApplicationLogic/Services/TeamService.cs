@@ -38,8 +38,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<Team> GetByIdAsync(Guid teamId)
         {
-            var teamEntity = await _unitOfWork.TeamRepository
-                .SearchForSingleItemAsync(team => team.Id == teamId);
+            var teamEntity = await _unitOfWork.TeamRepository.SearchForItemById(teamId);
 
             if (teamEntity == null)
             {

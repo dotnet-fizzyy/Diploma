@@ -35,7 +35,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             return sprintEntities;
         }
 
-        public void DeleteSoft(Guid sprintId)
+        public void SoftRemove(Guid sprintId)
         {
             var sprintEntity = new Sprint
             {

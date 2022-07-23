@@ -53,9 +53,9 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (sprintId.HasValue)
             {
-                storyEntities = await _unitOfWork.StoryRepository.SearchForMultipleItemsAsync(story => 
-                                            sprintId == story.SprintId && 
-                                            story.TeamId == teamId);
+                storyEntities = await _unitOfWork.StoryRepository
+                    .SearchForMultipleItemsAsync(story => sprintId == story.SprintId && 
+                                                                   story.TeamId == teamId);
             }
             else
             {
@@ -81,8 +81,8 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<CollectionResponse<StoryModel>> GetStoriesFromSprintAsync(Guid sprintId)
         {
-            var storyEntities = await _unitOfWork.StoryRepository.SearchForMultipleItemsAsync(
-                story => story.SprintId == sprintId);
+            var storyEntities = await _unitOfWork.StoryRepository
+                .SearchForMultipleItemsAsync(story => story.SprintId == sprintId);
 
             var collectionResponse = new CollectionResponse<StoryModel>
             {
@@ -246,8 +246,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             var storyEntity = await SearchForStoryByIdAsync(storyUpdate.StoryId);
  
-            var userEntity = await _unitOfWork.UserRepository
-                .SearchForSingleItemAsync(user => user.Id == userId);
+            var userEntity = await _unitOfWork.UserRepository.SearchForItemById(userId);
             if (userEntity == null)
             {
                 throw new UserFriendlyException(
@@ -339,9 +338,7 @@ namespace WebAPI.ApplicationLogic.Services
             Guid storyId, 
             Expression<Func<StoryEntity, object>> relatedEntity = null)
         {
-            var storyEntity = await _unitOfWork.StoryRepository.SearchForSingleItemAsync(
-                story => story.Id == storyId, 
-                relatedEntity);
+            var storyEntity = await _unitOfWork.StoryRepository.SearchForItemById(storyId, relatedEntity);
 
             if (storyEntity == null)
             {

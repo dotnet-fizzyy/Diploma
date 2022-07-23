@@ -385,14 +385,14 @@ namespace WebAPI.UnitTests.Services
                 SprintId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec"),
             };
             
-            A.CallTo(() => sprintRepository.DeleteSoft(A<Guid>._))
+            A.CallTo(() => sprintRepository.SoftRemove(A<Guid>._))
                 .DoesNothing();
             
             //Act
             await sprintService.SoftRemoveAsync(sprint);
 
             //Assert
-            A.CallTo(() => sprintRepository.DeleteSoft(A<Guid>._))
+            A.CallTo(() => sprintRepository.SoftRemove(A<Guid>._))
                 .MustHaveHappenedOnceExactly();
         }
         

@@ -4,13 +4,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Interfaces.Database;
 
 namespace WebAPI.Infrastructure.Postgres.Repository
 {
     public abstract class BaseCrudRepository<TContext, T> : IBaseCrudRepository<T> 
-        where T : class 
+        where T : BaseEntity 
         where TContext : DbContext
     {
         protected readonly TContext DbContext;
@@ -120,6 +121,9 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 
             return items;
         }
+
+        public async Task<T> SearchForItemById(Guid id, params Expression<Func<T, object>>[] includes) =>
+            await SearchForSingleItemAsync(item => item.Id == id, includes);
 
         public async Task<int> CountAsync() =>
             await _dbSet.CountAsync();

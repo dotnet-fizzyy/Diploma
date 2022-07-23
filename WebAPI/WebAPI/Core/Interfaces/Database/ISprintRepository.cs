@@ -9,6 +9,6 @@ namespace WebAPI.Core.Interfaces.Database
     {
         Task<List<Sprint>> GetFullSprintsByEpicId(Guid epicId, Guid? teamId = null);
         
-        void DeleteSoft(Guid sprintId);
+        void SoftRemove(Guid sprintId);
     }
 }

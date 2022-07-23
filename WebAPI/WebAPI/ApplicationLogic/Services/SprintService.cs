@@ -35,8 +35,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<Sprint> GetByIdAsync(Guid sprintId)
         {
-            var sprintEntity = await _unitOfWork.SprintRepository
-                .SearchForSingleItemAsync(sprint => sprint.Id == sprintId);
+            var sprintEntity = await _unitOfWork.SprintRepository.SearchForItemById(sprintId);
 
             if (sprintEntity == null)
             {
@@ -53,9 +52,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<FullSprint> GetFullSprintAsync(Guid sprintId)
         {
             var sprintEntity = await _unitOfWork.SprintRepository
-                .SearchForSingleItemAsync(
-                    sprint => sprint.Id == sprintId,
-                    include => include.Stories);
+                .SearchForItemById(sprintId, include => include.Stories);
 
             if (sprintEntity == null)
             {
@@ -97,7 +94,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task SoftRemoveAsync(Sprint sprint)
         {
-            _unitOfWork.SprintRepository.DeleteSoft(sprint.SprintId);
+            _unitOfWork.SprintRepository.SoftRemove(sprint.SprintId);
 
             await _unitOfWork.CommitAsync();
         }

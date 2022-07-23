@@ -39,8 +39,8 @@ namespace WebAPI.ApplicationLogic.Providers
                 }
             }
             
-            var userEntity = await _unitOfWork.UserRepository.SearchForSingleItemAsync(
-                user => user.Id == userId, 
+            var userEntity = await _unitOfWork.UserRepository.SearchForItemById(
+                userId, 
                 include => include.TeamUsers);
             
             if (userEntity == null)
@@ -99,12 +99,13 @@ namespace WebAPI.ApplicationLogic.Providers
 
                 if (userEntity.UserPosition == UserPosition.Customer)
                 {
-                    projectEntities = await _unitOfWork.ProjectRepository.SearchForMultipleItemsAsync(
-                        project => project.WorkSpaceId == userEntity.WorkSpaceId);
+                    projectEntities = await _unitOfWork.ProjectRepository
+                        .SearchForMultipleItemsAsync(project => project.WorkSpaceId == userEntity.WorkSpaceId);
                 }
                 else
                 {
-                    projectEntities = await _unitOfWork.ProjectRepository.GetProjectsByCollectionOfTeamIds(teamEntities);
+                    projectEntities = await _unitOfWork.ProjectRepository
+                        .GetProjectsByCollectionOfTeamIds(teamEntities);
                 }
             }
 

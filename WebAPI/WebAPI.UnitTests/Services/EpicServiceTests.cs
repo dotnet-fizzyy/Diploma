@@ -325,14 +325,14 @@ namespace WebAPI.UnitTests.Services
                 EpicId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec"),
             };
             
-            A.CallTo(() => epicRepository.DeleteSoftAsync(A<Guid>._))
+            A.CallTo(() => epicRepository.SoftRemove(A<Guid>._))
                 .DoesNothing();
             
             //Act
             await epicService.SoftRemoveAsync(epic);
 
             //Assert
-            A.CallTo(() => epicRepository.DeleteSoftAsync(A<Guid>._))
+            A.CallTo(() => epicRepository.SoftRemove(A<Guid>._))
                 .MustHaveHappenedOnceExactly();
         }
         
