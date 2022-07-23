@@ -22,7 +22,7 @@ namespace WebAPI.ApplicationLogic.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Project> GetProjectAsync(Guid projectId)
+        public async Task<Project> GetByIdAsync(Guid projectId)
         {
             var projectEntity = await _unitOfWork.ProjectRepository
                 .SearchForSingleItemAsync(project => project.Id == projectId); 
@@ -40,7 +40,7 @@ namespace WebAPI.ApplicationLogic.Services
             return projectModel;
         }
 
-        public async Task<FullProjectDescription> GetFullProjectDescriptionAsync(Guid projectId)
+        public async Task<FullProjectDescription> GetFullDescriptionAsync(Guid projectId)
         {
             // Receive project description
             var projectEntity = await _unitOfWork.ProjectRepository
@@ -90,7 +90,7 @@ namespace WebAPI.ApplicationLogic.Services
             return fullProjectDescription;
         }
 
-        public async Task<Project> CreateProjectAsync(Project projectModelToCreate)
+        public async Task<Project> CreateAsync(Project projectModelToCreate)
         {
             var projectEntity = ProjectMapper.Map(projectModelToCreate);
             projectEntity.CreationDate = DateTime.UtcNow;
@@ -104,7 +104,7 @@ namespace WebAPI.ApplicationLogic.Services
             return createdProjectModel;
         }
 
-        public async Task<Project> UpdateProjectAsync(Project project)
+        public async Task<Project> UpdateAsync(Project project)
         {
             var projectEntity = ProjectMapper.Map(project);
 
@@ -117,14 +117,14 @@ namespace WebAPI.ApplicationLogic.Services
             return updatedProjectModel;
         }
 
-        public async Task RemoveProjectSoftAsync(Project project)
+        public async Task SoftRemoveAsync(Project project)
         {
             _unitOfWork.ProjectRepository.SoftRemove(project.ProjectId);
 
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task RemoveProjectAsync(Guid projectId)
+        public async Task RemoveAsync(Guid projectId)
         {
             _unitOfWork.EpicRepository.Remove(epic => epic.Id == projectId);
             

@@ -35,7 +35,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Project>> GetProject(Guid id) =>
-            await _projectService.GetProjectAsync(id);
+            await _projectService.GetByIdAsync(id);
 
         /// <summary>
         /// Receive full project description by provided id
@@ -49,7 +49,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<FullProjectDescription>> GetProjectFullDescription(Guid id) =>
-            await _projectService.GetFullProjectDescriptionAsync(id);
+            await _projectService.GetFullDescriptionAsync(id);
 
         /// <summary>
         /// Create project with provided model properties
@@ -60,7 +60,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Project>> CreateProject([FromBody, BindRequired]Project project) =>
-            await _projectService.CreateProjectAsync(project);
+            await _projectService.CreateAsync(project);
 
         /// <summary>
         /// Update project with provided model properties
@@ -71,7 +71,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Project>> UpdateProject([FromBody, BindRequired] Project project) =>
-            await _projectService.UpdateProjectAsync(project);
+            await _projectService.UpdateAsync(project);
 
         /// <summary>
         /// Soft remove project by projectId
@@ -85,7 +85,7 @@ namespace WebAPI.Presentation.Controllers
             var project = new Project();
             projectPatch.ApplyTo(project);
             
-            await _projectService.RemoveProjectSoftAsync(project);
+            await _projectService.SoftRemoveAsync(project);
             
             return NoContent();
         }
@@ -101,7 +101,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveProject(Guid id)
         {
-            await _projectService.RemoveProjectAsync(id);
+            await _projectService.RemoveAsync(id);
 
             return NoContent();
         }
