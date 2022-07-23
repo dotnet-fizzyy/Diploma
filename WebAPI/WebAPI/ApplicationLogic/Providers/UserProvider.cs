@@ -17,22 +17,13 @@ namespace WebAPI.ApplicationLogic.Providers
 {
     public class UserProvider : IUserProvider
     {
-        private readonly IUserRepository _userRepository;
-        private readonly ITeamRepository _teamRepository;
-        private readonly IProjectRepository _projectRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ICacheContext _cacheContext;
         private readonly AppSettings _appSettings;
 
-        public UserProvider(
-            IUserRepository userRepository, 
-            ITeamRepository teamRepository, 
-            IProjectRepository projectRepository,
-            ICacheContext cacheContext,
-            AppSettings appSettings)
+        public UserProvider(IUnitOfWork unitOfWork, ICacheContext cacheContext, AppSettings appSettings)
         {
-            _projectRepository = projectRepository;
-            _teamRepository = teamRepository;
-            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
             _cacheContext = cacheContext;
             _appSettings = appSettings;
         }
@@ -49,9 +40,9 @@ namespace WebAPI.ApplicationLogic.Providers
                 }
             }
             
-            var userEntity = await _userRepository.SearchForSingleItemAsync(
-                searchProp => searchProp.Id == userId, 
-                includeEntity => includeEntity.TeamUsers);
+            var userEntity = await _unitOfWork.UserRepository.SearchForSingleItemAsync(
+                user => user.Id == userId, 
+                include => include.TeamUsers);
             
             if (userEntity == null)
             {
@@ -76,7 +67,7 @@ namespace WebAPI.ApplicationLogic.Providers
             var userEntity = UserMapper.Map(signInUserRequestModel);
             userEntity.Password = PasswordHashing.CreateHashPassword(userEntity.Password);
 
-            var authUser = await _userRepository.AuthenticateUser(userEntity);
+            var authUser = await _unitOfWork.UserRepository.AuthenticateUser(userEntity);
 
             if (authUser == null)
             {
@@ -105,16 +96,16 @@ namespace WebAPI.ApplicationLogic.Providers
             
             if (userEntity.TeamUsers.Any())
             {
-                teamEntities = await _teamRepository.GetUserTeams(userEntity.Id);
+                teamEntities = await _unitOfWork.TeamRepository.GetUserTeams(userEntity.Id);
 
                 if (userEntity.UserPosition == UserPosition.Customer)
                 {
-                    projectEntities = await _projectRepository.SearchForMultipleItemsAsync(
-                        searchProp => searchProp.WorkSpaceId == userEntity.WorkSpaceId);
+                    projectEntities = await _unitOfWork.ProjectRepository.SearchForMultipleItemsAsync(
+                        project => project.WorkSpaceId == userEntity.WorkSpaceId);
                 }
                 else
                 {
-                    projectEntities = await _projectRepository.GetProjectsByCollectionOfTeamIds(teamEntities);
+                    projectEntities = await _unitOfWork.ProjectRepository.GetProjectsByCollectionOfTeamIds(teamEntities);
                 }
             }
 

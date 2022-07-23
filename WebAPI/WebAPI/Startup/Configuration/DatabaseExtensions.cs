@@ -17,8 +17,7 @@ namespace WebAPI.Startup.Configuration
                 {
                     options.UseNpgsql(databaseSettings.ConnectionString);
                     options.UseLoggerFactory(loggerFactory);
-                },
-                ServiceLifetime.Transient
+                }
             );
         }
     }
