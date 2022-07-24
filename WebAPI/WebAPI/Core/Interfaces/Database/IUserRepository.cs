@@ -5,7 +5,7 @@ namespace WebAPI.Core.Interfaces.Database
 {
     public interface IUserRepository : IBaseCrudRepository<User>
     {
-        Task<User> AuthenticateUser(User authUser);
+        Task<User> AuthenticateUser(string email, string password);
 
         Task UpdateUserAvatarLinkAsync(User user);
 

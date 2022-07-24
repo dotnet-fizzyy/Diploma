@@ -9,11 +9,11 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface IUserService
     {
-        Task<FullUser> GetFullDescriptionByIdAsync(Guid id);
+        Task<FullUser> GetFullDescriptionByIdAsync(Guid userId);
         
         Task<User> GetByIdAsync(Guid id);
 
-        Task<AuthenticationUserResponseModel> AuthenticateUser(SignInUserRequestModel signInUser);
+        Task<AuthenticationUserResponseModel> AuthenticateUserAsync(SignInUserRequestModel signInUser);
         
         Task<User> CreateAsync(User user);
 

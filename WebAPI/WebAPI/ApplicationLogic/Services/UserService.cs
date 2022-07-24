@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 using WebAPI.ApplicationLogic.Mappers;
-using WebAPI.ApplicationLogic.Providers;
 using WebAPI.ApplicationLogic.Utilities;
 using WebAPI.Core.Configuration;
 using WebAPI.Core.Enums;
@@ -16,6 +17,8 @@ using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Models.Response;
 
 using UserEntity = WebAPI.Core.Entities.User;
+using ProjectEntity = WebAPI.Core.Entities.Project;
+using TeamEntity = WebAPI.Core.Entities.Team;
 using TeamUserEntity = WebAPI.Core.Entities.TeamUser;
 
 namespace WebAPI.ApplicationLogic.Services
@@ -32,10 +35,31 @@ namespace WebAPI.ApplicationLogic.Services
             _cacheContext = cacheContext;
             _appSettings = appSettings;
         }
-        
-        public async Task<FullUser> GetFullDescriptionByIdAsync(Guid id) => 
-            await new UserProvider(_unitOfWork, _cacheContext, _appSettings).GetFullUser(id);
 
+        public async Task<FullUser> GetFullDescriptionByIdAsync(Guid userId)
+        {
+            FullUser user;
+            
+            if (_appSettings.Redis.EnableRedis)
+            {
+                user = await GetUserFromCache(userId);
+
+                if (user != null)
+                {
+                    return user;
+                }
+            }
+
+            user = await GetUserAsync(userId);
+
+            if (_appSettings.Redis.EnableRedis)
+            {
+                await SetUserToCache(user);
+            }
+
+            return user;
+        }
+        
         public async Task<User> GetByIdAsync(Guid id)
         {
             var userEntity = await _unitOfWork.UserRepository.SearchForItemById(id);
@@ -50,28 +74,28 @@ namespace WebAPI.ApplicationLogic.Services
             return UserMapper.Map(userEntity);
         }
 
-        public async Task<AuthenticationUserResponseModel> AuthenticateUser(SignInUserRequestModel signInUser)
+        public async Task<AuthenticationUserResponseModel> AuthenticateUserAsync(SignInUserRequestModel signInUser)
         {
-            var fullUserModel = await new UserProvider(_unitOfWork, _cacheContext, _appSettings)
-                .AuthenticateAndGetFullUser(signInUser);
+            var authUser = await AuthenticateUserAsync(signInUser.Email, signInUser.Password);
+            var fullUser = await GetUserAsync(authUser.Id);
             
             var accessToken = TokenGenerator.GenerateAccessToken(
                 _appSettings, 
-                fullUserModel.UserId, 
-                fullUserModel.UserName, 
-                fullUserModel.UserRole.ToString());
+                fullUser.UserId, 
+                fullUser.UserName, 
+                fullUser.UserRole.ToString());
             
             string refreshToken = null;
 
             if (_appSettings.Token.EnableRefreshTokenVerification)
             {
-                refreshToken = await GenerateRefreshTokenForAuthedUser(fullUserModel.UserId);
+                refreshToken = await GenerateRefreshTokenForAuthedUser(fullUser.UserId);
             }
 
             var tokenPair = new AuthenticationUserResponseModel
             {
                 AccessToken = new Token(TokenTypes.Access, accessToken),
-                User = fullUserModel
+                User = fullUser
             };
 
             if (_appSettings.Token.EnableRefreshTokenVerification)
@@ -201,6 +225,65 @@ namespace WebAPI.ApplicationLogic.Services
             return UserMapper.Map(user);
         }
 
+        private async Task<UserEntity> AuthenticateUserAsync(string email, string password)
+        {
+            var hashPassword = PasswordHashing.CreateHashPassword(password);
+            var authUser = await _unitOfWork.UserRepository.AuthenticateUser(email, hashPassword);
+
+            if (authUser == null)
+            {
+                throw new UserFriendlyException(ErrorStatus.INVALID_DATA, "Unable to authenticate user");
+            }
+
+            return authUser;
+        }
+
+        private async Task<FullUser> GetUserAsync(Guid userId)
+        {
+            var userEntity = await _unitOfWork.UserRepository.SearchForItemById(
+                userId, 
+                include => include.TeamUsers);
+            
+            if (userEntity == null)
+            {
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND, 
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(userId)));
+            }
+            
+            ICollection<TeamEntity> teamEntities = null;
+            ICollection<ProjectEntity> projectEntities = null;
+            
+            if (userEntity.TeamUsers.Any())
+            {
+                teamEntities = await _unitOfWork.TeamRepository.GetUserTeams(userEntity.Id);
+                projectEntities = await GetProjectsByUser(userEntity, teamEntities);
+            }
+
+            return UserMapper.Map(userEntity, projectEntities, teamEntities);
+        }
+
+        private async Task<List<ProjectEntity>> GetProjectsByUser(UserEntity user, IEnumerable<TeamEntity> teams)
+        {
+            if (user.UserPosition == UserPosition.Customer)
+            {
+                return await _unitOfWork.ProjectRepository
+                    .SearchForMultipleItemsAsync(project => project.WorkSpaceId == user.WorkSpaceId);
+            }
+
+            return await _unitOfWork.ProjectRepository.GetProjectsByCollectionOfTeamIds(teams);
+        }
+
+        private async Task<FullUser> GetUserFromCache(Guid userId) =>
+           await _cacheContext.Get<FullUser>(RedisUtilities.CreateRedisKeyForUser(userId));
+        
+        private async Task SetUserToCache(FullUser user)
+        {
+            var userKey = RedisUtilities.CreateRedisKeyForUser(user.UserId);
+ 
+            await _cacheContext.Set(userKey, user, TimeSpan.FromHours(1));
+        }
+        
         private async Task<string> GenerateRefreshTokenForAuthedUser(Guid userId)
         {
             var existingToken = await _unitOfWork.RefreshTokenRepository
@@ -221,5 +304,30 @@ namespace WebAPI.ApplicationLogic.Services
 
             return refreshTokenEntity.Value;
         }
+
+        private async Task<AuthenticationUserResponseModel> GenerateAuthTokens(FullUser user)
+        {
+            var accessToken = TokenGenerator.GenerateAccessToken(
+                _appSettings, 
+                user.UserId, 
+                user.UserName, 
+                user.UserRole.ToString());
+            
+            Token refreshToken = null;
+
+            if (_appSettings.Token.EnableRefreshTokenVerification)
+            {
+                var refreshTokenValue = await GenerateRefreshTokenForAuthedUser(user.UserId);
+                
+                refreshToken = new Token(TokenTypes.Refresh, refreshTokenValue);
+            }
+
+            return new AuthenticationUserResponseModel
+            {
+                AccessToken = new Token(TokenTypes.Access, accessToken),
+                RefreshToken = refreshToken,
+                User = user
+            };;
+        } 
     }
 }

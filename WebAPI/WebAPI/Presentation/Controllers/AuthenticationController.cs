@@ -36,7 +36,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<AuthenticationUserResponseModel>> AuthenticateUser([FromBody, BindRequired] SignInUserRequestModel userRequestModel)
         {
-            var authResult = await _userService.AuthenticateUser(userRequestModel);
+            var authResult = await _userService.AuthenticateUserAsync(userRequestModel);
 
             return authResult;
         }

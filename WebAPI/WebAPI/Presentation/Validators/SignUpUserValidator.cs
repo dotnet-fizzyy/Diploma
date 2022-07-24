@@ -10,7 +10,7 @@ namespace WebAPI.Presentation.Validators
     {
         public SignUpUserValidator()
         {
-            RuleFor(x => x.Email)
+            RuleFor(x => x.UserName)
                 .Cascade(CascadeMode.Stop)
                     .NotNull()
                     .NotEmpty();
@@ -18,7 +18,7 @@ namespace WebAPI.Presentation.Validators
                 .Cascade(CascadeMode.Stop)
                     .NotNull()
                     .NotEmpty();
-            RuleFor(x => x.UserName)
+            RuleFor(x => x.Email)
                 .Cascade(CascadeMode.Stop)
                     .NotNull()
                     .NotEmpty()

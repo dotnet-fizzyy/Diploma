@@ -11,12 +11,12 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         {
         }
 
-        public async Task<User> AuthenticateUser(User authUser) =>
+        public async Task<User> AuthenticateUser(string email, string password) =>
             await DbContext.Users
                 .AsNoTracking()
                 .Include(include => include.TeamUsers)
-                .FirstOrDefaultAsync(user => user.Email == authUser.Email &&
-                                             user.Password == authUser.Password &&
+                .FirstOrDefaultAsync(user => user.Email == email &&
+                                             user.Password == password &&
                                              user.IsActive);
 
         public async Task UpdateUserAvatarLinkAsync(User user)
