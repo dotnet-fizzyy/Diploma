@@ -238,7 +238,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var storyEntity = StoryMapper.Map(story);
             
-            _unitOfWork.StoryRepository.SoftRemove(storyEntity.Id);
+            _unitOfWork.StoryRepository.UpdateItem(storyEntity, prop => prop.IsDeleted);
             
             await _unitOfWork.CommitAsync();
         }

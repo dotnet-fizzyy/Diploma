@@ -96,7 +96,9 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task SoftRemoveAsync(Epic epic)
         {
-            _unitOfWork.EpicRepository.SoftRemove(epic.EpicId);
+            var epicEntity = EpicMapper.Map(epic);
+
+            _unitOfWork.EpicRepository.UpdateItem(epicEntity, prop => prop.IsDeleted);
             
             await _unitOfWork.CommitAsync();
         }

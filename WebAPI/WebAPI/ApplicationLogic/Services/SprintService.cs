@@ -94,7 +94,9 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task SoftRemoveAsync(Sprint sprint)
         {
-            _unitOfWork.SprintRepository.SoftRemove(sprint.SprintId);
+            var sprintEntity = SprintMapper.Map(sprint);
+            
+            _unitOfWork.SprintRepository.UpdateItem(sprintEntity, prop => prop.IsDeleted);
 
             await _unitOfWork.CommitAsync();
         }

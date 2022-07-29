@@ -12,7 +12,5 @@ namespace WebAPI.Core.Interfaces.Database
         Task<List<Project>> GetProjectsByCollectionOfTeamIds(IEnumerable<Team> teams);
 
         Task<List<Project>> GetProjectsBySearchTerm(string term, int limit, Guid[] teamIds);
-        
-        void SoftRemove(Guid projectId);
     }
 }

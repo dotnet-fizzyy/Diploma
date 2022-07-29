@@ -10,7 +10,10 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 {
     public class ProjectRepository : BaseCrudRepository<DatabaseContext, Project>, IProjectRepository
     {
-        public ProjectRepository(DatabaseContext databaseContext) : base(databaseContext) { }
+        public ProjectRepository(DatabaseContext databaseContext) : base(databaseContext)
+        {
+            
+        }
 
         public async Task<List<Project>> GetProjectWithTeamsByWorkSpaceIdAsync(Guid workSpaceId)
         {
@@ -47,17 +50,6 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             var projectEntities = await query.Distinct().ToListAsync();
 
             return projectEntities;
-        }
-
-        public void SoftRemove(Guid projectId)
-        {
-            var projectEntity = new Project
-            {
-                Id = projectId, 
-                IsDeleted = true
-            };
-
-            DbContext.Entry(projectEntity).Property(x => x.IsDeleted).IsModified = true;
         }
     }
 }

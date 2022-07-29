@@ -10,7 +10,10 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 {
     public class TeamRepository : BaseCrudRepository<DatabaseContext, Team>, ITeamRepository
     {
-        public TeamRepository(DatabaseContext databaseContext) : base(databaseContext) { }
+        public TeamRepository(DatabaseContext databaseContext) : base(databaseContext)
+        {
+            
+        }
 
         public async Task<Team> GetUserTeamById(Guid teamId, Guid userId)
         {
@@ -61,17 +64,6 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 .FirstOrDefaultAsync(x => x.Id == teamId);
 
             return team;
-        }
-
-        public void RemoveSoftAsync(Guid teamId)
-        {
-            var teamEntity = new Team
-            {
-                Id = teamId, 
-                IsDeleted = true
-            };
-
-            DbContext.Entry(teamEntity).Property(x => x.IsDeleted).IsModified = true;
         }
     }
 }

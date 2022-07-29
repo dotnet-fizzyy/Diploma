@@ -102,9 +102,11 @@ namespace WebAPI.ApplicationLogic.Services
             return teamModel;
         }
 
-        public async Task SoftRemoveAsync(Guid teamId)
+        public async Task SoftRemoveAsync(Team team)
         {
-            _unitOfWork.TeamRepository.RemoveSoftAsync(teamId);
+            var teamEntity = TeamMapper.Map(team);
+            
+            _unitOfWork.TeamRepository.UpdateItem(teamEntity, prop => prop.IsDeleted);
             
             await _unitOfWork.CommitAsync();
         }

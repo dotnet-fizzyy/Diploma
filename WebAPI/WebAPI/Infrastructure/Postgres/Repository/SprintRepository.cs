@@ -10,7 +10,10 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 {
     public class SprintRepository : BaseCrudRepository<DatabaseContext, Sprint>, ISprintRepository
     {
-        public SprintRepository(DatabaseContext databaseContext) : base(databaseContext) { }
+        public SprintRepository(DatabaseContext databaseContext) : base(databaseContext)
+        {
+            
+        }
 
         public async Task<List<Sprint>> GetFullSprintsByEpicId(Guid epicId, Guid? teamId = null)
         {
@@ -33,17 +36,6 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             }
             
             return sprintEntities;
-        }
-
-        public void SoftRemove(Guid sprintId)
-        {
-            var sprintEntity = new Sprint
-            {
-                Id = sprintId,
-                IsDeleted = true
-            };
-
-            DbContext.Entry(sprintEntity).Property(prop => prop.IsDeleted).IsModified = true;
         }
 
         

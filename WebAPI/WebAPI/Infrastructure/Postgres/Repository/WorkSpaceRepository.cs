@@ -9,9 +9,11 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 {
     public class WorkSpaceRepository : BaseCrudRepository<DatabaseContext, WorkSpace>, IWorkSpaceRepository
     {
-        public WorkSpaceRepository(DatabaseContext dbContext) : base(dbContext) { }
-        
-        
+        public WorkSpaceRepository(DatabaseContext dbContext) : base(dbContext)
+        {
+            
+        }
+
         public async Task<WorkSpace> GetUserWorkSpaceAsync(Guid userId)
         {
             var query =

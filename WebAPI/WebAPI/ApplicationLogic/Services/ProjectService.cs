@@ -117,7 +117,9 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task SoftRemoveAsync(Project project)
         {
-            _unitOfWork.ProjectRepository.SoftRemove(project.ProjectId);
+            var projectEntity = ProjectMapper.Map(project);
+            
+            _unitOfWork.ProjectRepository.UpdateItem(projectEntity, prop => prop.IsDeleted);
 
             await _unitOfWork.CommitAsync();
         }

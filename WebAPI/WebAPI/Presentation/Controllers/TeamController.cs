@@ -137,7 +137,7 @@ namespace WebAPI.Presentation.Controllers
             var team = new Team();
             teamPatch.ApplyTo(team);
             
-            await _teamService.SoftRemoveAsync(team.TeamId);
+            await _teamService.SoftRemoveAsync(team);
             
             return NoContent();
         }

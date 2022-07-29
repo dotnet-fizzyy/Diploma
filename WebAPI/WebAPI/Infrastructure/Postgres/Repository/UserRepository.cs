@@ -9,6 +9,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
     {
         public UserRepository(DatabaseContext databaseContext) : base(databaseContext)
         {
+            
         }
 
         public async Task<User> AuthenticateUser(string email, string password) =>

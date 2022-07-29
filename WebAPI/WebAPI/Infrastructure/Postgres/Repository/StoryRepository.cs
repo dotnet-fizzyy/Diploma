@@ -40,16 +40,5 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             
             return storiesFromEpic;
         }
-
-        public void SoftRemove(Guid id)
-        {
-            var storyToRemove = new Story
-            {
-                Id = id,
-                IsDeleted = true,
-            };
-
-            DbContext.Entry(storyToRemove).Property(prop => prop.IsDeleted).IsModified = true;
-        }
     }
 }

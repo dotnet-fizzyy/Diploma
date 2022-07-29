@@ -8,7 +8,5 @@ namespace WebAPI.Core.Interfaces.Database
     public interface ISprintRepository : IBaseCrudRepository<Sprint>
     {
         Task<List<Sprint>> GetFullSprintsByEpicId(Guid epicId, Guid? teamId = null);
-        
-        void SoftRemove(Guid sprintId);
     }
 }
