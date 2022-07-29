@@ -81,9 +81,9 @@ namespace WebAPI.Presentation.Controllers
         [Route("team/id/{teamId}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<User>> CreateUserWithTeam([FromBody]User user, Guid teamId)
+        public async Task<ActionResult<User>> CreateUserAndAssignToTeam([FromBody]User user, Guid teamId)
         {
-            var createdUser = await _userService.CreateUserWithTeamAsync(user, teamId);
+            var createdUser = await _userService.CreateUserAndAssignToTeamAsync(user, teamId);
             
             return CreatedAtAction(nameof(CreateUser), createdUser);
         }

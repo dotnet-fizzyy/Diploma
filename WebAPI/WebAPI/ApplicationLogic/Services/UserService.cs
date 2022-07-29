@@ -23,6 +23,7 @@ using TeamUserEntity = WebAPI.Core.Entities.TeamUser;
 
 namespace WebAPI.ApplicationLogic.Services
 {
+    /// <inheritdoc cref="IUserService" />
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -36,13 +37,14 @@ namespace WebAPI.ApplicationLogic.Services
             _appSettings = appSettings;
         }
 
-        public async Task<FullUser> GetFullDescriptionByIdAsync(Guid userId)
+        /// <inheritdoc cref="IUserService.GetFullDescriptionByIdAsync" />
+        public async Task<FullUser> GetFullDescriptionByIdAsync(Guid id)
         {
             FullUser user;
             
             if (_appSettings.Redis.EnableRedis)
             {
-                user = await GetUserFromCache(userId);
+                user = await GetUserFromCache(id);
 
                 if (user != null)
                 {
@@ -50,7 +52,7 @@ namespace WebAPI.ApplicationLogic.Services
                 }
             }
 
-            user = await GetFullUserDescriptionAsync(userId);
+            user = await GetFullUserDescriptionAsync(id);
 
             if (_appSettings.Redis.EnableRedis)
             {
@@ -60,6 +62,7 @@ namespace WebAPI.ApplicationLogic.Services
             return user;
         }
         
+        /// <inheritdoc cref="IUserService.GetByIdAsync" />
         public async Task<User> GetByIdAsync(Guid id)
         {
             var userEntity = await _unitOfWork.UserRepository.SearchForItemById(id);
@@ -74,6 +77,7 @@ namespace WebAPI.ApplicationLogic.Services
             return UserMapper.Map(userEntity);
         }
 
+        /// <inheritdoc cref="IUserService.AuthenticateUserAsync" />
         public async Task<AuthenticationUserResponseModel> AuthenticateUserAsync(SignInUserRequestModel signInUser)
         {
             var authUser = await AuthenticateUserAsync(signInUser.Email, signInUser.Password);
@@ -82,7 +86,8 @@ namespace WebAPI.ApplicationLogic.Services
             return await GenerateAuthTokensAsync(fullUser);
         }
 
-        public async Task<User> CreateUserWithTeamAsync(User user, Guid teamId)
+        /// <inheritdoc cref="IUserService.CreateUserAndAssignToTeamAsync" />
+        public async Task<User> CreateUserAndAssignToTeamAsync(User user, Guid teamId)
         {
             var userEntity = UserMapper.Map(user);
             userEntity.TeamUsers.Add(new TeamUserEntity { TeamId = teamId });
@@ -90,13 +95,15 @@ namespace WebAPI.ApplicationLogic.Services
             return await CreateUser(userEntity);
         }
 
-        public async Task<User> CreateCustomerAsync(SignUpUserRequestModel userRequestModel)
+        /// <inheritdoc cref="IUserService.RegisterUserAsync" />
+        public async Task<User> RegisterUserAsync(SignUpUserRequestModel userRequestModel)
         {
             var customerEntity = UserUtilities.CreateCustomerEntity(userRequestModel);
 
             return await CreateUser(customerEntity);
         }
         
+        /// <inheritdoc cref="IUserService.CreateAsync" />
         public async Task<User> CreateAsync(User user)
         {
             var entityUser = UserMapper.Map(user);
@@ -104,6 +111,7 @@ namespace WebAPI.ApplicationLogic.Services
             return await CreateUser(entityUser);
         }
 
+        /// <inheritdoc cref="IUserService.UpdateAsync" />
         public async Task<User> UpdateAsync(User user)
         {
             var entityUser = UserMapper.Map(user);
@@ -122,6 +130,7 @@ namespace WebAPI.ApplicationLogic.Services
             return UserMapper.Map(entityUser);
         }
 
+        /// <inheritdoc cref="IUserService.CheckEmailExistenceAsync" />
         public async Task<EmailResponseModel> CheckEmailExistenceAsync(string email)
         {
             var emailExists = await _unitOfWork.UserRepository
@@ -133,6 +142,7 @@ namespace WebAPI.ApplicationLogic.Services
             };
         }
 
+        /// <inheritdoc cref="IUserService.UpdatePasswordAsync" />
         public async Task UpdatePasswordAsync(Guid userId, PasswordUpdateRequestModel passwordUpdateRequestModel)
         {
             var oldHashedPassword = PasswordHashing.CreateHashPassword(passwordUpdateRequestModel.OldPassword);
@@ -151,23 +161,32 @@ namespace WebAPI.ApplicationLogic.Services
 
             userEntity.Password = newHashedPassword;
 
-            await _unitOfWork.UserRepository.UpdateUserPasswordAsync(userEntity);
+            _unitOfWork.UserRepository.UpdateItem(userEntity, prop => prop.Password);
+
+            await _unitOfWork.CommitAsync();
         }
 
+        /// <inheritdoc cref="IUserService.UpdateAvatarAsync" />
         public async Task UpdateAvatarAsync(User user)
         {
             var userEntity = UserMapper.Map(user);
 
-            await _unitOfWork.UserRepository.UpdateUserAvatarLinkAsync(userEntity);
+            _unitOfWork.UserRepository.UpdateItem(userEntity, prop => prop.AvatarLink);
+
+            await _unitOfWork.CommitAsync();
         }
 
+        /// <inheritdoc cref="IUserService.ChangeActivityStatusAsync" />
         public async Task ChangeActivityStatusAsync(User user)
         {
             var userEntity = UserMapper.Map(user);
 
-            await _unitOfWork.UserRepository.ChangeUserActivityStatusAsync(userEntity);
+            _unitOfWork.UserRepository.UpdateItem(userEntity, prop => prop.IsActive);
+            
+            await _unitOfWork.CommitAsync();
         }
 
+        /// <inheritdoc cref="IUserService.RemoveAsync" />
         public async Task RemoveAsync(Guid id)
         {
             using var scope = new TransactionScope

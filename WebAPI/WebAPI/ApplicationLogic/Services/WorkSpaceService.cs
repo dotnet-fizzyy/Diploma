@@ -72,7 +72,7 @@ namespace WebAPI.ApplicationLogic.Services
                 WorkSpaceId = createdWorkSpaceModel.WorkSpaceId
             };
 
-            await _unitOfWork.UserRepository.UpdateUserWorkSpace(userEntity);
+            _unitOfWork.UserRepository.UpdateItem(userEntity, prop => prop.WorkSpaceId);
             
             await _unitOfWork.CommitAsync();
 

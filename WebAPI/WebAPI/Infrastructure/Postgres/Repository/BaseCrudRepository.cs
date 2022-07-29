@@ -175,8 +175,6 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             {
                 entryEntity.Property(property).IsModified = true;
             }
-
-            _dbSet.Update(item);
         }
 
         public void UpdateItems(IEnumerable<T> items)

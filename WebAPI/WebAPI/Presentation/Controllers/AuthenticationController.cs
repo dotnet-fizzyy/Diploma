@@ -51,7 +51,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<User>> CreateCustomer([FromBody, BindRequired] SignUpUserRequestModel userRequestModel)
         {
-            var createdCustomer = await _userService.CreateCustomerAsync(userRequestModel);
+            var createdCustomer = await _userService.RegisterUserAsync(userRequestModel);
             
             return CreatedAtAction(nameof(CreateCustomer), createdCustomer);
         }

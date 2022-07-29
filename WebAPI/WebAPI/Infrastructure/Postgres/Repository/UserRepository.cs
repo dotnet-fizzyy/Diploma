@@ -18,37 +18,5 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 .FirstOrDefaultAsync(user => user.Email == email &&
                                              user.Password == password &&
                                              user.IsActive);
-
-        public async Task UpdateUserAvatarLinkAsync(User user)
-        {
-            DbContext.Users.Attach(user);
-            DbContext.Entry(user).Property(x => x.AvatarLink).IsModified = true;
-
-            await DbContext.SaveChangesAsync();
-        }
-
-        public async Task UpdateUserPasswordAsync(User user)
-        {
-            DbContext.Users.Attach(user);
-            DbContext.Entry(user).Property(x => x.Password).IsModified = true;
-
-            await DbContext.SaveChangesAsync();
-        }
-
-        public async Task UpdateUserWorkSpace(User user)
-        {
-            DbContext.Users.Attach(user);
-            DbContext.Entry(user).Property(x => x.WorkSpaceId).IsModified = true;
-
-            await DbContext.SaveChangesAsync();
-        }
-
-        public async Task ChangeUserActivityStatusAsync(User user)
-        {
-            DbContext.Users.Attach(user);
-            DbContext.Entry(user).Property(x => x.IsActive).IsModified = true;
-
-            await DbContext.SaveChangesAsync();
-        }
     }
 }
