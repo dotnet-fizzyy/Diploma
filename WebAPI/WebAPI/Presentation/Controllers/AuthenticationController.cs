@@ -25,31 +25,31 @@ namespace WebAPI.Presentation.Controllers
         }
 
         /// <summary>
-        /// Authenticate user (sign in)
+        /// Authenticates user (sign in).
         /// </summary>
-        /// <param name="userRequestModel">AuthenticationUser model</param>
-        /// <response code="200">Successful authentication</response>
-        /// <response code="400">Failed authentication</response>
+        /// <param name="userRequestModel"><see cref="SignInUserRequestModel"/> model.</param>
+        /// <response code="200">Successful authentication.</response>
+        /// <response code="400">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpPost]
         [Route("sign-in")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<AuthenticationUserResponseModel>> AuthenticateUser([FromBody, BindRequired] SignInUserRequestModel userRequestModel)
-        {
-            var authResult = await _userService.AuthenticateUserAsync(userRequestModel);
-
-            return authResult;
-        }
+        public async Task<ActionResult<AuthenticationUserResponseModel>> AuthenticateUser(
+            [FromBody, BindRequired] SignInUserRequestModel userRequestModel) => 
+                await _userService.AuthenticateUserAsync(userRequestModel);
 
         /// <summary>
-        /// Create customer (sign up)
+        /// Creates user (sign up).
         /// </summary>
-        /// <param name="userRequestModel">AuthenticationUser model</param>
-        /// <response code="201">Successful customer registration</response>
+        /// <param name="userRequestModel"><see cref="SignUpUserRequestModel"/> model.</param>
+        /// <response code="201">Successful user registration.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpPost]
         [Route("sign-up")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<User>> CreateCustomer([FromBody, BindRequired] SignUpUserRequestModel userRequestModel)
+        public async Task<ActionResult<User>> CreateCustomer(
+            [FromBody, BindRequired] SignUpUserRequestModel userRequestModel)
         {
             var createdCustomer = await _userService.RegisterUserAsync(userRequestModel);
             
@@ -57,26 +57,36 @@ namespace WebAPI.Presentation.Controllers
         }
         
         /// <summary>
-        /// Update user access token (sign up)
+        /// Updates user access token (and refresh in case of server configuration).
         /// </summary>
-        /// <response code="200">Successful user access token update</response>
+        /// <response code="200">Successful user access token update.</response>
+        /// <response code="404">Unable to find user to update token pair.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpGet]
         [Route("token-renew")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<AuthenticationResponseModel>> UpdateAccessToken([FromHeader(Name = RequestHeaders.RefreshTokenHeader)] string refreshToken)
+        public async Task<ActionResult<AuthenticationResponseModel>> UpdateAccessToken(
+            [FromHeader(Name = RequestHeaders.RefreshTokenHeader)] string refreshToken)
         {
             var user = ClaimsReader.GetUserClaims(User);
             
-            var authModel = await _tokenService.UpdateTokens(refreshToken, user.UserId, user.UserName, user.UserRole.ToString());
-            
-            return authModel;
+            return await _tokenService.UpdateTokens(
+                refreshToken,
+                user.UserId,
+                user.UserName,
+                user.UserRole.ToString());
         }
 
+        /// <summary>
+        /// Checks for user with email existence.
+        /// </summary>
+        /// <param name="email">User email address.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpGet]
         [Route("check-email")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<EmailResponseModel>> CheckForEmailExistence([FromQuery] string email)
-            => await _userService.CheckEmailExistenceAsync(email);
+        public async Task<ActionResult<EmailResponseModel>> CheckForEmailExistence([FromQuery] string email) =>
+            await _userService.CheckEmailExistenceAsync(email);
     }
 }
