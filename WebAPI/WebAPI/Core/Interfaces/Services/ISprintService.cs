@@ -9,16 +9,16 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<CollectionResponse<FullSprint>> GetAllSprintsFromEpicAsync(Guid epicId, Guid? teamId);
         
-        Task<Sprint> GetByIdAsync(Guid sprintId);
+        Task<Sprint> GetByIdAsync(Guid id);
         
-        Task<FullSprint> GetFullSprintAsync(Guid sprintId);
+        Task<FullSprint> GetFullSprintAsync(Guid id);
 
         Task<Sprint> CreateAsync(Sprint sprint);
         
         Task<Sprint> UpdateAsync(Sprint sprint);
 
-        Task SoftRemoveAsync(Sprint sprint);
+        Task SoftRemoveAsync(Guid id);
         
-        Task RemoveAsync(Guid sprintId);
+        Task RemoveAsync(Guid id);
     }
 }

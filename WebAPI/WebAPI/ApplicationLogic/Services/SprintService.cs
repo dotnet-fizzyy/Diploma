@@ -10,6 +10,8 @@ using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 
+using SprintEntity = WebAPI.Core.Entities.Sprint;
+
 namespace WebAPI.ApplicationLogic.Services
 {
     public class SprintService : ISprintService
@@ -33,15 +35,15 @@ namespace WebAPI.ApplicationLogic.Services
             return sprintsCollectionResponse;
         }
 
-        public async Task<Sprint> GetByIdAsync(Guid sprintId)
+        public async Task<Sprint> GetByIdAsync(Guid id)
         {
-            var sprintEntity = await _unitOfWork.SprintRepository.SearchForItemById(sprintId);
+            var sprintEntity = await _unitOfWork.SprintRepository.SearchForItemById(id);
 
             if (sprintEntity == null)
             {
                 throw new UserFriendlyException(
                     ErrorStatus.NOT_FOUND, 
-                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(sprintId)));
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id)));
             }
 
             var sprintModel = SprintMapper.Map(sprintEntity);
@@ -49,16 +51,16 @@ namespace WebAPI.ApplicationLogic.Services
             return sprintModel;
         }
 
-        public async Task<FullSprint> GetFullSprintAsync(Guid sprintId)
+        public async Task<FullSprint> GetFullSprintAsync(Guid id)
         {
             var sprintEntity = await _unitOfWork.SprintRepository
-                .SearchForItemById(sprintId, include => include.Stories);
+                .SearchForItemById(id, include => include.Stories);
 
             if (sprintEntity == null)
             {
                 throw new UserFriendlyException(
                     ErrorStatus.NOT_FOUND,
-                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(sprintId)));
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id)));
             }
 
             var sprintFullModel = SprintMapper.MapToFullModel(sprintEntity);
@@ -92,18 +94,22 @@ namespace WebAPI.ApplicationLogic.Services
             return sprintModel;
         }
 
-        public async Task SoftRemoveAsync(Sprint sprint)
+        public async Task SoftRemoveAsync(Guid id)
         {
-            var sprintEntity = SprintMapper.Map(sprint);
+            var sprintEntity = new SprintEntity
+            {
+                Id = id,
+                IsDeleted = true
+            };
             
             _unitOfWork.SprintRepository.UpdateItem(sprintEntity, prop => prop.IsDeleted);
 
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task RemoveAsync(Guid sprintId)
+        public async Task RemoveAsync(Guid id)
         {
-            _unitOfWork.SprintRepository.Remove(x => x.Id == sprintId);
+            _unitOfWork.SprintRepository.Remove(x => x.Id == id);
             
             await _unitOfWork.CommitAsync();
         }

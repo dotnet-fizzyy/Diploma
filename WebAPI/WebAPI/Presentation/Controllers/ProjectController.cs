@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
@@ -30,7 +29,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication</response>
         /// <response code="404">Unable to find project by provided id</response>
         [HttpGet]
-        [Route("id/{id}")]
+        [Route("id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -44,7 +43,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication</response>
         /// <response code="404">Unable to find project by provided id</response>
         [HttpGet]
-        [Route("full-desc/id/{id}")]
+        [Route("full-desc/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -78,14 +77,13 @@ namespace WebAPI.Presentation.Controllers
         /// </summary>
         /// <response code="204">Successful soft remove project by projectId</response>
         /// <response code="401">Failed authentication</response>
-        [HttpPatch]
-        [Route("soft-remove")]
-        public async Task<IActionResult> RemoveProjectSoft([FromBody] JsonPatchDocument<Project> projectPatch)
+        [HttpDelete]
+        [Route("soft-remove/id/{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> ProjectSoftRemove(Guid id)
         {
-            var project = new Project();
-            projectPatch.ApplyTo(project);
-            
-            await _projectService.SoftRemoveAsync(project);
+            await _projectService.SoftRemoveAsync(id);
             
             return NoContent();
         }
@@ -96,7 +94,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="204">Removed project with provided id</response>
         /// <response code="401">Failed authentication</response>
         [HttpDelete]
-        [Route("id/{id}")]
+        [Route("remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveProject(Guid id)

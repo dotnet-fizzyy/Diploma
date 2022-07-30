@@ -10,6 +10,8 @@ using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 
+using EpicEntity = WebAPI.Core.Entities.Epic;
+
 namespace WebAPI.ApplicationLogic.Services
 {
     public class EpicService : IEpicService
@@ -34,15 +36,15 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<Epic> GetByIdAsync(Guid epicId)
+        public async Task<Epic> GetByIdAsync(Guid id)
         {
-            var epicEntity = await _unitOfWork.EpicRepository.SearchForItemById(epicId);
+            var epicEntity = await _unitOfWork.EpicRepository.SearchForItemById(id);
  
             if (epicEntity == null)
             {
                 throw new UserFriendlyException(
                     ErrorStatus.NOT_FOUND, 
-                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(epicId)));
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id)));
             }
             
             var epicModel = EpicMapper.Map(epicEntity);
@@ -50,16 +52,16 @@ namespace WebAPI.ApplicationLogic.Services
             return epicModel;
         }
 
-        public async Task<FullEpic> GetFullDescriptionAsync(Guid epicId)
+        public async Task<FullEpic> GetFullDescriptionAsync(Guid id)
         {
             var epicEntity = await _unitOfWork.EpicRepository
-                .SearchForItemById(epicId, includes => includes.Sprints);
+                .SearchForItemById(id, includes => includes.Sprints);
  
             if (epicEntity == null)
             {
                 throw new UserFriendlyException(
                     ErrorStatus.NOT_FOUND,
-                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(epicId)));
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id)));
             }
 
             var epicFullModel = EpicMapper.MapToFullModel(epicEntity);
@@ -94,18 +96,22 @@ namespace WebAPI.ApplicationLogic.Services
             return epicModel;
         }
 
-        public async Task SoftRemoveAsync(Epic epic)
+        public async Task SoftRemoveAsync(Guid id)
         {
-            var epicEntity = EpicMapper.Map(epic);
+            var epicEntity = new EpicEntity
+            {
+                Id = id,
+                IsDeleted = true
+            };
 
             _unitOfWork.EpicRepository.UpdateItem(epicEntity, prop => prop.IsDeleted);
             
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task RemoveAsync(Guid epicId)
+        public async Task RemoveAsync(Guid id)
         {
-            _unitOfWork.EpicRepository.Remove(epic => epic.Id == epicId);
+            _unitOfWork.EpicRepository.Remove(epic => epic.Id == id);
 
             await _unitOfWork.CommitAsync();
         }

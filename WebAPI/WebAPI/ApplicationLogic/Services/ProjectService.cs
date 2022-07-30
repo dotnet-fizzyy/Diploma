@@ -11,6 +11,8 @@ using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 
+using ProjectEntity = WebAPI.Core.Entities.Project;
+
 namespace WebAPI.ApplicationLogic.Services
 {
     public class ProjectService : IProjectService
@@ -115,9 +117,13 @@ namespace WebAPI.ApplicationLogic.Services
             return updatedProjectModel;
         }
 
-        public async Task SoftRemoveAsync(Project project)
+        public async Task SoftRemoveAsync(Guid id)
         {
-            var projectEntity = ProjectMapper.Map(project);
+            var projectEntity = new ProjectEntity
+            {
+                Id = id,
+                IsDeleted = true
+            };
             
             _unitOfWork.ProjectRepository.UpdateItem(projectEntity, prop => prop.IsDeleted);
 

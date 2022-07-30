@@ -9,9 +9,9 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<CollectionResponse<FullTeam>> GetUserTeamsAsync(Guid userId);
 
-        Task<Team> GetByIdAsync(Guid teamId);
+        Task<Team> GetByIdAsync(Guid id);
 
-        Task<FullTeam> GetFullDescriptionAsync(Guid teamId);
+        Task<FullTeam> GetFullDescriptionAsync(Guid id);
 
         Task<Team> CreateAsync(Team team);
         
@@ -19,7 +19,7 @@ namespace WebAPI.Core.Interfaces.Services
         
         Task<Team> UpdateAsync(Team team);
 
-        Task SoftRemoveAsync(Team team); 
+        Task SoftRemoveAsync(Guid id); 
         
         Task RemoveAsync(Guid id);
     }

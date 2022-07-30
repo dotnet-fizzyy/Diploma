@@ -9,16 +9,16 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<CollectionResponse<Epic>> GetEpicsFromProjectAsync(Guid projectId);
         
-        Task<Epic> GetByIdAsync(Guid epicId);
+        Task<Epic> GetByIdAsync(Guid id);
 
-        Task<FullEpic> GetFullDescriptionAsync(Guid epicId);
+        Task<FullEpic> GetFullDescriptionAsync(Guid id);
         
         Task<Epic> CreateAsync(Epic epic);
 
         Task<Epic> UpdateAsync(Epic epic);
 
-        Task SoftRemoveAsync(Epic epic);
+        Task SoftRemoveAsync(Guid id);
         
-        Task RemoveAsync(Guid epicId);
+        Task RemoveAsync(Guid id);
     }
 }

@@ -206,7 +206,7 @@ namespace WebAPI.Presentation.Controllers
         [Route("soft-remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> RemoveStorySoft(Guid id)
+        public async Task<IActionResult> StorySoftRemove(Guid id)
         {
             await _storyService.SoftRemoveAsync(id);
             

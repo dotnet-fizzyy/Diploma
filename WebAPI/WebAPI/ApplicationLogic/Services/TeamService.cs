@@ -36,15 +36,15 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<Team> GetByIdAsync(Guid teamId)
+        public async Task<Team> GetByIdAsync(Guid id)
         {
-            var teamEntity = await _unitOfWork.TeamRepository.SearchForItemById(teamId);
+            var teamEntity = await _unitOfWork.TeamRepository.SearchForItemById(id);
 
             if (teamEntity == null)
             {
                 throw new UserFriendlyException(
                     ErrorStatus.NOT_FOUND, 
-                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(teamId))
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id))
                 );
             }
             
@@ -53,15 +53,15 @@ namespace WebAPI.ApplicationLogic.Services
             return team;
         }
 
-        public async Task<FullTeam> GetFullDescriptionAsync(Guid teamId)
+        public async Task<FullTeam> GetFullDescriptionAsync(Guid id)
         {
-            var teamEntity = await _unitOfWork.TeamRepository.GetTeamWithUsers(teamId);
+            var teamEntity = await _unitOfWork.TeamRepository.GetTeamWithUsers(id);
 
             if (teamEntity == null)
             {
                 throw new UserFriendlyException(
                     ErrorStatus.NOT_FOUND,
-                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(teamId))
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id))
                 );
             }
             
@@ -102,9 +102,13 @@ namespace WebAPI.ApplicationLogic.Services
             return teamModel;
         }
 
-        public async Task SoftRemoveAsync(Team team)
+        public async Task SoftRemoveAsync(Guid id)
         {
-            var teamEntity = TeamMapper.Map(team);
+            var teamEntity = new TeamEntity
+            {
+                Id = id,
+                IsDeleted = true
+            };
             
             _unitOfWork.TeamRepository.UpdateItem(teamEntity, prop => prop.IsDeleted);
             

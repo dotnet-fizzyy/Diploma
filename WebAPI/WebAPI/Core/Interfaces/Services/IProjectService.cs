@@ -7,16 +7,16 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface IProjectService
     {
-        Task<Project> GetByIdAsync(Guid projectId);
+        Task<Project> GetByIdAsync(Guid id);
 
-        Task<FullProjectDescription> GetFullDescriptionAsync(Guid projectId);
+        Task<FullProjectDescription> GetFullDescriptionAsync(Guid id);
 
         Task<Project> CreateAsync(Project projectModelToCreate);
 
         Task<Project> UpdateAsync(Project project);
         
-        Task SoftRemoveAsync(Project project);
+        Task SoftRemoveAsync(Guid id);
         
-        Task RemoveAsync(Guid projectId);
+        Task RemoveAsync(Guid id);
     }
 }

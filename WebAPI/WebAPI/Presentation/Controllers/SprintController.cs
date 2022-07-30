@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
@@ -30,7 +29,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication</response>
         /// <response code="404">Unable to find sprints with description by provided epic id</response>
         [HttpGet]
-        [Route("epic/id/{epicId}")]
+        [Route("epic/id/{epicId:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -48,7 +47,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication</response>
         /// <response code="404">Unable to find sprint by provided id</response>
         [HttpGet]
-        [Route("id/{id}")]
+        [Route("id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -66,7 +65,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication</response>
         /// <response code="404">Unable to find sprint with full description by provided id</response>
         [HttpGet]
-        [Route("full/id/{id}")]
+        [Route("full/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -112,14 +111,13 @@ namespace WebAPI.Presentation.Controllers
         /// </summary>
         /// <response code="204">Successful soft remove sprint by sprintId</response>
         /// <response code="401">Failed authentication</response>
-        [HttpPatch]
-        [Route("soft-remove")]
-        public async Task<IActionResult> RemoveSprintSoft([FromBody] JsonPatchDocument<Sprint> sprintPatch)
+        [HttpDelete]
+        [Route("soft-remove/id/{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> SprintSoftRemove(Guid id)
         {
-            var sprint = new Sprint();
-            sprintPatch.ApplyTo(sprint);
-            
-            await _sprintService.SoftRemoveAsync(sprint);
+            await _sprintService.SoftRemoveAsync(id);
             
             return NoContent();
         }
@@ -130,7 +128,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="204">Removed sprint with provided id</response>
         /// <response code="401">Failed authentication</response>
         [HttpDelete]
-        [Route("id/{id}")]
+        [Route("remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveSprint(Guid id)

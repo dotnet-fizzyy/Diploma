@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
@@ -49,7 +48,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication</response>
         /// <response code="404">Unable to find team by provided id</response>
         [HttpGet]
-        [Route("id/{id}")]
+        [Route("id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -67,7 +66,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication</response>
         /// <response code="404">Unable to find project by provided id</response>
         [HttpGet]
-        [Route("full/id/{id}")]
+        [Route("full/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -130,14 +129,13 @@ namespace WebAPI.Presentation.Controllers
         /// </summary>
         /// <response code="204">Successful soft team sprint by teamId</response>
         /// <response code="401">Failed authentication</response>
-        [HttpPatch]
-        [Route("soft-remove")]
-        public async Task<IActionResult> RemoveTeamSoft([FromBody] JsonPatchDocument<Team> teamPatch)
+        [HttpDelete]
+        [Route("soft-remove/id/{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> TeamSoftRemove(Guid id)
         {
-            var team = new Team();
-            teamPatch.ApplyTo(team);
-            
-            await _teamService.SoftRemoveAsync(team);
+            await _teamService.SoftRemoveAsync(id);
             
             return NoContent();
         }
@@ -148,7 +146,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="204">Removed team with provided id</response>
         /// <response code="401">Failed authentication</response>
         [HttpDelete]
-        [Route("id/{id}")]
+        [Route("remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveTeam(Guid id)
