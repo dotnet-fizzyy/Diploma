@@ -48,7 +48,7 @@ namespace WebAPI.Presentation.Controllers
         
         // todo: combine epics, sprints and teams search
         /// <summary>
-        /// Receives stories from epic.
+        /// Gets stories from epic.
         /// </summary>
         /// <response code="200">A collection of stories from epic.</response>
         /// <response code="401">Failed authentication.</response>
@@ -65,7 +65,7 @@ namespace WebAPI.Presentation.Controllers
             await _storyService.GetStoriesFromEpicAssignedToTeamAsync(id, teamId);
         
         /// <summary>
-        /// Receives stories from sprint.
+        /// Gets stories from sprint.
         /// </summary>
         /// <response code="200">A collection of stories from sprint.</response>
         /// <response code="401">Failed authentication.</response>
@@ -79,7 +79,7 @@ namespace WebAPI.Presentation.Controllers
             await _storyService.GetStoriesFromSprintAsync(id);
 
         /// <summary>
-        /// Receives story by provided id.
+        /// Gets story by provided id.
         /// </summary>
         /// <response code="200">Story with provided id.</response>
         /// <response code="401">Failed authentication.</response>
@@ -94,7 +94,7 @@ namespace WebAPI.Presentation.Controllers
             await _storyService.GetByIdAsync(id);
 
         /// <summary>
-        /// Receive story full description with provided id
+        /// Gets story full description with provided id
         /// </summary>
         /// <response code="200">Received story full description with provided id</response>
         /// <response code="401">Failed authentication</response>
@@ -199,14 +199,14 @@ namespace WebAPI.Presentation.Controllers
         /// Updates story deleted status by provided id.
         /// </summary>
         /// <param name="id">Story identifier.</param>
-        /// <response code="204">Updated story status with provided story id.</response>
+        /// <response code="204">Story deleted status was set.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpDelete]
         [Route("soft-remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> StorySoftRemove(Guid id)
+        public async Task<ActionResult> StorySoftRemove(Guid id)
         {
             await _storyService.SoftRemoveAsync(id);
             
@@ -216,14 +216,14 @@ namespace WebAPI.Presentation.Controllers
         /// <summary>
         /// Removes story from DB by provided id.
         /// </summary>
-        /// <response code="204">Removed story with provided id.</response>
+        /// <response code="204">Story was removed from DB.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpDelete]
         [Route("remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> RemoveStory(Guid id)
+        public async Task<ActionResult> RemoveStory(Guid id)
         {
             await _storyService.RemoveAsync(id);
             
