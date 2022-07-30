@@ -13,12 +13,12 @@ namespace WebAPI.Presentation.Controllers
 {
     [ApiController]
     [Route("api/auth")]
-    public class AuthenticationController : ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly ITokenService _tokenService;
         private readonly IUserService _userService;
 
-        public AuthenticationController(ITokenService tokenService, IUserService userService)
+        public AuthController(ITokenService tokenService, IUserService userService)
         {
             _tokenService = tokenService;
             _userService = userService;
@@ -60,6 +60,7 @@ namespace WebAPI.Presentation.Controllers
         /// Updates user access token (and refresh in case of server configuration).
         /// </summary>
         /// <response code="200">Successful user access token update.</response>
+        /// <response code="400">Invalid data provided to request.</response>
         /// <response code="404">Unable to find user to update token pair.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpGet]
