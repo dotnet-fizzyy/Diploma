@@ -30,7 +30,7 @@ namespace WebAPI.ApplicationLogic.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CollectionResponse<StoryModel>> GetStoriesFromEpicAsync(Guid epicId, Guid? teamId)
+        public async Task<CollectionResponse<StoryModel>> GetStoriesFromEpicAssignedToTeamAsync(Guid epicId, Guid teamId)
         {
             var storyEntities = await _unitOfWork.StoryRepository.GetStoriesByEpicAndTeamIds(epicId, teamId);
 

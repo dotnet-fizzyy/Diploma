@@ -15,11 +15,11 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             
         }
         
-        public async Task<List<Story>> GetStoriesByEpicAndTeamIds(Guid epicId, Guid? teamId)
+        public async Task<List<Story>> GetStoriesByEpicAndTeamIds(Guid epicId, Guid teamId)
         {
             IQueryable<Story> query;
 
-            if (teamId.HasValue)
+            if (teamId != default)
             {
                 query = 
                     from sprints in DbContext.Sprints

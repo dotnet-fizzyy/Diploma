@@ -42,10 +42,10 @@ namespace WebAPI.Presentation.Controllers
             [FromQuery, BindRequired] Guid epicId,
             [FromQuery] Guid? sprintId,
             [FromQuery, BindRequired] string sortType,
-            [FromQuery, BindRequired] OrderType orderType
-            ) => 
+            [FromQuery, BindRequired] OrderType orderType) => 
                 await _storyService.SortStories(epicId, teamId, sprintId, sortType, orderType);
         
+        // todo: combine epics, sprints and teams search
         /// <summary>
         /// Receive all stories from epic by epic id
         /// </summary>
@@ -53,12 +53,14 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication</response>
         /// <response code="404">Unable to find any stories with provided epic id</response>
         [HttpGet]
-        [Route("epic/id/{epicId}")]
+        [Route("epic/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesFormEpic(Guid epicId, [FromQuery]Guid? teamId) => 
-            await _storyService.GetStoriesFromEpicAsync(epicId, teamId);
+        public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesFormEpic(
+            Guid id,
+            [FromQuery] Guid teamId) => 
+            await _storyService.GetStoriesFromEpicAssignedToTeamAsync(id, teamId);
         
         /// <summary>
         /// Receive all stories from epic by sprint id
@@ -67,11 +69,11 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication</response>
         /// <response code="404">Unable to find any stories with provided sprint id</response>
         [HttpGet]
-        [Route("sprint/id/{sprintId}")]
+        [Route("sprint/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesFormSprint(Guid sprintId) => 
-            await _storyService.GetStoriesFromSprintAsync(sprintId);
+        public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesFormSprint(Guid id) => 
+            await _storyService.GetStoriesFromSprintAsync(id);
 
         /// <summary>
         /// Receive story with provided id
@@ -80,7 +82,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication</response>
         /// <response code="404">Unable to find story with provided story id</response>
         [HttpGet]
-        [Route("id/{id}")]
+        [Route("id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -202,7 +204,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="204">Removed story with provided id</response>
         /// <response code="401">Failed authentication</response>
         [HttpDelete]
-        [Route("id/{id}")]
+        [Route("id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveStory(Guid id)
