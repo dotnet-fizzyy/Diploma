@@ -12,7 +12,7 @@ namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/sprint")]
+    [Route("api/[controller]")]
     public class SprintController : ControllerBase
     {
         private readonly ISprintService _sprintService;

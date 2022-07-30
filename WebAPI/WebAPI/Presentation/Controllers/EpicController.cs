@@ -12,7 +12,7 @@ namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/epic")]
+    [Route("api/[controller]")]
     public class EpicController : ControllerBase
     {
         private readonly IEpicService _epicService;

@@ -11,7 +11,7 @@ namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/page")]
+    [Route("api/[controller]")]
     public class PageController : ControllerBase
     {
         private readonly IPageService _pageService;

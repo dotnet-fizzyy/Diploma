@@ -12,7 +12,7 @@ namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/project")]
+    [Route("api/[controller]")]
     public class ProjectController : ControllerBase
     {
         private readonly IProjectService _projectService;

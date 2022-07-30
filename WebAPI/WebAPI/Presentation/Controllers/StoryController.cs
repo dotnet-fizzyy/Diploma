@@ -15,7 +15,7 @@ namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/story")]
+    [Route("api/[controller]")]
     public class StoryController : ControllerBase
     {
         private readonly IStoryService _storyService;

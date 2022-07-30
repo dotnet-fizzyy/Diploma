@@ -11,7 +11,7 @@ namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/workspace")]
+    [Route("api/[controller]")]
     public class WorkSpaceController : ControllerBase
     {
         private readonly IWorkSpaceService _workSpaceService;

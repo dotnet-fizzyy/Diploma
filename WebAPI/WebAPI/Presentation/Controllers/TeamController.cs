@@ -13,7 +13,7 @@ namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/team")]
+    [Route("api/[controller]")]
     public class TeamController : ControllerBase
     {
         private readonly ITeamService _teamService;
