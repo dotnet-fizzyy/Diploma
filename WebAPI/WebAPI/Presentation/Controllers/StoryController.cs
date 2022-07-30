@@ -28,6 +28,11 @@ namespace WebAPI.Presentation.Controllers
         /// <summary>
         /// Sorts stories in particular order from epic, assigned to team.
         /// </summary>
+        /// <param name="teamId">Team identifier.</param>
+        /// <param name="epicId">Epic identifier.</param>
+        /// <param name="sprintId">Sprint identifier.</param>
+        /// <param name="sortType">Sort field.</param>
+        /// <param name="orderType">Sort direction.</param>
         /// <response code="200">A collection of sorted stories in particular order.</response>
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find stories with provided epic and team id.</response>
@@ -50,23 +55,26 @@ namespace WebAPI.Presentation.Controllers
         /// <summary>
         /// Gets stories from epic.
         /// </summary>
+        /// <param name="epicId">Epic identifier.</param>
+        /// <param name="teamId">Team identifier.</param>
         /// <response code="200">A collection of stories from epic.</response>
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find any stories with provided epic id.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpGet]
-        [Route("epic/id/{id:guid}")]
+        [Route("epic/id/{epicId:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesFormEpic(
-            Guid id,
+            Guid epicId,
             [FromQuery] Guid teamId) => 
-            await _storyService.GetStoriesFromEpicAssignedToTeamAsync(id, teamId);
+            await _storyService.GetStoriesFromEpicAssignedToTeamAsync(epicId, teamId);
         
         /// <summary>
         /// Gets stories from sprint.
         /// </summary>
+        /// <param name="id">Story identifier.</param>
         /// <response code="200">A collection of stories from sprint.</response>
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find any stories with provided sprint id.</response>
@@ -81,6 +89,7 @@ namespace WebAPI.Presentation.Controllers
         /// <summary>
         /// Gets story by provided id.
         /// </summary>
+        /// <param name="id">Story identifier.</param>
         /// <response code="200">Story with provided id.</response>
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find story with provided story id.</response>
@@ -96,6 +105,7 @@ namespace WebAPI.Presentation.Controllers
         /// <summary>
         /// Gets story full description with provided id
         /// </summary>
+        /// <param name="id">Story identifier.</param>
         /// <response code="200">Received story full description with provided id</response>
         /// <response code="401">Failed authentication</response>
         /// <response code="404">Unable to find story with provided story id</response>
@@ -111,6 +121,7 @@ namespace WebAPI.Presentation.Controllers
         /// <summary>
         /// Creates story.
         /// </summary>
+        /// <param name="story"><see cref="Story"/> model.</param>
         /// <response code="201">Created story.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
@@ -127,16 +138,16 @@ namespace WebAPI.Presentation.Controllers
         }
 
         /// <summary>
-        /// Updates story and write updated parts to story history.
+        /// Updates story and writes updates to story history.
         /// </summary>
+        /// <param name="story"><see cref="Story"/> model.</param>
         /// <response code="200">Updated story.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpPut]
-        [Route("part-update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<Story>> UpdatePartsOfStory([FromBody, BindRequired] Story story)
+        public async Task<ActionResult<Story>> UpdateStory([FromBody, BindRequired] Story story)
         {
             var user = ClaimsReader.GetUserClaims(User);
             
@@ -148,6 +159,7 @@ namespace WebAPI.Presentation.Controllers
         /// <summary>
         /// Updates story board column with provided story id.
         /// </summary>
+        /// <param name="storyPatch"><see cref="JsonPatchDocument"/> with <see cref="Story"/> model.</param>
         /// <response code="200">Updated story with new board column.</response>
         /// <response code="400">Invalid data in request model.</response>
         /// <response code="401">Failed authentication.</response>
@@ -173,6 +185,7 @@ namespace WebAPI.Presentation.Controllers
         /// <summary>
         /// Updates story status (active or blocked).
         /// </summary>
+        /// <param name="storyPatch"><see cref="JsonPatchDocument"/> with <see cref="Story"/> model.</param>
         /// <response code="200">Updated story with new status.</response>
         /// <response code="400">Invalid data in request model.</response>
         /// <response code="401">Failed authentication.</response>
@@ -216,6 +229,7 @@ namespace WebAPI.Presentation.Controllers
         /// <summary>
         /// Removes story from DB by provided id.
         /// </summary>
+        /// <param name="id">Story identifier.</param>
         /// <response code="204">Story was removed from DB.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>

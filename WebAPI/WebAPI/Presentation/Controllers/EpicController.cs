@@ -25,7 +25,8 @@ namespace WebAPI.Presentation.Controllers
         /// <summary>
         /// Gets epic by provided id.
         /// </summary>
-        /// <response code="200">Epic found by provided id.</response>
+        /// <param name="id">Epic identifier.</param>
+        /// <response code="200">Epic by provided id.</response>
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find epic by provided id.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
@@ -40,6 +41,7 @@ namespace WebAPI.Presentation.Controllers
         /// <summary>
         /// Gets epics from project by provided project id.
         /// </summary>
+        /// <param name="projectId">Project identifier.</param>
         /// <response code="200">A collection of epics from project found by provided project id.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
@@ -53,6 +55,7 @@ namespace WebAPI.Presentation.Controllers
         /// <summary>
         /// Gets epic full description by provided id.
         /// </summary>
+        /// <param name="id">Epic identifier.</param>
         /// <response code="200">Epic full model by provided id.</response>
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find epic by provided id.</response>
@@ -68,6 +71,7 @@ namespace WebAPI.Presentation.Controllers
         /// <summary>
         /// Creates epic.
         /// </summary>
+        /// <param name="epic"><see cref="Epic"/> model.</param>
         /// <response code="201">Created epic.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
@@ -84,6 +88,7 @@ namespace WebAPI.Presentation.Controllers
         /// <summary>
         /// Updates epic.
         /// </summary>
+        /// <param name="epic"><see cref="Epic"/> model.</param>
         /// <response code="200">Updated epic.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>

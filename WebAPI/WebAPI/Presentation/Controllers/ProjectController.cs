@@ -23,11 +23,13 @@ namespace WebAPI.Presentation.Controllers
         }
         
         /// <summary>
-        /// Receive project by provided id
+        /// Gets project by provided id.
         /// </summary>
-        /// <response code="200">Receiving project by provided id</response>
-        /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find project by provided id</response>
+        /// <param name="id">Project identifier.</param>
+        /// <response code="200">Project by provided id.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find project by provided id.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpGet]
         [Route("id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -37,13 +39,15 @@ namespace WebAPI.Presentation.Controllers
             await _projectService.GetByIdAsync(id);
 
         /// <summary>
-        /// Receive full project description by provided id
+        /// Gets project full description by provided id.
         /// </summary>
-        /// <response code="200">Receiving full project description by provided id</response>
-        /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find project by provided id</response>
+        /// <param name="id">Project identifier.</param>
+        /// <response code="200">Project full model by provided id.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find project by provided id.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpGet]
-        [Route("full-desc/id/{id:guid}")]
+        [Route("full/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -51,21 +55,29 @@ namespace WebAPI.Presentation.Controllers
             await _projectService.GetFullDescriptionAsync(id);
 
         /// <summary>
-        /// Create project with provided model properties
+        /// Creates project.
         /// </summary>
-        /// <response code="201">Created project with provided model properties</response>
-        /// <response code="401">Failed authentication</response>
+        /// <param name="project"><see cref="Project"/> model.</param>
+        /// <response code="201">Created project.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<Project>> CreateProject([FromBody, BindRequired]Project project) =>
-            await _projectService.CreateAsync(project);
+        public async Task<ActionResult<Project>> CreateProject([FromBody, BindRequired] Project project)
+        {
+            var createdProject = await _projectService.CreateAsync(project);
+
+            return CreatedAtAction(nameof(CreateProject), createdProject);
+        }
 
         /// <summary>
-        /// Update project with provided model properties
+        /// Updates project.
         /// </summary>
-        /// <response code="200">Updated project with provided model properties</response>
-        /// <response code="401">Failed authentication</response>
+        /// <param name="project"><see cref="Project"/> model.</param>
+        /// <response code="200">Updated project.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -73,15 +85,17 @@ namespace WebAPI.Presentation.Controllers
             await _projectService.UpdateAsync(project);
 
         /// <summary>
-        /// Soft remove project by projectId
+        /// Updates project deleted status by provided id.
         /// </summary>
-        /// <response code="204">Successful soft remove project by projectId</response>
-        /// <response code="401">Failed authentication</response>
+        /// <param name="id">Project identifier.</param>
+        /// <response code="204">Project deleted status was set.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpDelete]
         [Route("soft-remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> ProjectSoftRemove(Guid id)
+        public async Task<ActionResult> ProjectSoftRemove(Guid id)
         {
             await _projectService.SoftRemoveAsync(id);
             
@@ -89,15 +103,17 @@ namespace WebAPI.Presentation.Controllers
         }
         
         /// <summary>
-        /// Remove project with provided id
+        /// Removes project from DB by provided id.
         /// </summary>
-        /// <response code="204">Removed project with provided id</response>
-        /// <response code="401">Failed authentication</response>
+        /// <param name="id">Project identifier.</param>
+        /// <response code="204">Project was removed from DB.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpDelete]
         [Route("remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> RemoveProject(Guid id)
+        public async Task<ActionResult> RemoveProject(Guid id)
         {
             await _projectService.RemoveAsync(id);
 
