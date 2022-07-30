@@ -31,7 +31,7 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<Story> UpdateAsync(Story story, Guid userId);
 
-        Task SoftRemoveAsync(Story story);
+        Task SoftRemoveAsync(Guid id);
         
         Task RemoveAsync(Guid id);
     }
