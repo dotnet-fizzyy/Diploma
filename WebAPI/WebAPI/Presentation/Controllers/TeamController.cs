@@ -24,7 +24,7 @@ namespace WebAPI.Presentation.Controllers
         }
         
         /// <summary>
-        /// Gets teams that belong to user.
+        /// Gets teams that belong to user by access token.
         /// </summary>
         /// <response code="200">Gets teams that belong to user.</response>
         /// <response code="401">Failed authentication.</response>
@@ -133,7 +133,7 @@ namespace WebAPI.Presentation.Controllers
         [Route("soft-remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> TeamSoftRemove(Guid id)
+        public async Task<ActionResult> TeamSoftRemove(Guid id)
         {
             await _teamService.SoftRemoveAsync(id);
             
@@ -151,7 +151,7 @@ namespace WebAPI.Presentation.Controllers
         [Route("remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> RemoveTeam(Guid id)
+        public async Task<ActionResult> RemoveTeam(Guid id)
         {
             await _teamService.RemoveAsync(id);
             
