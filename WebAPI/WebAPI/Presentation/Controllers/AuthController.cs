@@ -31,8 +31,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="200">Successful authentication.</response>
         /// <response code="400">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpPost]
-        [Route("sign-in")]
+        [HttpPost("sign-in")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<AuthenticationUserResponseModel>> AuthenticateUser(
@@ -45,8 +44,7 @@ namespace WebAPI.Presentation.Controllers
         /// <param name="userRequestModel"><see cref="SignUpUserRequestModel"/> model.</param>
         /// <response code="201">Successful user registration.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpPost]
-        [Route("sign-up")]
+        [HttpPost("sign-up")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<User>> CreateCustomer(
             [FromBody, BindRequired] SignUpUserRequestModel userRequestModel)
@@ -63,8 +61,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="400">Invalid data provided to request.</response>
         /// <response code="404">Unable to find user to update token pair.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet]
-        [Route("token-renew")]
+        [HttpGet("token-renew")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<AuthenticationResponseModel>> UpdateAccessToken(
@@ -84,8 +81,7 @@ namespace WebAPI.Presentation.Controllers
         /// </summary>
         /// <param name="email">User email address.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet]
-        [Route("check-email")]
+        [HttpGet("check-email")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<EmailResponseModel>> CheckForEmailExistence([FromQuery] string email) =>
             await _userService.CheckEmailExistenceAsync(email);

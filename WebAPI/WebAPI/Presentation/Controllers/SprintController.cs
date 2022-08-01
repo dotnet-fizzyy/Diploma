@@ -31,8 +31,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find sprints by provided epic id and team ids.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet]
-        [Route("epic/id/{epicId:guid}")]
+        [HttpGet("epic/id/{epicId:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -49,8 +48,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find sprint by provided id.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet]
-        [Route("id/{id:guid}")]
+        [HttpGet("id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -65,8 +63,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find sprint by provided id.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet]
-        [Route("full/id/{id:guid}")]
+        [HttpGet("full/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -109,8 +106,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="204">Sprint deleted status was set.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpDelete]
-        [Route("soft-remove/id/{id:guid}")]
+        [HttpDelete("soft-remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> SprintSoftRemove(Guid id)
@@ -127,8 +123,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="204">Sprint was removed from DB.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpDelete]
-        [Route("remove/id/{id:guid}")]
+        [HttpDelete("remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> RemoveSprint(Guid id)

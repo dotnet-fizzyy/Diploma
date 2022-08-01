@@ -29,8 +29,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="200">Gets teams that belong to user.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet]
-        [Route("user")]
+        [HttpGet("user")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<CollectionResponse<FullTeam>>> GetUserTeams()
@@ -48,8 +47,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find team by provided id</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet]
-        [Route("id/{id:guid}")]
+        [HttpGet("id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -64,8 +62,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find project by provided id.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet]
-        [Route("full/id/{id:guid}")]
+        [HttpGet("full/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -96,8 +93,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="201">Created team.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpPost]
-        [Route("customer")]
+        [HttpPost("customer")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Team>> CreateTeamWithCustomer([FromBody, BindRequired] Team team)
@@ -129,8 +125,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="204">Team deleted status was set.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpDelete]
-        [Route("soft-remove/id/{id:guid}")]
+        [HttpDelete("soft-remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> TeamSoftRemove(Guid id)
@@ -147,8 +142,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="204">Team was removed from DB.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpDelete]
-        [Route("remove/id/{id:guid}")]
+        [HttpDelete("remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> RemoveTeam(Guid id)

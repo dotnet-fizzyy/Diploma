@@ -30,8 +30,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find epic by provided id.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet]
-        [Route("id/{id:guid}")]
+        [HttpGet("id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -45,8 +44,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="200">A collection of epics from project found by provided project id.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet]
-        [Route("project/id/{projectId:guid}")]
+        [HttpGet("project/id/{projectId:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<CollectionResponse<Epic>>> GetEpicsFromProject(Guid projectId) => 
@@ -60,8 +58,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find epic by provided id.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet]
-        [Route("full/id/{id:guid}")]
+        [HttpGet("full/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -105,8 +102,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="204">Epic deleted status was set.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpDelete]
-        [Route("soft-remove/id/{id:guid}")]
+        [HttpDelete("soft-remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> EpicSoftRemove(Guid id)
@@ -123,8 +119,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="204">Epic was removed from DB.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpDelete]
-        [Route("remove/id/{id:guid}")]
+        [HttpDelete("remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> RemoveEpic(Guid id)

@@ -21,13 +21,11 @@ namespace WebAPI.Presentation.Controllers
             _pageService = pageService;
         }
 
-        [HttpGet]
-        [Route("search")]
+        [HttpGet("search")]
         public async Task<ActionResult<SearchResult>> GetSearchFieldDataIndex([FromQuery, BindRequired] string term, [FromQuery] Guid[] teamIds) 
             => await _pageService.GetSearchResultsAsync(term, teamIds);
 
-        [HttpGet]
-        [Route("default")]
+        [HttpGet("default")]
         public async Task<ActionResult<DefaultPage>> GetMainPageData()
         {
             var user = ClaimsReader.GetUserClaims(User);
@@ -37,8 +35,7 @@ namespace WebAPI.Presentation.Controllers
             return result;
         }
 
-        [HttpGet]
-        [Route("board")]
+        [HttpGet("board")]
         public async Task<ActionResult<BoardPage>> GetBoardPageData(
             [FromQuery, BindRequired]Guid projectId, 
             [FromQuery, BindRequired]Guid teamId,
@@ -52,13 +49,11 @@ namespace WebAPI.Presentation.Controllers
             return projectBoardData;
         }
 
-        [HttpGet]
-        [Route("project/{projectId}")]
+        [HttpGet("project/{projectId}")]
         public async Task<ActionResult<ProjectPage>> GetProjectPageIndex(Guid projectId)
             => await _pageService.GetProjectPageDataAsync(projectId);
 
-        [HttpGet]
-        [Route("team/{teamId}")]
+        [HttpGet("team/{teamId}")]
         public async Task<ActionResult<TeamPage>> GetTeamPageIndex(Guid teamId)
         {
             var user = ClaimsReader.GetUserClaims(User);
@@ -68,8 +63,7 @@ namespace WebAPI.Presentation.Controllers
             return teamPage;
         }
 
-        [HttpGet]
-        [Route("workspace")]
+        [HttpGet("workspace")]
         public async Task<ActionResult<WorkSpacePage>> GetWorkSpacePageIndex()
         {
             var user = ClaimsReader.GetUserClaims(User);
@@ -79,13 +73,11 @@ namespace WebAPI.Presentation.Controllers
             return userWorkSpace;
         }
 
-        [HttpGet]
-        [Route("full-stats")]
+        [HttpGet("full-stats")]
         public async Task<ActionResult<FullStatisticsPage>> GetStatisticsPageIndex([FromQuery, BindRequired] Guid projectId)
             => await _pageService.GetStatisticsPageDataAsync(projectId);
 
-        [HttpGet]
-        [Route("stats")]
+        [HttpGet("stats")]
         public async Task<ActionResult<StatisticsPage>> GetStatisticsSearch([FromQuery, BindRequired] Guid epicId)
             => await _pageService.GetStatisticsDataForSearchItems(epicId);
     }

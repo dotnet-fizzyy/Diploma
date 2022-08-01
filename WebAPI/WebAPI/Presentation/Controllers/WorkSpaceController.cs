@@ -30,8 +30,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find workspace by provided id.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet]
-        [Route("id/{id:guid}")]
+        [HttpGet("id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -45,8 +44,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find workspace that belongs to user.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet]
-        [Route("user")]
+        [HttpGet("user")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -83,8 +81,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="201">Created workspace and assigned it to user.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpPost]
-        [Route("user")]
+        [HttpPost("user")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<WorkSpace>> CreateWorkSpaceWithUser([FromBody, BindRequired] WorkSpace workSpace)
@@ -116,8 +113,7 @@ namespace WebAPI.Presentation.Controllers
         /// <response code="204">Workspace was removed from DB.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpDelete]
-        [Route("id/{id:guid}")]
+        [HttpDelete("id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> RemoveWorkSpace(Guid id)
