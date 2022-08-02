@@ -71,8 +71,9 @@ namespace WebAPI.ApplicationLogic.Services
         private async Task<RefreshTokenEntity> GetOriginalRefreshToken(Guid userId, string refreshToken)
         {
             var originalRefreshTokenEntity = await _unitOfWork.RefreshTokenRepository
-                .SearchForSingleItemAsync(token => token.UserId == userId && 
-                                                   token.Value == refreshToken);
+                .SearchForSingleItemAsync(
+                    token => token.UserId == userId && token.Value == refreshToken,
+                    includeTracking: false);
 
             if (originalRefreshTokenEntity == null)
             {

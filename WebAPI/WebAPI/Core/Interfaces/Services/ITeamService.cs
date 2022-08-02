@@ -14,9 +14,9 @@ namespace WebAPI.Core.Interfaces.Services
         Task<FullTeam> GetFullDescriptionAsync(Guid id);
 
         Task<Team> CreateAsync(Team team);
-        
-        Task<Team> CreateAndAssignCustomerAsync(Team team, Guid userId);
-        
+
+        Task AssignUserToTeam(Guid userId, Guid teamId);
+
         Task<Team> UpdateAsync(Team team);
 
         Task SoftRemoveAsync(Guid id); 

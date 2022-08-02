@@ -26,7 +26,8 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<Project> GetByIdAsync(Guid projectId)
         {
-            var projectEntity = await _unitOfWork.ProjectRepository.SearchForItemById(projectId); 
+            var projectEntity = await _unitOfWork.ProjectRepository
+                .SearchForItemById(projectId, includeTracking: false); 
   
             if (projectEntity == null)
             {
@@ -44,7 +45,8 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<FullProjectDescription> GetFullDescriptionAsync(Guid projectId)
         {
             // Receive project description
-            var projectEntity = await _unitOfWork.ProjectRepository.SearchForItemById(projectId);
+            var projectEntity = await _unitOfWork.ProjectRepository
+                .SearchForItemById(projectId, includeTracking: false);
 
             if (projectEntity == null)
             {

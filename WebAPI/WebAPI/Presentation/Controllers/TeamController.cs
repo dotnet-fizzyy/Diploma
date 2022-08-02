@@ -87,22 +87,22 @@ namespace WebAPI.Presentation.Controllers
         }
         
         /// <summary>
-        /// Create team and assigns customer to it.
+        /// Assigns user to the team.
         /// </summary>
-        /// <param name="team"><see cref="Team"/> model.</param>
-        /// <response code="201">Created team.</response>
+        /// <param name="id">Team identifier.</param>
+        /// <response code="204">User was assigned to team.</response>
         /// <response code="401">Failed authentication.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpPost("customer")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [HttpPost("id/{id:guid}/assign")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<Team>> CreateTeamWithCustomer([FromBody, BindRequired] Team team)
+        public async Task<ActionResult<Team>> AssignUserToTeam(Guid id)
         {
-            var user = ClaimsReader.GetUserClaims(User);
+            var claims = ClaimsReader.GetUserClaims(User);
 
-            var createdTeam = await _teamService.CreateAndAssignCustomerAsync(team, user.UserId);
+            await _teamService.AssignUserToTeam(id, claims.UserId);
             
-            return CreatedAtAction(nameof(CreateTeam), createdTeam);
+            return NoContent();
         }
 
         /// <summary>

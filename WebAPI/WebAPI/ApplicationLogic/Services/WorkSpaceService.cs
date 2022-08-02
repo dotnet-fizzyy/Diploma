@@ -23,7 +23,8 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<WorkspaceModel> GetByIdAsync(Guid workSpaceId)
         {
-            var workSpaceEntity = await _unitOfWork.WorkSpaceRepository.SearchForItemById(workSpaceId);
+            var workSpaceEntity = await _unitOfWork.WorkSpaceRepository
+                .SearchForItemById(workSpaceId, includeTracking: false);
 
             if (workSpaceEntity == null)
             {

@@ -72,7 +72,7 @@ namespace WebAPI.ApplicationLogic.Services
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, MissingTeamExceptionMessage);
             }
 
-            var project = await _unitOfWork.ProjectRepository.SearchForItemById(projectId);
+            var project = await _unitOfWork.ProjectRepository.SearchForItemById(projectId, includeTracking: false);
             var epics = await _unitOfWork.EpicRepository.SearchForMultipleItemsAsync(
                 epic => epic.ProjectId == projectId, 
                 sort: prop => prop.CreationDate, 
@@ -112,6 +112,7 @@ namespace WebAPI.ApplicationLogic.Services
             var project = await _unitOfWork.ProjectRepository
                 .SearchForItemById(
                     projectId,
+                    includeTracking: false,
                     include => include.Teams,
                     include => include.Epics);
 
@@ -144,7 +145,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<FullStatisticsPage> GetStatisticsPageDataAsync(Guid projectId)
         {
-            var project = _unitOfWork.ProjectRepository.SearchForItemById(projectId);
+            var project = _unitOfWork.ProjectRepository.SearchForItemById(projectId, includeTracking: false);
             var epics = _unitOfWork.EpicRepository
                 .SearchForMultipleItemsAsync(
                     epic => epic.ProjectId == projectId, 

@@ -38,7 +38,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<Epic> GetByIdAsync(Guid id)
         {
-            var epicEntity = await _unitOfWork.EpicRepository.SearchForItemById(id);
+            var epicEntity = await _unitOfWork.EpicRepository.SearchForItemById(id, includeTracking: false);
  
             if (epicEntity == null)
             {
@@ -55,7 +55,10 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<FullEpic> GetFullDescriptionAsync(Guid id)
         {
             var epicEntity = await _unitOfWork.EpicRepository
-                .SearchForItemById(id, includes => includes.Sprints);
+                .SearchForItemById(
+                    id,
+                    includeTracking:false,
+                    includes => includes.Sprints);
  
             if (epicEntity == null)
             {

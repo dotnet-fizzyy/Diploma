@@ -34,10 +34,14 @@ namespace WebAPI.Core.Interfaces.Database
             Expression<Func<T, K>> sort, 
             OrderType orderType);
 
-        Task<T> SearchForItemById(Guid id, params Expression<Func<T, object>>[] includes);
+        Task<T> SearchForItemById(
+            Guid id, 
+            bool includeTracking,
+            params Expression<Func<T, object>>[] includes);
 
         Task<T> SearchForSingleItemAsync(
-            Expression<Func<T, bool>> expression, 
+            Expression<Func<T, bool>> expression,
+            bool includeTracking,
             params Expression<Func<T, object>>[] includes);
 
         void UpdateItem(T item);

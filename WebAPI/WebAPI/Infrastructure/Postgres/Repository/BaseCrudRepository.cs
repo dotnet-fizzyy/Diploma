@@ -122,8 +122,11 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             return items;
         }
 
-        public async Task<T> SearchForItemById(Guid id, params Expression<Func<T, object>>[] includes) =>
-            await SearchForSingleItemAsync(item => item.Id == id, includes);
+        public async Task<T> SearchForItemById(
+            Guid id,
+            bool includeTracking,
+            params Expression<Func<T, object>>[] includes) => 
+                await SearchForSingleItemAsync(item => item.Id == id, includeTracking, includes);
 
         public async Task<int> CountAsync() =>
             await _dbSet.CountAsync();
@@ -132,12 +135,15 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             await _dbSet.Where(expression).CountAsync();
 
         public async Task<T> SearchForSingleItemAsync(
-            Expression<Func<T, bool>> expression, 
+            Expression<Func<T, bool>> expression,
+            bool includeTracking,
             params Expression<Func<T, object>>[] includes)
         {
             try
             {
-                var query = _dbSet.Where(expression).AsNoTracking();
+                var query = includeTracking ?
+                    _dbSet.Where(expression) :
+                    _dbSet.Where(expression).AsNoTracking();
 
                 if (includes.Any())
                 {

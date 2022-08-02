@@ -88,14 +88,17 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<StoryModel> GetByIdAsync(Guid storyId)
         {
-            var storyEntity = await SearchForStoryByIdAsync(storyId);
+            var storyEntity = await SearchForStoryByIdAsync(storyId, includeTracking: false);
 
             return StoryMapper.Map(storyEntity);
         }
 
         public async Task<FullStory> GetFullDescriptionAsync(Guid storyId)
         {
-            var storyEntity = await SearchForStoryByIdAsync(storyId, include => include.StoryHistories);
+            var storyEntity = await SearchForStoryByIdAsync(
+                storyId,
+                includeTracking: false,
+                include => include.StoryHistories);
 
             return StoryMapper.MapToFullModel(storyEntity);
         }
@@ -121,7 +124,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var storyEntityToUpdate = StoryMapper.Map(story);
 
-            var originalStoryEntity = await SearchForStoryByIdAsync(story.StoryId);
+            var originalStoryEntity = await SearchForStoryByIdAsync(story.StoryId, includeTracking: true);
             
             using var scope = new TransactionScope
             (
@@ -157,7 +160,7 @@ namespace WebAPI.ApplicationLogic.Services
                 TransactionScopeAsyncFlowOption.Enabled
             );
 
-            var originalStoryEntity = await SearchForStoryByIdAsync(story.StoryId);
+            var originalStoryEntity = await SearchForStoryByIdAsync(story.StoryId, includeTracking: true);
 
             if (string.IsNullOrWhiteSpace(story.BlockReason))
             {
@@ -191,7 +194,7 @@ namespace WebAPI.ApplicationLogic.Services
                 TransactionScopeAsyncFlowOption.Enabled
             );
 
-            var originalStoryEntity = SearchForStoryByIdAsync(storyUpdate.StoryId);
+            var originalStoryEntity = SearchForStoryByIdAsync(storyUpdate.StoryId, includeTracking: true);
             var userEntity = SearchForUserByIdAsync(userId);
 
             await Task.WhenAll(originalStoryEntity, userEntity);
@@ -270,9 +273,13 @@ namespace WebAPI.ApplicationLogic.Services
 
         private async Task<StoryEntity> SearchForStoryByIdAsync(
             Guid storyId, 
+            bool includeTracking,
             Expression<Func<StoryEntity, object>> relatedEntity = null)
         {
-            var storyEntity = await _unitOfWork.StoryRepository.SearchForItemById(storyId, relatedEntity);
+            var storyEntity = await _unitOfWork.StoryRepository.SearchForItemById(
+                storyId,
+                includeTracking,
+                relatedEntity);
 
             if (storyEntity == null)
             {
@@ -345,7 +352,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         private async Task<UserEntity> SearchForUserByIdAsync(Guid userId)
         {
-            var user = await _unitOfWork.UserRepository.SearchForItemById(userId);
+            var user = await _unitOfWork.UserRepository.SearchForItemById(userId, includeTracking: true);
             
             if (user == null)
             {

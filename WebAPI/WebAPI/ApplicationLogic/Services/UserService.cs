@@ -65,7 +65,7 @@ namespace WebAPI.ApplicationLogic.Services
         /// <inheritdoc cref="IUserService.GetByIdAsync" />
         public async Task<User> GetByIdAsync(Guid id)
         {
-            var userEntity = await _unitOfWork.UserRepository.SearchForItemById(id);
+            var userEntity = await _unitOfWork.UserRepository.SearchForItemById(id, includeTracking: false);
 
             if (userEntity == null)
             {
@@ -149,8 +149,9 @@ namespace WebAPI.ApplicationLogic.Services
             var newHashedPassword = PasswordHashing.CreateHashPassword(passwordUpdateRequestModel.NewPassword);
             
             var userEntity = await _unitOfWork.UserRepository
-                .SearchForSingleItemAsync(user => user.Id == userId && 
-                                                  user.Password == oldHashedPassword);
+                .SearchForSingleItemAsync(
+                    user => user.Id == userId && user.Password == oldHashedPassword, 
+                    includeTracking: false);
  
             if (userEntity == null)
             {
@@ -237,6 +238,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var userEntity = await _unitOfWork.UserRepository.SearchForItemById(
                 userId, 
+                includeTracking: false,
                 include => include.TeamUsers);
             
             if (userEntity == null)
@@ -282,7 +284,7 @@ namespace WebAPI.ApplicationLogic.Services
         private async Task<string> GenerateRefreshTokenForAuthedUser(Guid userId)
         {
             var existingToken = await _unitOfWork.RefreshTokenRepository
-                .SearchForSingleItemAsync(token => token.UserId == userId);
+                .SearchForSingleItemAsync(token => token.UserId == userId, includeTracking: false);
  
             if (existingToken != null)
             {
@@ -322,7 +324,7 @@ namespace WebAPI.ApplicationLogic.Services
                 AccessToken = new Token(TokenTypes.Access, accessToken),
                 RefreshToken = refreshToken,
                 User = user
-            };;
+            };
         } 
     }
 }

@@ -11,6 +11,7 @@ using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 
 using TeamEntity = WebAPI.Core.Entities.Team;
+using UserEntity = WebAPI.Core.Entities.User;
 using TeamUserEntity = WebAPI.Core.Entities.TeamUser;
 
 namespace WebAPI.ApplicationLogic.Services
@@ -38,15 +39,9 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<Team> GetByIdAsync(Guid id)
         {
-            var teamEntity = await _unitOfWork.TeamRepository.SearchForItemById(id);
+            var teamEntity = await _unitOfWork.TeamRepository.SearchForItemById(id, includeTracking: false);
 
-            if (teamEntity == null)
-            {
-                throw new UserFriendlyException(
-                    ErrorStatus.NOT_FOUND, 
-                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id))
-                );
-            }
+            ValidateTeamExistence(teamEntity);
             
             var team = TeamMapper.Map(teamEntity);
             
@@ -57,13 +52,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var teamEntity = await _unitOfWork.TeamRepository.GetTeamWithUsers(id);
 
-            if (teamEntity == null)
-            {
-                throw new UserFriendlyException(
-                    ErrorStatus.NOT_FOUND,
-                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id))
-                );
-            }
+            ValidateTeamExistence(teamEntity);
             
             var teamFullModel = TeamMapper.MapToFullModel(teamEntity);
             
@@ -79,14 +68,23 @@ namespace WebAPI.ApplicationLogic.Services
             return teamModel;
         }
 
-        public async Task<Team> CreateAndAssignCustomerAsync(Team team, Guid userId)
+        public async Task AssignUserToTeam(Guid userId, Guid teamId)
         {
-            var teamEntity = TeamMapper.Map(team);
-            teamEntity.TeamUsers.Add(new TeamUserEntity { UserId = userId });
+            var teamTask = _unitOfWork.TeamRepository.SearchForItemById(teamId, includeTracking: true);
+            var userTask = _unitOfWork.UserRepository.SearchForItemById(userId, includeTracking: true);
 
-            var teamModel = await CreateTeam(teamEntity);
+            await Task.WhenAll(teamTask, userTask);
+            
+            ValidateTeamExistence(teamTask.Result);
+            ValidateUserExistence(userTask.Result);
+            
+            teamTask.Result.TeamUsers.Add(new TeamUserEntity
+            {
+                TeamId = teamId,
+                UserId = userId
+            });
 
-            return teamModel;
+            await _unitOfWork.CommitAsync();
         }
 
         public async Task<Team> UpdateAsync(Team team)
@@ -123,6 +121,28 @@ namespace WebAPI.ApplicationLogic.Services
         }
 
 
+        private static void ValidateTeamExistence(TeamEntity team)
+        {
+            if (team == null)
+            {
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND,
+                    ExceptionMessageGenerator.GetMissingEntityMessage("team id")
+                );
+            }
+        }
+        
+        private static void ValidateUserExistence(UserEntity user)
+        {
+            if (user == null)
+            {
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND,
+                    ExceptionMessageGenerator.GetMissingEntityMessage("user id")
+                );
+            }
+        }
+        
         private async Task<Team> CreateTeam(TeamEntity teamEntity)
         {
             teamEntity.CreationDate = DateTime.UtcNow;
