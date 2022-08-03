@@ -37,8 +37,8 @@ namespace WebAPI.ApplicationLogic.Services
             _appSettings = appSettings;
         }
 
-        /// <inheritdoc cref="IUserService.GetFullDescriptionByIdAsync" />
-        public async Task<UserComplete> GetFullDescriptionByIdAsync(Guid id)
+        /// <inheritdoc cref="IUserService.GetCompleteDescriptionAsync" />
+        public async Task<UserComplete> GetCompleteDescriptionAsync(Guid id)
         {
             UserComplete user;
             

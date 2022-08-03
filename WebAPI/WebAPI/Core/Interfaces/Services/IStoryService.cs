@@ -22,7 +22,7 @@ namespace WebAPI.Core.Interfaces.Services
         
         Task<Story> GetByIdAsync(Guid storyId);
 
-        Task<StoryComplete> GetFullDescriptionAsync(Guid storyId);
+        Task<StoryComplete> GetCompleteDescriptionAsync(Guid storyId);
 
         Task<Story> CreateAsync(Story story, string username);
 

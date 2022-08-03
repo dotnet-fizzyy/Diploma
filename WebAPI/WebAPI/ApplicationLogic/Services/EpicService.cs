@@ -53,7 +53,7 @@ namespace WebAPI.ApplicationLogic.Services
             return epicModel;
         }
 
-        public async Task<EpicComplete> GetFullDescriptionAsync(Guid id)
+        public async Task<EpicComplete> GetCompleteDescriptionAsync(Guid id)
         {
             var epicEntity = await _unitOfWork.EpicRepository
                 .SearchForItemById(

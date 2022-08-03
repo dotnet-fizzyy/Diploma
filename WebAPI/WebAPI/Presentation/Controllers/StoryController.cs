@@ -100,19 +100,19 @@ namespace WebAPI.Presentation.Controllers
             await _storyService.GetByIdAsync(id);
 
         /// <summary>
-        /// Gets story full description with provided id
+        /// Gets story complete description with provided id
         /// </summary>
         /// <param name="id">Story identifier.</param>
-        /// <response code="200">Received story full description with provided id</response>
-        /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find story with provided story id</response>
+        /// <response code="200">Gets story complete description with provided id.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find story with provided story id.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet("full/id/{id:guid}")]
+        [HttpGet("complete/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<StoryComplete>> GetFullStoryDescription(Guid id) => 
-            await _storyService.GetFullDescriptionAsync(id);
+        public async Task<ActionResult<StoryComplete>> GetCompleteDescription(Guid id) => 
+            await _storyService.GetCompleteDescriptionAsync(id);
 
         /// <summary>
         /// Creates story.

@@ -52,19 +52,19 @@ namespace WebAPI.Presentation.Controllers
             await _epicService.GetEpicsFromProjectAsync(projectId);
         
         /// <summary>
-        /// Gets epic full description by provided id.
+        /// Gets epic complete description by provided id.
         /// </summary>
         /// <param name="id">Epic identifier.</param>
-        /// <response code="200">Epic full model by provided id.</response>
+        /// <response code="200">Epic complete model by provided id.</response>
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find epic by provided id.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet("full/id/{id:guid}")]
+        [HttpGet("complete/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<EpicComplete>> GetFullEpicDescription(Guid id) => 
-            await _epicService.GetFullDescriptionAsync(id);
+        public async Task<ActionResult<EpicComplete>> GetCompleteDescription(Guid id) => 
+            await _epicService.GetCompleteDescriptionAsync(id);
 
         /// <summary>
         /// Creates epic.

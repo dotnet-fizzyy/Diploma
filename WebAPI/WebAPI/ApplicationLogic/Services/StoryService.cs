@@ -94,7 +94,7 @@ namespace WebAPI.ApplicationLogic.Services
             return StoryMapper.Map(storyEntity);
         }
 
-        public async Task<StoryComplete> GetFullDescriptionAsync(Guid storyId)
+        public async Task<StoryComplete> GetCompleteDescriptionAsync(Guid storyId)
         {
             var storyEntity = await SearchForStoryByIdAsync(
                 storyId,

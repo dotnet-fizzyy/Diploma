@@ -56,19 +56,19 @@ namespace WebAPI.Presentation.Controllers
             await _teamService.GetByIdAsync(id);
 
         /// <summary>
-        /// Gets team full description by provided id.
+        /// Gets team complete description by provided id.
         /// </summary>
         /// <param name="id">Team identifier.</param>
         /// <response code="200">Gets team full description by provided id.</response>
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find project by provided id.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet("full/id/{id:guid}")]
+        [HttpGet("complete/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TeamComplete>> GetFullTeamDescription(Guid id) =>
-            await _teamService.GetFullDescriptionAsync(id);
+        public async Task<ActionResult<TeamComplete>> GetCompleteDescription(Guid id) =>
+            await _teamService.GetCompleteDescriptionAsync(id);
 
         /// <summary>
         /// Creates team.

@@ -12,7 +12,7 @@ namespace WebAPI.Core.Interfaces.Services
         
         Task<Epic> GetByIdAsync(Guid id);
 
-        Task<EpicComplete> GetFullDescriptionAsync(Guid id);
+        Task<EpicComplete> GetCompleteDescriptionAsync(Guid id);
         
         Task<Epic> CreateAsync(Epic epic);
 

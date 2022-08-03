@@ -39,7 +39,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var userClaims = ClaimsReader.GetUserClaims(User);
             
-            return await _userService.GetFullDescriptionByIdAsync(userClaims.UserId);
+            return await _userService.GetCompleteDescriptionAsync(userClaims.UserId);
         }
         
         /// <summary>

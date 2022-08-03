@@ -24,7 +24,7 @@ namespace WebAPI.ApplicationLogic.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CollectionResponse<SprintComplete>> GetAllSprintsFromEpicAsync(Guid epicId, Guid? teamId)
+        public async Task<CollectionResponse<SprintComplete>> GetSprintsFromEpicAsync(Guid epicId, Guid? teamId)
         {
             var sprintEntities = await _unitOfWork.SprintRepository.GetFullSprintsByEpicId(epicId, teamId);
 
@@ -48,7 +48,7 @@ namespace WebAPI.ApplicationLogic.Services
             return SprintMapper.Map(sprintEntity);
         }
 
-        public async Task<SprintComplete> GetFullSprintAsync(Guid id)
+        public async Task<SprintComplete> GetCompleteDescriptionAsync(Guid id)
         {
             var sprintEntity = await _unitOfWork.SprintRepository
                 .SearchForItemById(

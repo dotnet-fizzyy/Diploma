@@ -38,19 +38,19 @@ namespace WebAPI.Presentation.Controllers
             await _projectService.GetByIdAsync(id);
 
         /// <summary>
-        /// Gets project full description by provided id.
+        /// Gets project complete description by provided id.
         /// </summary>
         /// <param name="id">Project identifier.</param>
-        /// <response code="200">Project full model by provided id.</response>
+        /// <response code="200">Project complete model by provided id.</response>
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find project by provided id.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet("full/id/{id:guid}")]
+        [HttpGet("complete/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ProjectComplete>> GetProjectFullDescription(Guid id) =>
-            await _projectService.GetFullDescriptionAsync(id);
+        public async Task<ActionResult<ProjectComplete>> GetCompleteDescription(Guid id) =>
+            await _projectService.GetCompleteDescriptionAsync(id);
 
         /// <summary>
         /// Creates project.

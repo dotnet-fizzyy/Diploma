@@ -17,7 +17,7 @@ namespace WebAPI.Core.Interfaces.Services
         /// </summary>
         /// <param name="id">User identifier.</param>
         /// <returns><see cref="UserComplete"/> model.</returns>
-        Task<UserComplete> GetFullDescriptionByIdAsync(Guid id);
+        Task<UserComplete> GetCompleteDescriptionAsync(Guid id);
      
         /// <summary>
         /// Gets <see cref="User"/> by identifier.

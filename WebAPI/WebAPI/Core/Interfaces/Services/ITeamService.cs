@@ -12,7 +12,7 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<Team> GetByIdAsync(Guid id);
 
-        Task<TeamComplete> GetFullDescriptionAsync(Guid id);
+        Task<TeamComplete> GetCompleteDescriptionAsync(Guid id);
 
         Task<Team> CreateAsync(Team team);
 

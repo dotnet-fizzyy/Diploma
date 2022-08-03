@@ -39,7 +39,7 @@ namespace WebAPI.Presentation.Controllers
         public async Task<ActionResult<CollectionResponse<SprintComplete>>> GetAllSprintsFromEpic(
             Guid epicId, 
             [FromQuery] Guid? teamId) => 
-                await _sprintService.GetAllSprintsFromEpicAsync(epicId, teamId);
+                await _sprintService.GetSprintsFromEpicAsync(epicId, teamId);
 
         /// <summary>
         /// Gets sprint by provided id.
@@ -57,19 +57,19 @@ namespace WebAPI.Presentation.Controllers
             await _sprintService.GetByIdAsync(id);
 
         /// <summary>
-        /// Gets sprint full description by provided id.
+        /// Gets sprint complete description by provided id.
         /// </summary>
         /// <param name="id">Sprint identifier.</param>
-        /// <response code="200">Sprint full description by provided id.</response>
+        /// <response code="200">Sprint complete description by provided id.</response>
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find sprint by provided id.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet("full/id/{id:guid}")]
+        [HttpGet("complete/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<SprintComplete>> GetFullSprint(Guid id) =>
-            await _sprintService.GetFullSprintAsync(id);
+        public async Task<ActionResult<SprintComplete>> GetCompleteDescription(Guid id) =>
+            await _sprintService.GetCompleteDescriptionAsync(id);
 
         /// <summary>
         /// Creates sprint.

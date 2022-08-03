@@ -42,7 +42,7 @@ namespace WebAPI.ApplicationLogic.Services
             return projectModel;
         }
 
-        public async Task<ProjectComplete> GetFullDescriptionAsync(Guid projectId)
+        public async Task<ProjectComplete> GetCompleteDescriptionAsync(Guid projectId)
         {
             // Receive project description
             var projectEntity = await _unitOfWork.ProjectRepository

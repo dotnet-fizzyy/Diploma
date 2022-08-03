@@ -49,7 +49,7 @@ namespace WebAPI.ApplicationLogic.Services
             return team;
         }
 
-        public async Task<TeamComplete> GetFullDescriptionAsync(Guid id)
+        public async Task<TeamComplete> GetCompleteDescriptionAsync(Guid id)
         {
             var teamEntity = await _unitOfWork.TeamRepository.GetTeamWithUsers(id);
 

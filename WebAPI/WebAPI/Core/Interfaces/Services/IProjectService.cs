@@ -9,7 +9,7 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<Project> GetByIdAsync(Guid id);
 
-        Task<ProjectComplete> GetFullDescriptionAsync(Guid id);
+        Task<ProjectComplete> GetCompleteDescriptionAsync(Guid id);
 
         Task<Project> CreateAsync(Project projectModelToCreate);
 
