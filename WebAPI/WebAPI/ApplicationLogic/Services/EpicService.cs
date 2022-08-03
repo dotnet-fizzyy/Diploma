@@ -7,11 +7,11 @@ using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
+using WebAPI.Models.Complete;
 using WebAPI.Models.Extensions;
 
 using EpicEntity = WebAPI.Core.Entities.Epic;
 using EpicModel = WebAPI.Models.Basic.Epic;
-using FullEpicModel = WebAPI.Models.Models.Result.FullEpic;
 
 namespace WebAPI.ApplicationLogic.Services
 {
@@ -53,7 +53,7 @@ namespace WebAPI.ApplicationLogic.Services
             return epicModel;
         }
 
-        public async Task<FullEpicModel> GetFullDescriptionAsync(Guid id)
+        public async Task<EpicComplete> GetFullDescriptionAsync(Guid id)
         {
             var epicEntity = await _unitOfWork.EpicRepository
                 .SearchForItemById(
@@ -68,7 +68,7 @@ namespace WebAPI.ApplicationLogic.Services
                     ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id)));
             }
 
-            var epicFullModel = EpicMapper.MapToFullModel(epicEntity);
+            var epicFullModel = EpicMapper.MapToComplete(epicEntity);
             
             return epicFullModel;
         }

@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Basic;
+using WebAPI.Models.Complete;
 using WebAPI.Models.Extensions;
-using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Utilities;
 
 namespace WebAPI.Presentation.Controllers
@@ -33,7 +33,7 @@ namespace WebAPI.Presentation.Controllers
         [HttpGet("user")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CollectionResponse<FullTeam>>> GetUserTeams()
+        public async Task<ActionResult<CollectionResponse<TeamComplete>>> GetUserTeams()
         {
             var user = ClaimsReader.GetUserClaims(User);
             
@@ -67,7 +67,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<FullTeam>> GetFullTeamDescription(Guid id) =>
+        public async Task<ActionResult<TeamComplete>> GetFullTeamDescription(Guid id) =>
             await _teamService.GetFullDescriptionAsync(id);
 
         /// <summary>

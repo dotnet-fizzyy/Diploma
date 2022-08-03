@@ -5,8 +5,8 @@ namespace WebAPI.Presentation.Models.Pages
 {
     public class DefaultPage
     {
-        public IList<StoryLightModel> Stories = new List<StoryLightModel>();
+        public IList<StoryLight> Stories = new List<StoryLight>();
 
-        public IList<TeamLightModel> Teams = new List<TeamLightModel>();
+        public IList<TeamLight> Teams = new List<TeamLight>();
     }
 }

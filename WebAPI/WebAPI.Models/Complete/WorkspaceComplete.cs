@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using WebAPI.Models.Basic;
 
-namespace WebAPI.Models.Models.Result
+namespace WebAPI.Models.Complete
 {
-    public class FullWorkSpace : WorkSpace
+    public class WorkspaceComplete : WorkSpace
     {
-        public FullWorkSpace()
+        public WorkspaceComplete()
         {
             Users = new List<User>();
             Projects = new List<Project>();

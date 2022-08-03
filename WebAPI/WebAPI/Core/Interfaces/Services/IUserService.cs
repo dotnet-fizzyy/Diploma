@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using WebAPI.Models.Basic;
-using WebAPI.Models.Models.Result;
+using WebAPI.Models.Complete;
 using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Models.Response;
 
@@ -13,11 +13,11 @@ namespace WebAPI.Core.Interfaces.Services
     public interface IUserService
     {
         /// <summary>
-        /// Gets <see cref="FullUser"/> with related items by identifier.
+        /// Gets <see cref="UserComplete"/> with related items by identifier.
         /// </summary>
         /// <param name="id">User identifier.</param>
-        /// <returns><see cref="FullUser"/> model.</returns>
-        Task<FullUser> GetFullDescriptionByIdAsync(Guid id);
+        /// <returns><see cref="UserComplete"/> model.</returns>
+        Task<UserComplete> GetFullDescriptionByIdAsync(Guid id);
      
         /// <summary>
         /// Gets <see cref="User"/> by identifier.

@@ -1,6 +1,6 @@
 using ProjectEntity = WebAPI.Core.Entities.Project;
 using ProjectModel = WebAPI.Models.Basic.Project;
-using ProjectLightModel = WebAPI.Models.Light.ProjectLightModel;
+using ProjectLightModel = WebAPI.Models.Light.ProjectLight;
 
 namespace WebAPI.ApplicationLogic.Mappers
 {
@@ -42,7 +42,7 @@ namespace WebAPI.ApplicationLogic.Mappers
             return projectModel;
         }
 
-        public static ProjectLightModel MapToSimpleModel(ProjectEntity project)
+        public static ProjectLightModel MapToLight(ProjectEntity project)
         {
             if (project == null)
             {

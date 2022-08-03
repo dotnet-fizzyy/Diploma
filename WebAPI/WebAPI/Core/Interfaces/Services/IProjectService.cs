@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using WebAPI.Models.Basic;
-using WebAPI.Models.Models.Result;
+using WebAPI.Models.Complete;
 
 namespace WebAPI.Core.Interfaces.Services
 {
@@ -9,7 +9,7 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<Project> GetByIdAsync(Guid id);
 
-        Task<FullProjectDescription> GetFullDescriptionAsync(Guid id);
+        Task<ProjectComplete> GetFullDescriptionAsync(Guid id);
 
         Task<Project> CreateAsync(Project projectModelToCreate);
 

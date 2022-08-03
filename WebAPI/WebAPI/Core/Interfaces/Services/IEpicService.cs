@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using WebAPI.Models.Basic;
+using WebAPI.Models.Complete;
 using WebAPI.Models.Extensions;
-using WebAPI.Models.Models.Result;
 
 namespace WebAPI.Core.Interfaces.Services
 {
@@ -12,7 +12,7 @@ namespace WebAPI.Core.Interfaces.Services
         
         Task<Epic> GetByIdAsync(Guid id);
 
-        Task<FullEpic> GetFullDescriptionAsync(Guid id);
+        Task<EpicComplete> GetFullDescriptionAsync(Guid id);
         
         Task<Epic> CreateAsync(Epic epic);
 

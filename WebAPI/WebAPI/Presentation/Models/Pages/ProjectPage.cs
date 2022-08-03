@@ -8,7 +8,7 @@ namespace WebAPI.Presentation.Models.Pages
     {
         public Project Project { get; set; }
 
-        public IList<TeamLightModel> Teams { get; set; } = new List<TeamLightModel>();
+        public IList<TeamLight> Teams { get; set; } = new List<TeamLight>();
 
         public IList<Epic> Epics { get; set; } = new List<Epic>();
     }

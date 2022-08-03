@@ -8,8 +8,8 @@ using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Basic;
+using WebAPI.Models.Complete;
 using WebAPI.Models.Extensions;
-using WebAPI.Models.Models.Result;
 
 using TeamEntity = WebAPI.Core.Entities.Team;
 using UserEntity = WebAPI.Core.Entities.User;
@@ -26,11 +26,11 @@ namespace WebAPI.ApplicationLogic.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CollectionResponse<FullTeam>> GetUserTeamsAsync(Guid userId)
+        public async Task<CollectionResponse<TeamComplete>> GetUserTeamsAsync(Guid userId)
         {
             var teamEntities = await _unitOfWork.TeamRepository.GetUserTeams(userId);
             
-            var collectionResponse = new CollectionResponse<FullTeam>
+            var collectionResponse = new CollectionResponse<TeamComplete>
             {
                 Items = teamEntities.Select(TeamMapper.MapToFullModel).ToList(),
             };
@@ -49,7 +49,7 @@ namespace WebAPI.ApplicationLogic.Services
             return team;
         }
 
-        public async Task<FullTeam> GetFullDescriptionAsync(Guid id)
+        public async Task<TeamComplete> GetFullDescriptionAsync(Guid id)
         {
             var teamEntity = await _unitOfWork.TeamRepository.GetTeamWithUsers(id);
 

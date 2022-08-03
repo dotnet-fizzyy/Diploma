@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using WebAPI.Models.Basic;
 
-namespace WebAPI.Models.Models.Result
+namespace WebAPI.Models.Complete
 {
-    public class FullSprint : Sprint
+    public class SprintComplete : Sprint
     {
         public IList<Story> Stories { get; set; } = new List<Story>();
     }

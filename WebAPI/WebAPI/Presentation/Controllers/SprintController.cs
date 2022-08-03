@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Basic;
+using WebAPI.Models.Complete;
 using WebAPI.Models.Extensions;
-using WebAPI.Models.Models.Result;
 
 namespace WebAPI.Presentation.Controllers
 {
@@ -36,7 +36,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CollectionResponse<FullSprint>>> GetAllSprintsFromEpic(
+        public async Task<ActionResult<CollectionResponse<SprintComplete>>> GetAllSprintsFromEpic(
             Guid epicId, 
             [FromQuery] Guid? teamId) => 
                 await _sprintService.GetAllSprintsFromEpicAsync(epicId, teamId);
@@ -68,7 +68,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<FullSprint>> GetFullSprint(Guid id) =>
+        public async Task<ActionResult<SprintComplete>> GetFullSprint(Guid id) =>
             await _sprintService.GetFullSprintAsync(id);
 
         /// <summary>

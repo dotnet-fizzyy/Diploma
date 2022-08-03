@@ -6,7 +6,7 @@ namespace WebAPI.Presentation.Models.Pages
 {
     public class FullStatisticsPage : StatisticsPage
     {
-        public IList<EpicLightModel> Epics { get; set; }
+        public IList<EpicLight> Epics { get; set; }
         
         public Project Project { get; set; }
     }

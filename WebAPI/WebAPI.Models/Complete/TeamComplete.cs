@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using WebAPI.Models.Basic;
 
-namespace WebAPI.Models.Models.Result
+namespace WebAPI.Models.Complete
 {
-    public class FullTeam : Team
+    public class TeamComplete : Team
     {
-        public FullTeam()
+        public TeamComplete()
         {
             Users = new List<User>();
         }

@@ -3,7 +3,7 @@ using WebAPI.Models.Enums;
 
 namespace WebAPI.Models.Light
 {
-    public class StoryLightModel
+    public class StoryLight
     {
         public Guid StoryId { get; set; } 
         

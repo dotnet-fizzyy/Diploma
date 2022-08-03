@@ -2,8 +2,8 @@ using System.Linq;
 
 using TeamEntity = WebAPI.Core.Entities.Team;
 using TeamModel = WebAPI.Models.Basic.Team;
-using TeamLightModel = WebAPI.Models.Light.TeamLightModel;
-using FullTeamModel = WebAPI.Models.Models.Result.FullTeam;
+using TeamCompleteModel = WebAPI.Models.Complete.TeamComplete;
+using TeamLightModel = WebAPI.Models.Light.TeamLight;
 
 namespace WebAPI.ApplicationLogic.Mappers
 {
@@ -43,14 +43,14 @@ namespace WebAPI.ApplicationLogic.Mappers
             return teamModel;
         }
 
-        public static FullTeamModel MapToFullModel(TeamEntity teamEntity)
+        public static TeamCompleteModel MapToFullModel(TeamEntity teamEntity)
         {
             if (teamEntity == null)
             {
-                return new FullTeamModel();
+                return new TeamCompleteModel();
             }
 
-            var fullTeamModel = new FullTeamModel();
+            var fullTeamModel = new TeamCompleteModel();
             
             MapBaseEntityToModel(fullTeamModel, teamEntity);
 

@@ -2,8 +2,8 @@ using System;
 using System.Threading.Tasks;
 using WebAPI.Core.Enums;
 using WebAPI.Models.Basic;
+using WebAPI.Models.Complete;
 using WebAPI.Models.Extensions;
-using WebAPI.Models.Models.Result;
 
 namespace WebAPI.Core.Interfaces.Services
 {
@@ -22,7 +22,7 @@ namespace WebAPI.Core.Interfaces.Services
         
         Task<Story> GetByIdAsync(Guid storyId);
 
-        Task<FullStory> GetFullDescriptionAsync(Guid storyId);
+        Task<StoryComplete> GetFullDescriptionAsync(Guid storyId);
 
         Task<Story> CreateAsync(Story story, string username);
 

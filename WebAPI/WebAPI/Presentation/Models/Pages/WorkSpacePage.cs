@@ -4,9 +4,9 @@ using WebAPI.Models.Light;
 
 namespace WebAPI.Presentation.Models.Pages
 {
-    public class WorkSpacePageProject : ProjectLightModel
+    public class WorkSpacePageProject : ProjectLight
     {
-        public List<TeamLightModel> Teams { get; set; } = new List<TeamLightModel>();
+        public List<TeamLight> Teams { get; set; } = new List<TeamLight>();
     }
     
     public class WorkSpacePage

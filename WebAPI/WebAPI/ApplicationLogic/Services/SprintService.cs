@@ -8,8 +8,8 @@ using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Basic;
+using WebAPI.Models.Complete;
 using WebAPI.Models.Extensions;
-using WebAPI.Models.Models.Result;
 
 using SprintEntity = WebAPI.Core.Entities.Sprint;
 
@@ -24,13 +24,13 @@ namespace WebAPI.ApplicationLogic.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CollectionResponse<FullSprint>> GetAllSprintsFromEpicAsync(Guid epicId, Guid? teamId)
+        public async Task<CollectionResponse<SprintComplete>> GetAllSprintsFromEpicAsync(Guid epicId, Guid? teamId)
         {
             var sprintEntities = await _unitOfWork.SprintRepository.GetFullSprintsByEpicId(epicId, teamId);
 
-            return new CollectionResponse<FullSprint>
+            return new CollectionResponse<SprintComplete>
             {
-                Items = sprintEntities.Select(SprintMapper.MapToFullModel).ToList()
+                Items = sprintEntities.Select(SprintMapper.MapToComplete).ToList()
             };
         }
 
@@ -48,7 +48,7 @@ namespace WebAPI.ApplicationLogic.Services
             return SprintMapper.Map(sprintEntity);
         }
 
-        public async Task<FullSprint> GetFullSprintAsync(Guid id)
+        public async Task<SprintComplete> GetFullSprintAsync(Guid id)
         {
             var sprintEntity = await _unitOfWork.SprintRepository
                 .SearchForItemById(
@@ -63,7 +63,7 @@ namespace WebAPI.ApplicationLogic.Services
                     ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id)));
             }
 
-            return SprintMapper.MapToFullModel(sprintEntity);
+            return SprintMapper.MapToComplete(sprintEntity);
         }
 
         public async Task<Sprint> CreateAsync(Sprint sprint)

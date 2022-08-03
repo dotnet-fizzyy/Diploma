@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Basic;
-using WebAPI.Models.Models.Result;
+using WebAPI.Models.Complete;
 using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Utilities;
 
@@ -35,7 +35,7 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<FullUser>> GetUserByToken()
+        public async Task<ActionResult<UserComplete>> GetUserByToken()
         {
             var userClaims = ClaimsReader.GetUserClaims(User);
             

@@ -9,7 +9,7 @@ using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Basic;
-using WebAPI.Models.Models.Result;
+using WebAPI.Models.Complete;
 
 using ProjectEntity = WebAPI.Core.Entities.Project;
 
@@ -42,7 +42,7 @@ namespace WebAPI.ApplicationLogic.Services
             return projectModel;
         }
 
-        public async Task<FullProjectDescription> GetFullDescriptionAsync(Guid projectId)
+        public async Task<ProjectComplete> GetFullDescriptionAsync(Guid projectId)
         {
             // Receive project description
             var projectEntity = await _unitOfWork.ProjectRepository
@@ -66,7 +66,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             if (projectEpicEntity == null)
             {
-                return new FullProjectDescription
+                return new ProjectComplete
                 {
                     Project = ProjectMapper.Map(projectEntity)
                 };
@@ -82,7 +82,7 @@ namespace WebAPI.ApplicationLogic.Services
             var projectTeams =  await _unitOfWork.TeamRepository
                 .SearchForMultipleItemsAsync(project => project.ProjectId == projectId);
 
-            var fullProjectDescription = FullProjectDescriptionAggregator.AggregateFullProjectDescription(
+            var fullProjectDescription = ProjectAggregator.AggregateFullProjectDescription(
                 projectEntity,
                 projectEpicEntity,
                 epicSprints,

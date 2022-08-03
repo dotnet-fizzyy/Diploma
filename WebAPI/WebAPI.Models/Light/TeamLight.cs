@@ -2,7 +2,7 @@ using System;
 
 namespace WebAPI.Models.Light
 {
-    public class TeamLightModel
+    public class TeamLight
     {
         public Guid TeamId { get; set; }
         

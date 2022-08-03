@@ -2,11 +2,11 @@ using System;
 
 namespace WebAPI.Models.Light
 {
-    public class EpicLightModel
+    public class ProjectLight
     {
-        public Guid EpicId { get; set; }
+        public Guid ProjectId { get; set; }
         
-        public string EpicName { get; set; }
+        public string ProjectName { get; set; }
         
         public DateTime StartDate { get; set; }
         

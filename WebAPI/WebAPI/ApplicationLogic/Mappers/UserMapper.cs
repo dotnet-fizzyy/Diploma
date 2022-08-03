@@ -4,9 +4,9 @@ using System.Linq;
 
 using UserEntity = WebAPI.Core.Entities.User;
 using UserModel = WebAPI.Models.Basic.User;
-using FullUserModel = WebAPI.Models.Models.Result.FullUser;
-using UserProjectModel = WebAPI.Models.Models.Result.UserProject;
-using UserTeamModel = WebAPI.Models.Models.Result.UserTeam;
+using UserCompleteModel = WebAPI.Models.Complete.UserComplete;
+using UserProjectModel = WebAPI.Models.Complete.UserProject;
+using UserTeamModel = WebAPI.Models.Complete.UserTeam;
 using ProjectEntity = WebAPI.Core.Entities.Project;
 using TeamEntity = WebAPI.Core.Entities.Team;
 using UserRoleCore = WebAPI.Core.Enums.UserRole;
@@ -73,12 +73,12 @@ namespace WebAPI.ApplicationLogic.Mappers
             return userEntity;
         }
 
-        public static FullUserModel Map(
+        public static UserCompleteModel Map(
             UserEntity user, 
             IEnumerable<ProjectEntity> projects, 
             IEnumerable<TeamEntity> teams)
         {
-            var fullUser = new FullUserModel();
+            var fullUser = new UserCompleteModel();
             
             MapBase(fullUser, user);
  

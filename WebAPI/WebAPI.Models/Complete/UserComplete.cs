@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using WebAPI.Models.Basic;
 
-namespace WebAPI.Models.Models.Result
+namespace WebAPI.Models.Complete
 {
-    public class FullUser : User
+    public class UserComplete : User
     {
         public IList<UserTeam> Teams { get; set; } = new List<UserTeam>();
 

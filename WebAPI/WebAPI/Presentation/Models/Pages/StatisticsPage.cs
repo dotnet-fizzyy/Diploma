@@ -8,6 +8,6 @@ namespace WebAPI.Presentation.Models.Pages
     {
         public IList<Sprint> Sprints { get; set; } = new List<Sprint>();
 
-        public IList<StoryLightModel> Stories { get; set; } = new List<StoryLightModel>();
+        public IList<StoryLight> Stories { get; set; } = new List<StoryLight>();
     }
 }

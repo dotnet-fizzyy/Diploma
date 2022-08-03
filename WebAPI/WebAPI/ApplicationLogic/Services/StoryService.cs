@@ -12,8 +12,8 @@ using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
+using WebAPI.Models.Complete;
 using WebAPI.Models.Extensions;
-using WebAPI.Models.Models.Result;
 
 using StoryEntity = WebAPI.Core.Entities.Story;
 using StoryModel = WebAPI.Models.Basic.Story;
@@ -94,7 +94,7 @@ namespace WebAPI.ApplicationLogic.Services
             return StoryMapper.Map(storyEntity);
         }
 
-        public async Task<FullStory> GetFullDescriptionAsync(Guid storyId)
+        public async Task<StoryComplete> GetFullDescriptionAsync(Guid storyId)
         {
             var storyEntity = await SearchForStoryByIdAsync(
                 storyId,

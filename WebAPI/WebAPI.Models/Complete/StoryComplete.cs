@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using WebAPI.Models.Basic;
 
-namespace WebAPI.Models.Models.Result
+namespace WebAPI.Models.Complete
 {
-    public class FullStory : Story
+    public class StoryComplete : Story
     {
         public IList<StoryHistory> StoryHistories { get; set; } = new List<StoryHistory>();
     }

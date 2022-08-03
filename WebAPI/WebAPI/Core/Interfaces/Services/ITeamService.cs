@@ -1,18 +1,18 @@
 using System;
 using System.Threading.Tasks;
 using WebAPI.Models.Basic;
+using WebAPI.Models.Complete;
 using WebAPI.Models.Extensions;
-using WebAPI.Models.Models.Result;
 
 namespace WebAPI.Core.Interfaces.Services
 {
     public interface ITeamService
     {
-        Task<CollectionResponse<FullTeam>> GetUserTeamsAsync(Guid userId);
+        Task<CollectionResponse<TeamComplete>> GetUserTeamsAsync(Guid userId);
 
         Task<Team> GetByIdAsync(Guid id);
 
-        Task<FullTeam> GetFullDescriptionAsync(Guid id);
+        Task<TeamComplete> GetFullDescriptionAsync(Guid id);
 
         Task<Team> CreateAsync(Team team);
 

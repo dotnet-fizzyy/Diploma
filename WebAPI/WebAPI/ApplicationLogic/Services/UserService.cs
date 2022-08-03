@@ -11,7 +11,7 @@ using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Basic;
-using WebAPI.Models.Models.Result;
+using WebAPI.Models.Complete;
 using WebAPI.Presentation.Constants;
 using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Models.Response;
@@ -38,9 +38,9 @@ namespace WebAPI.ApplicationLogic.Services
         }
 
         /// <inheritdoc cref="IUserService.GetFullDescriptionByIdAsync" />
-        public async Task<FullUser> GetFullDescriptionByIdAsync(Guid id)
+        public async Task<UserComplete> GetFullDescriptionByIdAsync(Guid id)
         {
-            FullUser user;
+            UserComplete user;
             
             if (_appSettings.Redis.EnableRedis)
             {
@@ -234,7 +234,7 @@ namespace WebAPI.ApplicationLogic.Services
             return authUser;
         }
 
-        private async Task<FullUser> GetFullUserDescriptionAsync(Guid userId)
+        private async Task<UserComplete> GetFullUserDescriptionAsync(Guid userId)
         {
             var userEntity = await _unitOfWork.UserRepository.SearchForItemById(
                 userId, 
@@ -271,10 +271,10 @@ namespace WebAPI.ApplicationLogic.Services
             return await _unitOfWork.ProjectRepository.GetProjectsByCollectionOfTeamIds(teams);
         }
 
-        private async Task<FullUser> GetUserFromCache(Guid userId) =>
-           await _cacheContext.Get<FullUser>(RedisUtilities.CreateRedisKeyForUser(userId));
+        private async Task<UserComplete> GetUserFromCache(Guid userId) =>
+           await _cacheContext.Get<UserComplete>(RedisUtilities.CreateRedisKeyForUser(userId));
         
-        private async Task SetUserToCache(FullUser user)
+        private async Task SetUserToCache(UserComplete user)
         {
             var userKey = RedisUtilities.CreateRedisKeyForUser(user.UserId);
  
@@ -302,7 +302,7 @@ namespace WebAPI.ApplicationLogic.Services
             return refreshTokenEntity.Value;
         }
 
-        private async Task<AuthenticationUserResponseModel> GenerateAuthTokensAsync(FullUser user)
+        private async Task<AuthenticationUserResponseModel> GenerateAuthTokensAsync(UserComplete user)
         {
             var accessToken = TokenGenerator.GenerateAccessToken(
                 _appSettings, 
