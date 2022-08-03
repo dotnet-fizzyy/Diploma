@@ -1,9 +1,8 @@
 using System.Linq;
-
+using WebAPI.Models.Light;
 using TeamEntity = WebAPI.Core.Entities.Team;
 using TeamModel = WebAPI.Models.Models.Models.Team;
 using FullTeamModel = WebAPI.Models.Models.Result.FullTeam;
-using TeamSimpleModel = WebAPI.Models.Models.Simple.TeamSimpleModel;
 
 namespace WebAPI.ApplicationLogic.Mappers
 {
@@ -61,14 +60,14 @@ namespace WebAPI.ApplicationLogic.Mappers
             return fullTeamModel;
         }
 
-        public static TeamSimpleModel MapToSimpleModel(TeamEntity team)
+        public static TeamLightModel MapToSimpleModel(TeamEntity team)
         {
             if (team == null)
             {
-                return new TeamSimpleModel();
+                return new TeamLightModel();
             }
 
-            var simpleTeamModel = new TeamSimpleModel
+            var simpleTeamModel = new TeamLightModel
             {
                 TeamId = team.Id,
                 TeamName = team.TeamName,

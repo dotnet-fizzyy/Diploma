@@ -1,8 +1,8 @@
 using System;
 
-namespace WebAPI.Models.Models.Simple
+namespace WebAPI.Models.Light
 {
-    public class EpicSimpleModel
+    public class EpicLightModel
     {
         public Guid EpicId { get; set; }
         

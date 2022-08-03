@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using WebAPI.Models.Light;
 using WebAPI.Models.Models.Models;
-using WebAPI.Models.Models.Simple;
 
 namespace WebAPI.Presentation.Models.Pages
 {
@@ -8,7 +8,7 @@ namespace WebAPI.Presentation.Models.Pages
     {
         public Project Project { get; set; }
 
-        public IList<TeamSimpleModel> Teams { get; set; } = new List<TeamSimpleModel>();
+        public IList<TeamLightModel> Teams { get; set; } = new List<TeamLightModel>();
 
         public IList<Epic> Epics { get; set; } = new List<Epic>();
     }

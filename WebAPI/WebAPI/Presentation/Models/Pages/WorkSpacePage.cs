@@ -1,12 +1,12 @@
 using System.Collections.Generic;
+using WebAPI.Models.Light;
 using WebAPI.Models.Models.Models;
-using WebAPI.Models.Models.Simple;
 
 namespace WebAPI.Presentation.Models.Pages
 {
-    public class WorkSpacePageProject : ProjectSimpleModel
+    public class WorkSpacePageProject : ProjectLightModel
     {
-        public List<TeamSimpleModel> Teams { get; set; } = new List<TeamSimpleModel>();
+        public List<TeamLightModel> Teams { get; set; } = new List<TeamLightModel>();
     }
     
     public class WorkSpacePage

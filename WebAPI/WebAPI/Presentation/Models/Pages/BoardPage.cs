@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using WebAPI.Models.Light;
 using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
-using WebAPI.Models.Models.Simple;
 
 namespace WebAPI.Presentation.Models.Pages
 {
@@ -11,7 +11,7 @@ namespace WebAPI.Presentation.Models.Pages
         
         public FullTeam Team { get; set; } = new FullTeam();
         
-        public IList<EpicSimpleModel> Epics = new List<EpicSimpleModel>();
+        public IList<EpicLightModel> Epics = new List<EpicLightModel>();
 
         public IList<Sprint> Sprints = new List<Sprint>();
 

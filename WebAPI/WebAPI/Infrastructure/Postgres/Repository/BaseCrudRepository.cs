@@ -39,12 +39,8 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         public async Task<bool> ExistsAsync(Expression<Func<T, bool>> expression) => 
             await _dbSet.AnyAsync(expression);
 
-        public async Task<List<T>> SearchForMultipleItemsAsync(Expression<Func<T, bool>> expression)
-        {
-            var items = await _dbSet.Where(expression).AsNoTracking().ToListAsync();
-
-            return items;
-        }
+        public async Task<List<T>> SearchForMultipleItemsAsync(Expression<Func<T, bool>> expression) => 
+            await _dbSet.Where(expression).AsNoTracking().ToListAsync();
 
         public async Task<List<T>> SearchForMultipleItemsAsync<K>(
             Expression<Func<T, bool>> expression,

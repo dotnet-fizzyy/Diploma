@@ -1,9 +1,9 @@
 using System;
 using WebAPI.Models.Enums;
 
-namespace WebAPI.Models.Models.Simple
+namespace WebAPI.Models.Light
 {
-    public class StorySimpleModel
+    public class StoryLightModel
     {
         public Guid StoryId { get; set; } 
         

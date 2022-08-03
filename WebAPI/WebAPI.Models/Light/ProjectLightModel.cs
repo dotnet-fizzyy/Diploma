@@ -1,8 +1,8 @@
 using System;
 
-namespace WebAPI.Models.Models.Simple
+namespace WebAPI.Models.Light
 {
-    public class ProjectSimpleModel
+    public class ProjectLightModel
     {
         public Guid ProjectId { get; set; }
         
