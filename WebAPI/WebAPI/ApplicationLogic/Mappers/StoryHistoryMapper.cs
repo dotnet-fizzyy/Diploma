@@ -1,7 +1,7 @@
 using System;
 
 using StoryHistoryEntity = WebAPI.Core.Entities.StoryHistory;
-using StoryHistoryModel = WebAPI.Models.Models.Models.StoryHistory;
+using StoryHistoryModel = WebAPI.Models.Basic.StoryHistory;
 using StoryHistoryActionModel = WebAPI.Models.Enums.StoryHistoryAction;
 
 namespace WebAPI.ApplicationLogic.Mappers

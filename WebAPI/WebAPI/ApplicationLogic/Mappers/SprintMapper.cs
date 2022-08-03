@@ -1,7 +1,7 @@
 using System.Linq;
 
 using SprintEntity = WebAPI.Core.Entities.Sprint;
-using SprintModel = WebAPI.Models.Models.Models.Sprint;
+using SprintModel = WebAPI.Models.Basic.Sprint;
 using FullSprintModel = WebAPI.Models.Models.Result.FullSprint;
 
 namespace WebAPI.ApplicationLogic.Mappers

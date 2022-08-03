@@ -1,4 +1,4 @@
-namespace WebAPI.Models.Models.Models
+namespace WebAPI.Models.Basic
 {
     public class Token
     {

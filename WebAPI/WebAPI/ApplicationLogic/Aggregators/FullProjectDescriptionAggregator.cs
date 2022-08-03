@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WebAPI.ApplicationLogic.Mappers;
 using WebAPI.Core.Entities;
+using WebAPI.Models.Extensions;
 using WebAPI.Models.Models.Result;
 
 namespace WebAPI.ApplicationLogic.Aggregators

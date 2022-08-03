@@ -7,7 +7,7 @@ using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
 
-using WorkspaceModel = WebAPI.Models.Models.Models.WorkSpace;
+using WorkspaceModel = WebAPI.Models.Basic.WorkSpace;
 using UserEntity = WebAPI.Core.Entities.User;
 
 namespace WebAPI.ApplicationLogic.Services

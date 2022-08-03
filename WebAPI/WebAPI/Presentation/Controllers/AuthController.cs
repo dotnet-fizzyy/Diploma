@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Models.Models.Models;
+using WebAPI.Models.Basic;
 using WebAPI.Presentation.Constants;
 using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Models.Response;
@@ -83,7 +83,8 @@ namespace WebAPI.Presentation.Controllers
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpGet("check-email")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<EmailResponseModel>> CheckForEmailExistence([FromQuery] string email) =>
+        public async Task<ActionResult<EmailResponseModel>> CheckForEmailExistence(
+            [FromQuery, BindRequired] string email) =>
             await _userService.CheckEmailExistenceAsync(email);
     }
 }

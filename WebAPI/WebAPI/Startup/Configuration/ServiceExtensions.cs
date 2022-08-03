@@ -6,7 +6,7 @@ using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Infrastructure.Postgres.Repository;
 using WebAPI.Infrastructure.Redis;
-using WebAPI.Models.Models.Models;
+using WebAPI.Models.Basic;
 using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Validators;
 

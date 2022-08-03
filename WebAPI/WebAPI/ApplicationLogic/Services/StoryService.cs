@@ -12,10 +12,11 @@ using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
+using WebAPI.Models.Extensions;
 using WebAPI.Models.Models.Result;
 
 using StoryEntity = WebAPI.Core.Entities.Story;
-using StoryModel = WebAPI.Models.Models.Models.Story;
+using StoryModel = WebAPI.Models.Basic.Story;
 using SprintEntity = WebAPI.Core.Entities.Sprint;
 using UserEntity = WebAPI.Core.Entities.User;
 

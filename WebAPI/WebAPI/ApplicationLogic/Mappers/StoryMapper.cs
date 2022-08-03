@@ -1,9 +1,10 @@
 using System;
 using System.Linq;
-using WebAPI.Models.Light;
+
 using StoryEntity = WebAPI.Core.Entities.Story;
-using StoryModel = WebAPI.Models.Models.Models.Story;
+using StoryModel = WebAPI.Models.Basic.Story;
 using FullStoryModel = WebAPI.Models.Models.Result.FullStory;
+using StoryLightModel = WebAPI.Models.Light.StoryLightModel;
 using StoryPriorityEntity = WebAPI.Core.Enums.StoryPriority;
 using StoryPriorityModel = WebAPI.Models.Enums.StoryPriority;
 using UserPositionEntity = WebAPI.Core.Enums.UserPosition;

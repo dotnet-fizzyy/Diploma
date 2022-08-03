@@ -1,6 +1,6 @@
 using FluentValidation;
 using FluentValidation.Validators;
-using WebAPI.Models.Models.Models;
+using WebAPI.Models.Basic;
 
 namespace WebAPI.Presentation.Validators
 {

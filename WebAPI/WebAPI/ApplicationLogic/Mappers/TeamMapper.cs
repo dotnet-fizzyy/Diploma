@@ -1,7 +1,8 @@
 using System.Linq;
-using WebAPI.Models.Light;
+
 using TeamEntity = WebAPI.Core.Entities.Team;
-using TeamModel = WebAPI.Models.Models.Models.Team;
+using TeamModel = WebAPI.Models.Basic.Team;
+using TeamLightModel = WebAPI.Models.Light.TeamLightModel;
 using FullTeamModel = WebAPI.Models.Models.Result.FullTeam;
 
 namespace WebAPI.ApplicationLogic.Mappers
@@ -72,7 +73,7 @@ namespace WebAPI.ApplicationLogic.Mappers
                 TeamId = team.Id,
                 TeamName = team.TeamName,
                 ProjectId = team.ProjectId,
-                Location = team.Location,
+                Location = team.Location
             };
 
             return simpleTeamModel;

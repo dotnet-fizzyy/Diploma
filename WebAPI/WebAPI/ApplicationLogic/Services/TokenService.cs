@@ -6,7 +6,7 @@ using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Models.Models.Models;
+using WebAPI.Models.Basic;
 using WebAPI.Presentation.Constants;
 using WebAPI.Presentation.Models.Response;
 

@@ -1,4 +1,4 @@
-using WebAPI.Models.Models.Models;
+using WebAPI.Models.Basic;
 
 namespace WebAPI.Presentation.Models.Response
 {

@@ -1,4 +1,5 @@
-using WebAPI.Models.Models.Models;
+using WebAPI.Models.Basic;
+using WebAPI.Models.Extensions;
 
 namespace WebAPI.Models.Models.Result
 {

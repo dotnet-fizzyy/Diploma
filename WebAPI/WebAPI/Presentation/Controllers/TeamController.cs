@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Models.Models.Models;
+using WebAPI.Models.Basic;
+using WebAPI.Models.Extensions;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Utilities;
 

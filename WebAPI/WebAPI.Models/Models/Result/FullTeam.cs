@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using WebAPI.Models.Models.Models;
+using WebAPI.Models.Basic;
 
 namespace WebAPI.Models.Models.Result
 {

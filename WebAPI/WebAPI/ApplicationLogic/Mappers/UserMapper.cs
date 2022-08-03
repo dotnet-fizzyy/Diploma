@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using UserEntity = WebAPI.Core.Entities.User;
-using UserModel = WebAPI.Models.Models.Models.User;
+using UserModel = WebAPI.Models.Basic.User;
 using FullUserModel = WebAPI.Models.Models.Result.FullUser;
 using UserProjectModel = WebAPI.Models.Models.Result.UserProject;
 using UserTeamModel = WebAPI.Models.Models.Result.UserTeam;

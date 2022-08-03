@@ -1,7 +1,7 @@
 using System.Linq;
 
 using EpicEntity = WebAPI.Core.Entities.Epic;
-using EpicModel = WebAPI.Models.Models.Models.Epic;
+using EpicModel = WebAPI.Models.Basic.Epic;
 using FullEpicModel = WebAPI.Models.Models.Result.FullEpic;
 using EpicLightModel = WebAPI.Models.Light.EpicLightModel;
 

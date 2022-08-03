@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using WebAPI.Models.Models.Models;
+using WebAPI.Models.Basic;
 
 namespace WebAPI.Core.Interfaces.Services
 {

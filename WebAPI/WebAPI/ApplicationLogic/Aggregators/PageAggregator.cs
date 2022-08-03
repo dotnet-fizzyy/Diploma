@@ -38,13 +38,13 @@ namespace WebAPI.ApplicationLogic.Aggregators
             {
                 Project = project != null 
                     ? ProjectMapper.Map(project)
-                    : new WebAPI.Models.Models.Models.Project(),
+                    : new Models.Basic.Project(),
                 Team = team != null 
                     ? TeamMapper.MapToFullModel(team)
                     : new FullTeam(),
                 Epics = epics?.Select(EpicMapper.MapToSimpleModel).ToList() ?? new List<EpicLightModel>(),
-                Sprints = sprints?.Select(SprintMapper.Map).ToList() ?? new List<WebAPI.Models.Models.Models.Sprint>(),
-                Stories =  sprints?.SelectMany(x => x.Stories.Select(StoryMapper.Map)).ToList() ?? new List<WebAPI.Models.Models.Models.Story>(),
+                Sprints = sprints?.Select(SprintMapper.Map).ToList() ?? new List<Models.Basic.Sprint>(),
+                Stories =  sprints?.SelectMany(x => x.Stories.Select(StoryMapper.Map)).ToList() ?? new List<Models.Basic.Story>(),
             };
 
             return boardPage;
@@ -56,7 +56,7 @@ namespace WebAPI.ApplicationLogic.Aggregators
             {
                 WorkSpace = workSpace != null 
                     ? WorkSpaceMapper.Map(workSpace)
-                    : new WebAPI.Models.Models.Models.WorkSpace(),
+                    : new Models.Basic.WorkSpace(),
                 Team = team != null 
                     ? TeamMapper.MapToFullModel(team) 
                     : new FullTeam(),
@@ -71,13 +71,13 @@ namespace WebAPI.ApplicationLogic.Aggregators
             {
                 Project = project != null 
                     ? ProjectMapper.Map(project)
-                    : new WebAPI.Models.Models.Models.Project(),
+                    : new Models.Basic.Project(),
                 Teams = project != null && project.Teams != null
                     ? project.Teams.Select(TeamMapper.MapToSimpleModel).ToList()
                     : new List<TeamLightModel>(),
                 Epics = project != null && project.Epics != null
                     ? project.Epics.Select(EpicMapper.Map).ToList()
-                    : new List<WebAPI.Models.Models.Models.Epic>()
+                    : new List<Models.Basic.Epic>()
             };
 
             return projectPage;
@@ -89,7 +89,7 @@ namespace WebAPI.ApplicationLogic.Aggregators
             {
                 WorkSpace = workSpace != null 
                     ? WorkSpaceMapper.Map(workSpace)
-                    : new WebAPI.Models.Models.Models.WorkSpace(),
+                    : new Models.Basic.WorkSpace(),
                 Projects = projects?.Select(project => new WorkSpacePageProject
                     {
                         ProjectId = project.Id,
@@ -111,9 +111,9 @@ namespace WebAPI.ApplicationLogic.Aggregators
             {
                 Project = project != null 
                     ? ProjectMapper.Map(project) 
-                    : new WebAPI.Models.Models.Models.Project(),
+                    : new Models.Basic.Project(),
                 Epics =  epics?.Select(EpicMapper.MapToSimpleModel).ToList() ?? new List<EpicLightModel>(),
-                Sprints = sprints?.Select(SprintMapper.Map).ToList() ?? new List<WebAPI.Models.Models.Models.Sprint>(),
+                Sprints = sprints?.Select(SprintMapper.Map).ToList() ?? new List<Models.Basic.Sprint>(),
                 Stories =  sprints?.SelectMany(x => x.Stories, (_, story) => StoryMapper.MapToSimpleModel(story))
                                    .ToList() ?? new List<StoryLightModel>()
             };

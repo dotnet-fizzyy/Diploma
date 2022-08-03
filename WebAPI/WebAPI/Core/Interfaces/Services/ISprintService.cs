@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using WebAPI.Models.Models.Models;
+using WebAPI.Models.Basic;
+using WebAPI.Models.Extensions;
 using WebAPI.Models.Models.Result;
 
 namespace WebAPI.Core.Interfaces.Services

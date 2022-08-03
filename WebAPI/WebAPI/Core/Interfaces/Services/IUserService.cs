@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using WebAPI.Models.Models.Models;
+using WebAPI.Models.Basic;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Models.Response;

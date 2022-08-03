@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using WebAPI.Models.Basic;
 using WebAPI.Models.Light;
-using WebAPI.Models.Models.Models;
 using WebAPI.Models.Models.Result;
 
 namespace WebAPI.Presentation.Models.Pages

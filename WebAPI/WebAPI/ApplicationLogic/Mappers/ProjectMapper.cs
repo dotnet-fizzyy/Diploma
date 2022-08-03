@@ -1,5 +1,5 @@
 using ProjectEntity = WebAPI.Core.Entities.Project;
-using ProjectModel = WebAPI.Models.Models.Models.Project;
+using ProjectModel = WebAPI.Models.Basic.Project;
 using ProjectLightModel = WebAPI.Models.Light.ProjectLightModel;
 
 namespace WebAPI.ApplicationLogic.Mappers

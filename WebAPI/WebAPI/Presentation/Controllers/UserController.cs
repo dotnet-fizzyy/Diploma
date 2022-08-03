@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Models.Models.Models;
+using WebAPI.Models.Basic;
 using WebAPI.Models.Models.Result;
 using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Utilities;
