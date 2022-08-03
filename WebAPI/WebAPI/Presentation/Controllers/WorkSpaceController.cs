@@ -74,6 +74,7 @@ namespace WebAPI.Presentation.Controllers
             return CreatedAtAction(nameof(CreateWorkSpace), createdWorkSpace);
         }
         
+        // todo: replace with assignment to WS in future.
         /// <summary>
         /// Creates workspace and assign it to user.
         /// </summary>

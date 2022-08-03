@@ -4,18 +4,52 @@ using WebAPI.Models.Basic;
 
 namespace WebAPI.Core.Interfaces.Services
 {
+    /// <summary>
+    /// <see cref="WorkSpace"/> business functionality.
+    /// </summary>
     public interface IWorkSpaceService
     {
-        Task<WorkSpace> GetByIdAsync(Guid workSpaceId);
+        /// <summary>
+        /// Gets <see cref="WorkSpace"/> by identifier.
+        /// </summary>
+        /// <param name="id">Workspace identifier.</param>
+        /// <returns><see cref="WorkSpace"/> model.</returns>
+        Task<WorkSpace> GetByIdAsync(Guid id);
         
+        /// <summary>
+        /// Gets <see cref="WorkSpace"/> that belong to user by user identifier.
+        /// </summary>
+        /// <param name="userId">User identifier.</param>
+        /// <returns><see cref="WorkSpace"/> model.</returns>
         Task<WorkSpace> GetUsersWorkSpaceAsync(Guid userId);
 
-        Task<WorkSpace> CreateAsync(WorkSpace workSpace);
+        /// <summary>
+        /// Creates workspace.
+        /// </summary>
+        /// <param name="workspace"><see cref="WorkSpace"/> model.</param>
+        /// <returns>Created <see cref="WorkSpace"/> model.</returns>
+        Task<WorkSpace> CreateAsync(WorkSpace workspace);
         
+        /// <summary>
+        /// Creates workspace and and assigns user to it.
+        /// </summary>
+        /// <param name="workSpace"><see cref="WorkSpace"/> model.</param>
+        /// <param name="userId">User identifier.</param>
+        /// <returns>Created <see cref="WorkSpace"/> model.</returns>
         Task<WorkSpace> CreateWithUserAsync(WorkSpace workSpace, Guid userId);
         
-        Task<WorkSpace> UpdateAsync(WorkSpace workSpace);
+        /// <summary>
+        /// Updates workspace.
+        /// </summary>
+        /// <param name="workspace"><see cref="WorkSpace"/> model.</param>
+        /// <returns>Updated <see cref="WorkSpace"/> model.</returns>
+        Task<WorkSpace> UpdateAsync(WorkSpace workspace);
         
-        Task RemoveAsync(Guid workSpaceId);
+        /// <summary>
+        /// Removes workspace from DB.
+        /// </summary>
+        /// <param name="id">Workspace identifier.</param>
+        /// <returns>Task representing successful asynchronous operation.</returns>
+        Task RemoveAsync(Guid id);
     }
 }
