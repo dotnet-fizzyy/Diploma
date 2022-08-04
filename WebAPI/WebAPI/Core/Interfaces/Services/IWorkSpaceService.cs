@@ -29,14 +29,14 @@ namespace WebAPI.Core.Interfaces.Services
         /// <param name="workspace"><see cref="WorkSpace"/> model.</param>
         /// <returns>Created <see cref="WorkSpace"/> model.</returns>
         Task<WorkSpace> CreateAsync(WorkSpace workspace);
-        
+
         /// <summary>
-        /// Creates workspace and and assigns user to it.
+        /// Assigns user to workspace.
         /// </summary>
-        /// <param name="workSpace"><see cref="WorkSpace"/> model.</param>
+        /// <param name="workspaceId">Workspace identifier.</param>
         /// <param name="userId">User identifier.</param>
-        /// <returns>Created <see cref="WorkSpace"/> model.</returns>
-        Task<WorkSpace> CreateWithUserAsync(WorkSpace workSpace, Guid userId);
+        /// <returns>Task representing successful asynchronous operation.</returns>
+        Task AssignUserToWorkspace(Guid workspaceId, Guid userId);
         
         /// <summary>
         /// Updates workspace.

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Basic;
+using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Utilities;
 
 namespace WebAPI.Presentation.Controllers
@@ -73,27 +74,27 @@ namespace WebAPI.Presentation.Controllers
 
             return CreatedAtAction(nameof(CreateWorkSpace), createdWorkSpace);
         }
-        
-        // todo: replace with assignment to WS in future.
-        /// <summary>
-        /// Creates workspace and assign it to user.
-        /// </summary>
-        /// <param name="workSpace"><see cref="WorkSpace"/> model.</param>
-        /// <response code="201">Created workspace and assigned it to user.</response>
-        /// <response code="401">Failed authentication.</response>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpPost("user")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<WorkSpace>> CreateWorkSpaceWithUser([FromBody, BindRequired] WorkSpace workSpace)
-        {
-            var user = ClaimsReader.GetUserClaims(User);
-            
-            var createdWorkSpace = await _workSpaceService.CreateWithUserAsync(workSpace, user.UserId);
 
-            return CreatedAtAction(nameof(CreateWorkSpaceWithUser), createdWorkSpace);
+        /// <summary>
+        /// Assigns user to workspace.
+        /// </summary>
+        /// <response code="204">User was assigned to workspace.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find workspace or user by provided id.</response>
+        /// <param name="requestModel"><see cref="AssignUserToWorkspaceRequestModel"/> model.</param>
+        /// <returns></returns>
+        [HttpPost("assign-user")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> AssignUserToWorkspace(
+            [FromBody, BindRequired] AssignUserToWorkspaceRequestModel requestModel)
+        {
+            await _workSpaceService.AssignUserToWorkspace(requestModel.WorkspaceId, requestModel.UserId);
+            
+            return NoContent();
         }
-        
+
         /// <summary>
         /// Updates workspace.
         /// </summary>
