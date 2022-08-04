@@ -80,9 +80,9 @@ namespace WebAPI.Presentation.Controllers
         /// </summary>
         /// <response code="204">User was assigned to workspace.</response>
         /// <response code="401">Failed authentication.</response>
-        /// <response code="404">Unable to find workspace or user by provided id.</response>
+        /// <response code="404">Unable to find workspace or user by provided ids.</response>
         /// <param name="requestModel"><see cref="AssignUserToWorkspaceRequestModel"/> model.</param>
-        /// <returns></returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpPost("assign-user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

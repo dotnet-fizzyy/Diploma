@@ -35,7 +35,7 @@ namespace WebAPI.Core.Interfaces.Services
         /// </summary>
         /// <param name="workspaceId">Workspace identifier.</param>
         /// <param name="userId">User identifier.</param>
-        /// <returns>Task representing successful asynchronous operation.</returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task AssignUserToWorkspace(Guid workspaceId, Guid userId);
         
         /// <summary>
@@ -49,7 +49,7 @@ namespace WebAPI.Core.Interfaces.Services
         /// Removes workspace from DB.
         /// </summary>
         /// <param name="id">Workspace identifier.</param>
-        /// <returns>Task representing successful asynchronous operation.</returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task RemoveAsync(Guid id);
     }
 }

@@ -8,6 +8,7 @@ using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Basic;
 using WebAPI.Models.Complete;
 using WebAPI.Models.Extensions;
+using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Utilities;
 
 namespace WebAPI.Presentation.Controllers
@@ -90,18 +91,19 @@ namespace WebAPI.Presentation.Controllers
         /// <summary>
         /// Assigns user to the team.
         /// </summary>
-        /// <param name="id">Team identifier.</param>
+        /// <param name="requestModel"><see cref="AssignUserToTeamRequestModel"/> identifier.</param>
         /// <response code="204">User was assigned to team.</response>
         /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find team or user by provided ids.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpPost("id/{id:guid}/assign")]
+        [HttpPost("assign-user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<Team>> AssignUserToTeam(Guid id)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Team>> AssignUserToTeam(
+            [FromBody, BindRequired] AssignUserToTeamRequestModel requestModel)
         {
-            var claims = ClaimsReader.GetUserClaims(User);
-
-            await _teamService.AssignUserToTeam(id, claims.UserId);
+            await _teamService.AssignUserToTeam(requestModel.UserId, requestModel.TeamId);
             
             return NoContent();
         }

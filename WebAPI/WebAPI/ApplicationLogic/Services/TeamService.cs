@@ -72,7 +72,7 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task AssignUserToTeam(Guid userId, Guid teamId)
         {
             var teamTask = _unitOfWork.TeamRepository.SearchForItemById(teamId, includeTracking: true);
-            var userTask = _unitOfWork.UserRepository.SearchForItemById(userId, includeTracking: true);
+            var userTask = _unitOfWork.UserRepository.SearchForItemById(userId, includeTracking: false);
 
             await Task.WhenAll(teamTask, userTask);
             
