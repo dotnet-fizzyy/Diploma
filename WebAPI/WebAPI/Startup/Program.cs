@@ -14,6 +14,7 @@ namespace WebAPI.Startup
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Information)
                 .WriteTo.Console(new CompactJsonFormatter())
                 .Enrich.FromLogContext()
                 .CreateLogger();
