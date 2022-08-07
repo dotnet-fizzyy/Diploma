@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
+using NpgsqlTypes;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Interfaces.Database;
@@ -51,6 +53,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         {
             var sqlJoins = new List<string>();
             var sqlConditions = new List<string>();
+            var sqlParams = new List<NpgsqlParameter>();
 
             if (epicId.HasValue || sprintId.HasValue)
             {
@@ -60,29 +63,28 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             if (epicId.HasValue)
             {
                 CreateSqlJoinQueryForEpic(sqlJoins);
-                CreateSqlConditionQueryForEpic(sqlConditions, epicId.Value);
+                CreateSqlConditionQueryForEpic(sqlConditions, sqlParams, epicId.Value);
             }
 
             if (sprintId.HasValue)
             {
-                CreateSqlConditionQueryForSprint(sqlConditions, sprintId.Value);
+                CreateSqlConditionQueryForSprint(sqlConditions, sqlParams, sprintId.Value);
             }
             
             if (teamId.HasValue)
             {
                 CreateSqlJoinQueryForTeam(sqlJoins);
-                CreateSqlConditionQueryForTeam(sqlConditions, teamId.Value);
+                CreateSqlConditionQueryForTeam(sqlConditions, sqlParams, teamId.Value);
             }
 
-            var sortSqlQuery = CreateSqlSortCondition(sortField, sortDirection);
+            var sortSqlQuery = CreateSqlSortCondition(sqlParams, sortField, sortDirection);
 
             var sqlJoinQuery = string.Join(" ", sqlJoins);
             var sqlConditionQuery = string.Join(" AND ", sqlConditions);
             var finalSqlQuery = $"SELECT ST.*, ST.\"xmin\" FROM public.\"Stories\" AS ST {sqlJoinQuery} WHERE {sqlConditionQuery} {sortSqlQuery}";
 
-            // todo: SQL Data client
             return await DbContext.Stories
-                .FromSqlRaw(finalSqlQuery)
+                .FromSqlRaw(finalSqlQuery, sqlParams.Cast<object>().ToArray())
                 .AsQueryable()
                 .ToListAsync();
         }
@@ -108,32 +110,76 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             sqlJoins.Add(teamSqlJoinQuery);
         }
 
-        private static void CreateSqlConditionQueryForEpic(ICollection<string> sqlConditions, Guid epicId)
+        private static void CreateSqlConditionQueryForEpic(
+            ICollection<string> sqlConditions, 
+            ICollection<NpgsqlParameter> sqlParameters, 
+            Guid epicId)
         {
-            var epicSqlJoinQuery = $"E.\"EpicId\" = '{epicId}'";
-           
+            const string epicSqlJoinQuery = "E.\"EpicId\" = @epicId";
+
+            var sqlParam = new NpgsqlParameter
+            {
+                ParameterName = "@epicId",
+                NpgsqlDbType = NpgsqlDbType.Uuid,
+                Value = epicId
+            };
+            
             sqlConditions.Add(epicSqlJoinQuery);
+            sqlParameters.Add(sqlParam);
         }
         
-        private static void CreateSqlConditionQueryForTeam(ICollection<string> sqlConditions, Guid teamId)
+        private static void CreateSqlConditionQueryForTeam(
+            ICollection<string> sqlConditions,
+            ICollection<NpgsqlParameter> sqlParameters,
+            Guid teamId)
         {
-            var epicSqlJoinQuery = $"T.\"TeamId\" = '{teamId}'";
-           
+            const string epicSqlJoinQuery = "T.\"TeamId\" = @teamId";
+
+            var sqlParam = new NpgsqlParameter
+            {
+                ParameterName = "@teamId",
+                NpgsqlDbType = NpgsqlDbType.Uuid,
+                Value = teamId
+            };
+            
             sqlConditions.Add(epicSqlJoinQuery);
+            sqlParameters.Add(sqlParam);
         }
         
-        private static void CreateSqlConditionQueryForSprint(ICollection<string> sqlConditions, Guid sprintId)
+        private static void CreateSqlConditionQueryForSprint(
+            ICollection<string> sqlConditions,
+            ICollection<NpgsqlParameter> sqlParameters,
+            Guid sprintId)
         {
-            var epicSqlJoinQuery = $"SP.\"SprintId\" = '{sprintId}'";
+            const string epicSqlJoinQuery = "SP.\"SprintId\" = @sprintId";
            
+            var sqlParam = new NpgsqlParameter
+            {
+                ParameterName = "@sprintId",
+                NpgsqlDbType = NpgsqlDbType.Uuid,
+                Value = sprintId
+            };
+            
             sqlConditions.Add(epicSqlJoinQuery);
+            sqlParameters.Add(sqlParam);
         }
 
-        private static string CreateSqlSortCondition(string sortField, SortDirection sortDirection)
+        // todo: investigate reason of incorrect sort
+        private static string CreateSqlSortCondition(
+            ICollection<NpgsqlParameter> sqlParameters,
+            string sortField,
+            SortDirection sortDirection)
         {
             var sqlSortDirection = sortDirection == SortDirection.Asc ? "ASC" : "DESC";
+            var sqlParam = new NpgsqlParameter
+            {
+                ParameterName = "@sortField",
+                Value = $"{sortField} {sqlSortDirection}"
+            };
             
-            return $"ORDER BY ST.\"{sortField}\" {sqlSortDirection}";
+            sqlParameters.Add(sqlParam);
+            
+            return "ORDER BY @sortField";
         }
     }
 }
