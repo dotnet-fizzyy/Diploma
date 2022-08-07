@@ -77,11 +77,9 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 CreateSqlConditionQueryForTeam(sqlConditions, sqlParams, teamId.Value);
             }
 
-            var sortSqlQuery = CreateSqlSortCondition(sqlParams, sortField, sortDirection);
+            var sortSqlQuery = CreateSqlSortCondition(sortField, sortDirection);
 
-            var sqlJoinQuery = string.Join(" ", sqlJoins);
-            var sqlConditionQuery = string.Join(" AND ", sqlConditions);
-            var finalSqlQuery = $"SELECT ST.*, ST.\"xmin\" FROM public.\"Stories\" AS ST {sqlJoinQuery} WHERE {sqlConditionQuery} {sortSqlQuery}";
+            var finalSqlQuery = CreateSqlQuery(sqlConditions, sqlJoins, sortSqlQuery);
 
             return await DbContext.Stories
                 .FromSqlRaw(finalSqlQuery, sqlParams.Cast<object>().ToArray())
@@ -89,6 +87,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 .ToListAsync();
         }
         
+
         private static void CreateSqlJoinQueryForSprint(ICollection<string> sqlJoins)
         {
             const string sprintSqlJoinQuery = "INNER JOIN \"Sprints\" AS SP on SP.\"SprintId\" = ST.\"SprintId\"";
@@ -164,22 +163,24 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             sqlParameters.Add(sqlParam);
         }
 
-        // todo: investigate reason of incorrect sort
         private static string CreateSqlSortCondition(
-            ICollection<NpgsqlParameter> sqlParameters,
             string sortField,
             SortDirection sortDirection)
         {
             var sqlSortDirection = sortDirection == SortDirection.Asc ? "ASC" : "DESC";
-            var sqlParam = new NpgsqlParameter
-            {
-                ParameterName = "@sortField",
-                Value = $"{sortField} {sqlSortDirection}"
-            };
-            
-            sqlParameters.Add(sqlParam);
-            
-            return "ORDER BY @sortField";
+
+            return $"ORDER BY \"{sortField}\" {sqlSortDirection}";
+        }
+
+        private static string CreateSqlQuery(
+            ICollection<string> sqlConditions,
+            ICollection<string> sqlJoins,
+            string sortSqlQuery)
+        {
+            var sqlJoinQuery = string.Join(" ", sqlJoins);
+            var sqlConditionQuery = string.Join(" AND ", sqlConditions);
+
+            return $"SELECT ST.*, ST.\"xmin\" FROM public.\"Stories\" AS ST {sqlJoinQuery} WHERE {sqlConditionQuery} {sortSqlQuery}";
         }
     }
 }
