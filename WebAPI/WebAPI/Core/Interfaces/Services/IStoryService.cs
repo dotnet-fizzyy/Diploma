@@ -9,16 +9,19 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface IStoryService
     {
-        Task<CollectionResponse<Story>> GetStoriesFromSprintAsync(Guid sprintId);
-        
-        Task<CollectionResponse<Story>> GetStoriesFromEpicAssignedToTeamAsync(Guid epicId, Guid teamId);
+        Task<CollectionResponse<Story>> SearchForStories(
+            Guid? epicId,
+            Guid? sprintId,
+            Guid? teamId,
+            string searchField,
+            SortDirection? sortDirection);
 
         Task<CollectionResponse<Story>> SortStories(
             Guid epicId, 
             Guid teamId, 
             Guid? sprintId,
             string sortType,
-            OrderType orderType);
+            SortDirection sortDirection);
         
         Task<Story> GetByIdAsync(Guid storyId);
 

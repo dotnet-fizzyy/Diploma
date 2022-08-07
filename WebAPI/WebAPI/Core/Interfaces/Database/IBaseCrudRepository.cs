@@ -25,14 +25,14 @@ namespace WebAPI.Core.Interfaces.Database
         Task<List<T>> SearchForMultipleItemsAsync<K>(
             Expression<Func<T, bool>> expression, 
             Expression<Func<T, K>> sort, 
-            OrderType orderType);
+            SortDirection sortDirection);
         
         Task<List<T>> SearchForMultipleItemsAsync<K>(
             Expression<Func<T, bool>> expression, 
             int offset, 
             int limit,
             Expression<Func<T, K>> sort, 
-            OrderType orderType);
+            SortDirection sortDirection);
 
         Task<T> SearchForItemById(
             Guid id, 

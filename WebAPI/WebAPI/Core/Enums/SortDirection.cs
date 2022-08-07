@@ -1,6 +1,6 @@
 namespace WebAPI.Core.Enums
 {
-    public enum OrderType
+    public enum SortDirection
     {
         Asc,
         Desc

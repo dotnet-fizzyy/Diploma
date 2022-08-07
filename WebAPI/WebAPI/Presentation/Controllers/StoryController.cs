@@ -14,7 +14,7 @@ using WebAPI.Presentation.Utilities;
 
 namespace WebAPI.Presentation.Controllers
 {
-    [Authorize]
+    // [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class StoryController : ControllerBase
@@ -33,7 +33,7 @@ namespace WebAPI.Presentation.Controllers
         /// <param name="epicId">Epic identifier.</param>
         /// <param name="sprintId">Sprint identifier.</param>
         /// <param name="sortType">Sort field.</param>
-        /// <param name="orderType">Sort direction.</param>
+        /// <param name="sortDirection">Sort direction.</param>
         /// <response code="200">A collection of sorted stories in particular order.</response>
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find stories with provided epic and team id.</response>
@@ -48,41 +48,32 @@ namespace WebAPI.Presentation.Controllers
             [FromQuery, BindRequired] Guid epicId,
             [FromQuery] Guid? sprintId,
             [FromQuery, BindRequired] string sortType,
-            [FromQuery, BindRequired] OrderType orderType) => 
-                await _storyService.SortStories(epicId, teamId, sprintId, sortType, orderType);
-        
-        // todo: combine epics, sprints and teams search
+            [FromQuery, BindRequired] SortDirection sortDirection) => 
+                await _storyService.SortStories(epicId, teamId, sprintId, sortType, sortDirection);
+
         /// <summary>
-        /// Gets stories from epic.
+        /// Gets stories by search criterias.
         /// </summary>
         /// <param name="epicId">Epic identifier.</param>
+        /// <param name="sprintId">Sprint identifier.</param>
         /// <param name="teamId">Team identifier.</param>
-        /// <response code="200">A collection of stories from epic.</response>
+        /// <param name="sortField">Field to sort collection by.</param>
+        /// <param name="sortDirection">Sort direction (asc | desc).</param>
+        /// <response code="200">A collection of stories by search criteria.</response>
         /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find any stories with provided epic id.</response>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet("epic/id/{epicId:guid}")]
+        [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesFormEpic(
-            Guid epicId,
-            [FromQuery] Guid teamId) => 
-            await _storyService.GetStoriesFromEpicAssignedToTeamAsync(epicId, teamId);
-        
-        /// <summary>
-        /// Gets stories from sprint.
-        /// </summary>
-        /// <param name="id">Story identifier.</param>
-        /// <response code="200">A collection of stories from sprint.</response>
-        /// <response code="401">Failed authentication.</response>
-        /// <response code="404">Unable to find any stories with provided sprint id.</response>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpGet("sprint/id/{id:guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesFormSprint(Guid id) => 
-            await _storyService.GetStoriesFromSprintAsync(id);
+            [FromQuery] Guid? epicId,
+            [FromQuery] Guid? sprintId,
+            [FromQuery] Guid? teamId,
+            [FromQuery] string sortField,
+            [FromQuery] SortDirection? sortDirection) => 
+                await _storyService.SearchForStories(epicId, sprintId, teamId, sortField, sortDirection);
 
         /// <summary>
         /// Gets story by provided id.

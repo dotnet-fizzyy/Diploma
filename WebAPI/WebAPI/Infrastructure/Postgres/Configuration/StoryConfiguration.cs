@@ -10,7 +10,7 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
         {
             base.Configure(builder);
             
-            builder.Property(x => x.Id).HasColumnName("StoryId");
+            builder.Property(prop => prop.Id).HasColumnName("StoryId");
 
             builder
                 .HasOne<Sprint>()

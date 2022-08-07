@@ -31,7 +31,7 @@ namespace WebAPI.ApplicationLogic.Services
                 offset: 0, 
                 limit: Search.StoriesLimit, 
                 sort: story => story.CreationDate,
-                orderType: OrderType.Desc
+                sortDirection: SortDirection.Desc
             );
             var teams = _unitOfWork.TeamRepository.GetUserTeams(userId);
 
@@ -76,7 +76,7 @@ namespace WebAPI.ApplicationLogic.Services
             var epics = await _unitOfWork.EpicRepository.SearchForMultipleItemsAsync(
                 epic => epic.ProjectId == projectId, 
                 sort: prop => prop.CreationDate, 
-                OrderType.Desc);
+                SortDirection.Desc);
 
             if (epics == null || !epics.Any())
             {
@@ -91,7 +91,7 @@ namespace WebAPI.ApplicationLogic.Services
  
             foreach (var sprint in sprints)
             {
-                sprint.Stories = StoryUtilities.SortStoriesByCriteria(sprint.Stories, SortTypes.Priority, OrderType.Asc);
+                sprint.Stories = StoryUtilities.SortStoriesByCriteria(sprint.Stories, SortTypes.Priority, SortDirection.Asc);
             }
 
             return PageAggregator.CreateBoardPageModel(team, project, epics, sprints);
@@ -150,7 +150,7 @@ namespace WebAPI.ApplicationLogic.Services
                 .SearchForMultipleItemsAsync(
                     epic => epic.ProjectId == projectId, 
                     sort: prop => prop.CreationDate, 
-                    OrderType.Desc);
+                    SortDirection.Desc);
 
             await Task.WhenAll(project, epics);
             

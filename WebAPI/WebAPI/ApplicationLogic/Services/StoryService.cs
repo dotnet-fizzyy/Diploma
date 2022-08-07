@@ -31,13 +31,29 @@ namespace WebAPI.ApplicationLogic.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CollectionResponse<StoryModel>> GetStoriesFromEpicAssignedToTeamAsync(Guid epicId, Guid teamId)
+        public async Task<CollectionResponse<StoryModel>> SearchForStories(
+            Guid? epicId,
+            Guid? sprintId,
+            Guid? teamId,
+            string sortField,
+            SortDirection? sortDirection)
         {
-            var storyEntities = await _unitOfWork.StoryRepository.GetStoriesByEpicAndTeamIds(epicId, teamId);
-
+            const string defaultSortField = "DateCreated";
+            const SortDirection defaultSortDirection = SortDirection.Desc;
+            
+            var storySortField = string.IsNullOrWhiteSpace(sortField) ? defaultSortField : sortField;
+            var storySortDirection = sortDirection ?? defaultSortDirection;
+            
+            var stories = await _unitOfWork.StoryRepository.SearchForStories(
+                epicId,
+                sprintId,
+                teamId,
+                storySortField,
+                storySortDirection);
+            
             return new CollectionResponse<StoryModel>
             {
-                Items = storyEntities.Select(StoryMapper.Map).ToList()
+                Items = stories.Select(StoryMapper.Map).ToList()
             };
         }
 
@@ -46,7 +62,7 @@ namespace WebAPI.ApplicationLogic.Services
             Guid teamId,
             Guid? sprintId,
             string sortType,
-            OrderType orderType)
+            SortDirection sortDirection)
         {
             List<StoryEntity> stories;
 
@@ -68,22 +84,11 @@ namespace WebAPI.ApplicationLogic.Services
                     ExceptionMessageGenerator.GetMissingEntitiesMessage($"{nameof(epicId)} and ${nameof(sprintId)}"));
             }
 
-            stories = StoryUtilities.SortStoriesByCriteria(stories, sortType, orderType);
+            stories = StoryUtilities.SortStoriesByCriteria(stories, sortType, sortDirection);
             
             return new CollectionResponse<StoryModel>
             {
                 Items = stories.Select(StoryMapper.Map).ToList()
-            };
-        }
-
-        public async Task<CollectionResponse<StoryModel>> GetStoriesFromSprintAsync(Guid sprintId)
-        {
-            var storyEntities = await _unitOfWork.StoryRepository
-                .SearchForMultipleItemsAsync(story => story.SprintId == sprintId);
-
-            return new CollectionResponse<StoryModel>
-            {
-                Items = storyEntities.Select(StoryMapper.Map).ToList()
             };
         }
 

@@ -45,11 +45,11 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         public async Task<List<T>> SearchForMultipleItemsAsync<K>(
             Expression<Func<T, bool>> expression,
             Expression<Func<T, K>> sort,
-            OrderType orderType = OrderType.Asc)
+            SortDirection sortDirection = SortDirection.Asc)
         {
             List<T> items;
 
-            if (orderType == OrderType.Asc)
+            if (sortDirection == SortDirection.Asc)
             {
                 items = await _dbSet.Where(expression).OrderBy(sort).AsNoTracking().ToListAsync();
             }
@@ -66,11 +66,11 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             int offset, 
             int limit,
             Expression<Func<T, K>> sort, 
-            OrderType orderType)
+            SortDirection sortDirection)
         {
             List<T> items;
 
-            if (orderType == OrderType.Asc)
+            if (sortDirection == SortDirection.Asc)
             {
                 if (expression != null)
                 {
