@@ -1,5 +1,5 @@
 import { EpicActions } from '../actions/epicActions';
-import { IOpenModal, ModalActions, ModalActionTypes } from '../actions/modalActions';
+import { IOpenModal, ModalActions } from '../actions/modalActions';
 import { ProjectActions } from '../actions/projectActions';
 import { SprintActions } from '../actions/sprintActions';
 import { StoryActions } from '../actions/storyActions';
@@ -15,7 +15,7 @@ const initialState: IModalState = {
     option: null,
 };
 
-export default function modalReducer(state = initialState, action: ModalActionTypes) {
+export default function modalReducer(state = initialState, action) {
     switch (action.type) {
         case ModalActions.OPEN_MODAL:
             return handleOpenModal(state, action);
@@ -66,35 +66,27 @@ export default function modalReducer(state = initialState, action: ModalActionTy
     }
 }
 
-function handleModalRequestProcessing(state: IModalState): IModalState {
-    return {
-        ...state,
-        isPerformingRequest: true,
-    };
-}
+const handleModalRequestProcessing = (state: IModalState): IModalState => ({
+    ...state,
+    isPerformingRequest: true,
+});
 
-function handleModalRequestFailure(state: IModalState): IModalState {
-    return {
-        ...state,
-        isPerformingRequest: false,
-    };
-}
+const handleModalRequestFailure = (state: IModalState): IModalState => ({
+    ...state,
+    isPerformingRequest: false,
+});
 
-function handleOpenModal(state: IModalState, action: IOpenModal): IModalState {
-    return {
-        ...state,
-        isOpen: true,
-        type: action.payload.type,
-        option: action.payload.option,
-    };
-}
+const handleOpenModal = (state: IModalState, action: IOpenModal): IModalState => ({
+    ...state,
+    isOpen: true,
+    type: action.payload.type,
+    option: action.payload.option,
+});
 
-function handleCloseModal(state: IModalState): IModalState {
-    return {
-        ...state,
-        isOpen: false,
-        type: null,
-        option: null,
-        isPerformingRequest: false,
-    };
-}
+const handleCloseModal = (state: IModalState): IModalState => ({
+    ...state,
+    isOpen: false,
+    type: null,
+    option: null,
+    isPerformingRequest: false,
+});
