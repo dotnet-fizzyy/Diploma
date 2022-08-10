@@ -4,7 +4,7 @@ import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
-import epicReducer from '../reducers/epicReducer';
+import epicReducer from '../reducers/epic';
 import modalReducer from '../reducers/modal';
 import projectsReducer from '../reducers/project';
 import sidebarReducer from '../reducers/sidebarReducer';
