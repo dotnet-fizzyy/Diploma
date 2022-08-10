@@ -5,8 +5,8 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import epicReducer from '../reducers/epicReducer';
-import modal from '../reducers/modal';
-import projectsReducer from '../reducers/projectReducer';
+import modalReducer from '../reducers/modal';
+import projectsReducer from '../reducers/project';
 import sidebarReducer from '../reducers/sidebarReducer';
 import sprintReducer from '../reducers/sprintReducer';
 import storyReducer from '../reducers/storyReducer';
@@ -25,7 +25,7 @@ const reducers = {
     sprints: sprintReducer,
     stories: storyReducer,
     sidebar: sidebarReducer,
-    modal: modal,
+    modal: modalReducer,
     workspace: workSpaceReducer,
     router: connectRouter(history),
 };
