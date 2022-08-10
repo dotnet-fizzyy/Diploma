@@ -1,33 +1,42 @@
 using System;
 using System.Threading.Tasks;
 using WebAPI.Core.Enums;
-using WebAPI.Models.Models.Models;
-using WebAPI.Models.Models.Result;
+using WebAPI.Models.Basic;
+using WebAPI.Models.Complete;
+using WebAPI.Models.Extensions;
 
 namespace WebAPI.Core.Interfaces.Services
 {
     public interface IStoryService
     {
-        Task<CollectionResponse<Story>> GetStoriesFromSprintAsync(Guid sprintId);
+        Task<CollectionResponse<Story>> SearchForStories(
+            Guid? epicId,
+            Guid? sprintId,
+            Guid? teamId,
+            string searchField,
+            SortDirection? sortDirection);
+
+        Task<CollectionResponse<Story>> SortStories(
+            Guid epicId, 
+            Guid teamId, 
+            Guid? sprintId,
+            string sortType,
+            SortDirection sortDirection);
         
-        Task<CollectionResponse<Story>> GetStoriesFromEpicAsync(Guid epicId, Guid? teamId);
+        Task<Story> GetByIdAsync(Guid storyId);
 
-        Task<CollectionResponse<Story>> SortStories(Guid epicId, Guid teamId, Guid? sprintId, string sortType, OrderType orderType);
+        Task<StoryComplete> GetCompleteDescriptionAsync(Guid storyId);
+
+        Task<Story> CreateAsync(Story story, string username);
+
+        Task<Story> UpdateColumnAsync(Story story, string username);
+
+        Task<Story> ChangeStatusAsync(Story story,  string username);
+
+        Task<Story> UpdateAsync(Story story, Guid userId);
+
+        Task SoftRemoveAsync(Guid id);
         
-        Task<Story> GetStoryByIdAsync(Guid storyId);
-
-        Task<FullStory> GetFullStoryDescriptionAsync(Guid storyId);
-
-        Task<Story> CreateStoryAsync(Story story, string userName);
-
-        Task<Story> UpdateStoryColumnAsync(Story story, string userName);
-
-        Task<Story> ChangeStoryStatusAsync(Story story,  string userName);
-
-        Task<Story> UpdatePartsOfStoryAsync(Story story, Guid userId);
-
-        Task RemoveStorySoftAsync(Story story);
-        
-        Task RemoveStoryAsync(Guid id);
+        Task RemoveAsync(Guid id);
     }
 }

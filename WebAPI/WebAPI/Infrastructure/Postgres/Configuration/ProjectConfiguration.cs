@@ -4,20 +4,23 @@ using WebAPI.Core.Entities;
 
 namespace WebAPI.Infrastructure.Postgres.Configuration
 {
-    public class ProjectConfiguration : IEntityTypeConfiguration<Project>
+    public class ProjectConfiguration : BaseEntityConfiguration<Project>, IEntityTypeConfiguration<Project>
     {
-        public void Configure(EntityTypeBuilder<Project> builder)
+        public new void Configure(EntityTypeBuilder<Project> builder)
         {
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.Id).HasColumnName("ProjectId");
-            builder.Property(x => x.CreationDate).HasColumnType("timestamptz");
+            base.Configure(builder);
+            
+            builder.Property(prop => prop.Id).HasColumnName("ProjectId");
+            
             builder
                 .HasOne<WorkSpace>()
-                .WithMany(x => x.Projects)
-                .HasForeignKey(x => x.WorkSpaceId)
+                .WithMany(workSpace => workSpace.Projects)
+                .HasForeignKey(project => project.WorkSpaceId)
                 .OnDelete(DeleteBehavior.SetNull);
-            builder.HasIndex(x => x.WorkSpaceId);
-            builder.HasQueryFilter(x => !x.IsDeleted);
+            
+            builder.HasIndex(prop => prop.WorkSpaceId);
+
+            builder.HasQueryFilter(project => !project.IsDeleted);
         }
     }
 }

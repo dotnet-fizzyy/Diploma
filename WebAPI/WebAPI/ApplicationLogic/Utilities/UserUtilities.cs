@@ -6,17 +6,15 @@ namespace WebAPI.ApplicationLogic.Utilities
 {
     public static class UserUtilities
     {
-        public static User CreateCustomerEntity(SignUpUserRequestModel userRequestModel)
-        {
-            return new User
+        public static User CreateCustomerEntity(SignUpUserRequestModel userRequestModel) =>
+            new User
             {
-                UserName = userRequestModel.Email,
+                UserName = userRequestModel.UserName,
                 Password = userRequestModel.Password,
-                Email = userRequestModel.UserName,
+                Email = userRequestModel.Email,
                 UserPosition = UserPosition.Customer,
                 UserRole = UserRole.Manager,
                 IsActive = true
             };
-        }
     }
 }

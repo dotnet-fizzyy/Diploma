@@ -2,18 +2,18 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Models.Models.Models;
-using WebAPI.Models.Models.Result;
+using WebAPI.Models.Basic;
+using WebAPI.Models.Complete;
+using WebAPI.Models.Extensions;
 
 namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/epic")]
+    [Route("api/[controller]")]
     public class EpicController : ControllerBase
     {
         private readonly IEpicService _epicService;
@@ -24,112 +24,108 @@ namespace WebAPI.Presentation.Controllers
         }
         
         /// <summary>
-        /// Receive epic by provided id
+        /// Gets epic by provided id.
         /// </summary>
-        /// <response code="200">Found epic by provided id</response>
-        /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find epic by provided id</response>
-        [HttpGet]
-        [Route("id/{id}")]
+        /// <param name="id">Epic identifier.</param>
+        /// <response code="200">Epic by provided id.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find epic by provided id.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpGet("id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Epic>> GetEpic(Guid id)
-        {
-            var epic = await _epicService.GetEpicByIdAsync(id);
+        public async Task<ActionResult<Epic>> GetEpicById(Guid id) =>
+            await _epicService.GetByIdAsync(id);
 
-            return epic;
-        }
-        
         /// <summary>
-        /// Receive all project epics by provided project id
+        /// Gets epics from project by provided project id.
         /// </summary>
-        /// <response code="200">All found epics from project by provided project id</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpGet]
-        [Route("project/id/{projectId}")]
+        /// <param name="projectId">Project identifier.</param>
+        /// <response code="200">A collection of epics from project found by provided project id.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpGet("project/id/{projectId:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CollectionResponse<Epic>>> GetEpicsFromProject(Guid projectId) 
-            => await _epicService.GetEpicsFromProjectAsync(projectId);
+        public async Task<ActionResult<CollectionResponse<Epic>>> GetEpicsFromProject(Guid projectId) => 
+            await _epicService.GetEpicsFromProjectAsync(projectId);
         
         /// <summary>
-        /// Receive epic with sprints by provided id
+        /// Gets epic complete description by provided id.
         /// </summary>
-        /// <response code="200">Found epic with sprints by provided id</response>
-        /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find epic by provided id</response>
-        [HttpGet]
-        [Route("full/id/{id}")]
+        /// <param name="id">Epic identifier.</param>
+        /// <response code="200">Epic complete model by provided id.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find epic by provided id.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpGet("complete/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<FullEpic>> GetFullEpicDescription(Guid id)
-        {
-            var fullEpic = await _epicService.GetFullEpicDescriptionAsync(id);
+        public async Task<ActionResult<EpicComplete>> GetCompleteDescription(Guid id) => 
+            await _epicService.GetCompleteDescriptionAsync(id);
 
-            return fullEpic;
-        }
-        
         /// <summary>
-        /// Create epic with provided model properties
+        /// Creates epic.
         /// </summary>
-        /// <response code="201">Created epic with provided model properties</response>
-        /// <response code="401">Failed authentication</response>
+        /// <param name="epic"><see cref="Epic"/> model.</param>
+        /// <response code="201">Created epic.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<Epic>> CreateEpic([FromBody, BindRequired] Epic epic)
         {
-            var createdEpic = await _epicService.CreateEpicAsync(epic);
+            var createdEpic = await _epicService.CreateAsync(epic);
 
             return CreatedAtAction(nameof(CreateEpic), createdEpic);
         }
         
         /// <summary>
-        /// Update epic with provided model properties
+        /// Updates epic.
         /// </summary>
-        /// <response code="200">Updated epic with provided model properties</response>
-        /// <response code="401">Failed authentication</response>
+        /// <param name="epic"><see cref="Epic"/> model.</param>
+        /// <response code="200">Updated epic.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> UpdateEpic([FromBody, BindRequired] Epic epic)
-        {
-            var updatedEpic = await _epicService.UpdateEpicAsync(epic);
+        public async Task<ActionResult<Epic>> UpdateEpic([FromBody, BindRequired] Epic epic) =>
+            await _epicService.UpdateAsync(epic);
 
-            return Ok(updatedEpic);
-        }
-        
         /// <summary>
-        /// Soft remove epic by epicId
+        /// Updates epic deleted status by provided id.
         /// </summary>
-        /// <response code="204">Successful remove epic by epicId</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpPatch]
-        [Route("soft-remove")]
-        public async Task<IActionResult> RemoveEpicSoft([FromBody] JsonPatchDocument<Epic> epicPatch)
+        /// <param name="id">Epic identifier.</param>
+        /// <response code="204">Epic deleted status was set.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpDelete("soft-remove/id/{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult> EpicSoftRemove(Guid id)
         {
-            var epic = new Epic();
-            epicPatch.ApplyTo(epic);
-            
-            await _epicService.RemoveEpicSoftAsync(epic);
+            await _epicService.SoftRemoveAsync(id);
             
             return NoContent();
         }
         
         /// <summary>
-        /// Remove epic with provided id
+        /// Removes epic from DB by provided id.
         /// </summary>
-        /// <response code="204">Removed epic with provided id</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpDelete]
-        [Route("id/{id}")]
+        /// <param name="id">Epic identifier.</param>
+        /// <response code="204">Epic was removed from DB.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpDelete("remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> RemoveEpic(Guid id)
+        public async Task<ActionResult> RemoveEpic(Guid id)
         { 
-            await _epicService.RemoveEpicAsync(id);
+            await _epicService.RemoveAsync(id);
 
             return NoContent();
         }

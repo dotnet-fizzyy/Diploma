@@ -1,9 +1,9 @@
 using System.Linq;
 
 using EpicEntity = WebAPI.Core.Entities.Epic;
-using EpicModel = WebAPI.Models.Models.Models.Epic;
-using FullEpicModel = WebAPI.Models.Models.Result.FullEpic;
-using SimpleEpicModel = WebAPI.Models.Models.Simple.EpicSimpleModel;
+using EpicModel = WebAPI.Models.Basic.Epic;
+using EpicCompleteModel = WebAPI.Models.Complete.EpicComplete;
+using EpicLightModel = WebAPI.Models.Light.EpicLight;
 
 namespace WebAPI.ApplicationLogic.Mappers
 {
@@ -45,14 +45,14 @@ namespace WebAPI.ApplicationLogic.Mappers
             return epicModel;
         }
 
-        public static FullEpicModel MapToFullModel(EpicEntity epicEntity)
+        public static EpicCompleteModel MapToComplete(EpicEntity epicEntity)
         {
             if (epicEntity == null)
             {
-                return new FullEpicModel();
+                return new EpicCompleteModel();
             }
 
-            var epicModel = new FullEpicModel();
+            var epicModel = new EpicCompleteModel();
             
             MapBase(epicModel, epicEntity);
 
@@ -61,14 +61,14 @@ namespace WebAPI.ApplicationLogic.Mappers
             return epicModel;
         }
 
-        public static SimpleEpicModel MapToSimpleModel(EpicEntity epicEntity)
+        public static EpicLightModel MapToLight(EpicEntity epicEntity)
         {
             if (epicEntity == null)
             {
-                return new SimpleEpicModel();
+                return new EpicLightModel();
             }
 
-            var epicSimpleModel = new SimpleEpicModel
+            var epicSimpleModel = new EpicLightModel
             {
                 EpicId = epicEntity.Id,
                 EpicName = epicEntity.EpicName,

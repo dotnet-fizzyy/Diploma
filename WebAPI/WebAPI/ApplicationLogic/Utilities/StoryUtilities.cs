@@ -8,11 +8,11 @@ namespace WebAPI.ApplicationLogic.Utilities
 {
     public static class StoryUtilities
     {
-        public static List<Story> SortStoriesByCriteria(IEnumerable<Story> stories, string sortType, OrderType orderType)
+        public static List<Story> SortStoriesByCriteria(IEnumerable<Story> stories, string sortType, SortDirection sortDirection)
         {
             List<Story> sortedStories;
 
-            if (orderType == OrderType.Asc)
+            if (sortDirection == SortDirection.Asc)
             {
                 sortedStories = sortType switch
                 {

@@ -2,49 +2,54 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 
 namespace WebAPI.Core.Interfaces.Database
 {
-    public interface IBaseCrudRepository<T> where T : class
+    public interface IBaseCrudRepository<T> 
+        where T : BaseEntity
     {
-        Task<T> CreateAsync(T item);
+        Task CreateAsync(T item);
 
-        Task<List<T>> CreateAsync(IEnumerable<T> items);
+        Task CreateAsync(IEnumerable<T> items);
 
         Task<bool> ExistsAsync(Expression<Func<T, bool>> expression);
 
-        Task<List<T>> SearchForMultipleItemsAsync();
-         
         Task<List<T>> SearchForMultipleItemsAsync(Expression<Func<T, bool>> expression);
+
+        Task<int> CountAsync();
 
         Task<int> CountAsync(Expression<Func<T, bool>> expression);
         
         Task<List<T>> SearchForMultipleItemsAsync<K>(
             Expression<Func<T, bool>> expression, 
             Expression<Func<T, K>> sort, 
-            OrderType orderType
-            );
+            SortDirection sortDirection);
         
         Task<List<T>> SearchForMultipleItemsAsync<K>(
             Expression<Func<T, bool>> expression, 
             int offset, 
             int limit,
             Expression<Func<T, K>> sort, 
-            OrderType orderType
-            );
+            SortDirection sortDirection);
+
+        Task<T> SearchForItemById(
+            Guid id, 
+            bool includeTracking,
+            params Expression<Func<T, object>>[] includes);
 
         Task<T> SearchForSingleItemAsync(
-            Expression<Func<T, bool>> expression, 
-            params Expression<Func<T, object>>[] includes
-            );
+            Expression<Func<T, bool>> expression,
+            bool includeTracking,
+            params Expression<Func<T, object>>[] includes);
 
-        Task<T> UpdateItemAsync(T item);
-
-        Task<List<T>> UpdateItemsAsync(IEnumerable<T> items);
-
-        Task<T> UpdateItemAsync(T item, params Expression<Func<T, object>>[] unmodifiedProperties);
+        void UpdateItem(T item);
         
-        Task DeleteAsync(Expression<Func<T, bool>> expression);
+        void UpdateItem(T item, params Expression<Func<T, object>>[] modifiedProperties);
+
+        void UpdateItems(IEnumerable<T> items);
+        
+        void Remove(Expression<Func<T, bool>> expression);
     }
 }

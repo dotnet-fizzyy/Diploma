@@ -1,24 +1,25 @@
 using System;
 using System.Threading.Tasks;
-using WebAPI.Models.Models.Models;
-using WebAPI.Models.Models.Result;
+using WebAPI.Models.Basic;
+using WebAPI.Models.Complete;
+using WebAPI.Models.Extensions;
 
 namespace WebAPI.Core.Interfaces.Services
 {
     public interface ISprintService
     {
-        Task<CollectionResponse<FullSprint>> GetAllSprintsFromEpicAsync(Guid epicId, Guid? teamId);
+        Task<CollectionResponse<SprintComplete>> GetSprintsFromEpicAsync(Guid epicId, Guid? teamId);
         
-        Task<Sprint> GetSprintByIdAsync(Guid sprintId);
+        Task<Sprint> GetByIdAsync(Guid id);
         
-        Task<FullSprint> GetFullSprintAsync(Guid sprintId);
+        Task<SprintComplete> GetCompleteDescriptionAsync(Guid id);
 
-        Task<Sprint> CreateSprintAsync(Sprint sprint);
+        Task<Sprint> CreateAsync(Sprint sprint);
         
-        Task<Sprint> UpdateSprintAsync(Sprint sprint);
+        Task<Sprint> UpdateAsync(Sprint sprint);
 
-        Task RemoveSprintSoftAsync(Sprint sprint);
+        Task SoftRemoveAsync(Guid id);
         
-        Task RemoveSprintAsync(Guid sprintId);
+        Task RemoveAsync(Guid id);
     }
 }

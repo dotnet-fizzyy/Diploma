@@ -4,10 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Models.Models.Models;
-using WebAPI.Models.Models.Result;
+using WebAPI.Models.Basic;
+using WebAPI.Models.Complete;
 using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Utilities;
 
@@ -15,7 +14,7 @@ namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/user")]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -26,157 +25,164 @@ namespace WebAPI.Presentation.Controllers
         }
 
         /// <summary>
-        /// Receive user by access token
+        /// Gets user by access token.
         /// </summary>
-        /// <response code="200">Receiving user by access token</response>
-        /// <response code="401">Failed authentication</response>        
-        /// <response code="404">Unable to find user by provided id</response>        
+        /// <response code="200">Gets user.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find user by provided id.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<FullUser>> GetUserByToken()
+        public async Task<ActionResult<UserComplete>> GetUserByToken()
         {
             var userClaims = ClaimsReader.GetUserClaims(User);
             
-            var user = await _userService.GetFullUserAsync(userClaims.UserId);
-
-            return user;
+            return await _userService.GetCompleteDescriptionAsync(userClaims.UserId);
         }
         
         /// <summary>
-        /// Receive user by provided id
+        /// Gets user by provided id.
         /// </summary>
-        /// <response code="200">Receiving user by provided id</response>
-        /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find user by provided id</response>
-        [HttpGet]
-        [Route("id/{id}")]
+        /// <param name="id">User identifier.</param>
+        /// <response code="200">Gets user by provided id.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find user by provided id.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpGet("id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<User>> GetUser(Guid id)
-        {
-            var user = await _userService.GetUserByIdAsync(id);
-
-            return user;
-        }
+        public async Task<ActionResult<User>> GetUser(Guid id) =>
+            await _userService.GetByIdAsync(id);
 
         /// <summary>
-        /// Create user with provided model properties
+        /// Creates user.
         /// </summary>
-        /// <response code="201">Created user with provided model properties</response>
-        /// <response code="401">Failed authentication</response>
+        /// <param name="user"><see cref="User"/> model.</param>
+        /// <response code="201">Created user.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<User>> CreateUser([FromBody]User user)
+        public async Task<ActionResult<User>> CreateUser([FromBody] User user)
         {
-            var createdUser = await _userService.CreateUserAsync(user);
-            
-            return CreatedAtAction(nameof(CreateUser), createdUser);
-        }
-
-        [HttpPost]
-        [Route("team/id/{teamId}")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<User>> CreateUserWithTeam([FromBody]User user, Guid teamId)
-        {
-            var createdUser = await _userService.CreateUserWithTeamAsync(user, teamId);
+            var createdUser = await _userService.CreateAsync(user);
             
             return CreatedAtAction(nameof(CreateUser), createdUser);
         }
 
         /// <summary>
-        /// Update user with provided model properties
+        /// Creates user and assigns him to team.
         /// </summary>
-        /// <response code="200">Updated user with provided model properties</response>
-        /// <response code="401">Failed authentication</response>
+        /// <param name="user">User identifier.</param>
+        /// <param name="teamId">Team identifier.</param>
+        /// <response code="201">Created user.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpPost("team/id/{teamId:guid}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<User>> CreateUserAndAssignToTeam([FromBody] User user, Guid teamId)
+        {
+            var createdUser = await _userService.CreateUserAndAssignToTeamAsync(user, teamId);
+            
+            return CreatedAtAction(nameof(CreateUser), createdUser);
+        }
+
+        /// <summary>
+        /// Updates user (except password).
+        /// </summary>
+        /// <response code="200">Updated user.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<User>> UpdateUser([FromBody] User user)
-        {
-            var updatedUser = await _userService.UpdateUserAsync(user);
-            
-            return updatedUser;
-        }
-        
+        public async Task<ActionResult<User>> UpdateUser([FromBody] User user) =>
+            await _userService.UpdateAsync(user);
+
         /// <summary>
-        /// Update user password with provided model properties
+        /// Updates user password.
         /// </summary>
-        /// <response code="204">Updated user password with provided model properties</response>
-        /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find user with provided id and password</response>
-        [HttpPut]
-        [Route("password")]
+        /// <param name="passwordUpdateModel"><see cref="PasswordUpdateRequestModel"/> model.</param>
+        /// <response code="204">Updated user password.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find user with provided id and password.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpPut("password")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateUserPassword([FromBody] PasswordUpdateRequestModel passwordUpdateRequestModel)
+        public async Task<ActionResult> UpdateUserPassword(
+            [FromBody] PasswordUpdateRequestModel passwordUpdateModel)
         {
             var user = ClaimsReader.GetUserClaims(User);
 
-            await _userService.UpdateUserPasswordAsync(user.UserId, passwordUpdateRequestModel);
+            await _userService.UpdatePasswordAsync(user.UserId, passwordUpdateModel);
             
             return NoContent();
         }
         
         /// <summary>
-        /// Change user activity status with provided model properties
+        /// Updates user activity status.
         /// </summary>
-        /// <response code="204">Changed user activity status with provided model properties</response>
-        /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find user with provided id</response>
-        [HttpPatch]
-        [Route("activity")]
+        /// <param name="userPatch"><see cref="JsonPatchDocument"/> with <see cref="User"/>.</param>
+        /// <response code="204">Updates user activity status.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find user with provided id.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpPatch("activity")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> ChangeUserActivityStatus([FromBody] JsonPatchDocument<User> userPatchDocument)
+        public async Task<ActionResult> ChangeUserActivityStatus([FromBody] JsonPatchDocument<User> userPatch)
         {
             var user = new User();
-            userPatchDocument.ApplyTo(user);
+            userPatch.ApplyTo(user);
 
-            await _userService.ChangeUserActivityStatusAsync(user);
+            await _userService.ChangeActivityStatusAsync(user);
             
             return NoContent();
         }
 
         /// <summary>
-        /// Update user avatar link with provided model properties
+        /// Updates user avatar link.
         /// </summary>
-        /// <response code="204">Updated user avatar link with provided model properties</response>
-        /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find user with provided id</response>
-        [HttpPatch]
-        [Route("avatar")]
+        /// <param name="userPatch"><see cref="JsonPatchDocument"/> with <see cref="User"/>.</param>
+        /// <response code="204">Updated user avatar link.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find user with provided id.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpPatch("avatar")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateAvatar([FromBody] JsonPatchDocument<User> userPatchDocument)
+        public async Task<ActionResult> UpdateAvatar([FromBody] JsonPatchDocument<User> userPatch)
         {
             var user = new User();
-            userPatchDocument.ApplyTo(user);
+            userPatch.ApplyTo(user);
 
-            await _userService.UpdateUserAvatarAsync(user);
+            await _userService.UpdateAvatarAsync(user);
             
             return NoContent();
         }
         
         /// <summary>
-        /// Remove user with provided id
+        /// Removes team from DB by provided id.
         /// </summary>
-        /// <response code="204">Removed user with provided id</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpDelete]
-        [Route("id/{id}")]
+        /// <param name="id">User identifier.</param>
+        /// <response code="204">User was removed from DB.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpDelete("id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> RemoveUser([BindRequired]Guid id)
+        public async Task<ActionResult> RemoveUser(Guid id)
         {
-            await _userService.RemoveUserAsync(id);
+            await _userService.RemoveAsync(id);
 
             return NoContent();
         }

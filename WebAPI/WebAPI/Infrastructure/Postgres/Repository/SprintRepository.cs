@@ -10,42 +10,38 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 {
     public class SprintRepository : BaseCrudRepository<DatabaseContext, Sprint>, ISprintRepository
     {
-        public SprintRepository(DatabaseContext databaseContext) : base(databaseContext) { }
+        public SprintRepository(DatabaseContext databaseContext) : base(databaseContext)
+        {
+            
+        }
 
         public async Task<List<Sprint>> GetFullSprintsByEpicId(Guid epicId, Guid? teamId = null)
         {
-            var sprintEntities =
-                teamId.HasValue 
-                    ? await _dbContext.Sprints
-                        .Include(x => x.Stories)
-                        .Where(x => x.EpicId == epicId)
-                        .Select(x => FilterStoriesByTeam(x, (Guid)teamId))
-                        .ToListAsync()
-                    : await _dbContext.Sprints
-                        .Include(x => x.Stories)
-                        .Where(x => x.EpicId == epicId)
-                        .ToListAsync();
+            List<Sprint> sprintEntities;
 
-            return sprintEntities;
-        }
-
-        public async Task DeleteSoftAsync(Guid sprintId)
-        {
-            var sprintEntity = new Sprint
+            if (teamId.HasValue)
             {
-                Id = sprintId,
-                IsDeleted = true
-            };
-
-            _dbContext.Entry(sprintEntity).Property(x => x.IsDeleted).IsModified = true;
+                sprintEntities = await DbContext.Sprints
+                    .Include(include => include.Stories)
+                    .Where(sprint => sprint.EpicId == epicId)
+                    .Select(sprint => FilterStoriesByTeam(sprint, (Guid)teamId))
+                    .ToListAsync();
+            }
+            else
+            {
+                sprintEntities = await DbContext.Sprints
+                    .Include(include => include.Stories)
+                    .Where(sprint => sprint.EpicId == epicId)
+                    .ToListAsync();   
+            }
             
-            await _dbContext.SaveChangesAsync();
+            return sprintEntities;
         }
 
         
         private static Sprint FilterStoriesByTeam(Sprint sprint, Guid teamId)
         {
-            sprint.Stories = sprint.Stories.Where(s => s.TeamId == teamId).ToList();
+            sprint.Stories = sprint.Stories.Where(story => story.TeamId == teamId).ToList();
 
             return sprint;
         }

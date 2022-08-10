@@ -7,15 +7,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Models.Models.Models;
-using WebAPI.Models.Models.Result;
+using WebAPI.Models.Basic;
+using WebAPI.Models.Complete;
+using WebAPI.Models.Extensions;
 using WebAPI.Presentation.Utilities;
 
 namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/story")]
+    [Route("api/[controller]")]
     public class StoryController : ControllerBase
     {
         private readonly IStoryService _storyService;
@@ -26,13 +27,18 @@ namespace WebAPI.Presentation.Controllers
         }
         
         /// <summary>
-        /// Sort stories in particular order from epic by params criteria
+        /// Sorts stories in particular order from epic, assigned to team.
         /// </summary>
-        /// <response code="200">Sorted stories in particular order from epic by params criteria</response>
-        /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find stories with provided epic id</response>
-        [HttpGet]
-        [Route("sort")]
+        /// <param name="teamId">Team identifier.</param>
+        /// <param name="epicId">Epic identifier.</param>
+        /// <param name="sprintId">Sprint identifier.</param>
+        /// <param name="sortType">Sort field.</param>
+        /// <param name="sortDirection">Sort direction.</param>
+        /// <response code="200">A collection of sorted stories in particular order.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find stories with provided epic and team id.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpGet("sort")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -42,70 +48,70 @@ namespace WebAPI.Presentation.Controllers
             [FromQuery, BindRequired] Guid epicId,
             [FromQuery] Guid? sprintId,
             [FromQuery, BindRequired] string sortType,
-            [FromQuery, BindRequired] OrderType orderType
-            ) => 
-                await _storyService.SortStories(epicId, teamId, sprintId, sortType, orderType);
-        
+            [FromQuery, BindRequired] SortDirection sortDirection) => 
+                await _storyService.SortStories(epicId, teamId, sprintId, sortType, sortDirection);
+
         /// <summary>
-        /// Receive all stories from epic by epic id
+        /// Gets stories by search criterias.
         /// </summary>
-        /// <response code="200">Receiving all stories from epic by epic id</response>
-        /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find any stories with provided epic id</response>
-        [HttpGet]
-        [Route("epic/id/{epicId}")]
+        /// <param name="epicId">Epic identifier.</param>
+        /// <param name="sprintId">Sprint identifier.</param>
+        /// <param name="teamId">Team identifier.</param>
+        /// <param name="sortField">Field to sort collection by.</param>
+        /// <param name="sortDirection">Sort direction (asc | desc).</param>
+        /// <response code="200">A collection of stories by search criteria.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find any stories with provided epic id.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesFormEpic(Guid epicId, [FromQuery]Guid? teamId) => 
-            await _storyService.GetStoriesFromEpicAsync(epicId, teamId);
-        
-        /// <summary>
-        /// Receive all stories from epic by sprint id
-        /// </summary>
-        /// <response code="200">Receiving all stories from epic by sprint id</response>
-        /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find any stories with provided sprint id</response>
-        [HttpGet]
-        [Route("sprint/id/{sprintId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesFormSprint(Guid sprintId) => 
-            await _storyService.GetStoriesFromSprintAsync(sprintId);
+        public async Task<ActionResult<CollectionResponse<Story>>> GetStoriesFormEpic(
+            [FromQuery] Guid? epicId,
+            [FromQuery] Guid? sprintId,
+            [FromQuery] Guid? teamId,
+            [FromQuery] string sortField,
+            [FromQuery] SortDirection? sortDirection) => 
+                await _storyService.SearchForStories(epicId, sprintId, teamId, sortField, sortDirection);
 
         /// <summary>
-        /// Receive story with provided id
+        /// Gets story by provided id.
         /// </summary>
-        /// <response code="200">Received story with provided id</response>
-        /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find story with provided story id</response>
-        [HttpGet]
-        [Route("id/{id}")]
+        /// <param name="id">Story identifier.</param>
+        /// <response code="200">Story with provided id.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find story with provided story id.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpGet("id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Story>> GetStory(Guid id) =>
-            await _storyService.GetStoryByIdAsync(id);
+            await _storyService.GetByIdAsync(id);
 
         /// <summary>
-        /// Receive story full description with provided id
+        /// Gets story complete description with provided id
         /// </summary>
-        /// <response code="200">Received story full description with provided id</response>
-        /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find story with provided story id</response>
-        [HttpGet]
-        [Route("full/id/{id}")]
+        /// <param name="id">Story identifier.</param>
+        /// <response code="200">Gets story complete description with provided id.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find story with provided story id.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpGet("complete/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<FullStory>> GetFullStoryDescription(Guid id) => 
-            await _storyService.GetFullStoryDescriptionAsync(id);
+        public async Task<ActionResult<StoryComplete>> GetCompleteDescription(Guid id) => 
+            await _storyService.GetCompleteDescriptionAsync(id);
 
         /// <summary>
-        /// Create story with provided model properties
+        /// Creates story.
         /// </summary>
-        /// <response code="201">Created story with provided model properties</response>
-        /// <response code="401">Failed authentication</response>
+        /// <param name="story"><see cref="Story"/> model.</param>
+        /// <response code="201">Created story.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -113,101 +119,110 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = ClaimsReader.GetUserClaims(User);
             
-            var createdStory = await _storyService.CreateStoryAsync(story, user.UserName);
+            var createdStory = await _storyService.CreateAsync(story, user.UserName);
 
             return CreatedAtAction(nameof(CreateStory), createdStory);
         }
 
         /// <summary>
-        /// Update story and write updates to story history with provided model properties
+        /// Updates story and writes updates to story history.
         /// </summary>
-        /// <response code="200">Updated story and wrote updates to story history with provided model properties</response>
-        /// <response code="401">Failed authentication</response>
+        /// <param name="story"><see cref="Story"/> model.</param>
+        /// <response code="200">Updated story.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpPut]
-        [Route("part-update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<Story>> UpdatePartsOfStory([FromBody, BindRequired] Story story)
+        public async Task<ActionResult<Story>> UpdateStory([FromBody, BindRequired] Story story)
         {
             var user = ClaimsReader.GetUserClaims(User);
             
-            var updatedStory = await _storyService.UpdatePartsOfStoryAsync(story, user.UserId);
+            var updatedStory = await _storyService.UpdateAsync(story, user.UserId);
 
             return updatedStory;
         }
 
         /// <summary>
-        /// Update story board column with provided story id
+        /// Updates story board column with provided story id.
         /// </summary>
-        /// <response code="200">Updated story board column with provided story id</response>
-        /// <response code="400">Invalid data in request model</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpPatch]
-        [Route("board-move")]
+        /// <param name="storyPatch"><see cref="JsonPatchDocument"/> with <see cref="Story"/> model.</param>
+        /// <response code="200">Updated story with new board column.</response>
+        /// <response code="400">Invalid data in request model.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpPatch("column")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<Story>> UpdateStoryColumn([FromBody, BindRequired] JsonPatchDocument<Story> storyPatch)
+        public async Task<ActionResult<Story>> UpdateStoryColumn(
+            [FromBody, BindRequired] JsonPatchDocument<Story> storyPatch)
         {
             var storyModel = new Story();
             storyPatch.ApplyTo(storyModel, ModelState);
 
             var user = ClaimsReader.GetUserClaims(User);
             
-            var updatedStory = await _storyService.UpdateStoryColumnAsync(storyModel, user.UserName);
+            var updatedStory = await _storyService.UpdateColumnAsync(storyModel, user.UserName);
             
             return updatedStory;
         }
         
         /// <summary>
-        /// Update story status with provided story id
+        /// Updates story status (active or blocked).
         /// </summary>
-        /// <response code="204">Updated story status with provided story id</response>
-        /// <response code="400">Invalid data in request model</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpPatch]
-        [Route("change-status")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        /// <param name="storyPatch"><see cref="JsonPatchDocument"/> with <see cref="Story"/> model.</param>
+        /// <response code="200">Updated story with new status.</response>
+        /// <response code="400">Invalid data in request model.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpPatch("status")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<Story>> ChangeStoryStatus([FromBody, BindRequired] JsonPatchDocument<Story> storyPatch)
+        public async Task<ActionResult<Story>> ChangeStoryStatus(
+            [FromBody, BindRequired] JsonPatchDocument<Story> storyPatch)
         {
             var storyModel = new Story();
             storyPatch.ApplyTo(storyModel, ModelState);
 
             var user = ClaimsReader.GetUserClaims(User);
             
-            var story = await _storyService.ChangeStoryStatusAsync(storyModel, user.UserName);
+            var story = await _storyService.ChangeStatusAsync(storyModel, user.UserName);
             
             return story;
         }
 
-        [HttpPatch]
-        [Route("soft-remove")]
+        /// <summary>
+        /// Updates story deleted status by provided id.
+        /// </summary>
+        /// <param name="id">Story identifier.</param>
+        /// <response code="204">Story deleted status was set.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpDelete("soft-remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> RemoveStorySoft([FromBody] JsonPatchDocument<Story> storyPatch)
+        public async Task<ActionResult> StorySoftRemove(Guid id)
         {
-            var story = new Story();
-            storyPatch.ApplyTo(story);
-            
-            await _storyService.RemoveStorySoftAsync(story);
+            await _storyService.SoftRemoveAsync(id);
             
             return NoContent();
         }
         
         /// <summary>
-        /// Remove story with provided id
+        /// Removes story from DB by provided id.
         /// </summary>
-        /// <response code="204">Removed story with provided id</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpDelete]
-        [Route("id/{id}")]
+        /// <param name="id">Story identifier.</param>
+        /// <response code="204">Story was removed from DB.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpDelete("remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> RemoveStory(Guid id)
+        public async Task<ActionResult> RemoveStory(Guid id)
         {
-            await _storyService.RemoveStoryAsync(id);
+            await _storyService.RemoveAsync(id);
             
             return NoContent();
         }

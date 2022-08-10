@@ -1,7 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using WebAPI.Models.Models.Models;
-using WebAPI.Models.Models.Result;
+using WebAPI.Models.Basic;
+using WebAPI.Models.Complete;
+using WebAPI.Models.Extensions;
 
 namespace WebAPI.Core.Interfaces.Services
 {
@@ -9,16 +10,16 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<CollectionResponse<Epic>> GetEpicsFromProjectAsync(Guid projectId);
         
-        Task<Epic> GetEpicByIdAsync(Guid epicId);
+        Task<Epic> GetByIdAsync(Guid id);
 
-        Task<FullEpic> GetFullEpicDescriptionAsync(Guid epicId);
+        Task<EpicComplete> GetCompleteDescriptionAsync(Guid id);
         
-        Task<Epic> CreateEpicAsync(Epic epic);
+        Task<Epic> CreateAsync(Epic epic);
 
-        Task<Epic> UpdateEpicAsync(Epic epic);
+        Task<Epic> UpdateAsync(Epic epic);
 
-        Task RemoveEpicSoftAsync(Epic epic);
+        Task SoftRemoveAsync(Guid id);
         
-        Task RemoveEpicAsync(Guid epicId);
+        Task RemoveAsync(Guid id);
     }
 }

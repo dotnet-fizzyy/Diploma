@@ -3,86 +3,184 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
+using NpgsqlTypes;
 using WebAPI.Core.Entities;
+using WebAPI.Core.Enums;
 using WebAPI.Core.Interfaces.Database;
 
 namespace WebAPI.Infrastructure.Postgres.Repository
 {
     public class StoryRepository : BaseCrudRepository<DatabaseContext, Story>, IStoryRepository
     {
-        public StoryRepository(DatabaseContext databaseContext) : base(databaseContext) { }
-        
-        public async Task<List<Story>> GetStoriesByEpicId(Guid epicId, Guid? teamId)
+        public StoryRepository(DatabaseContext databaseContext) : base(databaseContext)
         {
-            var query = teamId.HasValue ?
-                from sprints in _dbContext.Sprints
-                join stories in _dbContext.Stories on sprints.Id equals stories.SprintId
-                where sprints.EpicId == epicId && stories.TeamId == teamId
-                select stories
-                :
-                from sprints in _dbContext.Sprints
-                join stories in _dbContext.Stories on sprints.Id equals stories.SprintId
-                where sprints.EpicId == epicId 
-                select stories;
+            
+        }
+        
+        public async Task<List<Story>> GetStoriesByEpicAndTeamIds(Guid epicId, Guid teamId)
+        {
+            IQueryable<Story> query;
+
+            if (teamId != default)
+            {
+                query = 
+                    from sprints in DbContext.Sprints
+                    join stories in DbContext.Stories on sprints.Id equals stories.SprintId
+                    where sprints.EpicId == epicId && stories.TeamId == teamId
+                    select stories;
+            }
+            else
+            {
+                query = 
+                    from sprints in DbContext.Sprints
+                    join stories in DbContext.Stories on sprints.Id equals stories.SprintId
+                    where sprints.EpicId == epicId 
+                    select stories;
+            }
 
             var storiesFromEpic = await query.ToListAsync();
             
             return storiesFromEpic;
         }
 
-        public async Task<List<Story>> GetStoriesByTitleTerm(string searchTerm, int limit, Guid[] teamIds)
+        public async Task<List<Story>> SearchForStories(
+            Guid? epicId,
+            Guid? sprintId,
+            Guid? teamId,
+            string sortField,
+            SortDirection sortDirection)
         {
-            var query = from stories in
-                _dbContext.Stories.Where(
-                    x => EF.Functions.Like(x.Title, $"{searchTerm}%")
-                ).AsNoTracking().Take(limit) 
-                join sprints in _dbContext.Sprints on stories.SprintId equals sprints.Id
-                join epic in _dbContext.Epics on sprints.EpicId equals epic.Id
-                join project in _dbContext.Projects on epic.ProjectId equals project.Id
-                join teams in _dbContext.Teams on project.Id equals teams.ProjectId
-                where teamIds.Select(x => x).Any(x => x == teams.Id)
-                select stories;
+            var sqlJoins = new List<string>();
+            var sqlConditions = new List<string>();
+            var sqlParams = new List<NpgsqlParameter>();
 
-
-            var foundStories = await query.ToListAsync();
-
-            return foundStories;
-        }
-
-        public async Task<Story> UpdateStoryColumn(Story story)
-        {
-            _dbContext.Stories.Attach(story);
-
-            _dbContext.Entry(story).Property(x => x.ColumnType).IsModified = true;
-            
-            await _dbContext.SaveChangesAsync();
-            
-            return story;
-        }
-
-        public async Task ChangeStoryStatus(Story story)
-        {
-            _dbContext.Attach(story);
-            
-            if (!string.IsNullOrEmpty(story.BlockReason))
+            if (epicId.HasValue || sprintId.HasValue)
             {
-                _dbContext.Entry(story).Property(x => x.BlockReason).IsModified = true;
-                _dbContext.Entry(story).Property(x => x.IsBlocked).IsModified = true;
+                CreateSqlJoinQueryForSprint(sqlJoins);
             }
-            else
+
+            if (epicId.HasValue)
             {
-                _dbContext.Entry(story).Property(x => x.IsReady).IsModified = true;
+                CreateSqlJoinQueryForEpic(sqlJoins);
+                CreateSqlConditionQueryForEpic(sqlConditions, sqlParams, epicId.Value);
+            }
+
+            if (sprintId.HasValue)
+            {
+                CreateSqlConditionQueryForSprint(sqlConditions, sqlParams, sprintId.Value);
             }
             
-            await _dbContext.SaveChangesAsync();
+            if (teamId.HasValue)
+            {
+                CreateSqlJoinQueryForTeam(sqlJoins);
+                CreateSqlConditionQueryForTeam(sqlConditions, sqlParams, teamId.Value);
+            }
+
+            var sortSqlQuery = CreateSqlSortCondition(sortField, sortDirection);
+
+            var finalSqlQuery = CreateSqlQuery(sqlConditions, sqlJoins, sortSqlQuery);
+
+            return await DbContext.Stories
+                .FromSqlRaw(finalSqlQuery, sqlParams.Cast<object>().ToArray())
+                .AsQueryable()
+                .ToListAsync();
+        }
+        
+
+        private static void CreateSqlJoinQueryForSprint(ICollection<string> sqlJoins)
+        {
+            const string sprintSqlJoinQuery = "INNER JOIN \"Sprints\" AS SP on SP.\"SprintId\" = ST.\"SprintId\"";
+            
+            sqlJoins.Add(sprintSqlJoinQuery);
+        }
+        
+        private static void CreateSqlJoinQueryForEpic(ICollection<string> sqlJoins)
+        {
+            const string epicSqlJoinQuery = "INNER JOIN \"Epics\" E on E.\"EpicId\" = SP.\"EpicId\"";
+            
+            sqlJoins.Add(epicSqlJoinQuery);
         }
 
-        public async Task DeleteStorySoftAsync(Story story)
+        private static void CreateSqlJoinQueryForTeam(ICollection<string> sqlJoins)
         {
-            _dbContext.Attach(story);
-            _dbContext.Entry(story).Property(x => x.IsDeleted).IsModified = true;
+            const string teamSqlJoinQuery = "INNER JOIN \"Teams\" T on T.\"TeamId\" = ST.\"TeamId\"";
+            
+            sqlJoins.Add(teamSqlJoinQuery);
+        }
 
-            await _dbContext.SaveChangesAsync();
+        private static void CreateSqlConditionQueryForEpic(
+            ICollection<string> sqlConditions, 
+            ICollection<NpgsqlParameter> sqlParameters, 
+            Guid epicId)
+        {
+            const string epicSqlJoinQuery = "E.\"EpicId\" = @epicId";
+
+            var sqlParam = new NpgsqlParameter
+            {
+                ParameterName = "@epicId",
+                NpgsqlDbType = NpgsqlDbType.Uuid,
+                Value = epicId
+            };
+            
+            sqlConditions.Add(epicSqlJoinQuery);
+            sqlParameters.Add(sqlParam);
+        }
+        
+        private static void CreateSqlConditionQueryForTeam(
+            ICollection<string> sqlConditions,
+            ICollection<NpgsqlParameter> sqlParameters,
+            Guid teamId)
+        {
+            const string epicSqlJoinQuery = "T.\"TeamId\" = @teamId";
+
+            var sqlParam = new NpgsqlParameter
+            {
+                ParameterName = "@teamId",
+                NpgsqlDbType = NpgsqlDbType.Uuid,
+                Value = teamId
+            };
+            
+            sqlConditions.Add(epicSqlJoinQuery);
+            sqlParameters.Add(sqlParam);
+        }
+        
+        private static void CreateSqlConditionQueryForSprint(
+            ICollection<string> sqlConditions,
+            ICollection<NpgsqlParameter> sqlParameters,
+            Guid sprintId)
+        {
+            const string epicSqlJoinQuery = "SP.\"SprintId\" = @sprintId";
+           
+            var sqlParam = new NpgsqlParameter
+            {
+                ParameterName = "@sprintId",
+                NpgsqlDbType = NpgsqlDbType.Uuid,
+                Value = sprintId
+            };
+            
+            sqlConditions.Add(epicSqlJoinQuery);
+            sqlParameters.Add(sqlParam);
+        }
+
+        private static string CreateSqlSortCondition(
+            string sortField,
+            SortDirection sortDirection)
+        {
+            var sqlSortDirection = sortDirection == SortDirection.Asc ? "ASC" : "DESC";
+
+            return $"ORDER BY \"{sortField}\" {sqlSortDirection}";
+        }
+
+        private static string CreateSqlQuery(
+            ICollection<string> sqlConditions,
+            ICollection<string> sqlJoins,
+            string sortSqlQuery)
+        {
+            var sqlJoinQuery = string.Join(" ", sqlJoins);
+            var sqlConditionQuery = string.Join(" AND ", sqlConditions);
+
+            return $"SELECT ST.*, ST.\"xmin\" FROM public.\"Stories\" AS ST {sqlJoinQuery} WHERE {sqlConditionQuery} {sortSqlQuery}";
         }
     }
 }

@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using WebAPI.Models.Models.Simple;
+using WebAPI.Models.Light;
 
 namespace WebAPI.Presentation.Models.Pages
 {
     public class SearchResult
     {
-        public IList<TeamSimpleModel> Teams { get; set; } = new List<TeamSimpleModel>();
+        public IList<TeamLight> Teams { get; set; } = new List<TeamLight>();
         
-        public IList<ProjectSimpleModel> Projects { get; set; } = new List<ProjectSimpleModel>();
+        public IList<ProjectLight> Projects { get; set; } = new List<ProjectLight>();
     }
 }

@@ -10,11 +10,14 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 {
     public class ProjectRepository : BaseCrudRepository<DatabaseContext, Project>, IProjectRepository
     {
-        public ProjectRepository(DatabaseContext databaseContext) : base(databaseContext) { }
+        public ProjectRepository(DatabaseContext databaseContext) : base(databaseContext)
+        {
+            
+        }
 
         public async Task<List<Project>> GetProjectWithTeamsByWorkSpaceIdAsync(Guid workSpaceId)
         {
-            var query = _dbContext.Projects
+            var query = DbContext.Projects
                 .Where(x => x.WorkSpaceId == workSpaceId)
                 .Include(x => x.Teams);
 
@@ -26,7 +29,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         public async Task<List<Project>> GetProjectsByCollectionOfTeamIds(IEnumerable<Team> teams)
         {
             var query = 
-                from projects in _dbContext.Projects 
+                from projects in DbContext.Projects 
                 where teams.Select(x => x.ProjectId).Contains(projects.Id) 
                 select projects;
 
@@ -37,29 +40,16 @@ namespace WebAPI.Infrastructure.Postgres.Repository
 
         public async Task<List<Project>> GetProjectsBySearchTerm(string term, int limit, Guid[] teamIds)
         {
-            var query = from projects in _dbContext.Projects
+            var query = from projects in DbContext.Projects
                     .AsNoTracking()
                     .Where(x => EF.Functions.ILike(x.ProjectName, $"{term}%"))
-                join teams in _dbContext.Teams on projects.Id equals teams.ProjectId
+                join teams in DbContext.Teams on projects.Id equals teams.ProjectId
                 where teamIds.Any(x => x == teams.Id)
                 select projects;
 
             var projectEntities = await query.Distinct().ToListAsync();
 
             return projectEntities;
-        }
-
-        public async Task DeleteSoftAsync(Guid projectId)
-        {
-            var projectEntity = new Project
-            {
-                Id = projectId, 
-                IsDeleted = true
-            };
-
-            _dbContext.Entry(projectEntity).Property(x => x.IsDeleted).IsModified = true;
-
-            await _dbContext.SaveChangesAsync();
         }
     }
 }

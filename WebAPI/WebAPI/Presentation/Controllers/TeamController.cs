@@ -2,19 +2,20 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Models.Models.Models;
-using WebAPI.Models.Models.Result;
+using WebAPI.Models.Basic;
+using WebAPI.Models.Complete;
+using WebAPI.Models.Extensions;
+using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Utilities;
 
 namespace WebAPI.Presentation.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/team")]
+    [Route("api/[controller]")]
     public class TeamController : ControllerBase
     {
         private readonly ITeamService _teamService;
@@ -25,135 +26,131 @@ namespace WebAPI.Presentation.Controllers
         }
         
         /// <summary>
-        /// Receive all teams that belong to user
+        /// Gets teams that belong to user by access token.
         /// </summary>
-        /// <response code="200">Receiving all teams that belong to user</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpGet]
-        [Route("user")]
+        /// <response code="200">Gets teams that belong to user.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpGet("user")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CollectionResponse<FullTeam>>> GetUserTeams()
+        public async Task<ActionResult<CollectionResponse<TeamComplete>>> GetUserTeams()
         {
             var user = ClaimsReader.GetUserClaims(User);
             
-            var userTeams = await _teamService.GetUserTeamsAsync(user.UserId);
-
-            return userTeams;
+            return await _teamService.GetUserTeamsAsync(user.UserId);
         }
         
         /// <summary>
-        /// Receive team by provided id
+        /// Gets team by provided id.
         /// </summary>
-        /// <response code="200">Receiving team by provided id</response>
-        /// <response code="401">Failed authentication</response>
+        /// <param name="id">Team identifier.</param>
+        /// <response code="200">Gets team description by provided id.</response>
+        /// <response code="401">Failed authentication.</response>
         /// <response code="404">Unable to find team by provided id</response>
-        [HttpGet]
-        [Route("id/{id}")]
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpGet("id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Team>> GetTeam(Guid id)
-        {
-           var team = await _teamService.GetTeamByIdAsync(id);
-
-           return team;
-        }
+        public async Task<ActionResult<Team>> GetTeam(Guid id) => 
+            await _teamService.GetByIdAsync(id);
 
         /// <summary>
-        /// Receive full team description by provided id
+        /// Gets team complete description by provided id.
         /// </summary>
-        /// <response code="200">Receiving full team description by provided id</response>
-        /// <response code="401">Failed authentication</response>
-        /// <response code="404">Unable to find project by provided id</response>
-        [HttpGet]
-        [Route("full/id/{id}")]
+        /// <param name="id">Team identifier.</param>
+        /// <response code="200">Gets team full description by provided id.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find project by provided id.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpGet("complete/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<FullTeam>> GetFullTeamDescription(Guid id)
-        {
-            var fullTeam = await _teamService.GetFullTeamDescriptionAsync(id);
-
-            return fullTeam;
-        }
+        public async Task<ActionResult<TeamComplete>> GetCompleteDescription(Guid id) =>
+            await _teamService.GetCompleteDescriptionAsync(id);
 
         /// <summary>
-        /// Create team with provided model properties
+        /// Creates team.
         /// </summary>
-        /// <response code="201">Created team with provided model properties</response>
-        /// <response code="401">Failed authentication</response>
+        /// <param name="team"><see cref="Team"/> model.</param>
+        /// <response code="201">Created team.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<Team>> CreateTeam([FromBody, BindRequired]Team team)
+        public async Task<ActionResult<Team>> CreateTeam([FromBody, BindRequired] Team team)
         {
-            var createdTeam = await _teamService.CreateTeamAsync(team);
+            var createdTeam = await _teamService.CreateAsync(team);
             
             return CreatedAtAction(nameof(CreateTeam), createdTeam);
         }
         
         /// <summary>
-        /// Create team with customer with provided model properties
+        /// Assigns user to the team.
         /// </summary>
-        /// <response code="201">Created team with customer via provided model properties</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpPost]
-        [Route("customer")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        /// <param name="requestModel"><see cref="AssignUserToTeamRequestModel"/> identifier.</param>
+        /// <response code="204">User was assigned to team.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <response code="404">Unable to find team or user by provided ids.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpPost("assign-user")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<Team>> CreateTeamWithCustomer([FromBody, BindRequired]Team team)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Team>> AssignUserToTeam(
+            [FromBody, BindRequired] AssignUserToTeamRequestModel requestModel)
         {
-            var user = ClaimsReader.GetUserClaims(User);
-            var createdTeam = await _teamService.CreateTeamWithCustomerAsync(team, user.UserId);
+            await _teamService.AssignUserToTeam(requestModel.UserId, requestModel.TeamId);
             
-            return CreatedAtAction(nameof(CreateTeam), createdTeam);
+            return NoContent();
         }
 
         /// <summary>
-        /// Update team with provided model properties
+        /// Updates team.
         /// </summary>
-        /// <response code="200">Updated team with provided model properties</response>
-        /// <response code="401">Failed authentication</response>
+        /// <param name="team"><see cref="Team"/> model.</param>
+        /// <response code="200">Updated team.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<Team>> UpdateTeam([FromBody, BindRequired] Team team)
-        {
-            var updatedTeam = await _teamService.UpdateTeamAsync(team);
-            
-            return updatedTeam;
-        }
+        public async Task<ActionResult<Team>> UpdateTeam([FromBody, BindRequired] Team team) =>
+            await _teamService.UpdateAsync(team);
 
         /// <summary>
-        /// Soft remove team by teamId
+        /// Updates team deleted status by provided id.
         /// </summary>
-        /// <response code="204">Successful soft team sprint by teamId</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpPatch]
-        [Route("soft-remove")]
-        public async Task<IActionResult> RemoveTeamSoft([FromBody] JsonPatchDocument<Team> teamPatch)
+        /// <param name="id">Team identifier.</param>
+        /// <response code="204">Team deleted status was set.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpDelete("soft-remove/id/{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult> TeamSoftRemove(Guid id)
         {
-            var team = new Team();
-            teamPatch.ApplyTo(team);
-            
-            await _teamService.RemoveTeamSoftAsync(team);
+            await _teamService.SoftRemoveAsync(id);
             
             return NoContent();
         }
         
         /// <summary>
-        /// Remove team with provided id
+        /// Removes team from DB by provided id.
         /// </summary>
-        /// <response code="204">Removed team with provided id</response>
-        /// <response code="401">Failed authentication</response>
-        [HttpDelete]
-        [Route("id/{id}")]
+        /// <param name="id">Team identifier.</param>
+        /// <response code="204">Team was removed from DB.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpDelete("remove/id/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> RemoveTeam(Guid id)
+        public async Task<ActionResult> RemoveTeam(Guid id)
         {
-            await _teamService.RemoveTeamAsync(id);
+            await _teamService.RemoveAsync(id);
             
             return NoContent();
         }

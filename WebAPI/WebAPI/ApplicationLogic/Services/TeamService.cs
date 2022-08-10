@@ -7,25 +7,30 @@ using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Models.Models.Models;
-using WebAPI.Models.Models.Result;
+using WebAPI.Models.Basic;
+using WebAPI.Models.Complete;
+using WebAPI.Models.Extensions;
+
+using TeamEntity = WebAPI.Core.Entities.Team;
+using UserEntity = WebAPI.Core.Entities.User;
+using TeamUserEntity = WebAPI.Core.Entities.TeamUser;
 
 namespace WebAPI.ApplicationLogic.Services
 {
     public class TeamService : ITeamService
     {
-        private readonly ITeamRepository _teamRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public TeamService(ITeamRepository teamRepository)
+        public TeamService(IUnitOfWork unitOfWork)
         {
-            _teamRepository = teamRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<CollectionResponse<FullTeam>> GetUserTeamsAsync(Guid userId)
+        public async Task<CollectionResponse<TeamComplete>> GetUserTeamsAsync(Guid userId)
         {
-            var teamEntities = await _teamRepository.GetUserTeams(userId);
+            var teamEntities = await _unitOfWork.TeamRepository.GetUserTeams(userId);
             
-            var collectionResponse = new CollectionResponse<FullTeam>
+            var collectionResponse = new CollectionResponse<TeamComplete>
             {
                 Items = teamEntities.Select(TeamMapper.MapToFullModel).ToList(),
             };
@@ -33,39 +38,29 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<Team> GetTeamByIdAsync(Guid teamId)
+        public async Task<Team> GetByIdAsync(Guid id)
         {
-            var teamEntity = await _teamRepository.SearchForSingleItemAsync(x => x.Id == teamId);
-            if (teamEntity == null)
-            {
-                throw new UserFriendlyException(
-                    ErrorStatus.NOT_FOUND, 
-                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(teamId))
-                );
-            }
+            var teamEntity = await _unitOfWork.TeamRepository.SearchForItemById(id, includeTracking: false);
+
+            ValidateTeamExistence(teamEntity);
             
             var team = TeamMapper.Map(teamEntity);
             
             return team;
         }
 
-        public async Task<FullTeam> GetFullTeamDescriptionAsync(Guid teamId)
+        public async Task<TeamComplete> GetCompleteDescriptionAsync(Guid id)
         {
-            var teamEntity = await _teamRepository.GetTeamWithUsers(teamId);
-            if (teamEntity == null)
-            {
-                throw new UserFriendlyException(
-                    ErrorStatus.NOT_FOUND,
-                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(teamId))
-                );
-            }
+            var teamEntity = await _unitOfWork.TeamRepository.GetTeamWithUsers(id);
+
+            ValidateTeamExistence(teamEntity);
             
             var teamFullModel = TeamMapper.MapToFullModel(teamEntity);
             
             return teamFullModel;
         }
 
-        public async Task<Team> CreateTeamAsync(Team team)
+        public async Task<Team> CreateAsync(Team team)
         {
             var teamEntity = TeamMapper.Map(team);
 
@@ -74,45 +69,90 @@ namespace WebAPI.ApplicationLogic.Services
             return teamModel;
         }
 
-        public async Task<Team> CreateTeamWithCustomerAsync(Team team, Guid userId)
+        public async Task AssignUserToTeam(Guid userId, Guid teamId)
+        {
+            var teamTask = _unitOfWork.TeamRepository.SearchForItemById(teamId, includeTracking: true);
+            var userTask = _unitOfWork.UserRepository.SearchForItemById(userId, includeTracking: false);
+
+            await Task.WhenAll(teamTask, userTask);
+            
+            ValidateTeamExistence(teamTask.Result);
+            ValidateUserExistence(userTask.Result);
+            
+            teamTask.Result.TeamUsers.Add(new TeamUserEntity
+            {
+                TeamId = teamId,
+                UserId = userId
+            });
+
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task<Team> UpdateAsync(Team team)
         {
             var teamEntity = TeamMapper.Map(team);
-            teamEntity.TeamUsers.Add(new Core.Entities.TeamUser { UserId = userId });
 
-            var teamModel = await CreateTeam(teamEntity);
+            _unitOfWork.TeamRepository.UpdateItem(teamEntity);
+
+            await _unitOfWork.CommitAsync();
+            
+            var teamModel = TeamMapper.Map(teamEntity);
 
             return teamModel;
         }
 
-        public async Task<Team> UpdateTeamAsync(Team team)
+        public async Task SoftRemoveAsync(Guid id)
         {
-            var teamEntity = TeamMapper.Map(team);
-
-            var updatedTeamEntity = await _teamRepository.UpdateItemAsync(teamEntity);
-
-            var teamModel = TeamMapper.Map(updatedTeamEntity);
-
-            return teamModel;
+            var teamEntity = new TeamEntity
+            {
+                Id = id,
+                IsDeleted = true
+            };
+            
+            _unitOfWork.TeamRepository.UpdateItem(teamEntity, prop => prop.IsDeleted);
+            
+            await _unitOfWork.CommitAsync();
         }
 
-        public async Task RemoveTeamSoftAsync(Team team)
+        public async Task RemoveAsync(Guid id)
         {
-            await _teamRepository.DeleteSoftAsync(team.TeamId);
-        }
-
-        public async Task RemoveTeamAsync(Guid id)
-        {
-            await _teamRepository.DeleteAsync(x => x.Id == id);
+            _unitOfWork.TeamRepository.Remove(team => team.Id == id);
+            
+            await _unitOfWork.CommitAsync();
         }
 
 
-        private async Task<Team> CreateTeam(Core.Entities.Team teamEntity)
+        private static void ValidateTeamExistence(TeamEntity team)
+        {
+            if (team == null)
+            {
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND,
+                    ExceptionMessageGenerator.GetMissingEntityMessage("team id")
+                );
+            }
+        }
+        
+        private static void ValidateUserExistence(UserEntity user)
+        {
+            if (user == null)
+            {
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND,
+                    ExceptionMessageGenerator.GetMissingEntityMessage("user id")
+                );
+            }
+        }
+        
+        private async Task<Team> CreateTeam(TeamEntity teamEntity)
         {
             teamEntity.CreationDate = DateTime.UtcNow;
             
-            var createdTeamEntity = await _teamRepository.CreateAsync(teamEntity);
+            await _unitOfWork.TeamRepository.CreateAsync(teamEntity);
 
-            var teamModel = TeamMapper.Map(createdTeamEntity);
+            await _unitOfWork.CommitAsync();
+            
+            var teamModel = TeamMapper.Map(teamEntity);
 
             return teamModel;
         }

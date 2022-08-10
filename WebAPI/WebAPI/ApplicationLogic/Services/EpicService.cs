@@ -7,25 +7,29 @@ using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Models.Models.Models;
-using WebAPI.Models.Models.Result;
+using WebAPI.Models.Complete;
+using WebAPI.Models.Extensions;
+
+using EpicEntity = WebAPI.Core.Entities.Epic;
+using EpicModel = WebAPI.Models.Basic.Epic;
 
 namespace WebAPI.ApplicationLogic.Services
 {
     public class EpicService : IEpicService
     {
-        private readonly IEpicRepository _epicRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public EpicService(IEpicRepository epicRepository)
+        public EpicService(IUnitOfWork unitOfWork)
         {
-            _epicRepository = epicRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<CollectionResponse<Epic>> GetEpicsFromProjectAsync(Guid projectId)
+        public async Task<CollectionResponse<EpicModel>> GetEpicsFromProjectAsync(Guid projectId)
         {
-            var epicEntities = await _epicRepository.SearchForMultipleItemsAsync(x => x.ProjectId == projectId);
+            var epicEntities = await _unitOfWork.EpicRepository
+                .SearchForMultipleItemsAsync(epic => epic.ProjectId == projectId);
 
-            var collectionResponse = new CollectionResponse<Epic>
+            var collectionResponse = new CollectionResponse<EpicModel>
             {
                 Items = epicEntities.Select(EpicMapper.Map).ToList()
             };
@@ -33,12 +37,15 @@ namespace WebAPI.ApplicationLogic.Services
             return collectionResponse;
         }
 
-        public async Task<Epic> GetEpicByIdAsync(Guid epicId)
+        public async Task<EpicModel> GetByIdAsync(Guid id)
         {
-            var epicEntity = await _epicRepository.SearchForSingleItemAsync(x => x.Id == epicId);
+            var epicEntity = await _unitOfWork.EpicRepository.SearchForItemById(id, includeTracking: false);
+ 
             if (epicEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(epicId)));
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND, 
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id)));
             }
             
             var epicModel = EpicMapper.Map(epicEntity);
@@ -46,53 +53,71 @@ namespace WebAPI.ApplicationLogic.Services
             return epicModel;
         }
 
-        public async Task<FullEpic> GetFullEpicDescriptionAsync(Guid epicId)
+        public async Task<EpicComplete> GetCompleteDescriptionAsync(Guid id)
         {
-            var epicEntity = await _epicRepository.SearchForSingleItemAsync(
-                    x => x.Id == epicId, 
-                    includes => includes.Sprints
-                    );
+            var epicEntity = await _unitOfWork.EpicRepository
+                .SearchForItemById(
+                    id,
+                    includeTracking:false,
+                    includes => includes.Sprints);
+ 
             if (epicEntity == null)
             {
-                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(epicId)));
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND,
+                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id)));
             }
 
-            var epicFullModel = EpicMapper.MapToFullModel(epicEntity);
+            var epicFullModel = EpicMapper.MapToComplete(epicEntity);
             
             return epicFullModel;
         }
 
-        public async Task<Epic> CreateEpicAsync(Epic epic)
+        public async Task<EpicModel> CreateAsync(EpicModel epic)
         {
             var epicEntity = EpicMapper.Map(epic);
             epicEntity.CreationDate = DateTime.UtcNow;
 
-            var createdEpicEntity = await _epicRepository.CreateAsync(epicEntity);
+            await _unitOfWork.EpicRepository.CreateAsync(epicEntity);
 
-            var epicModel = EpicMapper.Map(createdEpicEntity);
+            await _unitOfWork.CommitAsync();
+            
+            var epicModel = EpicMapper.Map(epicEntity);
 
             return epicModel;
         }
 
-        public async Task<Epic> UpdateEpicAsync(Epic epic)
+        public async Task<EpicModel> UpdateAsync(EpicModel epic)
         {
             var epicEntity = EpicMapper.Map(epic);
 
-            var updatedEpicEntity =  await _epicRepository.UpdateItemAsync(epicEntity);
+            _unitOfWork.EpicRepository.UpdateItem(epicEntity);
 
-            var epicModel = EpicMapper.Map(updatedEpicEntity);
+            await _unitOfWork.CommitAsync();
+            
+            var epicModel = EpicMapper.Map(epicEntity);
 
             return epicModel;
         }
 
-        public async Task RemoveEpicSoftAsync(Epic epic)
+        public async Task SoftRemoveAsync(Guid id)
         {
-            await _epicRepository.DeleteSoftAsync(epic.EpicId);
+            var epicEntity = new EpicEntity
+            {
+                Id = id,
+                IsDeleted = true
+            };
+
+            _unitOfWork.EpicRepository.UpdateItem(epicEntity, prop => prop.IsDeleted);
+            
+            await _unitOfWork.CommitAsync();
         }
 
-        public async Task RemoveEpicAsync(Guid epicId)
+        public async Task RemoveAsync(Guid id)
         {
-            await _epicRepository.DeleteAsync(x => x.Id == epicId);
+            _unitOfWork.EpicRepository.Remove(epic => epic.Id == id);
+
+            await _unitOfWork.CommitAsync();
         }
     }
 }

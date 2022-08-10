@@ -23,17 +23,16 @@ namespace WebAPI.ApplicationLogic.Utilities
             Guid storyId,
             string fieldName,
             string prevValue,
-            string newValue
-        ) =>
-            new StoryHistory
-            {
-                StoryHistoryAction = StoryHistoryAction.Update,
-                UserName = userName,
-                CurrentValue = newValue,
-                PreviousValue = prevValue,
-                FieldName = fieldName,
-                StoryId = storyId,
-                CreationDate = DateTime.Now,
-            };
+            string newValue) =>
+                new StoryHistory
+                {
+                    StoryHistoryAction = StoryHistoryAction.Update,
+                    UserName = userName,
+                    CurrentValue = newValue,
+                    PreviousValue = prevValue,
+                    FieldName = fieldName,
+                    StoryId = storyId,
+                    CreationDate = DateTime.Now,
+                };
     }
 }

@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using WebAPI.Core.Configuration;
+using WebAPI.Core.Entities;
 
 namespace WebAPI.ApplicationLogic.Utilities
 {
@@ -31,7 +32,19 @@ namespace WebAPI.ApplicationLogic.Utilities
             return encodedJwt;
         }
 
-        public static string GenerateRefreshToken()
+        public static RefreshToken GenerateRefreshTokenEntity(
+            Guid userId,
+            double tokenLifeTime
+        ) =>
+            new RefreshToken
+            {
+                UserId = userId,
+                Value = GenerateRefreshToken(),
+                ExpirationDate = DateTime.UtcNow.Add(TimeSpan.FromMinutes(tokenLifeTime)),
+                CreationDate = DateTime.UtcNow
+            };
+        
+        private static string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
 

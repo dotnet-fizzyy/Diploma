@@ -5,84 +5,37 @@ using WebAPI.Core.Configuration;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
-using WebAPI.Core.Interfaces.Providers;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Models.Models.Models;
+using WebAPI.Models.Basic;
 using WebAPI.Presentation.Constants;
-using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Models.Response;
+
+using RefreshTokenEntity = WebAPI.Core.Entities.RefreshToken;
 
 namespace WebAPI.ApplicationLogic.Services
 {
     public class TokenService : ITokenService
     {
-        private readonly IUserProvider _userProvider;
-        private readonly IRefreshTokenRepository _refreshTokenRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly AppSettings _appSettings;
 
-        public TokenService(
-            IUserProvider userProvider,
-            IRefreshTokenRepository refreshTokenRepository,
-            AppSettings appSettings
-            )
+        public TokenService(IUnitOfWork unitOfWork, AppSettings appSettings)
         {
-            _userProvider = userProvider;
+            _unitOfWork = unitOfWork;
             _appSettings = appSettings;
-            _refreshTokenRepository = refreshTokenRepository;
-        }
-        
-
-        public async Task<AuthenticationUserResponseModel> AuthenticateUser(SignInUserRequestModel userRequestModel)
-        {
-            //Authenticate user (find in db)
-            var fullUserModel = await _userProvider.GetFullUser(userRequestModel);
-
-            //Generate tokens if record is valid
-            var accessToken = TokenGenerator.GenerateAccessToken(_appSettings, fullUserModel.UserId, fullUserModel.UserName, fullUserModel.UserRole.ToString());
-
-            string refreshToken = null;
-            if (_appSettings.Token.EnableRefreshTokenVerification)
-            {
-                var existingToken = await _refreshTokenRepository.SearchForSingleItemAsync(x => x.UserId == fullUserModel.UserId);
-                if (existingToken != null)
-                {
-                    refreshToken = existingToken.Value;
-                }
-
-                if (refreshToken == null)
-                {
-                    refreshToken = TokenGenerator.GenerateRefreshToken();
-                    var refreshTokenEntity = GenerateRefreshTokenEntityOnSave(fullUserModel.UserId, refreshToken, _appSettings.Token.LifeTime);
-               
-                    await _refreshTokenRepository.CreateAsync(refreshTokenEntity);
-                }
-            }
-
-            var tokenPair = new AuthenticationUserResponseModel
-            {
-                AccessToken = new Token(TokenTypes.Access, accessToken),
-                RefreshToken = new Token(TokenTypes.Refresh, refreshToken),
-                User = fullUserModel
-            };
-
-            return tokenPair;
         }
 
-        public async Task<AuthenticationResponseModel> UpdateTokens(string refreshToken, Guid userId, string userName, string userRole)
+        public async Task<AuthenticationResponseModel> UpdateTokens(
+            string refreshToken,
+            Guid userId,
+            string userName,
+            string userRole)
         {
+            var newRefreshToken = string.Empty;
+            
             if (_appSettings.Token.EnableRefreshTokenVerification)
             {
-                var refreshTokenEntity = await _refreshTokenRepository.SearchForSingleItemAsync(token => 
-                                                                            token.UserId == userId && 
-                                                                            token.Value == refreshToken);
-
-                if (refreshTokenEntity == null)
-                {
-                    throw new UserFriendlyException(
-                        ErrorStatus.NOT_FOUND,
-                        ExceptionMessageGenerator.GetMissingEntityMessage($"refresh token and {nameof(userId)}")
-                    );
-                }
+                newRefreshToken = await UpdateRefreshTokenAsync(userId, refreshToken);
             }
             
             var accessToken = TokenGenerator.GenerateAccessToken(_appSettings, userId, userName, userRole);
@@ -90,19 +43,57 @@ namespace WebAPI.ApplicationLogic.Services
             var tokenPair = new AuthenticationResponseModel
             {
                 AccessToken = new Token(TokenTypes.Access, accessToken),
-                RefreshToken = new Token(TokenTypes.Refresh, refreshToken)
             };
+            
+            if (_appSettings.Token.EnableRefreshTokenVerification)
+            {
+                tokenPair.RefreshToken = new Token(TokenTypes.Refresh, newRefreshToken);
+            }
 
             return tokenPair;
         }
-        
-        private static WebAPI.Core.Entities.RefreshToken GenerateRefreshTokenEntityOnSave(Guid userId, string token, double tokenLifeTime) =>
-            new WebAPI.Core.Entities.RefreshToken
+
+        private async Task<string> UpdateRefreshTokenAsync(Guid userId, string refreshToken)
+        {
+            var originalRefreshTokenEntity = await GetOriginalRefreshToken(userId, refreshToken);
+                
+            var newRefreshTokenEntity = TokenGenerator.GenerateRefreshTokenEntity(
+                userId,
+                _appSettings.Token.LifeTime);
+
+            UpdateExistingRefreshTokenRecord(originalRefreshTokenEntity, newRefreshTokenEntity);
+
+            await _unitOfWork.CommitAsync();
+
+            return originalRefreshTokenEntity.Value;
+        }
+
+        private async Task<RefreshTokenEntity> GetOriginalRefreshToken(Guid userId, string refreshToken)
+        {
+            var originalRefreshTokenEntity = await _unitOfWork.RefreshTokenRepository
+                .SearchForSingleItemAsync(
+                    token => token.UserId == userId && token.Value == refreshToken,
+                    includeTracking: false);
+
+            if (originalRefreshTokenEntity == null)
             {
-                UserId = userId,
-                Value = token,
-                ExpirationDate = DateTime.UtcNow.Add(TimeSpan.FromMinutes(tokenLifeTime)),
-                CreationDate = DateTime.UtcNow
-            };
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND,
+                    ExceptionMessageGenerator.GetMissingEntityMessage($"refresh token and {nameof(userId)}")
+                );
+            }
+
+            return originalRefreshTokenEntity;
+        }
+
+        private void UpdateExistingRefreshTokenRecord(
+            RefreshTokenEntity originalRefreshToken, 
+            RefreshTokenEntity newRefreshToken)
+        {
+            originalRefreshToken.Value = newRefreshToken.Value;
+            originalRefreshToken.ExpirationDate = newRefreshToken.ExpirationDate;
+            
+            _unitOfWork.RefreshTokenRepository.UpdateItem(originalRefreshToken, prop => prop.Value);
+        }
     }
 }

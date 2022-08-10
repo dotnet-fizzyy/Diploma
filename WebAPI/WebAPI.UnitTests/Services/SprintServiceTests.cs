@@ -53,7 +53,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(entity);
             
             //Act
-            var result = await sprintService.GetSprintByIdAsync(sprintId);
+            var result = await sprintService.GetByIdAsync(sprintId);
 
             //Assert
             AssertSprintModelProperties(expectedModel, result);
@@ -76,7 +76,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns((Core.Entities.Sprint)null);
             
             //Act && Assert
-            await Assert.ThrowsAsync<UserFriendlyException>(async () => await sprintService.GetSprintByIdAsync(sprintId));
+            await Assert.ThrowsAsync<UserFriendlyException>(async () => await sprintService.GetByIdAsync(sprintId));
             
             A.CallTo(() => sprintRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.Sprint, bool>>>._))
                 .MustHaveHappenedOnceExactly();
@@ -305,7 +305,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(entity);
             
             //Act
-            var result = await sprintService.CreateSprintAsync(model);
+            var result = await sprintService.CreateAsync(model);
 
             //Assert
             AssertSprintModelProperties(expectedModel, result);
@@ -359,16 +359,16 @@ namespace WebAPI.UnitTests.Services
                 CreationDate = creationDate
             };
 
-            A.CallTo(() => sprintRepository.UpdateItemAsync(A<Core.Entities.Sprint>._))
+            A.CallTo(() => sprintRepository.UpdateItem(A<Core.Entities.Sprint>._))
                 .Returns(entity);
             
             //Act
-            var result = await sprintService.UpdateSprintAsync(model);
+            var result = await sprintService.UpdateAsync(model);
 
             //Assert
             AssertSprintModelProperties(expectedModel, result);
             
-            A.CallTo(() => sprintRepository.UpdateItemAsync(A<Core.Entities.Sprint>._))
+            A.CallTo(() => sprintRepository.UpdateItem(A<Core.Entities.Sprint>._))
                 .MustHaveHappenedOnceExactly();
         }
         
@@ -385,14 +385,14 @@ namespace WebAPI.UnitTests.Services
                 SprintId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec"),
             };
             
-            A.CallTo(() => sprintRepository.DeleteSoftAsync(A<Guid>._))
+            A.CallTo(() => sprintRepository.SoftRemove(A<Guid>._))
                 .DoesNothing();
             
             //Act
-            await sprintService.RemoveSprintSoftAsync(sprint);
+            await sprintService.SoftRemoveAsync(sprint);
 
             //Assert
-            A.CallTo(() => sprintRepository.DeleteSoftAsync(A<Guid>._))
+            A.CallTo(() => sprintRepository.SoftRemove(A<Guid>._))
                 .MustHaveHappenedOnceExactly();
         }
         
@@ -406,14 +406,14 @@ namespace WebAPI.UnitTests.Services
             
             var sprintId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 
-            A.CallTo(() => sprintRepository.DeleteAsync(A<Expression<Func<Core.Entities.Sprint, bool>>>._))
+            A.CallTo(() => sprintRepository.Remove(A<Expression<Func<Core.Entities.Sprint, bool>>>._))
                 .DoesNothing();
             
             //Act
-            await sprintService.RemoveSprintAsync(sprintId);
+            await sprintService.RemoveAsync(sprintId);
 
             //Assert
-            A.CallTo(() => sprintRepository.DeleteAsync(A<Expression<Func<Core.Entities.Sprint, bool>>>._))
+            A.CallTo(() => sprintRepository.Remove(A<Expression<Func<Core.Entities.Sprint, bool>>>._))
                 .MustHaveHappenedOnceExactly();
         }
         

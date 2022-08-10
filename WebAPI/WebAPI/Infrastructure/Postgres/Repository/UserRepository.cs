@@ -9,46 +9,15 @@ namespace WebAPI.Infrastructure.Postgres.Repository
     {
         public UserRepository(DatabaseContext databaseContext) : base(databaseContext)
         {
+            
         }
 
-        public async Task<User> AuthenticateUser(User user)
-        {
-            return await _dbContext.Users
+        public async Task<User> AuthenticateUser(string email, string password) =>
+            await DbContext.Users
                 .AsNoTracking()
-                .Include(x => x.TeamUsers)
-                .FirstOrDefaultAsync(x => x.Email == user.Email && x.Password == user.Password && x.IsActive);
-        }
-
-        public async Task UpdateUserAvatarLinkAsync(User user)
-        {
-            _dbContext.Users.Attach(user);
-            _dbContext.Entry(user).Property(x => x.AvatarLink).IsModified = true;
-
-            await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task UpdateUserPasswordAsync(User user)
-        {
-            _dbContext.Users.Attach(user);
-            _dbContext.Entry(user).Property(x => x.Password).IsModified = true;
-
-            await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task UpdateUserWorkSpace(User user)
-        {
-            _dbContext.Users.Attach(user);
-            _dbContext.Entry(user).Property(x => x.WorkSpaceId).IsModified = true;
-
-            await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task ChangeUserActivityStatusAsync(User user)
-        {
-            _dbContext.Users.Attach(user);
-            _dbContext.Entry(user).Property(x => x.IsActive).IsModified = true;
-
-            await _dbContext.SaveChangesAsync();
-        }
+                .Include(include => include.TeamUsers)
+                .FirstOrDefaultAsync(user => user.Email == email &&
+                                             user.Password == password &&
+                                             user.IsActive);
     }
 }

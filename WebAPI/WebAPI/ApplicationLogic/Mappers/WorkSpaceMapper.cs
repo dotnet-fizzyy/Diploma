@@ -1,5 +1,5 @@
 using WorkSpaceEntity = WebAPI.Core.Entities.WorkSpace;
-using WorkSpaceModel = WebAPI.Models.Models.Models.WorkSpace;
+using WorkSpaceModel = WebAPI.Models.Basic.WorkSpace;
 
 namespace WebAPI.ApplicationLogic.Mappers
 {

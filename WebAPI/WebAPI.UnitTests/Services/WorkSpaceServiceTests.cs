@@ -46,7 +46,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(entity);
             
             //Act
-            var result = await workSpaceService.GetWorkSpaceByIdAsync(id);
+            var result = await workSpaceService.GetByIdAsync(id);
 
             //Assert
             AssertWorkSpaceModelProperties(expectedWorkSpaceModel, result);
@@ -70,7 +70,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns((Core.Entities.WorkSpace)null);
             
             //Act && Assert
-            await Assert.ThrowsAsync<UserFriendlyException>(async () => await workSpaceService.GetWorkSpaceByIdAsync(id));
+            await Assert.ThrowsAsync<UserFriendlyException>(async () => await workSpaceService.GetByIdAsync(id));
 
             A.CallTo(() => workSpaceRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.WorkSpace, bool>>>._))
                 .MustHaveHappenedOnceExactly();
@@ -110,7 +110,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(entity);
             
             //Act
-            var result = await workSpaceService.GetUserWorkSpaceAsync(id);
+            var result = await workSpaceService.GetUsersWorkSpaceAsync(id);
 
             //Assert
             AssertWorkSpaceModelProperties(expectedWorkSpaceModel, result);
@@ -134,7 +134,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns((Core.Entities.WorkSpace)null);
             
             //Act && Assert
-            await Assert.ThrowsAsync<UserFriendlyException>(async () => await workSpaceService.GetUserWorkSpaceAsync(id));
+            await Assert.ThrowsAsync<UserFriendlyException>(async () => await workSpaceService.GetUsersWorkSpaceAsync(id));
 
             A.CallTo(() => workSpaceRepository.GetUserWorkSpaceAsync(A<Guid>._))
                 .MustHaveHappenedOnceExactly();
@@ -180,7 +180,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(entity);
             
             //Act
-            var result = await workSpaceService.CreateWorkSpaceAsync(workSpaceModel);
+            var result = await workSpaceService.CreateAsync(workSpaceModel);
 
             //Assert
             AssertWorkSpaceModelProperties(expectedWorkSpaceModel, result);
@@ -230,7 +230,7 @@ namespace WebAPI.UnitTests.Services
                 .DoesNothing();
             
             //Act
-            var result = await workSpaceService.CreateWorkSpaceWithUserAsync(workSpaceModel, userId);
+            var result = await workSpaceService.CreateWithUserAsync(workSpaceModel, userId);
 
             //Assert
             AssertWorkSpaceModelProperties(expectedWorkSpaceModel, result);
@@ -277,16 +277,16 @@ namespace WebAPI.UnitTests.Services
                 CreationDate = creationDate
             };
 
-            A.CallTo(() => workSpaceRepository.UpdateItemAsync(A<Core.Entities.WorkSpace>._))
+            A.CallTo(() => workSpaceRepository.UpdateItem(A<Core.Entities.WorkSpace>._))
                 .Returns(entity);
             
             //Act
-            var result = await workSpaceService.UpdateWorkSpaceAsync(workSpaceModel);
+            var result = await workSpaceService.UpdateAsync(workSpaceModel);
 
             //Assert
             AssertWorkSpaceModelProperties(expectedWorkSpaceModel, result);
 
-            A.CallTo(() => workSpaceRepository.UpdateItemAsync(A<Core.Entities.WorkSpace>._))
+            A.CallTo(() => workSpaceRepository.UpdateItem(A<Core.Entities.WorkSpace>._))
                 .MustHaveHappenedOnceExactly();
         }
         
@@ -301,14 +301,14 @@ namespace WebAPI.UnitTests.Services
             
             var id = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
 
-            A.CallTo(() => workSpaceRepository.DeleteAsync(A<Expression<Func<WebAPI.Core.Entities.WorkSpace,bool>>>._))
+            A.CallTo(() => workSpaceRepository.Remove(A<Expression<Func<WebAPI.Core.Entities.WorkSpace,bool>>>._))
                 .DoesNothing();
 
             //Act
-            await workSpaceService.RemoveWorkSpaceAsync(id);
+            await workSpaceService.RemoveAsync(id);
 
             //Assert
-            A.CallTo(() => workSpaceRepository.DeleteAsync(A<Expression<Func<WebAPI.Core.Entities.WorkSpace, bool>>>._))
+            A.CallTo(() => workSpaceRepository.Remove(A<Expression<Func<WebAPI.Core.Entities.WorkSpace, bool>>>._))
                 .MustHaveHappenedOnceExactly();
         }
         

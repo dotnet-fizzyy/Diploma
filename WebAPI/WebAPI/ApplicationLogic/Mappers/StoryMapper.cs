@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 
 using StoryEntity = WebAPI.Core.Entities.Story;
-using StoryModel = WebAPI.Models.Models.Models.Story;
-using FullStoryModel = WebAPI.Models.Models.Result.FullStory;
-using StorySimpleModel = WebAPI.Models.Models.Simple.StorySimpleModel;
+using StoryModel = WebAPI.Models.Basic.Story;
+using StoryLightModel = WebAPI.Models.Light.StoryLight;
+using StoryCompleteModel = WebAPI.Models.Complete.StoryComplete;
 using StoryPriorityEntity = WebAPI.Core.Enums.StoryPriority;
 using StoryPriorityModel = WebAPI.Models.Enums.StoryPriority;
 using UserPositionEntity = WebAPI.Core.Enums.UserPosition;
@@ -61,14 +61,14 @@ namespace WebAPI.ApplicationLogic.Mappers
             return storyModel;
         }
 
-        public static FullStoryModel MapToFullModel(StoryEntity storyEntity)
+        public static StoryCompleteModel MapToFullModel(StoryEntity storyEntity)
         {
             if (storyEntity == null)
             {
-                return new FullStoryModel();
+                return new StoryCompleteModel();
             }
 
-            var fullStoryModel = new FullStoryModel();
+            var fullStoryModel = new StoryCompleteModel();
             
             MapBaseEntityToModel(fullStoryModel, storyEntity);
 
@@ -80,14 +80,14 @@ namespace WebAPI.ApplicationLogic.Mappers
             return fullStoryModel;
         }
 
-        public static StorySimpleModel MapToSimpleModel(StoryEntity story)
+        public static StoryLightModel MapToSimpleModel(StoryEntity story)
         {
             if (story == null)
             {
-                return new StorySimpleModel();
+                return new StoryLightModel();
             }
 
-            var userSimpleModel = new StorySimpleModel
+            var userSimpleModel = new StoryLightModel
             {
                 StoryId = story.Id,
                 Title = story.Title,

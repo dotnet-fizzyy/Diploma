@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using WebAPI.Models.Models.Simple;
+using WebAPI.Models.Light;
 
 namespace WebAPI.Presentation.Models.Pages
 {
     public class DefaultPage
     {
-        public IList<StorySimpleModel> Stories = new List<StorySimpleModel>();
+        public IList<StoryLight> Stories = new List<StoryLight>();
 
-        public IList<TeamSimpleModel> Teams = new List<TeamSimpleModel>();
+        public IList<TeamLight> Teams = new List<TeamLight>();
     }
 }

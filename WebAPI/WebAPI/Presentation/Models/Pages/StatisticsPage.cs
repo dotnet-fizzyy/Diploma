@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using WebAPI.Models.Models.Models;
-using WebAPI.Models.Models.Simple;
+using WebAPI.Models.Basic;
+using WebAPI.Models.Light;
 
 namespace WebAPI.Presentation.Models.Pages
 {
@@ -8,6 +8,6 @@ namespace WebAPI.Presentation.Models.Pages
     {
         public IList<Sprint> Sprints { get; set; } = new List<Sprint>();
 
-        public IList<StorySimpleModel> Stories { get; set; } = new List<StorySimpleModel>();
+        public IList<StoryLight> Stories { get; set; } = new List<StoryLight>();
     }
 }

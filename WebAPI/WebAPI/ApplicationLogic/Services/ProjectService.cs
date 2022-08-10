@@ -8,33 +8,27 @@ using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
-using WebAPI.Models.Models.Models;
-using WebAPI.Models.Models.Result;
+using WebAPI.Models.Basic;
+using WebAPI.Models.Complete;
+
+using ProjectEntity = WebAPI.Core.Entities.Project;
 
 namespace WebAPI.ApplicationLogic.Services
 {
     public class ProjectService : IProjectService
     {
-        private readonly IProjectRepository _projectRepository;
-        private readonly IEpicRepository _epicRepository;
-        private readonly ITeamRepository _teamRepository;
-        private readonly ISprintRepository _sprintRepository;
-
-        public ProjectService(
-            IProjectRepository projectRepository,
-            IEpicRepository epicRepository, 
-            ISprintRepository sprintRepository,
-            ITeamRepository teamRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        
+        public ProjectService(IUnitOfWork unitOfWork)
         {
-            _projectRepository = projectRepository;
-            _teamRepository = teamRepository;
-            _epicRepository = epicRepository;
-            _sprintRepository = sprintRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<Project> GetProjectAsync(Guid projectId)
+        public async Task<Project> GetByIdAsync(Guid projectId)
         {
-            var projectEntity = await _projectRepository.SearchForSingleItemAsync(x => x.Id == projectId);
+            var projectEntity = await _unitOfWork.ProjectRepository
+                .SearchForItemById(projectId, includeTracking: false); 
+  
             if (projectEntity == null)
             {
                 throw new UserFriendlyException(
@@ -48,10 +42,12 @@ namespace WebAPI.ApplicationLogic.Services
             return projectModel;
         }
 
-        public async Task<FullProjectDescription> GetFullProjectDescriptionAsync(Guid projectId)
+        public async Task<ProjectComplete> GetCompleteDescriptionAsync(Guid projectId)
         {
             // Receive project description
-            var projectEntity = await _projectRepository.SearchForSingleItemAsync(x => x.Id == projectId);
+            var projectEntity = await _unitOfWork.ProjectRepository
+                .SearchForItemById(projectId, includeTracking: false);
+
             if (projectEntity == null)
             {
                 throw new UserFriendlyException(
@@ -62,30 +58,31 @@ namespace WebAPI.ApplicationLogic.Services
 
             // Receive latest and actual epic for project
             var projectEpicEntity =
-                (await _epicRepository.SearchForMultipleItemsAsync(
-                    x => x.ProjectId == projectId,
-                    x => x.StartDate, OrderType.Desc)
+                (await _unitOfWork.EpicRepository.SearchForMultipleItemsAsync(
+                    epic => epic.ProjectId == projectId,
+                    prop => prop.StartDate, 
+                    SortDirection.Desc)
                 ).FirstOrDefault();
 
             if (projectEpicEntity == null)
             {
-                return new FullProjectDescription
+                return new ProjectComplete
                 {
                     Project = ProjectMapper.Map(projectEntity)
                 };
             }
             
             // Receive sprints for teams
-            var epicSprints = await _sprintRepository.SearchForMultipleItemsAsync(
-                    x => x.EpicId == projectEpicEntity.Id,
-                    x => x.StartDate,
-                    OrderType.Desc
-                );
+            var epicSprints = await _unitOfWork.SprintRepository.SearchForMultipleItemsAsync(
+                    sprint => sprint.EpicId == projectEpicEntity.Id,
+                    prop => prop.StartDate,
+                    SortDirection.Desc);
             
             // Receive teams working on it
-            var projectTeams =  await _teamRepository.SearchForMultipleItemsAsync(x => x.ProjectId == projectId);
+            var projectTeams =  await _unitOfWork.TeamRepository
+                .SearchForMultipleItemsAsync(project => project.ProjectId == projectId);
 
-            var fullProjectDescription = FullProjectDescriptionAggregator.AggregateFullProjectDescription(
+            var fullProjectDescription = ProjectAggregator.AggregateFullProjectDescription(
                 projectEntity,
                 projectEpicEntity,
                 epicSprints,
@@ -95,37 +92,51 @@ namespace WebAPI.ApplicationLogic.Services
             return fullProjectDescription;
         }
 
-        public async Task<Project> CreateProjectAsync(Project project)
+        public async Task<Project> CreateAsync(Project projectModelToCreate)
         {
-            var projectEntity = ProjectMapper.Map(project);
+            var projectEntity = ProjectMapper.Map(projectModelToCreate);
             projectEntity.CreationDate = DateTime.UtcNow;
 
-            var createdProject = await _projectRepository.CreateAsync(projectEntity);
+            await _unitOfWork.ProjectRepository.CreateAsync(projectEntity);
 
-            var createdProjectModel = ProjectMapper.Map(createdProject);
+            await _unitOfWork.CommitAsync();
+
+            var createdProjectModel = ProjectMapper.Map(projectEntity);
 
             return createdProjectModel;
         }
 
-        public async Task<Project> UpdateProjectAsync(Project project)
+        public async Task<Project> UpdateAsync(Project project)
         {
             var projectEntity = ProjectMapper.Map(project);
 
-            var updatedProject = await _projectRepository.UpdateItemAsync(projectEntity);
+            _unitOfWork.ProjectRepository.UpdateItem(projectEntity);
 
-            var updatedProjectModel = ProjectMapper.Map(updatedProject);
+            await _unitOfWork.CommitAsync();
+
+            var updatedProjectModel = ProjectMapper.Map(projectEntity);
 
             return updatedProjectModel;
         }
 
-        public async Task RemoveProjectSoftAsync(Project project)
+        public async Task SoftRemoveAsync(Guid id)
         {
-            await _projectRepository.DeleteSoftAsync(project.ProjectId);
+            var projectEntity = new ProjectEntity
+            {
+                Id = id,
+                IsDeleted = true
+            };
+            
+            _unitOfWork.ProjectRepository.UpdateItem(projectEntity, prop => prop.IsDeleted);
+
+            await _unitOfWork.CommitAsync();
         }
 
-        public async Task RemoveProjectAsync(Guid projectId)
+        public async Task RemoveAsync(Guid projectId)
         {
-            await _projectRepository.DeleteAsync(x => x.Id == projectId);
+            _unitOfWork.EpicRepository.Remove(epic => epic.Id == projectId);
+            
+            await _unitOfWork.CommitAsync();
         }
     }
 }

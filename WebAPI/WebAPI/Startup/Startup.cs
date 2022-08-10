@@ -45,6 +45,11 @@ namespace WebAPI.Startup
                 .AddMvc()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
             
+            services.AddRouting(routing =>
+            {
+                routing.LowercaseUrls = true;
+            });
+
             services.RegisterAuthSettings(tokenSettings);
             
             services.RegisterServices(appSettings);

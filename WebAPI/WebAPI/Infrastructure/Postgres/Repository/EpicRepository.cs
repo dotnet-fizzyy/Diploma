@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Interfaces.Database;
 
@@ -10,19 +8,6 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         public EpicRepository(DatabaseContext databaseContext) : base(databaseContext)
         {
             
-        }
-
-        public async Task DeleteSoftAsync(Guid epicId)
-        {
-            var epicEntity = new Epic
-            {
-                Id = epicId,
-                IsDeleted = true
-            };
-
-            _dbContext.Entry(epicEntity).Property(x => x.IsDeleted).IsModified = true;
-            
-            await _dbContext.SaveChangesAsync();
         }
     }
 }

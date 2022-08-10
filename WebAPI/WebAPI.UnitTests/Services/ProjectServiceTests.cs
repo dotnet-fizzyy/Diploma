@@ -61,7 +61,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(entity);
             
             //Act
-            var result = await projectService.GetProjectAsync(projectId);
+            var result = await projectService.GetByIdAsync(projectId);
 
             //Assert
             AssertProjectModelProperties(expectedModel, result);
@@ -92,7 +92,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns((Core.Entities.Project)null);
             
             //Act && Assert
-            await Assert.ThrowsAsync<UserFriendlyException>(async () => await projectService.GetProjectAsync(projectId));
+            await Assert.ThrowsAsync<UserFriendlyException>(async () => await projectService.GetByIdAsync(projectId));
 
             A.CallTo(() => projectRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.Project, bool>>>._))
                 .MustHaveHappenedOnceExactly();
@@ -219,7 +219,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(teamEntities);
             
             //Act
-            var result = await projectService.GetFullProjectDescriptionAsync(projectId);
+            var result = await projectService.GetFullDescriptionAsync(projectId);
 
             //Assert
             AssertProjectModelProperties(expectedModel.Project, result.Project);
@@ -296,7 +296,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(new List<Core.Entities.Epic>());
 
             //Act
-            var result = await projectService.GetFullProjectDescriptionAsync(projectId);
+            var result = await projectService.GetFullDescriptionAsync(projectId);
 
             //Assert
             AssertProjectModelProperties(expectedModel.Project, result.Project);
@@ -336,7 +336,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns((Core.Entities.Project)null);
             
             //Act && Assert
-            await Assert.ThrowsAsync<UserFriendlyException>(async () => await projectService.GetFullProjectDescriptionAsync(projectId));
+            await Assert.ThrowsAsync<UserFriendlyException>(async () => await projectService.GetFullDescriptionAsync(projectId));
 
             A.CallTo(() => projectRepository.SearchForSingleItemAsync(A<Expression<Func<Core.Entities.Project, bool>>>._))
                 .MustHaveHappenedOnceExactly();
@@ -396,7 +396,7 @@ namespace WebAPI.UnitTests.Services
                 .Returns(entity);
             
             //Act
-            var result = await projectService.CreateProjectAsync(model);
+            var result = await projectService.CreateAsync(model);
 
             //Assert
             AssertProjectModelProperties(expectedModel, result);
@@ -457,16 +457,16 @@ namespace WebAPI.UnitTests.Services
                 CreationDate = creationDate
             };
 
-            A.CallTo(() => projectRepository.UpdateItemAsync(A<Core.Entities.Project>._))
+            A.CallTo(() => projectRepository.UpdateItem(A<Core.Entities.Project>._))
                 .Returns(entity);
             
             //Act
-            var result = await projectService.UpdateProjectAsync(model);
+            var result = await projectService.UpdateAsync(model);
 
             //Assert
             AssertProjectModelProperties(expectedModel, result);
 
-            A.CallTo(() => projectRepository.UpdateItemAsync(A<Core.Entities.Project>._))
+            A.CallTo(() => projectRepository.UpdateItem(A<Core.Entities.Project>._))
                 .MustHaveHappenedOnceExactly();
         }
 
@@ -490,14 +490,14 @@ namespace WebAPI.UnitTests.Services
                 ProjectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec")
             };
             
-            A.CallTo(() => projectRepository.DeleteSoftAsync(A<Guid>._))
+            A.CallTo(() => projectRepository.SoftRemove(A<Guid>._))
                 .DoesNothing();
             
             //Act
-            await projectService.RemoveProjectSoftAsync(project);
+            await projectService.SoftRemoveAsync(project);
 
             //Assert
-            A.CallTo(() => projectRepository.DeleteSoftAsync(A<Guid>._))
+            A.CallTo(() => projectRepository.SoftRemove(A<Guid>._))
                 .MustHaveHappenedOnceExactly();
         }
         
@@ -518,14 +518,14 @@ namespace WebAPI.UnitTests.Services
 
             var projectId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             
-            A.CallTo(() => projectRepository.DeleteAsync(A<Expression<Func<Core.Entities.Project, bool>>>._))
+            A.CallTo(() => projectRepository.Remove(A<Expression<Func<Core.Entities.Project, bool>>>._))
                 .DoesNothing();
             
             //Act
-            await projectService.RemoveProjectAsync(projectId);
+            await projectService.RemoveAsync(projectId);
 
             //Assert
-            A.CallTo(() => projectRepository.DeleteAsync(A<Expression<Func<Core.Entities.Project, bool>>>._))
+            A.CallTo(() => projectRepository.Remove(A<Expression<Func<Core.Entities.Project, bool>>>._))
                 .MustHaveHappenedOnceExactly();
         }
         
