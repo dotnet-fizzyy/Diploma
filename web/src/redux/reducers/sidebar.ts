@@ -28,33 +28,26 @@ export default function sidebarReducer(state = initialState, action) {
     }
 }
 
-function handleSidebarVisibility(state: ISidebarState, action: ISidebarHandleVisibility): ISidebarState {
-    const { type, isVisible } = action.payload;
+const handleSidebarVisibility = (
+    state: ISidebarState,
+    { payload: { type, isVisible } }: ISidebarHandleVisibility
+): ISidebarState => ({
+    ...state,
+    type,
+    isVisible,
+});
 
-    return {
-        ...state,
-        type,
-        isVisible,
-    };
-}
+const handleEnableLoadingStatusOnRequest = (state: ISidebarState): ISidebarState => ({
+    ...state,
+    isLoading: true,
+});
 
-function handleEnableLoadingStatusOnRequest(state: ISidebarState): ISidebarState {
-    return {
-        ...state,
-        isLoading: true,
-    };
-}
+const handleDisableLoadingStatus = (state: ISidebarState): ISidebarState => ({
+    ...state,
+    isLoading: false,
+});
 
-function handleDisableLoadingStatus(state: ISidebarState): ISidebarState {
-    return {
-        ...state,
-        isLoading: false,
-    };
-}
-
-function handleChangeType(state: ISidebarState, action: ISidebarChangeType): ISidebarState {
-    return {
-        ...state,
-        type: action.payload,
-    };
-}
+const handleChangeType = (state: ISidebarState, action: ISidebarChangeType): ISidebarState => ({
+    ...state,
+    type: action.payload,
+});

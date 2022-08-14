@@ -7,7 +7,7 @@ import createSagaMiddleware from 'redux-saga';
 import epicReducer from '../reducers/epic';
 import modalReducer from '../reducers/modal';
 import projectsReducer from '../reducers/project';
-import sidebarReducer from '../reducers/sidebarReducer';
+import sidebarReducer from '../reducers/sidebar';
 import sprintReducer from '../reducers/sprintReducer';
 import storyReducer from '../reducers/storyReducer';
 import teamsReducer from '../reducers/teamReducer';
