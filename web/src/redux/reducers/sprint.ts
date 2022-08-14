@@ -36,49 +36,41 @@ export default function sprintReducer(state = initialState, action) {
     }
 }
 
-function handleAddSprints(state: ISprintsState, action: IAddSprints): ISprintsState {
-    return {
-        ...state,
-        sprints: action.payload,
-    };
-}
+const handleAddSprints = (state: ISprintsState, action: IAddSprints): ISprintsState => ({
+    ...state,
+    sprints: action.payload,
+});
 
-function handleSetSelectedSprint(
+const handleSetSelectedSprint = (
     state: ISprintsState,
     action: ISetSelectedSprint | IChangeStorySprintRequest
-): ISprintsState {
-    return {
-        ...state,
-        selectedSprintId: state.sprints.some((x) => x.sprintId === action.payload)
-            ? state.sprints.find((x) => x.sprintId === action.payload).sprintId
-            : '',
-    };
-}
+): ISprintsState => {
+    const sprint = state.sprints.find((sprint) => sprint.sprintId === action.payload);
 
-function handleCreateSprintSuccess(state: ISprintsState, action: ICreateSprintSuccess): ISprintsState {
     return {
         ...state,
-        sprints: [...state.sprints, action.payload],
+        selectedSprintId: sprint?.sprintId ?? '',
     };
-}
+};
 
-function handleChangeStatsEpic(state: ISprintsState, action: IChangeStatsEpic): ISprintsState {
-    return {
-        ...state,
-        selectedSprintId: action.payload,
-    };
-}
+const handleCreateSprintSuccess = (state: ISprintsState, action: ICreateSprintSuccess): ISprintsState => ({
+    ...state,
+    sprints: [...state.sprints, action.payload],
+});
 
-function handleUpdateSprintSuccess(state: ISprintsState, action: IUpdateSprintSuccess): ISprintsState {
-    return {
-        ...state,
-        sprints: state.sprints.map((x) => (x.sprintId === action.payload.sprintId ? { ...action.payload } : x)),
-    };
-}
+const handleChangeStatsEpic = (state: ISprintsState, action: IChangeStatsEpic): ISprintsState => ({
+    ...state,
+    selectedSprintId: action.payload,
+});
 
-function handleRemoveSprintSuccess(state: ISprintsState, action: IRemoveSprintSuccess): ISprintsState {
-    return {
-        ...state,
-        sprints: state.sprints.filter((x) => x.sprintId !== action.payload),
-    };
-}
+const handleUpdateSprintSuccess = (state: ISprintsState, action: IUpdateSprintSuccess): ISprintsState => ({
+    ...state,
+    sprints: state.sprints.map((sprint) =>
+        sprint.sprintId === action.payload.sprintId ? { ...action.payload } : sprint
+    ),
+});
+
+const handleRemoveSprintSuccess = (state: ISprintsState, action: IRemoveSprintSuccess): ISprintsState => ({
+    ...state,
+    sprints: state.sprints.filter((sprint) => sprint.sprintId !== action.payload),
+});

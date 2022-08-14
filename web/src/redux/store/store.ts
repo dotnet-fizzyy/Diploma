@@ -8,7 +8,7 @@ import epicReducer from '../reducers/epic';
 import modalReducer from '../reducers/modal';
 import projectsReducer from '../reducers/project';
 import sidebarReducer from '../reducers/sidebar';
-import sprintReducer from '../reducers/sprintReducer';
+import sprintReducer from '../reducers/sprint';
 import storyReducer from '../reducers/storyReducer';
 import teamsReducer from '../reducers/teamReducer';
 import userReducer from '../reducers/userReducer';
