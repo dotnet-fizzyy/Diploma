@@ -48,67 +48,59 @@ export default function workSpaceReducer(state = initialState, action): IWorkSpa
     }
 }
 
-function handleSetLoadingStatusForWorkSpace(state: IWorkSpaceState): IWorkSpaceState {
-    return {
-        ...state,
-        isLoading: true,
-    };
-}
+const handleSetLoadingStatusForWorkSpace = (state: IWorkSpaceState): IWorkSpaceState => ({
+    ...state,
+    isLoading: true,
+});
 
-function handleSetWorkSpace(state: IWorkSpaceState, action: ICreateWorkSpaceSuccess | IAddWorkSpace): IWorkSpaceState {
-    return {
-        ...state,
-        workSpace: action.payload,
-        isLoading: false,
-    };
-}
+const handleSetWorkSpace = (
+    state: IWorkSpaceState,
+    action: ICreateWorkSpaceSuccess | IAddWorkSpace
+): IWorkSpaceState => ({
+    ...state,
+    workSpace: action.payload,
+    isLoading: false,
+});
 
-function handleGetUserWorkSpaceFailure(state: IWorkSpaceState): IWorkSpaceState {
-    return {
-        ...state,
-        isLoading: false,
-    };
-}
+const handleGetUserWorkSpaceFailure = (state: IWorkSpaceState): IWorkSpaceState => ({
+    ...state,
+    isLoading: false,
+});
 
-function handleGetUserWorkSpacePage(state: IWorkSpaceState, action: IGetUserWorkspacePageSuccess): IWorkSpaceState {
-    return {
-        ...state,
-        workSpace: action.payload.workSpace,
-        isLoading: false,
-    };
-}
+const handleGetUserWorkSpacePage = (state: IWorkSpaceState, action: IGetUserWorkspacePageSuccess): IWorkSpaceState => ({
+    ...state,
+    workSpace: action.payload.workSpace,
+    isLoading: false,
+});
 
-function handleSetSearchTitleTerm(state: IWorkSpaceState, action: ISetSearchTitleTermRequest): IWorkSpaceState {
-    return {
-        ...state,
-        search: {
-            ...state.search,
-            searchTerm: action.payload,
-            searching: true,
-        },
-    };
-}
+const handleSetSearchTitleTerm = (state: IWorkSpaceState, action: ISetSearchTitleTermRequest): IWorkSpaceState => ({
+    ...state,
+    search: {
+        ...state.search,
+        searchTerm: action.payload,
+        searching: true,
+    },
+});
 
-function handleSetSearchTitleSuccess(state: IWorkSpaceState, action: ISetSearchTitleTermSuccess): IWorkSpaceState {
-    return {
-        ...state,
-        search: {
-            ...state.search,
-            searching: false,
-            teams: action.payload.teams,
-            projects: action.payload.projects,
-        },
-    };
-}
+const handleSetSearchTitleSuccess = (
+    state: IWorkSpaceState,
+    { payload: { teams, projects } }: ISetSearchTitleTermSuccess
+): IWorkSpaceState => ({
+    ...state,
+    search: {
+        ...state.search,
+        searching: false,
+        teams,
+        projects,
+    },
+});
 
-function handleBlurSearchFieldTerm(state: IWorkSpaceState): IWorkSpaceState {
-    return {
-        ...state,
-        search: {
-            ...state.search,
-            searching: false,
-            projects: [],
-            teams: [],
-        },
-    };
-}
+const handleBlurSearchFieldTerm = (state: IWorkSpaceState): IWorkSpaceState => ({
+    ...state,
+    search: {
+        ...state.search,
+        searching: false,
+        projects: [],
+        teams: [],
+    },
+});

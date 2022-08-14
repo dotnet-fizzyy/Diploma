@@ -12,7 +12,7 @@ import sprintReducer from '../reducers/sprint';
 import storyReducer from '../reducers/storyReducer';
 import teamsReducer from '../reducers/teamReducer';
 import userReducer from '../reducers/userReducer';
-import workSpaceReducer from '../reducers/workSpaceReducer';
+import workSpaceReducer from '../reducers/workspace';
 import rootSaga from '../sagas';
 
 export const history = createBrowserHistory();
