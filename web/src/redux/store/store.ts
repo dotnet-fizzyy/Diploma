@@ -10,7 +10,7 @@ import projectsReducer from '../reducers/project';
 import sidebarReducer from '../reducers/sidebar';
 import sprintReducer from '../reducers/sprint';
 import storyReducer from '../reducers/storyReducer';
-import teamsReducer from '../reducers/teamReducer';
+import teamsReducer from '../reducers/team';
 import userReducer from '../reducers/userReducer';
 import workSpaceReducer from '../reducers/workspace';
 import rootSaga from '../sagas';
@@ -34,15 +34,13 @@ const rootReducer = combineReducers({
     ...reducers,
 });
 
-let store = null;
-
 export const getStore = () => {
     const sagaMiddleware = createSagaMiddleware();
 
     const middlewares = [sagaMiddleware, routerMiddleware(history), logger];
     const enhancers = [applyMiddleware(...middlewares)];
 
-    store = createStore(rootReducer, composeWithDevTools(...enhancers));
+    const store = createStore(rootReducer, composeWithDevTools(...enhancers));
 
     sagaMiddleware.run(rootSaga);
 
