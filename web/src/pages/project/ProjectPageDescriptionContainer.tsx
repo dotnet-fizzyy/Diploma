@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { setSelectedEpicById } from '../../redux/actions/epic';
-import { openModal } from '../../redux/actions/modalActions';
+import { openModal } from '../../redux/actions/modal';
 import { getSprintsFromEpicRequest } from '../../redux/actions/sprintActions';
 import { setSelectedTeamById } from '../../redux/actions/teamActions';
 import { getEpics, getSelectedEpicId } from '../../redux/selectors/epic';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
-import { openModal } from '../../redux/actions/modalActions';
+import { openModal } from '../../redux/actions/modal';
 import { changeUserActivityStatusRequest } from '../../redux/actions/userActions';
 import { getUser } from '../../redux/selectors/userSelectors';
 import { ITeam } from '../../types/teamTypes';

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { ModalTypes } from '../../../constants/modalConstants';
 import { LoginScreenRoute } from '../../../constants/routeConstants';
-import { openModal } from '../../../redux/actions/modalActions';
+import { openModal } from '../../../redux/actions/modal';
 import { changeUserProject, changeUserTeam, logOutUser } from '../../../redux/actions/userActions';
 import { blurSearchTitleTerm, setSearchTitleTermRequest } from '../../../redux/actions/workSpaceActions';
 import { getUser, getUserSelectedProjectId, getUserSelectedTeamId } from '../../../redux/selectors/userSelectors';

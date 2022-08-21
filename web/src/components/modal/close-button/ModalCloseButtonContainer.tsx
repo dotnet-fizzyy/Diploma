@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { closeModal } from '../../../redux/actions/modalActions';
+import { closeModal } from '../../../redux/actions/modal';
 import ModalCloseButton from './ModalCloseButton';
 
 const ModalCloseButtonContainer = () => {

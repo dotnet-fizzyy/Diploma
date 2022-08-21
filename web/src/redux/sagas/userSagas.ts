@@ -7,7 +7,7 @@ import { IAuthenticationResponse, IJsonPatchBody, ITokenResponse } from '../../t
 import { IEmailExistence, IFullUser, IUser } from '../../types/userTypes';
 import { setCredentialsToLocalStorage } from '../../utils';
 import { createRequestBodyForUserUpdateLink } from '../../utils/userUtils';
-import { closeModal } from '../actions/modalActions';
+import { closeModal } from '../actions/modal';
 import {
     authenticationFailure,
     authenticationSuccess,
