@@ -9,7 +9,7 @@ import {
     changeStorySprintRequest,
     sortStoriesRequest,
 } from '../../../redux/actions/storyActions';
-import { getEpicsDropdownItems, getSelectedEpicId } from '../../../redux/selectors/epicSelectors';
+import { getEpicsDropdownItems, getSelectedEpicId } from '../../../redux/selectors/epic';
 import { getSelectedSprintId, getSprintDropdownItems } from '../../../redux/selectors/sprintSelectors';
 import { getSortDirection, getSortType } from '../../../redux/selectors/storySelectors';
 import { getSelectedTeam } from '../../../redux/selectors/teamSelectors';

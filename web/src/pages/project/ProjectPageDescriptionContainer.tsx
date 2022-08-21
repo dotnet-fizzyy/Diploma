@@ -6,7 +6,7 @@ import { setSelectedEpicById } from '../../redux/actions/epic';
 import { openModal } from '../../redux/actions/modalActions';
 import { getSprintsFromEpicRequest } from '../../redux/actions/sprintActions';
 import { setSelectedTeamById } from '../../redux/actions/teamActions';
-import { getEpics, getSelectedEpicId } from '../../redux/selectors/epicSelectors';
+import { getEpics, getSelectedEpicId } from '../../redux/selectors/epic';
 import { getSprints } from '../../redux/selectors/sprintSelectors';
 import { getTeamSimpleItems } from '../../redux/selectors/teamSelectors';
 import { IEpic } from '../../types/epicTypes';

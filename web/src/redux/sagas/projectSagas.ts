@@ -30,7 +30,7 @@ import {
 import { addSprints } from '../actions/sprintActions';
 import { addStories, setStorySimpleItems } from '../actions/storyActions';
 import { addTeamSimpleItems, setSelectedTeam } from '../actions/teamActions';
-import { getSelectedEpicId } from '../selectors/epicSelectors';
+import { getSelectedEpicId } from '../selectors/epic';
 import { getSelectedSprintId } from '../selectors/sprintSelectors';
 
 export function* getMainPage() {

@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { changeStatsEpic, setSelectedEpicById } from '../../redux/actions/epic';
 import { getProjectStatsPageRequest } from '../../redux/actions/projectActions';
 import { changeStatsSprint } from '../../redux/actions/sprintActions';
-import { getEpicsDropdownItems, getSelectedEpicId } from '../../redux/selectors/epicSelectors';
+import { getEpicsDropdownItems, getSelectedEpicId } from '../../redux/selectors/epic';
 import { getSelectedProject } from '../../redux/selectors/projectSelectors';
 import { getSelectedSprintId, getSprintDropdownItems } from '../../redux/selectors/sprintSelectors';
 import { getStorySimpleModels } from '../../redux/selectors/storySelectors';

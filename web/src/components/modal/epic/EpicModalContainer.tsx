@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { EpicInitialState } from '../../../constants/epicConstants';
 import { ModalOptions } from '../../../constants/modalConstants';
 import { createEpicRequest, removeEpicRequest, updateEpicRequest } from '../../../redux/actions/epic';
-import { getSelectedEpic } from '../../../redux/selectors/epicSelectors';
+import { getSelectedEpic } from '../../../redux/selectors/epic';
 import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modalSelectors';
 import { getSelectedProject } from '../../../redux/selectors/projectSelectors';
 import { IEpic } from '../../../types/epicTypes';

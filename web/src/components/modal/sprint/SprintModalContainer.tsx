@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ModalOptions } from '../../../constants/modalConstants';
 import { InitialSprintState } from '../../../constants/sprintConstants';
 import { createSprintRequest, removeSprintRequest, updateSprintRequest } from '../../../redux/actions/sprintActions';
-import { getSelectedEpicId } from '../../../redux/selectors/epicSelectors';
+import { getSelectedEpicId } from '../../../redux/selectors/epic';
 import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modalSelectors';
 import { getSelectedSprint } from '../../../redux/selectors/sprintSelectors';
 import { ISprint } from '../../../types/sprintTypes';

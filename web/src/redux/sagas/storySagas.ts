@@ -51,7 +51,7 @@ import {
     IUpdateStoryColumnRequest,
     StoryActions,
 } from '../actions/storyActions';
-import { getSelectedEpicId } from '../selectors/epicSelectors';
+import { getSelectedEpicId } from '../selectors/epic';
 import { getSelectedSprintId } from '../selectors/sprintSelectors';
 import {
     getColumns,
