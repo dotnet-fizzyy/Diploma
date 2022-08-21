@@ -36,3 +36,7 @@ export interface IApplicationRoute {
     component: () => JSX.Element;
     isCustomer?: boolean;
 }
+
+export interface IBaseAction {
+    type: string;
+}

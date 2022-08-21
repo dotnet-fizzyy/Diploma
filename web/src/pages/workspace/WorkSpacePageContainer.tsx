@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { openModal } from '../../redux/actions/modalActions';
-import { setSelectedProjectFromWorkSpaceById } from '../../redux/actions/projectActions';
+import { setSelectedProjectFromWorkSpaceById } from '../../redux/actions/project';
 import { getUserWorkSpacePageRequest } from '../../redux/actions/workSpaceActions';
 import { getWorkSpacePageProjects } from '../../redux/selectors/projectSelectors';
 import { getWorkSpace, getWorkSpaceIsLoading } from '../../redux/selectors/workSpaceSelectors';

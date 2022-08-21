@@ -31,7 +31,7 @@ import {
     IRemoveProjectRequest,
     IUpdateProjectRequest,
     ProjectActions,
-} from '../../redux/actions/projectActions';
+} from '../../redux/actions/project';
 import { addSprints } from '../../redux/actions/sprintActions';
 import { addStories, setStorySimpleItems } from '../../redux/actions/storyActions';
 import { addTeamSimpleItems, setSelectedTeam } from '../../redux/actions/teamActions';

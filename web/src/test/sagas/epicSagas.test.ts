@@ -19,7 +19,7 @@ import {
     IRemoveEpicRequest,
     IUpdateEpicRequest,
 } from '../../redux/actions/epic';
-import { changeStatsSearchItemsFailure } from '../../redux/actions/projectActions';
+import { changeStatsSearchItemsFailure } from '../../redux/actions/project';
 import { addSprints } from '../../redux/actions/sprintActions';
 import { setStorySimpleItems } from '../../redux/actions/storyActions';
 import { changeStatsSearchItems, createEpic, removeEpic, updateEpic } from '../../redux/sagas/epicSagas';

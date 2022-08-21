@@ -6,7 +6,7 @@ import {
     ISetSelectedProject,
     ISetSelectedProjectFromWorkSpaceById,
     ProjectActions,
-} from '../actions/projectActions';
+} from '../actions/project';
 import { IProjectState } from '../store/state';
 
 const initialState: IProjectState = {

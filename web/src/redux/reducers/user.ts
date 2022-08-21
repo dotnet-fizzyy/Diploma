@@ -4,7 +4,7 @@ import {
     IRemoveProjectSuccess,
     IUpdateProjectSuccess,
     ProjectActions,
-} from '../actions/projectActions';
+} from '../actions/project';
 import { ICreateTeamSuccess, IRemoveTeamSuccess, IUpdateTeamSuccess, TeamActions } from '../actions/teamActions';
 import {
     IAddUser,

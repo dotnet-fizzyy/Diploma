@@ -3,11 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../constants';
 import { ModalOptions } from '../../../constants/modalConstants';
 import { initialProjectFormValues, ProjectLengthDescriptionMaxLength } from '../../../constants/projectConstants';
-import {
-    createProjectRequest,
-    removeProjectRequest,
-    updateProjectRequest,
-} from '../../../redux/actions/projectActions';
+import { createProjectRequest, removeProjectRequest, updateProjectRequest } from '../../../redux/actions/project';
 import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modalSelectors';
 import { getSelectedProject, getSelectedWorkSpaceProject } from '../../../redux/selectors/projectSelectors';
 import { getWorkSpaceId } from '../../../redux/selectors/workSpaceSelectors';

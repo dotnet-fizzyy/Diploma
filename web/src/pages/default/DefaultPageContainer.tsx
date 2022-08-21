@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { ModalTypes } from '../../constants/modalConstants';
 import { openModal } from '../../redux/actions/modalActions';
-import { getMainPageDataRequest } from '../../redux/actions/projectActions';
+import { getMainPageDataRequest } from '../../redux/actions/project';
 import { getStorySimpleModels } from '../../redux/selectors/storySelectors';
 import { getTeamSimpleItems } from '../../redux/selectors/teamSelectors';
 import { getUser } from '../../redux/selectors/userSelectors';

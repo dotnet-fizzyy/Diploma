@@ -26,7 +26,7 @@ import {
     IRemoveProjectRequest,
     IUpdateProjectRequest,
     ProjectActions,
-} from '../actions/projectActions';
+} from '../actions/project';
 import { addSprints } from '../actions/sprintActions';
 import { addStories, setStorySimpleItems } from '../actions/storyActions';
 import { addTeamSimpleItems, setSelectedTeam } from '../actions/teamActions';
