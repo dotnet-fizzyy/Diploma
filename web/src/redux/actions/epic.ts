@@ -1,3 +1,4 @@
+import { IBaseAction } from '../../types';
 import { IEpic, IEpicSimpleModel } from '../../types/epicTypes';
 
 export const EpicActions = {
@@ -22,89 +23,75 @@ export const EpicActions = {
 /**
  * Interfaces
  */
-export interface ICreateEpicRequest {
-    type: typeof EpicActions.CREATE_EPIC_REQUEST;
+
+export interface ICreateEpicRequest extends IBaseAction {
     payload: IEpic;
 }
 
-export interface ICreateEpicSuccess {
-    type: typeof EpicActions.CREATE_EPIC_SUCCESS;
+export interface ICreateEpicSuccess extends IBaseAction {
     payload: IEpic;
 }
 
-export interface ICreateEpicFailure {
-    type: typeof EpicActions.CREATE_EPIC_FAILURE;
+export interface ICreateEpicFailure extends IBaseAction {
     payload: Error;
 }
 
-export interface IGetEpicsRequest {
-    type: typeof EpicActions.GET_EPICS_REQUEST;
+export interface IGetEpicsRequest extends IBaseAction {
     payload: string;
 }
 
-export interface IGetEpicsSuccess {
-    type: typeof EpicActions.GET_EPICS_SUCCESS;
+export interface IGetEpicsSuccess extends IBaseAction {
     payload: IEpic[];
 }
 
-export interface IGetEpicsFailure {
-    type: typeof EpicActions.GET_EPICS_FAILURE;
+export interface IGetEpicsFailure extends IBaseAction {
     payload: Error;
 }
 
-export interface ISetSelectedEpicById {
-    type: typeof EpicActions.SET_SELECTED_EPIC_BY_ID;
+export interface ISetSelectedEpicById extends IBaseAction {
     payload: string;
 }
 
-export interface IAddEpics {
-    type: typeof EpicActions.ADD_EPICS;
+export interface IAddEpics extends IBaseAction {
     payload: IEpic[];
 }
 
-export interface IAddSimpleEpics {
-    type: typeof EpicActions.ADD_SIMPLE_EPICS;
+export interface IAddSimpleEpics extends IBaseAction {
     payload: IEpicSimpleModel[];
 }
 
-export interface IUpdateEpicRequest {
-    type: typeof EpicActions.UPDATE_EPIC_REQUEST;
+export interface IUpdateEpicRequest extends IBaseAction {
     payload: IEpic;
 }
 
-export interface IUpdateEpicSuccess {
-    type: typeof EpicActions.UPDATE_EPIC_SUCCESS;
+export interface IUpdateEpicSuccess extends IBaseAction {
     payload: IEpic;
 }
 
-export interface IUpdateEpicFailure {
-    type: typeof EpicActions.UPDATE_EPIC_FAILURE;
+export interface IUpdateEpicFailure extends IBaseAction {
     payload: Error;
 }
 
-export interface IRemoveEpicRequest {
-    type: typeof EpicActions.REMOVE_EPIC_REQUEST;
+export interface IRemoveEpicRequest extends IBaseAction {
     payload: string;
 }
 
-export interface IRemoveEpicSuccess {
-    type: typeof EpicActions.REMOVE_EPIC_SUCCESS;
+export interface IRemoveEpicSuccess extends IBaseAction {
     payload: string;
 }
 
-export interface IRemoveEpicFailure {
-    type: typeof EpicActions.REMOVE_EPIC_FAILURE;
+export interface IRemoveEpicFailure extends IBaseAction {
     payload: Error;
 }
 
-export interface IChangeStatsEpic {
-    type: typeof EpicActions.CHANGE_STATS_EPIC;
+export interface IChangeStatsEpic extends IBaseAction {
     payload: string;
 }
 
 /**
  * Actions
  */
+
 export const createEpicRequest = (epic: IEpic): ICreateEpicRequest => ({
     type: EpicActions.CREATE_EPIC_REQUEST,
     payload: epic,
