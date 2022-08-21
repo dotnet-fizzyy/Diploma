@@ -11,7 +11,7 @@ import sidebarReducer from '../reducers/sidebar';
 import sprintReducer from '../reducers/sprint';
 import storyReducer from '../reducers/story';
 import teamsReducer from '../reducers/team';
-import userReducer from '../reducers/userReducer';
+import userReducer from '../reducers/user';
 import workSpaceReducer from '../reducers/workspace';
 import rootSaga from '../sagas';
 
