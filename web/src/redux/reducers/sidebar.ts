@@ -1,4 +1,4 @@
-import { ISidebarChangeType, ISidebarHandleVisibility, SidebarActions } from '../actions/sidebarActions';
+import { ISidebarChangeType, ISidebarHandleVisibility, SidebarActions } from '../actions/sidebar';
 import { StoryActions } from '../actions/storyActions';
 import { ISidebarState } from '../store/state';
 

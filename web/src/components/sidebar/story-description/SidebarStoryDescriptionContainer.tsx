@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression, SidebarTypes } from '../../../constants';
-import { sidebarChangeType } from '../../../redux/actions/sidebarActions';
+import { sidebarChangeType } from '../../../redux/actions/sidebar';
 import { storyUpdateChangesRequest } from '../../../redux/actions/storyActions';
 import { getSidebarIsLoading } from '../../../redux/selectors/sidebarSelectors';
 import { getSprintsNames } from '../../../redux/selectors/sprintSelectors';

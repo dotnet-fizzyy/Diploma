@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SidebarTypes } from '../../constants';
-import { sidebarHandleVisibility } from '../../redux/actions/sidebarActions';
+import { sidebarHandleVisibility } from '../../redux/actions/sidebar';
 import { getSidebarIsLoading, getSidebarType } from '../../redux/selectors/sidebarSelectors';
 import Sidebar, { ISidebarProps } from './Sidebar';
 

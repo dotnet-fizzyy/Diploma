@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SidebarTypes } from '../../../constants';
-import { sidebarChangeType } from '../../../redux/actions/sidebarActions';
+import { sidebarChangeType } from '../../../redux/actions/sidebar';
 import { removeStoryRequest } from '../../../redux/actions/storyActions';
 import { getSelectedStory } from '../../../redux/selectors/storySelectors';
 import { IStory } from '../../../types/storyTypes';

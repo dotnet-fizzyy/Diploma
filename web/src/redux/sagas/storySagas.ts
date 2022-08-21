@@ -12,7 +12,7 @@ import {
     createRequestBodyForReadyStory,
     createRequestBodyForRemoveStory,
 } from '../../utils/storyUtils';
-import { sidebarHandleVisibility, ISidebarHandleVisibility, SidebarActions } from '../actions/sidebarActions';
+import { sidebarHandleVisibility, ISidebarHandleVisibility, SidebarActions } from '../actions/sidebar';
 import { addSprints, setSelectedSprint } from '../actions/sprintActions';
 import {
     addStories,

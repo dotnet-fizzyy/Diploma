@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SidebarTypes } from '../../constants';
-import * as sidebarActions from '../../redux/actions/sidebarActions';
+import * as sidebarActions from '../../redux/actions/sidebar';
 import * as storyActions from '../../redux/actions/storyActions';
 import * as storiesSelectors from '../../redux/selectors/storySelectors';
 import * as teamSelectors from '../../redux/selectors/teamSelectors';
