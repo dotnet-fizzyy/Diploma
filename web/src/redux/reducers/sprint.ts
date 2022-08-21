@@ -1,4 +1,4 @@
-import { IChangeStatsEpic } from '../actions/epicActions';
+import { IChangeStatsEpic } from '../actions/epic';
 import {
     IAddSprints,
     ICreateSprintSuccess,

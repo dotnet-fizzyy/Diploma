@@ -2,7 +2,7 @@ import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
 import ProjectApi from '../../api/projectApi';
-import { addEpics, addSimpleEpics } from '../../redux/actions/epicActions';
+import { addEpics, addSimpleEpics } from '../../redux/actions/epic';
 import {
     createProjectFailure,
     createProjectRequest,

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedEpicById } from '../../redux/actions/epicActions';
+import { setSelectedEpicById } from '../../redux/actions/epic';
 import { getBoardInfoRequest } from '../../redux/actions/projectActions';
 import { sidebarHandleVisibility } from '../../redux/actions/sidebarActions';
 import { storyActionDragStart, storyDragAndDropHandle } from '../../redux/actions/storyActions';

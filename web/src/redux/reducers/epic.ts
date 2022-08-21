@@ -7,7 +7,7 @@ import {
     IRemoveEpicSuccess,
     ISetSelectedEpicById,
     IUpdateEpicSuccess,
-} from '../actions/epicActions';
+} from '../actions/epic';
 import { IChangeEpicRequest, StoryActions } from '../actions/storyActions';
 import { UserActions } from '../actions/userActions';
 import { IEpicsState } from '../store/state';

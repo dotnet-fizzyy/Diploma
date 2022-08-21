@@ -17,7 +17,7 @@ import {
     IGetEpicsRequest,
     IRemoveEpicRequest,
     IUpdateEpicRequest,
-} from '../actions/epicActions';
+} from '../actions/epic';
 import { changeStatsSearchItemsFailure, changeStatsSearchItemsRequest } from '../actions/projectActions';
 import { addSprints, setSelectedSprint } from '../actions/sprintActions';
 import { setStorySimpleItems } from '../actions/storyActions';

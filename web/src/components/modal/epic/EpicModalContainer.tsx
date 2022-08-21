@@ -2,8 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { EpicInitialState } from '../../../constants/epicConstants';
 import { ModalOptions } from '../../../constants/modalConstants';
-import { removeEpicRequest } from '../../../redux/actions/epicActions';
-import * as epicActions from '../../../redux/actions/epicActions';
+import { createEpicRequest, removeEpicRequest, updateEpicRequest } from '../../../redux/actions/epic';
 import { getSelectedEpic } from '../../../redux/selectors/epicSelectors';
 import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modalSelectors';
 import { getSelectedProject } from '../../../redux/selectors/projectSelectors';
@@ -39,9 +38,9 @@ const EpicModalContainer = () => {
         };
 
         if (isUpdate) {
-            dispatch(epicActions.updateEpicRequest(epic));
+            dispatch(updateEpicRequest(epic));
         } else {
-            dispatch(epicActions.createEpicRequest(epic));
+            dispatch(createEpicRequest(epic));
         }
     };
 

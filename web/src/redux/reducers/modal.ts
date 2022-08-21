@@ -1,4 +1,4 @@
-import { EpicActions } from '../actions/epicActions';
+import { EpicActions } from '../actions/epic';
 import { IOpenModal, ModalActions } from '../actions/modalActions';
 import { ProjectActions } from '../actions/projectActions';
 import { SprintActions } from '../actions/sprintActions';

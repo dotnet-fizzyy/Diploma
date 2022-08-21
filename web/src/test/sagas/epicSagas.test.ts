@@ -18,7 +18,7 @@ import {
     ICreateEpicRequest,
     IRemoveEpicRequest,
     IUpdateEpicRequest,
-} from '../../redux/actions/epicActions';
+} from '../../redux/actions/epic';
 import { changeStatsSearchItemsFailure } from '../../redux/actions/projectActions';
 import { addSprints } from '../../redux/actions/sprintActions';
 import { setStorySimpleItems } from '../../redux/actions/storyActions';
