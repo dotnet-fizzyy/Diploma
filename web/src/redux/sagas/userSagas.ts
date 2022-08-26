@@ -19,7 +19,6 @@ import {
     createUserSuccess,
     refreshUserTokenFailure,
     refreshUserTokenRequest,
-    refreshUserTokenSuccess,
     registrationFailure,
     registrationSuccess,
     updateAvatarFailure,
@@ -40,7 +39,7 @@ import {
     IUpdateProfileSettingsRequest,
     IVerifyUserRequest,
     UserActions,
-} from '../actions/userActions';
+} from '../actions/user';
 
 function* authenticateUser(action: IAuthenticationRequest) {
     try {
@@ -142,7 +141,6 @@ export function* refreshUserToken() {
 
         const tokensPair: ITokenResponse = yield call(UserApi.refreshToken);
 
-        yield put(refreshUserTokenSuccess());
         setCredentialsToLocalStorage(tokensPair.accessToken.value, tokensPair.refreshToken.value);
     } catch (error) {
         yield put(refreshUserTokenFailure(error));

@@ -7,7 +7,6 @@ import {
 } from '../actions/project';
 import { ICreateTeamSuccess, IRemoveTeamSuccess, IUpdateTeamSuccess, TeamActions } from '../actions/teamActions';
 import {
-    IAddUser,
     IChangeUserProject,
     IChangeUserTeam,
     ICheckEmailExistenceSuccess,
@@ -15,7 +14,7 @@ import {
     IUpdateProfileSettingsSuccess,
     IVerifyUserSuccess,
     UserActions,
-} from '../actions/userActions';
+} from '../actions/user';
 import { IUserState } from '../store/state';
 
 const initialState: IUserState = {
@@ -33,7 +32,6 @@ export default function userReducer(state = initialState, action) {
         case UserActions.VERIFY_USER_REQUEST:
         case UserActions.AUTHENTICATION_REQUEST:
             return handleVerifyUserRequest(state);
-        case UserActions.ADD_USER:
         case UserActions.VERIFY_USER_SUCCESS:
         case UserActions.UPDATE_PROFILE_SETTINGS_SUCCESS:
         case UserActions.AUTHENTICATION_SUCCESS:
@@ -96,10 +94,7 @@ const handleAuthenticationFailure = (state: IUserState): IUserState => ({
     isAuthenticationSuccessful: false,
 });
 
-const handleGetUser = (
-    state: IUserState,
-    action: IAddUser | IUpdateProfileSettingsSuccess | IVerifyUserSuccess
-): IUserState => {
+const handleGetUser = (state: IUserState, action: IUpdateProfileSettingsSuccess | IVerifyUserSuccess): IUserState => {
     const projectExistence: boolean = !!action.payload.projects?.length;
     const selectedTeam = action.payload.teams?.find((x) => x.projectId === action.payload.projects[0].projectId)
         ?.teamId;

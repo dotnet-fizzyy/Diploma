@@ -8,7 +8,7 @@ import {
     IUpdateTeamSuccess,
     TeamActions,
 } from '../actions/teamActions';
-import { IChangeUserActivityStatusSuccess, ICreateUserSuccess, UserActions } from '../actions/userActions';
+import { IChangeUserActivityStatusSuccess, ICreateUserSuccess, UserActions } from '../actions/user';
 import { ITeamState } from '../store/state';
 
 const initialState: ITeamState = {

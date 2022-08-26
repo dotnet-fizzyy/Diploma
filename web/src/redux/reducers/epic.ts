@@ -9,7 +9,7 @@ import {
     IUpdateEpicSuccess,
 } from '../actions/epic';
 import { IChangeEpicRequest, StoryActions } from '../actions/storyActions';
-import { UserActions } from '../actions/userActions';
+import { UserActions } from '../actions/user';
 import { IEpicsState } from '../store/state';
 
 const initialState: IEpicsState = {

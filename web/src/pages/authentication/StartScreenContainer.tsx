@@ -11,7 +11,7 @@ import {
     hideCustomerSuccessfulRegistration,
     registrationRequest,
     resetEmailExistence,
-} from '../../redux/actions/userActions';
+} from '../../redux/actions/user';
 import {
     getEmailExistence,
     getIsAuthenticationSuccessful,

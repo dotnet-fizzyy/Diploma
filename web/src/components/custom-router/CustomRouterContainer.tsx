@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { verifyUserRequest } from '../../redux/actions/userActions';
+import { verifyUserRequest } from '../../redux/actions/user';
 import { getRouterFullPath } from '../../redux/selectors/routeSelectors';
 import { getIsUserLoading, getUser } from '../../redux/selectors/userSelectors';
 import { IUser } from '../../types/userTypes';

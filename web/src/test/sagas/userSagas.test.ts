@@ -9,7 +9,7 @@ import {
     verifyUserSuccess,
     IVerifyUserRequest,
     UserActions,
-} from '../../redux/actions/userActions';
+} from '../../redux/actions/user';
 import { verifyUser } from '../../redux/sagas/userSagas';
 import { IFullUser } from '../../types/userTypes';
 

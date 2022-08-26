@@ -4,7 +4,7 @@ import { ProjectActions } from '../actions/project';
 import { SprintActions } from '../actions/sprintActions';
 import { StoryActions } from '../actions/storyActions';
 import { TeamActions } from '../actions/teamActions';
-import { UserActions } from '../actions/userActions';
+import { UserActions } from '../actions/user';
 import { WorkSpaceActions } from '../actions/workSpaceActions';
 import { IModalState } from '../store/state';
 

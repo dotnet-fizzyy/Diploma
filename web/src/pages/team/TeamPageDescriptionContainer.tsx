@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { openModal } from '../../redux/actions/modal';
-import { changeUserActivityStatusRequest } from '../../redux/actions/userActions';
+import { changeUserActivityStatusRequest } from '../../redux/actions/user';
 import { getUser } from '../../redux/selectors/userSelectors';
 import { ITeam } from '../../types/teamTypes';
 import { IFullUser } from '../../types/userTypes';

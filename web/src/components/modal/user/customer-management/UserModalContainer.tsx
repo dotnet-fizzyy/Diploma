@@ -8,7 +8,7 @@ import {
     UserPosition,
     UserPositionRoleMap,
 } from '../../../../constants/userConstants';
-import { createUserRequest } from '../../../../redux/actions/userActions';
+import { createUserRequest } from '../../../../redux/actions/user';
 import { getModalOption, getModalRequestPerforming } from '../../../../redux/selectors/modalSelectors';
 import { getSelectedTeamId } from '../../../../redux/selectors/teamSelectors';
 import { getWorkSpaceId } from '../../../../redux/selectors/userSelectors';
