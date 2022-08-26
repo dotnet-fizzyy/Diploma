@@ -15,7 +15,7 @@ import {
     updateWorkSpaceSuccess,
     ICreateWorkSpaceRequest,
     WorkSpaceActions,
-} from '../../redux/actions/workSpaceActions';
+} from '../../redux/actions/workspace';
 import { createWorkSpace, getUserWorkSpacePage, updateWorkSpace } from '../../redux/sagas/workSpaceSagas';
 import { IWorkSpace, IWorkSpacePage } from '../../types/workSpaceTypes';
 

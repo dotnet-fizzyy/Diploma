@@ -5,7 +5,7 @@ import { SprintActions } from '../actions/sprintActions';
 import { StoryActions } from '../actions/storyActions';
 import { TeamActions } from '../actions/teamActions';
 import { UserActions } from '../actions/user';
-import { WorkSpaceActions } from '../actions/workSpaceActions';
+import { WorkSpaceActions } from '../actions/workspace';
 import { IModalState } from '../store/state';
 
 const initialState: IModalState = {

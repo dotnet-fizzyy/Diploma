@@ -16,7 +16,7 @@ import {
     IUpdateTeamRequest,
     TeamActions,
 } from '../../redux/actions/teamActions';
-import { addWorkSpace } from '../../redux/actions/workSpaceActions';
+import { addWorkSpace } from '../../redux/actions/workspace';
 import { createTeam, getUserTeamPage, updateTeam } from '../../redux/sagas/teamSagas';
 import { ITeam, ITeamPage } from '../../types/teamTypes';
 

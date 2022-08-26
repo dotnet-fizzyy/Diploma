@@ -16,7 +16,7 @@ import {
     IUpdateTeamRequest,
     TeamActions,
 } from '../actions/teamActions';
-import { addWorkSpace } from '../actions/workSpaceActions';
+import { addWorkSpace } from '../actions/workspace';
 
 export function* getUserTeamPage(action: IGetUserTeamPageRequest) {
     try {

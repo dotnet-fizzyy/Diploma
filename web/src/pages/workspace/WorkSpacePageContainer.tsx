@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { openModal } from '../../redux/actions/modal';
 import { setSelectedProjectFromWorkSpaceById } from '../../redux/actions/project';
-import { getUserWorkSpacePageRequest } from '../../redux/actions/workSpaceActions';
+import { getUserWorkSpacePageRequest } from '../../redux/actions/workspace';
 import { getWorkSpacePageProjects } from '../../redux/selectors/projectSelectors';
 import { getWorkSpace, getWorkSpaceIsLoading } from '../../redux/selectors/workSpaceSelectors';
 import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';

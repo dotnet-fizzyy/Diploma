@@ -18,7 +18,7 @@ import {
     ISetSearchTitleTermRequest,
     IUpdateWorkSpaceSuccess,
     WorkSpaceActions,
-} from '../actions/workSpaceActions';
+} from '../actions/workspace';
 import { getUserTeamIds } from '../selectors/userSelectors';
 
 export function* getUserWorkSpacePage() {

@@ -5,7 +5,7 @@ import {
     ISetSearchTitleTermRequest,
     ISetSearchTitleTermSuccess,
     WorkSpaceActions,
-} from '../actions/workSpaceActions';
+} from '../actions/workspace';
 import { IWorkSpaceState } from '../store/state';
 
 const initialState: IWorkSpaceState = {

@@ -5,7 +5,7 @@ import { ModalTypes } from '../../../constants/modalConstants';
 import { LoginScreenRoute } from '../../../constants/routeConstants';
 import { openModal } from '../../../redux/actions/modal';
 import { changeUserProject, changeUserTeam, logOutUser } from '../../../redux/actions/user';
-import { blurSearchTitleTerm, setSearchTitleTermRequest } from '../../../redux/actions/workSpaceActions';
+import { blurSearchTitleTerm, setSearchTitleTermRequest } from '../../../redux/actions/workspace';
 import { getUser, getUserSelectedProjectId, getUserSelectedTeamId } from '../../../redux/selectors/userSelectors';
 import {
     getIsSearchTermSearching,
