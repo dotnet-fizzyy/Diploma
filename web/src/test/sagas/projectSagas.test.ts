@@ -33,7 +33,7 @@ import {
     ProjectActions,
 } from '../../redux/actions/project';
 import { addSprints } from '../../redux/actions/sprint';
-import { addStories, setStorySimpleItems } from '../../redux/actions/storyActions';
+import { addStories, setStorySimpleItems } from '../../redux/actions/story';
 import { addTeamSimpleItems, setSelectedTeam } from '../../redux/actions/team';
 import {
     createProject,

@@ -21,7 +21,7 @@ import {
 } from '../../redux/actions/epic';
 import { changeStatsSearchItemsFailure } from '../../redux/actions/project';
 import { addSprints } from '../../redux/actions/sprint';
-import { setStorySimpleItems } from '../../redux/actions/storyActions';
+import { setStorySimpleItems } from '../../redux/actions/story';
 import { changeStatsSearchItems, createEpic, removeEpic, updateEpic } from '../../redux/sagas/epicSagas';
 import { IEpic } from '../../types/epicTypes';
 import { IStatsPage } from '../../types/projectTypes';

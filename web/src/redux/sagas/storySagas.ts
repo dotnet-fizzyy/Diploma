@@ -50,7 +50,7 @@ import {
     IUpdateStoryChangesRequest,
     IUpdateStoryColumnRequest,
     StoryActions,
-} from '../actions/storyActions';
+} from '../actions/story';
 import { getSelectedEpicId } from '../selectors/epic';
 import { getSelectedSprintId } from '../selectors/sprintSelectors';
 import {

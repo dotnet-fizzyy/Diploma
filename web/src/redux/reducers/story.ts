@@ -16,7 +16,7 @@ import {
     IUpdateStoriesAfterDragAndDropAction,
     IUpdateStoryColumnSuccess,
     StoryActions,
-} from '../actions/storyActions';
+} from '../actions/story';
 import { IStoryHistoryState, IStoryState } from '../store/state';
 
 const initialColumnState: IStoryColumns[] = [

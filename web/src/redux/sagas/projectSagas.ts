@@ -28,7 +28,7 @@ import {
     ProjectActions,
 } from '../actions/project';
 import { addSprints } from '../actions/sprint';
-import { addStories, setStorySimpleItems } from '../actions/storyActions';
+import { addStories, setStorySimpleItems } from '../actions/story';
 import { addTeamSimpleItems, setSelectedTeam } from '../actions/team';
 import { getSelectedEpicId } from '../selectors/epic';
 import { getSelectedSprintId } from '../selectors/sprintSelectors';

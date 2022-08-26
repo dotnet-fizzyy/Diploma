@@ -20,7 +20,7 @@ import {
 } from '../actions/epic';
 import { changeStatsSearchItemsFailure, changeStatsSearchItemsRequest } from '../actions/project';
 import { addSprints, setSelectedSprint } from '../actions/sprint';
-import { setStorySimpleItems } from '../actions/storyActions';
+import { setStorySimpleItems } from '../actions/story';
 
 export function* getEpicsRequest(action: IGetEpicsRequest) {
     try {

@@ -1,5 +1,5 @@
 import { ISidebarChangeType, ISidebarHandleVisibility, SidebarActions } from '../actions/sidebar';
-import { StoryActions } from '../actions/storyActions';
+import { StoryActions } from '../actions/story';
 import { ISidebarState } from '../store/state';
 
 const initialState: ISidebarState = {

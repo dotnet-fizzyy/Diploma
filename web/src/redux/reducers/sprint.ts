@@ -7,7 +7,7 @@ import {
     IUpdateSprintSuccess,
     SprintActions,
 } from '../actions/sprint';
-import { IChangeStorySprintRequest, StoryActions } from '../actions/storyActions';
+import { IChangeStorySprintRequest, StoryActions } from '../actions/story';
 import { ISprintsState } from '../store/state';
 
 const initialState: ISprintsState = {

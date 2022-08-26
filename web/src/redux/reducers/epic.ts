@@ -8,7 +8,7 @@ import {
     ISetSelectedEpicById,
     IUpdateEpicSuccess,
 } from '../actions/epic';
-import { IChangeEpicRequest, StoryActions } from '../actions/storyActions';
+import { IChangeEpicRequest, StoryActions } from '../actions/story';
 import { UserActions } from '../actions/user';
 import { IEpicsState } from '../store/state';
 

@@ -8,7 +8,7 @@ import {
     changeSortDirectionRequest,
     changeStorySprintRequest,
     sortStoriesRequest,
-} from '../../../redux/actions/storyActions';
+} from '../../../redux/actions/story';
 import { getEpicsDropdownItems, getSelectedEpicId } from '../../../redux/selectors/epic';
 import { getSelectedSprintId, getSprintDropdownItems } from '../../../redux/selectors/sprintSelectors';
 import { getSortDirection, getSortType } from '../../../redux/selectors/storySelectors';

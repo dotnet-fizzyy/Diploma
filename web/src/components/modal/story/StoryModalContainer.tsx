@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../constants';
-import { createStoryRequest } from '../../../redux/actions/storyActions';
+import { createStoryRequest } from '../../../redux/actions/story';
 import { getModalRequestPerforming } from '../../../redux/selectors/modalSelectors';
 import { getSprints } from '../../../redux/selectors/sprintSelectors';
 import { getTeamUsers } from '../../../redux/selectors/teamSelectors';
