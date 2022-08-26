@@ -8,16 +8,15 @@ import CustomRouter, { ICustomRouterProps } from './CustomRouter';
 
 const CustomRouterContainer = () => {
     const dispatch = useDispatch();
-    const route = useSelector(getRouterFullPath);
 
+    const route = useSelector(getRouterFullPath);
     const user: IUser = useSelector(getUser);
     const isLoading: boolean = useSelector(getIsUserLoading);
 
     useEffect(() => {
-        if (!(user && user.userId)) {
+        if (!user?.userId) {
             dispatch(verifyUserRequest(route));
         }
-        // eslint-disable-next-line
     }, []);
 
     const customRouterProps: ICustomRouterProps = {
