@@ -4,7 +4,7 @@ import { ModalOptions } from '../../../constants/modalConstants';
 import { InitialSprintState } from '../../../constants/sprintConstants';
 import { createSprintRequest, removeSprintRequest, updateSprintRequest } from '../../../redux/actions/sprint';
 import { getSelectedEpicId } from '../../../redux/selectors/epic';
-import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modalSelectors';
+import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modal';
 import { getSelectedSprint } from '../../../redux/selectors/sprintSelectors';
 import { ISprint } from '../../../types/sprintTypes';
 import { InputFormFieldValidator } from '../../../utils/formUtils';

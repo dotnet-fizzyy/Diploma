@@ -8,7 +8,7 @@ import {
     updatePasswordRequest,
     updateProfileSettingsRequest,
 } from '../../../../redux/actions/user';
-import { getModalRequestPerforming } from '../../../../redux/selectors/modalSelectors';
+import { getModalRequestPerforming } from '../../../../redux/selectors/modal';
 import { getEmailExistence, getUser } from '../../../../redux/selectors/userSelectors';
 import { IProfilePasswordUpdateForm, IProfileSettingsForm } from '../../../../types/formTypes';
 import { IFullUser, IUser } from '../../../../types/userTypes';

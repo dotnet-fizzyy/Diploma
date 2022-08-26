@@ -4,7 +4,7 @@ import { BaseRegexExpression } from '../../../constants';
 import { ModalOptions } from '../../../constants/modalConstants';
 import { InitialWorkSpaceFormValues } from '../../../constants/workSpaceContants';
 import { createWorkSpaceRequest, updateWorkSpaceRequest } from '../../../redux/actions/workspace';
-import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modalSelectors';
+import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modal';
 import { getWorkSpace } from '../../../redux/selectors/workSpaceSelectors';
 import { IWorkSpaceForm } from '../../../types/formTypes';
 import { IWorkSpace } from '../../../types/workSpaceTypes';

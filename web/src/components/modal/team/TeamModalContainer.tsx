@@ -4,7 +4,7 @@ import { BaseRegexExpression } from '../../../constants';
 import { ModalOptions } from '../../../constants/modalConstants';
 import { initialTeamState } from '../../../constants/teamConstants';
 import { createTeamRequest, removeTeamRequest, updateTeamRequest } from '../../../redux/actions/team';
-import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modalSelectors';
+import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modal';
 import { getProjectNames } from '../../../redux/selectors/projectSelectors';
 import { getSelectProjectId } from '../../../redux/selectors/projectSelectors';
 import { getSelectedTeam, getSelectedTeamFromSimpleItems } from '../../../redux/selectors/teamSelectors';

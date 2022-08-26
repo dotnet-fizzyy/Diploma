@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as modalActions from '../../redux/actions/modal';
-import * as modalSelectors from '../../redux/selectors/modalSelectors';
+import * as modalSelectors from '../../redux/selectors/modal';
 import ModalWindow, { IModalWindowProps } from './ModalWindow';
 
 const ModalWindowContainer = () => {

@@ -9,7 +9,7 @@ import {
     UserPositionRoleMap,
 } from '../../../../constants/userConstants';
 import { createUserRequest } from '../../../../redux/actions/user';
-import { getModalOption, getModalRequestPerforming } from '../../../../redux/selectors/modalSelectors';
+import { getModalOption, getModalRequestPerforming } from '../../../../redux/selectors/modal';
 import { getSelectedTeamId } from '../../../../redux/selectors/teamSelectors';
 import { getWorkSpaceId } from '../../../../redux/selectors/userSelectors';
 import { IUser } from '../../../../types/userTypes';
