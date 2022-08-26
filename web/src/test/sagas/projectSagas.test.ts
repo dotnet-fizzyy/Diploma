@@ -34,7 +34,7 @@ import {
 } from '../../redux/actions/project';
 import { addSprints } from '../../redux/actions/sprintActions';
 import { addStories, setStorySimpleItems } from '../../redux/actions/storyActions';
-import { addTeamSimpleItems, setSelectedTeam } from '../../redux/actions/teamActions';
+import { addTeamSimpleItems, setSelectedTeam } from '../../redux/actions/team';
 import {
     createProject,
     getBoardInfo,

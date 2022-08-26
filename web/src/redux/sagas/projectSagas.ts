@@ -29,7 +29,7 @@ import {
 } from '../actions/project';
 import { addSprints } from '../actions/sprintActions';
 import { addStories, setStorySimpleItems } from '../actions/storyActions';
-import { addTeamSimpleItems, setSelectedTeam } from '../actions/teamActions';
+import { addTeamSimpleItems, setSelectedTeam } from '../actions/team';
 import { getSelectedEpicId } from '../selectors/epic';
 import { getSelectedSprintId } from '../selectors/sprintSelectors';
 

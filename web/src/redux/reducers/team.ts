@@ -7,7 +7,7 @@ import {
     ISetSelectedTeamById,
     IUpdateTeamSuccess,
     TeamActions,
-} from '../actions/teamActions';
+} from '../actions/team';
 import { IChangeUserActivityStatusSuccess, ICreateUserSuccess, UserActions } from '../actions/user';
 import { ITeamState } from '../store/state';
 

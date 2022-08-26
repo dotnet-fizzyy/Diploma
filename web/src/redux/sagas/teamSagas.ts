@@ -15,7 +15,7 @@ import {
     IRemoveTeamRequest,
     IUpdateTeamRequest,
     TeamActions,
-} from '../actions/teamActions';
+} from '../actions/team';
 import { addWorkSpace } from '../actions/workspace';
 
 export function* getUserTeamPage(action: IGetUserTeamPageRequest) {

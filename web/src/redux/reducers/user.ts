@@ -5,7 +5,7 @@ import {
     IUpdateProjectSuccess,
     ProjectActions,
 } from '../actions/project';
-import { ICreateTeamSuccess, IRemoveTeamSuccess, IUpdateTeamSuccess, TeamActions } from '../actions/teamActions';
+import { ICreateTeamSuccess, IRemoveTeamSuccess, IUpdateTeamSuccess, TeamActions } from '../actions/team';
 import {
     IChangeUserProject,
     IChangeUserTeam,

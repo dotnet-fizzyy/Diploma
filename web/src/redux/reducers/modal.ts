@@ -3,7 +3,7 @@ import { IOpenModal, ModalActions } from '../actions/modal';
 import { ProjectActions } from '../actions/project';
 import { SprintActions } from '../actions/sprintActions';
 import { StoryActions } from '../actions/storyActions';
-import { TeamActions } from '../actions/teamActions';
+import { TeamActions } from '../actions/team';
 import { UserActions } from '../actions/user';
 import { WorkSpaceActions } from '../actions/workspace';
 import { IModalState } from '../store/state';
