@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { verifyUserRequest } from '../../redux/actions/user';
 import { getRouterFullPath } from '../../redux/selectors/route';
-import { getIsUserLoading, getUser } from '../../redux/selectors/userSelectors';
+import { getIsUserLoading, getUser } from '../../redux/selectors/user';
 import { IUser } from '../../types/userTypes';
 import CustomRouter, { ICustomRouterProps } from './CustomRouter';
 

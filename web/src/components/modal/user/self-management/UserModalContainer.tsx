@@ -9,7 +9,7 @@ import {
     updateProfileSettingsRequest,
 } from '../../../../redux/actions/user';
 import { getModalRequestPerforming } from '../../../../redux/selectors/modal';
-import { getEmailExistence, getUser } from '../../../../redux/selectors/userSelectors';
+import { getEmailExistence, getUser } from '../../../../redux/selectors/user';
 import { IProfilePasswordUpdateForm, IProfileSettingsForm } from '../../../../types/formTypes';
 import { IFullUser, IUser } from '../../../../types/userTypes';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formUtils';

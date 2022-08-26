@@ -5,7 +5,7 @@ import { getBoardInfoRequest } from '../../redux/actions/project';
 import { sidebarHandleVisibility } from '../../redux/actions/sidebar';
 import { storyActionDragStart, storyDragAndDropHandle } from '../../redux/actions/story';
 import { getSidebarVisibility } from '../../redux/selectors/sidebar';
-import { getUserSelectedProjectId, getUserSelectedTeamId } from '../../redux/selectors/userSelectors';
+import { getUserSelectedProjectId, getUserSelectedTeamId } from '../../redux/selectors/user';
 import { IStoryDragAndDrop } from '../../types/storyTypes';
 import { getColumnKeyValuePair } from '../../utils/columnUtils';
 import Board, { IBoardProps } from './Board';

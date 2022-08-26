@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { openModal } from '../../redux/actions/modal';
 import { changeUserActivityStatusRequest } from '../../redux/actions/user';
-import { getUser } from '../../redux/selectors/userSelectors';
+import { getUser } from '../../redux/selectors/user';
 import { ITeam } from '../../types/teamTypes';
 import { IFullUser } from '../../types/userTypes';
 import TeamPageDescription, { ITeamPageDescriptionProps } from './TeamPageDescription';

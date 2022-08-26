@@ -18,7 +18,7 @@ import {
     getIsUserLoading,
     getUser,
     getWasCustomerCreated,
-} from '../../redux/selectors/userSelectors';
+} from '../../redux/selectors/user';
 import { ILoginForm, IRegistrationForm } from '../../types/formTypes';
 import { IFullUser } from '../../types/userTypes';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../utils/formUtils';

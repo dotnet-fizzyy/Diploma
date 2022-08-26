@@ -13,7 +13,7 @@ import { getEpicsDropdownItems, getSelectedEpicId } from '../../../redux/selecto
 import { getSelectedSprintId, getSprintDropdownItems } from '../../../redux/selectors/sprint';
 import { getSortDirection, getSortType } from '../../../redux/selectors/story';
 import { getSelectedTeam } from '../../../redux/selectors/team';
-import { getUser } from '../../../redux/selectors/userSelectors';
+import { getUser } from '../../../redux/selectors/user';
 import { ISelectedItem } from '../../../types/storyTypes';
 import { ITeam } from '../../../types/teamTypes';
 import { IUser } from '../../../types/userTypes';

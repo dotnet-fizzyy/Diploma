@@ -5,7 +5,7 @@ import { createStoryRequest } from '../../../redux/actions/story';
 import { getModalRequestPerforming } from '../../../redux/selectors/modal';
 import { getSprints } from '../../../redux/selectors/sprint';
 import { getTeamUsers } from '../../../redux/selectors/team';
-import { getUserSelectedTeamId } from '../../../redux/selectors/userSelectors';
+import { getUserSelectedTeamId } from '../../../redux/selectors/user';
 import { IStoryFormTypes } from '../../../types/formTypes';
 import { ISprint } from '../../../types/sprintTypes';
 import { ISelectedItem, IStory } from '../../../types/storyTypes';

@@ -19,7 +19,7 @@ import {
     IUpdateWorkSpaceSuccess,
     WorkSpaceActions,
 } from '../actions/workspace';
-import { getUserTeamIds } from '../selectors/userSelectors';
+import { getUserTeamIds } from '../selectors/user';
 
 export function* getUserWorkSpacePage() {
     try {

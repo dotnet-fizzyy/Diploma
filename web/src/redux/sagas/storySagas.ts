@@ -55,7 +55,7 @@ import { getSelectedEpicId } from '../selectors/epic';
 import { getSelectedSprintId } from '../selectors/sprint';
 import { getColumns, getSelectedStory, getSortDirection, getSortType, getWasStoryBlocked } from '../selectors/story';
 import { getSelectedTeamId } from '../selectors/team';
-import { getUserSelectedTeamId } from '../selectors/userSelectors';
+import { getUserSelectedTeamId } from '../selectors/user';
 
 function* refreshData() {
     try {
