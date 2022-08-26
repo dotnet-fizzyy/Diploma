@@ -22,7 +22,7 @@ import {
 import { changeStatsSearchItemsFailure } from '../../redux/actions/project';
 import { addSprints } from '../../redux/actions/sprint';
 import { setStorySimpleItems } from '../../redux/actions/story';
-import { changeStatsSearchItems, createEpic, removeEpic, updateEpic } from '../../redux/sagas/epicSagas';
+import { changeStatsSearchItems, createEpic, removeEpic, updateEpic } from '../../redux/sagas/epic';
 import { IEpic } from '../../types/epicTypes';
 import { IStatsPage } from '../../types/projectTypes';
 

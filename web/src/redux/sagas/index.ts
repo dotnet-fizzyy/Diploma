@@ -1,5 +1,5 @@
 import { all, call, spawn } from 'redux-saga/effects';
-import rootEpicRootSaga from './epicSagas';
+import rootEpicRootSaga from './epic';
 import rootProjectSaga from './projectSagas';
 import rootSprintSaga from './sprintSagas';
 import rootStorySaga from './storySagas';
