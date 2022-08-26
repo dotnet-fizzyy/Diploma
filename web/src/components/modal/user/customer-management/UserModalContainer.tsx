@@ -10,7 +10,7 @@ import {
 } from '../../../../constants/userConstants';
 import { createUserRequest } from '../../../../redux/actions/user';
 import { getModalOption, getModalRequestPerforming } from '../../../../redux/selectors/modal';
-import { getSelectedTeamId } from '../../../../redux/selectors/teamSelectors';
+import { getSelectedTeamId } from '../../../../redux/selectors/team';
 import { getWorkSpaceId } from '../../../../redux/selectors/userSelectors';
 import { IUser } from '../../../../types/userTypes';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formUtils';

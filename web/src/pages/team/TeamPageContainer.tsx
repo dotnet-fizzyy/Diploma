@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getUserTeamPageRequest } from '../../redux/actions/team';
-import { getSelectedTeam } from '../../redux/selectors/teamSelectors';
+import { getSelectedTeam } from '../../redux/selectors/team';
 import { ITeam } from '../../types/teamTypes';
 import TeamPage, { ITeamPageProps } from './TeamPage';
 

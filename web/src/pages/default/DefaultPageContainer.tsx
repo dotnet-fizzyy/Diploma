@@ -5,7 +5,7 @@ import { ModalTypes } from '../../constants/modalConstants';
 import { openModal } from '../../redux/actions/modal';
 import { getMainPageDataRequest } from '../../redux/actions/project';
 import { getStorySimpleModels } from '../../redux/selectors/story';
-import { getTeamSimpleItems } from '../../redux/selectors/teamSelectors';
+import { getTeamSimpleItems } from '../../redux/selectors/team';
 import { getUser } from '../../redux/selectors/userSelectors';
 import { IStorySimpleModel } from '../../types/storyTypes';
 import { ITeamSimpleModel } from '../../types/teamTypes';
