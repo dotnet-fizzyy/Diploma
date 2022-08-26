@@ -6,7 +6,7 @@ import { initialProjectFormValues, ProjectLengthDescriptionMaxLength } from '../
 import { createProjectRequest, removeProjectRequest, updateProjectRequest } from '../../../redux/actions/project';
 import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modal';
 import { getSelectedProject, getSelectedWorkSpaceProject } from '../../../redux/selectors/project';
-import { getWorkSpaceId } from '../../../redux/selectors/workSpaceSelectors';
+import { getWorkSpaceId } from '../../../redux/selectors/workspace';
 import { IProjectForm } from '../../../types/formTypes';
 import { IProject } from '../../../types/projectTypes';
 import { IWorkSpacePageProject } from '../../../types/workSpaceTypes';

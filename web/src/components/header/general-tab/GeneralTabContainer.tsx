@@ -12,7 +12,7 @@ import {
     getSearchProjects,
     getSearchTeams,
     getSearchTitleTerm,
-} from '../../../redux/selectors/workSpaceSelectors';
+} from '../../../redux/selectors/workspace';
 import { IProjectSimpleModel } from '../../../types/projectTypes';
 import { ITeamSimpleModel } from '../../../types/teamTypes';
 import { IFullUser } from '../../../types/userTypes';
