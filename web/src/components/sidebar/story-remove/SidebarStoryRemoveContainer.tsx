@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SidebarTypes } from '../../../constants';
 import { sidebarChangeType } from '../../../redux/actions/sidebar';
 import { removeStoryRequest } from '../../../redux/actions/story';
-import { getSelectedStory } from '../../../redux/selectors/storySelectors';
+import { getSelectedStory } from '../../../redux/selectors/story';
 import { IStory } from '../../../types/storyTypes';
 import SidebarStoryRemove, { ISidebarStoryRemoveProps } from './SidebarStoryRemove';
 

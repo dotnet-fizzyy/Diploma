@@ -53,13 +53,7 @@ import {
 } from '../actions/story';
 import { getSelectedEpicId } from '../selectors/epic';
 import { getSelectedSprintId } from '../selectors/sprint';
-import {
-    getColumns,
-    getSelectedStory,
-    getSortDirection,
-    getSortType,
-    getWasStoryBlocked,
-} from '../selectors/storySelectors';
+import { getColumns, getSelectedStory, getSortDirection, getSortType, getWasStoryBlocked } from '../selectors/story';
 import { getSelectedTeamId } from '../selectors/teamSelectors';
 import { getUserSelectedTeamId } from '../selectors/userSelectors';
 

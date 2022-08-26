@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SidebarTypes } from '../../constants';
 import * as sidebarActions from '../../redux/actions/sidebar';
 import * as storyActions from '../../redux/actions/story';
-import * as storiesSelectors from '../../redux/selectors/storySelectors';
+import * as storiesSelectors from '../../redux/selectors/story';
 import * as teamSelectors from '../../redux/selectors/teamSelectors';
 import { ISelectedItem, IStory } from '../../types/storyTypes';
 import { ITeam } from '../../types/teamTypes';

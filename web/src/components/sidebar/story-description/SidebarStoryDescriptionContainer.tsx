@@ -5,7 +5,7 @@ import { sidebarChangeType } from '../../../redux/actions/sidebar';
 import { storyUpdateChangesRequest } from '../../../redux/actions/story';
 import { getSidebarIsLoading } from '../../../redux/selectors/sidebar';
 import { getSprintsNames } from '../../../redux/selectors/sprint';
-import { getSelectedStory } from '../../../redux/selectors/storySelectors';
+import { getSelectedStory } from '../../../redux/selectors/story';
 import { getTeamUsers } from '../../../redux/selectors/teamSelectors';
 import { getUser } from '../../../redux/selectors/userSelectors';
 import { IStoryFormTypes } from '../../../types/formTypes';

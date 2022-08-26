@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getStoryHistoryRequest } from '../../redux/actions/story';
-import { getStoryFromHistory, getStoryHistory } from '../../redux/selectors/storySelectors';
+import { getStoryFromHistory, getStoryHistory } from '../../redux/selectors/story';
 import { IStory, IStoryHistory } from '../../types/storyTypes';
 import StoryHistoryPage, { IStoryHistoryPageProps } from './StoryHistoryPage';
 

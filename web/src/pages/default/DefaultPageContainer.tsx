@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { ModalTypes } from '../../constants/modalConstants';
 import { openModal } from '../../redux/actions/modal';
 import { getMainPageDataRequest } from '../../redux/actions/project';
-import { getStorySimpleModels } from '../../redux/selectors/storySelectors';
+import { getStorySimpleModels } from '../../redux/selectors/story';
 import { getTeamSimpleItems } from '../../redux/selectors/teamSelectors';
 import { getUser } from '../../redux/selectors/userSelectors';
 import { IStorySimpleModel } from '../../types/storyTypes';
