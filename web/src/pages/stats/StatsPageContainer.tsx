@@ -6,7 +6,7 @@ import { getProjectStatsPageRequest } from '../../redux/actions/project';
 import { changeStatsSprint } from '../../redux/actions/sprint';
 import { getEpicsDropdownItems, getSelectedEpicId } from '../../redux/selectors/epic';
 import { getSelectedProject } from '../../redux/selectors/project';
-import { getSelectedSprintId, getSprintDropdownItems } from '../../redux/selectors/sprintSelectors';
+import { getSelectedSprintId, getSprintDropdownItems } from '../../redux/selectors/sprint';
 import { getStorySimpleModels } from '../../redux/selectors/storySelectors';
 import { IProject } from '../../types/projectTypes';
 import { ISelectedItem, IStorySimpleModel } from '../../types/storyTypes';

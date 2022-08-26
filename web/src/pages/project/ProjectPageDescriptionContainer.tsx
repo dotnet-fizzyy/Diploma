@@ -7,7 +7,7 @@ import { openModal } from '../../redux/actions/modal';
 import { getSprintsFromEpicRequest } from '../../redux/actions/sprint';
 import { setSelectedTeamById } from '../../redux/actions/team';
 import { getEpics, getSelectedEpicId } from '../../redux/selectors/epic';
-import { getSprints } from '../../redux/selectors/sprintSelectors';
+import { getSprints } from '../../redux/selectors/sprint';
 import { getTeamSimpleItems } from '../../redux/selectors/teamSelectors';
 import { IEpic } from '../../types/epicTypes';
 import { IProject } from '../../types/projectTypes';

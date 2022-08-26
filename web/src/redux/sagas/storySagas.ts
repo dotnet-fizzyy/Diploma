@@ -52,7 +52,7 @@ import {
     StoryActions,
 } from '../actions/story';
 import { getSelectedEpicId } from '../selectors/epic';
-import { getSelectedSprintId } from '../selectors/sprintSelectors';
+import { getSelectedSprintId } from '../selectors/sprint';
 import {
     getColumns,
     getSelectedStory,

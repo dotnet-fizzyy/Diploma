@@ -4,7 +4,7 @@ import { BaseRegexExpression, SidebarTypes } from '../../../constants';
 import { sidebarChangeType } from '../../../redux/actions/sidebar';
 import { storyUpdateChangesRequest } from '../../../redux/actions/story';
 import { getSidebarIsLoading } from '../../../redux/selectors/sidebar';
-import { getSprintsNames } from '../../../redux/selectors/sprintSelectors';
+import { getSprintsNames } from '../../../redux/selectors/sprint';
 import { getSelectedStory } from '../../../redux/selectors/storySelectors';
 import { getTeamUsers } from '../../../redux/selectors/teamSelectors';
 import { getUser } from '../../../redux/selectors/userSelectors';

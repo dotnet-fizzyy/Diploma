@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../constants';
 import { createStoryRequest } from '../../../redux/actions/story';
 import { getModalRequestPerforming } from '../../../redux/selectors/modal';
-import { getSprints } from '../../../redux/selectors/sprintSelectors';
+import { getSprints } from '../../../redux/selectors/sprint';
 import { getTeamUsers } from '../../../redux/selectors/teamSelectors';
 import { getUserSelectedTeamId } from '../../../redux/selectors/userSelectors';
 import { IStoryFormTypes } from '../../../types/formTypes';
