@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { setSelectedEpicById } from '../../redux/actions/epic';
 import { openModal } from '../../redux/actions/modal';
-import { getSprintsFromEpicRequest } from '../../redux/actions/sprintActions';
+import { getSprintsFromEpicRequest } from '../../redux/actions/sprint';
 import { setSelectedTeamById } from '../../redux/actions/team';
 import { getEpics, getSelectedEpicId } from '../../redux/selectors/epic';
 import { getSprints } from '../../redux/selectors/sprintSelectors';

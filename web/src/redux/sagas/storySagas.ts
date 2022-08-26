@@ -13,7 +13,7 @@ import {
     createRequestBodyForRemoveStory,
 } from '../../utils/storyUtils';
 import { sidebarHandleVisibility, ISidebarHandleVisibility, SidebarActions } from '../actions/sidebar';
-import { addSprints, setSelectedSprint } from '../actions/sprintActions';
+import { addSprints, setSelectedSprint } from '../actions/sprint';
 import {
     addStories,
     attemptToBlockStory,

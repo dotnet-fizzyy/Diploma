@@ -1,7 +1,7 @@
 import { EpicActions } from '../actions/epic';
 import { IOpenModal, ModalActions } from '../actions/modal';
 import { ProjectActions } from '../actions/project';
-import { SprintActions } from '../actions/sprintActions';
+import { SprintActions } from '../actions/sprint';
 import { StoryActions } from '../actions/storyActions';
 import { TeamActions } from '../actions/team';
 import { UserActions } from '../actions/user';

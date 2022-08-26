@@ -20,7 +20,7 @@ import {
     IUpdateEpicRequest,
 } from '../../redux/actions/epic';
 import { changeStatsSearchItemsFailure } from '../../redux/actions/project';
-import { addSprints } from '../../redux/actions/sprintActions';
+import { addSprints } from '../../redux/actions/sprint';
 import { setStorySimpleItems } from '../../redux/actions/storyActions';
 import { changeStatsSearchItems, createEpic, removeEpic, updateEpic } from '../../redux/sagas/epicSagas';
 import { IEpic } from '../../types/epicTypes';

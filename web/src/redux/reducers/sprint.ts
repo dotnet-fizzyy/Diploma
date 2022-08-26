@@ -6,7 +6,7 @@ import {
     ISetSelectedSprint,
     IUpdateSprintSuccess,
     SprintActions,
-} from '../actions/sprintActions';
+} from '../actions/sprint';
 import { IChangeStorySprintRequest, StoryActions } from '../actions/storyActions';
 import { ISprintsState } from '../store/state';
 

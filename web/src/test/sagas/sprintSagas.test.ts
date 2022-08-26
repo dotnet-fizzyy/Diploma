@@ -19,7 +19,7 @@ import {
     IGetSprintsFromEpicRequest,
     IRemoveSprintRequest,
     SprintActions,
-} from '../../redux/actions/sprintActions';
+} from '../../redux/actions/sprint';
 import { createSprint, getSprints, removeSprint, updateSprint } from '../../redux/sagas/sprintSagas';
 import { IState } from '../../redux/store/state';
 import { ISprint } from '../../types/sprintTypes';

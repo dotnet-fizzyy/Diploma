@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { openModal } from '../../redux/actions/modal';
-import { setSelectedSprint } from '../../redux/actions/sprintActions';
+import { setSelectedSprint } from '../../redux/actions/sprint';
 import { IEpic } from '../../types/epicTypes';
 import { ISprint } from '../../types/sprintTypes';
 import ProjectEpicDetails, { TabValues } from './ProjectEpicDetails';

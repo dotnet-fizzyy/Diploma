@@ -15,7 +15,7 @@ import {
     IRemoveSprintRequest,
     IUpdateSprintRequest,
     SprintActions,
-} from '../actions/sprintActions';
+} from '../actions/sprint';
 import { getUserSelectedTeamId } from '../selectors/userSelectors';
 
 export function* getSprints(action: IGetSprintsFromEpicRequest) {

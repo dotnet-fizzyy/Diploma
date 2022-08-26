@@ -32,7 +32,7 @@ import {
     IUpdateProjectRequest,
     ProjectActions,
 } from '../../redux/actions/project';
-import { addSprints } from '../../redux/actions/sprintActions';
+import { addSprints } from '../../redux/actions/sprint';
 import { addStories, setStorySimpleItems } from '../../redux/actions/storyActions';
 import { addTeamSimpleItems, setSelectedTeam } from '../../redux/actions/team';
 import {
