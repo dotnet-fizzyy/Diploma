@@ -4,7 +4,7 @@ import { setSelectedEpicById } from '../../redux/actions/epic';
 import { getBoardInfoRequest } from '../../redux/actions/project';
 import { sidebarHandleVisibility } from '../../redux/actions/sidebar';
 import { storyActionDragStart, storyDragAndDropHandle } from '../../redux/actions/story';
-import { getSidebarVisibility } from '../../redux/selectors/sidebarSelectors';
+import { getSidebarVisibility } from '../../redux/selectors/sidebar';
 import { getUserSelectedProjectId, getUserSelectedTeamId } from '../../redux/selectors/userSelectors';
 import { IStoryDragAndDrop } from '../../types/storyTypes';
 import { getColumnKeyValuePair } from '../../utils/columnUtils';
