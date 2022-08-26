@@ -28,7 +28,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "\"./node_modules/.bin/tsc\"",
+    "build": "tsc",
+    "type-check": "tsc --noEmit",
     "test": "jest --watchAll --runInBand",
     "eject": "react-scripts eject"
   },
