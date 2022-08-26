@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getProjectPageRequest } from '../../redux/actions/project';
-import { getSelectedProject } from '../../redux/selectors/projectSelectors';
+import { getSelectedProject } from '../../redux/selectors/project';
 import { IProject } from '../../types/projectTypes';
 import ProjectPage, { IProjectPageProps } from './ProjectPage';
 

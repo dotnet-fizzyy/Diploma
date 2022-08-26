@@ -5,7 +5,7 @@ import { ModalOptions } from '../../../constants/modalConstants';
 import { createEpicRequest, removeEpicRequest, updateEpicRequest } from '../../../redux/actions/epic';
 import { getSelectedEpic } from '../../../redux/selectors/epic';
 import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modal';
-import { getSelectedProject } from '../../../redux/selectors/projectSelectors';
+import { getSelectedProject } from '../../../redux/selectors/project';
 import { IEpic } from '../../../types/epicTypes';
 import { IEpicFormTypes } from '../../../types/formTypes';
 import { IProject } from '../../../types/projectTypes';
