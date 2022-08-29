@@ -1,7 +1,8 @@
 import { AxiosResponse } from 'axios';
+import { TokenType } from '../constants';
 import { getCloudStorageUrl, SignInUrl, SignUpUrl, UserUrls } from '../constants/routeConstants';
 import { mapToFullUserModel, mapToUserModel } from '../mappers/userMapper';
-import { IAuthenticationResponse, IJsonPatchBody, ITokenResponse, TokenType } from '../types';
+import { IAuthenticationResponse, IJsonPatchBody, ITokenResponse } from '../types';
 import { IAuthenticationUser, IEmailExistence, IFullUser, IUser } from '../types/user';
 import { createRequestBodyForUserChangeStatus } from '../utils/userUtils';
 import AxiosBaseApi from './axiosBaseApi';

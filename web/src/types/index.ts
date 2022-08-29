@@ -1,9 +1,5 @@
+import { TokenType } from '../constants';
 import { IFullUser } from './user';
-
-export enum TokenType {
-    ACCESS = 'Access',
-    REFRESH = 'Refresh',
-}
 
 export interface ITokenResponse {
     accessToken: IToken;

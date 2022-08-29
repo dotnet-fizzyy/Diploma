@@ -1,4 +1,4 @@
-import { Priority } from '../constants/storyConstants';
+import { Priority, StoryHistoryAction } from '../constants/storyConstants';
 import { UserPosition } from '../constants/userConstants';
 
 export interface IStory {
@@ -38,12 +38,6 @@ export interface IStoryDragAndDrop {
 export interface IStoryColumns {
     key: string;
     value: IStory[];
-}
-
-export enum StoryHistoryAction {
-    Add = 'Add',
-    Update = 'Update',
-    Remove = 'Remove',
 }
 
 export interface IStoryHistory {

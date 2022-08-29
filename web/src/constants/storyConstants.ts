@@ -73,3 +73,9 @@ export enum SortDirection {
     ASC = 'ASC',
     DESC = 'DESC',
 }
+
+export enum StoryHistoryAction {
+    Add = 'Add',
+    Update = 'Update',
+    Remove = 'Remove',
+}

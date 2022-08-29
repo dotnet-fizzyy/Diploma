@@ -108,3 +108,8 @@ export const doughnutChartColors: ISelectTabItem[] = [
         value: 'rgb(255, 153, 153)',
     },
 ];
+
+export enum TokenType {
+    ACCESS = 'Access',
+    REFRESH = 'Refresh',
+}
