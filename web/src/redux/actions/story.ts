@@ -1,6 +1,6 @@
 import { SortDirection } from '../../constants/storyConstants';
 import { IBaseAction } from '../../types';
-import { IFullStory, IStory, IStoryColumns, IStoryDragAndDrop, IStorySimpleModel } from '../../types/storyTypes';
+import { IFullStory, IStory, IStoryColumns, IStoryDragAndDrop, IStorySimpleModel } from '../../types/story';
 
 export const StoryActions = {
     GET_GENERAL_INFO_SUCCESS: 'GET_GENERAL_INFO_SUCCESS',

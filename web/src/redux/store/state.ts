@@ -2,13 +2,13 @@ import { RouterState } from 'connected-react-router';
 import { SidebarTypes } from '../../constants';
 import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { SortDirection } from '../../constants/storyConstants';
-import { IEpic, IEpicSimpleModel } from '../../types/epicTypes';
-import { IProject, IProjectSimpleModel } from '../../types/projectTypes';
-import { ISprint } from '../../types/sprintTypes';
-import { IStory, IStoryColumns, IStoryHistory, IStorySimpleModel } from '../../types/storyTypes';
-import { ITeam, ITeamSimpleModel } from '../../types/teamTypes';
-import { IFullUser } from '../../types/userTypes';
-import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
+import { IEpic, IEpicSimpleModel } from '../../types/epic';
+import { IProject, IProjectSimpleModel } from '../../types/project';
+import { ISprint } from '../../types/sprint';
+import { IStory, IStoryColumns, IStoryHistory, IStorySimpleModel } from '../../types/story';
+import { ITeam, ITeamSimpleModel } from '../../types/team';
+import { IFullUser } from '../../types/user';
+import { IWorkSpace, IWorkSpacePageProject } from '../../types/workspace';
 
 export interface IState {
     project: IProjectState;

@@ -5,8 +5,8 @@ import * as sidebarActions from '../../redux/actions/sidebar';
 import * as storyActions from '../../redux/actions/story';
 import * as storiesSelectors from '../../redux/selectors/story';
 import * as teamSelectors from '../../redux/selectors/team';
-import { ISelectedItem, IStory } from '../../types/storyTypes';
-import { ITeam } from '../../types/teamTypes';
+import { ISelectedItem, IStory } from '../../types/story';
+import { ITeam } from '../../types/team';
 import Column, { IColumnProps } from './Column';
 
 export interface IColumnContainerProps {

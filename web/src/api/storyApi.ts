@@ -3,7 +3,7 @@ import { ColumnIds } from '../constants/boardConstants';
 import { StoryUrls } from '../constants/routeConstants';
 import { mapToFullStory, mapToStoryModel } from '../mappers/storyMappers';
 import { ICollectionResponse, IJsonPatchBody } from '../types';
-import { IFullStory, IStory } from '../types/storyTypes';
+import { IFullStory, IStory } from '../types/story';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class StoryApi {

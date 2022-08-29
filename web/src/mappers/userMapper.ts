@@ -1,5 +1,5 @@
 import { UserPosition, UserRole } from '../constants/userConstants';
-import { IFullUser, IUser, IUserProject, IUserSimpleModel, IUserTeam } from '../types/userTypes';
+import { IFullUser, IUser, IUserProject, IUserSimpleModel, IUserTeam } from '../types/user';
 
 export function mapToUserModel(data: any): IUser {
     return {

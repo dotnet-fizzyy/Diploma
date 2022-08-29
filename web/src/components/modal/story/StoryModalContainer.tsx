@@ -6,10 +6,10 @@ import { getModalRequestPerforming } from '../../../redux/selectors/modal';
 import { getSprints } from '../../../redux/selectors/sprint';
 import { getTeamUsers } from '../../../redux/selectors/team';
 import { getUserSelectedTeamId } from '../../../redux/selectors/user';
-import { IStoryFormTypes } from '../../../types/formTypes';
-import { ISprint } from '../../../types/sprintTypes';
-import { ISelectedItem, IStory } from '../../../types/storyTypes';
-import { IUser } from '../../../types/userTypes';
+import { IStoryFormTypes } from '../../../types/forms';
+import { ISprint } from '../../../types/sprint';
+import { ISelectedItem, IStory } from '../../../types/story';
+import { IUser } from '../../../types/user';
 import { InputFormFieldValidator } from '../../../utils/formUtils';
 import {
     createStoryEstimationDropdownItems,

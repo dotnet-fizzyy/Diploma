@@ -1,4 +1,4 @@
-import { IWorkSpacePageProject } from '../../types/workSpaceTypes';
+import { IWorkSpacePageProject } from '../../types/workspace';
 import {
     IAddWorkSpaceProjects,
     ICreateProjectSuccess,

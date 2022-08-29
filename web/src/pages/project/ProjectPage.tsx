@@ -1,6 +1,6 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { IProject } from '../../types/projectTypes';
+import { IProject } from '../../types/project';
 import ProjectPageDescriptionContainer from './ProjectPageDescriptionContainer';
 
 const useStyles = makeStyles(() =>

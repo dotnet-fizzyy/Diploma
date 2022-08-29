@@ -5,10 +5,10 @@ import MainLabel, { LabelType } from '../../components/common/MainLabel';
 import PageHeaderTab from '../../components/header/page-header/PageHeaderTab';
 import ProjectTab from '../../components/project/ProjectTab';
 import { DateFormat } from '../../constants';
-import { IEpic } from '../../types/epicTypes';
-import { IProject } from '../../types/projectTypes';
-import { ISprint } from '../../types/sprintTypes';
-import { ITeamSimpleModel } from '../../types/teamTypes';
+import { IEpic } from '../../types/epic';
+import { IProject } from '../../types/project';
+import { ISprint } from '../../types/sprint';
+import { ITeamSimpleModel } from '../../types/team';
 import ProjectEpicExpansionPanel from './ProjectEpicExpansionPanel';
 import TeamCard from './TeamCard';
 

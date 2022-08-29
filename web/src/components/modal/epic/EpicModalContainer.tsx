@@ -6,9 +6,9 @@ import { createEpicRequest, removeEpicRequest, updateEpicRequest } from '../../.
 import { getSelectedEpic } from '../../../redux/selectors/epic';
 import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modal';
 import { getSelectedProject } from '../../../redux/selectors/project';
-import { IEpic } from '../../../types/epicTypes';
-import { IEpicFormTypes } from '../../../types/formTypes';
-import { IProject } from '../../../types/projectTypes';
+import { IEpic } from '../../../types/epic';
+import { IEpicFormTypes } from '../../../types/forms';
+import { IProject } from '../../../types/project';
 import { InputFormFieldValidator } from '../../../utils/formUtils';
 import ModalRemove, { IModalRemoveProps } from '../ModalRemove';
 import EpicModal, { IEpicCreationProps } from './EpicModal';

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getProjectPageRequest } from '../../redux/actions/project';
 import { getSelectedProject } from '../../redux/selectors/project';
-import { IProject } from '../../types/projectTypes';
+import { IProject } from '../../types/project';
 import ProjectPage, { IProjectPageProps } from './ProjectPage';
 
 const ProjectPageContainer = () => {

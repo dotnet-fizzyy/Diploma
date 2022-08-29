@@ -1,4 +1,4 @@
-import { IProject, IProjectSimpleModel } from '../types/projectTypes';
+import { IProject, IProjectSimpleModel } from '../types/project';
 
 export const mockedProject: IProject = {
     endDate: new Date(2020, 12, 1),

@@ -1,7 +1,7 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import EpicsApi from '../../api/epicsApi';
-import { IEpic } from '../../types/epicTypes';
-import { IStatsPage } from '../../types/projectTypes';
+import { IEpic } from '../../types/epic';
+import { IStatsPage } from '../../types/project';
 import {
     createEpicFailure,
     createEpicSuccess,

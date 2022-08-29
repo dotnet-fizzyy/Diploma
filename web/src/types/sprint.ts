@@ -1,4 +1,4 @@
-import { IStory } from './storyTypes';
+import { IStory } from './story';
 
 export interface ISprint {
     sprintId?: string;

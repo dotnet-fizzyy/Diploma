@@ -1,7 +1,7 @@
-import { IEpic, IEpicSimpleModel } from './epicTypes';
-import { ISprint } from './sprintTypes';
-import { IStory, IStorySimpleModel } from './storyTypes';
-import { ITeam, ITeamSimpleModel } from './teamTypes';
+import { IEpic, IEpicSimpleModel } from './epic';
+import { ISprint } from './sprint';
+import { IStory, IStorySimpleModel } from './story';
+import { ITeam, ITeamSimpleModel } from './team';
 
 interface IBaseProject {
     projectId?: string;

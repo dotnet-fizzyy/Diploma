@@ -1,4 +1,4 @@
-import { IEpic, IEpicSimpleModel } from '../types/epicTypes';
+import { IEpic, IEpicSimpleModel } from '../types/epic';
 
 export function mapToEpicModel(data: any): IEpic {
     return {

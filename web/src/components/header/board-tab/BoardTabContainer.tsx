@@ -14,9 +14,9 @@ import { getSelectedSprintId, getSprintDropdownItems } from '../../../redux/sele
 import { getSortDirection, getSortType } from '../../../redux/selectors/story';
 import { getSelectedTeam } from '../../../redux/selectors/team';
 import { getUser } from '../../../redux/selectors/user';
-import { ISelectedItem } from '../../../types/storyTypes';
-import { ITeam } from '../../../types/teamTypes';
-import { IUser } from '../../../types/userTypes';
+import { ISelectedItem } from '../../../types/story';
+import { ITeam } from '../../../types/team';
+import { IUser } from '../../../types/user';
 import { createSortFields } from '../../../utils/storyUtils';
 import BoardTab, { IBoardTabProps } from './BoardTab';
 

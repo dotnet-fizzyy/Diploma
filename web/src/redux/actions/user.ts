@@ -1,5 +1,5 @@
 import { IBaseAction } from '../../types';
-import { IAuthenticationUser, IFullUser, IUpdateUserPassword, IUser } from '../../types/userTypes';
+import { IAuthenticationUser, IFullUser, IUpdateUserPassword, IUser } from '../../types/user';
 
 export const UserActions = {
     AUTHENTICATION_REQUEST: 'AUTHENTICATION_REQUEST',

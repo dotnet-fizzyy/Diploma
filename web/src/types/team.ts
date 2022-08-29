@@ -1,5 +1,5 @@
-import { IUser } from './userTypes';
-import { IWorkSpace } from './workSpaceTypes';
+import { IUser } from './user';
+import { IWorkSpace } from './workspace';
 
 interface IBaseTeam {
     teamId: string;

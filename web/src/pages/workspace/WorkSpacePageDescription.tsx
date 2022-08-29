@@ -5,7 +5,7 @@ import PageHeaderTab from '../../components/header/page-header/PageHeaderTab';
 import WorkSpaceTab from '../../components/workspace/WorkSpaceTab';
 import WorkSpaceTable from '../../components/workspace/WorkSpaceTable';
 import { DateFormat } from '../../constants';
-import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
+import { IWorkSpace, IWorkSpacePageProject } from '../../types/workspace';
 
 const useStyles = makeStyles(() =>
     createStyles({

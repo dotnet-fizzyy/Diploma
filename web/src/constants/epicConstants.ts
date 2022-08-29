@@ -1,4 +1,4 @@
-import { IEpicFormTypes } from '../types/formTypes';
+import { IEpicFormTypes } from '../types/forms';
 
 export const EpicInitialState: IEpicFormTypes = {
     endDate: new Date(),

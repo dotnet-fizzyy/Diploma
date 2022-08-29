@@ -13,9 +13,9 @@ import {
     getSearchTeams,
     getSearchTitleTerm,
 } from '../../../redux/selectors/workspace';
-import { IProjectSimpleModel } from '../../../types/projectTypes';
-import { ITeamSimpleModel } from '../../../types/teamTypes';
-import { IFullUser } from '../../../types/userTypes';
+import { IProjectSimpleModel } from '../../../types/project';
+import { ITeamSimpleModel } from '../../../types/team';
+import { IFullUser } from '../../../types/user';
 import { clearCredentialsFromLocalStorage } from '../../../utils';
 import GeneralTab, { IGeneralTabProps } from './GeneralTab';
 

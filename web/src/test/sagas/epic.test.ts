@@ -23,8 +23,8 @@ import { changeStatsSearchItemsFailure } from '../../redux/actions/project';
 import { addSprints } from '../../redux/actions/sprint';
 import { setStorySimpleItems } from '../../redux/actions/story';
 import { changeStatsSearchItems, createEpic, removeEpic, updateEpic } from '../../redux/sagas/epic';
-import { IEpic } from '../../types/epicTypes';
-import { IStatsPage } from '../../types/projectTypes';
+import { IEpic } from '../../types/epic';
+import { IStatsPage } from '../../types/project';
 
 describe('Epic sagas tests', () => {
     it(`Should create epic on ${EpicActions.CREATE_EPIC_REQUEST}`, () => {

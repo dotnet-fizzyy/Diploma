@@ -4,7 +4,7 @@ import React from 'react';
 import { InitialLoginFormValues, LoginFormConstants } from '../../constants';
 import * as routeConstants from '../../constants/routeConstants';
 import LogoIcon from '../../static/app-logo.svg';
-import { ILoginForm } from '../../types/formTypes';
+import { ILoginForm } from '../../types/forms';
 import Button from '../common/Button';
 import FormTextField from '../common/FormTextField';
 import Spinner from '../common/Spinner';

@@ -1,6 +1,6 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { ITeam } from '../../types/teamTypes';
+import { ITeam } from '../../types/team';
 import TeamPageDescriptionContainer from './TeamPageDescriptionContainer';
 
 const useStyles = makeStyles(() =>

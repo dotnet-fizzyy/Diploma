@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { IProjectSimpleModel } from '../../types/projectTypes';
-import { ITeamSimpleModel } from '../../types/teamTypes';
+import { IProjectSimpleModel } from '../../types/project';
+import { ITeamSimpleModel } from '../../types/team';
 import Button from '../common/Button';
 import MainLabel, { LabelType } from '../common/MainLabel';
 

@@ -2,7 +2,7 @@ import { withStyles } from '@material-ui/core';
 import { createStyles } from '@material-ui/core/styles';
 import { registerables, ActiveElement, Chart, ChartEvent } from 'chart.js';
 import React from 'react';
-import { IDoughnutChartTypes } from '../../types/charTypes';
+import { IDoughnutChart } from '../../types/charts';
 
 Chart.register(...registerables);
 
@@ -16,7 +16,7 @@ const useStyles = () =>
 
 export interface IDoughnutChartProps {
     classes: { root: string };
-    data: IDoughnutChartTypes;
+    data: IDoughnutChart;
 }
 
 export interface IDoughnutChartState {

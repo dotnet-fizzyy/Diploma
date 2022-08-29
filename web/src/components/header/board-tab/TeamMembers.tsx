@@ -4,7 +4,7 @@ import { Add } from '@material-ui/icons';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import React from 'react';
 import { UserPosition, UserRole } from '../../../constants/userConstants';
-import { ITeam } from '../../../types/teamTypes';
+import { ITeam } from '../../../types/team';
 import { getFirstNameLetter, isUserCustomer, isUserProjectManager } from '../../../utils';
 
 const useStyles = makeStyles(() =>

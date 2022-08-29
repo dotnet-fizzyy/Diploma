@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import StoryHistoryPageDescription from '../../components/story-history/StoryHistoryPageDescription';
-import { IStory, IStoryHistory } from '../../types/storyTypes';
+import { IStory, IStoryHistory } from '../../types/story';
 
 const useStyles = makeStyles(() =>
     createStyles({

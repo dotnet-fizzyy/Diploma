@@ -1,4 +1,4 @@
-import { IWorkSpaceForm } from '../types/formTypes';
+import { IWorkSpaceForm } from '../types/forms';
 
 export const InitialWorkSpaceFormValues: IWorkSpaceForm = {
     workSpaceId: '',

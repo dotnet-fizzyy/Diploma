@@ -4,7 +4,7 @@ import UserApi from '../../api/userApi';
 import { DefaultRoute, LoginScreenRoute } from '../../constants/routeConstants';
 import { debouncePeriod } from '../../constants/storyConstants';
 import { IAuthenticationResponse, IJsonPatchBody, ITokenResponse } from '../../types';
-import { IEmailExistence, IFullUser, IUser } from '../../types/userTypes';
+import { IEmailExistence, IFullUser, IUser } from '../../types/user';
 import { setCredentialsToLocalStorage } from '../../utils';
 import { createRequestBodyForUserUpdateLink } from '../../utils/userUtils';
 import { closeModal } from '../actions/modal';

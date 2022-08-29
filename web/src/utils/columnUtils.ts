@@ -1,5 +1,5 @@
 import { ColumnNames } from '../constants/boardConstants';
-import { ISelectedItem } from '../types/storyTypes';
+import { ISelectedItem } from '../types/story';
 
 export const getColumnKeyValuePair = (): ISelectedItem[] =>
     Object.entries(ColumnNames).map(

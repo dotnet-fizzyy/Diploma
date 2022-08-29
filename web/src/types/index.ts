@@ -1,4 +1,4 @@
-import { IFullUser } from './userTypes';
+import { IFullUser } from './user';
 
 export enum TokenType {
     ACCESS = 'Access',

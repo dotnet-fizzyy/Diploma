@@ -2,7 +2,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import React from 'react';
 import { ColumnNames } from '../../constants/boardConstants';
-import { IStorySimpleModel } from '../../types/storyTypes';
+import { IStorySimpleModel } from '../../types/story';
 
 const useStyles = makeStyles(() =>
     createStyles({

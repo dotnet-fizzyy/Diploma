@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import moment from 'moment';
 import React from 'react';
 import { DateFormat } from '../../constants';
-import { ISprint } from '../../types/sprintTypes';
+import { ISprint } from '../../types/sprint';
 
 const useStyles = makeStyles(() =>
     createStyles({

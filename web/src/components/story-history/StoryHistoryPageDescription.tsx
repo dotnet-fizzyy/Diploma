@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import moment from 'moment';
 import React from 'react';
 import { DateFormat, UnspecifiedValue } from '../../constants';
-import { IStory, IStoryHistory, StoryHistoryAction } from '../../types/storyTypes';
+import { IStory, IStoryHistory, StoryHistoryAction } from '../../types/story';
 import { getStoryHistoryActionText } from '../../utils/storyHistoryUtils';
 import Button from '../common/Button';
 import MainLabel, { LabelType } from '../common/MainLabel';

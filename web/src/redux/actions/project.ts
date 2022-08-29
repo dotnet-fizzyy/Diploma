@@ -1,6 +1,6 @@
 import { IBaseAction } from '../../types';
-import { IProject } from '../../types/projectTypes';
-import { IWorkSpacePageProject } from '../../types/workSpaceTypes';
+import { IProject } from '../../types/project';
+import { IWorkSpacePageProject } from '../../types/workspace';
 
 export const ProjectActions = {
     GET_PROJECT_PAGE_REQUEST: 'GET_PROJECT_PAGE_REQUEST',

@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import moment from 'moment';
 import React from 'react';
 import { DateFormat } from '../../constants';
-import { ITeamSimpleModel } from '../../types/teamTypes';
+import { ITeamSimpleModel } from '../../types/team';
 import Button, { ButtonVariant } from '../common/Button';
 
 const useStyles = makeStyles(() =>

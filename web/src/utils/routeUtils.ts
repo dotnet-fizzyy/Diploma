@@ -1,5 +1,5 @@
 import { UserPosition, UserRole } from '../constants/userConstants';
-import { IUser } from '../types/userTypes';
+import { IUser } from '../types/user';
 
 abstract class BaseRouteGuard {
     protected readonly _user: IUser;

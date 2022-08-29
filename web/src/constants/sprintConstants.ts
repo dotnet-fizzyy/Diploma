@@ -1,4 +1,4 @@
-import { ISprint } from '../types/sprintTypes';
+import { ISprint } from '../types/sprint';
 
 export const InitialSprintState: ISprint = {
     endDate: new Date(),

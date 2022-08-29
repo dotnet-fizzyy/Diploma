@@ -4,7 +4,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import React from 'react';
 import { UserPosition } from '../../../constants/userConstants';
-import { IUser } from '../../../types/userTypes';
+import { IUser } from '../../../types/user';
 
 const useStyles = makeStyles(() =>
     createStyles({

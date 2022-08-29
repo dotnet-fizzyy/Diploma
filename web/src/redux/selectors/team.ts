@@ -1,5 +1,5 @@
-import { ITeam, ITeamSimpleModel } from '../../types/teamTypes';
-import { IUser } from '../../types/userTypes';
+import { ITeam, ITeamSimpleModel } from '../../types/team';
+import { IUser } from '../../types/user';
 import { IState } from '../store/state';
 
 export const getSelectedTeam = (state: IState): ITeam =>

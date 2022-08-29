@@ -1,4 +1,4 @@
-import { IUser } from '../types/userTypes';
+import { IUser } from '../types/user';
 
 export const ManagerRoleRequiredMessage: string = 'Only manager can edit this message';
 

@@ -11,7 +11,7 @@ import {
     UserActions,
 } from '../../redux/actions/user';
 import { verifyUser } from '../../redux/sagas/user';
-import { IFullUser } from '../../types/userTypes';
+import { IFullUser } from '../../types/user';
 
 describe('User sagas tests', () => {
     it(`Should verify user successfully on ${UserActions.VERIFY_USER_REQUEST}`, () => {

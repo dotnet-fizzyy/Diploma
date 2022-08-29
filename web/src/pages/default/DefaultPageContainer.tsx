@@ -7,9 +7,9 @@ import { getMainPageDataRequest } from '../../redux/actions/project';
 import { getStorySimpleModels } from '../../redux/selectors/story';
 import { getTeamSimpleItems } from '../../redux/selectors/team';
 import { getUser } from '../../redux/selectors/user';
-import { IStorySimpleModel } from '../../types/storyTypes';
-import { ITeamSimpleModel } from '../../types/teamTypes';
-import { IFullUser } from '../../types/userTypes';
+import { IStorySimpleModel } from '../../types/story';
+import { ITeamSimpleModel } from '../../types/team';
+import { IFullUser } from '../../types/user';
 import DefaultPage, { IMainPageProps } from './DefaultPage';
 
 const DefaultPageContainer = () => {

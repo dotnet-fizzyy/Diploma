@@ -1,6 +1,6 @@
-import { IProject } from '../../types/projectTypes';
-import { ISelectedItem } from '../../types/storyTypes';
-import { IWorkSpacePageProject } from '../../types/workSpaceTypes';
+import { IProject } from '../../types/project';
+import { ISelectedItem } from '../../types/story';
+import { IWorkSpacePageProject } from '../../types/workspace';
 import { IState } from '../store/state';
 
 export const getProjectNames = (state: IState): ISelectedItem[] =>

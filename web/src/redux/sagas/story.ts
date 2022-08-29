@@ -5,8 +5,8 @@ import { SidebarTypes } from '../../constants';
 import { SortFieldsNames } from '../../constants/storyConstants';
 import { mapFullSprintToSprint } from '../../mappers/sprintMappers';
 import { IJsonPatchBody } from '../../types';
-import { IFullSprint, ISprint } from '../../types/sprintTypes';
-import { IFullStory, IStory, IStoryColumns } from '../../types/storyTypes';
+import { IFullSprint, ISprint } from '../../types/sprint';
+import { IFullStory, IStory, IStoryColumns } from '../../types/story';
 import {
     createRequestBodyForColumnMovement,
     createRequestBodyForReadyStory,

@@ -1,6 +1,6 @@
-import { IProjectSimpleModel } from '../../types/projectTypes';
-import { ITeamSimpleModel } from '../../types/teamTypes';
-import { IWorkSpace } from '../../types/workSpaceTypes';
+import { IProjectSimpleModel } from '../../types/project';
+import { ITeamSimpleModel } from '../../types/team';
+import { IWorkSpace } from '../../types/workspace';
 import { IState } from '../store/state';
 
 export const getWorkSpace = (state: IState): IWorkSpace => state.workspace.workSpace;

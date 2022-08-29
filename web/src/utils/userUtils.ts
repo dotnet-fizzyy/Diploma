@@ -1,7 +1,7 @@
 import { UserPosition } from '../constants/userConstants';
 import { IJsonPatchBody } from '../types';
-import { ISelectedItem } from '../types/storyTypes';
-import { IUser } from '../types/userTypes';
+import { ISelectedItem } from '../types/story';
+import { IUser } from '../types/user';
 
 export const createUserPositionDropdownItems = (): ISelectedItem[] =>
     Object.entries(UserPosition).map(

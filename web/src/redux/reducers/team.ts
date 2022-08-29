@@ -1,4 +1,4 @@
-import { ITeamSimpleModel } from '../../types/teamTypes';
+import { ITeamSimpleModel } from '../../types/team';
 import {
     IAddTeamSimpleItems,
     ICreateTeamSuccess,

@@ -1,4 +1,4 @@
-import { ITeam } from '../types/teamTypes';
+import { ITeam } from '../types/team';
 
 export const initialTeamState: ITeam = {
     membersCount: 0,

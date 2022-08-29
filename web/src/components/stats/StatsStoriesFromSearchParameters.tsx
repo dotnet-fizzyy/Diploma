@@ -1,6 +1,6 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { IStorySimpleModel } from '../../types/storyTypes';
+import { IStorySimpleModel } from '../../types/story';
 import MainLabel, { LabelType } from '../common/MainLabel';
 import StatsStoryShortDescription from './StatsStoryShortDescription';
 

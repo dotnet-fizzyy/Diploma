@@ -5,7 +5,7 @@ import moment from 'moment';
 import React from 'react';
 import { DateFormat } from '../../constants';
 import { UserPosition, UserRole } from '../../constants/userConstants';
-import { IUser } from '../../types/userTypes';
+import { IUser } from '../../types/user';
 import { getFirstNameLetter } from '../../utils';
 import Button, { ButtonVariant } from '../common/Button';
 

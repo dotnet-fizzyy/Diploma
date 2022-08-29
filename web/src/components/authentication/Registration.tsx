@@ -4,7 +4,7 @@ import React from 'react';
 import { InitialRegistrationFormValues, RegistrationFormConstants } from '../../constants';
 import * as routeConstants from '../../constants/routeConstants';
 import LogoIcon from '../../static/app-logo.svg';
-import { IRegistrationForm } from '../../types/formTypes';
+import { IRegistrationForm } from '../../types/forms';
 import Button from '../common/Button';
 import FormTextField from '../common/FormTextField';
 import Spinner from '../common/Spinner';

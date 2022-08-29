@@ -3,7 +3,7 @@ import { all, call, debounce, put, select, takeLatest } from 'redux-saga/effects
 import WorkSpaceApi from '../../api/workSpaceApi';
 import { WorkspaceViewerRoute } from '../../constants/routeConstants';
 import { debouncePeriod } from '../../constants/storyConstants';
-import { ISearchResults, IWorkSpace, IWorkSpacePage } from '../../types/workSpaceTypes';
+import { ISearchResults, IWorkSpace, IWorkSpacePage } from '../../types/workspace';
 import { addWorkSpaceProjects } from '../actions/project';
 import {
     createWorkSpaceFailure,

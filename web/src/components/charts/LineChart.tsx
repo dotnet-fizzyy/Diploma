@@ -2,7 +2,7 @@ import { withStyles } from '@material-ui/core';
 import { createStyles } from '@material-ui/core/styles';
 import { registerables, ActiveElement, Chart, ChartEvent } from 'chart.js';
 import React from 'react';
-import { ILineChartTypes } from '../../types/charTypes';
+import { ILineChart } from '../../types/charts';
 
 Chart.register(...registerables);
 
@@ -18,7 +18,7 @@ export interface ILineChartProps {
     classes: {
         root: string;
     };
-    data: ILineChartTypes;
+    data: ILineChart;
     onClick: (index: number) => void;
 }
 

@@ -17,7 +17,7 @@ import {
     WorkSpaceActions,
 } from '../../redux/actions/workspace';
 import { createWorkSpace, getUserWorkSpacePage, updateWorkSpace } from '../../redux/sagas/workspace';
-import { IWorkSpace, IWorkSpacePage } from '../../types/workSpaceTypes';
+import { IWorkSpace, IWorkSpacePage } from '../../types/workspace';
 
 describe('WorkSpace sagas tests', () => {
     it(`Should create user workspace on ${WorkSpaceActions.CREATE_WORKSPACE_REQUEST}`, () => {

@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import { getCloudStorageUrl, SignInUrl, SignUpUrl, UserUrls } from '../constants/routeConstants';
 import { mapToFullUserModel, mapToUserModel } from '../mappers/userMapper';
 import { IAuthenticationResponse, IJsonPatchBody, ITokenResponse, TokenType } from '../types';
-import { IAuthenticationUser, IEmailExistence, IFullUser, IUser } from '../types/userTypes';
+import { IAuthenticationUser, IEmailExistence, IFullUser, IUser } from '../types/user';
 import { createRequestBodyForUserChangeStatus } from '../utils/userUtils';
 import AxiosBaseApi from './axiosBaseApi';
 

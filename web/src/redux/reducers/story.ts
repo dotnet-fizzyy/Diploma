@@ -1,7 +1,7 @@
 import { ColumnIds } from '../../constants/boardConstants';
 import { SortDirection, SortFields } from '../../constants/storyConstants';
 import { mapFullStoryToStory } from '../../mappers/storyMappers';
-import { IStory, IStoryColumns } from '../../types/storyTypes';
+import { IStory, IStoryColumns } from '../../types/story';
 import {
     IAddStories,
     IChangeSortDirectionRequest,

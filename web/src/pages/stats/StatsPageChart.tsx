@@ -2,8 +2,8 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import DoughnutChart from '../../components/charts/DoughnutChart';
 import { doughnutChartColors } from '../../constants';
-import { IDoughnutChartTypes } from '../../types/charTypes';
-import { IStorySimpleModel } from '../../types/storyTypes';
+import { IDoughnutChart } from '../../types/charts';
+import { IStorySimpleModel } from '../../types/story';
 import { getColumnKeyValuePair } from '../../utils/columnUtils';
 
 const useStyles = makeStyles(() =>
@@ -33,7 +33,7 @@ const StatsPageChart = (props: IStatsPageChartProps) => {
         onClickChartPart(value);
     };
 
-    const doughnutChartData: IDoughnutChartTypes = {
+    const doughnutChartData: IDoughnutChart = {
         labels: storyColumns.map((x) => x.value),
         datasets: [
             {

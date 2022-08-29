@@ -1,5 +1,5 @@
 import { IBaseAction } from '../../types';
-import { IEpic, IEpicSimpleModel } from '../../types/epicTypes';
+import { IEpic, IEpicSimpleModel } from '../../types/epic';
 
 export const EpicActions = {
     CREATE_EPIC_REQUEST: 'CREATE_EPIC_REQUEST',

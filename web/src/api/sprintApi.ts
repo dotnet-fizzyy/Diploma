@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import { SprintUrls } from '../constants/routeConstants';
 import { mapToSprintModel } from '../mappers/sprintMappers';
 import { ICollectionResponse } from '../types';
-import { IFullSprint, ISprint } from '../types/sprintTypes';
+import { IFullSprint, ISprint } from '../types/sprint';
 import { createSprintRemoveRequestBody } from '../utils';
 import AxiosBaseApi from './axiosBaseApi';
 

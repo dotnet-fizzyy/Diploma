@@ -1,8 +1,8 @@
 import { initialStory, Priority, SortFields, StoryEstimation } from '../constants/storyConstants';
 import { IJsonPatchBody } from '../types';
-import { IStoryFormTypes } from '../types/formTypes';
-import { ISprint } from '../types/sprintTypes';
-import { ISelectedItem, IStory } from '../types/storyTypes';
+import { IStoryFormTypes } from '../types/forms';
+import { ISprint } from '../types/sprint';
+import { ISelectedItem, IStory } from '../types/story';
 
 export const areStoriesEqual = (story: IStory, updatedStory: IStory): boolean =>
     story.storyId === updatedStory.storyId &&

@@ -1,6 +1,6 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { IWorkSpacePageProject } from '../../types/workSpaceTypes';
+import { IWorkSpacePageProject } from '../../types/workspace';
 import Accordion from '../common/Accordion';
 import ProjectSummaryInfo from './ProjectDetails';
 

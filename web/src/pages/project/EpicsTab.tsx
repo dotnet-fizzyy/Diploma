@@ -2,7 +2,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import React from 'react';
 import { DateFormat } from '../../constants';
-import { IEpic } from '../../types/epicTypes';
+import { IEpic } from '../../types/epic';
 
 const useStyles = makeStyles(() =>
     createStyles({

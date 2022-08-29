@@ -3,7 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import ErrorIcon from '@material-ui/icons/Error';
 import { FieldProps } from 'formik';
 import React from 'react';
-import { ISelectedItem } from '../../types/storyTypes';
+import { ISelectedItem } from '../../types/story';
 import FormInputLabel from './FormInputLabel';
 
 const useStyles = makeStyles(() =>

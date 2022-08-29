@@ -1,6 +1,6 @@
 import { Priority } from '../constants/storyConstants';
 import { UserPosition } from '../constants/userConstants';
-import { IStory } from '../types/storyTypes';
+import { IStory } from '../types/story';
 
 const mockedStory_1: IStory = {
     blockReason: '',

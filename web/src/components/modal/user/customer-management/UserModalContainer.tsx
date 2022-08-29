@@ -12,7 +12,7 @@ import { createUserRequest } from '../../../../redux/actions/user';
 import { getModalOption, getModalRequestPerforming } from '../../../../redux/selectors/modal';
 import { getSelectedTeamId } from '../../../../redux/selectors/team';
 import { getWorkSpaceId } from '../../../../redux/selectors/user';
-import { IUser } from '../../../../types/userTypes';
+import { IUser } from '../../../../types/user';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formUtils';
 import { createUserPositionDropdownItems } from '../../../../utils/userUtils';
 import UserModal, { IUserCreationProps } from './UserModal';

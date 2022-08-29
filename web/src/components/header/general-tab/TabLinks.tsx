@@ -4,7 +4,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { TabLinkItems, TabLinkOptions } from '../../../constants';
 import { UserPosition, UserRole } from '../../../constants/userConstants';
-import { IUserProject, IUserTeam } from '../../../types/userTypes';
+import { IUserProject, IUserTeam } from '../../../types/user';
 import { isUserCustomer } from '../../../utils';
 import Tooltip from '../../common/Tooltip';
 import SelectTab, { ISelectTabItem } from './SelectTab';

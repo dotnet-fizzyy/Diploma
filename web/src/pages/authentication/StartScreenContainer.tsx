@@ -19,8 +19,8 @@ import {
     getUser,
     getWasCustomerCreated,
 } from '../../redux/selectors/user';
-import { ILoginForm, IRegistrationForm } from '../../types/formTypes';
-import { IFullUser } from '../../types/userTypes';
+import { ILoginForm, IRegistrationForm } from '../../types/forms';
+import { IFullUser } from '../../types/user';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../utils/formUtils';
 import StartScreen, { IStartScreenProps } from './StartScreen';
 

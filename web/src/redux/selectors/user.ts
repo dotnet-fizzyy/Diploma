@@ -1,4 +1,4 @@
-import { IFullUser } from '../../types/userTypes';
+import { IFullUser } from '../../types/user';
 import { IState } from '../store/state';
 
 export const getUser = (state: IState): IFullUser => state.currentUser.user;

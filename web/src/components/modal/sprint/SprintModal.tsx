@@ -2,7 +2,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { SprintFields } from '../../../constants/sprintConstants';
-import { ISprint } from '../../../types/sprintTypes';
+import { ISprint } from '../../../types/sprint';
 import Button from '../../common/Button';
 import FormDatePicker from '../../common/FormDatePicker';
 import FormTextField from '../../common/FormTextField';

@@ -1,4 +1,4 @@
-import { IFullSprint, ISprint } from '../types/sprintTypes';
+import { IFullSprint, ISprint } from '../types/sprint';
 
 export function mapToSprintModel(data): ISprint {
     return {

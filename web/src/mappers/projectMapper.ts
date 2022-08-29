@@ -1,4 +1,4 @@
-import { IProject, IProjectPage, IProjectSimpleModel } from '../types/projectTypes';
+import { IProject, IProjectPage, IProjectSimpleModel } from '../types/project';
 import { mapToEpicModel } from './epicMapper';
 import { mapToSimpleTeamModel } from './teamMapper';
 

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getStoryHistoryRequest } from '../../redux/actions/story';
 import { getStoryFromHistory, getStoryHistory } from '../../redux/selectors/story';
-import { IStory, IStoryHistory } from '../../types/storyTypes';
+import { IStory, IStoryHistory } from '../../types/story';
 import StoryHistoryPage, { IStoryHistoryPageProps } from './StoryHistoryPage';
 
 const StoryHistoryPageContainer = () => {

@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { IEpic } from '../../types/epicTypes';
-import { ISprint } from '../../types/sprintTypes';
+import { IEpic } from '../../types/epic';
+import { ISprint } from '../../types/sprint';
 import Button from '../common/Button';
 import MainLabel, { LabelType } from '../common/MainLabel';
 

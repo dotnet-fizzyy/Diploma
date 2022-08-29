@@ -1,6 +1,6 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
+import { IWorkSpace, IWorkSpacePageProject } from '../../types/workspace';
 import WorkSpacePageDescription from './WorkSpacePageDescription';
 
 const useStyles = makeStyles(() =>

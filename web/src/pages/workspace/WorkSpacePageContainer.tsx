@@ -7,7 +7,7 @@ import { setSelectedProjectFromWorkSpaceById } from '../../redux/actions/project
 import { getUserWorkSpacePageRequest } from '../../redux/actions/workspace';
 import { getWorkSpacePageProjects } from '../../redux/selectors/project';
 import { getWorkSpace, getWorkSpaceIsLoading } from '../../redux/selectors/workspace';
-import { IWorkSpace, IWorkSpacePageProject } from '../../types/workSpaceTypes';
+import { IWorkSpace, IWorkSpacePageProject } from '../../types/workspace';
 import WorkSpacePage, { IWorkSpacePageProps } from './WorkSpacePage';
 
 const WorkSpacePageContainer = () => {

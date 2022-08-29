@@ -1,5 +1,5 @@
 import { IBaseAction } from '../../types';
-import { ITeam, ITeamSimpleModel } from '../../types/teamTypes';
+import { ITeam, ITeamSimpleModel } from '../../types/team';
 
 export const TeamActions = {
     GET_USER_TEAM_PAGE_REQUEST: 'GET_USER_TEAM_PAGE_REQUEST',

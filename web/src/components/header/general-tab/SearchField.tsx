@@ -3,8 +3,8 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import React, { useState } from 'react';
 import { UserPosition, UserRole } from '../../../constants/userConstants';
-import { IProjectSimpleModel } from '../../../types/projectTypes';
-import { ITeamSimpleModel } from '../../../types/teamTypes';
+import { IProjectSimpleModel } from '../../../types/project';
+import { ITeamSimpleModel } from '../../../types/team';
 import SearchResults from './SearchResults';
 
 const useStyles = makeStyles(() =>

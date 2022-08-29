@@ -8,8 +8,8 @@ import { getEpicsDropdownItems, getSelectedEpicId } from '../../redux/selectors/
 import { getSelectedProject } from '../../redux/selectors/project';
 import { getSelectedSprintId, getSprintDropdownItems } from '../../redux/selectors/sprint';
 import { getStorySimpleModels } from '../../redux/selectors/story';
-import { IProject } from '../../types/projectTypes';
-import { ISelectedItem, IStorySimpleModel } from '../../types/storyTypes';
+import { IProject } from '../../types/project';
+import { ISelectedItem, IStorySimpleModel } from '../../types/story';
 import { validateGuid } from '../../utils';
 import { getColumnKeys } from '../../utils/columnUtils';
 import { getQueryParameter } from '../../utils/routeUtils';

@@ -6,8 +6,8 @@ import UpdateIcon from '@material-ui/icons/Update';
 import classnames from 'classnames';
 import React from 'react';
 import Button, { ButtonVariant } from '../../components/common/Button';
-import { IEpic } from '../../types/epicTypes';
-import { ISprint } from '../../types/sprintTypes';
+import { IEpic } from '../../types/epic';
+import { ISprint } from '../../types/sprint';
 import EpicsTab from './EpicsTab';
 import SprintsTab from './SprintsTab';
 

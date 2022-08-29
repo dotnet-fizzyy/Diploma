@@ -1,5 +1,5 @@
 import { IBaseAction } from '../../types';
-import { ISearchResults, IWorkSpace, IWorkSpacePage } from '../../types/workSpaceTypes';
+import { ISearchResults, IWorkSpace, IWorkSpacePage } from '../../types/workspace';
 
 export const WorkSpaceActions = {
     GET_USER_WORKSPACE_PAGE_REQUEST: 'GET_USER_WORKSPACE_PAGE_REQUEST',

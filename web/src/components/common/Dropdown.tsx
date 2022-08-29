@@ -1,7 +1,7 @@
 import { MenuItem, Select } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { ISelectedItem } from '../../types/storyTypes';
+import { ISelectedItem } from '../../types/story';
 
 const useStyles = makeStyles(() =>
     createStyles({

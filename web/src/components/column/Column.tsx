@@ -2,8 +2,8 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
-import { ISelectedItem, IStory } from '../../types/storyTypes';
-import { ITeam } from '../../types/teamTypes';
+import { ISelectedItem, IStory } from '../../types/story';
+import { ITeam } from '../../types/team';
 import Story from '../story/Story';
 
 const useStyles = makeStyles(() =>

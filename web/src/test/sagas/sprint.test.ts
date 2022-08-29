@@ -22,7 +22,7 @@ import {
 } from '../../redux/actions/sprint';
 import { createSprint, getSprints, removeSprint, updateSprint } from '../../redux/sagas/sprint';
 import { IState } from '../../redux/store/state';
-import { ISprint } from '../../types/sprintTypes';
+import { ISprint } from '../../types/sprint';
 
 describe('Sprint sagas tests', () => {
     it(`Should get sprints from epic on ${SprintActions.GET_SPRINTS_FROM_EPIC_REQUEST}`, () => {

@@ -1,4 +1,4 @@
-export interface ILineChartDataSetTypes {
+export interface ILineChartDataSet {
     label: string;
     data: number[];
     fill: boolean;
@@ -6,20 +6,20 @@ export interface ILineChartDataSetTypes {
     tension: number;
 }
 
-export interface ILineChartTypes {
+export interface ILineChart {
     labels: string[];
-    datasets: ILineChartDataSetTypes[];
+    datasets: ILineChartDataSet[];
 }
 
-export interface IDoughnutChartDataSetTypes {
+export interface IDoughnutChartDataSet {
     label: string;
     data: number[];
     backgroundColor: string[];
     hoverOffset: number;
 }
 
-export interface IDoughnutChartTypes {
+export interface IDoughnutChart {
     labels: string[];
     onClick: (value: number) => void;
-    datasets: IDoughnutChartDataSetTypes[];
+    datasets: IDoughnutChartDataSet[];
 }

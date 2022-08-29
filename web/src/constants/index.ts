@@ -1,5 +1,5 @@
 import { ISelectTabItem } from '../components/header/general-tab/SelectTab';
-import { ILoginForm, IProfilePasswordUpdateForm, IRegistrationForm } from '../types/formTypes';
+import { ILoginForm, IProfilePasswordUpdateForm, IRegistrationForm } from '../types/forms';
 import { ColumnIds } from './boardConstants';
 
 export const BaseRegexExpression: RegExp = /^[- a-zA-Z0-9]*$/;

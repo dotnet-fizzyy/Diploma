@@ -18,7 +18,7 @@ import {
 } from '../../redux/actions/team';
 import { addWorkSpace } from '../../redux/actions/workspace';
 import { createTeam, getUserTeamPage, updateTeam } from '../../redux/sagas/team';
-import { ITeam, ITeamPage } from '../../types/teamTypes';
+import { ITeam, ITeamPage } from '../../types/team';
 
 describe('Team sagas tests', () => {
     it(`Should get team page belongs to user on ${TeamActions.GET_USER_TEAM_PAGE_REQUEST}`, () => {

@@ -7,9 +7,9 @@ import { createProjectRequest, removeProjectRequest, updateProjectRequest } from
 import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modal';
 import { getSelectedProject, getSelectedWorkSpaceProject } from '../../../redux/selectors/project';
 import { getWorkSpaceId } from '../../../redux/selectors/workspace';
-import { IProjectForm } from '../../../types/formTypes';
-import { IProject } from '../../../types/projectTypes';
-import { IWorkSpacePageProject } from '../../../types/workSpaceTypes';
+import { IProjectForm } from '../../../types/forms';
+import { IProject } from '../../../types/project';
+import { IWorkSpacePageProject } from '../../../types/workspace';
 import { InputFormFieldValidator } from '../../../utils/formUtils';
 import ModalRemove, { IModalRemoveProps } from '../ModalRemove';
 import ProjectModal, { IProjectCreationProps } from './ProjectModal';

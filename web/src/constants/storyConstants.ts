@@ -1,4 +1,4 @@
-import { IStoryFormTypes } from '../types/formTypes';
+import { IStoryFormTypes } from '../types/forms';
 import { ColumnIds } from './boardConstants';
 import { UserPosition } from './userConstants';
 

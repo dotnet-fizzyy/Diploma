@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import { TeamUrls } from '../constants/routeConstants';
 import { mapToTeamModel } from '../mappers/teamMapper';
 import { mapToWorkSpaceModel } from '../mappers/workSpaceMapper';
-import { ITeam, ITeamPage } from '../types/teamTypes';
+import { ITeam, ITeamPage } from '../types/team';
 import { createTeamRemoveRequestBody } from '../utils';
 import AxiosBaseApi from './axiosBaseApi';
 

@@ -1,4 +1,4 @@
-import { StoryHistoryAction } from '../types/storyTypes';
+import { StoryHistoryAction } from '../types/story';
 
 export const getStoryHistoryActionText = (action: StoryHistoryAction): string => {
     switch (action) {

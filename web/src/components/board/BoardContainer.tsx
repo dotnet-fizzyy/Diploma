@@ -6,7 +6,7 @@ import { sidebarHandleVisibility } from '../../redux/actions/sidebar';
 import { storyActionDragStart, storyDragAndDropHandle } from '../../redux/actions/story';
 import { getSidebarVisibility } from '../../redux/selectors/sidebar';
 import { getUserSelectedProjectId, getUserSelectedTeamId } from '../../redux/selectors/user';
-import { IStoryDragAndDrop } from '../../types/storyTypes';
+import { IStoryDragAndDrop } from '../../types/story';
 import { getColumnKeyValuePair } from '../../utils/columnUtils';
 import Board, { IBoardProps } from './Board';
 

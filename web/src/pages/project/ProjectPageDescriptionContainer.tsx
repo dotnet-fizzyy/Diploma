@@ -9,10 +9,10 @@ import { setSelectedTeamById } from '../../redux/actions/team';
 import { getEpics, getSelectedEpicId } from '../../redux/selectors/epic';
 import { getSprints } from '../../redux/selectors/sprint';
 import { getTeamSimpleItems } from '../../redux/selectors/team';
-import { IEpic } from '../../types/epicTypes';
-import { IProject } from '../../types/projectTypes';
-import { ISprint } from '../../types/sprintTypes';
-import { ITeamSimpleModel } from '../../types/teamTypes';
+import { IEpic } from '../../types/epic';
+import { IProject } from '../../types/project';
+import { ISprint } from '../../types/sprint';
+import { ITeamSimpleModel } from '../../types/team';
 import ProjectPageDescription, { IProjectPageDescriptionProps } from './ProjectPageDescription';
 
 export interface IProjectPageDescriptionContainerProps {

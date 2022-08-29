@@ -1,7 +1,7 @@
 import { UserPosition } from '../../constants/userConstants';
 import mockedStories from '../../mock/mockedStories';
 import { mockedUsers } from '../../mock/mockedUser';
-import { ISelectedItem, IStory } from '../../types/storyTypes';
+import { ISelectedItem, IStory } from '../../types/story';
 import { getFirstNameLetter, validateGuid } from '../../utils';
 import { areStoriesEqual } from '../../utils/storyUtils';
 import { createAvailableUsersDropdownItems } from '../../utils/userUtils';

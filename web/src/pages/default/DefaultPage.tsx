@@ -3,9 +3,9 @@ import React from 'react';
 import MainLabel, { LabelType } from '../../components/common/MainLabel';
 import LaunchBackground from '../../components/default/LaunchBackground';
 import Background from '../../static/LaunchBackground.png';
-import { IStorySimpleModel } from '../../types/storyTypes';
-import { ITeamSimpleModel } from '../../types/teamTypes';
-import { IUser } from '../../types/userTypes';
+import { IStorySimpleModel } from '../../types/story';
+import { ITeamSimpleModel } from '../../types/team';
+import { IUser } from '../../types/user';
 import TeamCard from '../project/TeamCard';
 
 const useStyles = makeStyles(() =>

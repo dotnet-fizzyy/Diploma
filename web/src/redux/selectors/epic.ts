@@ -1,5 +1,5 @@
-import { IEpic } from '../../types/epicTypes';
-import { ISelectedItem } from '../../types/storyTypes';
+import { IEpic } from '../../types/epic';
+import { ISelectedItem } from '../../types/story';
 import { IState } from '../store/state';
 
 export const getEpics = (state: IState): IEpic[] => state.epics.epics;

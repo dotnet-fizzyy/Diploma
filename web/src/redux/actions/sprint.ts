@@ -1,5 +1,5 @@
 import { IBaseAction } from '../../types';
-import { ISprint } from '../../types/sprintTypes';
+import { ISprint } from '../../types/sprint';
 
 export const SprintActions = {
     GET_SPRINTS_FROM_EPIC_REQUEST: 'GET_SPRINTS_FROM_EPIC_REQUEST',

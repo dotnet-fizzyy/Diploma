@@ -1,4 +1,4 @@
-import { IWorkSpacePageProject } from '../types/workSpaceTypes';
+import { IWorkSpacePageProject } from '../types/workspace';
 
 export const mockedWorkSpaceTableItem: IWorkSpacePageProject = {
     projectId: '12345',

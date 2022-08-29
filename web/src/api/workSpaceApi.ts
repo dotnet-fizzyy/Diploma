@@ -3,7 +3,7 @@ import { WorkSpaceUrls } from '../constants/routeConstants';
 import { mapToProjectSimpleModel } from '../mappers/projectMapper';
 import { mapToSimpleTeamModel } from '../mappers/teamMapper';
 import { mapToWorkSpaceModel } from '../mappers/workSpaceMapper';
-import { ISearchResults, IWorkSpace, IWorkSpacePage } from '../types/workSpaceTypes';
+import { ISearchResults, IWorkSpace, IWorkSpacePage } from '../types/workspace';
 import AxiosBaseApi from './axiosBaseApi';
 
 export default class WorkSpaceApi {

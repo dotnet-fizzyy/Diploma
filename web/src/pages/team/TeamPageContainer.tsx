@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getUserTeamPageRequest } from '../../redux/actions/team';
 import { getSelectedTeam } from '../../redux/selectors/team';
-import { ITeam } from '../../types/teamTypes';
+import { ITeam } from '../../types/team';
 import TeamPage, { ITeamPageProps } from './TeamPage';
 
 const TeamPageContainer = () => {

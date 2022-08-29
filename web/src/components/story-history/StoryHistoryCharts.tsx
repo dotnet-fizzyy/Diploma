@@ -2,8 +2,8 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import React from 'react';
 import { DateFormat } from '../../constants';
-import { ILineChartTypes } from '../../types/charTypes';
-import { IStoryHistory } from '../../types/storyTypes';
+import { ILineChart } from '../../types/charts';
+import { IStoryHistory } from '../../types/story';
 import LineChart from '../charts/LineChart';
 
 const useStyles = makeStyles(() =>
@@ -39,7 +39,7 @@ const StoryHistoryCharts = (props: IStoryHistoryChartsProps) => {
         }
     };
 
-    const chartsData: ILineChartTypes = {
+    const chartsData: ILineChart = {
         labels: uniqueDateLabels,
         datasets: [
             {

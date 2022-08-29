@@ -2,7 +2,7 @@ import { Drawer } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
-import { ISelectedItem } from '../../types/storyTypes';
+import { ISelectedItem } from '../../types/story';
 import ColumnContainer from '../column/ColumnContainer';
 import BoardTabContainer from '../header/board-tab/BoardTabContainer';
 import SidebarContainer from '../sidebar/SidebarContainer';

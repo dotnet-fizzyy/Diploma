@@ -1,5 +1,5 @@
-import { ISprint } from '../../types/sprintTypes';
-import { ISelectedItem } from '../../types/storyTypes';
+import { ISprint } from '../../types/sprint';
+import { ISelectedItem } from '../../types/story';
 import { IState } from '../store/state';
 
 export const getSprints = (state: IState): ISprint[] => state.sprints.sprints;

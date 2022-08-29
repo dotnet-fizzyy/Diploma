@@ -6,7 +6,7 @@ import { createSprintRequest, removeSprintRequest, updateSprintRequest } from '.
 import { getSelectedEpicId } from '../../../redux/selectors/epic';
 import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modal';
 import { getSelectedSprint } from '../../../redux/selectors/sprint';
-import { ISprint } from '../../../types/sprintTypes';
+import { ISprint } from '../../../types/sprint';
 import { InputFormFieldValidator } from '../../../utils/formUtils';
 import ModalRemove, { IModalRemoveProps } from '../ModalRemove';
 import SprintModal, { ISprintCreationProps } from './SprintModal';

@@ -4,8 +4,8 @@ import moment from 'moment';
 import React from 'react';
 import Accordion from '../../components/common/Accordion';
 import { DateFormat } from '../../constants';
-import { IEpic } from '../../types/epicTypes';
-import { ISprint } from '../../types/sprintTypes';
+import { IEpic } from '../../types/epic';
+import { ISprint } from '../../types/sprint';
 import ProjectEpicDetailsContainer from './ProjectEpicDetailsContainer';
 
 const useStyles = makeStyles(() =>

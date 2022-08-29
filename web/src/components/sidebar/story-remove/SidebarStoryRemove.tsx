@@ -1,6 +1,6 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { IStory } from '../../../types/storyTypes';
+import { IStory } from '../../../types/story';
 import Button, { ButtonVariant } from '../../common/Button';
 import MainLabel, { LabelType } from '../../common/MainLabel';
 

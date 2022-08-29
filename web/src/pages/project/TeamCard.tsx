@@ -3,7 +3,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import InfoIcon from '@material-ui/icons/Info';
 import classnames from 'classnames';
 import React from 'react';
-import { ITeamSimpleModel } from '../../types/teamTypes';
+import { ITeamSimpleModel } from '../../types/team';
 
 const useStyles = makeStyles(() =>
     createStyles({

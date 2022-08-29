@@ -4,7 +4,7 @@ import { SidebarTypes } from '../../../constants';
 import { sidebarChangeType } from '../../../redux/actions/sidebar';
 import { removeStoryRequest } from '../../../redux/actions/story';
 import { getSelectedStory } from '../../../redux/selectors/story';
-import { IStory } from '../../../types/storyTypes';
+import { IStory } from '../../../types/story';
 import SidebarStoryRemove, { ISidebarStoryRemoveProps } from './SidebarStoryRemove';
 
 const SidebarStoryRemoveContainer = () => {

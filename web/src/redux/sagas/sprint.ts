@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import SprintApi from '../../api/sprintApi';
-import { ISprint } from '../../types/sprintTypes';
+import { ISprint } from '../../types/sprint';
 import {
     createSprintFailure,
     createSprintSuccess,

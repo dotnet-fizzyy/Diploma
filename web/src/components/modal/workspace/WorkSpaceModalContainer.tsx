@@ -6,8 +6,8 @@ import { InitialWorkSpaceFormValues } from '../../../constants/workSpaceContants
 import { createWorkSpaceRequest, updateWorkSpaceRequest } from '../../../redux/actions/workspace';
 import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modal';
 import { getWorkSpace } from '../../../redux/selectors/workspace';
-import { IWorkSpaceForm } from '../../../types/formTypes';
-import { IWorkSpace } from '../../../types/workSpaceTypes';
+import { IWorkSpaceForm } from '../../../types/forms';
+import { IWorkSpace } from '../../../types/workspace';
 import { InputFormFieldValidator } from '../../../utils/formUtils';
 import WorkSpaceModal, { IWorkSpaceModalProps } from './WorkSpaceModal';
 

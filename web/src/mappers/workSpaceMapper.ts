@@ -1,4 +1,4 @@
-import { IWorkSpace } from '../types/workSpaceTypes';
+import { IWorkSpace } from '../types/workspace';
 
 export function mapToWorkSpaceModel(data: any): IWorkSpace {
     return {

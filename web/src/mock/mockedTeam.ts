@@ -1,6 +1,6 @@
 import { UserPosition, UserRole } from '../constants/userConstants';
-import { ITeam, ITeamSimpleModel } from '../types/teamTypes';
-import { IUser } from '../types/userTypes';
+import { ITeam, ITeamSimpleModel } from '../types/team';
+import { IUser } from '../types/user';
 
 export const mockedTeam: ITeam = {
     location: 'Minsk',

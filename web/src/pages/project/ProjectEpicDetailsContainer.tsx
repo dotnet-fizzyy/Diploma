@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { openModal } from '../../redux/actions/modal';
 import { setSelectedSprint } from '../../redux/actions/sprint';
-import { IEpic } from '../../types/epicTypes';
-import { ISprint } from '../../types/sprintTypes';
+import { IEpic } from '../../types/epic';
+import { ISprint } from '../../types/sprint';
 import ProjectEpicDetails, { TabValues } from './ProjectEpicDetails';
 
 export interface IProjectEpicDetailsContainerProps {

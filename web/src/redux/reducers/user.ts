@@ -1,4 +1,4 @@
-import { IUserProject, IUserTeam } from '../../types/userTypes';
+import { IUserProject, IUserTeam } from '../../types/user';
 import {
     ICreateProjectSuccess,
     IRemoveProjectSuccess,

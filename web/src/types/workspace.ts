@@ -1,5 +1,5 @@
-import { IProjectSimpleModel } from './projectTypes';
-import { ITeamSimpleModel } from './teamTypes';
+import { IProjectSimpleModel } from './project';
+import { ITeamSimpleModel } from './team';
 
 export interface IWorkSpace {
     workSpaceId?: string;

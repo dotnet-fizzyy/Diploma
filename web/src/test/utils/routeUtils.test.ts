@@ -1,6 +1,6 @@
 import { UserPosition, UserRole } from '../../constants/userConstants';
 import { mockedUser } from '../../mock/mockedUser';
-import { IUser } from '../../types/userTypes';
+import { IUser } from '../../types/user';
 import { CustomerRouteGuard, UserRouteGuard } from '../../utils/routeUtils';
 
 describe('Route utils', () => {

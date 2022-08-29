@@ -1,4 +1,4 @@
-import { IProject } from '../types/projectTypes';
+import { IProject } from '../types/project';
 
 export const ProjectLengthDescriptionMaxLength: number = 250;
 

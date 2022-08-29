@@ -4,8 +4,8 @@ import { mapToEpicModel } from '../mappers/epicMapper';
 import { mapToSprintModel } from '../mappers/sprintMappers';
 import { mapToStorySimpleModel } from '../mappers/storyMappers';
 import { ICollectionResponse } from '../types';
-import { IEpic } from '../types/epicTypes';
-import { IStatsPage } from '../types/projectTypes';
+import { IEpic } from '../types/epic';
+import { IStatsPage } from '../types/project';
 import { createEpicRemoveRequestBody } from '../utils';
 import AxiosBaseApi from './axiosBaseApi';
 

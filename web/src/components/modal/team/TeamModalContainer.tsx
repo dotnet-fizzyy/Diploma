@@ -8,8 +8,8 @@ import { getModalOption, getModalRequestPerforming } from '../../../redux/select
 import { getProjectNames } from '../../../redux/selectors/project';
 import { getSelectProjectId } from '../../../redux/selectors/project';
 import { getSelectedTeam, getSelectedTeamFromSimpleItems } from '../../../redux/selectors/team';
-import { ISelectedItem } from '../../../types/storyTypes';
-import { ITeam, ITeamSimpleModel } from '../../../types/teamTypes';
+import { ISelectedItem } from '../../../types/story';
+import { ITeam, ITeamSimpleModel } from '../../../types/team';
 import { InputFormFieldValidator } from '../../../utils/formUtils';
 import ModalRemove, { IModalRemoveProps } from '../ModalRemove';
 import TeamModal, { ITeamModalProps } from './TeamModal';

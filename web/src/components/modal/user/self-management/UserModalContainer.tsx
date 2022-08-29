@@ -10,8 +10,8 @@ import {
 } from '../../../../redux/actions/user';
 import { getModalRequestPerforming } from '../../../../redux/selectors/modal';
 import { getEmailExistence, getUser } from '../../../../redux/selectors/user';
-import { IProfilePasswordUpdateForm, IProfileSettingsForm } from '../../../../types/formTypes';
-import { IFullUser, IUser } from '../../../../types/userTypes';
+import { IProfilePasswordUpdateForm, IProfileSettingsForm } from '../../../../types/forms';
+import { IFullUser, IUser } from '../../../../types/user';
 import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formUtils';
 import UserModal, { IUserModalProps } from './UserModal';
 

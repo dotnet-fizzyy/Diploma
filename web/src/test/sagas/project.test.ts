@@ -45,7 +45,7 @@ import {
     updateProject,
 } from '../../redux/sagas/project';
 import { IState } from '../../redux/store/state';
-import { IBoardPage, IFullStatsPage, IProject, IProjectPage } from '../../types/projectTypes';
+import { IBoardPage, IFullStatsPage, IProject, IProjectPage } from '../../types/project';
 
 describe('Project sagas tests', () => {
     it(`Should get board info for project and team on ${ProjectActions.GET_BOARD_INFO_REQUEST}`, () => {

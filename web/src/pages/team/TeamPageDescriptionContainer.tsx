@@ -4,8 +4,8 @@ import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
 import { openModal } from '../../redux/actions/modal';
 import { changeUserActivityStatusRequest } from '../../redux/actions/user';
 import { getUser } from '../../redux/selectors/user';
-import { ITeam } from '../../types/teamTypes';
-import { IFullUser } from '../../types/userTypes';
+import { ITeam } from '../../types/team';
+import { IFullUser } from '../../types/user';
 import TeamPageDescription, { ITeamPageDescriptionProps } from './TeamPageDescription';
 
 export interface ITeamPageDescriptionContainerProps {

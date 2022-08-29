@@ -1,6 +1,6 @@
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import ProjectApi from '../../api/projectApi';
-import { IBoardPage, IDefaultPage, IFullStatsPage, IProject, IProjectPage } from '../../types/projectTypes';
+import { IBoardPage, IDefaultPage, IFullStatsPage, IProject, IProjectPage } from '../../types/project';
 import { addEpics, addSimpleEpics } from '../actions/epic';
 import {
     createProjectFailure,

@@ -6,8 +6,8 @@ import StatsFilters from '../../components/stats/StatsFilters';
 import StatsGeneralInfo from '../../components/stats/StatsGeneralInfo';
 import StatsProjectShortInfo from '../../components/stats/StatsProjectShortInfo';
 import StatsStoriesFromSearchParameters from '../../components/stats/StatsStoriesFromSearchParameters';
-import { IProject } from '../../types/projectTypes';
-import { ISelectedItem, IStorySimpleModel } from '../../types/storyTypes';
+import { IProject } from '../../types/project';
+import { ISelectedItem, IStorySimpleModel } from '../../types/story';
 import StatsPageChart from './StatsPageChart';
 
 const useStyles = makeStyles(() =>

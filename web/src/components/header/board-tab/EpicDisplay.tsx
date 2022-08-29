@@ -2,7 +2,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import classnames from 'classnames';
 import React from 'react';
-import { ISelectedItem } from '../../../types/storyTypes';
+import { ISelectedItem } from '../../../types/story';
 import Dropdown from '../../common/Dropdown';
 
 const useStyles = makeStyles(() =>
