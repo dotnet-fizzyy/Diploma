@@ -29,5 +29,6 @@ namespace WebAPI.Core.Constants
         public const int TeamsLimit = 5;
         public const int ProjectsLimit = 5;
         public const int StoriesLimit = 5;
+        public const int Offset = 0;
     }
 }

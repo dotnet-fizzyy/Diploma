@@ -9,7 +9,7 @@ using WebAPI.Presentation.Utilities;
 
 namespace WebAPI.Presentation.Controllers
 {
-    [Authorize]
+    // [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class PageController : ControllerBase

@@ -43,7 +43,7 @@ import {
     getProjectStatsPage,
     removeProject,
     updateProject,
-} from '../../redux/sagas/projectSagas';
+} from '../../redux/sagas/project';
 import { IState } from '../../redux/store/state';
 import { IBoardPage, IFullStatsPage, IProject, IProjectPage } from '../../types/projectTypes';
 

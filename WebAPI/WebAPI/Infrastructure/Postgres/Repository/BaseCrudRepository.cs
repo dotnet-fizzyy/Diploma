@@ -42,6 +42,24 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         public async Task<List<T>> SearchForMultipleItemsAsync(Expression<Func<T, bool>> expression) => 
             await _dbSet.Where(expression).AsNoTracking().ToListAsync();
 
+        public async Task<List<T>> SearchForMultipleItemsAsync(
+            Expression<Func<T, bool>> expression,
+            params Expression<Func<T, object>>[] includes)
+        {
+            var query = _dbSet.Where(expression);
+
+            if (includes.Any())
+            {
+                query = includes
+                    .Aggregate(query,
+                        (
+                            current, includeProperty) => current.Include(includeProperty)
+                    );
+            }
+
+            return await query.ToListAsync();
+        }
+
         public async Task<List<T>> SearchForMultipleItemsAsync<K>(
             Expression<Func<T, bool>> expression,
             Expression<Func<T, K>> sort,

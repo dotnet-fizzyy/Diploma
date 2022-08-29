@@ -15,13 +15,17 @@ namespace WebAPI.Core.Interfaces.Database
         Task CreateAsync(IEnumerable<T> items);
 
         Task<bool> ExistsAsync(Expression<Func<T, bool>> expression);
-
-        Task<List<T>> SearchForMultipleItemsAsync(Expression<Func<T, bool>> expression);
-
+        
         Task<int> CountAsync();
 
         Task<int> CountAsync(Expression<Func<T, bool>> expression);
         
+        Task<List<T>> SearchForMultipleItemsAsync(Expression<Func<T, bool>> expression);
+        
+        Task<List<T>> SearchForMultipleItemsAsync(
+            Expression<Func<T, bool>> expression,
+            params Expression<Func<T, object>>[] includes);
+
         Task<List<T>> SearchForMultipleItemsAsync<K>(
             Expression<Func<T, bool>> expression, 
             Expression<Func<T, K>> sort, 

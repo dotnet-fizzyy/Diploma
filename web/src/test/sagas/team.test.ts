@@ -17,7 +17,7 @@ import {
     TeamActions,
 } from '../../redux/actions/team';
 import { addWorkSpace } from '../../redux/actions/workspace';
-import { createTeam, getUserTeamPage, updateTeam } from '../../redux/sagas/teamSagas';
+import { createTeam, getUserTeamPage, updateTeam } from '../../redux/sagas/team';
 import { ITeam, ITeamPage } from '../../types/teamTypes';
 
 describe('Team sagas tests', () => {

@@ -10,7 +10,7 @@ import {
     IVerifyUserRequest,
     UserActions,
 } from '../../redux/actions/user';
-import { verifyUser } from '../../redux/sagas/userSagas';
+import { verifyUser } from '../../redux/sagas/user';
 import { IFullUser } from '../../types/userTypes';
 
 describe('User sagas tests', () => {

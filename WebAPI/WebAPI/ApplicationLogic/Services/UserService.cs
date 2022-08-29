@@ -67,12 +67,7 @@ namespace WebAPI.ApplicationLogic.Services
         {
             var userEntity = await _unitOfWork.UserRepository.SearchForItemById(id, includeTracking: false);
 
-            if (userEntity == null)
-            {
-                throw new UserFriendlyException(
-                    ErrorStatus.NOT_FOUND, 
-                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id)));
-            }
+            ValidateUserExistence(userEntity, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(id)));
 
             return UserMapper.Map(userEntity);
         }
@@ -84,15 +79,6 @@ namespace WebAPI.ApplicationLogic.Services
             var fullUser = await GetFullUserDescriptionAsync(authUser.Id);
 
             return await GenerateAuthTokensAsync(fullUser);
-        }
-
-        /// <inheritdoc cref="IUserService.CreateUserAndAssignToTeamAsync" />
-        public async Task<User> CreateUserAndAssignToTeamAsync(User user, Guid teamId)
-        {
-            var userEntity = UserMapper.Map(user);
-            userEntity.TeamUsers.Add(new TeamUserEntity { TeamId = teamId });
-            
-            return await CreateUser(userEntity);
         }
 
         /// <inheritdoc cref="IUserService.RegisterUserAsync" />
@@ -152,13 +138,8 @@ namespace WebAPI.ApplicationLogic.Services
                 .SearchForSingleItemAsync(
                     user => user.Id == userId && user.Password == oldHashedPassword, 
                     includeTracking: false);
- 
-            if (userEntity == null)
-            {
-                throw new UserFriendlyException(
-                    ErrorStatus.NOT_FOUND, 
-                    "Unable to find user with provided id and password");
-            }
+
+            ValidateUserExistence(userEntity, errorMessage: "Unable to find user with provided id and password");
 
             userEntity.Password = newHashedPassword;
 
@@ -209,6 +190,14 @@ namespace WebAPI.ApplicationLogic.Services
         }
 
 
+        private static void ValidateUserExistence(UserEntity user, string errorMessage)
+        {
+            if (user == null)
+            {
+                throw new UserFriendlyException(ErrorStatus.NOT_FOUND, errorMessage);
+            }
+        }
+        
         private async Task<User> CreateUser(UserEntity user)
         {
             user.Password = PasswordHashing.CreateHashPassword(user.Password);
@@ -241,12 +230,7 @@ namespace WebAPI.ApplicationLogic.Services
                 includeTracking: false,
                 include => include.TeamUsers);
             
-            if (userEntity == null)
-            {
-                throw new UserFriendlyException(
-                    ErrorStatus.NOT_FOUND, 
-                    ExceptionMessageGenerator.GetMissingEntityMessage(nameof(userId)));
-            }
+            ValidateUserExistence(userEntity, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(userId)));
             
             ICollection<TeamEntity> teamEntities = null;
             ICollection<ProjectEntity> projectEntities = null;
@@ -254,13 +238,13 @@ namespace WebAPI.ApplicationLogic.Services
             if (userEntity.TeamUsers.Any())
             {
                 teamEntities = await _unitOfWork.TeamRepository.GetUserTeams(userEntity.Id);
-                projectEntities = await GetProjectsByUser(userEntity, teamEntities);
+                projectEntities = await GetProjectsByUserPosition(userEntity, teamEntities);
             }
 
             return UserMapper.Map(userEntity, projectEntities, teamEntities);
         }
 
-        private async Task<List<ProjectEntity>> GetProjectsByUser(UserEntity user, IEnumerable<TeamEntity> teams)
+        private async Task<List<ProjectEntity>> GetProjectsByUserPosition(UserEntity user, IEnumerable<TeamEntity> teams)
         {
             if (user.UserPosition == UserPosition.Customer)
             {
@@ -268,7 +252,8 @@ namespace WebAPI.ApplicationLogic.Services
                     .SearchForMultipleItemsAsync(project => project.WorkSpaceId == user.WorkSpaceId);
             }
 
-            return await _unitOfWork.ProjectRepository.GetProjectsByCollectionOfTeamIds(teams);
+            return await _unitOfWork.ProjectRepository
+                .SearchForMultipleItemsAsync(project => teams.Any(team => team.ProjectId == project.Id));
         }
 
         private async Task<UserComplete> GetUserFromCache(Guid userId) =>

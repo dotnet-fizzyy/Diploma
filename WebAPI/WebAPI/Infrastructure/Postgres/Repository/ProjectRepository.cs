@@ -15,41 +15,24 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             
         }
 
-        public async Task<List<Project>> GetProjectWithTeamsByWorkSpaceIdAsync(Guid workSpaceId)
+        // todo: pass more params like workSpaceId
+        public async Task<List<Project>> GetProjectsBySearchTerm(
+            string term,
+            int limit,
+            int offset,
+            IEnumerable<Guid> teamIds)
         {
-            var query = DbContext.Projects
-                .Where(x => x.WorkSpaceId == workSpaceId)
-                .Include(x => x.Teams);
+            var query =
+                from project in DbContext.Projects
+                join team in DbContext.Teams on project.Id equals team.ProjectId
+                where EF.Functions.ILike(project.ProjectName, $"{term}%") && 
+                      teamIds.Any(teamId => teamId == team.Id)
+                select project;
 
-            var foundProjects = await query.AsNoTracking().ToListAsync();
-
-            return foundProjects;
-        }
-
-        public async Task<List<Project>> GetProjectsByCollectionOfTeamIds(IEnumerable<Team> teams)
-        {
-            var query = 
-                from projects in DbContext.Projects 
-                where teams.Select(x => x.ProjectId).Contains(projects.Id) 
-                select projects;
-
-            var foundProjects = await query.AsNoTracking().ToListAsync();
-
-            return foundProjects;
-        }
-
-        public async Task<List<Project>> GetProjectsBySearchTerm(string term, int limit, Guid[] teamIds)
-        {
-            var query = from projects in DbContext.Projects
-                    .AsNoTracking()
-                    .Where(x => EF.Functions.ILike(x.ProjectName, $"{term}%"))
-                join teams in DbContext.Teams on projects.Id equals teams.ProjectId
-                where teamIds.Any(x => x == teams.Id)
-                select projects;
-
-            var projectEntities = await query.Distinct().ToListAsync();
-
-            return projectEntities;
+            return await query
+                .Skip(offset)
+                .Take(limit)
+                .ToListAsync();
         }
     }
 }

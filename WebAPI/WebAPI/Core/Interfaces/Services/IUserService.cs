@@ -40,15 +40,6 @@ namespace WebAPI.Core.Interfaces.Services
         /// <returns>Created <see cref="User"/> model.</returns>
         Task<User> CreateAsync(User user);
 
-        // todo: remove in future.
-        /// <summary>
-        /// Creates user and assigns him to team.
-        /// </summary>
-        /// <param name="user"><see cref="User"/> user.</param>
-        /// <param name="teamId">Team identifier.</param>
-        /// <returns></returns>
-        Task<User> CreateUserAndAssignToTeamAsync(User user, Guid teamId);
-
         /// <summary>
         /// Creates user with position of <b>Customer</b> and role <b>Customer</b>.
         /// </summary>

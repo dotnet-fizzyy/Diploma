@@ -20,7 +20,7 @@ import {
     IRemoveSprintRequest,
     SprintActions,
 } from '../../redux/actions/sprint';
-import { createSprint, getSprints, removeSprint, updateSprint } from '../../redux/sagas/sprintSagas';
+import { createSprint, getSprints, removeSprint, updateSprint } from '../../redux/sagas/sprint';
 import { IState } from '../../redux/store/state';
 import { ISprint } from '../../types/sprintTypes';
 

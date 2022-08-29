@@ -15,55 +15,62 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             
         }
 
-        public async Task<Team> GetUserTeamById(Guid teamId, Guid userId)
-        {
-            var team = await DbContext.Teams
-                    .AsNoTracking()
-                    .Include(x => x.TeamUsers)
-                    .ThenInclude(x => x.User)
-                    .FirstOrDefaultAsync(x => x.Id == teamId && x.TeamUsers.Select(e => e.User).Any(e => e.Id == userId));
-
-            return team;
-        }
+        public async Task<Team> GetUserTeamById(Guid teamId, Guid userId) =>
+            await DbContext.Teams
+                .AsNoTracking()
+                .Include(team => team.TeamUsers)
+                .ThenInclude(teamUser => teamUser.User)
+                .FirstOrDefaultAsync(team => team.Id == teamId && 
+                                             team.TeamUsers
+                                                 .Select(teamUser => teamUser.User)
+                                                 .Any(user => user.Id == userId));
 
         public async Task<List<Team>> GetUserTeams(Guid userId)
         {
             var user = await DbContext.Users
                 .AsNoTracking()
-                .Include(x => x.TeamUsers)
-                .ThenInclude(x => x.Team)
-                .FirstOrDefaultAsync(x => x.Id == userId);
+                .Include(user => user.TeamUsers)
+                .ThenInclude(teamUser => teamUser.Team)
+                .SingleOrDefaultAsync(user => user.Id == userId);
+
+            if (user?.TeamUsers == null)
+            {
+                return new List<Team>();
+            }
+
 
             return user.TeamUsers
-                .Select(x => x.Team)
+                .Select(teamUser => teamUser.Team)
                 .ToList();
         }
 
-        public async Task<List<Team>> GetTeamsBySearchTerm(string searchTerm, int limit, Guid[] teamIds)
+        // todo: pass more params like projectIds, workspaceId
+        public async Task<List<Team>> GetTeamsBySearchTerm(
+            string searchTerm,
+            int limit,
+            int offset,
+            IEnumerable<Guid> projectIds,
+            IEnumerable<Guid> teamIds)
         {
-            var query = from teams in DbContext.Teams
-                    .AsNoTracking()
-                    .Include(x => x.TeamUsers)
-                    .ThenInclude(x => x.User)
-                    .Where(x => EF.Functions.ILike(x.TeamName, $"{searchTerm}%"))
-                    .Take(limit)
-                where teamIds.Any(x => x == teams.Id)
-                select teams;
+            var query = 
+                from team in DbContext.Teams
+                join project in DbContext.Projects on team.ProjectId equals project.Id
+                where EF.Functions.ILike(team.TeamName, $"{searchTerm}%") &&
+                      projectIds.Any(projectId => projectId == project.Id) &&
+                      teamIds.Any(teamId => teamId == team.Id)
+                select team;
 
-            var teamEntities = await query.ToListAsync();
-
-            return teamEntities;
+            return await query
+                .Skip(offset)
+                .Take(limit)
+                .ToListAsync();
         }
 
-        public async Task<Team> GetTeamWithUsers(Guid teamId)
-        {
-            var team = await DbContext.Teams
+        public async Task<Team> GetTeamWithUsers(Guid teamId) =>
+            await DbContext.Teams
                 .AsNoTracking()
-                .Include(x => x.TeamUsers)
-                .ThenInclude(x => x.User)
-                .FirstOrDefaultAsync(x => x.Id == teamId);
-
-            return team;
-        }
+                .Include(team => team.TeamUsers)
+                .ThenInclude(teamUser => teamUser.User)
+                .SingleOrDefaultAsync(team => team.Id == teamId);
     }
 }

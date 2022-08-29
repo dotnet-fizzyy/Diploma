@@ -16,7 +16,7 @@ import {
     ICreateWorkSpaceRequest,
     WorkSpaceActions,
 } from '../../redux/actions/workspace';
-import { createWorkSpace, getUserWorkSpacePage, updateWorkSpace } from '../../redux/sagas/workSpaceSagas';
+import { createWorkSpace, getUserWorkSpacePage, updateWorkSpace } from '../../redux/sagas/workspace';
 import { IWorkSpace, IWorkSpacePage } from '../../types/workSpaceTypes';
 
 describe('WorkSpace sagas tests', () => {

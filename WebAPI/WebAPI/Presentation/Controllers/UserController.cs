@@ -75,24 +75,6 @@ namespace WebAPI.Presentation.Controllers
         }
 
         /// <summary>
-        /// Creates user and assigns him to team.
-        /// </summary>
-        /// <param name="user">User identifier.</param>
-        /// <param name="teamId">Team identifier.</param>
-        /// <response code="201">Created user.</response>
-        /// <response code="401">Failed authentication.</response>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpPost("team/id/{teamId:guid}")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<User>> CreateUserAndAssignToTeam([FromBody] User user, Guid teamId)
-        {
-            var createdUser = await _userService.CreateUserAndAssignToTeamAsync(user, teamId);
-            
-            return CreatedAtAction(nameof(CreateUser), createdUser);
-        }
-
-        /// <summary>
         /// Updates user (except password).
         /// </summary>
         /// <response code="200">Updated user.</response>

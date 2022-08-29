@@ -40,22 +40,24 @@ namespace WebAPI.ApplicationLogic.Services
             return PageAggregator.CreateDefaultPageModel(teams.Result, stories.Result);;
         }
 
+        // todo: pass project id
         public async Task<SearchResult> GetSearchResultsAsync(string searchTerm, Guid[] teamIds)
         {
-            var teams = _unitOfWork.TeamRepository.GetTeamsBySearchTerm(
+            var teams = await _unitOfWork.TeamRepository.GetTeamsBySearchTerm(
                 searchTerm,
                 Search.TeamsLimit,
+                Search.Offset,
+                default,
                 teamIds);
-            var projects = _unitOfWork.ProjectRepository.GetProjectsBySearchTerm(
+            var projects = await _unitOfWork.ProjectRepository.GetProjectsBySearchTerm(
                 searchTerm,
                 Search.ProjectsLimit,
+                Search.Offset,
                 teamIds);
 
-            await Task.WhenAll(teams, projects);
-
             return PageAggregator.CreateSearchResultsByTerm(
-                teams.Result,
-                projects.Result
+                teams,
+                projects
             );;
         }
 
@@ -138,7 +140,9 @@ namespace WebAPI.ApplicationLogic.Services
             }
 
             var projects = await _unitOfWork.ProjectRepository
-                .GetProjectWithTeamsByWorkSpaceIdAsync(workSpace.Id);
+                .SearchForMultipleItemsAsync(
+                    project => project.WorkSpaceId == workSpace.Id,
+                    project => project.Teams);
 
             return PageAggregator.CreateWorkSpacePageModel(workSpace, projects);
         }
