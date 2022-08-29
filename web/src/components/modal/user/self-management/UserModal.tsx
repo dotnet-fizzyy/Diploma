@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { Field, Form, Formik } from 'formik';
 import React, { RefObject } from 'react';
 import { InitialProfileUpdatePassword, PasswordsAreNotSameErrorMessage, UnspecifiedValue } from '../../../../constants';
-import { passwordUpdateFields, userFields, UserPosition, UserRole } from '../../../../constants/userConstants';
+import { passwordUpdateFields, userFields, UserPosition, UserRole } from '../../../../constants/user';
 import { IProfilePasswordUpdateForm, IProfileSettingsForm } from '../../../../types/forms';
 import { IFullUser } from '../../../../types/user';
 import { getFirstNameLetter } from '../../../../utils';

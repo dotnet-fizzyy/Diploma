@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { ProjectUrls } from '../constants/routeConstants';
+import { ProjectUrls } from '../constants/routes';
 import { mapToEpicSimpleModel } from '../mappers/epicMapper';
 import { mapToProjectModel, mapToProjectPageModel } from '../mappers/projectMapper';
 import { mapToSprintModel } from '../mappers/sprintMappers';

@@ -1,13 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../../constants';
-import { ModalOptions } from '../../../../constants/modalConstants';
-import {
-    CustomerInitialState,
-    UserInitialState,
-    UserPosition,
-    UserPositionRoleMap,
-} from '../../../../constants/userConstants';
+import { ModalOptions } from '../../../../constants/modal';
+import { CustomerInitialState, UserInitialState, UserPosition, UserPositionRoleMap } from '../../../../constants/user';
 import { createUserRequest } from '../../../../redux/actions/user';
 import { getModalOption, getModalRequestPerforming } from '../../../../redux/selectors/modal';
 import { getSelectedTeamId } from '../../../../redux/selectors/team';

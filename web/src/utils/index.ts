@@ -1,5 +1,5 @@
 import { AccessTokenLocalStorageField, GuidRegexExpression, RefreshTokenLocalStorageField } from '../constants';
-import { UserPosition, UserRole } from '../constants/userConstants';
+import { UserPosition, UserRole } from '../constants/user';
 import { IJsonPatchBody } from '../types';
 
 export const setCredentialsToLocalStorage = (accessToken: string, refreshToken: string): void => {

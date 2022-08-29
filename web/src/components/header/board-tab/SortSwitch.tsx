@@ -1,7 +1,7 @@
 import { Switch } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React, { useState } from 'react';
-import { SortDirection } from '../../../constants/storyConstants';
+import { SortDirection } from '../../../constants/story';
 
 const useStyles = makeStyles(() =>
     createStyles({

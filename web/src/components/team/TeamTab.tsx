@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import UpdateIcon from '@material-ui/icons/Update';
 import React from 'react';
-import { ManagerRoleRequiredMessage } from '../../constants/userConstants';
+import { ManagerRoleRequiredMessage } from '../../constants/user';
 import Button from '../common/Button';
 import Tooltip from '../common/Tooltip';
 

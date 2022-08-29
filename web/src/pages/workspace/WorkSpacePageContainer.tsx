@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
+import { ModalOptions, ModalTypes } from '../../constants/modal';
 import { openModal } from '../../redux/actions/modal';
 import { setSelectedProjectFromWorkSpaceById } from '../../redux/actions/project';
 import { getUserWorkSpacePageRequest } from '../../redux/actions/workspace';

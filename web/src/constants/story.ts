@@ -1,6 +1,6 @@
 import { IStoryFormTypes } from '../types/forms';
-import { ColumnIds } from './boardConstants';
-import { UserPosition } from './userConstants';
+import { ColumnIds } from './board';
+import { UserPosition } from './user';
 
 export const debouncePeriod: number = 1000;
 

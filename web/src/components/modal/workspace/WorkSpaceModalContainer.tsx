@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../constants';
-import { ModalOptions } from '../../../constants/modalConstants';
-import { InitialWorkSpaceFormValues } from '../../../constants/workSpaceContants';
+import { ModalOptions } from '../../../constants/modal';
+import { InitialWorkSpaceFormValues } from '../../../constants/workspace';
 import { createWorkSpaceRequest, updateWorkSpaceRequest } from '../../../redux/actions/workspace';
 import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modal';
 import { getWorkSpace } from '../../../redux/selectors/workspace';

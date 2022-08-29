@@ -1,4 +1,4 @@
-import { initialStory, Priority, SortFields, StoryEstimation } from '../constants/storyConstants';
+import { initialStory, Priority, SortFields, StoryEstimation } from '../constants/story';
 import { IJsonPatchBody } from '../types';
 import { IStoryFormTypes } from '../types/forms';
 import { ISprint } from '../types/sprint';

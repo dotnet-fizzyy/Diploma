@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import moment from 'moment';
 import React from 'react';
 import { DateFormat } from '../../../constants';
-import { UserPosition, UserRole } from '../../../constants/userConstants';
+import { UserPosition, UserRole } from '../../../constants/user';
 import { IProjectSimpleModel } from '../../../types/project';
 import { ITeamSimpleModel } from '../../../types/team';
 import { isUserCustomer } from '../../../utils';

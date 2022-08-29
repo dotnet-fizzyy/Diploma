@@ -1,4 +1,4 @@
-import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
+import { ModalOptions, ModalTypes } from '../../constants/modal';
 import { IBaseAction } from '../../types';
 
 export const ModalActions = {

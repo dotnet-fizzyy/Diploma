@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { WorkSpaceFields } from '../../../constants/workSpaceContants';
+import { WorkSpaceFields } from '../../../constants/workspace';
 import { IWorkSpaceForm } from '../../../types/forms';
 import Button from '../../common/Button';
 import FormTextArea from '../../common/FormTextArea';

@@ -8,7 +8,7 @@ import {
     TeamManagementRoute,
     ViewStoryHistoryRoute,
     WorkspaceViewerRoute,
-} from '../../constants/routeConstants';
+} from '../../constants/routes';
 import DefaultPageContainer from '../../pages/default/DefaultPageContainer';
 import ProjectPageContainer from '../../pages/project/ProjectPageContainer';
 import StatsPageContainer from '../../pages/stats/StatsPageContainer';

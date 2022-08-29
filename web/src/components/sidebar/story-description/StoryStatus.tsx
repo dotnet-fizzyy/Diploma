@@ -5,7 +5,7 @@ import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import classnames from 'classnames';
 import { Field } from 'formik';
 import React from 'react';
-import { storyFields } from '../../../constants/storyConstants';
+import { storyFields } from '../../../constants/story';
 import FormTextField from '../../common/FormTextField';
 
 const useStyles = makeStyles(() =>

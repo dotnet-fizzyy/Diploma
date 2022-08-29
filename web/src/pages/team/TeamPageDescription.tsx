@@ -8,7 +8,7 @@ import PageHeaderTab from '../../components/header/page-header/PageHeaderTab';
 import TeamPersonCard from '../../components/team/TeamPersonCard';
 import TeamTab from '../../components/team/TeamTab';
 import { DateFormat } from '../../constants';
-import { ManagerRoleRequiredMessage, UserPosition, UserRole } from '../../constants/userConstants';
+import { ManagerRoleRequiredMessage, UserPosition, UserRole } from '../../constants/user';
 import { ITeam } from '../../types/team';
 import { isUserCustomer, isUserProjectManager } from '../../utils';
 

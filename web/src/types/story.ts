@@ -1,5 +1,5 @@
-import { Priority, StoryHistoryAction } from '../constants/storyConstants';
-import { UserPosition } from '../constants/userConstants';
+import { Priority, StoryHistoryAction } from '../constants/story';
+import { UserPosition } from '../constants/user';
 
 export interface IStory {
     storyId?: string;

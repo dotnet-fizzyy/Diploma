@@ -1,8 +1,8 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { storyFields } from '../../../constants/storyConstants';
-import { UserPosition } from '../../../constants/userConstants';
+import { storyFields } from '../../../constants/story';
+import { UserPosition } from '../../../constants/user';
 import { IStoryFormTypes } from '../../../types/forms';
 import { ISelectedItem } from '../../../types/story';
 import { IUser } from '../../../types/user';

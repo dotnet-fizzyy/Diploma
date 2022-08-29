@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { LoginScreenRoute } from '../../constants/routeConstants';
+import { LoginScreenRoute } from '../../constants/routes';
 import { isUserCustomer } from '../../utils';
 import UndefinedPage from '../no-match/UndefinedPage';
 import ApplicationPageContainer from './ApplicationPageContainer';

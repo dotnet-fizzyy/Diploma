@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ModalTypes } from '../../../constants/modalConstants';
-import { SortDirection } from '../../../constants/storyConstants';
+import { ModalTypes } from '../../../constants/modal';
+import { SortDirection } from '../../../constants/story';
 import { openModal } from '../../../redux/actions/modal';
 import {
     changeEpicRequest,

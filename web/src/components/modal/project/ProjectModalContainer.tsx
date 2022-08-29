@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../constants';
-import { ModalOptions } from '../../../constants/modalConstants';
-import { initialProjectFormValues, ProjectLengthDescriptionMaxLength } from '../../../constants/projectConstants';
+import { ModalOptions } from '../../../constants/modal';
+import { initialProjectFormValues, ProjectLengthDescriptionMaxLength } from '../../../constants/project';
 import { createProjectRequest, removeProjectRequest, updateProjectRequest } from '../../../redux/actions/project';
 import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modal';
 import { getSelectedProject, getSelectedWorkSpaceProject } from '../../../redux/selectors/project';

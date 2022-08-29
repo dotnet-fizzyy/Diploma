@@ -1,4 +1,4 @@
-import { UserPosition } from '../constants/userConstants';
+import { UserPosition } from '../constants/user';
 import { IJsonPatchBody } from '../types';
 import { ISelectedItem } from '../types/story';
 import { IUser } from '../types/user';

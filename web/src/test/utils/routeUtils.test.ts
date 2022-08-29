@@ -1,4 +1,4 @@
-import { UserPosition, UserRole } from '../../constants/userConstants';
+import { UserPosition, UserRole } from '../../constants/user';
 import { mockedUser } from '../../mock/mockedUser';
 import { IUser } from '../../types/user';
 import { CustomerRouteGuard, UserRouteGuard } from '../../utils/routeUtils';

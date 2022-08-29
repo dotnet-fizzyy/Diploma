@@ -1,4 +1,6 @@
-//UI routes
+/**
+ * UI routes
+ */
 const routeGuidStringRegex: string = '[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}';
 
 export const DefaultRoute = '/';
@@ -13,13 +15,15 @@ export const ProjectManagementRoute = `/project/:projectId(${routeGuidStringRege
 export const EpicChartsRoute = '/charts';
 export const NoMatchRoute = '*';
 
-//WebAPI routes
+/**
+ * API routes
+ */
 const getBaseUrl = (): string =>
     process.env.REACT_APP_ENVIRONMENT === 'docker'
         ? process.env.REACT_APP_BACK_DOCKER_URL
         : process.env.REACT_APP_BACK_URL;
 
-const BaseUrl = `${getBaseUrl()}api`;
+const BaseUrl = `${getBaseUrl()}/api`;
 
 export const getCloudStorageUrl = (cloudinaryId: string): string =>
     `https://api.cloudinary.com/v1_1/${cloudinaryId}/upload`;

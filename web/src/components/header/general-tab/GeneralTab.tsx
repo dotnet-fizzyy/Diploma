@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { DefaultRoute } from '../../../constants/routeConstants';
+import { DefaultRoute } from '../../../constants/routes';
 import LogoIcon from '../../../static/Icon.svg';
 import { IProjectSimpleModel } from '../../../types/project';
 import { ITeamSimpleModel } from '../../../types/team';

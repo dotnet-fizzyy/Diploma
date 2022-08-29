@@ -1,8 +1,8 @@
 import { push } from 'connected-react-router';
 import { all, call, debounce, delay, put, takeLatest } from 'redux-saga/effects';
 import UserApi from '../../api/userApi';
-import { DefaultRoute, LoginScreenRoute } from '../../constants/routeConstants';
-import { debouncePeriod } from '../../constants/storyConstants';
+import { DefaultRoute, LoginScreenRoute } from '../../constants/routes';
+import { debouncePeriod } from '../../constants/story';
 import { IAuthenticationResponse, IJsonPatchBody, ITokenResponse } from '../../types';
 import { IEmailExistence, IFullUser, IUser } from '../../types/user';
 import { setCredentialsToLocalStorage } from '../../utils';

@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { WorkSpaceUrls } from '../constants/routeConstants';
+import { WorkSpaceUrls } from '../constants/routes';
 import { mapToProjectSimpleModel } from '../mappers/projectMapper';
 import { mapToSimpleTeamModel } from '../mappers/teamMapper';
 import { mapToWorkSpaceModel } from '../mappers/workSpaceMapper';

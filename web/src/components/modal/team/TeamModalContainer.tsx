@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../constants';
-import { ModalOptions } from '../../../constants/modalConstants';
-import { initialTeamState } from '../../../constants/teamConstants';
+import { ModalOptions } from '../../../constants/modal';
+import { initialTeamState } from '../../../constants/team';
 import { createTeamRequest, removeTeamRequest, updateTeamRequest } from '../../../redux/actions/team';
 import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modal';
 import { getProjectNames } from '../../../redux/selectors/project';

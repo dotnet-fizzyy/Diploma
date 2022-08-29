@@ -1,4 +1,4 @@
-import { SortDirection } from '../../constants/storyConstants';
+import { SortDirection } from '../../constants/story';
 import { IBaseAction } from '../../types';
 import { IFullStory, IStory, IStoryColumns, IStoryDragAndDrop, IStorySimpleModel } from '../../types/story';
 

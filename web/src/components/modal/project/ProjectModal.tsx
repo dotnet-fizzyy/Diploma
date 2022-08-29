@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { projectFields } from '../../../constants/projectConstants';
+import { projectFields } from '../../../constants/project';
 import { IProjectForm } from '../../../types/forms';
 import { IProject } from '../../../types/project';
 import Button from '../../common/Button';

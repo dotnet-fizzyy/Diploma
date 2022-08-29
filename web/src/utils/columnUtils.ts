@@ -1,4 +1,4 @@
-import { ColumnNames } from '../constants/boardConstants';
+import { ColumnNames } from '../constants/board';
 import { ISelectedItem } from '../types/story';
 
 export const getColumnKeyValuePair = (): ISelectedItem[] =>

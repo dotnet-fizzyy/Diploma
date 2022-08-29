@@ -4,7 +4,7 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 import { ILoginPageProps } from '../../components/authentication/Login';
 import { IRegistrationPageProps } from '../../components/authentication/Registration';
 import { BaseRegexExpression, StartPageTypes } from '../../constants';
-import { DefaultRoute } from '../../constants/routeConstants';
+import { DefaultRoute } from '../../constants/routes';
 import {
     authenticationRequest,
     checkEmailExistenceRequest,

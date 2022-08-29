@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { TabLinkItems, TabLinkOptions } from '../../../constants';
-import { UserPosition, UserRole } from '../../../constants/userConstants';
+import { UserPosition, UserRole } from '../../../constants/user';
 import { IUserProject, IUserTeam } from '../../../types/user';
 import { isUserCustomer } from '../../../utils';
 import Tooltip from '../../common/Tooltip';

@@ -2,7 +2,7 @@ import { TextField } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import React, { useState } from 'react';
-import { UserPosition, UserRole } from '../../../constants/userConstants';
+import { UserPosition, UserRole } from '../../../constants/user';
 import { IProjectSimpleModel } from '../../../types/project';
 import { ITeamSimpleModel } from '../../../types/team';
 import SearchResults from './SearchResults';

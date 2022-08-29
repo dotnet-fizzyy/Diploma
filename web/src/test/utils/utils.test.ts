@@ -1,4 +1,4 @@
-import { UserPosition } from '../../constants/userConstants';
+import { UserPosition } from '../../constants/user';
 import mockedStories from '../../mock/mockedStories';
 import { mockedUsers } from '../../mock/mockedUser';
 import { ISelectedItem, IStory } from '../../types/story';

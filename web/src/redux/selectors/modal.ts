@@ -1,4 +1,4 @@
-import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
+import { ModalOptions, ModalTypes } from '../../constants/modal';
 import { IState } from '../store/state';
 
 export const getIsOpen = (state: IState): boolean => state.modal.isOpen;

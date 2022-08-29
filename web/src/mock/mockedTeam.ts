@@ -1,4 +1,4 @@
-import { UserPosition, UserRole } from '../constants/userConstants';
+import { UserPosition, UserRole } from '../constants/user';
 import { ITeam, ITeamSimpleModel } from '../types/team';
 import { IUser } from '../types/user';
 

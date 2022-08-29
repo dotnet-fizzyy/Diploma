@@ -1,5 +1,5 @@
-import { ColumnIds } from '../../constants/boardConstants';
-import { SortDirection, SortFields } from '../../constants/storyConstants';
+import { ColumnIds } from '../../constants/board';
+import { SortDirection, SortFields } from '../../constants/story';
 import { mapFullStoryToStory } from '../../mappers/storyMappers';
 import { IStory, IStoryColumns } from '../../types/story';
 import {

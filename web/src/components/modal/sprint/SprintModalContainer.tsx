@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ModalOptions } from '../../../constants/modalConstants';
-import { InitialSprintState } from '../../../constants/sprintConstants';
+import { ModalOptions } from '../../../constants/modal';
+import { InitialSprintState } from '../../../constants/sprint';
 import { createSprintRequest, removeSprintRequest, updateSprintRequest } from '../../../redux/actions/sprint';
 import { getSelectedEpicId } from '../../../redux/selectors/epic';
 import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modal';

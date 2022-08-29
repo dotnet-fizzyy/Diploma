@@ -1,6 +1,6 @@
 import { ISelectTabItem } from '../components/header/general-tab/SelectTab';
 import { ILoginForm, IProfilePasswordUpdateForm, IRegistrationForm } from '../types/forms';
-import { ColumnIds } from './boardConstants';
+import { ColumnIds } from './board';
 
 export const BaseRegexExpression: RegExp = /^[- a-zA-Z0-9]*$/;
 export const EmailRegexExpression: RegExp = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;

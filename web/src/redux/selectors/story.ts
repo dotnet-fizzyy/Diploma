@@ -1,4 +1,4 @@
-import { SortDirection } from '../../constants/storyConstants';
+import { SortDirection } from '../../constants/story';
 import { IStory, IStoryColumns, IStoryHistory, IStorySimpleModel } from '../../types/story';
 import { IState } from '../store/state';
 

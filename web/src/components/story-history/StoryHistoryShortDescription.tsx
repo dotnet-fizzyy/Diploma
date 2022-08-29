@@ -2,7 +2,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import React from 'react';
 import { DateFormat } from '../../constants';
-import { ColumnNames } from '../../constants/boardConstants';
+import { ColumnNames } from '../../constants/board';
 import MainLabel, { LabelType } from '../common/MainLabel';
 
 const useStyles = makeStyles(() =>

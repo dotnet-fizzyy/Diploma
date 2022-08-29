@@ -1,8 +1,8 @@
 import { push } from 'connected-react-router';
 import { all, call, debounce, put, select, takeLatest } from 'redux-saga/effects';
 import WorkSpaceApi from '../../api/workSpaceApi';
-import { WorkspaceViewerRoute } from '../../constants/routeConstants';
-import { debouncePeriod } from '../../constants/storyConstants';
+import { WorkspaceViewerRoute } from '../../constants/routes';
+import { debouncePeriod } from '../../constants/story';
 import { ISearchResults, IWorkSpace, IWorkSpacePage } from '../../types/workspace';
 import { addWorkSpaceProjects } from '../actions/project';
 import {

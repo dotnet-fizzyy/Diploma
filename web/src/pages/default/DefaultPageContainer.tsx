@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { ModalTypes } from '../../constants/modalConstants';
+import { ModalTypes } from '../../constants/modal';
 import { openModal } from '../../redux/actions/modal';
 import { getMainPageDataRequest } from '../../redux/actions/project';
 import { getStorySimpleModels } from '../../redux/selectors/story';

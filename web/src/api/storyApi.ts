@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
-import { ColumnIds } from '../constants/boardConstants';
-import { StoryUrls } from '../constants/routeConstants';
+import { ColumnIds } from '../constants/board';
+import { StoryUrls } from '../constants/routes';
 import { mapToFullStory, mapToStoryModel } from '../mappers/storyMappers';
 import { ICollectionResponse, IJsonPatchBody } from '../types';
 import { IFullStory, IStory } from '../types/story';

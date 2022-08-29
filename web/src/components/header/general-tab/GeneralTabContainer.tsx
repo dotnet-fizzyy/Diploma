@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { ModalTypes } from '../../../constants/modalConstants';
-import { LoginScreenRoute } from '../../../constants/routeConstants';
+import { ModalTypes } from '../../../constants/modal';
+import { LoginScreenRoute } from '../../../constants/routes';
 import { openModal } from '../../../redux/actions/modal';
 import { changeUserProject, changeUserTeam, logOutUser } from '../../../redux/actions/user';
 import { blurSearchTitleTerm, setSearchTitleTermRequest } from '../../../redux/actions/workspace';

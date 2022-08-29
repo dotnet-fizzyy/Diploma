@@ -2,7 +2,7 @@ import { all, call, delay, put, select, takeEvery, takeLatest } from 'redux-saga
 import SprintApi from '../../api/sprintApi';
 import StoryApi from '../../api/storyApi';
 import { SidebarTypes } from '../../constants';
-import { SortFieldsNames } from '../../constants/storyConstants';
+import { SortFieldsNames } from '../../constants/story';
 import { mapFullSprintToSprint } from '../../mappers/sprintMappers';
 import { IJsonPatchBody } from '../../types';
 import { IFullSprint, ISprint } from '../../types/sprint';

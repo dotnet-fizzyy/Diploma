@@ -1,8 +1,8 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import React from 'react';
-import { SortDirection } from '../../../constants/storyConstants';
-import { UserPosition, UserRole } from '../../../constants/userConstants';
+import { SortDirection } from '../../../constants/story';
+import { UserPosition, UserRole } from '../../../constants/user';
 import { ISelectedItem } from '../../../types/story';
 import { ITeam } from '../../../types/team';
 import Button from '../../common/Button';

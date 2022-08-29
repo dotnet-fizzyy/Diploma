@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { LoginScreenRoute, RegistrationScreenRoute } from '../../constants/routeConstants';
+import { LoginScreenRoute, RegistrationScreenRoute } from '../../constants/routes';
 import StartScreenContainer from '../../pages/authentication/StartScreenContainer';
 import { IUser } from '../../types/user';
 import { UserRouteGuard } from '../../utils/routeUtils';

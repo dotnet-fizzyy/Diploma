@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
+import { ModalOptions, ModalTypes } from '../../constants/modal';
 import { openModal } from '../../redux/actions/modal';
 import { changeUserActivityStatusRequest } from '../../redux/actions/user';
 import { getUser } from '../../redux/selectors/user';

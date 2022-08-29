@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
+import { ModalOptions, ModalTypes } from '../../constants/modal';
 import { setSelectedEpicById } from '../../redux/actions/epic';
 import { openModal } from '../../redux/actions/modal';
 import { getSprintsFromEpicRequest } from '../../redux/actions/sprint';

@@ -3,7 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import React from 'react';
-import { UserPosition } from '../../../constants/userConstants';
+import { UserPosition } from '../../../constants/user';
 import { IUser } from '../../../types/user';
 
 const useStyles = makeStyles(() =>

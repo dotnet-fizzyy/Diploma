@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { teamStateFields } from '../../../constants/teamConstants';
+import { teamStateFields } from '../../../constants/team';
 import { ISelectedItem } from '../../../types/story';
 import { ITeam } from '../../../types/team';
 import Button from '../../common/Button';

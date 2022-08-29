@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { EpicUrls } from '../constants/routeConstants';
+import { EpicUrls } from '../constants/routes';
 import { mapToEpicModel } from '../mappers/epicMapper';
 import { mapToSprintModel } from '../mappers/sprintMappers';
 import { mapToStorySimpleModel } from '../mappers/storyMappers';

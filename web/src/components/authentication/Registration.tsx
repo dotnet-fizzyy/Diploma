@@ -2,7 +2,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { InitialRegistrationFormValues, RegistrationFormConstants } from '../../constants';
-import * as routeConstants from '../../constants/routeConstants';
+import * as routeConstants from '../../constants/routes';
 import LogoIcon from '../../static/app-logo.svg';
 import { IRegistrationForm } from '../../types/forms';
 import Button from '../common/Button';

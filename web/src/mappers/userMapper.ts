@@ -1,4 +1,4 @@
-import { UserPosition, UserRole } from '../constants/userConstants';
+import { UserPosition, UserRole } from '../constants/user';
 import { IFullUser, IUser, IUserProject, IUserSimpleModel, IUserTeam } from '../types/user';
 
 export function mapToUserModel(data: any): IUser {

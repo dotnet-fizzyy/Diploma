@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { SprintUrls } from '../constants/routeConstants';
+import { SprintUrls } from '../constants/routes';
 import { mapToSprintModel } from '../mappers/sprintMappers';
 import { ICollectionResponse } from '../types';
 import { IFullSprint, ISprint } from '../types/sprint';

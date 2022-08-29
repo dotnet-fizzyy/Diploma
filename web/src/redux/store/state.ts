@@ -1,7 +1,7 @@
 import { RouterState } from 'connected-react-router';
 import { SidebarTypes } from '../../constants';
-import { ModalOptions, ModalTypes } from '../../constants/modalConstants';
-import { SortDirection } from '../../constants/storyConstants';
+import { ModalOptions, ModalTypes } from '../../constants/modal';
+import { SortDirection } from '../../constants/story';
 import { IEpic, IEpicSimpleModel } from '../../types/epic';
 import { IProject, IProjectSimpleModel } from '../../types/project';
 import { ISprint } from '../../types/sprint';

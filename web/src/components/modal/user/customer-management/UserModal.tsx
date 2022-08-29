@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { userFields } from '../../../../constants/userConstants';
+import { userFields } from '../../../../constants/user';
 import { ISelectedItem } from '../../../../types/story';
 import { IUser } from '../../../../types/user';
 import Button from '../../../common/Button';
