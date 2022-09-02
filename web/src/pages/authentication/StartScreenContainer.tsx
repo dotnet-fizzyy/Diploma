@@ -21,7 +21,7 @@ import {
 } from '../../redux/selectors/user';
 import { ILoginForm, IRegistrationForm } from '../../types/forms';
 import { IFullUser } from '../../types/user';
-import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../utils/formUtils';
+import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../utils/forms';
 import StartScreen, { IStartScreenProps } from './StartScreen';
 
 const StartScreenContainer = () => {

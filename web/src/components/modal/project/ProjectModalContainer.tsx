@@ -10,7 +10,7 @@ import { getWorkSpaceId } from '../../../redux/selectors/workspace';
 import { IProjectForm } from '../../../types/forms';
 import { IProject } from '../../../types/project';
 import { IWorkSpacePageProject } from '../../../types/workspace';
-import { InputFormFieldValidator } from '../../../utils/formUtils';
+import { InputFormFieldValidator } from '../../../utils/forms';
 import ModalRemove, { IModalRemoveProps } from '../ModalRemove';
 import ProjectModal, { IProjectCreationProps } from './ProjectModal';
 

@@ -10,14 +10,14 @@ import { IStoryFormTypes } from '../../../types/forms';
 import { ISprint } from '../../../types/sprint';
 import { ISelectedItem, IStory } from '../../../types/story';
 import { IUser } from '../../../types/user';
-import { InputFormFieldValidator } from '../../../utils/formUtils';
+import { InputFormFieldValidator } from '../../../utils/forms';
 import {
     createStoryEstimationDropdownItems,
     createStoryPriorityDropdownItems,
     getInitialValuesWithLatestSprintIdForStory,
     getSprintNames,
-} from '../../../utils/storyUtils';
-import { createUserPositionDropdownItems } from '../../../utils/userUtils';
+} from '../../../utils/story';
+import { createUserPositionDropdownItems } from '../../../utils/user';
 import StoryModal, { IStoryCreationProps } from './StoryModal';
 
 const StoryModalContainer = () => {

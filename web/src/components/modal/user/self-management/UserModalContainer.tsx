@@ -12,7 +12,7 @@ import { getModalRequestPerforming } from '../../../../redux/selectors/modal';
 import { getEmailExistence, getUser } from '../../../../redux/selectors/user';
 import { IProfilePasswordUpdateForm, IProfileSettingsForm } from '../../../../types/forms';
 import { IFullUser, IUser } from '../../../../types/user';
-import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/formUtils';
+import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/forms';
 import UserModal, { IUserModalProps } from './UserModal';
 
 const UserModalContainer = () => {

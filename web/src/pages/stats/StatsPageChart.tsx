@@ -4,7 +4,7 @@ import DoughnutChart from '../../components/charts/DoughnutChart';
 import { doughnutChartColors } from '../../constants';
 import { IDoughnutChart } from '../../types/charts';
 import { IStorySimpleModel } from '../../types/story';
-import { getColumnKeyValuePair } from '../../utils/columnUtils';
+import { getColumnKeyValuePair } from '../../utils/columns';
 
 const useStyles = makeStyles(() =>
     createStyles({

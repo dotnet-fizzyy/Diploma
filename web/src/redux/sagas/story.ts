@@ -11,7 +11,7 @@ import {
     createRequestBodyForColumnMovement,
     createRequestBodyForReadyStory,
     createRequestBodyForRemoveStory,
-} from '../../utils/storyUtils';
+} from '../../utils/story';
 import { sidebarHandleVisibility, ISidebarHandleVisibility, SidebarActions } from '../actions/sidebar';
 import { addSprints, setSelectedSprint } from '../actions/sprint';
 import {

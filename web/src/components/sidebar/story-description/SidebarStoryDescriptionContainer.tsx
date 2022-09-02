@@ -11,9 +11,9 @@ import { getUser } from '../../../redux/selectors/user';
 import { IStoryFormTypes } from '../../../types/forms';
 import { ISelectedItem, IStory } from '../../../types/story';
 import { IFullUser, IUser } from '../../../types/user';
-import { InputFormFieldValidator } from '../../../utils/formUtils';
-import { createStoryEstimationDropdownItems, createStoryPriorityDropdownItems } from '../../../utils/storyUtils';
-import { createUserPositionDropdownItems } from '../../../utils/userUtils';
+import { InputFormFieldValidator } from '../../../utils/forms';
+import { createStoryEstimationDropdownItems, createStoryPriorityDropdownItems } from '../../../utils/story';
+import { createUserPositionDropdownItems } from '../../../utils/user';
 import SidebarStoryDescription, { ISidebarStoryDescription } from './SidebarStoryDescription';
 
 const SidebarStoryDescriptionContainer = () => {

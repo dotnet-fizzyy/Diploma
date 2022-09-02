@@ -3,8 +3,8 @@ import mockedStories from '../../mock/mockedStories';
 import { mockedUsers } from '../../mock/mockedUser';
 import { ISelectedItem, IStory } from '../../types/story';
 import { getFirstNameLetter, validateGuid } from '../../utils';
-import { areStoriesEqual } from '../../utils/storyUtils';
-import { createAvailableUsersDropdownItems } from '../../utils/userUtils';
+import { areStoriesEqual } from '../../utils/story';
+import { createAvailableUsersDropdownItems } from '../../utils/user';
 
 describe('Utils general tests', () => {
     it('Should take first letter of string', () => {

@@ -1,5 +1,5 @@
 import { BaseRegexExpression } from '../../constants';
-import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../utils/formUtils';
+import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../utils/forms';
 
 describe('Form utils tests', () => {
     it('Should validate correct input value with corresponding rules', () => {

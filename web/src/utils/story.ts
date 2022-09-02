@@ -1,4 +1,4 @@
-import { initialStory, Priority, SortFields, StoryEstimation } from '../constants/story';
+import { initialStory, Priority, SortFields, StoryEstimation, StoryHistoryAction } from '../constants/story';
 import { IJsonPatchBody } from '../types';
 import { IStoryFormTypes } from '../types/forms';
 import { ISprint } from '../types/sprint';
@@ -115,4 +115,17 @@ export const getInitialValuesWithLatestSprintIdForStory = (sprints: ISprint[]): 
         ...initialStory,
         sprintId: lastSprintId,
     };
+};
+
+export const getStoryHistoryActionText = (action: StoryHistoryAction): string => {
+    switch (action) {
+        case StoryHistoryAction.Add:
+            return 'created';
+        case StoryHistoryAction.Update:
+            return 'changed';
+        case StoryHistoryAction.Remove:
+            return 'removed';
+        default:
+            return '';
+    }
 };

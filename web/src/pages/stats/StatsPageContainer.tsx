@@ -11,8 +11,8 @@ import { getStorySimpleModels } from '../../redux/selectors/story';
 import { IProject } from '../../types/project';
 import { ISelectedItem, IStorySimpleModel } from '../../types/story';
 import { validateGuid } from '../../utils';
-import { getColumnKeys } from '../../utils/columnUtils';
-import { getQueryParameter } from '../../utils/routeUtils';
+import { getColumnKeys } from '../../utils/columns';
+import { getQueryParameter } from '../../utils/routes';
 import StatsPage, { IStatsPageProps } from './StatsPage';
 
 const StatsPageContainer = () => {

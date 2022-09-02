@@ -1,7 +1,7 @@
 import { UserPosition, UserRole } from '../../constants/user';
 import { mockedUser } from '../../mock/mockedUser';
 import { IUser } from '../../types/user';
-import { CustomerRouteGuard, UserRouteGuard } from '../../utils/routeUtils';
+import { CustomerRouteGuard, UserRouteGuard } from '../../utils/routes';
 
 describe('Route utils', () => {
     it('Should validate authorized user', () => {

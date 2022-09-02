@@ -5,7 +5,7 @@ import React from 'react';
 import { DateFormat, UnspecifiedValue } from '../../constants';
 import { StoryHistoryAction } from '../../constants/story';
 import { IStory, IStoryHistory } from '../../types/story';
-import { getStoryHistoryActionText } from '../../utils/storyHistoryUtils';
+import { getStoryHistoryActionText } from '../../utils/story';
 import Button from '../common/Button';
 import MainLabel, { LabelType } from '../common/MainLabel';
 import StoryHistoryCharts from './StoryHistoryCharts';

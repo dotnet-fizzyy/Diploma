@@ -6,7 +6,7 @@ import { debouncePeriod } from '../../constants/story';
 import { IAuthenticationResponse, IJsonPatchBody, ITokenResponse } from '../../types';
 import { IEmailExistence, IFullUser, IUser } from '../../types/user';
 import { setCredentialsToLocalStorage } from '../../utils';
-import { createRequestBodyForUserUpdateLink } from '../../utils/userUtils';
+import { createRequestBodyForUserUpdateLink } from '../../utils/user';
 import { closeModal } from '../actions/modal';
 import {
     authenticationFailure,

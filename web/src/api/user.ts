@@ -4,7 +4,7 @@ import { getCloudStorageUrl, SignInUrl, SignUpUrl, UserUrls } from '../constants
 import { mapToFullUserModel, mapToUserModel } from '../mappers/user';
 import { IAuthenticationResponse, IJsonPatchBody, ITokenResponse } from '../types';
 import { IAuthenticationUser, IEmailExistence, IFullUser, IUser } from '../types/user';
-import { createRequestBodyForUserChangeStatus } from '../utils/userUtils';
+import { createRequestBodyForUserChangeStatus } from '../utils/user';
 import AxiosBaseApi from './baseApi';
 
 export default class UserApi {

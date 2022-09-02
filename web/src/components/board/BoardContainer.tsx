@@ -7,7 +7,7 @@ import { storyActionDragStart, storyDragAndDropHandle } from '../../redux/action
 import { getSidebarVisibility } from '../../redux/selectors/sidebar';
 import { getUserSelectedProjectId, getUserSelectedTeamId } from '../../redux/selectors/user';
 import { IStoryDragAndDrop } from '../../types/story';
-import { getColumnKeyValuePair } from '../../utils/columnUtils';
+import { getColumnKeyValuePair } from '../../utils/columns';
 import Board, { IBoardProps } from './Board';
 
 const BoardContainer = () => {
