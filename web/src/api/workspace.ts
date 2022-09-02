@@ -4,7 +4,7 @@ import { mapToProjectSimpleModel } from '../mappers/project';
 import { mapToSimpleTeamModel } from '../mappers/team';
 import { mapToWorkSpaceModel } from '../mappers/workspace';
 import { ISearchResults, IWorkSpace, IWorkSpacePage } from '../types/workspace';
-import AxiosBaseApi from './axiosBaseApi';
+import AxiosBaseApi from './baseApi';
 
 export default class WorkSpaceApi {
     public static async getUserWorkSpace(): Promise<IWorkSpacePage> {
@@ -41,10 +41,11 @@ export default class WorkSpaceApi {
         return WorkSpaceApi.mapSearchResultItems(response.data);
     }
 
+    // todo: move to mappers
     private static mapSearchResultItems(data): ISearchResults {
         return {
-            projects: data.projects && data.projects.length ? data.projects.map(mapToProjectSimpleModel) : [],
-            teams: data.teams && data.teams.length ? data.teams.map(mapToSimpleTeamModel) : [],
+            projects: data.projects?.length ? data.projects.map(mapToProjectSimpleModel) : [],
+            teams: data.teams?.length ? data.teams.map(mapToSimpleTeamModel) : [],
         };
     }
 }

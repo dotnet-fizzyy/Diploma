@@ -5,7 +5,7 @@ import { mapToFullUserModel, mapToUserModel } from '../mappers/user';
 import { IAuthenticationResponse, IJsonPatchBody, ITokenResponse } from '../types';
 import { IAuthenticationUser, IEmailExistence, IFullUser, IUser } from '../types/user';
 import { createRequestBodyForUserChangeStatus } from '../utils/userUtils';
-import AxiosBaseApi from './axiosBaseApi';
+import AxiosBaseApi from './baseApi';
 
 export default class UserApi {
     public static async getUserByToken(): Promise<IUser> {

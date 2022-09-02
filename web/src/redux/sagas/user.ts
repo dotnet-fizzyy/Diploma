@@ -1,6 +1,6 @@
 import { push } from 'connected-react-router';
 import { all, call, debounce, delay, put, takeLatest } from 'redux-saga/effects';
-import UserApi from '../../api/userApi';
+import UserApi from '../../api/user';
 import { DefaultRoute, LoginScreenRoute } from '../../constants/routes';
 import { debouncePeriod } from '../../constants/story';
 import { IAuthenticationResponse, IJsonPatchBody, ITokenResponse } from '../../types';

@@ -1,7 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
-import UserApi from '../../api/userApi';
+import UserApi from '../../api/user';
 import { UserPosition, UserRole } from '../../constants/user';
 import {
     verifyUserFailure,

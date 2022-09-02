@@ -1,7 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
-import EpicsApi from '../../api/epicsApi';
+import EpicsApi from '../../api/epic';
 import {
     changeStatsEpic,
     createEpicFailure,

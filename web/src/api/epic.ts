@@ -7,7 +7,7 @@ import { ICollectionResponse } from '../types';
 import { IEpic } from '../types/epic';
 import { IStatsPage } from '../types/project';
 import { createEpicRemoveRequestBody } from '../utils';
-import AxiosBaseApi from './axiosBaseApi';
+import AxiosBaseApi from './baseApi';
 
 export default class EpicsApi {
     public static async getProjectEpics(projectId: string): Promise<IEpic[]> {
@@ -60,10 +60,11 @@ export default class EpicsApi {
         return EpicsApi.mapToStatsPageData(response.data);
     }
 
+    // todo: move to mappers
     private static mapToStatsPageData(data: any): IStatsPage {
         return {
-            sprints: data.sprints && data.sprints.length ? data.sprints.map(mapToSprintModel) : [],
-            stories: data.stories && data.stories.length ? data.stories.map(mapToStorySimpleModel) : [],
+            sprints: data.sprints?.length ? data.sprints.map(mapToSprintModel) : [],
+            stories: data.stories?.length ? data.stories.map(mapToStorySimpleModel) : [],
         };
     }
 }

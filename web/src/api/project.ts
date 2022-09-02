@@ -7,7 +7,7 @@ import { mapToStoryModel, mapToStorySimpleModel } from '../mappers/story';
 import { mapToSimpleTeamModel, mapToTeamModel } from '../mappers/team';
 import { IBoardPage, IDefaultPage, IFullStatsPage, IProject, IProjectPage } from '../types/project';
 import { createProjectRemoveRequestBody } from '../utils';
-import AxiosBaseApi from './axiosBaseApi';
+import AxiosBaseApi from './baseApi';
 
 export default class ProjectApi {
     public static async getProjectPage(projectId: string): Promise<IProjectPage> {
@@ -89,6 +89,7 @@ export default class ProjectApi {
         return ProjectApi.mapToStatsPageData(response.data);
     }
 
+    // todo: move to mappers
     private static mapToDefaultPage(data): IDefaultPage {
         return {
             stories: data.stories && data.stories.length ? data.stories.map(mapToStorySimpleModel) : [],

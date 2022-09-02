@@ -2,7 +2,7 @@ import { push } from 'connected-react-router';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
-import WorkSpaceApi from '../../api/workSpaceApi';
+import WorkSpaceApi from '../../api/workspace';
 import { WorkspaceViewerRoute } from '../../constants/routes';
 import {
     createWorkSpaceFailure,

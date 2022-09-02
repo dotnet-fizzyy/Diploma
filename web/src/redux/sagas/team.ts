@@ -1,5 +1,5 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
-import TeamApi from '../../api/teamApi';
+import TeamApi from '../../api/team';
 import { ITeam, ITeamPage } from '../../types/team';
 import {
     createTeamFailure,

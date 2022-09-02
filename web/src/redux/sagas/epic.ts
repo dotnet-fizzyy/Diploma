@@ -1,5 +1,5 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
-import EpicsApi from '../../api/epicsApi';
+import EpicsApi from '../../api/epic';
 import { IEpic } from '../../types/epic';
 import { IStatsPage } from '../../types/project';
 import {

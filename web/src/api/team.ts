@@ -4,7 +4,7 @@ import { mapToTeamModel } from '../mappers/team';
 import { mapToWorkSpaceModel } from '../mappers/workspace';
 import { ITeam, ITeamPage } from '../types/team';
 import { createTeamRemoveRequestBody } from '../utils';
-import AxiosBaseApi from './axiosBaseApi';
+import AxiosBaseApi from './baseApi';
 
 export default class TeamApi {
     public static async getUserTeamPage(teamId: string): Promise<ITeamPage> {

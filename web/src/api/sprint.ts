@@ -4,7 +4,7 @@ import { mapToSprintModel } from '../mappers/sprint';
 import { ICollectionResponse } from '../types';
 import { IFullSprint, ISprint } from '../types/sprint';
 import { createSprintRemoveRequestBody } from '../utils';
-import AxiosBaseApi from './axiosBaseApi';
+import AxiosBaseApi from './baseApi';
 
 export default class SprintApi {
     public static async getSprintsFromEpic(epicId: string, teamId?: string): Promise<IFullSprint[]> {
@@ -40,7 +40,6 @@ export default class SprintApi {
             creationDate: new Date(sprint.creationDate),
         };
 
-        debugger;
         const response: AxiosResponse<ISprint> = await AxiosBaseApi.put(SprintUrls.updateSprint, mappedSprint);
 
         return mapToSprintModel(response.data);

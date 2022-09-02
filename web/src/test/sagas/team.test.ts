@@ -1,7 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
-import TeamApi from '../../api/teamApi';
+import TeamApi from '../../api/team';
 import {
     createTeamFailure,
     createTeamRequest,

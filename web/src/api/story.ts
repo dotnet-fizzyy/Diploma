@@ -4,7 +4,7 @@ import { StoryUrls } from '../constants/routes';
 import { mapToFullStory, mapToStoryModel } from '../mappers/story';
 import { ICollectionResponse, IJsonPatchBody } from '../types';
 import { IFullStory, IStory } from '../types/story';
-import AxiosBaseApi from './axiosBaseApi';
+import AxiosBaseApi from './baseApi';
 
 export default class StoryApi {
     public static async changeStoryColumn(jsonPatchDocument: IJsonPatchBody[]): Promise<IStory> {

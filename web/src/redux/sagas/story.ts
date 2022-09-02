@@ -1,6 +1,6 @@
 import { all, call, delay, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
-import SprintApi from '../../api/sprintApi';
-import StoryApi from '../../api/storyApi';
+import SprintApi from '../../api/sprint';
+import StoryApi from '../../api/story';
 import { SidebarTypes } from '../../constants';
 import { SortFieldsNames } from '../../constants/story';
 import { mapFullSprintToSprint } from '../../mappers/sprint';
