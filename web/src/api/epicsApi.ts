@@ -1,8 +1,8 @@
 import { AxiosResponse } from 'axios';
 import { EpicUrls } from '../constants/routes';
-import { mapToEpicModel } from '../mappers/epicMapper';
-import { mapToSprintModel } from '../mappers/sprintMappers';
-import { mapToStorySimpleModel } from '../mappers/storyMappers';
+import { mapToEpicModel } from '../mappers/epic';
+import { mapToSprintModel } from '../mappers/sprint';
+import { mapToStorySimpleModel } from '../mappers/story';
 import { ICollectionResponse } from '../types';
 import { IEpic } from '../types/epic';
 import { IStatsPage } from '../types/project';

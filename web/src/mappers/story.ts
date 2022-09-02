@@ -19,20 +19,9 @@ export const mapToStoryModel = (data): IStory => ({
     teamId: data.teamId,
 });
 
-export const mapToStoryHistoryModel = (data): IStoryHistory => ({
-    storyHistoryId: data.storyHistoryId,
-    userName: data.userName,
-    storyHistoryAction: data.storyHistoryAction,
-    creationDate: new Date(data.creationDate),
-    currentValue: data.currentValue,
-    previousValue: data.previousValue,
-    fieldName: data.fieldName,
-});
-
 export const mapToFullStory = (data): IFullStory => ({
     ...mapToStoryModel(data),
-    storyHistory:
-        data.storyHistories && data.storyHistories.length ? data.storyHistories.map(mapToStoryHistoryModel) : [],
+    storyHistory: data.storyHistories?.length ? data.storyHistories.map(mapToStoryHistoryModel) : [],
 });
 
 export const mapFullStoryToStory = (fullStory: IStory): IStory => mapToStoryModel(fullStory);
@@ -47,4 +36,14 @@ export const mapToStorySimpleModel = (data): IStorySimpleModel => ({
     isBlocked: data.isBlocked,
     isReady: data.isReady,
     estimate: data.estimate,
+});
+
+const mapToStoryHistoryModel = (data): IStoryHistory => ({
+    storyHistoryId: data.storyHistoryId,
+    userName: data.userName,
+    storyHistoryAction: data.storyHistoryAction,
+    creationDate: new Date(data.creationDate),
+    currentValue: data.currentValue,
+    previousValue: data.previousValue,
+    fieldName: data.fieldName,
 });

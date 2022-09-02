@@ -1,8 +1,8 @@
 import { AxiosResponse } from 'axios';
 import { WorkSpaceUrls } from '../constants/routes';
-import { mapToProjectSimpleModel } from '../mappers/projectMapper';
-import { mapToSimpleTeamModel } from '../mappers/teamMapper';
-import { mapToWorkSpaceModel } from '../mappers/workSpaceMapper';
+import { mapToProjectSimpleModel } from '../mappers/project';
+import { mapToSimpleTeamModel } from '../mappers/team';
+import { mapToWorkSpaceModel } from '../mappers/workspace';
 import { ISearchResults, IWorkSpace, IWorkSpacePage } from '../types/workspace';
 import AxiosBaseApi from './axiosBaseApi';
 

@@ -3,7 +3,7 @@ import SprintApi from '../../api/sprintApi';
 import StoryApi from '../../api/storyApi';
 import { SidebarTypes } from '../../constants';
 import { SortFieldsNames } from '../../constants/story';
-import { mapFullSprintToSprint } from '../../mappers/sprintMappers';
+import { mapFullSprintToSprint } from '../../mappers/sprint';
 import { IJsonPatchBody } from '../../types';
 import { IFullSprint, ISprint } from '../../types/sprint';
 import { IFullStory, IStory, IStoryColumns } from '../../types/story';

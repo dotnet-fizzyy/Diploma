@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { SprintUrls } from '../constants/routes';
-import { mapToSprintModel } from '../mappers/sprintMappers';
+import { mapToSprintModel } from '../mappers/sprint';
 import { ICollectionResponse } from '../types';
 import { IFullSprint, ISprint } from '../types/sprint';
 import { createSprintRemoveRequestBody } from '../utils';

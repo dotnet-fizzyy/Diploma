@@ -1,6 +1,6 @@
 import { ColumnIds } from '../../constants/board';
 import { SortDirection, SortFields } from '../../constants/story';
-import { mapFullStoryToStory } from '../../mappers/storyMappers';
+import { mapFullStoryToStory } from '../../mappers/story';
 import { IStory, IStoryColumns } from '../../types/story';
 import {
     IAddStories,

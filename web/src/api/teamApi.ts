@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { TeamUrls } from '../constants/routes';
-import { mapToTeamModel } from '../mappers/teamMapper';
-import { mapToWorkSpaceModel } from '../mappers/workSpaceMapper';
+import { mapToTeamModel } from '../mappers/team';
+import { mapToWorkSpaceModel } from '../mappers/workspace';
 import { ITeam, ITeamPage } from '../types/team';
 import { createTeamRemoveRequestBody } from '../utils';
 import AxiosBaseApi from './axiosBaseApi';

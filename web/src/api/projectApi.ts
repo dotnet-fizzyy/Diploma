@@ -1,10 +1,10 @@
 import { AxiosResponse } from 'axios';
 import { ProjectUrls } from '../constants/routes';
-import { mapToEpicSimpleModel } from '../mappers/epicMapper';
-import { mapToProjectModel, mapToProjectPageModel } from '../mappers/projectMapper';
-import { mapToSprintModel } from '../mappers/sprintMappers';
-import { mapToStoryModel, mapToStorySimpleModel } from '../mappers/storyMappers';
-import { mapToSimpleTeamModel, mapToTeamModel } from '../mappers/teamMapper';
+import { mapToEpicSimpleModel } from '../mappers/epic';
+import { mapToProjectModel, mapToProjectPageModel } from '../mappers/project';
+import { mapToSprintModel } from '../mappers/sprint';
+import { mapToStoryModel, mapToStorySimpleModel } from '../mappers/story';
+import { mapToSimpleTeamModel, mapToTeamModel } from '../mappers/team';
 import { IBoardPage, IDefaultPage, IFullStatsPage, IProject, IProjectPage } from '../types/project';
 import { createProjectRemoveRequestBody } from '../utils';
 import AxiosBaseApi from './axiosBaseApi';

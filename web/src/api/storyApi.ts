@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { ColumnIds } from '../constants/board';
 import { StoryUrls } from '../constants/routes';
-import { mapToFullStory, mapToStoryModel } from '../mappers/storyMappers';
+import { mapToFullStory, mapToStoryModel } from '../mappers/story';
 import { ICollectionResponse, IJsonPatchBody } from '../types';
 import { IFullStory, IStory } from '../types/story';
 import AxiosBaseApi from './axiosBaseApi';
