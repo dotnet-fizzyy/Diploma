@@ -11,6 +11,7 @@ rules:
   prefer-object-spread: true
   jsx-no-lambda: false
   no-console: false
+  no-debugger: true
   object-literal-shorthand: true
   prettier: true
   triple-equals: true
