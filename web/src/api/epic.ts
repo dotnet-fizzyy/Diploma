@@ -6,7 +6,7 @@ import { mapToStorySimpleModel } from '../mappers/story';
 import { ICollectionResponse } from '../types';
 import { IEpic } from '../types/epic';
 import { IStatsPage } from '../types/project';
-import { createEpicRemoveRequestBody } from '../utils';
+import { createEpicRemoveRequestBody } from '../utils/epic';
 import AxiosBaseApi from './baseApi';
 
 export default class EpicsApi {

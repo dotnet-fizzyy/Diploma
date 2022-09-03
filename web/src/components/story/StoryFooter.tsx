@@ -2,7 +2,7 @@ import { Avatar } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import React from 'react';
-import { getFirstNameLetter } from '../../utils';
+import { getFirstLetter } from '../../utils';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -64,7 +64,7 @@ const StoryFooter = (props: IStoryFooterProps) => {
         <React.Fragment>
             <div className={classes.footer}>
                 <Avatar src={avatarLink} className={classes.iconUser}>
-                    {getFirstNameLetter(userName)}
+                    {getFirstLetter(userName)}
                 </Avatar>
                 <span>{userName}</span>
             </div>

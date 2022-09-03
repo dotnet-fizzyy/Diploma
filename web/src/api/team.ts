@@ -3,7 +3,7 @@ import { TeamUrls } from '../constants/routes';
 import { mapToTeamModel } from '../mappers/team';
 import { mapToWorkSpaceModel } from '../mappers/workspace';
 import { ITeam, ITeamPage } from '../types/team';
-import { createTeamRemoveRequestBody } from '../utils';
+import { createTeamRemoveRequestBody } from '../utils/team';
 import AxiosBaseApi from './baseApi';
 
 export default class TeamApi {

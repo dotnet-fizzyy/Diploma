@@ -6,7 +6,7 @@ import { mapToSprintModel } from '../mappers/sprint';
 import { mapToStoryModel, mapToStorySimpleModel } from '../mappers/story';
 import { mapToSimpleTeamModel, mapToTeamModel } from '../mappers/team';
 import { IBoardPage, IDefaultPage, IFullStatsPage, IProject, IProjectPage } from '../types/project';
-import { createProjectRemoveRequestBody } from '../utils';
+import { createProjectRemoveRequestBody } from '../utils/project';
 import AxiosBaseApi from './baseApi';
 
 export default class ProjectApi {

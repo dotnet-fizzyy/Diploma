@@ -3,7 +3,7 @@ import { SprintUrls } from '../constants/routes';
 import { mapToSprintModel } from '../mappers/sprint';
 import { ICollectionResponse } from '../types';
 import { IFullSprint, ISprint } from '../types/sprint';
-import { createSprintRemoveRequestBody } from '../utils';
+import { createSprintRemoveRequestBody } from '../utils/sprint';
 import AxiosBaseApi from './baseApi';
 
 export default class SprintApi {

@@ -5,7 +5,8 @@ import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import React from 'react';
 import { UserPosition, UserRole } from '../../../constants/user';
 import { ITeam } from '../../../types/team';
-import { getFirstNameLetter, isUserCustomer, isUserProjectManager } from '../../../utils';
+import { getFirstLetter } from '../../../utils';
+import { isUserCustomer, isUserProjectManager } from '../../../utils/user';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -51,7 +52,7 @@ const TeamMembers = (props: ITeamMembersProps) => {
                     team.users.map((x, index) => {
                         return x.userId !== userId ? (
                             <Tooltip title={x.userName} key={x.userId}>
-                                <Avatar src={x.avatarLink}>{getFirstNameLetter(x.userName)}</Avatar>
+                                <Avatar src={x.avatarLink}>{getFirstLetter(x.userName)}</Avatar>
                             </Tooltip>
                         ) : null;
                     })}

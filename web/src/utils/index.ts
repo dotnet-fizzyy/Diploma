@@ -1,55 +1,17 @@
-import { AccessTokenLocalStorageField, GuidRegexExpression, RefreshTokenLocalStorageField } from '../constants';
-import { UserPosition, UserRole } from '../constants/user';
-import { IJsonPatchBody } from '../types';
+import { GuidRegexExpression } from '../constants';
 
-export const setCredentialsToLocalStorage = (accessToken: string, refreshToken: string): void => {
-    localStorage.setItem(AccessTokenLocalStorageField, accessToken);
-    localStorage.setItem(RefreshTokenLocalStorageField, refreshToken);
-};
+export const isEmpty = (value: unknown): boolean =>
+    value === undefined ||
+    value === null ||
+    (typeof value === 'string' && value === '') ||
+    (typeof value === 'number' && value === 0) ||
+    (typeof value === 'object' && Object.keys(value).length === 0) ||
+    (Array.isArray(value) && value.length === 0);
 
-export const clearCredentialsFromLocalStorage = (): void => {
-    localStorage.removeItem(AccessTokenLocalStorageField);
-    localStorage.removeItem(RefreshTokenLocalStorageField);
-};
+export const isNotEmpty = (value: unknown): boolean => !isEmpty(value);
 
-export const getFirstNameLetter = (userName: string): string => userName?.slice(0, 1) ?? '';
+export const getFirstLetter = (value: string | null | undefined): string => value?.slice(0, 1) ?? '';
 
-export const validateGuid = (value: string): boolean => GuidRegexExpression.test(value);
+export const matchesRegex = (value: string, regex: RegExp): boolean => RegExp(regex).test(value);
 
-export const isUserCustomer = (userRole: string, userPosition: string): boolean =>
-    UserRole[userRole] === UserRole.Manager && UserPosition[userPosition] === UserPosition.Customer;
-
-export const isUserProjectManager = (userRole: string, userPosition: string): boolean =>
-    UserRole[userRole] === UserRole.Manager && UserPosition[userPosition] === UserPosition.ProjectManager;
-
-export const createEpicRemoveRequestBody = (epicId: string): IJsonPatchBody[] => [
-    {
-        op: 'add',
-        path: '/epicId',
-        value: epicId,
-    },
-];
-
-export const createSprintRemoveRequestBody = (sprintId: string): IJsonPatchBody[] => [
-    {
-        op: 'add',
-        path: '/sprintId',
-        value: sprintId,
-    },
-];
-
-export const createTeamRemoveRequestBody = (teamId: string): IJsonPatchBody[] => [
-    {
-        op: 'add',
-        path: '/teamId',
-        value: teamId,
-    },
-];
-
-export const createProjectRemoveRequestBody = (projectId: string): IJsonPatchBody[] => [
-    {
-        op: 'add',
-        path: '/projectId',
-        value: projectId,
-    },
-];
+export const validateGuid = (value: string): boolean => matchesRegex(value, GuidRegexExpression);

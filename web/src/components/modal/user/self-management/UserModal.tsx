@@ -7,7 +7,7 @@ import { InitialProfileUpdatePassword, PasswordsAreNotSameErrorMessage, Unspecif
 import { passwordUpdateFields, userFields, UserPosition, UserRole } from '../../../../constants/user';
 import { IProfilePasswordUpdateForm, IProfileSettingsForm } from '../../../../types/forms';
 import { IFullUser } from '../../../../types/user';
-import { getFirstNameLetter } from '../../../../utils';
+import { getFirstLetter } from '../../../../utils';
 import Button from '../../../common/Button';
 import FormTextField from '../../../common/FormTextField';
 import MainLabel, { LabelType } from '../../../common/MainLabel';
@@ -277,7 +277,7 @@ const UserModal = (props: IUserModalProps) => {
             <div className={classes.body}>
                 <div className={classes.photoContainer}>
                     <Avatar alt="Your image" src={avatarLink} className={classes.profilePhoto}>
-                        {getFirstNameLetter(userName)}
+                        {getFirstLetter(userName)}
                     </Avatar>
                     <div className={classes.uploadButtonContainer}>
                         <Button label="Upload image" disabled={false} onClick={onClickUpdateAvatar} />

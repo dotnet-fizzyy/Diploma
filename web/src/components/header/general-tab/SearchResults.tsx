@@ -6,7 +6,7 @@ import { DateFormat } from '../../../constants';
 import { UserPosition, UserRole } from '../../../constants/user';
 import { IProjectSimpleModel } from '../../../types/project';
 import { ITeamSimpleModel } from '../../../types/team';
-import { isUserCustomer } from '../../../utils';
+import { isUserCustomer } from '../../../utils/user';
 import Spinner from '../../common/Spinner';
 
 const useStyles = makeStyles(() =>

@@ -10,7 +10,7 @@ import TeamTab from '../../components/team/TeamTab';
 import { DateFormat } from '../../constants';
 import { ManagerRoleRequiredMessage, UserPosition, UserRole } from '../../constants/user';
 import { ITeam } from '../../types/team';
-import { isUserCustomer, isUserProjectManager } from '../../utils';
+import { isUserCustomer, isUserProjectManager } from '../../utils/user';
 
 const useStyles = makeStyles(() =>
     createStyles({

@@ -97,15 +97,6 @@ export const createRequestBodyForReadyStory = (
     },
 ];
 
-export const getSprintNames = (sprints: ISprint[]): ISelectedItem[] =>
-    sprints?.map(
-        (sprint) =>
-            ({
-                key: sprint.sprintId,
-                value: sprint.sprintName,
-            } as ISelectedItem)
-    ) ?? [];
-
 export const getInitialValuesWithLatestSprintIdForStory = (sprints: ISprint[]): IStoryFormTypes => {
     const lastSprintId: string = sprints?.length
         ? sprints.sort((a: any, b: any) => a.startDate - b.endDate).reverse()[0].sprintId

@@ -2,7 +2,7 @@ import { UserPosition } from '../../constants/user';
 import mockedStories from '../../mock/mockedStories';
 import { mockedUsers } from '../../mock/mockedUser';
 import { ISelectedItem, IStory } from '../../types/story';
-import { getFirstNameLetter, validateGuid } from '../../utils';
+import { getFirstLetter, validateGuid } from '../../utils';
 import { areStoriesEqual } from '../../utils/story';
 import { createAvailableUsersDropdownItems } from '../../utils/user';
 
@@ -12,7 +12,7 @@ describe('Utils general tests', () => {
         const expectedResult: string = 'n';
 
         //Act
-        const result: string = getFirstNameLetter('name');
+        const result: string = getFirstLetter('name');
 
         //Act
         expect(result).toEqual(expectedResult);

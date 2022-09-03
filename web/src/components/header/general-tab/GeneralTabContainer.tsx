@@ -16,7 +16,7 @@ import {
 import { IProjectSimpleModel } from '../../../types/project';
 import { ITeamSimpleModel } from '../../../types/team';
 import { IFullUser } from '../../../types/user';
-import { clearCredentialsFromLocalStorage } from '../../../utils';
+import { clearCredentialsFromLocalStorage } from '../../../utils/user';
 import GeneralTab, { IGeneralTabProps } from './GeneralTab';
 
 const GeneralTabContainer = () => {

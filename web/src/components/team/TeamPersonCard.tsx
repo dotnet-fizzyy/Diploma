@@ -6,7 +6,7 @@ import React from 'react';
 import { DateFormat } from '../../constants';
 import { UserPosition, UserRole } from '../../constants/user';
 import { IUser } from '../../types/user';
-import { getFirstNameLetter } from '../../utils';
+import { getFirstLetter } from '../../utils';
 import Button, { ButtonVariant } from '../common/Button';
 
 const useStyles = makeStyles(() =>
@@ -103,7 +103,7 @@ const TeamPersonCard = (props: ITeamPersonCardProps) => {
             <div className={classes.body}>
                 <div className={classes.header}>
                     <Avatar src={user.avatarLink} className={classes.avatar}>
-                        {getFirstNameLetter(user.userName)}
+                        {getFirstLetter(user.userName)}
                     </Avatar>
                     <div className={classes.userNameContainer}>
                         <span className={classnames(classes.text, classes.userName)}>{user.userName}</span>

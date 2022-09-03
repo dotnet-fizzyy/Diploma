@@ -1,16 +1,14 @@
-import { UserPosition } from '../constants/user';
+import { AccessTokenLocalStorageField, RefreshTokenLocalStorageField } from '../constants';
+import { UserPosition, UserRole } from '../constants/user';
 import { IJsonPatchBody } from '../types';
 import { ISelectedItem } from '../types/story';
 import { IUser } from '../types/user';
 
 export const createUserPositionDropdownItems = (): ISelectedItem[] =>
-    Object.entries(UserPosition).map(
-        ([key, value]) =>
-            ({
-                key,
-                value,
-            } as ISelectedItem)
-    );
+    Object.entries(UserPosition).map(([key, value]) => ({
+        key,
+        value,
+    }));
 
 export const createRequestBodyForUserUpdateLink = (userId: string, avatarLink: string): IJsonPatchBody[] => [
     {
@@ -46,3 +44,18 @@ export const createAvailableUsersDropdownItems = (requiredPosition: UserPosition
                 : acc,
         [{ key: '', value: 'No Owner' } as ISelectedItem]
     );
+
+export const isUserCustomer = (userRole: string, userPosition: string): boolean =>
+    UserRole[userRole] === UserRole.Manager && UserPosition[userPosition] === UserPosition.Customer;
+
+export const isUserProjectManager = (userRole: string, userPosition: string): boolean =>
+    UserRole[userRole] === UserRole.Manager && UserPosition[userPosition] === UserPosition.ProjectManager;
+
+export const setCredentialsToLocalStorage = (accessToken: string, refreshToken: string): void => {
+    localStorage.setItem(AccessTokenLocalStorageField, accessToken);
+    localStorage.setItem(RefreshTokenLocalStorageField, refreshToken);
+};
+export const clearCredentialsFromLocalStorage = (): void => {
+    localStorage.removeItem(AccessTokenLocalStorageField);
+    localStorage.removeItem(RefreshTokenLocalStorageField);
+};
