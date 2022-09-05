@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebAPI.ApplicationLogic.Mappers;
@@ -8,6 +9,7 @@ using WebAPI.Presentation.Models.Pages;
 
 namespace WebAPI.ApplicationLogic.Aggregators
 {
+    [Obsolete("Should be replaced with endpoints per each corresponding controller")]
     public static class PageAggregator
     {
         public static DefaultPage CreateDefaultPageModel(IList<Team> teams, IList<Story> stories)
