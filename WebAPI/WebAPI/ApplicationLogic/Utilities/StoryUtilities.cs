@@ -16,10 +16,10 @@ namespace WebAPI.ApplicationLogic.Utilities
             {
                 sortedStories = sortType switch
                 {
-                    SortTypes.Title => stories.OrderBy(x => x.Title).ToList(),
-                    SortTypes.Priority => stories.OrderBy(x => x.StoryPriority).ToList(),
-                    SortTypes.CreationDate => stories.OrderBy(x => x.CreationDate).ToList(),
-                    SortTypes.Estimate => stories.OrderBy(x => x.Estimate).ToList(),
+                    SortTypes.Title => stories.OrderBy(story => story.Title).ToList(),
+                    SortTypes.Priority => stories.OrderBy(story => story.StoryPriority).ToList(),
+                    SortTypes.CreationDate => stories.OrderBy(story => story.CreationDate).ToList(),
+                    SortTypes.Estimate => stories.OrderBy(story => story.Estimate).ToList(),
                     _ => stories.ToList()
                 };
             }
@@ -27,10 +27,10 @@ namespace WebAPI.ApplicationLogic.Utilities
             {
                 sortedStories = sortType switch
                 {
-                    SortTypes.Title => stories.OrderByDescending(x => x.Title).ToList(),
-                    SortTypes.Priority => stories.OrderByDescending(x => x.StoryPriority).ToList(),
-                    SortTypes.CreationDate => stories.OrderByDescending(x => x.CreationDate).ToList(),
-                    SortTypes.Estimate => stories.OrderByDescending(x => x.Estimate).ToList(),
+                    SortTypes.Title => stories.OrderByDescending(story => story.Title).ToList(),
+                    SortTypes.Priority => stories.OrderByDescending(story => story.StoryPriority).ToList(),
+                    SortTypes.CreationDate => stories.OrderByDescending(story => story.CreationDate).ToList(),
+                    SortTypes.Estimate => stories.OrderByDescending(story => story.Estimate).ToList(),
                     _ => stories.ToList()
                 };
             }

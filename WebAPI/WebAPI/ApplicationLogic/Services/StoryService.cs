@@ -76,13 +76,6 @@ namespace WebAPI.ApplicationLogic.Services
             {
                 stories = await _unitOfWork.StoryRepository.GetStoriesByEpicAndTeamIds(epicId, teamId);
             }
-            
-            if (!stories.Any())
-            {
-                throw new UserFriendlyException(
-                    ErrorStatus.NOT_FOUND, 
-                    ExceptionMessageGenerator.GetMissingEntitiesMessage($"{nameof(epicId)} and ${nameof(sprintId)}"));
-            }
 
             stories = StoryUtilities.SortStoriesByCriteria(stories, sortType, sortDirection);
             
