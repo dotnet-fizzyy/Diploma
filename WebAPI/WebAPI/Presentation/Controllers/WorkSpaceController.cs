@@ -52,10 +52,8 @@ namespace WebAPI.Presentation.Controllers
         public async Task<ActionResult<WorkSpace>> GetUserWorkSpace()
         {
             var user = ClaimsReader.GetUserClaims(User);
-            
-            var workSpace = await _workSpaceService.GetUsersWorkSpaceAsync(user.UserId);
 
-            return workSpace;
+            return await _workSpaceService.GetUsersWorkSpaceAsync(user.UserId);
         }
         
         /// <summary>
