@@ -14,7 +14,7 @@ namespace WebAPI.Core.Entities
         
         public UserRole UserRole { get; set; }
         
-        public UserPosition UserPosition { get; set; }
+        public ProjectPosition ProjectPosition { get; set; }
         
         public bool IsActive { get; set; }
         

@@ -109,7 +109,7 @@ namespace WebAPI.ApplicationLogic.Services
                 prop => prop.AvatarLink,
                 prop => prop.IsActive,
                 prop => prop.UserRole,
-                prop => prop.UserPosition);
+                prop => prop.ProjectPosition);
 
             await _unitOfWork.CommitAsync();
 
@@ -246,7 +246,7 @@ namespace WebAPI.ApplicationLogic.Services
 
         private async Task<List<ProjectEntity>> GetProjectsByUserPosition(UserEntity user, IEnumerable<TeamEntity> teams)
         {
-            if (user.UserPosition == UserPosition.Customer)
+            if (user.ProjectPosition == ProjectPosition.Customer)
             {
                 return await _unitOfWork.ProjectRepository
                     .SearchForMultipleItemsAsync(project => project.WorkSpaceId == user.WorkSpaceId);

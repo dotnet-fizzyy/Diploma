@@ -174,7 +174,7 @@ namespace WebAPI.ApplicationLogic.Aggregators
         
         private void CompareRequiredPositionToWork(Story originalStory, Story storyToUpdate, string username)
         {
-            var isRequiredPositionDifferent = originalStory.RequiredPosition != storyToUpdate.RequiredPosition;
+            var isRequiredPositionDifferent = originalStory.ProjectPosition != storyToUpdate.ProjectPosition;
 
             if (isRequiredPositionDifferent)
             {
@@ -182,8 +182,8 @@ namespace WebAPI.ApplicationLogic.Aggregators
                     originalStory.Id,
                     username, 
                     StoryFields.RequiredPosition, 
-                    originalStory.RequiredPosition.ToString(), 
-                    storyToUpdate.RequiredPosition.ToString())
+                    originalStory.ProjectPosition.ToString(), 
+                    storyToUpdate.ProjectPosition.ToString())
                 );
             }
         }

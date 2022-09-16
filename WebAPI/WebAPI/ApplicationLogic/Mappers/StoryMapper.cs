@@ -1,13 +1,12 @@
 using System;
 using System.Linq;
-
+using WebAPI.Core.Enums;
 using StoryEntity = WebAPI.Core.Entities.Story;
 using StoryModel = WebAPI.Models.Basic.Story;
 using StoryLightModel = WebAPI.Models.Light.StoryLight;
 using StoryCompleteModel = WebAPI.Models.Complete.StoryComplete;
 using StoryPriorityEntity = WebAPI.Core.Enums.StoryPriority;
 using StoryPriorityModel = WebAPI.Models.Enums.StoryPriority;
-using UserPositionEntity = WebAPI.Core.Enums.UserPosition;
 using UserPositionModel = WebAPI.Models.Enums.UserPosition;
 using ColumnTypeEntity = WebAPI.Core.Enums.ColumnType;
 using ColumnTypeModel = WebAPI.Models.Enums.ColumnType;
@@ -37,7 +36,7 @@ namespace WebAPI.ApplicationLogic.Mappers
                 IsBlocked = story.IsBlocked,
                 BlockReason = story.BlockReason,
                 CreationDate = story.CreationDate,
-                RequiredPosition = Enum.Parse<UserPositionEntity>(story.RequiredPosition.ToString(), ignoreCase: true),
+                ProjectPosition = Enum.Parse<ProjectPosition>(story.RequiredPosition.ToString(), ignoreCase: true),
                 StoryPriority = Enum.Parse<StoryPriorityEntity>(story.StoryPriority.ToString(), ignoreCase: true),
                 ColumnType = Enum.Parse<ColumnTypeEntity>(story.ColumnType.ToString(), ignoreCase: true),
                 IsDeleted = story.IsDeleted,
@@ -120,7 +119,7 @@ namespace WebAPI.ApplicationLogic.Mappers
             model.CreationDate = entity.CreationDate;
             model.RecordVersion = entity.RecordVersion;
             model.StoryPriority = Enum.Parse<StoryPriorityModel>(entity.StoryPriority.ToString(), ignoreCase: true);
-            model.RequiredPosition = Enum.Parse<UserPositionModel>(entity.RequiredPosition.ToString(), ignoreCase: true);
+            model.RequiredPosition = Enum.Parse<UserPositionModel>(entity.ProjectPosition.ToString(), ignoreCase: true);
             model.ColumnType = Enum.Parse<ColumnTypeModel>(entity.ColumnType.ToString(), ignoreCase: true);
         }
     }

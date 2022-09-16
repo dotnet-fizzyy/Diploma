@@ -12,7 +12,7 @@ namespace WebAPI.ApplicationLogic.Utilities
                 UserName = userRequestModel.UserName,
                 Password = userRequestModel.Password,
                 Email = userRequestModel.Email,
-                UserPosition = UserPosition.Customer,
+                ProjectPosition = ProjectPosition.Customer,
                 UserRole = UserRole.Manager,
                 IsActive = true
             };

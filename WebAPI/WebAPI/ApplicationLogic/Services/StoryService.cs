@@ -223,7 +223,7 @@ namespace WebAPI.ApplicationLogic.Services
                 prop => prop.IsBlocked,
                 prop => prop.BlockReason,
                 prop => prop.IsReady,
-                prop => prop.RequiredPosition,
+                prop => prop.ProjectPosition,
                 prop => prop.IsDeleted,
                 prop => prop.TeamId,
                 prop => prop.SprintId,

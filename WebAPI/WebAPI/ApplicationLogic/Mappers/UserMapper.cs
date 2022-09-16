@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using WebAPI.Core.Enums;
 using UserEntity = WebAPI.Core.Entities.User;
 using UserModel = WebAPI.Models.Basic.User;
 using UserCompleteModel = WebAPI.Models.Complete.UserComplete;
@@ -11,7 +11,6 @@ using ProjectEntity = WebAPI.Core.Entities.Project;
 using TeamEntity = WebAPI.Core.Entities.Team;
 using UserRoleCore = WebAPI.Core.Enums.UserRole;
 using UserRoleModel = WebAPI.Models.Enums.UserRole;
-using UserPositionCore = WebAPI.Core.Enums.UserPosition;
 using UserPositionModel = WebAPI.Models.Enums.UserPosition;
 using SignInUserRequestModel = WebAPI.Presentation.Models.Request.SignInUserRequestModel;
 
@@ -37,7 +36,7 @@ namespace WebAPI.ApplicationLogic.Mappers
                 Email = user.Email,
                 CreationDate = user.CreationDate,
                 UserRole = Enum.Parse<UserRoleCore>(user.UserRole.ToString(), ignoreCase: true),
-                UserPosition = Enum.Parse<UserPositionCore>(user.UserPosition.ToString(), ignoreCase: true),
+                ProjectPosition = Enum.Parse<ProjectPosition>(user.UserPosition.ToString(), ignoreCase: true),
             };
 
             return userEntity;
@@ -100,7 +99,7 @@ namespace WebAPI.ApplicationLogic.Mappers
             userModel.CreationDate = userEntity.CreationDate;
             userModel.WorkSpaceId = userEntity.WorkSpaceId;
             userModel.UserRole = Enum.Parse<UserRoleModel>(userEntity.UserRole.ToString(), ignoreCase: true);
-            userModel.UserPosition = Enum.Parse<UserPositionModel>(userEntity.UserPosition.ToString(), ignoreCase: true);
+            userModel.UserPosition = Enum.Parse<UserPositionModel>(userEntity.ProjectPosition.ToString(), ignoreCase: true);
         }
         
         private static UserTeamModel Map(TeamEntity team) => 

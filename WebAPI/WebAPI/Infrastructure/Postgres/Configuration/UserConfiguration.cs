@@ -20,7 +20,7 @@ namespace WebAPI.Infrastructure.Postgres.Configuration
             builder.HasIndex(prop => prop.UserName);
             builder.HasIndex(prop => prop.Password);
             builder.HasIndex(prop => prop.UserRole);
-            builder.HasIndex(prop => prop.UserPosition);
+            builder.HasIndex(prop => prop.ProjectPosition);
         }
     }
 }

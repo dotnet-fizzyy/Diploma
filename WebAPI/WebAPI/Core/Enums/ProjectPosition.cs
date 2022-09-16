@@ -1,6 +1,6 @@
 namespace WebAPI.Core.Enums
 {
-    public enum UserPosition
+    public enum ProjectPosition
     {
         Customer = 1,
         ProjectManager,

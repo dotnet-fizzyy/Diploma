@@ -27,7 +27,7 @@ namespace WebAPI.Core.Entities
         
         public StoryPriority StoryPriority { get; set; }
         
-        public UserPosition RequiredPosition { get; set; }
+        public ProjectPosition ProjectPosition { get; set; }
         
         public int Estimate { get; set; }
         
