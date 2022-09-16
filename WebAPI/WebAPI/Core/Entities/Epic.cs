@@ -5,11 +5,6 @@ namespace WebAPI.Core.Entities
 {
     public class Epic : BaseEntity
     {
-        public Epic()
-        {
-            Sprints = new List<Sprint>();    
-        }
-
         public Guid ProjectId { get; set; }
         
         public string EpicName { get; set; }
@@ -22,6 +17,6 @@ namespace WebAPI.Core.Entities
 
         public bool IsDeleted { get; set; }
         
-        public IList<Sprint> Sprints { get; set; }
+        public IList<Sprint> Sprints { get; set; } = new List<Sprint>();
     }
 }

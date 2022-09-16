@@ -6,11 +6,6 @@ namespace WebAPI.Core.Entities
 {
     public class Story : BaseEntity
     {
-        public Story()
-        {
-            StoryHistories = new List<StoryHistory>();
-        }
-        
         public Guid? SprintId { get; set; }
         
         public Guid? TeamId { get; set; }
@@ -40,7 +35,7 @@ namespace WebAPI.Core.Entities
         public uint RecordVersion { get; set; } 
         
         public bool IsDeleted { get; set; }
-        
-        public IList<StoryHistory> StoryHistories { get; set; }
+
+        public IList<StoryHistory> StoryHistories { get; set; } = new List<StoryHistory>();
     }
 }
