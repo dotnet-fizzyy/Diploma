@@ -25,6 +25,8 @@ namespace WebAPI.Infrastructure.Postgres
         public DbSet<Team> Teams { get; set; }
         
         public DbSet<User> Users { get; set; }
+        
+        public DbSet<TeamUser> TeamUsers { get; set; }
 
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 

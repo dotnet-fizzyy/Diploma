@@ -480,3 +480,127 @@ BEGIN
     VALUES ('20210526194610_AddTeamIdForStory', '3.1.9');
     END IF;
 END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20220917211840_ChangeUserPositionToProjectPositionColumn') THEN
+    ALTER TABLE "TeamUser" DROP CONSTRAINT "FK_TeamUser_Teams_TeamId";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20220917211840_ChangeUserPositionToProjectPositionColumn') THEN
+    ALTER TABLE "TeamUser" DROP CONSTRAINT "FK_TeamUser_Users_UserId";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20220917211840_ChangeUserPositionToProjectPositionColumn') THEN
+    DROP INDEX "IX_Users_UserPosition";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20220917211840_ChangeUserPositionToProjectPositionColumn') THEN
+    ALTER TABLE "TeamUser" DROP CONSTRAINT "PK_TeamUser";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20220917211840_ChangeUserPositionToProjectPositionColumn') THEN
+    ALTER TABLE "Users" DROP COLUMN "UserPosition";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20220917211840_ChangeUserPositionToProjectPositionColumn') THEN
+    ALTER TABLE "Stories" DROP COLUMN "RequiredPosition";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20220917211840_ChangeUserPositionToProjectPositionColumn') THEN
+    ALTER TABLE "TeamUser" RENAME TO "TeamUsers";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20220917211840_ChangeUserPositionToProjectPositionColumn') THEN
+    ALTER INDEX "IX_TeamUser_UserId" RENAME TO "IX_TeamUsers_UserId";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20220917211840_ChangeUserPositionToProjectPositionColumn') THEN
+    ALTER TABLE "Users" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "Users" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Users" ALTER COLUMN "CreationDate" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20220917211840_ChangeUserPositionToProjectPositionColumn') THEN
+    ALTER TABLE "Users" ADD "ProjectPosition" integer NOT NULL DEFAULT 0;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20220917211840_ChangeUserPositionToProjectPositionColumn') THEN
+    ALTER TABLE "Teams" ALTER COLUMN "CreationDate" TYPE timestamp without time zone;
+    ALTER TABLE "Teams" ALTER COLUMN "CreationDate" SET NOT NULL;
+    ALTER TABLE "Teams" ALTER COLUMN "CreationDate" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20220917211840_ChangeUserPositionToProjectPositionColumn') THEN
+    ALTER TABLE "Stories" ADD "ProjectPosition" integer NOT NULL DEFAULT 0;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20220917211840_ChangeUserPositionToProjectPositionColumn') THEN
+    ALTER TABLE "TeamUsers" ADD CONSTRAINT "PK_TeamUsers" PRIMARY KEY ("TeamId", "UserId");
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20220917211840_ChangeUserPositionToProjectPositionColumn') THEN
+    CREATE INDEX "IX_Users_ProjectPosition" ON "Users" ("ProjectPosition");
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20220917211840_ChangeUserPositionToProjectPositionColumn') THEN
+    ALTER TABLE "TeamUsers" ADD CONSTRAINT "FK_TeamUsers_Teams_TeamId" FOREIGN KEY ("TeamId") REFERENCES "Teams" ("TeamId") ON DELETE CASCADE;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20220917211840_ChangeUserPositionToProjectPositionColumn') THEN
+    ALTER TABLE "TeamUsers" ADD CONSTRAINT "FK_TeamUsers_Users_UserId" FOREIGN KEY ("UserId") REFERENCES "Users" ("UserId") ON DELETE CASCADE;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20220917211840_ChangeUserPositionToProjectPositionColumn') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20220917211840_ChangeUserPositionToProjectPositionColumn', '3.1.9');
+    END IF;
+END $$;
