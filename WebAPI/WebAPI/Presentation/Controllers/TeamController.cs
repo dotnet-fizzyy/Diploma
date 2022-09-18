@@ -57,7 +57,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = ClaimsReader.GetUserClaims(User);
 
-            return await _teamService.SearchTeams(user.UserId, search.Term, search.Limit, search.Offset);
+            return await _teamService.SearchAsync(user.UserId, search.Term, search.Limit, search.Offset);
         }
         
         /// <summary>

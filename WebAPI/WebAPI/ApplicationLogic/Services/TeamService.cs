@@ -28,15 +28,15 @@ namespace WebAPI.ApplicationLogic.Services
 
         public async Task<CollectionResponse<TeamComplete>> GetUserTeamsAsync(Guid userId)
         {
-            var teamEntities = await _unitOfWork.TeamRepository.GetUserTeams(userId);
+            var teams = await _unitOfWork.TeamRepository.GetUserTeams(userId);
 
             return new CollectionResponse<TeamComplete>
             {
-                Items = teamEntities.Select(TeamMapper.MapToFullModel).ToList(),
+                Items = teams.Select(TeamMapper.MapToFullModel).ToList(),
             };
         }
 
-        public async Task<CollectionResponse<Team>> SearchTeams(
+        public async Task<CollectionResponse<Team>> SearchAsync(
             Guid userId,
             string searchTerm,
             int limit,
@@ -46,7 +46,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             ValidateWorkspaceExistence(user.WorkSpaceId);
             
-            var userTeams = await _unitOfWork.TeamRepository.GetTeamsBySearchTerm(
+            var userTeams = await _unitOfWork.TeamRepository.SearchAsync(
                 user.WorkSpaceId!.Value,
                 searchTerm,
                 limit,

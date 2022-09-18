@@ -11,7 +11,7 @@ namespace WebAPI.Core.Interfaces.Database
 
         Task<List<Team>> GetUserTeams(Guid userId);
 
-        Task<List<Team>> GetTeamsBySearchTerm(
+        Task<List<Team>> SearchAsync(
             Guid workspaceId,
             string searchTerm,
             int limit,

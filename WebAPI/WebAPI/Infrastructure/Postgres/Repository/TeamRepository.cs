@@ -44,7 +44,7 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 .ToList();
         }
 
-        public async Task<List<Team>> GetTeamsBySearchTerm(
+        public async Task<List<Team>> SearchAsync(
             Guid workspaceId,
             string searchTerm,
             int limit,

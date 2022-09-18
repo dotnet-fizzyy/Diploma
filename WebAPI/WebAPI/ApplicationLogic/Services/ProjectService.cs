@@ -25,7 +25,7 @@ namespace WebAPI.ApplicationLogic.Services
             _unitOfWork = unitOfWork;
         }
         
-        public async Task<CollectionResponse<Project>> SearchProjectsAsync(
+        public async Task<CollectionResponse<Project>> SearchAsync(
             Guid userId,
             string searchTerm,
             int limit,

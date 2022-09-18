@@ -71,7 +71,7 @@ namespace WebAPI.Presentation.Controllers
         {
             var user = ClaimsReader.GetUserClaims(User);
 
-            return await _projectService.SearchProjectsAsync(user.UserId, search.Term, search.Limit, search.Offset);
+            return await _projectService.SearchAsync(user.UserId, search.Term, search.Limit, search.Offset);
         }
 
         /// <summary>

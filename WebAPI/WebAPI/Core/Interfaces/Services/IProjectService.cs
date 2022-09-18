@@ -8,7 +8,7 @@ namespace WebAPI.Core.Interfaces.Services
 {
     public interface IProjectService
     {
-        Task<CollectionResponse<Project>> SearchProjectsAsync(Guid userId, string searchTerm, int limit, int offset);
+        Task<CollectionResponse<Project>> SearchAsync(Guid userId, string searchTerm, int limit, int offset);
         
         Task<Project> GetByIdAsync(Guid id);
 
