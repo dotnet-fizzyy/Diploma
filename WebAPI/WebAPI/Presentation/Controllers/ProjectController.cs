@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Basic;
 using WebAPI.Models.Complete;
+using WebAPI.Models.Extensions;
+using WebAPI.Presentation.Filters;
+using WebAPI.Presentation.Models.Request;
+using WebAPI.Presentation.Utilities;
 
 namespace WebAPI.Presentation.Controllers
 {
@@ -51,6 +55,24 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProjectComplete>> GetCompleteDescription(Guid id) =>
             await _projectService.GetCompleteDescriptionAsync(id);
+
+        /// <summary>
+        /// Gets projects by provided search query params.
+        /// </summary>
+        /// <param name="search"><see cref="SearchRequest"/>.</param>
+        /// <response code="200">A collection of projects matching provided search params.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [TypeFilter(typeof(PaginationFilter))]
+        [HttpGet("search")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<CollectionResponse<Project>>> SearchProjects([FromQuery] SearchRequest search)
+        {
+            var user = ClaimsReader.GetUserClaims(User);
+
+            return await _projectService.SearchProjectsAsync(user.UserId, search.Term, search.Limit, search.Offset);
+        }
 
         /// <summary>
         /// Creates project.

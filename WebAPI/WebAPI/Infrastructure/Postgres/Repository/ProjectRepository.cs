@@ -15,7 +15,31 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             
         }
 
-        // todo: pass more params like workSpaceId
+        public async Task<List<Project>> SearchAsync(
+            Guid workspaceId,
+            string searchTerm,
+            int limit,
+            int offset)
+        {
+            IQueryable<Project> query;
+
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                query = DbContext.Projects.Where(project => project.WorkSpaceId == workspaceId);
+            }
+            else
+            {
+                query = DbContext.Projects.Where(project => EF.Functions.ILike(project.ProjectName, $"{searchTerm}%") && 
+                                                            project.WorkSpaceId == workspaceId);
+            }
+
+            return await query
+                .Skip(offset)
+                .Take(limit)
+                .ToListAsync();
+        }
+
+        [Obsolete("This method is obsolete and should be removed later")]
         public async Task<List<Project>> GetProjectsBySearchTerm(
             string term,
             int limit,

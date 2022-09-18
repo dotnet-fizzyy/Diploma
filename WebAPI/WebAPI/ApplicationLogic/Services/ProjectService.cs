@@ -10,6 +10,7 @@ using WebAPI.Core.Interfaces.Database;
 using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Basic;
 using WebAPI.Models.Complete;
+using WebAPI.Models.Extensions;
 
 using ProjectEntity = WebAPI.Core.Entities.Project;
 
@@ -22,6 +23,28 @@ namespace WebAPI.ApplicationLogic.Services
         public ProjectService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+        }
+        
+        public async Task<CollectionResponse<Project>> SearchProjectsAsync(
+            Guid userId,
+            string searchTerm,
+            int limit,
+            int offset)
+        {
+            var user = await _unitOfWork.UserRepository.SearchForItemById(userId, includeTracking: false);
+
+            ValidateWorkspaceExistence(user.WorkSpaceId);
+            
+            var projects = await _unitOfWork.ProjectRepository.SearchAsync(
+                user.WorkSpaceId!.Value,
+                searchTerm,
+                limit,
+                offset);
+
+            return new CollectionResponse<Project>
+            {
+                Items = projects.Select(ProjectMapper.Map).ToList(),
+            };
         }
 
         public async Task<Project> GetByIdAsync(Guid projectId)
@@ -37,9 +60,7 @@ namespace WebAPI.ApplicationLogic.Services
                 );
             }
 
-            var projectModel = ProjectMapper.Map(projectEntity);
-
-            return projectModel;
+            return ProjectMapper.Map(projectEntity);
         }
 
         public async Task<ProjectComplete> GetCompleteDescriptionAsync(Guid projectId)
@@ -82,14 +103,12 @@ namespace WebAPI.ApplicationLogic.Services
             var projectTeams =  await _unitOfWork.TeamRepository
                 .SearchForMultipleItemsAsync(project => project.ProjectId == projectId);
 
-            var fullProjectDescription = ProjectAggregator.AggregateFullProjectDescription(
+            return ProjectAggregator.AggregateFullProjectDescription(
                 projectEntity,
                 projectEpicEntity,
                 epicSprints,
                 projectTeams
             );
-            
-            return fullProjectDescription;
         }
 
         public async Task<Project> CreateAsync(Project projectModelToCreate)
@@ -101,9 +120,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             await _unitOfWork.CommitAsync();
 
-            var createdProjectModel = ProjectMapper.Map(projectEntity);
-
-            return createdProjectModel;
+            return ProjectMapper.Map(projectEntity);
         }
 
         public async Task<Project> UpdateAsync(Project project)
@@ -114,9 +131,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             await _unitOfWork.CommitAsync();
 
-            var updatedProjectModel = ProjectMapper.Map(projectEntity);
-
-            return updatedProjectModel;
+            return ProjectMapper.Map(projectEntity);
         }
 
         public async Task SoftRemoveAsync(Guid id)
@@ -137,6 +152,18 @@ namespace WebAPI.ApplicationLogic.Services
             _unitOfWork.EpicRepository.Remove(epic => epic.Id == projectId);
             
             await _unitOfWork.CommitAsync();
+        }
+        
+        
+        private static void ValidateWorkspaceExistence(Guid? workspaceId)
+        {
+            if (!workspaceId.HasValue)
+            {
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND,
+                    "User is not assigned to any workspace"
+                );
+            }
         }
     }
 }
