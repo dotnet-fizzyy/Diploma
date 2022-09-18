@@ -13,31 +13,47 @@ namespace WebAPI.Presentation.Filters
         {
             var actionArgExists = context.ActionArguments.TryGetValue(SearchActionArgumentKey, out var searchActionArgument);
             var paginationRequest = searchActionArgument as PaginationRequest;
-
-            if (!actionArgExists || paginationRequest == null)
+            var isRequestInvalid = !actionArgExists || paginationRequest == null;
+            
+            if (isRequestInvalid)
             {
-                SetBadRequestResponse(context.HttpContext.Response, "Unable to parse pagination parameters");
+                SetBadRequestResponse(
+                    context.HttpContext.Response,
+                    "Unable to parse pagination parameters");
                 
                 return;
             }
 
-            if (paginationRequest.Limit <= default(int))
+            var arePaginationParamsInvalid = PaginationRequestParamsInvalid(paginationRequest);
+
+            if (arePaginationParamsInvalid)
             {
-                SetBadRequestResponse(context.HttpContext.Response, "\"limit\" parameter cannot be less or equal 0");
+                SetBadRequestResponse(
+                    context.HttpContext.Response, 
+                    "\"limit\" or \"offset\" parameter cannot be less or equal 0");
                 
                 return;
             }
             
             var totalPaginationValue = CalculateTotalPaginationValue(paginationRequest.Limit, paginationRequest.Offset);
+            var totalPaginationValueExceededLimit = HasTotalPaginationValueExceededLimit(totalPaginationValue);
             
-            if (totalPaginationValue >= MaxPaginationValue)
+            if (totalPaginationValueExceededLimit)
             {
-                SetBadRequestResponse(context.HttpContext.Response, "Pagination parameters are too big");
+                SetBadRequestResponse(
+                    context.HttpContext.Response, 
+                    "Pagination parameters are too big");
             }
         }
 
+        private static bool PaginationRequestParamsInvalid(PaginationRequest requestModel) =>
+            requestModel.Limit <= default(int) || requestModel.Offset <= default(int);
+        
         private static int CalculateTotalPaginationValue(int limit, int offset) =>
             limit * offset;
+
+        private static bool HasTotalPaginationValueExceededLimit(int paginationValue) =>
+            paginationValue >= MaxPaginationValue;
 
         private static void SetBadRequestResponse(HttpResponse response, string message)
         {
