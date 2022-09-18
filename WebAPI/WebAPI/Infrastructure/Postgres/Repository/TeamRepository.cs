@@ -49,25 +49,39 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             string searchTerm,
             int limit,
             int offset
-        ) =>
-            await DbContext.Teams
-                .Join(
-                    DbContext.TeamUsers, 
-                    team => team.Id, 
-                    teamUser => teamUser.TeamId, 
-                    (team, teamUser) => new { team, teamUser })
-                .Join(
-                    DbContext.Users, 
-                    teamsWithTeamUsers => teamsWithTeamUsers.teamUser.UserId, 
-                    user => user.Id, 
-                    (teamsWithTeamUsers, user) => new { teamsWithTeamUsers.team, user })
-                .Where(teamWithUser => EF.Functions.ILike(teamWithUser.team.TeamName, $"{searchTerm}%") &&
-                                       teamWithUser.user.WorkSpaceId == workspaceId)
+        )
+        {
+            var joiningQuery =
+                DbContext.Teams
+                    .Join(
+                        DbContext.TeamUsers,
+                        team => team.Id,
+                        teamUser => teamUser.TeamId,
+                        (team, teamUser) => new { team, teamUser })
+                    .Join(
+                        DbContext.Users,
+                        teamsWithTeamUsers => teamsWithTeamUsers.teamUser.UserId,
+                        user => user.Id,
+                        (teamsWithTeamUsers, user) => new { teamsWithTeamUsers.team, user });
+
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                joiningQuery = joiningQuery.Where(teamWithUser => teamWithUser.user.WorkSpaceId == workspaceId);
+            }
+            else
+            {
+                joiningQuery = joiningQuery.Where(teamWithUser => EF.Functions.ILike(teamWithUser.team.TeamName, $"{searchTerm}%") &&
+                                                                  teamWithUser.user.WorkSpaceId == workspaceId);
+            }
+            
+            var teamsQuery = joiningQuery
                 .Skip(offset)
                 .Take(limit)
                 .Select(teamWithUser => teamWithUser.team)
-                .AsNoTracking()
-                .ToListAsync();
+                .AsNoTracking();
+            
+            return await teamsQuery.ToListAsync();
+        }
 
         [Obsolete("This overloading is obsolete and should be removed later")]
         public async Task<List<Team>> GetTeamsBySearchTerm(
