@@ -10,6 +10,8 @@ namespace WebAPI.Core.Interfaces.Services
     {
         Task<CollectionResponse<TeamComplete>> GetUserTeamsAsync(Guid userId);
 
+        Task<CollectionResponse<Team>> SearchTeams(Guid userId, string searchTerm, int limit, int offset);
+
         Task<Team> GetByIdAsync(Guid id);
 
         Task<TeamComplete> GetCompleteDescriptionAsync(Guid id);

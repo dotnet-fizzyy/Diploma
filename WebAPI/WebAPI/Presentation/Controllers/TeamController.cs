@@ -8,6 +8,7 @@ using WebAPI.Core.Interfaces.Services;
 using WebAPI.Models.Basic;
 using WebAPI.Models.Complete;
 using WebAPI.Models.Extensions;
+using WebAPI.Presentation.Filters;
 using WebAPI.Presentation.Models.Request;
 using WebAPI.Presentation.Utilities;
 
@@ -39,6 +40,24 @@ namespace WebAPI.Presentation.Controllers
             var user = ClaimsReader.GetUserClaims(User);
             
             return await _teamService.GetUserTeamsAsync(user.UserId);
+        }
+
+        /// <summary>
+        /// Gets teams by provided search query params.
+        /// </summary>
+        /// <param name="search"><see cref="SearchRequest"/>.</param>
+        /// <response code="200">A collection of teams matching provided search params.</response>
+        /// <response code="401">Failed authentication.</response>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [TypeFilter(typeof(PaginationFilter))]
+        [HttpGet("search")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<CollectionResponse<Team>>> SearchTeams([FromQuery] SearchRequest search)
+        {
+            var user = ClaimsReader.GetUserClaims(User);
+
+            return await _teamService.SearchTeams(user.UserId, search.Term, search.Limit, search.Offset);
         }
         
         /// <summary>

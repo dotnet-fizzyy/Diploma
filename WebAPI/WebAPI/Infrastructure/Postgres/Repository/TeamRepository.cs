@@ -44,7 +44,32 @@ namespace WebAPI.Infrastructure.Postgres.Repository
                 .ToList();
         }
 
-        // todo: pass more params like projectIds, workspaceId
+        public async Task<List<Team>> GetTeamsBySearchTerm(
+            Guid workspaceId,
+            string searchTerm,
+            int limit,
+            int offset
+        ) =>
+            await DbContext.Teams
+                .Join(
+                    DbContext.TeamUsers, 
+                    team => team.Id, 
+                    teamUser => teamUser.TeamId, 
+                    (team, teamUser) => new { team, teamUser })
+                .Join(
+                    DbContext.Users, 
+                    teamsWithTeamUsers => teamsWithTeamUsers.teamUser.UserId, 
+                    user => user.Id, 
+                    (teamsWithTeamUsers, user) => new { teamsWithTeamUsers.team, user })
+                .Where(teamWithUser => EF.Functions.ILike(teamWithUser.team.TeamName, $"{searchTerm}%") &&
+                                       teamWithUser.user.WorkSpaceId == workspaceId)
+                .Skip(offset)
+                .Take(limit)
+                .Select(teamWithUser => teamWithUser.team)
+                .AsNoTracking()
+                .ToListAsync();
+
+        [Obsolete("This overloading is obsolete and should be removed later")]
         public async Task<List<Team>> GetTeamsBySearchTerm(
             string searchTerm,
             int limit,

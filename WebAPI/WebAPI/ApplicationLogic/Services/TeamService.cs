@@ -29,13 +29,33 @@ namespace WebAPI.ApplicationLogic.Services
         public async Task<CollectionResponse<TeamComplete>> GetUserTeamsAsync(Guid userId)
         {
             var teamEntities = await _unitOfWork.TeamRepository.GetUserTeams(userId);
-            
-            var collectionResponse = new CollectionResponse<TeamComplete>
+
+            return new CollectionResponse<TeamComplete>
             {
                 Items = teamEntities.Select(TeamMapper.MapToFullModel).ToList(),
             };
+        }
 
-            return collectionResponse;
+        public async Task<CollectionResponse<Team>> SearchTeams(
+            Guid userId,
+            string searchTerm,
+            int limit,
+            int offset)
+        {
+            var user = await _unitOfWork.UserRepository.SearchForItemById(userId, includeTracking: false);
+
+            ValidateWorkspaceExistence(user.WorkSpaceId);
+            
+            var userTeams = await _unitOfWork.TeamRepository.GetTeamsBySearchTerm(
+                user.WorkSpaceId!.Value,
+                searchTerm,
+                limit,
+                offset);
+
+            return new CollectionResponse<Team>
+            {
+                Items = userTeams.Select(TeamMapper.Map).ToList(),
+            };
         }
 
         public async Task<Team> GetByIdAsync(Guid id)
@@ -44,9 +64,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             ValidateTeamExistence(teamEntity);
             
-            var team = TeamMapper.Map(teamEntity);
-            
-            return team;
+            return TeamMapper.Map(teamEntity);
         }
 
         public async Task<TeamComplete> GetCompleteDescriptionAsync(Guid id)
@@ -55,18 +73,14 @@ namespace WebAPI.ApplicationLogic.Services
 
             ValidateTeamExistence(teamEntity);
             
-            var teamFullModel = TeamMapper.MapToFullModel(teamEntity);
-            
-            return teamFullModel;
+            return TeamMapper.MapToFullModel(teamEntity);
         }
 
         public async Task<Team> CreateAsync(Team team)
         {
             var teamEntity = TeamMapper.Map(team);
 
-            var teamModel = await CreateTeam(teamEntity);
-
-            return teamModel;
+            return await CreateTeam(teamEntity);
         }
 
         public async Task AssignUserToTeam(Guid userId, Guid teamId)
@@ -96,9 +110,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             await _unitOfWork.CommitAsync();
             
-            var teamModel = TeamMapper.Map(teamEntity);
-
-            return teamModel;
+            return TeamMapper.Map(teamEntity);;
         }
 
         public async Task SoftRemoveAsync(Guid id)
@@ -144,6 +156,17 @@ namespace WebAPI.ApplicationLogic.Services
             }
         }
         
+        private static void ValidateWorkspaceExistence(Guid? workspaceId)
+        {
+            if (!workspaceId.HasValue)
+            {
+                throw new UserFriendlyException(
+                    ErrorStatus.NOT_FOUND,
+                    "User is not assigned to any workspace"
+                );
+            }
+        }
+        
         private async Task<Team> CreateTeam(TeamEntity teamEntity)
         {
             teamEntity.CreationDate = DateTime.UtcNow;
@@ -151,10 +174,8 @@ namespace WebAPI.ApplicationLogic.Services
             await _unitOfWork.TeamRepository.CreateAsync(teamEntity);
 
             await _unitOfWork.CommitAsync();
-            
-            var teamModel = TeamMapper.Map(teamEntity);
 
-            return teamModel;
+            return TeamMapper.Map(teamEntity);
         }
     }
 }
