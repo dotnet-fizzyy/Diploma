@@ -7,10 +7,8 @@ namespace WebAPI.Models.Complete
     {
         public Project Project { get; set; }
         
-        public Epic Epic { get; set; }
-        
-        public CollectionResponse<SprintComplete> Sprints { get; set; }
-        
-        public CollectionResponse<TeamComplete> Teams { get; set; }
+        public CollectionResponse<Epic> Epics { get; set; }
+
+        public CollectionResponse<Team> Teams { get; set; }
     }
 }

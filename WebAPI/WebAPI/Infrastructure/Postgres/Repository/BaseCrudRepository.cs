@@ -65,20 +65,22 @@ namespace WebAPI.Infrastructure.Postgres.Repository
             Expression<Func<T, K>> sort,
             SortDirection sortDirection = SortDirection.Asc)
         {
-            List<T> items;
+            IQueryable<T> query;
 
             if (sortDirection == SortDirection.Asc)
             {
-                items = await _dbSet.Where(expression).OrderBy(sort).AsNoTracking().ToListAsync();
+                query = _dbSet.Where(expression).OrderBy(sort);
             }
             else
             {
-                items = await _dbSet.Where(expression).OrderByDescending(sort).AsNoTracking().ToListAsync();
+                query = _dbSet.Where(expression).OrderByDescending(sort);
             }
 
-            return items;
+            return await query
+                .AsNoTracking()
+                .ToListAsync();
         }
-        
+
         public async Task<List<T>> SearchForMultipleItemsAsync<K>(
             Expression<Func<T, bool>> expression, 
             int offset, 

@@ -14,7 +14,7 @@ namespace WebAPI.Core.Interfaces.Services
 
         Task<ProjectComplete> GetCompleteDescriptionAsync(Guid id);
 
-        Task<Project> CreateAsync(Project projectModelToCreate);
+        Task<Project> CreateAsync(Project projectToCreate);
 
         Task<Project> UpdateAsync(Project project);
         

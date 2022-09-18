@@ -1,38 +1,40 @@
 using System.Collections.Generic;
 using System.Linq;
 using WebAPI.ApplicationLogic.Mappers;
-using WebAPI.Core.Entities;
 using WebAPI.Models.Complete;
 using WebAPI.Models.Extensions;
+
+using ProjectEntity = WebAPI.Core.Entities.Project;
+using EpicEntity = WebAPI.Core.Entities.Epic;
+using EpicModel = WebAPI.Models.Basic.Epic;
+using TeamEntity = WebAPI.Core.Entities.Team;
+using TeamModel = WebAPI.Models.Basic.Team;
 
 namespace WebAPI.ApplicationLogic.Aggregators
 {
     public static class ProjectAggregator
     {
         public static ProjectComplete AggregateFullProjectDescription(
-            Project project,
-            Epic epic,
-            IEnumerable<Sprint> sprints,
-            IEnumerable<Team> teams)
+            ProjectEntity project,
+            IEnumerable<EpicEntity> epics,
+            IEnumerable<TeamEntity> teams)
         {
             var projectComplete = new ProjectComplete();
 
-            if (project == null || epic == null)
+            if (project == null)
             {
                 return projectComplete;
             }
             
             projectComplete.Project = ProjectMapper.Map(project);
-            projectComplete.Epic = EpicMapper.Map(epic);
 
-            projectComplete.Sprints = new CollectionResponse<SprintComplete>
+            projectComplete.Epics = new CollectionResponse<EpicModel>
             {
-                Items = sprints?.Select(SprintMapper.MapToComplete).ToList() ?? new List<SprintComplete>()
+                Items = epics?.Select(EpicMapper.Map).ToList() ?? new List<EpicModel>()
             };
-
-            projectComplete.Teams = new CollectionResponse<TeamComplete>
+            projectComplete.Teams = new CollectionResponse<TeamModel>
             {
-                Items = teams?.Select(TeamMapper.MapToFullModel).ToList() ?? new List<TeamComplete>()
+                Items = teams?.Select(TeamMapper.Map).ToList() ?? new List<TeamModel>()
             };
             
             return projectComplete;
