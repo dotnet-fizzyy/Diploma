@@ -2,7 +2,7 @@ import { TextField } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import React, { useState } from 'react';
-import { UserPosition, UserRole } from '../../../constants/user';
+import { ProjectPosition, UserRole } from '../../../constants/user';
 import { IProjectSimpleModel } from '../../../types/project';
 import { ITeamSimpleModel } from '../../../types/team';
 import SearchResults from './SearchResults';
@@ -53,7 +53,7 @@ const useStyles = makeStyles(() =>
 
 export interface ISearchFieldProps {
     userRole: UserRole;
-    userPosition: UserPosition;
+    userPosition: ProjectPosition;
     searchTerm: string;
     searchProjects: IProjectSimpleModel[];
     searchTeams: ITeamSimpleModel[];

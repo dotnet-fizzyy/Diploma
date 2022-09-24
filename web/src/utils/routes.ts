@@ -1,4 +1,4 @@
-import { UserPosition, UserRole } from '../constants/user';
+import { ProjectPosition, UserRole } from '../constants/user';
 import { IUser } from '../types/user';
 
 abstract class BaseRouteGuard {
@@ -33,7 +33,9 @@ export class CustomerRouteGuard extends BaseRouteGuard {
     public validate(): boolean {
         const isValid: boolean = super.baseValidation();
 
-        return isValid && this._user.userRole === UserRole.Manager && this._user.userPosition === UserPosition.Customer;
+        return (
+            isValid && this._user.userRole === UserRole.Manager && this._user.userPosition === ProjectPosition.Customer
+        );
     }
 }
 

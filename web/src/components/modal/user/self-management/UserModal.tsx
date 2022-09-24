@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { Field, Form, Formik } from 'formik';
 import React, { RefObject } from 'react';
 import { InitialProfileUpdatePassword, PasswordsAreNotSameErrorMessage, UnspecifiedValue } from '../../../../constants';
-import { passwordUpdateFields, userFields, UserPosition, UserRole } from '../../../../constants/user';
+import { passwordUpdateFields, userFields, ProjectPosition, UserRole } from '../../../../constants/user';
 import { IProfilePasswordUpdateForm, IProfileSettingsForm } from '../../../../types/forms';
 import { IFullUser } from '../../../../types/user';
 import { getFirstLetter } from '../../../../utils';
@@ -223,7 +223,7 @@ const UserModal = (props: IUserModalProps) => {
                             </div>
                             <div className={classes.fieldContainer}>
                                 <span className={classnames(classes.text, classes.staticFieldLabel)}>Position:</span>
-                                <span className={classes.text}>{UserPosition[userPosition]}</span>
+                                <span className={classes.text}>{ProjectPosition[userPosition]}</span>
                             </div>
                             <div className={classes.fieldContainer}>
                                 <span className={classnames(classes.text, classes.staticFieldLabel)}>Role:</span>

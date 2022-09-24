@@ -1,4 +1,4 @@
-import { UserPosition, UserRole } from '../../constants/user';
+import { ProjectPosition, UserRole } from '../../constants/user';
 import { mockedUser } from '../../mock/mockedUser';
 import { IUser } from '../../types/user';
 import { CustomerRouteGuard, UserRouteGuard } from '../../utils/routes';
@@ -31,7 +31,7 @@ describe('Route utils', () => {
         const user: IUser = {
             ...mockedUser,
             userRole: UserRole.Manager,
-            userPosition: UserPosition.Customer,
+            userPosition: ProjectPosition.Customer,
         };
         const customerGuard: CustomerRouteGuard = new CustomerRouteGuard(user);
 

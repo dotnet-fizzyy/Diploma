@@ -1,11 +1,11 @@
 import { AccessTokenLocalStorageField, RefreshTokenLocalStorageField } from '../constants';
-import { UserPosition, UserRole } from '../constants/user';
+import { ProjectPosition, UserRole } from '../constants/user';
 import { IJsonPatchBody } from '../types';
 import { ISelectedItem } from '../types/story';
 import { IUser } from '../types/user';
 
 export const createUserPositionDropdownItems = (): ISelectedItem[] =>
-    Object.entries(UserPosition).map(([key, value]) => ({
+    Object.entries(ProjectPosition).map(([key, value]) => ({
         key,
         value,
     }));
@@ -36,20 +36,20 @@ export const createRequestBodyForUserChangeStatus = (userId: string, isActive: b
     },
 ];
 
-export const createAvailableUsersDropdownItems = (requiredPosition: UserPosition, users: IUser[]): ISelectedItem[] =>
+export const createAvailableUsersDropdownItems = (requiredPosition: ProjectPosition, users: IUser[]): ISelectedItem[] =>
     users.reduce(
         (acc, user) =>
-            user.userPosition && UserPosition[user.userPosition] === requiredPosition
+            user.userPosition && ProjectPosition[user.userPosition] === requiredPosition
                 ? [...acc, { key: user.userId, value: user.userName } as ISelectedItem]
                 : acc,
         [{ key: '', value: 'No Owner' } as ISelectedItem]
     );
 
 export const isUserCustomer = (userRole: string, userPosition: string): boolean =>
-    UserRole[userRole] === UserRole.Manager && UserPosition[userPosition] === UserPosition.Customer;
+    UserRole[userRole] === UserRole.Manager && ProjectPosition[userPosition] === ProjectPosition.Customer;
 
 export const isUserProjectManager = (userRole: string, userPosition: string): boolean =>
-    UserRole[userRole] === UserRole.Manager && UserPosition[userPosition] === UserPosition.ProjectManager;
+    UserRole[userRole] === UserRole.Manager && ProjectPosition[userPosition] === ProjectPosition.ProjectManager;
 
 export const setCredentialsToLocalStorage = (accessToken: string, refreshToken: string): void => {
     localStorage.setItem(AccessTokenLocalStorageField, accessToken);

@@ -3,7 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import React from 'react';
-import { UserPosition } from '../../../constants/user';
+import { ProjectPosition } from '../../../constants/user';
 import { IUser } from '../../../types/user';
 
 const useStyles = makeStyles(() =>
@@ -60,7 +60,7 @@ const TabMenu = (props: IMenuProps) => {
             <div className={classes.root} onClick={onClickDisplayMenu}>
                 <div className={classes.userInfo}>
                     <span className={classes.userName}>{user.userName}</span>
-                    <span className={classes.userPosition}>{UserPosition[user.userPosition]}</span>
+                    <span className={classes.userPosition}>{ProjectPosition[user.userPosition]}</span>
                 </div>
                 <Avatar src={user.avatarLink}>{user.userName.slice(0, 1)}</Avatar>
                 {!anchor ? (

@@ -1,5 +1,5 @@
 import { Priority, StoryHistoryAction } from '../constants/story';
-import { UserPosition } from '../constants/user';
+import { ProjectPosition } from '../constants/user';
 
 export interface IStory {
     storyId?: string;
@@ -17,7 +17,7 @@ export interface IStory {
     userId?: string;
     sprintId: string;
     storyPriority: Priority;
-    requiredPosition: UserPosition;
+    requiredPosition: ProjectPosition;
 }
 
 export interface IFullStory extends IStory {

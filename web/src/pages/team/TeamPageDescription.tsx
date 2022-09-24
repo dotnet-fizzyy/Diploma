@@ -8,7 +8,7 @@ import PageHeaderTab from '../../components/header/page-header/PageHeaderTab';
 import TeamPersonCard from '../../components/team/TeamPersonCard';
 import TeamTab from '../../components/team/TeamTab';
 import { DateFormat } from '../../constants';
-import { ManagerRoleRequiredMessage, UserPosition, UserRole } from '../../constants/user';
+import { ManagerRoleRequiredMessage, ProjectPosition, UserRole } from '../../constants/user';
 import { ITeam } from '../../types/team';
 import { isUserCustomer, isUserProjectManager } from '../../utils/user';
 
@@ -50,7 +50,7 @@ const useStyles = makeStyles(() =>
 
 export interface ITeamPageDescriptionProps {
     currentUserRole: UserRole;
-    currentUserPosition: UserPosition;
+    currentUserPosition: ProjectPosition;
     team: ITeam;
     onClickAddUser: () => void;
     onClickUpdateTeam: () => void;

@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { TabLinkItems, TabLinkOptions } from '../../../constants';
-import { UserPosition, UserRole } from '../../../constants/user';
+import { ProjectPosition, UserRole } from '../../../constants/user';
 import { IUserProject, IUserTeam } from '../../../types/user';
 import { isUserCustomer } from '../../../utils/user';
 import Tooltip from '../../common/Tooltip';
@@ -29,7 +29,7 @@ const useStyles = makeStyles(() =>
 
 export interface ITabLinks {
     userRole: UserRole;
-    userPosition: UserPosition;
+    userPosition: ProjectPosition;
     teams: IUserTeam[];
     projects: IUserProject[];
     selectedTeamId: string;

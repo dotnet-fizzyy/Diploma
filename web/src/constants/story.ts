@@ -1,6 +1,6 @@
 import { IStoryFormTypes } from '../types/forms';
 import { ColumnIds } from './board';
-import { UserPosition } from './user';
+import { ProjectPosition } from './user';
 
 export const debouncePeriod: number = 1000;
 
@@ -52,7 +52,7 @@ export const initialStory: IStoryFormTypes = {
     [storyFields.title]: '',
     [storyFields.userId]: '',
     [storyFields.recordVersion]: 0,
-    [storyFields.requiredPosition]: UserPosition.Developer,
+    [storyFields.requiredPosition]: ProjectPosition.Developer,
 };
 
 export const SortFieldsNames = {

@@ -24,7 +24,7 @@ export enum UserRole {
     Engineer = 'Engineer',
 }
 
-export enum UserPosition {
+export enum ProjectPosition {
     ProjectManager = 'Project Manager',
     TeamLead = 'TeamLead',
     Developer = 'Developer',
@@ -40,7 +40,7 @@ export const UserInitialState: IUser = {
     isActive: true,
     userId: '',
     userName: '',
-    userPosition: UserPosition.Developer,
+    userPosition: ProjectPosition.Developer,
     userRole: UserRole.Engineer,
     password: '',
     teamId: '',
@@ -52,18 +52,18 @@ export const CustomerInitialState: IUser = {
     isActive: true,
     userId: '',
     userName: '',
-    userPosition: UserPosition.ProjectManager,
+    userPosition: ProjectPosition.ProjectManager,
     userRole: UserRole.Manager,
     password: '',
     teamId: '',
 };
 
-export const UserPositionRoleMap: Record<UserPosition, UserRole> = {
-    [UserPosition.Developer]: UserRole.Engineer,
-    [UserPosition.DevOps]: UserRole.Engineer,
-    [UserPosition.Architecture]: UserRole.Engineer,
-    [UserPosition.Qa]: UserRole.Engineer,
-    [UserPosition.TeamLead]: UserRole.Engineer,
-    [UserPosition.ProjectManager]: UserRole.Manager,
-    [UserPosition.Customer]: UserRole.Manager,
+export const UserPositionRoleMap: Record<ProjectPosition, UserRole> = {
+    [ProjectPosition.Developer]: UserRole.Engineer,
+    [ProjectPosition.DevOps]: UserRole.Engineer,
+    [ProjectPosition.Architecture]: UserRole.Engineer,
+    [ProjectPosition.Qa]: UserRole.Engineer,
+    [ProjectPosition.TeamLead]: UserRole.Engineer,
+    [ProjectPosition.ProjectManager]: UserRole.Manager,
+    [ProjectPosition.Customer]: UserRole.Manager,
 };

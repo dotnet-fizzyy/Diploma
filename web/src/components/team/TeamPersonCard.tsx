@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import moment from 'moment';
 import React from 'react';
 import { DateFormat } from '../../constants';
-import { UserPosition, UserRole } from '../../constants/user';
+import { ProjectPosition, UserRole } from '../../constants/user';
 import { IUser } from '../../types/user';
 import { getFirstLetter } from '../../utils';
 import Button, { ButtonVariant } from '../common/Button';
@@ -130,7 +130,7 @@ const TeamPersonCard = (props: ITeamPersonCardProps) => {
                     </div>
                     <div className={classes.item}>
                         <span className={classnames(classes.text, classes.descriptionLabel)}>Position: </span>
-                        <span className={classes.text}>{UserPosition[user.userPosition]}</span>
+                        <span className={classes.text}>{ProjectPosition[user.userPosition]}</span>
                     </div>
                     <div className={classes.item}>
                         <span className={classnames(classes.text, classes.descriptionLabel)}>Email: </span>

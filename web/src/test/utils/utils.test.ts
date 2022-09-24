@@ -1,4 +1,4 @@
-import { UserPosition } from '../../constants/user';
+import { ProjectPosition } from '../../constants/user';
 import mockedStories from '../../mock/mockedStories';
 import { mockedUsers } from '../../mock/mockedUser';
 import { ISelectedItem, IStory } from '../../types/story';
@@ -37,7 +37,7 @@ describe('Utils general tests', () => {
 
     it('Should create new users dropdown list depends on required position', () => {
         //Arrange & Act
-        const result: ISelectedItem[] = createAvailableUsersDropdownItems(UserPosition.Developer, mockedUsers);
+        const result: ISelectedItem[] = createAvailableUsersDropdownItems(ProjectPosition.Developer, mockedUsers);
 
         //Assert
         expect(result).toEqual([

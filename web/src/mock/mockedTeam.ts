@@ -1,4 +1,4 @@
-import { UserPosition, UserRole } from '../constants/user';
+import { ProjectPosition, UserRole } from '../constants/user';
 import { ITeam, ITeamSimpleModel } from '../types/team';
 import { IUser } from '../types/user';
 
@@ -14,7 +14,7 @@ export const mockedTeam: ITeam = {
             email: 'test@mail.com',
             userName: 'Oleg Ryazin',
             avatarLink: '',
-            userPosition: UserPosition.Developer,
+            userPosition: ProjectPosition.Developer,
             userRole: UserRole.Engineer,
         } as IUser,
         {
@@ -23,7 +23,7 @@ export const mockedTeam: ITeam = {
             email: 'test2@mail.com',
             userName: 'Oleg Ryazin',
             avatarLink: '',
-            userPosition: UserPosition.Qa,
+            userPosition: ProjectPosition.Qa,
             userRole: UserRole.Engineer,
         } as IUser,
         {
@@ -32,7 +32,7 @@ export const mockedTeam: ITeam = {
             email: 'test3@mail.com',
             userName: 'Dima Yaniuk',
             avatarLink: '',
-            userPosition: UserPosition.TeamLead,
+            userPosition: ProjectPosition.TeamLead,
             userRole: UserRole.Engineer,
         } as IUser,
         {
@@ -41,7 +41,7 @@ export const mockedTeam: ITeam = {
             email: 'test4@mail.com',
             userName: 'Nikolai Ulasevich',
             avatarLink: '',
-            userPosition: UserPosition.Architecture,
+            userPosition: ProjectPosition.Architecture,
             userRole: UserRole.Manager,
         } as IUser,
     ],

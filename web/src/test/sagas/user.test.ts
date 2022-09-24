@@ -2,7 +2,7 @@ import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
 import UserApi from '../../api/user';
-import { UserPosition, UserRole } from '../../constants/user';
+import { ProjectPosition, UserRole } from '../../constants/user';
 import {
     verifyUserFailure,
     verifyUserRequest,
@@ -25,7 +25,7 @@ describe('User sagas tests', () => {
             teams: [],
             userId: 'user_id',
             userName: 'user_name',
-            userPosition: UserPosition.Developer,
+            userPosition: ProjectPosition.Developer,
             userRole: UserRole.Engineer,
         };
 

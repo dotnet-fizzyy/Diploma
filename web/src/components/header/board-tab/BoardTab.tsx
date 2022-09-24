@@ -2,7 +2,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import React from 'react';
 import { SortDirection } from '../../../constants/story';
-import { UserPosition, UserRole } from '../../../constants/user';
+import { ProjectPosition, UserRole } from '../../../constants/user';
 import { ISelectedItem } from '../../../types/story';
 import { ITeam } from '../../../types/team';
 import Button from '../../common/Button';
@@ -64,7 +64,7 @@ const useStyles = makeStyles(() =>
 export interface IBoardTabProps {
     userId: string;
     userRole: UserRole;
-    userPosition: UserPosition;
+    userPosition: ProjectPosition;
     team: ITeam;
     selectedSprintId: string;
     sortFields: ISelectedItem[];

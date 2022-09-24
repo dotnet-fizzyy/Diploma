@@ -1,4 +1,4 @@
-import { UserPosition, UserRole } from '../constants/user';
+import { ProjectPosition, UserRole } from '../constants/user';
 
 export interface IUser {
     userId: string;
@@ -7,7 +7,7 @@ export interface IUser {
     workSpaceId?: string;
     userName: string;
     userRole: UserRole;
-    userPosition: UserPosition;
+    userPosition: ProjectPosition;
     isActive: boolean;
     avatarLink: string;
     email: string;
@@ -51,7 +51,7 @@ export interface IUserSimpleModel {
     userId: string;
     userName: string;
     userRole: UserRole;
-    userPosition: UserPosition;
+    userPosition: ProjectPosition;
 }
 
 export interface IEmailExistence {

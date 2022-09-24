@@ -3,7 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Add } from '@material-ui/icons';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import React from 'react';
-import { UserPosition, UserRole } from '../../../constants/user';
+import { ProjectPosition, UserRole } from '../../../constants/user';
 import { ITeam } from '../../../types/team';
 import { getFirstLetter } from '../../../utils';
 import { isUserCustomer, isUserProjectManager } from '../../../utils/user';
@@ -29,7 +29,7 @@ export interface ITeamMembersProps {
     team: ITeam;
     userId: string;
     userRole: UserRole;
-    userPosition: UserPosition;
+    userPosition: ProjectPosition;
     onClickCreateUser: () => void;
 }
 

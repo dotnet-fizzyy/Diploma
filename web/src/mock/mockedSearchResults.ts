@@ -1,5 +1,5 @@
 import { Priority } from '../constants/story';
-import { UserPosition } from '../constants/user';
+import { ProjectPosition } from '../constants/user';
 import { IStory } from '../types/story';
 
 const mockedStory_1: IStory = {
@@ -17,7 +17,7 @@ const mockedStory_1: IStory = {
     userId: 'Dima',
     storyPriority: Priority.LOW,
     recordVersion: 515,
-    requiredPosition: UserPosition.Developer,
+    requiredPosition: ProjectPosition.Developer,
 };
 
 const mockedStory_2: IStory = {
@@ -35,7 +35,7 @@ const mockedStory_2: IStory = {
     userId: 'Ihar',
     storyPriority: Priority.HIGH,
     recordVersion: 521,
-    requiredPosition: UserPosition.Architecture,
+    requiredPosition: ProjectPosition.Architecture,
 };
 
 const mockedStory_3: IStory = {
@@ -53,7 +53,7 @@ const mockedStory_3: IStory = {
     userId: '',
     storyPriority: Priority.MEDIUM,
     recordVersion: 124,
-    requiredPosition: UserPosition.Developer,
+    requiredPosition: ProjectPosition.Developer,
 };
 
 const mockedStory_4: IStory = {
@@ -71,7 +71,7 @@ const mockedStory_4: IStory = {
     userId: '',
     storyPriority: Priority.LOW,
     recordVersion: 915,
-    requiredPosition: UserPosition.Qa,
+    requiredPosition: ProjectPosition.Qa,
 };
 
 const mockedStories = [mockedStory_1, mockedStory_2, mockedStory_3, mockedStory_4];

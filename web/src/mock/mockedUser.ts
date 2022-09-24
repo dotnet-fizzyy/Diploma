@@ -1,4 +1,4 @@
-import { UserPosition, UserRole } from '../constants/user';
+import { ProjectPosition, UserRole } from '../constants/user';
 import { IUser, IUserListItem } from '../types/user';
 
 export const mockedUser: IUser = {
@@ -7,7 +7,7 @@ export const mockedUser: IUser = {
     email: 'test3@mail.com',
     userName: 'Dima Yaniuk',
     avatarLink: '',
-    userPosition: UserPosition.Developer,
+    userPosition: ProjectPosition.Developer,
     userRole: UserRole.Engineer,
     teamId: '',
 };
@@ -20,7 +20,7 @@ export const mockedUsers: IUser[] = [
         email: 'test2@mail.com',
         userName: 'Ihar Zalatnik',
         avatarLink: '',
-        userPosition: UserPosition.Developer,
+        userPosition: ProjectPosition.Developer,
         userRole: UserRole.Engineer,
         teamId: '',
     },
@@ -30,7 +30,7 @@ export const mockedUsers: IUser[] = [
         email: 'test1@mail.com',
         userName: 'Oleg Ryazin',
         avatarLink: '',
-        userPosition: UserPosition.Qa,
+        userPosition: ProjectPosition.Qa,
         userRole: UserRole.Engineer,
         teamId: '',
     },
@@ -40,7 +40,7 @@ export const mockedUsers: IUser[] = [
         email: 'test4@mail.com',
         userName: 'Nikolai Ulasevich',
         avatarLink: '',
-        userPosition: UserPosition.ProjectManager,
+        userPosition: ProjectPosition.ProjectManager,
         userRole: UserRole.Manager,
         teamId: '',
     },

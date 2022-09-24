@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { storyFields } from '../../../constants/story';
-import { UserPosition } from '../../../constants/user';
+import { ProjectPosition } from '../../../constants/user';
 import { IStoryFormTypes } from '../../../types/forms';
 import { ISelectedItem } from '../../../types/story';
 import { IFullUser, IUser } from '../../../types/user';
@@ -103,7 +103,7 @@ const SidebarStoryDescription = (props: ISidebarStoryDescription) => {
                 };
 
                 const usersWithRoles: ISelectedItem[] = createAvailableUsersDropdownItems(
-                    UserPosition[values.requiredPosition],
+                    ProjectPosition[values.requiredPosition],
                     users
                 );
 

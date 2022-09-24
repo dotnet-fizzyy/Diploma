@@ -2,7 +2,12 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../../constants';
 import { ModalOptions } from '../../../../constants/modal';
-import { CustomerInitialState, UserInitialState, UserPosition, UserPositionRoleMap } from '../../../../constants/user';
+import {
+    CustomerInitialState,
+    ProjectPosition,
+    UserInitialState,
+    UserPositionRoleMap,
+} from '../../../../constants/user';
 import { createUserRequest } from '../../../../redux/actions/user';
 import { getModalOption, getModalRequestPerforming } from '../../../../redux/selectors/modal';
 import { getSelectedTeamId } from '../../../../redux/selectors/team';
@@ -14,7 +19,7 @@ import UserModal, { IUserCreationProps } from './UserModal';
 
 const UserModalContainer = () => {
     const dispatch = useDispatch();
-    const userPositions = createUserPositionDropdownItems().filter((x) => x.value !== UserPosition.Customer);
+    const userPositions = createUserPositionDropdownItems().filter((x) => x.value !== ProjectPosition.Customer);
     const modalOption = useSelector(getModalOption);
     const workSpaceId: string = useSelector(getWorkSpaceId);
     const teamId: string = useSelector(getSelectedTeamId);

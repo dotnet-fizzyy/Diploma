@@ -1,5 +1,5 @@
 import { Priority } from '../constants/story';
-import { UserPosition } from '../constants/user';
+import { ProjectPosition } from '../constants/user';
 
 export interface ILoginForm {
     email: string;
@@ -64,6 +64,6 @@ export interface IStoryFormTypes {
     userId?: string;
     sprintId: string;
     storyPriority: Priority;
-    requiredPosition: UserPosition;
+    requiredPosition: ProjectPosition;
     teamId?: string;
 }
