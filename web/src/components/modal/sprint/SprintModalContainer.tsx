@@ -7,7 +7,7 @@ import { getSelectedEpicId } from '../../../redux/selectors/epic';
 import { getModalOption, getModalRequestPerforming } from '../../../redux/selectors/modal';
 import { getSelectedSprint } from '../../../redux/selectors/sprint';
 import { ISprint } from '../../../types/sprint';
-import { InputFormFieldValidator } from '../../../utils/forms';
+import { validateInputFormField } from '../../../utils/forms';
 import ModalRemove, { IModalRemoveProps } from '../ModalRemove';
 import SprintModal, { ISprintCreationProps } from './SprintModal';
 
@@ -44,7 +44,13 @@ const SprintModalContainer = () => {
         }
     };
 
-    const validateSprintName = (value: string) => new InputFormFieldValidator(value, 3, 100, true, null).validate();
+    const validateSprintName = (value: string) => {
+        const isRequired = true;
+        const minLength = 3;
+        const maxLength = 100;
+
+        return validateInputFormField(value, isRequired, minLength, maxLength);
+    };
 
     const sprintRemoveProps: IModalRemoveProps = {
         entity: 'sprint',

@@ -1,80 +1,60 @@
 import { BaseRegexExpression } from '../../constants';
-import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../utils/forms';
+import { validateEmailInputFormField, validateInputFormField } from '../../utils/forms';
 
 describe('Form utils tests', () => {
     it('Should validate correct input value with corresponding rules', () => {
         //Arrange
-        const validString: string = 'hello world';
-        const inputValidator: InputFormFieldValidator = new InputFormFieldValidator(validString, 2, 20, true);
+        const value = 'hello world';
+        const isRequired = true;
+        const minLength = 2;
+        const maxLength = 20;
 
         //Act
-        const result: string = inputValidator.validate();
+        const result = validateInputFormField(value, isRequired, minLength, maxLength);
 
         //Assert
-        expect(result).toBeFalsy();
+        expect(result).toBe('');
     });
 
-    it('Should validate incorrect input value with corresponding rules', () => {
-        //Arrange
-        const firstInvalidString: string = 'hello@!#$';
-        const firstInputValidator: InputFormFieldValidator = new InputFormFieldValidator(
-            firstInvalidString,
-            2,
-            20,
-            true,
-            BaseRegexExpression
-        );
+    it.each([{ value: 'hello@!#$' }, { value: 'h' }, { value: null }, { value: undefined }])(
+        'Should validate incorrect input value with corresponding rules',
+        ({ value }) => {
+            //Arrange
+            const isRequired = true;
+            const minLength = 2;
+            const maxLength = 20;
 
-        const secondInvalidString: string = 'h';
-        const secondInputValidator: InputFormFieldValidator = new InputFormFieldValidator(
-            secondInvalidString,
-            2,
-            20,
-            true,
-            BaseRegexExpression
-        );
+            //Act
+            const result = validateInputFormField(value, isRequired, minLength, maxLength, BaseRegexExpression);
 
-        //Act
-        const firstResult: string = firstInputValidator.validate();
-        const secondResult: string = secondInputValidator.validate();
-
-        //Assert
-        expect(firstResult).toBeTruthy();
-        expect(secondResult).toBeTruthy();
-    });
+            //Assert
+            expect(result).toBeTruthy();
+        }
+    );
 
     it('Should validate correct email', () => {
         //Arrange
-        const email: string = 'hello@mail.com';
-        const emailInputValidator: EmailInputFormFieldValidator = new EmailInputFormFieldValidator(email, true);
+        const email = 'hello@mail.com';
+        const isRequired = true;
 
         //Act
-        const result: string = emailInputValidator.validate();
+        const result = validateEmailInputFormField(email, isRequired);
 
         //Assert
         expect(result).toBeFalsy();
     });
 
-    it('Should validate incorrect email', () => {
-        //Arrange
-        const firstInvalidString: string = 'hello@mail';
-        const firstInputValidator: EmailInputFormFieldValidator = new EmailInputFormFieldValidator(
-            firstInvalidString,
-            true
-        );
+    it.each([{ value: null }, { value: 'hello@mail' }, { value: 'h' }])(
+        'Should validate incorrect email',
+        ({ value }) => {
+            //Arrange
+            const isRequired = true;
 
-        const secondInvalidString: string = 'h';
-        const secondInputValidator: EmailInputFormFieldValidator = new EmailInputFormFieldValidator(
-            secondInvalidString,
-            true
-        );
+            //Act
+            const result = validateEmailInputFormField(value, isRequired);
 
-        //Act
-        const firstResult: string = firstInputValidator.validate();
-        const secondResult: string = secondInputValidator.validate();
-
-        //Assert
-        expect(firstResult).toBeTruthy();
-        expect(secondResult).toBeTruthy();
-    });
+            //Assert
+            expect(result).toBeTruthy();
+        }
+    );
 });

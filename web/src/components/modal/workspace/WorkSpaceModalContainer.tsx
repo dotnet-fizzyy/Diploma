@@ -8,7 +8,7 @@ import { getModalOption, getModalRequestPerforming } from '../../../redux/select
 import { getWorkSpace } from '../../../redux/selectors/workspace';
 import { IWorkSpaceForm } from '../../../types/forms';
 import { IWorkSpace } from '../../../types/workspace';
-import { InputFormFieldValidator } from '../../../utils/forms';
+import { validateInputFormField } from '../../../utils/forms';
 import WorkSpaceModal, { IWorkSpaceModalProps } from './WorkSpaceModal';
 
 const WorkSpaceModalContainer = () => {
@@ -39,8 +39,13 @@ const WorkSpaceModalContainer = () => {
         }
     };
 
-    const validateWorkSpaceName = (value: string) =>
-        new InputFormFieldValidator(value, 3, 100, true, BaseRegexExpression).validate();
+    const validateWorkSpaceName = (value: string) => {
+        const isRequired = true;
+        const minLength = 3;
+        const maxLength = 100;
+
+        return validateInputFormField(value, isRequired, minLength, maxLength, BaseRegexExpression);
+    };
 
     const workSpaceModalProps: IWorkSpaceModalProps = {
         isPerformingRequest,

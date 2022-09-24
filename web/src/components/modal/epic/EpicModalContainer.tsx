@@ -9,7 +9,7 @@ import { getSelectedProject } from '../../../redux/selectors/project';
 import { IEpic } from '../../../types/epic';
 import { IEpicFormTypes } from '../../../types/forms';
 import { IProject } from '../../../types/project';
-import { InputFormFieldValidator } from '../../../utils/forms';
+import { validateInputFormField } from '../../../utils/forms';
 import ModalRemove, { IModalRemoveProps } from '../ModalRemove';
 import EpicModal, { IEpicCreationProps } from './EpicModal';
 
@@ -48,7 +48,13 @@ const EpicModalContainer = () => {
         dispatch(removeEpicRequest(selectedEpic.epicId));
     };
 
-    const validateEpicName = (value: string) => new InputFormFieldValidator(value, 3, 100, true, null).validate();
+    const validateEpicName = (value: string): string => {
+        const isRequired = true;
+        const minLength = 3;
+        const maxLength = 100;
+
+        return validateInputFormField(value, isRequired, minLength, maxLength);
+    };
 
     const epicRemoveProps: IModalRemoveProps = {
         entity: 'epic',

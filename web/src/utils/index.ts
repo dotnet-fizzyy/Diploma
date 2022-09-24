@@ -5,7 +5,7 @@ export const isEmpty = (value: unknown): boolean =>
     value === null ||
     (typeof value === 'string' && value === '') ||
     (typeof value === 'number' && value === 0) ||
-    (typeof value === 'object' && Object.keys(value).length === 0) ||
+    (typeof value === 'object' && !(value instanceof RegExp) && Object.keys(value).length === 0) ||
     (Array.isArray(value) && value.length === 0);
 
 export const isNotEmpty = (value: unknown): boolean => !isEmpty(value);

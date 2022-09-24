@@ -12,33 +12,46 @@ import { getModalRequestPerforming } from '../../../../redux/selectors/modal';
 import { getEmailExistence, getUser } from '../../../../redux/selectors/user';
 import { IProfilePasswordUpdateForm, IProfileSettingsForm } from '../../../../types/forms';
 import { IFullUser, IUser } from '../../../../types/user';
-import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../../../utils/forms';
+import { isNotEmpty } from '../../../../utils';
+import { validateEmailInputFormField, validateInputFormField } from '../../../../utils/forms';
 import UserModal, { IUserModalProps } from './UserModal';
 
 const UserModalContainer = () => {
     const dispatch = useDispatch();
-    const fileRef = useRef<HTMLInputElement>(null);
-    const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
-    const [passwordsAreSame, setPasswordsAreSame] = useState<boolean>(true);
 
     const user: IFullUser = useSelector(getUser);
     const isPerformingRequest: boolean = useSelector(getModalRequestPerforming);
     const emailExists: boolean = useSelector(getEmailExistence);
+
+    const fileRef = useRef<HTMLInputElement>(null);
+    const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
+    const [passwordsAreSame, setPasswordsAreSame] = useState<boolean>(true);
 
     const initialProfileSettings: IProfileSettingsForm = {
         userName: user.userName,
         email: user.email,
     };
 
-    const validateField = (value: string): string =>
-        new InputFormFieldValidator(value, null, null, true, BaseRegexExpression).validate();
+    const validateField = (value: string): string => {
+        const isRequired = true;
+        const minLength = null;
+        const maxLength = null;
 
-    const validateEmail = (value: string): string => new EmailInputFormFieldValidator(value).validate();
+        return validateInputFormField(value, isRequired, minLength, maxLength, BaseRegexExpression);
+    };
 
-    const validatePassword = (value: string): string => new InputFormFieldValidator(value, 3, 16, true).validate();
+    const validateEmail = (value: string): string => validateEmailInputFormField(value);
+
+    const validatePassword = (value: string): string => {
+        const isRequired = true;
+        const minLength = 3;
+        const maxLength = 16;
+
+        return validateInputFormField(value, isRequired, minLength, maxLength);
+    };
 
     const onClickUpdateAvatar = (): void => {
-        if (fileRef && fileRef.current) {
+        if (isNotEmpty(fileRef?.current)) {
             fileRef.current.click();
         }
     };
@@ -54,7 +67,7 @@ const UserModalContainer = () => {
     };
 
     const onChangeFile = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        if (event.target.files && event.target.files.length) {
+        if (isNotEmpty(event.target.files)) {
             dispatch(updateAvatarRequest(event.target.files[0], user.userId));
         }
     };

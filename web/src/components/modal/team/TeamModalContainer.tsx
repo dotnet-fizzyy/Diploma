@@ -10,7 +10,7 @@ import { getSelectProjectId } from '../../../redux/selectors/project';
 import { getSelectedTeam, getSelectedTeamFromSimpleItems } from '../../../redux/selectors/team';
 import { ISelectedItem } from '../../../types/story';
 import { ITeam, ITeamSimpleModel } from '../../../types/team';
-import { InputFormFieldValidator } from '../../../utils/forms';
+import { validateInputFormField } from '../../../utils/forms';
 import ModalRemove, { IModalRemoveProps } from '../ModalRemove';
 import TeamModal, { ITeamModalProps } from './TeamModal';
 
@@ -28,8 +28,13 @@ const TeamModalContainer = () => {
     const isRemove: boolean = modalOption === ModalOptions.TEAM_REMOVE;
     const initialTeam = isUpdate ? { ...team } : initialTeamState;
 
-    const validateField = (value: string): string =>
-        new InputFormFieldValidator(value, 1, 100, true, BaseRegexExpression).validate();
+    const validateField = (value: string): string => {
+        const isRequired = true;
+        const minLength = 1;
+        const maxLength = 100;
+
+        return validateInputFormField(value, isRequired, minLength, maxLength, BaseRegexExpression);
+    };
 
     const onSubmit = (values: ITeam) => {
         const newTeam: ITeam = {

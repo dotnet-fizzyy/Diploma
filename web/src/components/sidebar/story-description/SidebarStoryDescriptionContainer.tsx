@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression, SidebarTypes } from '../../../constants';
 import { sidebarChangeType } from '../../../redux/actions/sidebar';
@@ -11,24 +11,26 @@ import { getUser } from '../../../redux/selectors/user';
 import { IStoryFormTypes } from '../../../types/forms';
 import { ISelectedItem, IStory } from '../../../types/story';
 import { IFullUser, IUser } from '../../../types/user';
-import { InputFormFieldValidator } from '../../../utils/forms';
+import { validateInputFormField } from '../../../utils/forms';
 import { createStoryEstimationDropdownItems, createStoryPriorityDropdownItems } from '../../../utils/story';
 import { createUserPositionDropdownItems } from '../../../utils/user';
 import SidebarStoryDescription, { ISidebarStoryDescription } from './SidebarStoryDescription';
 
 const SidebarStoryDescriptionContainer = () => {
     const dispatch = useDispatch();
+
     const story: IStory = useSelector(getSelectedStory);
     const user: IFullUser = useSelector(getUser);
     const users: IUser[] = useSelector(getTeamUsers);
     const sprints: ISelectedItem[] = useSelector(getSprintsNames);
     const isLoading: boolean = useSelector(getSidebarIsLoading);
-    const storyPriorities: ISelectedItem[] = createStoryPriorityDropdownItems();
-    const storyEstimates: ISelectedItem[] = createStoryEstimationDropdownItems();
-    const requiredPositions: ISelectedItem[] = createUserPositionDropdownItems();
 
     const [isBlocked, setIsBlocked] = useState<boolean>(story.isBlocked);
     const [isReady, setIsReady] = useState<boolean>(story.isReady);
+
+    const storyPriorities: ISelectedItem[] = useMemo(() => createStoryPriorityDropdownItems(), []);
+    const storyEstimates: ISelectedItem[] = useMemo(() => createStoryEstimationDropdownItems(), []);
+    const requiredPositions: ISelectedItem[] = useMemo(() => createUserPositionDropdownItems(), []);
 
     const onClickCancelChanges = (): void => {
         setIsReady(story.isReady);
@@ -60,14 +62,20 @@ const SidebarStoryDescriptionContainer = () => {
             isBlocked,
             title: values.title.trim(),
             notes: values.notes.trim(),
-            blockReason: values.blockReason ? values.blockReason.trim() : null,
+            blockReason: values.blockReason?.trim() ?? null,
             description: values.description.trim(),
         };
+
         dispatch(storyUpdateChangesRequest(updatedStory));
     };
 
-    const validateStoryTitle = (value: string) =>
-        new InputFormFieldValidator(value, 3, 100, true, BaseRegexExpression).validate();
+    const validateStoryTitle = (value: string) => {
+        const isRequired = true;
+        const minLength = 3;
+        const maxLength = 16;
+
+        return validateInputFormField(value, isRequired, minLength, maxLength, BaseRegexExpression);
+    };
 
     const sidebarProps: ISidebarStoryDescription = {
         user,

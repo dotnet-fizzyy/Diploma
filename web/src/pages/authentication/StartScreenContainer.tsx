@@ -21,7 +21,7 @@ import {
 } from '../../redux/selectors/user';
 import { ILoginForm, IRegistrationForm } from '../../types/forms';
 import { IFullUser } from '../../types/user';
-import { EmailInputFormFieldValidator, InputFormFieldValidator } from '../../utils/forms';
+import { validateEmailInputFormField, validateInputFormField } from '../../utils/forms';
 import StartScreen, { IStartScreenProps } from './StartScreen';
 
 const StartScreenContainer = () => {
@@ -42,11 +42,33 @@ const StartScreenContainer = () => {
     const [arePasswordsSame, setSamePasswords] = useState<boolean>(true);
     const [wasAttemptToLogIn, setWasAttemptToLogIn] = useState<boolean>(false);
 
-    const requiredField = (value: string): string => new InputFormFieldValidator(value, null, null, true).validate();
-    const validateField = (value: string): string =>
-        new InputFormFieldValidator(value, null, null, true, BaseRegexExpression).validate();
-    const validateEmail = (value: string): string => new EmailInputFormFieldValidator(value, true).validate();
-    const validatePassword = (value: string): string => new InputFormFieldValidator(value, 3, 16, true).validate();
+    const requiredField = (value: string): string => {
+        const isRequired = true;
+
+        return validateInputFormField(value, isRequired);
+    };
+
+    const validateField = (value: string): string => {
+        const isRequired = true;
+        const minLength = null;
+        const maxLength = null;
+
+        return validateInputFormField(value, isRequired, minLength, maxLength, BaseRegexExpression);
+    };
+
+    const validateEmail = (value: string): string => {
+        const isRequired = true;
+
+        return validateEmailInputFormField(value, isRequired);
+    };
+
+    const validatePassword = (value: string): string => {
+        const isRequired = true;
+        const minLength = 3;
+        const maxLength = 16;
+
+        return validateInputFormField(value, isRequired, minLength, maxLength);
+    };
 
     const onSubmitLogIn = (values: ILoginForm) => {
         setWasAttemptToLogIn(true);
@@ -111,7 +133,6 @@ const StartScreenContainer = () => {
         if (user) {
             history.push(DefaultRoute);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
     return <StartScreen {...startScreenProps} />;

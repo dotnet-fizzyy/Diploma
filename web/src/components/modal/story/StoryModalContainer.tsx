@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseRegexExpression } from '../../../constants';
 import { createStoryRequest } from '../../../redux/actions/story';
@@ -10,7 +10,7 @@ import { IStoryFormTypes } from '../../../types/forms';
 import { ISprint } from '../../../types/sprint';
 import { ISelectedItem, IStory } from '../../../types/story';
 import { IUser } from '../../../types/user';
-import { InputFormFieldValidator } from '../../../utils/forms';
+import { validateInputFormField } from '../../../utils/forms';
 import { getSprintNames } from '../../../utils/sprint';
 import {
     createStoryEstimationDropdownItems,
@@ -27,21 +27,30 @@ const StoryModalContainer = () => {
     const teamMembers: IUser[] = useSelector(getTeamUsers);
     const sprints: ISprint[] = useSelector(getSprints);
     const isPerformingRequest: boolean = useSelector(getModalRequestPerforming);
-    const priorities: ISelectedItem[] = createStoryPriorityDropdownItems();
-    const storyEstimation: ISelectedItem[] = createStoryEstimationDropdownItems();
-    const requiredPositions: ISelectedItem[] = createUserPositionDropdownItems();
-    const initialValues: IStoryFormTypes = getInitialValuesWithLatestSprintIdForStory(sprints);
+
+    const priorities: ISelectedItem[] = useMemo(() => createStoryPriorityDropdownItems(), []);
+    const storyEstimation: ISelectedItem[] = useMemo(() => createStoryEstimationDropdownItems(), []);
+    const requiredPositions: ISelectedItem[] = useMemo(() => createUserPositionDropdownItems(), []);
+    const initialValues: IStoryFormTypes = useMemo(() => getInitialValuesWithLatestSprintIdForStory(sprints), [
+        sprints,
+    ]);
 
     const onSubmitStory = (values: IStoryFormTypes) => {
         const story: IStory = {
             ...values,
             teamId,
         };
+
         dispatch(createStoryRequest(story));
     };
 
-    const validateStoryTitle = (value: string) =>
-        new InputFormFieldValidator(value, 3, 100, true, BaseRegexExpression).validate();
+    const validateStoryTitle = (value: string) => {
+        const isRequired = true;
+        const minLength = 3;
+        const maxLength = 100;
+
+        return validateInputFormField(value, isRequired, minLength, maxLength, BaseRegexExpression);
+    };
 
     const storyCreationProps: IStoryCreationProps = {
         isPerformingRequest,

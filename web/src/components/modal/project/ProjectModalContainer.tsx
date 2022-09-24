@@ -10,7 +10,7 @@ import { getWorkSpaceId } from '../../../redux/selectors/workspace';
 import { IProjectForm } from '../../../types/forms';
 import { IProject } from '../../../types/project';
 import { IWorkSpacePageProject } from '../../../types/workspace';
-import { InputFormFieldValidator } from '../../../utils/forms';
+import { validateInputFormField } from '../../../utils/forms';
 import ModalRemove, { IModalRemoveProps } from '../ModalRemove';
 import ProjectModal, { IProjectCreationProps } from './ProjectModal';
 
@@ -48,8 +48,18 @@ const ProjectModalContainer = () => {
         dispatch(removeProjectRequest(workSpaceProject.projectId));
     };
 
-    const validateProjectName = (value: string) =>
-        new InputFormFieldValidator(value, 2, ProjectLengthDescriptionMaxLength, true, BaseRegexExpression).validate();
+    const validateProjectName = (value: string) => {
+        const isRequired = true;
+        const minLength = 2;
+
+        return validateInputFormField(
+            value,
+            isRequired,
+            minLength,
+            ProjectLengthDescriptionMaxLength,
+            BaseRegexExpression
+        );
+    };
 
     const modalRemove: IModalRemoveProps = {
         entity: 'project',
