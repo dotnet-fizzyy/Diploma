@@ -4,6 +4,7 @@ import { verifyUserRequest } from '../../redux/actions/user';
 import { getRouterFullPath } from '../../redux/selectors/route';
 import { getIsUserLoading, getUser } from '../../redux/selectors/user';
 import { IUser } from '../../types/user';
+import { isEmpty } from '../../utils';
 import CustomRouter, { ICustomRouterProps } from './CustomRouter';
 
 const CustomRouterContainer = () => {
@@ -14,9 +15,10 @@ const CustomRouterContainer = () => {
     const isLoading: boolean = useSelector(getIsUserLoading);
 
     useEffect(() => {
-        if (!user?.userId) {
+        if (isEmpty(user?.userId)) {
             dispatch(verifyUserRequest(route));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const customRouterProps: ICustomRouterProps = {

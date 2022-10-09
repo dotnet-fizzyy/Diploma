@@ -5,6 +5,7 @@ import { InitialLoginFormValues, LoginFormConstants } from '../../constants';
 import * as routeConstants from '../../constants/routes';
 import LogoIcon from '../../static/app-logo.svg';
 import { ILoginForm } from '../../types/forms';
+import { isNotEmpty } from '../../utils';
 import Button from '../common/Button';
 import FormTextField from '../common/FormTextField';
 import Spinner from '../common/Spinner';
@@ -95,13 +96,14 @@ const LoginPage = (props: ILoginPageProps) => {
     return (
         <Formik initialValues={InitialLoginFormValues} onSubmit={onSubmitLogIn}>
             {({ isValid, touched }) => {
-                const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
+                const isAnyFieldTouched: boolean = isNotEmpty(touched);
 
                 return (
                     <Form className={classes.form}>
                         <div className={classes.root}>
                             <div className={classes.logo} />
                             <span className={classes.title}>Sign In</span>
+
                             <div className={classes.fieldContainer}>
                                 <Field
                                     name={LoginFormConstants.email}
@@ -119,16 +121,20 @@ const LoginPage = (props: ILoginPageProps) => {
                                     validate={requiredField}
                                 />
                             </div>
+
                             <ForwardLink
                                 mainLabel="Don't you an account yet?"
                                 link={routeConstants.RegistrationScreenRoute}
                                 linkLabel="Create it now!"
                             />
+
                             <div className={classes.buttonContainer}>
                                 <Button disabled={!isAnyFieldTouched || !isValid} type="submit" label="Sign in" />
                             </div>
+
                             <div className={classes.spinnerContainer}>
                                 {isLoading && <Spinner size={28} />}
+
                                 {wasAttemptToLogIn && (
                                     <span className={classes.errorMessage}>
                                         Unable to login with following credentials

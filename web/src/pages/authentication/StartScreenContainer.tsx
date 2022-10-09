@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import { ILoginPageProps } from '../../components/authentication/Login';
@@ -20,7 +20,7 @@ import {
     getWasCustomerCreated,
 } from '../../redux/selectors/user';
 import { ILoginForm, IRegistrationForm } from '../../types/forms';
-import { IFullUser } from '../../types/user';
+import { isNotEmpty } from '../../utils';
 import { validateEmailInputFormField, validateInputFormField } from '../../utils/forms';
 import StartScreen, { IStartScreenProps } from './StartScreen';
 
@@ -29,15 +29,20 @@ const StartScreenContainer = () => {
     const history = useHistory();
 
     const { path } = useRouteMatch();
-    const startPage = path.split('/')[2];
-    const startPageType =
-        startPage.toUpperCase() === StartPageTypes.REGISTRATION ? StartPageTypes.REGISTRATION : StartPageTypes.LOGIN;
+    const startPagePath = useMemo(() => path.split('/')?.[2], [path]);
+    const startPageType = useMemo(
+        () =>
+            startPagePath?.toUpperCase() === StartPageTypes.REGISTRATION
+                ? StartPageTypes.REGISTRATION
+                : StartPageTypes.LOGIN,
+        [startPagePath]
+    );
 
-    const isAuthenticationSuccessful: boolean = useSelector(getIsAuthenticationSuccessful);
-    const isLoading: boolean = useSelector(getIsUserLoading);
-    const wasUserCreated: boolean = useSelector(getWasCustomerCreated);
-    const user: IFullUser = useSelector(getUser);
-    const emailExists: boolean = useSelector(getEmailExistence);
+    const isAuthenticationSuccessful = useSelector(getIsAuthenticationSuccessful);
+    const isLoading = useSelector(getIsUserLoading);
+    const wasUserCreated = useSelector(getWasCustomerCreated);
+    const user = useSelector(getUser);
+    const emailExists = useSelector(getEmailExistence);
 
     const [arePasswordsSame, setSamePasswords] = useState<boolean>(true);
     const [wasAttemptToLogIn, setWasAttemptToLogIn] = useState<boolean>(false);
@@ -127,12 +132,14 @@ const StartScreenContainer = () => {
                 dispatch(hideCustomerSuccessfulRegistration());
             }, 5000);
         }
-    }, [dispatch, wasUserCreated]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [wasUserCreated]);
 
     useEffect(() => {
-        if (user) {
+        if (isNotEmpty(user)) {
             history.push(DefaultRoute);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
     return <StartScreen {...startScreenProps} />;

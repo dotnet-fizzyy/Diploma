@@ -5,6 +5,7 @@ import { InitialRegistrationFormValues, RegistrationFormConstants } from '../../
 import * as routeConstants from '../../constants/routes';
 import LogoIcon from '../../static/app-logo.svg';
 import { IRegistrationForm } from '../../types/forms';
+import { isNotEmpty } from '../../utils';
 import Button from '../common/Button';
 import FormTextField from '../common/FormTextField';
 import Spinner from '../common/Spinner';
@@ -116,8 +117,7 @@ const RegistrationPage = (props: IRegistrationPageProps) => {
     return (
         <Formik initialValues={InitialRegistrationFormValues} onSubmit={onSubmitRegistration}>
             {({ isValid, touched }) => {
-                const isAnyFieldTouched: boolean = !!Object.keys(touched).length;
-
+                const isAnyFieldTouched: boolean = isNotEmpty(touched);
                 const passwordError: string = !arePasswordsSame ? 'Provided passwords are different' : '';
 
                 return (
@@ -125,6 +125,7 @@ const RegistrationPage = (props: IRegistrationPageProps) => {
                         <div className={classes.root}>
                             <div className={classes.logo} />
                             <span className={classes.title}>Registration</span>
+
                             <div className={classes.fieldContainer}>
                                 <Field
                                     label="Email"
@@ -163,11 +164,13 @@ const RegistrationPage = (props: IRegistrationPageProps) => {
                                     customError={passwordError}
                                 />
                             </div>
+
                             <ForwardLink
                                 mainLabel="Do you have account?"
                                 link={routeConstants.LoginScreenRoute}
                                 linkLabel="Sign in"
                             />
+
                             <div className={classes.buttonContainer}>
                                 <Button
                                     disabled={!isAnyFieldTouched || !isValid}
@@ -175,8 +178,10 @@ const RegistrationPage = (props: IRegistrationPageProps) => {
                                     label="Create your account"
                                 />
                             </div>
+
                             <div className={classes.spinnerContainer}>
-                                {isLoading && <Spinner size={28} />}{' '}
+                                {isLoading && <Spinner size={28} />}
+
                                 {wasUserCreated && (
                                     <span className={classes.createdAccountLabel}>
                                         Your account was successfully created!
