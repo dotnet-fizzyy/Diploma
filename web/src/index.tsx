@@ -1,12 +1,15 @@
 import MomentUtils from '@date-io/moment';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ConnectedRouter } from 'connected-react-router';
+import { config } from 'dotenv';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './App';
 import './index.css';
 import { getStore, history } from './redux/store/store';
+
+config();
 
 ReactDOM.render(
     <Provider store={getStore()}>
