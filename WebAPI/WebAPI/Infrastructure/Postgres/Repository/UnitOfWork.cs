@@ -7,39 +7,39 @@ namespace WebAPI.Infrastructure.Postgres.Repository
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly DatabaseContext _databaseContext;
-        
+
+        private readonly WorkSpaceRepository _workSpaceRepository;
+        private readonly ProjectRepository _projectRepository;
+        private readonly EpicRepository _epicRepository;
+        private readonly SprintRepository _sprintRepository;
+        private readonly StoryRepository _storyRepository;
+        private readonly StoryHistoryRepository _storyHistoryRepository;
+        private readonly RefreshTokenRepository _refreshTokenRepository;
+        private readonly TeamRepository _teamRepository;
+        private readonly UserRepository _userRepository;
+
         public UnitOfWork(DatabaseContext databaseContext)
         {
-            WorkSpaceRepository = new WorkSpaceRepository(databaseContext);
-            ProjectRepository = new ProjectRepository(databaseContext);
-            EpicRepository = new EpicRepository(databaseContext);
-            SprintRepository = new SprintRepository(databaseContext);
-            StoryRepository = new StoryRepository(databaseContext);
-            StoryHistoryRepository = new StoryHistoryRepository(databaseContext);
-            RefreshTokenRepository = new RefreshTokenRepository(databaseContext);
-            TeamRepository = new TeamRepository(databaseContext);
-            UserRepository = new UserRepository(databaseContext);
-
             _databaseContext = databaseContext;
         }
 
-        public IWorkSpaceRepository WorkSpaceRepository { get; }
-        
-        public IProjectRepository ProjectRepository { get; }
+        public IWorkSpaceRepository WorkSpaceRepository => GetRepositoryInstance(_workSpaceRepository);
 
-        public IEpicRepository EpicRepository { get; }
+        public IProjectRepository ProjectRepository => GetRepositoryInstance(_projectRepository);
+
+        public IEpicRepository EpicRepository => GetRepositoryInstance(_epicRepository);
         
-        public ISprintRepository SprintRepository { get; }
+        public ISprintRepository SprintRepository => GetRepositoryInstance(_sprintRepository);
+
+        public IStoryRepository StoryRepository => GetRepositoryInstance(_storyRepository);
         
-        public IStoryRepository StoryRepository { get; }
+        public IStoryHistoryRepository StoryHistoryRepository => GetRepositoryInstance(_storyHistoryRepository);
         
-        public IStoryHistoryRepository StoryHistoryRepository { get; }
+        public IRefreshTokenRepository RefreshTokenRepository => GetRepositoryInstance(_refreshTokenRepository);
         
-        public IRefreshTokenRepository RefreshTokenRepository { get; }
-        
-        public ITeamRepository TeamRepository { get; }
-        
-        public IUserRepository UserRepository { get; }
+        public ITeamRepository TeamRepository => GetRepositoryInstance(_teamRepository);
+
+        public IUserRepository UserRepository => GetRepositoryInstance(_userRepository);
 
         public async Task CommitAsync()
         {
@@ -50,5 +50,8 @@ namespace WebAPI.Infrastructure.Postgres.Repository
         {
             _databaseContext?.Dispose();
         }
+
+        private T GetRepositoryInstance<T>(T instance) where T : class =>
+            instance ??= (T)Activator.CreateInstance(typeof(T), _databaseContext);
     }
 }
