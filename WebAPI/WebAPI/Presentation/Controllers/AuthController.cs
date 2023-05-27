@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +16,10 @@ namespace WebAPI.Presentation.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly ITokenService _tokenService;
-        private readonly IUserService _userService;
+        private readonly Lazy<ITokenService> _tokenService;
+        private readonly Lazy<IUserService> _userService;
 
-        public AuthController(ITokenService tokenService, IUserService userService)
+        public AuthController(Lazy<ITokenService> tokenService, Lazy<IUserService> userService)
         {
             _tokenService = tokenService;
             _userService = userService;
@@ -35,8 +36,8 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<AuthenticationUserResponseModel>> AuthenticateUser(
-            [FromBody, BindRequired] SignInUserRequestModel userRequestModel) => 
-                await _userService.AuthenticateUserAsync(userRequestModel);
+            [FromBody, BindRequired] SignInUserRequestModel userRequestModel) =>
+                await _userService.Value.AuthenticateUserAsync(userRequestModel);
 
         /// <summary>
         /// Creates user (sign up).
@@ -49,11 +50,11 @@ namespace WebAPI.Presentation.Controllers
         public async Task<ActionResult<User>> CreateCustomer(
             [FromBody, BindRequired] SignUpUserRequestModel userRequestModel)
         {
-            var createdCustomer = await _userService.RegisterUserAsync(userRequestModel);
-            
+            var createdCustomer = await _userService.Value.RegisterUserAsync(userRequestModel);
+
             return CreatedAtAction(nameof(CreateCustomer), createdCustomer);
         }
-        
+
         /// <summary>
         /// Updates user access token (and refresh in case of server configuration).
         /// </summary>
@@ -68,8 +69,8 @@ namespace WebAPI.Presentation.Controllers
             [FromHeader(Name = RequestHeaders.RefreshTokenHeader)] string refreshToken)
         {
             var user = ClaimsReader.GetUserClaims(User);
-            
-            return await _tokenService.UpdateTokens(
+
+            return await _tokenService.Value.UpdateTokens(
                 refreshToken,
                 user.UserId,
                 user.UserName,
@@ -85,6 +86,6 @@ namespace WebAPI.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<EmailResponseModel>> CheckForEmailExistence(
             [FromQuery, BindRequired] string email) =>
-            await _userService.CheckEmailExistenceAsync(email);
+                await _userService.Value.CheckEmailExistenceAsync(email);
     }
 }
