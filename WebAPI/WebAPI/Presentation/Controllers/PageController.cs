@@ -9,7 +9,7 @@ using WebAPI.Presentation.Utilities;
 
 namespace WebAPI.Presentation.Controllers
 {
-    // [Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class PageController : ControllerBase
@@ -22,7 +22,7 @@ namespace WebAPI.Presentation.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<SearchResult>> GetSearchFieldDataIndex([FromQuery, BindRequired] string term, [FromQuery] Guid[] teamIds) 
+        public async Task<ActionResult<SearchResult>> GetSearchFieldDataIndex([FromQuery, BindRequired] string term, [FromQuery] Guid[] teamIds)
             => await _pageService.GetSearchResultsAsync(term, teamIds);
 
         [HttpGet("default")]
@@ -37,7 +37,7 @@ namespace WebAPI.Presentation.Controllers
 
         [HttpGet("board")]
         public async Task<ActionResult<BoardPage>> GetBoardPageData(
-            [FromQuery, BindRequired]Guid projectId, 
+            [FromQuery, BindRequired]Guid projectId,
             [FromQuery, BindRequired]Guid teamId,
             [FromQuery]Guid? epicId,
             [FromQuery]Guid? sprintId)
@@ -45,7 +45,7 @@ namespace WebAPI.Presentation.Controllers
             var user = ClaimsReader.GetUserClaims(User);
 
             var projectBoardData = await _pageService.GetBoardPageDataAsync(projectId, teamId, epicId, sprintId, user.UserId);
-            
+
             return projectBoardData;
         }
 
@@ -57,9 +57,9 @@ namespace WebAPI.Presentation.Controllers
         public async Task<ActionResult<TeamPage>> GetTeamPageIndex(Guid teamId)
         {
             var user = ClaimsReader.GetUserClaims(User);
-            
+
             var teamPage = await _pageService.GetTeamPageDataAsync(user.UserId, teamId);
-        
+
             return teamPage;
         }
 
