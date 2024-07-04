@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FakeItEasy;
 using WebAPI.ApplicationLogic.Providers;
-using WebAPI.Core.Configuration;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Exceptions;
 using WebAPI.Core.Interfaces.Database;
@@ -16,14 +15,6 @@ namespace WebAPI.UnitTests.Providers
 {
     public class UserProviderTests
     {
-        private readonly AppSettings _appSettings = new AppSettings
-        {
-            Redis = new RedisSettings
-            {
-                EnableRedis = false
-            }
-        };
-        
         [Fact]
         public async Task ShouldGetFullUserInfoByUserIdAsync()
         {
@@ -31,13 +22,13 @@ namespace WebAPI.UnitTests.Providers
             var userRepository = A.Fake<IUserRepository>();
             var teamRepository = A.Fake<ITeamRepository>();
             var projectRepository = A.Fake<IProjectRepository>();
-            var redisHandler = A.Fake<ICacheContext>();
-            
-            var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, redisHandler, _appSettings);
+            var cacheContext = A.Fake<ICacheContext>();
+
+            var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, cacheContext);
 
             var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             const string userName = "UserName";
-            
+
             var userEntity = new User
             {
                 Id = userId,
@@ -50,9 +41,18 @@ namespace WebAPI.UnitTests.Providers
                 UserId = userId,
                 UserName = userName,
             };
-            
-            A.CallTo(() => userRepository.SearchForSingleItemAsync(A<Expression<Func<User, bool>>>._, A<Expression<Func<User,object>>[]>._))
+
+            A
+                .CallTo(() => cacheContext.Get<FullUser>(A<string>._))
+                .Returns((FullUser)null);
+            A
+                .CallTo(() => userRepository.SearchForSingleItemAsync(
+                    A<Expression<Func<User, bool>>>._,
+                    A<Expression<Func<User,object>>[]>._))
                 .Returns(userEntity);
+            A
+                .CallTo(() => cacheContext.Set(A<string>._, A<FullUser>._, A<TimeSpan>._))
+                .Returns(Task.CompletedTask);
 
             //Act
             var result = await userProvider.GetFullUser(userId);
@@ -65,12 +65,17 @@ namespace WebAPI.UnitTests.Providers
             Assert.Empty(result.Projects);
             Assert.Empty(result.Projects);
 
-            A.CallTo(() => userRepository.SearchForSingleItemAsync(A<Expression<Func<User, bool>>>._, A<Expression<Func<User, object>>[]>._))
+            A
+                .CallTo(() => cacheContext.Get<FullUser>(A<string>._))
                 .MustHaveHappenedOnceExactly();
-            A.CallTo(() => teamRepository.GetUserTeams(A<Guid>._))
-                .MustNotHaveHappened();
-            A.CallTo(() => projectRepository.GetProjectsByCollectionOfTeamIds(A<IEnumerable<Team>>._))
-                .MustNotHaveHappened();
+            A
+                .CallTo(() => userRepository.SearchForSingleItemAsync(
+                    A<Expression<Func<User, bool>>>._,
+                    A<Expression<Func<User, object>>[]>._))
+                .MustHaveHappenedOnceExactly();
+            A
+                .CallTo(() => cacheContext.Set(A<string>._, A<FullUser>._, A<TimeSpan>._))
+                .MustHaveHappenedOnceExactly();
         }
 
         [Fact]
@@ -80,23 +85,40 @@ namespace WebAPI.UnitTests.Providers
             var userRepository = A.Fake<IUserRepository>();
             var teamRepository = A.Fake<ITeamRepository>();
             var projectRepository = A.Fake<IProjectRepository>();
-            var redisHandler = A.Fake<ICacheContext>();
-            
-            var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, redisHandler, _appSettings);
+            var cacheContext = A.Fake<ICacheContext>();
+
+            var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, cacheContext);
 
             var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804d22");
 
-            A.CallTo(() => userRepository.SearchForSingleItemAsync(A<Expression<Func<User, bool>>>._, A<Expression<Func<User, object>>[]>._))
+            A
+                .CallTo(() => cacheContext.Get<FullUser>(A<string>._))
+                .Returns((FullUser)null);
+            A
+                .CallTo(() => userRepository.SearchForSingleItemAsync(
+                    A<Expression<Func<User, bool>>>._,
+                    A<Expression<Func<User, object>>[]>._))
                 .ThrowsAsync(new UserFriendlyException());
-            
-            //Act && Assert
-            await Assert.ThrowsAsync<UserFriendlyException>(async () => await userProvider.GetFullUser(userId));
 
-            A.CallTo(() => userRepository.SearchForSingleItemAsync(A<Expression<Func<User, bool>>>._, A<Expression<Func<User, object>>[]>._))
+            //Act && Assert
+            await Assert.ThrowsAsync<UserFriendlyException>(() => userProvider.GetFullUser(userId));
+
+            A
+                .CallTo(() => cacheContext.Get<FullUser>(A<string>._))
                 .MustHaveHappenedOnceExactly();
-            A.CallTo(() => teamRepository.GetUserTeams(A<Guid>._))
+            A
+                .CallTo(() => userRepository.SearchForSingleItemAsync(
+                    A<Expression<Func<User, bool>>>._,
+                    A<Expression<Func<User, object>>[]>._))
+                .MustHaveHappenedOnceExactly();
+            A
+                .CallTo(() => teamRepository.GetUserTeams(A<Guid>._))
                 .MustNotHaveHappened();
-            A.CallTo(() => projectRepository.GetProjectsByCollectionOfTeamIds(A<IEnumerable<Team>>._))
+            A
+                .CallTo(() => projectRepository.GetProjectsByCollectionOfTeamIds(A<IEnumerable<Team>>._))
+                .MustNotHaveHappened();
+            A
+                .CallTo(() => cacheContext.Set(A<string>._, A<FullUser>._, A<TimeSpan>._))
                 .MustNotHaveHappened();
         }
 
@@ -107,9 +129,9 @@ namespace WebAPI.UnitTests.Providers
             var userRepository = A.Fake<IUserRepository>();
             var teamRepository = A.Fake<ITeamRepository>();
             var projectRepository = A.Fake<IProjectRepository>();
-            var redisHandler = A.Fake<ICacheContext>();
-            
-            var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, redisHandler, _appSettings);
+            var cacheContext = A.Fake<ICacheContext>();
+
+            var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, cacheContext);
 
             var userId = new Guid("b593238f-87e6-4e86-93fc-ab79b8804dec");
             var teamId = new Guid("0493238f-6666-4e86-93fc-ab79b8804444");
@@ -124,7 +146,7 @@ namespace WebAPI.UnitTests.Providers
                 Email = userName,
                 Password = password
             };
-            
+
             var userEntity = new User
             {
                 Id = userId,
@@ -135,7 +157,7 @@ namespace WebAPI.UnitTests.Providers
                     {
                         UserId = userId,
                         TeamId = teamId
-                    }   
+                    }
                 }
             };
 
@@ -147,7 +169,7 @@ namespace WebAPI.UnitTests.Providers
                     TeamName = teamName
                 }
             };
-            
+
             var projects = new List<Project>
             {
                 new Project
@@ -156,7 +178,7 @@ namespace WebAPI.UnitTests.Providers
                     ProjectName = projectName
                 }
             };
-            
+
             var expectedModel = new FullUser
             {
                 UserId = userId,
@@ -178,7 +200,7 @@ namespace WebAPI.UnitTests.Providers
                     }
                 }
             };
-            
+
             A.CallTo(() => userRepository.AuthenticateUser(A<User>._))
                 .Returns(userEntity);
             A.CallTo(() => teamRepository.GetUserTeams(A<Guid>._))
@@ -210,7 +232,7 @@ namespace WebAPI.UnitTests.Providers
             A.CallTo(() => projectRepository.GetProjectsByCollectionOfTeamIds(A<IEnumerable<Team>>._))
                 .MustHaveHappenedOnceExactly();
         }
-        
+
         [Fact]
         public async Task ShouldThrowErrorOnSignInAsync()
         {
@@ -218,9 +240,9 @@ namespace WebAPI.UnitTests.Providers
             var userRepository = A.Fake<IUserRepository>();
             var teamRepository = A.Fake<ITeamRepository>();
             var projectRepository = A.Fake<IProjectRepository>();
-            var redisHandler = A.Fake<ICacheContext>();
-            
-            var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, redisHandler, _appSettings);
+            var cacheContext = A.Fake<ICacheContext>();
+
+            var userProvider = new UserProvider(userRepository, teamRepository, projectRepository, cacheContext);
 
             const string userName = "UserName";
             const string password = "123";
