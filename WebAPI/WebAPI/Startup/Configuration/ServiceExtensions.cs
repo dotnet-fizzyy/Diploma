@@ -1,5 +1,7 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using StackExchange.Redis.Extensions.Core.Abstractions;
 using WebAPI.ApplicationLogic.Providers;
 using WebAPI.ApplicationLogic.Services;
 using WebAPI.Core.Configuration;
@@ -18,10 +20,10 @@ namespace WebAPI.Startup.Configuration
     {
         public static void RegisterServices(this IServiceCollection services, AppSettings appSettings)
         {
-            //AppSettings
+            // AppSettings
             services.AddSingleton(appSettings);
-            
-            //Infrastructure
+
+            // Infrastructure
             services.AddScoped<IEpicRepository, EpicRepository>();
             services.AddScoped<ISprintRepository, SprintRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -31,9 +33,20 @@ namespace WebAPI.Startup.Configuration
             services.AddScoped<IStoryHistoryRepository, StoryHistoryRepository>();
             services.AddScoped<IStoryRepository, StoryRepository>();
             services.AddScoped<IWorkSpaceRepository, WorkSpaceRepository>();
-            services.AddScoped<ICacheContext, CacheContext>();
+            services.AddScoped<ICacheContext, CacheContext>(serviceProvider =>
+            {
+                if (!appSettings.Redis.EnableRedis)
+                {
+                    return new CacheContext(appSettings);
+                }
 
-            //Services
+                return new CacheContext(
+                    serviceProvider.GetService<IRedisCacheClient>(),
+                    serviceProvider.GetService<ILogger<CacheContext>>(),
+                    appSettings);
+            });
+
+            // Services
             services.AddScoped<IStoryService, StoryService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITeamService, TeamService>();
@@ -43,13 +56,13 @@ namespace WebAPI.Startup.Configuration
             services.AddScoped<IPageService, PageService>();
             services.AddScoped<IWorkSpaceService, WorkSpaceService>();
 
-            //Providers
+            // Providers
             services.AddScoped<IUserProvider, UserProvider>();
-            
-            //Utilities
-            services.AddSingleton<ITokenService, TokenService>();
 
-            //Validators
+            // Utilities
+            services.AddScoped<ITokenService, TokenService>();
+
+            // Validators
             services.AddSingleton<IValidator<SignUpUserRequestModel>, SignUpUserValidator>();
             services.AddSingleton<IValidator<SignInUserRequestModel>, SignInUserValidator>();
             services.AddSingleton<IValidator<User>, UserValidator>();

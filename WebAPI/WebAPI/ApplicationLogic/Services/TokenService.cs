@@ -23,14 +23,12 @@ namespace WebAPI.ApplicationLogic.Services
         public TokenService(
             IUserProvider userProvider,
             IRefreshTokenRepository refreshTokenRepository,
-            AppSettings appSettings
-            )
+            AppSettings appSettings)
         {
             _userProvider = userProvider;
             _appSettings = appSettings;
             _refreshTokenRepository = refreshTokenRepository;
         }
-        
 
         public async Task<AuthenticationUserResponseModel> AuthenticateUser(SignInUserRequestModel userRequestModel)
         {
@@ -53,7 +51,7 @@ namespace WebAPI.ApplicationLogic.Services
                 {
                     refreshToken = TokenGenerator.GenerateRefreshToken();
                     var refreshTokenEntity = GenerateRefreshTokenEntityOnSave(fullUserModel.UserId, refreshToken, _appSettings.Token.LifeTime);
-               
+
                     await _refreshTokenRepository.CreateAsync(refreshTokenEntity);
                 }
             }
@@ -72,8 +70,8 @@ namespace WebAPI.ApplicationLogic.Services
         {
             if (_appSettings.Token.EnableRefreshTokenVerification)
             {
-                var refreshTokenEntity = await _refreshTokenRepository.SearchForSingleItemAsync(token => 
-                                                                            token.UserId == userId && 
+                var refreshTokenEntity = await _refreshTokenRepository.SearchForSingleItemAsync(token =>
+                                                                            token.UserId == userId &&
                                                                             token.Value == refreshToken);
 
                 if (refreshTokenEntity == null)
@@ -84,9 +82,9 @@ namespace WebAPI.ApplicationLogic.Services
                     );
                 }
             }
-            
+
             var accessToken = TokenGenerator.GenerateAccessToken(_appSettings, userId, userName, userRole);
-            
+
             var tokenPair = new AuthenticationResponseModel
             {
                 AccessToken = new Token(TokenTypes.Access, accessToken),
@@ -95,7 +93,7 @@ namespace WebAPI.ApplicationLogic.Services
 
             return tokenPair;
         }
-        
+
         private static WebAPI.Core.Entities.RefreshToken GenerateRefreshTokenEntityOnSave(Guid userId, string token, double tokenLifeTime) =>
             new WebAPI.Core.Entities.RefreshToken
             {

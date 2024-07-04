@@ -9,6 +9,11 @@ namespace WebAPI.Startup.Configuration
     {
         public static void RegisterRedis(this IServiceCollection services, RedisSettings redisSettings)
         {
+            if (!redisSettings.EnableRedis)
+            {
+                return;
+            }
+
             var redisConfiguration = new RedisConfiguration
             {
                 ConnectTimeout = redisSettings.ConnectionTimeOut,

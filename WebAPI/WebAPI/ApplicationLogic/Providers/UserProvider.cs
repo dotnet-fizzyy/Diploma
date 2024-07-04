@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.ApplicationLogic.Mappers;
 using WebAPI.ApplicationLogic.Utilities;
-using WebAPI.Core.Configuration;
 using WebAPI.Core.Entities;
 using WebAPI.Core.Enums;
 using WebAPI.Core.Exceptions;
@@ -21,34 +20,32 @@ namespace WebAPI.ApplicationLogic.Providers
         private readonly ITeamRepository _teamRepository;
         private readonly IProjectRepository _projectRepository;
         private readonly ICacheContext _cacheContext;
-        private readonly AppSettings _appSettings;
 
         public UserProvider(
-            IUserRepository userRepository, 
-            ITeamRepository teamRepository, 
+            IUserRepository userRepository,
+            ITeamRepository teamRepository,
             IProjectRepository projectRepository,
-            ICacheContext cacheContext,
-            AppSettings appSettings)
+            ICacheContext cacheContext)
         {
             _projectRepository = projectRepository;
             _teamRepository = teamRepository;
             _userRepository = userRepository;
             _cacheContext = cacheContext;
-            _appSettings = appSettings;
         }
-        
+
         public async Task<FullUser> GetFullUser(Guid userId)
         {
-            if (_appSettings.Redis.EnableRedis)
+            var user = await _cacheContext.Get<FullUser>(RedisUtilities.CreateRedisKeyForUser(userId));
+
+            if (user != null)
             {
-                var user = await _cacheContext.Get<FullUser>(RedisUtilities.CreateRedisKeyForUser(userId));
-                if (user != null)
-                {
-                    return user;
-                }
+                return user;
             }
-            
-            var userEntity = await _userRepository.SearchForSingleItemAsync(x => x.Id == userId, x => x.TeamUsers);
+
+            var userEntity = await _userRepository.SearchForSingleItemAsync(
+                entity => entity.Id == userId,
+                includes => includes.TeamUsers);
+
             if (userEntity == null)
             {
                 throw new UserFriendlyException(ErrorStatus.NOT_FOUND, ExceptionMessageGenerator.GetMissingEntityMessage(nameof(userId)));
@@ -56,19 +53,15 @@ namespace WebAPI.ApplicationLogic.Providers
 
             var fullUser = await GetUser(userEntity);
 
-            if (_appSettings.Redis.EnableRedis)
-            {
-                var userKey = RedisUtilities.CreateRedisKeyForUser(userId);
- 
-                await _cacheContext.Set(userKey, fullUser, TimeSpan.FromHours(1));
-            }
+            var userKey = RedisUtilities.CreateRedisKeyForUser(userId);
+
+            await _cacheContext.Set(userKey, fullUser, TimeSpan.FromHours(1));
 
             return fullUser;
         }
 
         public async Task<FullUser> GetFullUser(SignInUserRequestModel signInUserRequestModel)
         {
-            //Authenticate user (find in db)
             var userEntity = UserMapper.Map(signInUserRequestModel);
             userEntity.Password = PasswordHashing.CreateHashPassword(userEntity.Password);
 
@@ -77,7 +70,7 @@ namespace WebAPI.ApplicationLogic.Providers
             {
                 throw new UserFriendlyException(ErrorStatus.INVALID_DATA, "Unable to authenticate user");
             }
-            
+
             var fullUser = await GetUser(authUser);
 
             return fullUser;
@@ -87,17 +80,17 @@ namespace WebAPI.ApplicationLogic.Providers
         {
             ICollection<Team> teamEntities = null;
             IEnumerable<Project> projectEntities = null;
-            
+
             if (userEntity.TeamUsers.Any())
             {
                 teamEntities = await _teamRepository.GetUserTeams(userEntity.Id);
-                projectEntities = userEntity.UserPosition == UserPosition.Customer 
+                projectEntities = userEntity.UserPosition == UserPosition.Customer
                     ? await _projectRepository.SearchForMultipleItemsAsync(x => x.WorkSpaceId == userEntity.WorkSpaceId)
                     : await _projectRepository.GetProjectsByCollectionOfTeamIds(teamEntities);
             }
 
             var userFullModel = UserMapper.Map(userEntity, projectEntities, teamEntities);
-            
+
             return userFullModel;
         }
     }
